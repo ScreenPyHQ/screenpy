@@ -1,13 +1,13 @@
 from functools import wraps
 
-import pytest
+import allure
 
 
-TRIVIAL = pytest.allure.severity_level.TRIVIAL
-MINOR = pytest.allure.severity_level.MINOR
-NORMAL = pytest.allure.severity_level.NORMAL
-CRITICAL = pytest.allure.severity_level.CRITICAL
-BLOCKER = pytest.allure.severity_level.BLOCKER
+TRIVIAL = allure.severity_level.TRIVIAL
+MINOR = allure.severity_level.MINOR
+NORMAL = allure.severity_level.NORMAL
+CRITICAL = allure.severity_level.CRITICAL
+BLOCKER = allure.severity_level.BLOCKER
 
 
 def step(desc, desc_attrs=[], severity=NORMAL):
@@ -20,8 +20,8 @@ def step(desc, desc_attrs=[], severity=NORMAL):
         def wrapper(*args, **kwargs):
             actor = args[1] if len(args) > 1 else ""
             attrs = {arg: getattr(args[0], arg) for arg in desc_attrs}
-            pytest.allure.severity(severity)
-            with pytest.allure.step(desc.format(actor, **attrs)):
+            allure.severity(severity)
+            with allure.step(desc.format(actor, **attrs)):
                 func(*args, **kwargs)
 
         return wrapper
