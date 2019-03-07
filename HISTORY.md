@@ -1,10 +1,10 @@
 Release History
 ===============
 
-dev
----
+example
+-------
 
-**Bugfixes**
+**Category**
 
 -   \[Short description of non-trivial change.\]
 
