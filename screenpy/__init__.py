@@ -14,8 +14,8 @@
                                                                       FADE IN:
 INT. SITEPACKAGES DIRECTORY
 
-Screenpy is a composition-based test framework base. It is based on the
-Serenity library for Java.
+Screenpy is a composition-based test framework. It is inspired by the Serenity
+library for Java.
 
 :copyright: (c) 2019 by Perry Goy.
 :license: MIT, see LICENSE for more details.

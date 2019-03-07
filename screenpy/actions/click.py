@@ -7,7 +7,7 @@ class Click(object):
     def perform_as(self, the_actor):
         element = self.target.resolve_for(the_actor)
         element.click()
-        if self.action_complete_target:
+        if self.action_complete_target is not None:
             the_actor.uses_ability_to(BrowseTheWeb).to_wait_for(
                 self.action_complete_target
             )
