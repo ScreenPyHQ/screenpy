@@ -1,6 +1,6 @@
 from selenium.webdriver.support.ui import Select as SelSelect
 
-from screenplay.decorators import step, MINOR
+from ..decorators import step, MINOR
 
 
 class Select(object):

@@ -1,5 +1,5 @@
-from screenplay.abilities.browse_the_web import BrowseTheWeb
-from screenplay.decorators import step, MINOR
+from ..abilities.browse_the_web import BrowseTheWeb
+from ..decorators import step, MINOR
 
 
 class Click(object):

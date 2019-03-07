@@ -48,6 +48,12 @@ class Actor(object):
             ability.forget()
             self.abilities.remove(ability)
 
+    def exit_stage_right(self):
+        self.exit()
+
+    def exit_stage_left(self):
+        self.exit()
+
     def __repr__(self):
         return self.name
 

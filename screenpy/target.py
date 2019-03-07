@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from screenplay.abilities.browse_the_web import BrowseTheWeb
+from .abilities.browse_the_web import BrowseTheWeb
 
 
 class Target(object):
