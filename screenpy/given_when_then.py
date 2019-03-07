@@ -1,3 +1,7 @@
+def given(actor):
+    return actor
+
+
 def given_that(actor):
     return actor
 
