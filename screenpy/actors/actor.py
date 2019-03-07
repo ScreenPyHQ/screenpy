@@ -7,7 +7,7 @@ class UnableToPerformError(Exception):
 
 class Actor(object):
     """
-    Represents an actor, holding his/her name and abilities.
+    Represents an actor, holding their name and abilities.
     """
 
     def can(self, *abilities):
