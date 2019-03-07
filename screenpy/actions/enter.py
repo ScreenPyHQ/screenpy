@@ -15,9 +15,11 @@ class Enter(object):
         self.action_complete_target = target
         return self
 
-    @step("{0} enters '{text}' into the {target}.",
-          desc_attrs=['text', 'target'],
-          severity=MINOR)
+    @step(
+        "{0} enters '{text}' into the {target}.",
+        desc_attrs=["text", "target"],
+        severity=MINOR,
+    )
     def perform_as(self, the_actor):
         element = self.target.resolve_for(the_actor)
         element.send_keys(self.text)
@@ -25,7 +27,8 @@ class Enter(object):
             element.send_keys(key)
         if self.action_complete_target:
             the_actor.uses_ability_to(BrowseTheWeb).to_wait_for(
-                self.action_complete_target.get_locator())
+                self.action_complete_target.get_locator()
+            )
 
     @staticmethod
     def the_text(text):

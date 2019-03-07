@@ -21,9 +21,11 @@ class Select(object):
 
 
 class SelectByText(Select):
-    @step("{0} selects the option '{text}' from the {target}.",
-          desc_attrs=['text', 'target'],
-          severity=MINOR)
+    @step(
+        "{0} selects the option '{text}' from the {target}.",
+        desc_attrs=["text", "target"],
+        severity=MINOR,
+    )
     def perform_as(self, the_actor):
         element = self.target.resolve_for(the_actor)
         select = SelSelect(element)
@@ -34,9 +36,11 @@ class SelectByText(Select):
 
 
 class SelectByIndex(Select):
-    @step("{0} selects the option at index {index} from the {target}.",
-          desc_attrs=['index', 'target'],
-          severity=MINOR)
+    @step(
+        "{0} selects the option at index {index} from the {target}.",
+        desc_attrs=["index", "target"],
+        severity=MINOR,
+    )
     def perform_as(self, the_actor):
         element = self.target.resolve_for(the_actor)
         select = SelSelect(element)
@@ -47,9 +51,11 @@ class SelectByIndex(Select):
 
 
 class SelectByValue(Select):
-    @step("{0} selects the option with value '{value}' from the {target}.",
-          desc_attrs=['target'],
-          severity=MINOR)
+    @step(
+        "{0} selects the option with value '{value}' from the {target}.",
+        desc_attrs=["target"],
+        severity=MINOR,
+    )
     def perform_as(self, the_actor):
         element = self.target.resolve_for(the_actor)
         select = SelSelect(element)

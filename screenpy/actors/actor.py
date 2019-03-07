@@ -9,6 +9,7 @@ class Actor(object):
     """
     Represents an actor, holding his/her name and abilities.
     """
+
     def can(self, *abilities):
         self.abilities.extend(abilities)
         return self
@@ -22,7 +23,8 @@ class Actor(object):
                 return a
         else:
             raise UnableToPerformError(
-                self.name + " cannot perform the ability " + ability)
+                self.name + " cannot perform the ability " + ability
+            )
 
     def uses_ability_to(self, ability):
         return self.ability_to(ability)

@@ -7,13 +7,12 @@ class Target(object):
     """
     A class to contain information about an element.
     """
+
     def resolve_for(self, the_actor):
-        return the_actor.uses_ability_to(
-            BrowseTheWeb).find(self.get_locator())
+        return the_actor.uses_ability_to(BrowseTheWeb).find(self.get_locator())
 
     def resolve_all_for(self, the_actor):
-        return the_actor.uses_ability_to(
-            BrowseTheWeb).find_all(self.get_locator())
+        return the_actor.uses_ability_to(BrowseTheWeb).find_all(self.get_locator())
 
     def get_locator(self):
         if self.locator.startswith("/"):
