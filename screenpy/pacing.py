@@ -18,10 +18,10 @@ def act(line, severity=NORMAL):
 
     def decorator(func):
         @wraps(func)
+        @allure.feature(line)
         def wrapper(*args, **kwargs):
             allure.severity(severity)
-            with allure.feature(line):
-                return func(*args, **kwargs)
+            return func(*args, **kwargs)
 
         return wrapper
 
@@ -35,10 +35,10 @@ def scene(line, severity=NORMAL):
 
     def decorator(func):
         @wraps(func)
+        @allure.story(line)
         def wrapper(*args, **kwargs):
             allure.severity(severity)
-            with allure.story(line):
-                return func(*args, **kwargs)
+            return func(*args, **kwargs)
 
         return wrapper
 
@@ -61,7 +61,10 @@ def beat(line, severity=NORMAL):
 
             allure.severity(severity)
             with allure.step(line.format(actor, **cues)):
-                return func(*args, **kwargs)
+                retval = func(*args, **kwargs)
+                if retval is not None:
+                    aside(retval, severity=TRIVIAL)
+            return retval
 
         return wrapper
 
@@ -69,5 +72,11 @@ def beat(line, severity=NORMAL):
 
 
 def aside(line, severity=NORMAL):
+    """
+    A line spoken in a stage whisper to the audience. Or, in this case,
+    a quick log for a step.
+    """
     allure.severity(severity)
-    allure.step(line)
+    with allure.step(line):
+        # Can't just straight up call, have to enter or decorate
+        pass
