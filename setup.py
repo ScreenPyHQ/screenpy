@@ -1,21 +1,21 @@
 from os import path
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 requires = [
     "PyHamcrest>=1.9.0,<2",
     "pytest>=4.3.0,<4.4",
     "allure-pytest>=2.6.0,<2.7",
-    "selenium>=3.141.0,<3.2"
+    "selenium>=3.141.0,<3.2",
 ]
 
 repo_dir = path.abspath(path.dirname(__file__))
 about = {}
-with open(path.join(repo_dir, 'requests', '__version__.py'), 'r', 'utf-8') as f:
+with open(path.join(repo_dir, "screenpy", "__version__.py"), "r") as f:
     exec(f.read(), about)
 
-with open('README.md', 'r', 'utf-8') as f:
+with open("README.md", "r") as f:
     readme = f.read()
 
 setup(
@@ -27,7 +27,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     url=about["__url__"],
-    packages=["screenpy"],
+    packages=find_packages(),
     classifiers=[
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
