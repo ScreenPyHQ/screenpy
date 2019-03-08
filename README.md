@@ -104,7 +104,7 @@ Suite Hierarchy
   requirements.txt  # where you list screenpy!
 ```
 
-The examples in [Examples][/examples] all follow the naming and organization conventions outlined just above, but the specific names of the directories in your suite have no bearing on ScreenPy. If a directory makes more sense under a different name to you and your team, by all means use that name instead.
+The examples in [Examples](/examples) all follow the naming and organization conventions outlined just above, but the specific names of the directories in your suite have no bearing on ScreenPy. If a directory makes more sense under a different name to you and your team, by all means use that name instead.
 
 Let's talk more about what each of these file types are, though!
 
