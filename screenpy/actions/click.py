@@ -1,5 +1,5 @@
 from ..abilities.browse_the_web import BrowseTheWeb
-from ..decorators import beat, MINOR
+from ..pacing import beat, MINOR
 
 
 class Click(object):

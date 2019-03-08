@@ -1,5 +1,7 @@
 from hamcrest import assert_that
 
+from ..pacing import aside, MINOR
+
 
 class UnableToPerformException(Exception):
     pass
@@ -27,7 +29,7 @@ class Actor(object):
                 return a
         else:
             raise UnableToPerformException(
-                self.name + " cannot perform the ability " + ability
+                "{} cannot perform the ability {}".format(self, ability)
             )
 
     def uses_ability_to(self, ability):
@@ -45,7 +47,9 @@ class Actor(object):
 
     def should_see_that(self, *tests):
         for question, test in tests:
+            aside(test, severity=MINOR)
             assert_that(question.answered_by(self), test)
+            aside("Success!")
 
     def exit(self):
         for ability in self.abilities:

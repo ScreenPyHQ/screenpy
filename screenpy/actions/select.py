@@ -1,6 +1,6 @@
 from selenium.webdriver.support.ui import Select as SelSelect
 
-from ..decorators import beat, MINOR
+from ..pacing import beat, MINOR
 
 
 class Select(object):

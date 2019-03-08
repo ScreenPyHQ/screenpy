@@ -10,7 +10,7 @@ CRITICAL = allure.severity_level.CRITICAL
 BLOCKER = allure.severity_level.BLOCKER
 
 
-def act(desc, severity=NORMAL):
+def act(line, severity=NORMAL):
     """
     Decorator to mark an "act" (a feature).
     """
@@ -19,7 +19,7 @@ def act(desc, severity=NORMAL):
         @wraps(func)
         def wrapper(*args, **kwargs):
             allure.severity(severity)
-            with allure.feature(desc):
+            with allure.feature(line):
                 return func(*args, **kwargs)
 
         return wrapper
@@ -27,7 +27,7 @@ def act(desc, severity=NORMAL):
     return decorator
 
 
-def scene(desc, severity=NORMAL):
+def scene(line, severity=NORMAL):
     """
     Decorator to mark a "scene" (a user story).
     """
@@ -36,7 +36,7 @@ def scene(desc, severity=NORMAL):
         @wraps(func)
         def wrapper(*args, **kwargs):
             allure.severity(severity)
-            with allure.story(desc):
+            with allure.story(line):
                 return func(*args, **kwargs)
 
         return wrapper
@@ -44,20 +44,25 @@ def scene(desc, severity=NORMAL):
     return decorator
 
 
-def beat(desc, desc_attrs=[], severity=NORMAL):
+def beat(line, replace=[], severity=NORMAL):
     """
-    Decorator to describe a "beat" (a step in a test).
+    Decorator to lineribe a "beat" (a step in a test).
     """
 
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             actor = args[1] if len(args) > 1 else ""
-            attrs = {arg: getattr(args[0], arg) for arg in desc_attrs}
+            attrs = {sub: getattr(args[0], sub) for sub in replace}
             allure.severity(severity)
-            with allure.step(desc.format(actor, **attrs)):
+            with allure.step(line.format(actor, **attrs)):
                 return func(*args, **kwargs)
 
         return wrapper
 
     return decorator
+
+
+def aside(line, severity=NORMAL):
+    allure.severity(severity)
+    allure.step(line)
