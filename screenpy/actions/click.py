@@ -1,5 +1,5 @@
 from ..abilities.browse_the_web import BrowseTheWeb
-from ..pacing import beat, MINOR
+from ..pacing import beat, aside, MINOR
 
 
 class Click(object):
@@ -8,6 +8,7 @@ class Click(object):
         element = self.target.resolve_for(the_actor)
         element.click()
         if self.action_complete_target is not None:
+            aside("then waits to see the {}".format(self.action_complete_target))
             the_actor.uses_ability_to(BrowseTheWeb).to_wait_for(
                 self.action_complete_target
             )
