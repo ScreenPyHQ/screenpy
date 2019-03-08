@@ -1,6 +1,17 @@
+from random import choice
+
 from hamcrest import assert_that
 
-from ..pacing import aside, MINOR
+from ..pacing import aside, TRIVIAL
+
+
+ENTRANCE_LINES = [
+    "makes their debut!",
+    "is ready for their close-up!",
+    "enters, stage right!",
+    "hears their cue!",
+    "arrives on stage!",
+]
 
 
 class UnableToPerformException(Exception):
@@ -14,6 +25,7 @@ class Actor(object):
 
     @staticmethod
     def named(name):
+        aside("{} {}".format(name, choice(ENTRANCE_LINES)), severity=TRIVIAL)
         return Actor(name)
 
     def can(self, *abilities):
@@ -47,9 +59,7 @@ class Actor(object):
 
     def should_see_that(self, *tests):
         for question, test in tests:
-            aside(test, severity=MINOR)
             assert_that(question.answered_by(self), test)
-            aside("Success!")
 
     def exit(self):
         for ability in self.abilities:
@@ -57,9 +67,11 @@ class Actor(object):
             self.abilities.remove(ability)
 
     def exit_stage_right(self):
+        aside("{} bows and exits, stage right.".format(self), severity=TRIVIAL)
         self.exit()
 
     def exit_stage_left(self):
+        aside("{} bows and exits, stage left.".format(self), severity=TRIVIAL)
         self.exit()
 
     def __repr__(self):
