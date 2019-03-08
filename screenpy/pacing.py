@@ -1,4 +1,5 @@
 from functools import wraps
+import re
 
 import allure
 
@@ -44,18 +45,22 @@ def scene(line, severity=NORMAL):
     return decorator
 
 
-def beat(line, replace=[], severity=NORMAL):
+def beat(line, severity=NORMAL):
     """
-    Decorator to lineribe a "beat" (a step in a test).
+    Decorator to describe a "beat" (a step in a test). A beat's line can
+    contain markers for replacement via str.format(), which will be.
     """
 
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             actor = args[1] if len(args) > 1 else ""
-            attrs = {sub: getattr(args[0], sub) for sub in replace}
+
+            markers = re.findall(r"\{([^0-9\}]+)}", line)
+            cues = {mark: getattr(args[0], mark) for mark in markers}
+
             allure.severity(severity)
-            with allure.step(line.format(actor, **attrs)):
+            with allure.step(line.format(actor, **cues)):
                 return func(*args, **kwargs)
 
         return wrapper

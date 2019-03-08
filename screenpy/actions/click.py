@@ -3,7 +3,7 @@ from ..pacing import beat, MINOR
 
 
 class Click(object):
-    @beat("{0} clicks on the {target}.", desc_attrs=["target"], severity=MINOR)
+    @beat("{0} clicks on the {target}.", severity=MINOR)
     def perform_as(self, the_actor):
         element = self.target.resolve_for(the_actor)
         element.click()

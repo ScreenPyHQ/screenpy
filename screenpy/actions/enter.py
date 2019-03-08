@@ -3,11 +3,7 @@ from ..pacing import beat, MINOR
 
 
 class Enter(object):
-    @beat(
-        "{0} enters '{text}' into the {target}.",
-        desc_attrs=["text", "target"],
-        severity=MINOR,
-    )
+    @beat("{0} enters '{text}' into the {target}.", severity=MINOR)
     def perform_as(self, the_actor):
         element = self.target.resolve_for(the_actor)
         element.send_keys(self.text)
