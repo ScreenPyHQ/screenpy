@@ -1,7 +1,7 @@
 from hamcrest import assert_that
 
 
-class UnableToPerformError(Exception):
+class UnableToPerformException(Exception):
     pass
 
 
@@ -9,6 +9,10 @@ class Actor(object):
     """
     Represents an actor, holding their name and abilities.
     """
+
+    @staticmethod
+    def named(name):
+        return Actor(name)
 
     def can(self, *abilities):
         self.abilities.extend(abilities)
@@ -22,7 +26,7 @@ class Actor(object):
             if isinstance(a, ability):
                 return a
         else:
-            raise UnableToPerformError(
+            raise UnableToPerformException(
                 self.name + " cannot perform the ability " + ability
             )
 
@@ -63,7 +67,3 @@ class Actor(object):
     def __init__(self, name):
         self.name = name
         self.abilities = []
-
-    @staticmethod
-    def named(name):
-        return Actor(name)

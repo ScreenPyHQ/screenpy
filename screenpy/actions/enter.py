@@ -1,21 +1,9 @@
 from ..abilities.browse_the_web import BrowseTheWeb
-from ..decorators import step, MINOR
+from ..decorators import beat, MINOR
 
 
 class Enter(object):
-    def into(self, target):
-        self.target = target
-        return self
-
-    def then_hit(self, *keys):
-        self.following_keys.extend(keys)
-        return self
-
-    def then_wait_for(self, target):
-        self.action_complete_target = target
-        return self
-
-    @step(
+    @beat(
         "{0} enters '{text}' into the {target}.",
         desc_attrs=["text", "target"],
         severity=MINOR,
@@ -33,6 +21,18 @@ class Enter(object):
     @staticmethod
     def the_text(text):
         return Enter(text)
+
+    def into(self, target):
+        self.target = target
+        return self
+
+    def then_hit(self, *keys):
+        self.following_keys.extend(keys)
+        return self
+
+    def then_wait_for(self, target):
+        self.action_complete_target = target
+        return self
 
     def __init__(self, text):
         self.text = text
