@@ -1,9 +1,9 @@
 from ..abilities.browse_the_web import BrowseTheWeb
-from ..decorators import step, MINOR
+from ..decorators import beat, MINOR
 
 
 class Click(object):
-    @step("{0} clicks on the {target}.", desc_attrs=["target"], severity=MINOR)
+    @beat("{0} clicks on the {target}.", desc_attrs=["target"], severity=MINOR)
     def perform_as(self, the_actor):
         element = self.target.resolve_for(the_actor)
         element.click()

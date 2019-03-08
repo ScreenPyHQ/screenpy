@@ -1,6 +1,6 @@
 from selenium.webdriver.support.ui import Select as SelSelect
 
-from ..decorators import step, MINOR
+from ..decorators import beat, MINOR
 
 
 class Select(object):
@@ -21,7 +21,7 @@ class Select(object):
 
 
 class SelectByText(Select):
-    @step(
+    @beat(
         "{0} selects the option '{text}' from the {target}.",
         desc_attrs=["text", "target"],
         severity=MINOR,
@@ -36,7 +36,7 @@ class SelectByText(Select):
 
 
 class SelectByIndex(Select):
-    @step(
+    @beat(
         "{0} selects the option at index {index} from the {target}.",
         desc_attrs=["index", "target"],
         severity=MINOR,
@@ -51,9 +51,9 @@ class SelectByIndex(Select):
 
 
 class SelectByValue(Select):
-    @step(
+    @beat(
         "{0} selects the option with value '{value}' from the {target}.",
-        desc_attrs=["target"],
+        desc_attrs=["value", "target"],
         severity=MINOR,
     )
     def perform_as(self, the_actor):
