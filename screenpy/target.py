@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 from selenium.webdriver.common.by import By
 
 from .abilities.browse_the_web import BrowseTheWeb
@@ -5,35 +7,91 @@ from .abilities.browse_the_web import BrowseTheWeb
 
 class Target(object):
     """
-    A class to contain information about an element.
+    A class to contain information about an element. This class stores a
+    nice human-readable string describing an element along with either an
+    xpath or a CSS selector string. It is intended to be instantiated by
+    calling its static :meth:`|Target|.the` method. A typical invocation
+    might look like:
+
+        Target.the("header search bar").located_by("div.searchbar")
+
+    It can then be used in Questions or Actions or Tasks to access that
+    element.
     """
 
-    def resolve_for(self, the_actor):
-        return the_actor.uses_ability_to(BrowseTheWeb).find(self.get_locator())
+    @staticmethod
+    def the(desc: str) -> "Target":
+        """
+        Creates a Target with a description. This method call should be
+        followed up with a call to :meth:`|Target|.located_by`.
 
-    def resolve_all_for(self, the_actor):
-        return the_actor.uses_ability_to(BrowseTheWeb).find_all(self.get_locator())
+        Args:
+            desc (str): The human-readable description for the targeted
+                element. Beginning with a lower-case letter makes the
+                allure test logs look the nicest.
 
-    def get_locator(self):
+        Returns:
+            :class:`|Target|`
+        """
+        return Target(desc)
+
+    def located_by(self, locator: str) -> "Target":
+        """
+        Supplies an instantiated Target with a locator string.
+
+        Args:
+            locator (str): The string to use as a locator for the element.
+                Can be a CSS selector or an xpath string.
+
+        Returns:
+            :class:`|Target|`
+        """
+        self.locator = locator
+        return self
+
+    def get_locator(self) -> Tuple["By", str]:
+        """
+        Returns the stored locator as a tuple, figuring out what kind of
+        location strategy the string uses (CSS selector or xpath).
+
+        Returns:
+            tuple(|By|, str)
+        """
         if self.locator.startswith("/"):
             return (By.XPATH, self.locator)
         else:
             return (By.CSS_SELECTOR, self.locator)
 
-    def __repr__(self):
-        return self.target_name
+    def resolve_for(self, the_actor: "Actor") -> "WebElement":
+        """
+        Gets the |WebElement| object representing the targeted element.
 
-    def __str__(self):
-        return self.target_name
+        Args:
+            the_actor (Actor): The :class:`|Actor|` who should look for
+                this element.
 
-    @staticmethod
-    def the(desc):
-        return Target(desc)
+        Returns:
+            |WebElement|
+        """
+        return the_actor.uses_ability_to(BrowseTheWeb).find(self.get_locator())
 
-    def located_by(self, locator):
-        self.locator = locator
-        return self
+    def resolve_all_for(self, the_actor: "Actor") -> List["WebElement"]:
+        """
+        Gets a list of |WebElement| objects described by the stored
+        locator.
 
-    def __init__(self, desc):
+        Args:
+            the_actor (Actor): The :class:`|Actor|` who should look for
+                this element.
+
+        Returns:
+            list(|WebElement|)
+        """
+        return the_actor.uses_ability_to(BrowseTheWeb).find_all(self.get_locator())
+
+    def __init__(self, desc: str) -> None:
         self.target_name = desc
         self.locator = ""
+
+    def __repr__(self) -> str:
+        return self.target_name

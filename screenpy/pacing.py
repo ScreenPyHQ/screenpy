@@ -1,3 +1,4 @@
+from typing import Callable, Any
 from functools import wraps
 import re
 
@@ -11,16 +12,28 @@ CRITICAL = allure.severity_level.CRITICAL
 BLOCKER = allure.severity_level.BLOCKER
 
 
-def act(line, severity=NORMAL):
+Function = Callable[..., Any]
+
+
+def act(title: str, gravitas=NORMAL) -> Callable[Function, Function]:
     """
-    Decorator to mark an "act" (a feature).
+    Decorator to mark an "act" (a feature). Use the same title to group
+    your individual "scenes" (test cases) together under the same act in
+    the allure report.
+
+    Args:
+        title (str): The title of this "act" (the feature name).
+        gravitas: How serious this act is (the log level).
+
+    Returns:
+        Decorated function
     """
 
-    def decorator(func):
+    def decorator(func: Function) -> Function:
         @wraps(func)
-        @allure.feature(line)
-        def wrapper(*args, **kwargs):
-            allure.severity(severity)
+        @allure.feature(title)
+        def wrapper(*args, **kwargs) -> Any:
+            allure.severity(gravitas)
             return func(*args, **kwargs)
 
         return wrapper
@@ -28,16 +41,23 @@ def act(line, severity=NORMAL):
     return decorator
 
 
-def scene(line, severity=NORMAL):
+def scene(title: str, gravitas=NORMAL) -> Callable[Function, Function]:
     """
     Decorator to mark a "scene" (a user story).
+
+    Args:
+        title (str): The title of this "scene" (the user story summary).
+        gravitas: How serious this scene is (the log level).
+
+    Returns:
+        Decorated function
     """
 
-    def decorator(func):
+    def decorator(func: Function) -> Function:
         @wraps(func)
-        @allure.story(line)
-        def wrapper(*args, **kwargs):
-            allure.severity(severity)
+        @allure.story(title)
+        def wrapper(*args, **kwargs) -> Any:
+            allure.severity(gravitas)
             return func(*args, **kwargs)
 
         return wrapper
@@ -45,21 +65,30 @@ def scene(line, severity=NORMAL):
     return decorator
 
 
-def beat(line, severity=NORMAL):
+def beat(line: str, gravitas=NORMAL) -> Callable[Function, Function]:
     """
     Decorator to describe a "beat" (a step in a test). A beat's line can
-    contain markers for replacement via str.format(), which will be.
+    contain markers for replacement via str.format(), which will be
+    figured out from the decorated method's class.
+
+    Args:
+        line (str): The line spoken during this "beat" (the test step
+            description).
+        gravitas: How serious this beat is (the log level).
+
+    Returns:
+        Decorated function
     """
 
-    def decorator(func):
+    def decorator(func: Function) -> Function:
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs) -> Any:
             actor = args[1] if len(args) > 1 else ""
 
             markers = re.findall(r"\{([^0-9\}]+)}", line)
             cues = {mark: getattr(args[0], mark) for mark in markers}
 
-            allure.severity(severity)
+            allure.severity(gravitas)
             with allure.step(line.format(actor, **cues)):
                 retval = func(*args, **kwargs)
                 if retval is not None:
@@ -71,12 +100,16 @@ def beat(line, severity=NORMAL):
     return decorator
 
 
-def aside(line, severity=NORMAL):
+def aside(line: str, gravitas=NORMAL) -> None:
     """
     A line spoken in a stage whisper to the audience. Or, in this case,
     a quick log for a step.
+
+    Args:
+        line (str): The line spoken in this aside (the log text).
+        gravitas: How serious this aside is (the log level).
     """
-    allure.severity(severity)
+    allure.severity(gravitas)
     with allure.step(line):
         # Can't just straight up call, have to enter or decorate
         pass

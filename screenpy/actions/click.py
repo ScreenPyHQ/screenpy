@@ -3,8 +3,67 @@ from ..pacing import beat, aside, MINOR
 
 
 class Click(object):
-    @beat("{0} clicks on the {target}.", severity=MINOR)
-    def perform_as(self, the_actor):
+    """
+    Clicks on an element! A Click action is expected to be instantiated
+    via its static :meth:`|Click|.on` or :meth:`|Click|.on_the `methods. A
+    typical invocation might look like:
+
+        Click.on_the(PROFILE_LINK).then_wait_for(ACCOUNT_WELCOME_MESSAGE)
+
+    It can then be passed along to the :class:`|Actor|` to perform the
+    action.
+    """
+
+    @staticmethod
+    def on(target: "Target") -> "Click":
+        """
+        Creates a new Click action with its crosshairs aimed at the
+        provided target.
+
+        Args:
+            target (Target): The :class:`|Target|` describing the element
+                to click.
+
+        Returns:
+            :class:`|Click|`
+        """
+        return Click(target)
+
+    @staticmethod
+    def on_the(target: "Target") -> "Click":
+        """Syntactic sugar for :meth:`|Click|.on`."""
+        return Click.on(target)
+
+    def then_wait_for(self, target: "Target") -> "Click":
+        """
+        Supplies a :class:`|Target|` to wait for after performing the
+        click.
+
+        Args:
+            target (Target): The :class:`|Target|` describing the element
+                to wait for after performing the click.
+
+        Returns:
+            :class:`|Click|`
+        """
+        self.action_complete_target = target
+        return self
+
+    @beat("{0} clicks on the {target}.", gravitas=MINOR)
+    def perform_as(self, the_actor: "Actor") -> None:
+        """
+        Asks the actor to find the element described by the stored target,
+        and then clicks it. May wait for another target to appear, if
+        :meth:`|Click|.then_wait_for` had been called.
+
+        Args:
+            the_actor (Actor): The :class:`|Actor|` who will perform the
+                action.
+
+        Raises:
+            :class:`|Actor|.UnableToPerformException|: if the actor does
+                not have the ability to :class:`|BrowseTheWeb|`.
+        """
         element = self.target.resolve_for(the_actor)
         element.click()
         if self.action_complete_target is not None:
@@ -13,15 +72,7 @@ class Click(object):
                 self.action_complete_target
             )
 
-    @staticmethod
-    def on(target):
-        return Click(target)
-
-    def then_wait_for(self, target):
-        self.action_complete_target = target
-        return self
-
-    def __init__(self, target):
+    def __init__(self, target: "Target") -> None:
         self.target = target
         self.action_complete_target = None
         self.following_keys = []
