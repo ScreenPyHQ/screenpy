@@ -1,3 +1,5 @@
+from typing import List
+
 from ..abilities.browse_the_web import BrowseTheWeb
 from ..pacing import beat, aside, MINOR
 
@@ -53,7 +55,7 @@ class Enter(object):
         self.target = target
         return self
 
-    def then_hit(self, *keys: list(str)) -> "Enter":
+    def then_hit(self, *keys: List[str]) -> "Enter":
         """
         Supplies the target to enter the text into. This is most likely
         an input field.
@@ -69,7 +71,7 @@ class Enter(object):
         self.following_keys.extend(keys)
         return self
 
-    def then_press(self, *keys: list(str)) -> "Enter":
+    def then_press(self, *keys: List[str]) -> "Enter":
         """Syntactic sugar for :meth:`|Enter|.then_hit`."""
         self.following_keys.extend(keys)
         return self

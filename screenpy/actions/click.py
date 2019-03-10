@@ -5,7 +5,7 @@ from ..pacing import beat, aside, MINOR
 class Click(object):
     """
     Clicks on an element! A Click action is expected to be instantiated
-    via its static :meth:`|Click|.on` or :meth:`|Click|.on_the `methods. A
+    via its static :meth:`|Click|.on` or :meth:`|Click|.on_the` methods. A
     typical invocation might look like:
 
         Click.on_the(PROFILE_LINK).then_wait_for(ACCOUNT_WELCOME_MESSAGE)

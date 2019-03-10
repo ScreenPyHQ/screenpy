@@ -1,3 +1,6 @@
+from typing import List as ListType
+
+
 class List(object):
     """
     Asks for a list of elements, viewed by an :class:`|Actor|`. This
@@ -31,7 +34,7 @@ class List(object):
         """Syntactic sugar for :meth:`|List|.of`."""
         return List(target)
 
-    def viewed_by(self, the_actor: "Actor") -> list("WebElement"):
+    def viewed_by(self, the_actor: "Actor") -> ListType["WebElement"]:
         """
         Investigates the page as viewed by the supplied :class:`|Actor|`
         and gives its answer.

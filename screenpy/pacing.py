@@ -12,10 +12,10 @@ CRITICAL = allure.severity_level.CRITICAL
 BLOCKER = allure.severity_level.BLOCKER
 
 
-Function = Callable[..., Any]
+Function = Callable[[Any], Any]
 
 
-def act(title: str, gravitas=NORMAL) -> Callable[Function, Function]:
+def act(title: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     """
     Decorator to mark an "act" (a feature). Use the same title to group
     your individual "scenes" (test cases) together under the same act in
@@ -41,7 +41,7 @@ def act(title: str, gravitas=NORMAL) -> Callable[Function, Function]:
     return decorator
 
 
-def scene(title: str, gravitas=NORMAL) -> Callable[Function, Function]:
+def scene(title: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     """
     Decorator to mark a "scene" (a user story).
 
@@ -65,7 +65,7 @@ def scene(title: str, gravitas=NORMAL) -> Callable[Function, Function]:
     return decorator
 
 
-def beat(line: str, gravitas=NORMAL) -> Callable[Function, Function]:
+def beat(line: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     """
     Decorator to describe a "beat" (a step in a test). A beat's line can
     contain markers for replacement via str.format(), which will be

@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List, Union
 
 
 TargetOrNone = Union["Target", None]
@@ -46,7 +46,7 @@ class Text(object):
         """
         return Text(multi_target=multi_target)
 
-    def viewed_by(self, the_actor: "Actor") -> Union[str, list(str), None]:
+    def viewed_by(self, the_actor: "Actor") -> Union[str, List[str], None]:
         """
         Investigates the page as viewed by the supplied :class:`|Actor|`
         and gives its answer.
