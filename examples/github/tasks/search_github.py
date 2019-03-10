@@ -1,14 +1,14 @@
 from selenium.webdriver.common.keys import Keys
 
 from screenpy.actions.enter import Enter
-from screenpy.pacing import beat, NORMAL
+from screenpy.pacing import beat
 
 from ..user_interface.github_header_bar import SEARCH_INPUT
 from ..user_interface.github_search_results_page import RESULTS_MESSAGE
 
 
 class SearchGitHub(object):
-    @beat("{0} searches GitHub for '{search_query}'", severity=NORMAL)
+    @beat("{0} searches GitHub for '{search_query}'")
     def perform_as(self, the_actor):
         the_actor.attempts_to(
             Enter.the_text(self.search_query)
