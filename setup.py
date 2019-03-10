@@ -4,10 +4,10 @@ from setuptools import setup, find_packages
 
 
 requires = [
-    "PyHamcrest>=1.9.0,<2",
+    "PyHamcrest>=1.9.0,<1.10",
     "pytest>=4.3.0,<4.4",
     "allure-pytest>=2.6.0,<2.7",
-    "selenium>=3.141.0,<3.2",
+    "selenium>=3.141.0,<3.142",
 ]
 
 repo_dir = path.abspath(path.dirname(__file__))
@@ -28,6 +28,7 @@ setup(
     long_description_content_type="text/markdown",
     url=about["__url__"],
     packages=find_packages(),
+    install_requires=requires,
     classifiers=[
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
