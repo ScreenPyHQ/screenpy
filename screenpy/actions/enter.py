@@ -114,7 +114,7 @@ class Enter(object):
         element = self.target.resolve_for(the_actor)
         element.send_keys(self.text)
         for key in self.following_keys:
-            aside("then hits the key {}".format(key))
+            aside("then hits the {} key".format(key))
             element.send_keys(key)
         if self.action_complete_target is not None:
             aside("then waits to see the {}".format(self.action_complete_target))
