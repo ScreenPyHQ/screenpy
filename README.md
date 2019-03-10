@@ -83,7 +83,7 @@ then(perry).should_see_the((UserName.text(), ReadsExactly("Perry Goy")),)
 perry.exit_stage_right()
 ```
 
-You may think to yourself, man, that's a lot of setup for a simple quickstart. And you're definitely right! There are a lot of moving parts to a Screenplay Pattern test suite. If you want to know more, please check out the [Read The Docs documentation!]()
+You may think to yourself, man, that's a lot of setup for a simple quickstart. And you're definitely right! There are a lot of moving parts to a Screenplay Pattern test suite. If you want to know more, please check out the [Read The Docs documentation!](https://screenpy-docs.readthedocs.io/en/stable/)
 
 
 Allure Integration

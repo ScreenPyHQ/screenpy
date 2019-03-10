@@ -4,6 +4,9 @@
 Welcome to ScreenPy's documentation!
 ====================================
 
+ScreenPy provides a solid, SOLID base for writing maintainable test suites following the Screenplay Pattern, popularized by Antony Marcano. It also provides nice logging and support for BDD-style natural language test case writing.
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
@@ -13,6 +16,7 @@ Welcome to ScreenPy's documentation!
    filehierarchy
    philosophy
    context
+
 
 Indices and tables
 ==================
