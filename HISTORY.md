@@ -9,6 +9,14 @@ example
 -   \[Short description of non-trivial change.\]
 
 
+0.1.3 (2019-03-09)
+------------------
+
+** Bugfix **
+
+-   Fixed call to old keyword argument. Woops.
+
+
 0.1.2 (2019-03-09)
 ------------------
 
