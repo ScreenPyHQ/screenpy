@@ -92,7 +92,7 @@ def beat(line: str, gravitas=NORMAL) -> Callable[[Function], Function]:
             with allure.step(line.format(actor, **cues)):
                 retval = func(*args, **kwargs)
                 if retval is not None:
-                    aside(retval, severity=TRIVIAL)
+                    aside(retval, gravitas=TRIVIAL)
             return retval
 
         return wrapper
