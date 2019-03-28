@@ -7,13 +7,12 @@ from ..pacing import beat, aside, MINOR
 class Enter(object):
     """
     Enters text into an input field. An Enter action is expected to be
-    instantiated by its static :meth:`|Enter|.the_text` method. A typical
+    instantiated by its static |Enter.the_text| method. A typical
     invocation might look like:
 
         Enter.the_text("Hello world!").into(COMMENT_FIELD)
 
-    It can then be passed along to the :class:`|Actor|` to perform the
-    action.
+    It can then be passed along to the |Actor| to perform the action.
     """
 
     @staticmethod
@@ -21,19 +20,19 @@ class Enter(object):
         """
         Creates a new Enter action with the provided text. It is expected
         that the next call will be to the instantiated Enter object's
-        :meth:`|Enter|.into` method.
+        |Enter.into| method.
 
         Args:
             text (str): The text to eventually enter.
 
         Returns:
-            :class:`|Enter|`
+            |Enter|
         """
         return Enter(text)
 
     @staticmethod
     def the_keys(text: str) -> "Enter":
-        """Syntactic sugar for :meth:`|Enter|.the_text`."""
+        """Syntactic sugar for |Enter.the_text|."""
         return Enter(text)
 
     def into(self, target: "Target") -> "Enter":
@@ -42,16 +41,16 @@ class Enter(object):
         an input field.
 
         Args:
-            target (Target): The :class:`|Target|` to enter text into.
+            target (Target): The |Target| to enter text into.
 
         Returns:
-            :class:`|Enter|`
+            |Enter|
         """
         self.target = target
         return self
 
     def on(self, target: "Target") -> "Enter":
-        """Syntactic sugar for :meth:`|Enter|.into`."""
+        """Syntactic sugar for |Enter.into|."""
         self.target = target
         return self
 
@@ -66,28 +65,27 @@ class Enter(object):
                 codes.
 
         Returns:
-            :class:`|Enter|`
+            |Enter|
         """
         self.following_keys.extend(keys)
         return self
 
     def then_press(self, *keys: List[str]) -> "Enter":
-        """Syntactic sugar for :meth:`|Enter|.then_hit`."""
+        """Syntactic sugar for |Enter.then_hit|."""
         self.following_keys.extend(keys)
         return self
 
     def then_wait_for(self, target: "Target") -> "Enter":
         """
         Supplies the target to wait for after entering text (and hitting
-        any additional keys, if this object's :meth:`|Enter|`.then_hit`
-        method was called).
+        any additional keys, if this object's |Enter.then_hit| method was
+        called).
 
         Args:
-            target (Target): The :class:`|Target|` to wait for after
-                entering text.
+            target (Target): The |Target| to wait for after entering text.
 
         Returns:
-            :class:`|Enter|`
+            |Enter|
         """
         self.action_complete_target = target
         return self
@@ -95,23 +93,23 @@ class Enter(object):
     @beat("{0} enters '{text}' into the {target}.", gravitas=MINOR)
     def perform_as(self, the_actor: "Actor") -> None:
         """
-        Asks the :class:`|Actor|` to performs the Enter action, entering
-        the text into the targeted input field using their ability to
-        :class:`|BrowseTheWeb|`.
+        Asks the |Actor| to performs the Enter action, entering the text
+        into the targeted input field using their ability to
+        |BrowseTheWeb|.
 
-        If this Enter object's :meth:`|Enter|`.then_hit` method was
-        called, it will also hit the supplied keys. Finally, if the
-        :meth:`|Enter|.then_wait_for` method was called, it will wait for
-        the supplied :class:`|Target|` to appear.
+        If this Enter object's |Enter.then_hit| method was called, it will
+        also hit the supplied keys. Finally, if the |Enter.then_wait_for|
+        method was called, it will wait for the supplied |Target| to
+        appear.
 
         Args:
-            the_actor: The :class:`|Actor|` who will perform this action.
+            the_actor: The |Actor| who will perform this action.
 
         Raises:
-            :class:`|Actor|.UnableToPerformException|: if the actor does
-                not have the ability to :class:`|BrowseTheWeb|`.
+            |UnableToPerformException|: if the actor does not have the
+                ability to |BrowseTheWeb|.
         """
-        element = self.target.resolve_for(the_actor)
+        element = self.target.found_by(the_actor)
         element.send_keys(self.text)
         for key in self.following_keys:
             aside("then hits the {} key".format(key))

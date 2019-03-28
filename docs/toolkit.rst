@@ -1,10 +1,9 @@
-.. include global.rst
 .. _toolkit:
 
 Included in ScreenPy
 ====================
 
-ScreenPy comes with a lot of the base tools you will need to get started.
+ScreenPy comes with a lot of the base tools you will need to get started. You'll be ready to go quick enough to make curtain call!
 
 .. toctree::
    :maxdepth: 2

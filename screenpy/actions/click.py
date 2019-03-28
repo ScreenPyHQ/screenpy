@@ -5,13 +5,12 @@ from ..pacing import beat, aside, MINOR
 class Click(object):
     """
     Clicks on an element! A Click action is expected to be instantiated
-    via its static :meth:`|Click|.on` or :meth:`|Click|.on_the` methods. A
-    typical invocation might look like:
+    via its static |Click.on| or |Click.on_the| methods. A typical
+    invocation might look like:
 
         Click.on_the(PROFILE_LINK).then_wait_for(ACCOUNT_WELCOME_MESSAGE)
 
-    It can then be passed along to the :class:`|Actor|` to perform the
-    action.
+    It can then be passed along to the |Actor| to perform the action.
     """
 
     @staticmethod
@@ -21,30 +20,28 @@ class Click(object):
         provided target.
 
         Args:
-            target (Target): The :class:`|Target|` describing the element
-                to click.
+            target (Target): The |Target| describing the element to click.
 
         Returns:
-            :class:`|Click|`
+            |Click|
         """
         return Click(target)
 
     @staticmethod
     def on_the(target: "Target") -> "Click":
-        """Syntactic sugar for :meth:`|Click|.on`."""
+        """Syntactic sugar for |Click.on|."""
         return Click.on(target)
 
     def then_wait_for(self, target: "Target") -> "Click":
         """
-        Supplies a :class:`|Target|` to wait for after performing the
-        click.
+        Supplies a |Target| to wait for after performing the click.
 
         Args:
-            target (Target): The :class:`|Target|` describing the element
-                to wait for after performing the click.
+            target (Target): The |Target| describing the element to wait
+                for after performing the click.
 
         Returns:
-            :class:`|Click|`
+            |Click|
         """
         self.action_complete_target = target
         return self
@@ -54,17 +51,16 @@ class Click(object):
         """
         Asks the actor to find the element described by the stored target,
         and then clicks it. May wait for another target to appear, if
-        :meth:`|Click|.then_wait_for` had been called.
+        |Click.then_wait_for| had been called.
 
         Args:
-            the_actor (Actor): The :class:`|Actor|` who will perform the
-                action.
+            the_actor (Actor): The |Actor| who will perform the action.
 
         Raises:
-            :class:`|Actor|.UnableToPerformException|: if the actor does
-                not have the ability to :class:`|BrowseTheWeb|`.
+            |UnableToPerformException|: if the actor does not have the
+                ability to |BrowseTheWeb|.
         """
-        element = self.target.resolve_for(the_actor)
+        element = self.target.found_by(the_actor)
         element.click()
         if self.action_complete_target is not None:
             aside("then waits to see the {}".format(self.action_complete_target))

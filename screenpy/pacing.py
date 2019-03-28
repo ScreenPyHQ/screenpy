@@ -22,8 +22,8 @@ def act(title: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     the allure report.
 
     Args:
-        title (str): The title of this "act" (the feature name).
-        gravitas: How serious this act is (the log level).
+        title (str): the title of this "act" (the feature name).
+        gravitas: how serious this act is (the log level).
 
     Returns:
         Decorated function
@@ -46,8 +46,8 @@ def scene(title: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     Decorator to mark a "scene" (a user story).
 
     Args:
-        title (str): The title of this "scene" (the user story summary).
-        gravitas: How serious this scene is (the log level).
+        title (str): the title of this "scene" (the user story summary).
+        gravitas: how serious this scene is (the log level).
 
     Returns:
         Decorated function
@@ -72,9 +72,9 @@ def beat(line: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     figured out from the decorated method's class.
 
     Args:
-        line (str): The line spoken during this "beat" (the test step
+        line (str): the line spoken during this "beat" (the test step
             description).
-        gravitas: How serious this beat is (the log level).
+        gravitas: how serious this beat is (the log level).
 
     Returns:
         Decorated function
@@ -103,11 +103,11 @@ def beat(line: str, gravitas=NORMAL) -> Callable[[Function], Function]:
 def aside(line: str, gravitas=NORMAL) -> None:
     """
     A line spoken in a stage whisper to the audience. Or, in this case,
-    a quick log for a step.
+    a quick message to log.
 
     Args:
-        line (str): The line spoken in this aside (the log text).
-        gravitas: How serious this aside is (the log level).
+        line (str): the line spoken in this aside (the log text).
+        gravitas: how serious this aside is (the log level).
     """
     allure.severity(gravitas)
     with allure.step(line):

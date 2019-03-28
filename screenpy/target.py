@@ -9,13 +9,13 @@ class Target(object):
     """
     A class to contain information about an element. This class stores a
     nice human-readable string describing an element along with either an
-    xpath or a CSS selector string. It is intended to be instantiated by
-    calling its static :meth:`|Target|.the` method. A typical invocation
-    might look like:
+    XPath or a CSS selector string. It is intended to be instantiated by
+    calling its static |Target.the| method. A typical invocation might
+    look like:
 
         Target.the("header search bar").located_by("div.searchbar")
 
-    It can then be used in Questions or Actions or Tasks to access that
+    It can then be used in Questions, Actions or Tasks to access that
     element.
     """
 
@@ -23,7 +23,7 @@ class Target(object):
     def the(desc: str) -> "Target":
         """
         Creates a Target with a description. This method call should be
-        followed up with a call to :meth:`|Target|.located_by`.
+        followed up with a call to |Target.located_by|.
 
         Args:
             desc (str): The human-readable description for the targeted
@@ -31,7 +31,7 @@ class Target(object):
                 allure test logs look the nicest.
 
         Returns:
-            :class:`|Target|`
+            |Target|
         """
         return Target(desc)
 
@@ -44,7 +44,7 @@ class Target(object):
                 Can be a CSS selector or an xpath string.
 
         Returns:
-            :class:`|Target|`
+            |Target|
         """
         self.locator = locator
         return self
@@ -62,27 +62,27 @@ class Target(object):
         else:
             return (By.CSS_SELECTOR, self.locator)
 
-    def resolve_for(self, the_actor: "Actor") -> "WebElement":
+    def found_by(self, the_actor: "Actor") -> "WebElement":
         """
         Gets the |WebElement| object representing the targeted element.
 
         Args:
-            the_actor (Actor): The :class:`|Actor|` who should look for
-                this element.
+            the_actor (Actor): The |Actor| who should look for this
+                element.
 
         Returns:
             |WebElement|
         """
         return the_actor.uses_ability_to(BrowseTheWeb).find(self.get_locator())
 
-    def resolve_all_for(self, the_actor: "Actor") -> List["WebElement"]:
+    def all_found_by(self, the_actor: "Actor") -> List["WebElement"]:
         """
         Gets a list of |WebElement| objects described by the stored
         locator.
 
         Args:
-            the_actor (Actor): The :class:`|Actor|` who should look for
-                this element.
+            the_actor (Actor): The |Actor| who should look for these
+                elements.
 
         Returns:
             list(|WebElement|)

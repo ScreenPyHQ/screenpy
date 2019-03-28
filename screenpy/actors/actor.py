@@ -8,6 +8,10 @@ from .entrance_lines import ENTRANCE_DIRECTIONS
 
 
 class UnableToPerformException(Exception):
+    """
+    Raised when an actor does not possess the ability to perform the
+    action they attempted.
+    """
     pass
 
 
@@ -17,8 +21,8 @@ class Actor(object):
     performers of your screenplay, they represent your users as they go
     about their business on your product.
 
-    An actor is meant to be instantiated using its static
-    :meth:`|Actor|.named` method. A typical invocation might look like:
+    An actor is meant to be instantiated using its static |Actor.named|
+    method. A typical invocation might look like:
 
         perry = Actor.named("Perry")
 
@@ -34,7 +38,7 @@ class Actor(object):
             name (str): The name of this new Actor.
 
         Returns:
-            :class:`|Actor|`
+            |Actor|
         """
         aside(choice(ENTRANCE_DIRECTIONS).format(name), gravitas=TRIVIAL)
         return Actor(name)
@@ -47,13 +51,13 @@ class Actor(object):
             abilities (list(ability)): The abilities this actor can do.
 
         Returns:
-            :class:`|Actor|`
+            |Actor|
         """
         self.abilities.extend(abilities)
         return self
 
     def who_can(self, *abilities: List["ability"]) -> "Actor":
-        """Syntactic sugar for :meth:`|Actor|.can`."""
+        """Syntactic sugar for |Actor.can|."""
         return self.can(*abilities)
 
     def ability_to(self, ability: "ability") -> "ability":
@@ -68,42 +72,42 @@ class Actor(object):
             The requested ability.
 
         Raises:
-            UnableToPerformException: if this actor is unable.
+            |UnableToPerformException|: if this actor is unable.
         """
         for a in self.abilities:
             if isinstance(a, ability):
                 return a
         else:
             raise UnableToPerformException(
-                "{} cannot perform the ability {}".format(self, ability)
+                "{} does not have the ability to {}".format(self, ability)
             )
 
     def uses_ability_to(self, ability: "Ability") -> "Ability":
-        """Syntactic sugar for :meth:`|Actor|.ability_to`."""
+        """Syntactic sugar for |Actor.ability_to|."""
         return self.ability_to(ability)
 
-    def attempts_to(self, *tasks: List["task"]) -> None:
+    def attempts_to(self, *actions: List["Action"]) -> None:
         """
-        Performs a list of tasks, one after the other.
+        Performs a list of actions, one after the other.
 
         Args:
-            tasks (list(task)): The list of tasks to perform.
+            actions (list(Action)): The list of actions to perform.
         """
-        for task in tasks:
-            self.perform(task)
+        for action in actions:
+            self.perform(action)
 
-    def was_able_to(self, *tasks: List["Task"]) -> None:
-        """Syntactic sugar for :meth:`|Actor|.attempts_to`."""
-        return self.attempts_to(*tasks)
+    def was_able_to(self, *actions: List["Action"]) -> None:
+        """Syntactic sugar for |Actor.attempts_to|."""
+        return self.attempts_to(*actions)
 
-    def perform(self, task: "Task") -> None:
+    def perform(self, action: "Action") -> None:
         """
-        Performs the given task.
+        Performs the given action.
 
         Args:
-            task (list(Task)): The task to perform.
+            action (list(Action)): The |Action| to perform.
         """
-        task.perform_as(self)
+        action.perform_as(self)
 
     def should_see_that(self, *tests: List[Tuple["Question", "Resolution"]]) -> None:
         """
@@ -112,21 +116,21 @@ class Actor(object):
 
         Args:
             tests list(tuple(Question, Resolution)): A list of tuples of
-                questions and :class:`|Resolution|`s.
+                a question and a |Resolution|.
 
         Raises:
             AssertionError: If the question's actual answer does not match
-                the expected answer from the :class:`|Resolution|`.
+                the expected answer from the |Resolution|.
         """
         for question, test in tests:
             assert_that(question.answered_by(self), test)
 
     def should_see_the(self, *tests: List[Tuple["Question", "Resolution"]]) -> None:
-        """Syntactic sugar for :meth:`|Actor|.should_see_that`."""
+        """Syntactic sugar for |Actor.should_see_that|."""
         return self.should_see_that(*tests)
 
     def should_see(self, *tests: List[Tuple["Question", "Resolution"]]) -> None:
-        """Syntactic sugar for :meth:`|Actor|.should_see_that`."""
+        """Syntactic sugar for |Actor.should_see_that|."""
         return self.should_see_that(*tests)
 
     def exit(self) -> None:
@@ -139,12 +143,12 @@ class Actor(object):
             self.abilities.remove(ability)
 
     def exit_stage_right(self) -> None:
-        """Syntactic sugar for :meth:`|Actor|.exit`."""
+        """Syntactic sugar for |Actor.exit|."""
         aside("{} bows and exits, stage right.".format(self), gravitas=TRIVIAL)
         self.exit()
 
     def exit_stage_left(self) -> None:
-        """Syntactic sugar for :meth:`|Actor|.exit`."""
+        """Syntactic sugar for |Actor.exit|."""
         aside("{} bows and exits, stage left.".format(self), gravitas=TRIVIAL)
         self.exit()
 

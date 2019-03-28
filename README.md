@@ -37,6 +37,10 @@ as a dulcet voice begins to speak.
                                                                       FADE OUT
 ```
 
+Installation
+------------
+    pip install screenpy
+
 QuickStart
 ----------
 ```python
@@ -44,7 +48,7 @@ from selenium.webdriver import Firefox
 
 from screenpy.actions.click import Click
 from screenpy.actions.open import Open
-from screenpy.actors.actor import Actor
+from screenpy.actors.actor import AnActor
 from screenpy.abilities.browse_the_web import BrowseTheWeb
 from screenpy.given_when_then import given, when, then
 from screenpy.questions.text import Text
@@ -63,27 +67,27 @@ class Start(object):
         self.location = location
 
 # These two would normally go in your user_interface/some_page.py
-AUTHOR_LINK = Target.the("Repository author link").located_by("a[rel=author]")
-USER_NAME = Target.the("GitHub user's name").located_by("span.vcard-fullname")
+THE_AUTHOR_LINK = Target.the("repository author link").located_by("a[rel=author]")
+THE_DISPLAYED_USER_NAME = Target.the("GitHub user's name").located_by("span.vcard-fullname")
 
 # This would normally go in your questions/user_name.py
 class UserName(object):
     """Questions about the user name"""
     def answered_by(self, the_actor):
-        return Text.of(USER_NAME).viewed_by(the_actor)
+        return Text.of(THE_DISPLAYED_USER_NAME).viewed_by(the_actor)
     @staticmethod
     def text():
         return UserName()
 
-perry = Actor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
+perry = AnActor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
 
 given(perry).was_able_to(Start.on_the_screenpy_repo())
-when(perry).attempts_to(Click.on(AUTHOR_LINK).then_wait_for(USER_NAME))
+when(perry).attempts_to(Click.on(THE_AUTHOR_LINK).then_wait_for(THE_DISPLAYED_USER_NAME))
 then(perry).should_see_the((UserName.text(), ReadsExactly("Perry Goy")),)
 perry.exit_stage_right()
 ```
 
-You may think to yourself, man, that's a lot of setup for a simple quickstart. And you're definitely right! There are a lot of moving parts to a Screenplay Pattern test suite. If you want to know more, please check out the [Read The Docs documentation!](https://screenpy-docs.readthedocs.io/en/stable/)
+You may think to yourself, man, that's a lot of setup for a simple quickstart. And you're definitely right! There are a lot of moving parts to a Screenplay Pattern test suite. If you want to know more, please check out the [Read The Docs documentation!](https://screenpy-docs.readthedocs.io/en/latest/)
 
 
 Allure Integration

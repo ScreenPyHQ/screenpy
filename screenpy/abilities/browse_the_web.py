@@ -8,14 +8,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 class BrowseTheWeb(object):
     """
     The ability to browse the web with a web browser. This ability is
-    meant to be instantiated with its :meth:`|BrowseTheWeb|.using` static
-    method, which takes in the WebDriver to use. A typical invocation
-    looks like:
+    meant to be instantiated with its |BrowseTheWeb.using| static method,
+    which takes in the WebDriver to use. A typical invocation looks like:
 
         BrowseTheWeb.using(selenium.webdriver.Firefox())
 
     This will create the ability that can be passed in to an actor's
-    :meth:`|Actor|.who_can` method.
+    |Actor.who_can| method.
     """
 
     @staticmethod
@@ -29,7 +28,7 @@ class BrowseTheWeb(object):
             browser (webdriver): The driver to use.
 
         Returns:
-            :class:`|BrowseTheWeb|`
+            |BrowseTheWeb|
         """
         return BrowseTheWeb(browser)
 
@@ -128,18 +127,18 @@ class BrowseTheWeb(object):
             raise TimeoutException(msg)
 
     def to_wait_for(self, locator, timeout=20, cond=EC.visibility_of_element_located):
-        """:meth:`BrowseTheWeb.wait_for`"""
+        """Syntactic sugar for |BrowseTheWeb.wait_for|"""
         return self.wait_for(locator, timeout, cond)
 
     def to_get(self, url: str) -> "BrowseTheWeb":
         """
-        Uses the stored browser to visit the specified URL.
+        Uses the connected browser to visit the specified URL.
 
         Args:
             url (string): the URL to visit.
 
         Returns:
-            :class:`|BrowseTheWeb|`
+            |BrowseTheWeb|
         """
         self.browser.get(url)
         return self
@@ -147,9 +146,12 @@ class BrowseTheWeb(object):
     def forget(self):
         """
         What happens when the actor forgets this ability: it quits the
-        stored browser.
+        connected browser.
         """
         self.browser.quit()
+
+    def __repr__(self):
+        return "Browse the Web"
 
     def __init__(self, browser: "WebDriver") -> None:
         self.browser = browser

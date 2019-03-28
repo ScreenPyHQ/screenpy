@@ -28,7 +28,7 @@ author = 'Perry Goy'
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '0.1.2'
+release = '0.1.4'
 
 
 # -- General configuration ---------------------------------------------------
@@ -59,37 +59,79 @@ source_suffix = '.rst'
 
 rst_prolog = """.. Internal references
 .. .. Actors
-.. |Actor| replace:: ~screenpy.actors.actor.Actor
+.. |Actor| replace:: :class:`~screenpy.actors.actor.Actor`
+.. |Actor.named| replace:: :meth:`~screenpy.actors.actor.Actor.named`
+.. |Actor.who_can| replace:: :meth:`~screenpy.actors.actor.Actor.who_can`
+.. |Actor.can| replace:: :meth:`~screenpy.actors.actor.Actor.can`
+.. |Actor.ability_to| replace:: :meth:`~screenpy.actors.actor.Actor.ability_to`
+.. |Actor.attempts_to| replace:: :meth:`~screenpy.actors.actor.Actor.attempts_to`
+.. |Actor.should_see_that| replace:: :meth:`~screenpy.actors.actor.Actor.should_see_that`
+.. |Actor.should_see_the| replace:: :meth:`~screenpy.actors.actor.Actor.should_see_the`
+.. |Actor.exit| replace:: :meth:`~screenpy.actors.actor.Actor.exit`
+.. |UnableToPerformException| replace:: :class:`~screenpy.actors.actor.UnableToPerformException`
 
 .. .. Targets
-.. |Target| replace:: ~screenpy.target.Target
+.. |Target| replace:: :class:`~screenpy.target.Target`
+.. |Target.the| replace:: :meth:`~screenpy.target.Target.the`
+.. |Target.located_by| replace:: :meth:`~screenpy.target.Target.located_by`
 
 .. .. Abilities
-.. |BrowseTheWeb| replace:: ~screenpy.abilities.browse_the_web.BrowseTheWeb
+.. |BrowseTheWeb| replace:: :class:`~screenpy.abilities.browse_the_web.BrowseTheWeb`
+.. |BrowseTheWeb.using| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.using`
+.. |BrowseTheWeb.wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.wait_for`
+.. |BrowseTheWeb.forget| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.forget`
 
 .. .. Actions
-.. |Click| replace:: ~screenpy.actions.click.Click
-.. |Enter| replace:: ~screenpy.actions.enter.Enter
-.. |Open| replace:: ~screenpy.actions.open.Open
-.. |Select| replace:: ~screenpy.actions.select.Select
-.. |SelectByText| replace:: ~screenpy.actions.select.SelectByText
-.. |SelectByIndex| replace:: ~screenpy.actions.select.SelectByIndex
-.. |SelectByValue| replace:: ~screenpy.actions.select.SelectByValue
+.. |Click| replace:: :class:`~screenpy.actions.click.Click`
+.. |Click.on| replace:: :meth:`~screenpy.actions.click.Click.on`
+.. |Click.on_the| replace:: :meth:`~screenpy.actions.click.Click.on_the`
+.. |Click.then_wait_for| replace:: :meth:`~screenpy.actions.click.Click.then_wait_for`
+.. |Click.perform_as| replace:: :meth:`~screenpy.actions.click.Click.perform_as`
+.. |Enter| replace:: :class:`~screenpy.actions.enter.Enter`
+.. |Enter.the_text| replace:: :meth:`~screenpy.actions.enter.Enter.the_text`
+.. |Enter.into| replace:: :meth:`~screenpy.actions.enter.Enter.into`
+.. |Enter.then_hit| replace:: :meth:`~screenpy.actions.enter.Enter.then_hit`
+.. |Enter.then_wait_for| replace:: :meth:`~screenpy.actions.enter.Enter.then_wait_for`
+.. |Open| replace:: :class:`~screenpy.actions.open.Open`
+.. |Open.browser_on| replace:: :meth:`~screenpy.actions.open.Open.browser_on`
+.. |Select| replace:: :class:`~screenpy.actions.select.Select`
+.. |Select.the_option_named| replace:: :meth:`~screenpy.actions.select.Select.the_option_named`
+.. |Select.the_option_at_index| replace:: :meth:`~screenpy.actions.select.Select.the_option_at_index`
+.. |Select.the_option_with_value| replace:: :meth:`~screenpy.actions.select.Select.the_option_with_value`
+.. |SelectByText| replace:: :class:`~screenpy.actions.select.SelectByText`
+.. |SelectByText.from_the| replace:: :meth:`~screenpy.actions.select.SelectByText.from_the`
+.. |SelectByIndex| replace:: :class:`~screenpy.actions.select.SelectByIndex`
+.. |SelectByIndex.from_the| replace:: :meth:`~screenpy.actions.select.SelectByIndex.from_the`
+.. |SelectByValue| replace:: :class:`~screenpy.actions.select.SelectByValue`
+.. |SelectByValue.from_the| replace:: :meth:`~screenpy.actions.select.SelectByValue.from_the`
 
 .. .. Questions
-.. |List| replace:: ~screenpy.questions.list.List
-.. |Number| replace:: ~screenpy.questions.number.Number
-.. |Text| replace:: ~screenpy.questions.text.Text
+.. |List| replace:: :class:`~screenpy.questions.list.List`
+.. |List.of| replace:: :meth:`~screenpy.questions.list.List.of`
+.. |List.of_all| replace:: :meth:`~screenpy.questions.list.List.of_all`
+.. |Number| replace:: :class:`~screenpy.questions.number.Number`
+.. |Number.of| replace:: :meth:`~screenpy.questions.number.Number.of`
+.. |Text| replace:: :class:`~screenpy.questions.text.Text`
+.. |Text.of| replace:: :meth:`~screenpy.questions.text.Text.of`
+.. |Text.of_all| replace:: :meth:`~screenpy.questions.text.Text.of_all`
+.. |Text.asked_by| replace:: :meth:`~screenpy.questions.text.Text.asked_by`
 
 .. .. Resolutions
-.. |Resolution| replace:: ~screenpy.resolutions.Resolution
+.. |Resolution| replace:: :class:`~screenpy.resolutions.Resolution`
+.. |ReadsExactly| replace:: :class:`~screenpy.resolutions.ReadsExactly`
 
 .. External references
 .. .. Selenium
-.. |WebDriver| replace:: :class:`~selenium.webdriver.remote.webdriver.WebDriver`
-.. |WebElement| replace:: :class:`~selenium.webdriver.remote.webelement.WebElement`
-.. |Keys| replace:: :class:`~selenium.webdriver.common.keys.Keys`
-.. |By| replace:: :class:`~selenium.webdriver.common.by.By`
+.. |WebDriver| replace:: `WebDriver <https://seleniumhq.github.io/selenium/docs/api/py/api.html>`
+.. |WebElement| replace:: `WebElement <https://seleniumhq.github.io/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webelement.html#module-selenium.webdriver.remote.webelement>`
+.. |Keys| replace:: `Keys <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys>`
+.. |By| replace:: `By <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.by.html>`
+
+.. .. PyHamcrest
+.. |PyHamcrest| replace:: `PyHamcrest <https://pyhamcrest.readthedocs.io/en/latest/>`
+
+.. .. Allure
+.. |Allure| replace:: `Allure <https://docs.qameta.io/allure/>`
 """
 
 # The master toctree document.
@@ -116,7 +158,7 @@ pygments_style = None
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'default'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -220,4 +262,6 @@ epub_exclude_files = ['search.html']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/', None),
+}
