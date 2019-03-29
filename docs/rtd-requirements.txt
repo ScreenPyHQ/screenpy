@@ -1,1 +1,1 @@
-../screenpy/
+screenpy
