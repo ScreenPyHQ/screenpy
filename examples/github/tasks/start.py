@@ -3,7 +3,7 @@ from screenpy.actions.open import Open
 from user_interface.github_home_page import url
 
 
-class Start(object):
+class Start:
     def perform_as(self, actor):
         actor.attempts_to(Open.browser_on(self.location))
 

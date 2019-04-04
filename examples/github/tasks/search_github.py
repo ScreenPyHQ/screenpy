@@ -7,7 +7,7 @@ from ..user_interface.github_header_bar import SEARCH_INPUT
 from ..user_interface.github_search_results_page import RESULTS_MESSAGE
 
 
-class SearchGitHub(object):
+class SearchGitHub:
     @beat("{0} searches GitHub for '{search_query}'")
     def perform_as(self, the_actor):
         the_actor.attempts_to(
