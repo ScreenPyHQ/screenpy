@@ -1,5 +1,7 @@
 from typing import List as ListType
 
+from ..pacing import beat
+
 
 class List(object):
     """
@@ -32,7 +34,8 @@ class List(object):
         """Syntactic sugar for |List.of|."""
         return List(target)
 
-    def viewed_by(self, the_actor: "Actor") -> ListType["WebElement"]:
+    @beat("{} lists off the {target}")
+    def answered_by(self, the_actor: "Actor") -> ListType["WebElement"]:
         """
         Investigates the page as viewed by the supplied |Actor| and gives
         their answer.

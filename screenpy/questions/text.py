@@ -1,5 +1,7 @@
 from typing import List, Union
 
+from ..pacing import beat
+
 
 TargetOrNone = Union["Target", None]
 
@@ -43,7 +45,8 @@ class Text(object):
         """
         return Text(multi_target=multi_target)
 
-    def viewed_by(self, the_actor: "Actor") -> Union[str, List[str], None]:
+    @beat("{} reads the text from {target} and/or {multi_target}")
+    def answered_by(self, the_actor: "Actor") -> Union[str, List[str], None]:
         """
         Investigates the page as viewed by the supplied |Actor| and gives
         their answer.

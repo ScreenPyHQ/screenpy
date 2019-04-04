@@ -1,3 +1,6 @@
+from ..pacing import beat
+
+
 class Number(object):
     """
     Asks how many of a certain element are on the page, viewed by an
@@ -22,7 +25,8 @@ class Number(object):
         """
         return Number(target=target)
 
-    def viewed_by(self, the_actor: "Actor") -> int:
+    @beat("{} counts the number of {target}")
+    def answered_by(self, the_actor: "Actor") -> int:
         """
         Investigates the page as viewed by the supplied |Actor| and gives
         their answer.
