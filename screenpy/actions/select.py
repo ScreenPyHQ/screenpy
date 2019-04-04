@@ -3,7 +3,7 @@ from selenium.webdriver.support.ui import Select as SelSelect
 from ..pacing import beat, MINOR
 
 
-class Select(object):
+class Select:
     """
     Selects an option from a dropdown menu. This is a superclass that will
     create the correct specific Select action that will need to be used,
@@ -60,7 +60,7 @@ class Select(object):
         return SelectByValue(value)
 
 
-class SelectByText(object):
+class SelectByText:
     """
     A specialized Select action that chooses the option by text. This
     class is meant to be accessed via the Select action's static
@@ -112,7 +112,7 @@ class SelectByText(object):
         self.text = text
 
 
-class SelectByIndex(object):
+class SelectByIndex:
     """
     A specialized |Select| action that chooses the option by its index.
     This class is meant to be accessed via the Select action's static
@@ -165,7 +165,7 @@ class SelectByIndex(object):
         self.index = index
 
 
-class SelectByValue(object):
+class SelectByValue:
     """
     A specialized Select action that chooses the option by its value. This
     class is meant to be accessed via the Select action's static

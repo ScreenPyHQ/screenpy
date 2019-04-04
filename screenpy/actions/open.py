@@ -4,7 +4,7 @@ from ..abilities.browse_the_web import BrowseTheWeb
 from ..pacing import beat, MINOR
 
 
-class Open(object):
+class Open:
     """
     A very important action; opens the browser! An Open action is expected
     to be instantiated via its static |Open.browser_on| method. A typical

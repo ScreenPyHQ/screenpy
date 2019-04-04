@@ -23,7 +23,7 @@ from .pacing import beat, MINOR
 
 class Resolution(Matcher):
     """
-    An abstraction barrier for :mod:`PyHamcrest`'s matchers. Allows for
+    An abstraction barrier for |PyHamcrest|'s matchers. Allows for
     more natural language possibilities as well as nice logging for the
     allure reports.
 

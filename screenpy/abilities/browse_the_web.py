@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-class BrowseTheWeb(object):
+class BrowseTheWeb:
     """
     The ability to browse the web with a web browser. This ability is
     meant to be instantiated with its |BrowseTheWeb.using| static method,

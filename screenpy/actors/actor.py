@@ -15,7 +15,7 @@ class UnableToPerformException(Exception):
     pass
 
 
-class Actor(object):
+class Actor:
     """
     Represents an actor, holding their name and abilities. Actors are the
     performers of your screenplay, they represent your users as they go

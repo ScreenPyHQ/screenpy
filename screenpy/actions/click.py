@@ -2,7 +2,7 @@ from ..abilities.browse_the_web import BrowseTheWeb
 from ..pacing import beat, aside, MINOR
 
 
-class Click(object):
+class Click:
     """
     Clicks on an element! A Click action is expected to be instantiated
     via its static |Click.on| or |Click.on_the| methods. A typical

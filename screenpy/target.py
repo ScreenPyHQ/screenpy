@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from .abilities.browse_the_web import BrowseTheWeb
 
 
-class Target(object):
+class Target:
     """
     A class to contain information about an element. This class stores a
     nice human-readable string describing an element along with either an

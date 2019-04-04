@@ -4,7 +4,7 @@ from ..abilities.browse_the_web import BrowseTheWeb
 from ..pacing import beat, aside, MINOR
 
 
-class Enter(object):
+class Enter:
     """
     Enters text into an input field. An Enter action is expected to be
     instantiated by its static |Enter.the_text| method. A typical
