@@ -46,3 +46,9 @@ Text
 
 .. module:: screenpy.questions.text
 .. autoclass:: Text
+
+Selected
+^^^^^^^^
+
+.. module:: screenpy.questions.selected
+.. autoclass:: Selected

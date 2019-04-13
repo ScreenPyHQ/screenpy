@@ -115,6 +115,8 @@ rst_prolog = """.. Internal references
 .. |Text.of| replace:: :meth:`~screenpy.questions.text.Text.of`
 .. |Text.of_all| replace:: :meth:`~screenpy.questions.text.Text.of_all`
 .. |Text.asked_by| replace:: :meth:`~screenpy.questions.text.Text.asked_by`
+.. |Selected| replace:: :class:`~screenpy.questions.selected.Selected`
+.. |Selected.answered_by| replace:: :class:`~screenpy.questions.selected.Selected.answered_by`
 
 .. .. Resolutions
 .. |Resolution| replace:: :class:`~screenpy.resolutions.Resolution`
