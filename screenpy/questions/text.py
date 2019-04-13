@@ -3,9 +3,6 @@ from typing import List, Union
 from ..pacing import beat
 
 
-TargetOrNone = Union["Target", None]
-
-
 class Text(object):
     """
     Asks what text appears in an element or elements, viewed by an|Actor|.
@@ -32,7 +29,7 @@ class Text(object):
         return Text(target=target)
 
     @staticmethod
-    def of_all(multi_target):
+    def of_all(multi_target: "Target") -> "Text":
         """
         Provides the targets to read.
 
@@ -43,10 +40,10 @@ class Text(object):
         Returns:
             |Text|
         """
-        return Text(multi_target=multi_target)
+        return Text(target=multi_target, multi=True)
 
     @beat("{} reads the text from {target} and/or {multi_target}")
-    def answered_by(self, the_actor: "Actor") -> Union[str, List[str], None]:
+    def answered_by(self, the_actor: "Actor") -> Union[str, List[str]]:
         """
         Investigates the page as viewed by the supplied |Actor| and gives
         their answer.
@@ -55,21 +52,13 @@ class Text(object):
             the_actor (Actor): The |Actor| who will answer the question.
 
         Returns:
-            list(str) or str or None
+            str: the text of the single element found by target.
+            List[str]: the text of all elements found by target.
         """
-        if self.multi_target is not None:
-            texts = []
-            for e in self.multi_target.all_found_by(the_actor):
-                texts.append(e.text)
+        if self.multi:
+            return [e.text for e in self.target.all_found_by(the_actor)]
+        return self.target.found_by(the_actor).text
 
-            return texts[0] if len(texts) == 1 else texts
-        elif self.target is not None:
-            return self.target.found_by(the_actor).text
-        else:
-            return None
-
-    def __init__(
-        self, target: TargetOrNone = None, multi_target: TargetOrNone = None
-    ) -> None:
+    def __init__(self, target: "Target", multi: bool = False) -> None:
         self.target = target
-        self.multi_target = multi_target
+        self.multi = multi

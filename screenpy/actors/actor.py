@@ -12,6 +12,7 @@ class UnableToPerformException(Exception):
     Raised when an actor does not possess the ability to perform the
     action they attempted.
     """
+
     pass
 
 

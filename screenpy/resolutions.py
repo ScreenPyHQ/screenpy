@@ -51,7 +51,7 @@ class Resolution(Matcher):
         return self
 
     def __repr__(self) -> str:
-        return self.line.format(self.resolution)
+        return self.line.format(self.expected)
 
 
 class ReadsExactly(Resolution):

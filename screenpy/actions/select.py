@@ -1,3 +1,5 @@
+from typing import Union
+
 from selenium.webdriver.support.ui import Select as SelSelect
 
 from ..pacing import beat, MINOR
@@ -32,13 +34,14 @@ class Select:
         return SelectByText(text)
 
     @staticmethod
-    def the_opton_at_index(index: int) -> "SelectByIndex":
+    def the_option_at_index(index: Union[int, str]) -> "SelectByIndex":
         """
         Instantiate a |SelectByIndex| class which will select the option
         at the specified index. This index is 0-based.
 
         Args:
-            index (int): The index (0-based) of the option to select.
+            index (Union[int, str]): The index (0-based) of the option to
+                select.
 
         Returns:
             |SelectByIndex|
@@ -108,7 +111,8 @@ class SelectByText:
         select = SelSelect(element)
         select.select_by_visible_text(self.text)
 
-    def __init__(self, text: str) -> None:
+    def __init__(self, text: str, target: "Target" = None) -> None:
+        self.target = target
         self.text = text
 
 
@@ -161,8 +165,9 @@ class SelectByIndex:
         select = SelSelect(element)
         select.select_by_index(self.index)
 
-    def __init__(self, index: int) -> None:
-        self.index = index
+    def __init__(self, index: Union[int, str], target: "Target" = None) -> None:
+        self.target = target
+        self.index = str(index)
 
 
 class SelectByValue:
@@ -215,5 +220,6 @@ class SelectByValue:
         select = SelSelect(element)
         select.select_by_value(self.value)
 
-    def __init__(self, value: str) -> None:
-        self.value = value
+    def __init__(self, value: Union[int, str], target: "Target" = None) -> None:
+        self.target = target
+        self.value = str(value)
