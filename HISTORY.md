@@ -9,6 +9,32 @@ example
 -   \[Short description of non-trivial change.\]
 
 
+0.2.0 (2019-04-13)
+-------
+
+** New Features **
+
+-   Added "the-internet" example
+-   Added `Selected` question
+
+** Improvements **
+
+-   Adjusted strategy for multi-target Text question
+-   Added more consistency in coding style
+
+** Bugfix **
+
+-   Fixed issues with Select actions
+
+
+0.1.4 (2019-03-28)
+------------------
+
+** Bugfix **
+
+-   Fixed a lot of issues with documentation. I _think_ i understand reStructured Text now. Mostly.
+
+
 0.1.3 (2019-03-09)
 ------------------
 
@@ -20,11 +46,14 @@ example
 0.1.2 (2019-03-09)
 ------------------
 
+** New Features **
+
+-   Added more Resolutions.
+-   Added `List` question.
+
 ** Improvements **
 
 -   Added more syntactic sugar.
--   Added more Resolutions.
--   Added `List` question.
 -   May have gone overboard with additional theming.
 
 ** Documentation **
