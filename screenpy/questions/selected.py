@@ -8,7 +8,14 @@ from screenpy.pacing import beat
 class Selected:
     """
     Answers questions about what options are selected in dropdowns,
-    multi-select fields, etc.
+    multi-select fields, etc, viewed by an |Actor|. This question is meant
+    to be instantiated using its static |Selected.option_from| or
+    |Selected.options_from| methods. Typical invocations might look like:
+
+        Selected.option_from(THE_STATE_DROPDOWN)
+        Selected.options_from(INDUSTRIES)
+
+    It can then be passed along to the |Actor| to ask the question.
     """
 
     @staticmethod

@@ -5,9 +5,10 @@ from ..pacing import beat
 
 class Text(object):
     """
-    Asks what text appears in an element or elements, viewed by an|Actor|.
-    This question is meant to be instantiated using its static |Text.of|
-    or |Text.of_all| methods. Typical invocations might look like:
+    Asks what text appears in an element or elements, viewed by an
+    |Actor|. This question is meant to be instantiated using its static
+    |Text.of| or |Text.of_all| methods. Typical invocations might look
+    like:
 
         Text.of(THE_WELCOME_HEADER)
         Text.of_all(SEARCH_RESULTS)
