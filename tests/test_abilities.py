@@ -8,4 +8,4 @@ class TestBrowseTheWeb(TestCase):
         """BrowseTheWeb can be instantiated"""
         b = BrowseTheWeb.using(None)
 
-        self.assertIsNot(b, None)
+        self.assertIsInstance(b, BrowseTheWeb)
