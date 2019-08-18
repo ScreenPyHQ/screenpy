@@ -2,7 +2,9 @@ from typing import List, Union
 
 from selenium.webdriver.support.ui import Select as SelSelect
 
-from screenpy.pacing import beat
+from ..actors.actor import Actor
+from ..pacing import beat
+from ..target import Target
 
 
 class Selected:
@@ -19,7 +21,7 @@ class Selected:
     """
 
     @staticmethod
-    def option_from(target: "Target") -> "Selected":
+    def option_from(target: Target) -> "Selected":
         """
         Gets the option that is currently selected in a dropdown or the
         first option selected in a multiselect field.
@@ -34,7 +36,7 @@ class Selected:
         return Selected(target)
 
     @staticmethod
-    def options_from(multiselect_target: "Target") -> "Selected":
+    def options_from(multiselect_target: Target) -> "Selected":
         """
         Gets all the options that are currently selected in a multiselect
         field.
@@ -53,7 +55,7 @@ class Selected:
         return Selected(multiselect_target, multi=True)
 
     @beat("{0} checks the selected option(s) from {target}")
-    def answered_by(self, the_actor: "Actor") -> Union[str, List[str]]:
+    def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
         Investigates the page as viewed by the supplied |Actor| and gives
         their answer.
@@ -74,6 +76,6 @@ class Selected:
         else:
             return select.first_selected_option.text
 
-    def __init__(self, target: "Target", multi: bool = False):
+    def __init__(self, target: Target, multi: bool = False):
         self.target = target
         self.multi = multi

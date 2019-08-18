@@ -1,8 +1,10 @@
 from typing import List, Tuple
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webdriver import WebElement
 
 from .abilities.browse_the_web import BrowseTheWeb
+from .actors.actor import Actor
 
 
 class Target:
@@ -49,7 +51,7 @@ class Target:
         self.locator = locator
         return self
 
-    def get_locator(self) -> Tuple["By", str]:
+    def get_locator(self) -> Tuple[By, str]:
         """
         Returns the stored locator as a tuple, figuring out what kind of
         location strategy the string uses (CSS selector or xpath).
@@ -62,7 +64,7 @@ class Target:
         else:
             return (By.CSS_SELECTOR, self.locator)
 
-    def found_by(self, the_actor: "Actor") -> "WebElement":
+    def found_by(self, the_actor: Actor) -> WebElement:
         """
         Gets the |WebElement| object representing the targeted element.
 
@@ -75,7 +77,7 @@ class Target:
         """
         return the_actor.uses_ability_to(BrowseTheWeb).find(self.get_locator())
 
-    def all_found_by(self, the_actor: "Actor") -> List["WebElement"]:
+    def all_found_by(self, the_actor: Actor) -> List[WebElement]:
         """
         Gets a list of |WebElement| objects described by the stored
         locator.

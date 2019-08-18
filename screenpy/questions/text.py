@@ -1,6 +1,8 @@
 from typing import List, Union
 
+from ..actors.actor import Actor
 from ..pacing import beat
+from ..target import Target
 
 
 class Text(object):
@@ -17,7 +19,7 @@ class Text(object):
     """
 
     @staticmethod
-    def of(target: "Target") -> "Text":
+    def of(target: Target) -> "Text":
         """
         Provides the target to read.
 
@@ -30,7 +32,7 @@ class Text(object):
         return Text(target=target)
 
     @staticmethod
-    def of_all(multi_target: "Target") -> "Text":
+    def of_all(multi_target: Target) -> "Text":
         """
         Provides the targets to read.
 
@@ -44,7 +46,7 @@ class Text(object):
         return Text(target=multi_target, multi=True)
 
     @beat("{} reads the text from {target} and/or {multi_target}")
-    def answered_by(self, the_actor: "Actor") -> Union[str, List[str]]:
+    def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
         Investigates the page as viewed by the supplied |Actor| and gives
         their answer.
@@ -60,6 +62,6 @@ class Text(object):
             return [e.text for e in self.target.all_found_by(the_actor)]
         return self.target.found_by(the_actor).text
 
-    def __init__(self, target: "Target", multi: bool = False) -> None:
+    def __init__(self, target: Target, multi: bool = False) -> None:
         self.target = target
         self.multi = multi

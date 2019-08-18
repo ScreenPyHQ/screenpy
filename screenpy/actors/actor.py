@@ -1,10 +1,17 @@
 from random import choice
-from typing import List, Tuple
+from typing import Any, List, Tuple
 
 from hamcrest import assert_that
 
-from ..pacing import aside, TRIVIAL
 from .entrance_lines import ENTRANCE_DIRECTIONS
+from ..pacing import aside, TRIVIAL
+from ..resolutions import Resolution
+
+
+# Typehint Aliases
+Question = Any
+Action = Any
+Ability = Any
 
 
 class UnableToPerformException(Exception):
@@ -61,7 +68,7 @@ class Actor:
         """Syntactic sugar for |Actor.can|."""
         return self.can(*abilities)
 
-    def ability_to(self, ability: "ability") -> "ability":
+    def ability_to(self, ability: Ability) -> Ability:
         """
         Finds the ability referenced and returns it, if the actor is able
         to do it.
@@ -83,11 +90,11 @@ class Actor:
                 "{} does not have the ability to {}".format(self, ability)
             )
 
-    def uses_ability_to(self, ability: "Ability") -> "Ability":
+    def uses_ability_to(self, ability: Ability) -> Ability:
         """Syntactic sugar for |Actor.ability_to|."""
         return self.ability_to(ability)
 
-    def attempts_to(self, *actions: List["Action"]) -> None:
+    def attempts_to(self, *actions: List[Action]) -> None:
         """
         Performs a list of actions, one after the other.
 
@@ -97,11 +104,11 @@ class Actor:
         for action in actions:
             self.perform(action)
 
-    def was_able_to(self, *actions: List["Action"]) -> None:
+    def was_able_to(self, *actions: List[Action]) -> None:
         """Syntactic sugar for |Actor.attempts_to|."""
         return self.attempts_to(*actions)
 
-    def perform(self, action: "Action") -> None:
+    def perform(self, action: Action) -> None:
         """
         Performs the given action.
 
@@ -110,7 +117,7 @@ class Actor:
         """
         action.perform_as(self)
 
-    def should_see_that(self, *tests: List[Tuple["Question", "Resolution"]]) -> None:
+    def should_see_that(self, *tests: List[Tuple[Question, Resolution]]) -> None:
         """
         Asks a series of questions, asserting that the expected answer
         resolves.
@@ -126,11 +133,11 @@ class Actor:
         for question, test in tests:
             assert_that(question.answered_by(self), test)
 
-    def should_see_the(self, *tests: List[Tuple["Question", "Resolution"]]) -> None:
+    def should_see_the(self, *tests: List[Tuple[Question, Resolution]]) -> None:
         """Syntactic sugar for |Actor.should_see_that|."""
         return self.should_see_that(*tests)
 
-    def should_see(self, *tests: List[Tuple["Question", "Resolution"]]) -> None:
+    def should_see(self, *tests: List[Tuple[Question, Resolution]]) -> None:
         """Syntactic sugar for |Actor.should_see_that|."""
         return self.should_see_that(*tests)
 

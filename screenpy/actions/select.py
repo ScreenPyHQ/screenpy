@@ -2,7 +2,9 @@ from typing import Union
 
 from selenium.webdriver.support.ui import Select as SelSelect
 
+from ..actors.actor import Actor
 from ..pacing import beat, MINOR
+from ..target import Target
 
 
 class Select:
@@ -75,7 +77,7 @@ class SelectByText:
     It can then be passed along to the |Actor| to perform the action.
     """
 
-    def from_the(self, target: "Target") -> "SelectByText":
+    def from_the(self, target: Target) -> "SelectByText":
         """
         Provides the |Target| to select the option from.
 
@@ -89,13 +91,13 @@ class SelectByText:
         self.target = target
         return self
 
-    def from_(self, target: "Target") -> "SelectByText":
+    def from_(self, target: Target) -> "SelectByText":
         """Syntactic sugar for |SelectByText.from_the|."""
         self.target = target
         return self
 
     @beat("{0} selects the option '{text}' from the {target}.", gravitas=MINOR)
-    def perform_as(self, the_actor: "Actor") -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to attempt to find the dropdown element described
         by the stored target, then performs the select action.
@@ -111,7 +113,7 @@ class SelectByText:
         select = SelSelect(element)
         select.select_by_visible_text(self.text)
 
-    def __init__(self, text: str, target: "Target" = None) -> None:
+    def __init__(self, text: str, target: Target = None) -> None:
         self.target = target
         self.text = text
 
@@ -128,7 +130,7 @@ class SelectByIndex:
     It can then be passed along to the |Actor| to perform the action.
     """
 
-    def from_the(self, target: "Target") -> "SelectByIndex":
+    def from_the(self, target: Target) -> "SelectByIndex":
         """
         Provides the |Target| to select the option from.
 
@@ -142,13 +144,13 @@ class SelectByIndex:
         self.target = target
         return self
 
-    def from_(self, target: "Target") -> "SelectByIndex":
+    def from_(self, target: Target) -> "SelectByIndex":
         """Syntactic sugar for |SelectByIndex.from_the|."""
         self.target = target
         return self
 
     @beat("{0} selects the option at index {index} from the {target}.", gravitas=MINOR)
-    def perform_as(self, the_actor: "Actor") -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to attempt to find the dropdown element described
         by the stored target, then performs the select action.
@@ -165,7 +167,7 @@ class SelectByIndex:
         select = SelSelect(element)
         select.select_by_index(self.index)
 
-    def __init__(self, index: Union[int, str], target: "Target" = None) -> None:
+    def __init__(self, index: Union[int, str], target: Target = None) -> None:
         self.target = target
         self.index = str(index)
 
@@ -182,7 +184,7 @@ class SelectByValue:
     It can then be passed along to the |Actor| to perform the action.
     """
 
-    def from_the(self, target: "Target") -> "SelectByValue":
+    def from_the(self, target: Target) -> "SelectByValue":
         """
         Provides the |Target| to select the option from.
 
@@ -196,7 +198,7 @@ class SelectByValue:
         self.target = target
         return self
 
-    def from_(self, target: "Target") -> "SelectByValue":
+    def from_(self, target: Target) -> "SelectByValue":
         """Syntactic sugar for |SelectByValue.from_the|."""
         self.target = target
         return self
@@ -204,7 +206,7 @@ class SelectByValue:
     @beat(
         "{0} selects the option with value '{value}' from the {target}.", gravitas=MINOR
     )
-    def perform_as(self, the_actor: "Actor") -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to attempt to find the dropdown element described
         by the stored target, then performs the select action.
@@ -220,6 +222,6 @@ class SelectByValue:
         select = SelSelect(element)
         select.select_by_value(self.value)
 
-    def __init__(self, value: Union[int, str], target: "Target" = None) -> None:
+    def __init__(self, value: Union[int, str], target: Target = None) -> None:
         self.target = target
         self.value = str(value)

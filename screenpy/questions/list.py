@@ -1,6 +1,10 @@
 from typing import List as ListType
 
+from selenium.webdriver.remote.webdriver import WebElement
+
+from .actors.actor import Actor
 from ..pacing import beat
+from ..target import Target
 
 
 class List(object):
@@ -16,7 +20,7 @@ class List(object):
     """
 
     @staticmethod
-    def of(target: "Target") -> "List":
+    def of(target: Target) -> "List":
         """
         Provides the target to list.
 
@@ -35,7 +39,7 @@ class List(object):
         return List(target)
 
     @beat("{} lists off the {target}")
-    def answered_by(self, the_actor: "Actor") -> ListType["WebElement"]:
+    def answered_by(self, the_actor: Actor) -> ListType[WebElement]:
         """
         Investigates the page as viewed by the supplied |Actor| and gives
         their answer.
@@ -48,5 +52,5 @@ class List(object):
         """
         return self.target.all_found_by(the_actor)
 
-    def __init__(self, target: "Target") -> None:
+    def __init__(self, target: Target) -> None:
         self.target = target

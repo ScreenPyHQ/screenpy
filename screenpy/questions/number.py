@@ -1,4 +1,6 @@
+from ..actors.actor import Actor
 from ..pacing import beat
+from ..target import Target
 
 
 class Number(object):
@@ -13,7 +15,7 @@ class Number(object):
     """
 
     @staticmethod
-    def of(target: "Target") -> "Number":
+    def of(target: Target) -> "Number":
         """
         Provides the target to count.
 
@@ -26,7 +28,7 @@ class Number(object):
         return Number(target=target)
 
     @beat("{} counts the number of {target}")
-    def answered_by(self, the_actor: "Actor") -> int:
+    def answered_by(self, the_actor: Actor) -> int:
         """
         Investigates the page as viewed by the supplied |Actor| and gives
         their answer.
@@ -39,5 +41,5 @@ class Number(object):
         """
         return len(self.target.all_found_by(the_actor))
 
-    def __init__(self, target: "Target") -> None:
+    def __init__(self, target: Target) -> None:
         self.target = target

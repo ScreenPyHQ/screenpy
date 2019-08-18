@@ -1,7 +1,9 @@
 from typing import List
 
 from ..abilities.browse_the_web import BrowseTheWeb
+from ..actors.actor import Actor
 from ..pacing import beat, aside, MINOR
+from ..target import Target
 
 
 class Enter:
@@ -35,7 +37,7 @@ class Enter:
         """Syntactic sugar for |Enter.the_text|."""
         return Enter(text)
 
-    def into(self, target: "Target") -> "Enter":
+    def into(self, target: Target) -> "Enter":
         """
         Supplies the target to enter the text into. This is most likely
         an input field.
@@ -49,7 +51,7 @@ class Enter:
         self.target = target
         return self
 
-    def on(self, target: "Target") -> "Enter":
+    def on(self, target: Target) -> "Enter":
         """Syntactic sugar for |Enter.into|."""
         self.target = target
         return self
@@ -75,7 +77,7 @@ class Enter:
         self.following_keys.extend(keys)
         return self
 
-    def then_wait_for(self, target: "Target") -> "Enter":
+    def then_wait_for(self, target: Target) -> "Enter":
         """
         Supplies the target to wait for after entering text (and hitting
         any additional keys, if this object's |Enter.then_hit| method was
@@ -91,7 +93,7 @@ class Enter:
         return self
 
     @beat("{0} enters '{text}' into the {target}.", gravitas=MINOR)
-    def perform_as(self, the_actor: "Actor") -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the |Actor| to performs the Enter action, entering the text
         into the targeted input field using their ability to

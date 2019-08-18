@@ -16,23 +16,24 @@ context to your tests. An example screenplay flow might be:
 
 [The Gherkin reference](https://docs.cucumber.io/gherkin/reference/) can explain more.
 """
+from .actors.actor import Actor
 
 
-def given(the_actor: "Actor") -> "Actor":
+def given(the_actor: Actor) -> Actor:
     return the_actor
 
 
-def given_that(the_actor: "Actor") -> "Actor":
+def given_that(the_actor: Actor) -> Actor:
     return the_actor
 
 
-def when(the_actor: "Actor") -> "Actor":
+def when(the_actor: Actor) -> Actor:
     return the_actor
 
 
-def then(the_actor: "Actor") -> "Actor":
+def then(the_actor: Actor) -> Actor:
     return the_actor
 
 
-def and_(the_actor: "Actor") -> "Actor":
+def and_(the_actor: Actor) -> Actor:
     return the_actor

@@ -1,6 +1,7 @@
 from typing import Union
 
 from ..abilities.browse_the_web import BrowseTheWeb
+from ..actors.actor import Actor
 from ..pacing import beat, MINOR
 
 
@@ -40,7 +41,7 @@ class Open:
         return Open(location)
 
     @beat("{0} opens their browser and loads {url}", gravitas=MINOR)
-    def perform_as(self, the_actor: "Actor") -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the supplied actor to perform this Open action, using their
         ability to |BrowseTheWeb|.
