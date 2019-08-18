@@ -1,5 +1,7 @@
 from ..abilities.browse_the_web import BrowseTheWeb
+from ..actors.actor import Actor
 from ..pacing import beat, aside, MINOR
+from ..target import Target
 
 
 class Click:
@@ -14,7 +16,7 @@ class Click:
     """
 
     @staticmethod
-    def on(target: "Target") -> "Click":
+    def on(target: Target) -> "Click":
         """
         Creates a new Click action with its crosshairs aimed at the
         provided target.
@@ -28,11 +30,11 @@ class Click:
         return Click(target)
 
     @staticmethod
-    def on_the(target: "Target") -> "Click":
+    def on_the(target: Target) -> "Click":
         """Syntactic sugar for |Click.on|."""
         return Click.on(target)
 
-    def then_wait_for(self, target: "Target") -> "Click":
+    def then_wait_for(self, target: Target) -> "Click":
         """
         Supplies a |Target| to wait for after performing the click.
 
@@ -47,7 +49,7 @@ class Click:
         return self
 
     @beat("{0} clicks on the {target}.", gravitas=MINOR)
-    def perform_as(self, the_actor: "Actor") -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to find the element described by the stored target,
         and then clicks it. May wait for another target to appear, if
@@ -68,7 +70,7 @@ class Click:
                 self.action_complete_target
             )
 
-    def __init__(self, target: "Target") -> None:
+    def __init__(self, target: Target) -> None:
         self.target = target
         self.action_complete_target = None
         self.following_keys = []
