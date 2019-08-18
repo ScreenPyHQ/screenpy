@@ -1,6 +1,7 @@
 from typing import List
 
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.remote.webdriver import WebDriver, WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -18,11 +19,10 @@ class BrowseTheWeb:
     """
 
     @staticmethod
-    def using(browser: "WebDriver") -> "BrowseTheWeb":
+    def using(browser: WebDriver) -> "BrowseTheWeb":
         """
         Specifies the driver to use to browse the web. This can be any
-        |WebDriver| instance, even a remote one, or an entirely different
-        driver that has a similar API.
+        |WebDriver| instance, even a remote one.
 
         Args:
             browser (webdriver): The driver to use.
@@ -32,7 +32,7 @@ class BrowseTheWeb:
         """
         return BrowseTheWeb(browser)
 
-    def find(self, locator: tuple) -> "WebElement":
+    def find(self, locator: tuple) -> WebElement:
         """
         Locates a single element on the page using the given locator.
 
@@ -45,7 +45,7 @@ class BrowseTheWeb:
         """
         return self.browser.find_element(*locator)
 
-    def find_all(self, locator: tuple) -> List["WebElement"]:
+    def find_all(self, locator: tuple) -> List[WebElement]:
         """
         Locates many elements on the page using the given locator.
 
@@ -60,7 +60,7 @@ class BrowseTheWeb:
 
     def wait_then_find(
         self, locator: tuple, timeout=20, cond=EC.visibility_of_element_located
-    ) -> "WebElement":
+    ) -> WebElement:
         """
         Waits for the element described by the locator to appear, then
         gets it.
@@ -81,7 +81,7 @@ class BrowseTheWeb:
 
     def wait_then_find_all(
         self, locator: tuple, timeout=20, cond=EC.visibility_of_element_located
-    ) -> List["WebElement"]:
+    ) -> List[WebElement]:
         """
         Waits for the elements described by the locator to appear, then
         gets them all.
