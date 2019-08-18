@@ -37,7 +37,7 @@ If you just want to see it all work, copy/paste the following into a file or you
     class UserName(object):
         """Questions about the user name"""
         def answered_by(self, the_actor):
-            return Text.of(THE_DISPLAYED_USER_NAME).viewed_by(the_actor)
+            return Text.of(THE_DISPLAYED_USER_NAME).answered_by(the_actor)
         @staticmethod
         def text():
             return UserName()

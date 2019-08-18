@@ -74,7 +74,7 @@ THE_DISPLAYED_USER_NAME = Target.the("GitHub user's name").located_by("span.vcar
 class UserName(object):
     """Questions about the user name"""
     def answered_by(self, the_actor):
-        return Text.of(THE_DISPLAYED_USER_NAME).viewed_by(the_actor)
+        return Text.of(THE_DISPLAYED_USER_NAME).answered_by(the_actor)
     @staticmethod
     def text():
         return UserName()
