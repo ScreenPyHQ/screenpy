@@ -11,6 +11,7 @@ ScreenPy provides a solid, SOLID base for writing maintainable test suites follo
    :maxdepth: 2
    :caption: Contents:
 
+   installation
    quickstart
    toolkit
    filehierarchy
