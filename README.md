@@ -49,7 +49,6 @@ from selenium.webdriver import Firefox
 from screenpy import AnActor, Target, given, when, then
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actions import Click, Open
-from screenpy.given_when_then import given, when, then
 from screenpy.questions import Text
 from screenpy.resolutions import ReadsExactly
 
