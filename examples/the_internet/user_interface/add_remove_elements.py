@@ -1,4 +1,4 @@
-from screenpy.target import Target
+from screenpy import Target
 
 
 ADD_BUTTON = Target.the("add element button").located_by("button[onclick^=addElement]")

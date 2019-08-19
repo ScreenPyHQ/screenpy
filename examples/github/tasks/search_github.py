@@ -1,6 +1,6 @@
 from selenium.webdriver.common.keys import Keys
 
-from screenpy.actions.enter import Enter
+from screenpy.actions import Enter
 from screenpy.pacing import beat
 
 from ..user_interface.github_header_bar import SEARCH_INPUT

@@ -1,4 +1,4 @@
-from screenpy.target import Target
+from screenpy import Target
 
 
 URL = "http://the-internet.herokuapp.com/"

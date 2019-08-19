@@ -12,14 +12,14 @@ Using Actors
 
 To instantiate a new actor, just give it a name::
 
-    from screenpy.actors.actor import Actor, AnActor
+    from screenpy.actor import Actor, AnActor
 
     Perry = AnActor.named("Perry")
 
 Without any abilities, your actor will be woefully unprepared to begin their performance. To give your actor an ability, you can do something like::
 
     from selenium.webdriver import Firefox
-    from screenpy.abilities.browse_the_web import BrowseTheWeb
+    from screenpy.abilities import BrowseTheWeb
 
     Perry.can(BrowseTheWeb.using(Firefox()))
 
@@ -28,8 +28,8 @@ Without any abilities, your actor will be woefully unprepared to begin their per
 
 Now, Perry is able to attempt any actions that require the ability to BrowseTheWeb. Attempting actions looks like this::
 
-    from screenpy.target import Target
-    from screenpy.actions.click import Click
+    from screenpy import Target
+    from screenpy.actions import Click
 
     EXAMPLE_LINK = Target.the("example link").located_by("//a")
     Perry.attempts_to(Click.the(EXAMPLE_LINK))
@@ -40,7 +40,7 @@ In the above example, the action knows what ability it requires, and it will ask
 
 Now that our actor has performed an action, they are ready to perform a test. Tests are performed with :ref:`questions`, like so::
 
-    from screenpy.questions.text import Text
+    from screenpy.questions import Text
     from screenpy.resolutions import ReadsExactly
 
     THE_WELCOME_MESSAGE = Target.the("welcome_message").located_by("span.welcome")
@@ -60,6 +60,6 @@ In summary, actors:
 Actor Class
 -----------
 
-.. module:: screenpy.actors.actor
+.. module:: screenpy.actor
 .. autoclass:: Actor
     :members:

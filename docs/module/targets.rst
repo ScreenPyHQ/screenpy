@@ -5,12 +5,9 @@ Targets
 
 Targets are a way to encapsulate a human-readable string along with a CSS selector or xpath locator.
 
-.. module:: screenpy.target
-.. autoclass:: Target
-
 To instantiate a target, you might do something like this::
 
-    from screenpy.target import Target
+    from screenpy import Target
 
     EXAMPLE_ELEMENT1 = Target.the("first example element").located_by("//div")
     EXAMPLE_ELEMENT2 = Target.the("second example element").located_by("span.example")

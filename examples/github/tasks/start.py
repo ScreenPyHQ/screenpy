@@ -1,6 +1,6 @@
-from screenpy.actions.open import Open
+from screenpy.actions import Open
 
-from user_interface.github_home_page import url
+from ..user_interface.github_home_page import url
 
 
 class Start:

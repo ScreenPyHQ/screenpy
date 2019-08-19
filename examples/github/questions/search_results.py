@@ -1,4 +1,4 @@
-from screenpy.questions.text import Text
+from screenpy.questions import Text
 from screenpy.pacing import beat
 
 from ..user_interface.github_search_results_page import SEARCH_RESULTS

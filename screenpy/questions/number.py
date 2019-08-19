@@ -1,4 +1,4 @@
-from ..actors.actor import Actor
+from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
 

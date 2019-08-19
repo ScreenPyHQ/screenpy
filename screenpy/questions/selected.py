@@ -2,7 +2,7 @@ from typing import List, Union
 
 from selenium.webdriver.support.ui import Select as SelSelect
 
-from ..actors.actor import Actor
+from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
 

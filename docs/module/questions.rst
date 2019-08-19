@@ -10,7 +10,7 @@ Asking Questions
 
 Typically, you will not be asking a question without an expected answer. This is how you do test assertions in ScreenPy::
 
-    from screenpy.questions.text import Text
+    from screenpy.questions import Text
     from screenpy.resolutions import ReadsExactly
 
     from ..user_interface.homepage import WELCOME_MESSAGE

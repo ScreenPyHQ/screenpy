@@ -3,15 +3,30 @@ from typing import Any, List, Tuple
 
 from hamcrest import assert_that
 
-from .entrance_lines import ENTRANCE_DIRECTIONS
-from ..pacing import aside, TRIVIAL
-from ..resolutions import Resolution
+from .pacing import aside, TRIVIAL
+from .resolutions import Resolution
 
 
 # Typehint Aliases
 Question = Any
 Action = Any
 Ability = Any
+
+
+ENTRANCE_DIRECTIONS = [
+    "{} arrives on stage!",
+    "{} enters, from the vomitorium!",
+    "{} enters, on a wire!",
+    "{} enters, stage left!",
+    "{} enters, stage right!",
+    "{} enters the frame!",
+    "{} gets over their stagefright!",
+    "{} hears their cue!",
+    "{} is ready for their close-up!",
+    "{} makes their debut!",
+    "The camera pans to {}!",
+    "The camera jump-cuts to {}!",
+]
 
 
 class UnableToPerformException(Exception):

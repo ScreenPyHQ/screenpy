@@ -1,4 +1,4 @@
-from screenpy.target import Target
+from screenpy import Target
 
 
 SEARCH_INPUT = Target.the("GitHub header's search input").located_by(

@@ -16,7 +16,9 @@ context to your tests. An example screenplay flow might be:
 
 [The Gherkin reference](https://docs.cucumber.io/gherkin/reference/) can explain more.
 """
-from .actors.actor import Actor
+
+
+from .actor import Actor
 
 
 def given(the_actor: Actor) -> Actor:

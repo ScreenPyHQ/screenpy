@@ -1,4 +1,4 @@
-from screenpy.target import Target
+from screenpy import Target
 
 
 RESULTS_MESSAGE = Target.the("search results message").located_by(

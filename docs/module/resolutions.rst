@@ -10,7 +10,7 @@ Using Resolutions
 
 Like :ref:`questions`, you probably will not use a resolution directly. You will typically pass in a resolution along with a question::
 
-    from screenpy.questions.text import Text
+    from screenpy.questions import Text
     from screenpy.resolutions import ReadsExactly
 
     from ..user_interface.homepage import WELCOME_MESSAGE
@@ -32,5 +32,33 @@ The `__init__` method will need to set the expected value, and instantiate the P
 Provided Resolutions
 --------------------
 
-.. automodule:: screenpy.resolutions
-    :members:
+ContainsTheText
+^^^^^^^^^^^^^^^
+
+.. automodule:: screenpy.resolutions.contains_the_text
+.. autoclass:: ContainsTheText
+
+Empty
+^^^^^
+
+.. automodule:: screenpy.resolutions.empty
+.. autoclass:: Empty
+
+IsEqualTo
+^^^^^^^^^
+
+.. automodule:: screenpy.resolutions.is_equal_to
+.. autoclass:: IsEqualTo
+
+IsNot
+^^^^^
+
+.. automodule:: screenpy.resolutions.is_not
+.. autoclass:: IsNot
+
+ReadsExactly
+^^^^^^^^^^^^
+
+.. automodule:: screenpy.resolutions.reads_exactly
+.. autoclass:: ReadsExactly
+

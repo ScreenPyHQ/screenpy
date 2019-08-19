@@ -10,8 +10,8 @@ Using Abilities
 
 To give an actor an ability, pass it in using the actor's |Actor.who_can| or |Actor.can| methods::
 
-    from screenpy.abilities.browse_the_web import BrowseTheWeb
-    from screenpy.actors.actor import Actor
+    from screenpy.abilities import BrowseTheWeb
+    from screenpy.actor import Actor, AnActor
     from selenium.webdriver import Firefox
 
     # Add abilities on instantiation

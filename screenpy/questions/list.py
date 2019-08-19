@@ -2,7 +2,7 @@ from typing import List as ListType
 
 from selenium.webdriver.remote.webdriver import WebElement
 
-from .actors.actor import Actor
+from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
 

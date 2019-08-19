@@ -20,3 +20,8 @@ library for Java.
 :copyright: (c) 2019 by Perry Goy.
 :license: MIT, see LICENSE for more details.
 """
+
+
+from .actor import Actor, AnActor
+from .given_when_then import given, given_that, when, then, and_
+from .target import Target

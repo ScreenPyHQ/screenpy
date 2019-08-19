@@ -1,9 +1,7 @@
 from unittest import TestCase
 
-from screenpy.actions.click import Click
-from screenpy.actions.enter import Enter, Press
-from screenpy.actions.open import Open, Opens
-from screenpy.actions.select import Select, SelectByText, SelectByIndex, SelectByValue
+from screenpy.actions import Click, Enter, Open, Opens, Press, Select
+from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
 
 
 class TestClick(TestCase):
@@ -55,10 +53,10 @@ class TestOpen(TestCase):
 class TestSelect(TestCase):
     def test_specifics_can_be_instantiated(self):
         """Select's specific classes can be instantiated"""
-        by_text = Select.the_option_named(None)
         by_index = Select.the_option_at_index(None)
+        by_text = Select.the_option_named(None)
         by_value = Select.the_option_with_value(None)
 
-        self.assertIsInstance(by_text, SelectByText)
         self.assertIsInstance(by_index, SelectByIndex)
+        self.assertIsInstance(by_text, SelectByText)
         self.assertIsInstance(by_value, SelectByValue)

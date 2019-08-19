@@ -1,7 +1,7 @@
 from typing import List
 
 from ..abilities.browse_the_web import BrowseTheWeb
-from ..actors.actor import Actor
+from ..actor import Actor
 from ..pacing import beat, aside, MINOR
 from ..target import Target
 

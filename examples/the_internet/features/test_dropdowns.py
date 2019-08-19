@@ -2,13 +2,11 @@ import unittest
 
 from selenium.webdriver import Firefox
 
-from screenpy.actors.actor import AnActor
-from screenpy.actions.click import Click
-from screenpy.actions.select import Select
-from screenpy.abilities.browse_the_web import BrowseTheWeb
-from screenpy.given_when_then import *
+from screenpy import AnActor, given, when, then, and_
+from screenpy.actions import Click, Select
+from screenpy.abilities import BrowseTheWeb
 from screenpy.pacing import act, scene
-from screenpy.questions.selected import Selected
+from screenpy.questions import Selected
 from screenpy.resolutions import *
 
 from ..tasks.start import Start

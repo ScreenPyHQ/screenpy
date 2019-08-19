@@ -9,14 +9,11 @@ If you just want to see it all work, copy/paste the following into a file or you
 
     from selenium.webdriver import Firefox
 
-    from screenpy.actions.click import Click
-    from screenpy.actions.open import Open
-    from screenpy.actors.actor import AnActor
-    from screenpy.abilities.browse_the_web import BrowseTheWeb
-    from screenpy.given_when_then import given, when, then
-    from screenpy.questions.text import Text
+    from screenpy import AnActor, Target, given, when, then
+    from screenpy.abilities import BrowseTheWeb
+    from screenpy.actions import Click, Open
+    from screenpy.questions import Text
     from screenpy.resolutions import ReadsExactly
-    from screenpy.target import Target
 
     # This would normally go in your tasks/start.py
     class Start(object):

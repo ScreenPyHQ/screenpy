@@ -13,12 +13,10 @@ Resolutions might be the only example of inheritance in the entirety of
 ScreenPy. Hm.
 """
 
-from typing import Iterable
 
-from hamcrest import *
 from hamcrest.core.matcher import Matcher
 
-from .pacing import beat, MINOR
+from ..pacing import beat, MINOR
 
 
 class Resolution(Matcher):
@@ -52,70 +50,3 @@ class Resolution(Matcher):
 
     def __repr__(self) -> str:
         return self.line.format(self.expected)
-
-
-class ReadsExactly(Resolution):
-    """
-    Matches a string exactly (e.g. `"screenplay" == "screenplay"`).
-    """
-
-    line = "to read '{},' exactly"
-
-    def __init__(self, string: str) -> None:
-        self.expected = string
-        self.matcher = has_string(string)
-
-
-class ContainsTheText(Resolution):
-    """
-    Matches a substring (e.g. `"play" in "screenplay"`).
-    """
-
-    line = "to have '{}'"
-
-    def __init__(self, substring: str) -> None:
-        self.expected = substring
-        self.matcher = contains_string(substring)
-
-
-class IsEqualTo(Resolution):
-    """
-    Matches on equality (i.e. `a == b`).
-    """
-
-    line = "to find {}"
-
-    def __init__(self, obj: object) -> None:
-        self.expected = obj
-        self.matcher = equal_to(obj)
-
-
-class Empty(Resolution):
-    """
-    Matches on an empty collection (e.g. `[]`).
-    """
-
-    line = "for {} to be empty"
-
-    def __init__(self, collection: Iterable) -> None:
-        self.expected = collection
-        self.matcher = empty(collection)
-
-
-class IsNot(Resolution):
-    """
-    Matches a negated Resolution (e.g. `not ReadsExactly("yes")`).
-    """
-
-    line = "not {}"
-
-    def __init__(self, resolution: "Resolution") -> None:
-        self.expected = resolution
-        self.matcher = is_not(resolution)
-
-
-# Natural-language-enabling syntactic sugar
-ReadExactly = ReadsExactly
-ContainTheText = ContainsTheText
-ToBeEmpty = IsEmpty = Empty
-DoesNot = IsNot

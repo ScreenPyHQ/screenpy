@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebElement
 
 from .abilities.browse_the_web import BrowseTheWeb
-from .actors.actor import Actor
+from .actor import Actor
 
 
 class Target:

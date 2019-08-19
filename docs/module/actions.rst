@@ -10,7 +10,7 @@ Using Actions
 
 Actions can be used pretty much anywhere. They will typically be used to create :ref:`tasks` or move around in your :ref:`features`. Here is an example of using the |Click| action::
 
-    from screenpy.actions.click import Click
+    from screenpy.actions import Click
 
     from ..user_interface.homepage import LOGIN_LINK
 
@@ -28,7 +28,7 @@ A very common custom action is the `Start` action, which will start the test on 
 
 .. code-block:: python
 
-    from screenpy.actions.open import Open
+    from screenpy.actions import Open
 
     from user_interface.homepage import HOME_URL
 
@@ -59,8 +59,7 @@ A common place this might occur is if your actor needs to log in to test your ap
     # task/login.py
     import os
 
-    from screenpy.actions.click import Click
-    from screenpy.actions.enter import Enter
+    from screenpy.actions import Click, Enter
 
     from ..user_interface.homepage import (
         SIGN_ON_LINK,
@@ -113,4 +112,17 @@ Enter
 
 .. module:: screenpy.actions.enter
 .. autoclass:: Enter
+    :members:
+
+Select
+^^^^^^
+
+.. module:: screenpy.actions.select
+.. autoclass:: Select
+    :members:
+.. autoclass:: SelectByText
+    :members:
+.. autoclass:: SelectByIndex
+    :members:
+.. autoclass:: SelectByValue
     :members:

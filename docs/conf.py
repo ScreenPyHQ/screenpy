@@ -59,16 +59,16 @@ source_suffix = '.rst'
 
 rst_prolog = """.. Internal references
 .. .. Actors
-.. |Actor| replace:: :class:`~screenpy.actors.actor.Actor`
-.. |Actor.named| replace:: :meth:`~screenpy.actors.actor.Actor.named`
-.. |Actor.who_can| replace:: :meth:`~screenpy.actors.actor.Actor.who_can`
-.. |Actor.can| replace:: :meth:`~screenpy.actors.actor.Actor.can`
-.. |Actor.ability_to| replace:: :meth:`~screenpy.actors.actor.Actor.ability_to`
-.. |Actor.attempts_to| replace:: :meth:`~screenpy.actors.actor.Actor.attempts_to`
-.. |Actor.should_see_that| replace:: :meth:`~screenpy.actors.actor.Actor.should_see_that`
-.. |Actor.should_see_the| replace:: :meth:`~screenpy.actors.actor.Actor.should_see_the`
-.. |Actor.exit| replace:: :meth:`~screenpy.actors.actor.Actor.exit`
-.. |UnableToPerformException| replace:: :class:`~screenpy.actors.actor.UnableToPerformException`
+.. |Actor| replace:: :class:`~screenpy.actor.Actor`
+.. |Actor.named| replace:: :meth:`~screenpy.actor.Actor.named`
+.. |Actor.who_can| replace:: :meth:`~screenpy.actor.Actor.who_can`
+.. |Actor.can| replace:: :meth:`~screenpy.actor.Actor.can`
+.. |Actor.ability_to| replace:: :meth:`~screenpy.actor.Actor.ability_to`
+.. |Actor.attempts_to| replace:: :meth:`~screenpy.actor.Actor.attempts_to`
+.. |Actor.should_see_that| replace:: :meth:`~screenpy.actor.Actor.should_see_that`
+.. |Actor.should_see_the| replace:: :meth:`~screenpy.actor.Actor.should_see_the`
+.. |Actor.exit| replace:: :meth:`~screenpy.actor.Actor.exit`
+.. |UnableToPerformException| replace:: :class:`~screenpy.actor.UnableToPerformException`
 
 .. .. Targets
 .. |Target| replace:: :class:`~screenpy.target.Target`
@@ -119,8 +119,8 @@ rst_prolog = """.. Internal references
 .. |Selected.answered_by| replace:: :class:`~screenpy.questions.selected.Selected.answered_by`
 
 .. .. Resolutions
-.. |Resolution| replace:: :class:`~screenpy.resolutions.Resolution`
-.. |ReadsExactly| replace:: :class:`~screenpy.resolutions.ReadsExactly`
+.. |Resolution| replace:: :class:`~screenpy.resolutions.base_resolution.Resolution`
+.. |ReadsExactly| replace:: :class:`~screenpy.resolutions.reads_exactly.ReadsExactly`
 
 .. External references
 .. .. Selenium

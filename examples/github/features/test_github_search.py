@@ -2,10 +2,9 @@ import unittest
 
 from selenium.webdriver import Firefox
 
-from screenpy.actors.actor import Actor
-from screenpy.abilities.browse_the_web import BrowseTheWeb
+from screenpy import Actor, given, when, then
+from screenpy.abilities import BrowseTheWeb
 from screenpy.pacing import act, scene
-from screenpy.given_when_then import *
 from screenpy.resolutions import *
 
 from ..questions.search_results_message import SearchResultsMessage

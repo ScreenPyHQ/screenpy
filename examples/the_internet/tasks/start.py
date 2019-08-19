@@ -1,6 +1,6 @@
-from screenpy.actions.open import Open
+from screenpy.actions import Open
 
-from user_interface.homepage import URL
+from ..user_interface.homepage import URL
 
 
 class Start:
