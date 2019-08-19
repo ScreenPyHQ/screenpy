@@ -45,7 +45,7 @@ class Text(object):
         """
         return Text(target=multi_target, multi=True)
 
-    @beat("{} reads the text from {target} and/or {multi_target}")
+    @beat("{} reads the text from {target}")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
         Investigates the page as viewed by the supplied |Actor| and gives
