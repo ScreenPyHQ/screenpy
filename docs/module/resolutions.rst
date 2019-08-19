@@ -35,30 +35,26 @@ Provided Resolutions
 ContainsTheText
 ^^^^^^^^^^^^^^^
 
-.. automodule:: screenpy.resolutions.contains_the_text
+.. module:: screenpy.resolutions
 .. autoclass:: ContainsTheText
 
 Empty
 ^^^^^
 
-.. automodule:: screenpy.resolutions.empty
 .. autoclass:: Empty
 
 IsEqualTo
 ^^^^^^^^^
 
-.. automodule:: screenpy.resolutions.is_equal_to
 .. autoclass:: IsEqualTo
 
 IsNot
 ^^^^^
 
-.. automodule:: screenpy.resolutions.is_not
 .. autoclass:: IsNot
 
 ReadsExactly
 ^^^^^^^^^^^^
 
-.. automodule:: screenpy.resolutions.reads_exactly
 .. autoclass:: ReadsExactly
 

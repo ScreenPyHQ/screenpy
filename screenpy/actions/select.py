@@ -69,7 +69,7 @@ class SelectByText:
     """
     A specialized Select action that chooses the option by text. This
     class is meant to be accessed via the Select action's static
-    |Select.the_option_named|` method. A typical invocation might look
+    |Select.the_option_named| method. A typical invocation might look
     like:
 
         Select.the_option_named("January").from_the(MONTH_DROPDOWN)

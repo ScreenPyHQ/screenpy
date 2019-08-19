@@ -82,6 +82,7 @@ rst_prolog = """.. Internal references
 .. |BrowseTheWeb.forget| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.forget`
 
 .. .. Actions
+.. |Action| replace:: :ref:`actions`
 .. |Click| replace:: :class:`~screenpy.actions.click.Click`
 .. |Click.on| replace:: :meth:`~screenpy.actions.click.Click.on`
 .. |Click.on_the| replace:: :meth:`~screenpy.actions.click.Click.on_the`
@@ -116,6 +117,8 @@ rst_prolog = """.. Internal references
 .. |Text.of_all| replace:: :meth:`~screenpy.questions.text.Text.of_all`
 .. |Text.asked_by| replace:: :meth:`~screenpy.questions.text.Text.asked_by`
 .. |Selected| replace:: :class:`~screenpy.questions.selected.Selected`
+.. |Selected.option_from| replace:: :class:`~screenpy.questions.selected.Selected.option_from`
+.. |Selected.options_from| replace:: :class:`~screenpy.questions.selected.Selected.option_from`
 .. |Selected.answered_by| replace:: :class:`~screenpy.questions.selected.Selected.answered_by`
 
 .. .. Resolutions
@@ -124,6 +127,7 @@ rst_prolog = """.. Internal references
 
 .. External references
 .. .. Selenium
+.. |Selenium| replace:: `Selenium <https://selenium-python.readthedocs.io/>`__
 .. |WebDriver| replace:: `WebDriver <https://seleniumhq.github.io/selenium/docs/api/py/api.html>`__
 .. |WebElement| replace:: `WebElement <https://seleniumhq.github.io/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webelement.html#module-selenium.webdriver.remote.webelement>`__
 .. |Keys| replace:: `Keys <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys>`__
@@ -134,6 +138,9 @@ rst_prolog = """.. Internal references
 
 .. .. Allure
 .. |Allure| replace:: `Allure <https://docs.qameta.io/allure/>`__
+
+.. .. Pytst
+.. |Pytest| replace:: `Pytest <https://docs.pytest.org/en/latest/>`__
 """
 
 # The master toctree document.

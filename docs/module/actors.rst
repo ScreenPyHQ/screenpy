@@ -60,6 +60,5 @@ In summary, actors:
 Actor Class
 -----------
 
-.. module:: screenpy.actor
-.. autoclass:: Actor
+.. autoclass:: screenpy.actor.Actor
     :members:
