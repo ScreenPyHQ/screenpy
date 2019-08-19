@@ -46,14 +46,12 @@ QuickStart
 ```python
 from selenium.webdriver import Firefox
 
-from screenpy.actions.click import Click
-from screenpy.actions.open import Open
-from screenpy.actors.actor import AnActor
-from screenpy.abilities.browse_the_web import BrowseTheWeb
+from screenpy import AnActor, Target, given, when, then
+from screenpy.abilities import BrowseTheWeb
+from screenpy.actions import Click, Open
 from screenpy.given_when_then import given, when, then
-from screenpy.questions.text import Text
+from screenpy.questions import Text
 from screenpy.resolutions import ReadsExactly
-from screenpy.target import Target
 
 # This would normally go in your tasks/start.py
 class Start(object):
@@ -95,5 +93,16 @@ Allure Integration
 
 ScreenPy utilizes [Allure](https://github.com/allure-framework) to document the action. If you would like to see an allure report of your Screenplay Suite, run the test using PyTest like so:
 
-    python -m pytest features --allure_dir allure_report
+    python -m pytest features --alluredir allure_report
     allure serve allure_report
+
+
+Contributing
+------------
+
+You want to contribute? Great! Here are the things you should do before submitting your PR:
+
+1. run `tox` to perform tests.
+1. run `black` to format code.
+
+That's it! :)
