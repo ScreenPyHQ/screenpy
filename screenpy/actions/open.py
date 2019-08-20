@@ -38,7 +38,7 @@ class Open:
     @staticmethod
     def their_browser_on(location: Union[str, object]) -> "Open":
         """Syntactic sugar for |Open.browser_on|."""
-        return Open(location)
+        return Open.browser_on(location)
 
     @beat("{0} opens their browser and loads {url}", gravitas=MINOR)
     def perform_as(self, the_actor: Actor) -> None:

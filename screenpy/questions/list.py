@@ -36,7 +36,7 @@ class List(object):
     @staticmethod
     def of_all(target):
         """Syntactic sugar for |List.of|."""
-        return List(target)
+        return List.of(target)
 
     @beat("{} lists off the {target}")
     def answered_by(self, the_actor: Actor) -> ListType[WebElement]:

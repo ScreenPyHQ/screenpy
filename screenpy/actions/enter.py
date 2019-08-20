@@ -35,7 +35,7 @@ class Enter:
     @staticmethod
     def the_keys(text: str) -> "Enter":
         """Syntactic sugar for |Enter.the_text|."""
-        return Enter(text)
+        return Enter.the_text(text)
 
     def into(self, target: Target) -> "Enter":
         """
@@ -51,10 +51,13 @@ class Enter:
         self.target = target
         return self
 
+    def into_the(self, target: Target) -> "Enter":
+        """Syntactic sugar for |Enter.into|"""
+        return self.into(target)
+
     def on(self, target: Target) -> "Enter":
         """Syntactic sugar for |Enter.into|."""
-        self.target = target
-        return self
+        return self.into(target)
 
     def then_hit(self, *keys: List[str]) -> "Enter":
         """

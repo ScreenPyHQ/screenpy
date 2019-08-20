@@ -22,11 +22,12 @@ class TestEnter(TestCase):
         e1 = Enter.the_text("test")
         e2 = Enter.the_text("test").into(None)
         e3 = Enter.the_keys("test").into(None)
-        e4 = Enter.the_text("test").on(None)
-        e5 = Enter.the_keys("test").on(None)
-        e6 = Enter.the_text("test").into(None).then_press(None)
-        e7 = Enter.the_text("test").into(None).then_wait_for(None)
-        e8 = Press.the_keys("test")
+        e4 = Enter.the_text("test").into_the(None)
+        e5 = Enter.the_text("test").on(None)
+        e6 = Enter.the_keys("test").on(None)
+        e7 = Enter.the_text("test").into(None).then_press(None)
+        e8 = Enter.the_text("test").into(None).then_wait_for(None)
+        e9 = Press.the_keys("test")
 
         self.assertIsInstance(e1, Enter)
         self.assertIsInstance(e2, Enter)
@@ -36,6 +37,7 @@ class TestEnter(TestCase):
         self.assertIsInstance(e6, Enter)
         self.assertIsInstance(e7, Enter)
         self.assertIsInstance(e8, Enter)
+        self.assertIsInstance(e9, Enter)
 
 
 class TestOpen(TestCase):
@@ -53,10 +55,22 @@ class TestOpen(TestCase):
 class TestSelect(TestCase):
     def test_specifics_can_be_instantiated(self):
         """Select's specific classes can be instantiated"""
-        by_index = Select.the_option_at_index(None)
-        by_text = Select.the_option_named(None)
-        by_value = Select.the_option_with_value(None)
+        by_index1 = Select.the_option_at_index(0)
+        by_index2 = Select.the_option_at_index(0).from_(None)
+        by_index3 = Select.the_option_at_index(0).from_the(None)
+        by_text1 = Select.the_option_named("Option")
+        by_text2 = Select.the_option_named("Option").from_(None)
+        by_text3 = Select.the_option_named("Option").from_the(None)
+        by_value1 = Select.the_option_with_value(1)
+        by_value2 = Select.the_option_with_value(1).from_(None)
+        by_value3 = Select.the_option_with_value(1).from_the(None)
 
-        self.assertIsInstance(by_index, SelectByIndex)
-        self.assertIsInstance(by_text, SelectByText)
-        self.assertIsInstance(by_value, SelectByValue)
+        self.assertIsInstance(by_index1, SelectByIndex)
+        self.assertIsInstance(by_index2, SelectByIndex)
+        self.assertIsInstance(by_index3, SelectByIndex)
+        self.assertIsInstance(by_text1, SelectByText)
+        self.assertIsInstance(by_text2, SelectByText)
+        self.assertIsInstance(by_text3, SelectByText)
+        self.assertIsInstance(by_value1, SelectByValue)
+        self.assertIsInstance(by_value2, SelectByValue)
+        self.assertIsInstance(by_value3, SelectByValue)

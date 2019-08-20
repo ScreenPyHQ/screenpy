@@ -36,6 +36,11 @@ class Selected:
         return Selected(target)
 
     @staticmethod
+    def option_from_the(target: Target) -> "Selected":
+        """Syntactic sugar for |Selected.option_from|"""
+        return Selected.option_from(target)
+
+    @staticmethod
     def options_from(multiselect_target: Target) -> "Selected":
         """
         Gets all the options that are currently selected in a multiselect
@@ -53,6 +58,11 @@ class Selected:
             |Selected|
         """
         return Selected(multiselect_target, multi=True)
+
+    @staticmethod
+    def options_from_the(target: Target) -> "Selected":
+        """Syntactic sugar for |Selected.options_from|"""
+        return Selected.options_from(target)
 
     @beat("{0} checks the selected option(s) from {target}")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:

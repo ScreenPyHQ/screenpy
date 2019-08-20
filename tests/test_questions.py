@@ -25,10 +25,14 @@ class TestSelected(TestCase):
     def test_can_be_instantiated(self):
         """Selected can be instantiated"""
         s1 = Selected.option_from(None)
-        s2 = Selected.options_from(None)
+        s2 = Selected.option_from_the(None)
+        s3 = Selected.options_from(None)
+        s4 = Selected.options_from_the(None)
 
         self.assertIsInstance(s1, Selected)
         self.assertIsInstance(s2, Selected)
+        self.assertIsInstance(s3, Selected)
+        self.assertIsInstance(s4, Selected)
 
     def test_options_from_sets_multi(self):
         """Selected.options_from sets multi to True"""

@@ -93,8 +93,7 @@ class SelectByText:
 
     def from_(self, target: Target) -> "SelectByText":
         """Syntactic sugar for |SelectByText.from_the|."""
-        self.target = target
-        return self
+        return self.from_the(target)
 
     @beat("{0} selects the option '{text}' from the {target}.", gravitas=MINOR)
     def perform_as(self, the_actor: Actor) -> None:
@@ -146,8 +145,7 @@ class SelectByIndex:
 
     def from_(self, target: Target) -> "SelectByIndex":
         """Syntactic sugar for |SelectByIndex.from_the|."""
-        self.target = target
-        return self
+        return self.from_the(target)
 
     @beat("{0} selects the option at index {index} from the {target}.", gravitas=MINOR)
     def perform_as(self, the_actor: Actor) -> None:
@@ -200,8 +198,7 @@ class SelectByValue:
 
     def from_(self, target: Target) -> "SelectByValue":
         """Syntactic sugar for |SelectByValue.from_the|."""
-        self.target = target
-        return self
+        return self.from_the(target)
 
     @beat(
         "{0} selects the option with value '{value}' from the {target}.", gravitas=MINOR
