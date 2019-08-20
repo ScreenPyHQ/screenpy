@@ -127,7 +127,3 @@ class Enter:
         self.target = None
         self.action_complete_target = None
         self.following_keys = []
-
-
-# Natural-language-enabling syntactic sugar
-Press = Enter

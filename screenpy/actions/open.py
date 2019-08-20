@@ -58,7 +58,3 @@ class Open:
 
     def __init__(self, location: Union[str, object]) -> None:
         self.url = getattr(location, "url", location)
-
-
-# Natural-language-enabling syntactic sugar
-Opens = Open

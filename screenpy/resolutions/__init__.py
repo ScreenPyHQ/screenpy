@@ -8,7 +8,7 @@ from .reads_exactly import ReadsExactly
 
 # Natural-language-enabling syntactic sugar
 ContainTheText = ContainsTheText
-DoesNot = IsNot
+DoesNot = DoNot = AreNot = IsNot
 IsEqual = Equals = Equal = IsEqualTo
 ReadExactly = ReadsExactly
 ToBeEmpty = IsEmpty = Empty
