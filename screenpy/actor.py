@@ -66,7 +66,7 @@ class Actor:
         aside(choice(ENTRANCE_DIRECTIONS).format(name), gravitas=TRIVIAL)
         return Actor(name)
 
-    def can(self, *abilities: List["ability"]) -> "Actor":
+    def can(self, *abilities: List[Ability]) -> "Actor":
         """
         Adds an ability to this actor.
 
@@ -79,7 +79,7 @@ class Actor:
         self.abilities.extend(abilities)
         return self
 
-    def who_can(self, *abilities: List["ability"]) -> "Actor":
+    def who_can(self, *abilities: List[Ability]) -> "Actor":
         """Syntactic sugar for |Actor.can|."""
         return self.can(*abilities)
 

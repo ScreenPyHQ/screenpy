@@ -8,6 +8,10 @@ from ..user_interface.github_search_results_page import RESULTS_MESSAGE
 
 
 class SearchGitHub:
+    @staticmethod
+    def for_text(search_query):
+        return SearchGitHub(search_query)
+
     @beat("{0} searches GitHub for '{search_query}'")
     def perform_as(self, the_actor):
         the_actor.attempts_to(
@@ -16,10 +20,6 @@ class SearchGitHub:
             .then_hit(Keys.RETURN)
             .then_wait_for(RESULTS_MESSAGE)
         )
-
-    @staticmethod
-    def for_text(search_query):
-        return SearchGitHub(search_query)
 
     def __init__(self, search_query):
         self.search_query = search_query

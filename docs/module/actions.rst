@@ -22,9 +22,9 @@ Actors will always only *attempt* to perform an action. They may not actually ha
 Writing New Actions
 -------------------
 
-Like most things in the Screenplay Pattern, you may realize you need to define your own custom actions. The only requirement for creating more actions is that they have a `perform_as` method defined.
+Like most things in the Screenplay Pattern, you may realize you need to define your own custom actions. The only requirement for creating more actions is that they have a ``perform_as`` method defined.
 
-A very common custom action is the `Start` action, which will start the test on the homepage. Here's what that might look like:
+A very common custom action is the ``Start`` action, which will start the test on the homepage. Here's what that might look like:
 
 .. code-block:: python
 
@@ -52,7 +52,7 @@ Tasks
 
 Sometimes, your actors might repeat the same series of actions several times. A grouping of common actions can be abstracted into :ref:`tasks-dir`.
 
-A common place this might occur is if your actor needs to log in to test your application. This `Login` task might look something like this:
+A common place this might occur is if your actor needs to log in to test your application. This ``Login`` task might look something like this:
 
 .. code-block:: python
 
@@ -86,9 +86,9 @@ A common place this might occur is if your actor needs to log in to test your ap
             self.username = username
             self.password = password
 
-And there you have it! Now all you have to do is ask your actor to attempt to `LoginSuccessfully` and you've got the same set of actions everywhere.
+And there you have it! Now all you have to do is ask your actor to attempt to ``LoginSuccessfully`` and you've got the same set of actions everywhere.
 
-Note that tasks, just like actions, are required to have a `perform_as` method defined.
+Note that tasks, just like actions, are required to have a ``perform_as`` method defined.
 
 Provided Actions
 ----------------

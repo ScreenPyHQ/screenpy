@@ -23,9 +23,9 @@ In that line of code, |ReadsExactly| is returning a |PyHamcrest| matcher. It wil
 Writing New Resolutions
 -----------------------
 
-Resolutions are really just an abstraction barrier for the truly excellent |PyHamcrest| library. To add your own resolutions, create your resolution class by inheriting from the |Resolution| base class. All you need to provide in your resolution is a `line` class property, which is just a human readable string for the log, and then to define the `__init__` method.
+Resolutions are really just an abstraction barrier for the truly excellent |PyHamcrest| library. To add your own resolutions, create your resolution class by inheriting from the |Resolution| base class. All you need to provide in your resolution is a ``line`` class property, which is just a human readable string for the log, and then to define the ``__init__`` method.
 
-The `__init__` method will need to set the expected value, and instantiate the PyHamcrest matcher that your resolution is masking. For several examples, see the documentation of the :ref:`provided_resolutions` below.
+The ``__init__`` method will need to set the expected value, and instantiate the PyHamcrest matcher that your resolution is masking. For several examples, see the documentation of the :ref:`provided_resolutions` below.
 
 .. _provided_resolutions:
 

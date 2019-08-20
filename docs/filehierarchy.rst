@@ -7,6 +7,7 @@ The key to a good Screenplay Pattern suite is understanding how the files all fi
 
 
 Here is an example hierarchy:
+
 - suite_root
 
   - features        # this is where the actual test files will live
@@ -51,7 +52,7 @@ Questions
 
 Questions are things your actor asks about the application, to perform a thrilling turnabout (test fail) or a cathartic confirmation (test pass) upon finding the answer. These files are where you will access elements on the page to figure out if your test has passed.
 
-Questions will need to have an `asked_by` method defined, which takes in an instantiated |Actor|. For an example, see the |Text.asked_by| method of the built-in |Text| class.
+Questions will need to have an ``asked_by`` method defined, which takes in an instantiated |Actor|. For an example, see the |Text.asked_by| method of the built-in |Text| class.
 
 
 .. _tasks-dir:
@@ -59,9 +60,9 @@ Questions will need to have an `asked_by` method defined, which takes in an inst
 Tasks
 -----
 
-Tasks are descriptive ways to group one or more actions that your actors will do. A common task is a `Start` task, which will instruct the actor to open the browser to the starting page. There may be many tasks your actors will need to do in your suite.
+Tasks are descriptive ways to group one or more actions that your actors will do. A common task is a ``Start`` task, which will instruct the actor to open the browser to the starting page. There may be many tasks your actors will need to do in your suite.
 
-Tasks, like actions, will need to define a `perform_as` method that takes in an instantiated |Actor|.
+Tasks, like actions, will need to define a ``perform_as`` method that takes in an instantiated |Actor|.
 
 
 .. _userinterface-dir:

@@ -37,54 +37,24 @@ as a dulcet voice begins to speak.
                                                                       FADE OUT
 ```
 
+
 Installation
 ------------
     pip install screenpy
 
-QuickStart
+
+Documentation
 ----------
-```python
-from selenium.webdriver import Firefox
+Please check out the [Read The Docs documentation](https://screenpy-docs.readthedocs.io/en/latest/) for the latest information about this module!
 
-from screenpy import AnActor, Target, given, when, then
-from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Click, Open
-from screenpy.questions import Text
-from screenpy.resolutions import ReadsExactly
 
-# This would normally go in your tasks/start.py
-class Start(object):
-    """Test case start points"""
-    def perform_as(self, actor):
-        actor.attempts_to(Open.browser_on(self.location))
-    @staticmethod
-    def on_the_screenpy_repo():
-        return Start("https://github.com/perrygoy/screenpy")
-    def __init__(self, location):
-        self.location = location
+Quickstart
+----------
+Once installed, to set up a Screenplay Pattern scaffolding in your project, `cd` to the folder you will use for your suite and run this command:
 
-# These two would normally go in your user_interface/some_page.py
-THE_AUTHOR_LINK = Target.the("repository author link").located_by("a[rel=author]")
-THE_DISPLAYED_USER_NAME = Target.the("GitHub user's name").located_by("span.vcard-fullname")
+    screenpy-quickstart
 
-# This would normally go in your questions/user_name.py
-class UserName(object):
-    """Questions about the user name"""
-    def answered_by(self, the_actor):
-        return Text.of(THE_DISPLAYED_USER_NAME).answered_by(the_actor)
-    @staticmethod
-    def text():
-        return UserName()
-
-perry = AnActor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
-
-given(perry).was_able_to(Start.on_the_screenpy_repo())
-when(perry).attempts_to(Click.on(THE_AUTHOR_LINK).then_wait_for(THE_DISPLAYED_USER_NAME))
-then(perry).should_see_the((UserName.text(), ReadsExactly("Perry Goy")),)
-perry.exit_stage_right()
-```
-
-You may think to yourself, man, that's a lot of setup for a simple quickstart. And you're definitely right! There are a lot of moving parts to a Screenplay Pattern test suite. If you want to know more, please check out the [Read The Docs documentation!](https://screenpy-docs.readthedocs.io/en/latest/)
+This will set up `user_interface`, `questions`, `tasks`, and `features` directories and fill them with a simple test. For explanations on what these directories are for, see the [File Hierarchy documentation](https://screenpy-docs.readthedocs.io/en/latest/filehierarchy.html)
 
 
 Allure Integration
