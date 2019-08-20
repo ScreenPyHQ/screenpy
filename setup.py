@@ -29,6 +29,7 @@ setup(
     url=about["__url__"],
     packages=find_packages(),
     install_requires=requires,
+    scripts=['bin/screenpy-quickstart'],
     classifiers=[
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
