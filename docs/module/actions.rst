@@ -107,6 +107,13 @@ Click
 .. autoclass:: Click
     :members:
 
+Clear
+^^^^^
+
+.. module:: screenpy.actions.clear
+.. autoclass:: Clear
+    :members:
+
 Enter
 ^^^^^
 
