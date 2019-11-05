@@ -133,3 +133,10 @@ Select
     :members:
 .. autoclass:: SelectByValue
     :members:
+
+Wait
+^^^^
+
+.. module:: screenpy.actions.wait
+.. autoclass:: Wait
+    :members:

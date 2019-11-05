@@ -83,6 +83,9 @@ rst_prolog = """.. Internal references
 
 .. .. Actions
 .. |Action| replace:: :ref:`actions`
+.. |Clear| replace:: :class:`~screenpy.actions.clear.Clear`
+.. |Clear.the_text_from| replace:: :meth:`~screenpy.actions.clear.Clear.the_text_from`
+.. |Clear.the_text_from_the| replace:: :meth:`~screenpy.actions.clear.Clear.the_text_from_the`
 .. |Click| replace:: :class:`~screenpy.actions.click.Click`
 .. |Click.on| replace:: :meth:`~screenpy.actions.click.Click.on`
 .. |Click.on_the| replace:: :meth:`~screenpy.actions.click.Click.on_the`
@@ -105,6 +108,9 @@ rst_prolog = """.. Internal references
 .. |SelectByIndex.from_the| replace:: :meth:`~screenpy.actions.select.SelectByIndex.from_the`
 .. |SelectByValue| replace:: :class:`~screenpy.actions.select.SelectByValue`
 .. |SelectByValue.from_the| replace:: :meth:`~screenpy.actions.select.SelectByValue.from_the`
+.. |Wait| replace:: :class:`~screenpy.actions.wait.Wait`
+.. |Wait.for_| replace:: :meth:`~screenpy.actions.wait.Wait.for_`
+.. |Wait.for_the| replace:: :meth:`~screenpy.actions.wait.Wait.for_the`
 
 .. .. Questions
 .. |List| replace:: :class:`~screenpy.questions.list.List`

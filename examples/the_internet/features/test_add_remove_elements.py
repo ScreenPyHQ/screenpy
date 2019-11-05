@@ -4,7 +4,7 @@ import unittest
 from selenium.webdriver import Firefox
 
 from screenpy import AnActor, given, when, then, and_
-from screenpy.actions import Click
+from screenpy.actions import Click, Wait
 from screenpy.abilities import BrowseTheWeb
 from screenpy.pacing import act, scene
 from screenpy.questions import Number
@@ -26,7 +26,8 @@ class TestAddRemoveElements(unittest.TestCase):
 
         given(Perry).was_able_to(Start.on_the_homepage())
         when(Perry).attempts_to(
-            Click.on_the(ADD_REMOVE_ELEMENTS_LINK).then_wait_for(ADD_BUTTON)
+            Click.on_the(ADD_REMOVE_ELEMENTS_LINK),
+            Wait.for_the(ADD_BUTTON).to_appear()
         )
         and_(Perry).attempts_to(Click.on_the(ADD_BUTTON).then_wait_for(ADDED_ELEMENTS))
         then(Perry).should_see_the((Number.of(ADDED_ELEMENTS), IsEqualTo(1)))
@@ -39,7 +40,8 @@ class TestAddRemoveElements(unittest.TestCase):
 
         given(Perry).was_able_to(Start.on_the_homepage())
         when(Perry).attempts_to(
-            Click.on_the(ADD_REMOVE_ELEMENTS_LINK).then_wait_for(ADD_BUTTON)
+            Click.on_the(ADD_REMOVE_ELEMENTS_LINK),
+            Wait.for_the(ADD_BUTTON).to_appear()
         )
         and_(Perry).attempts_to(
             *(
@@ -56,7 +58,8 @@ class TestAddRemoveElements(unittest.TestCase):
 
         given(Perry).was_able_to(Start.on_the_homepage())
         when(Perry).attempts_to(
-            Click.on_the(ADD_REMOVE_ELEMENTS_LINK).then_wait_for(ADD_BUTTON)
+            Click.on_the(ADD_REMOVE_ELEMENTS_LINK),
+            Wait.for_the(ADD_BUTTON).to_appear()
         )
         and_(Perry).attempts_to(Click.on_the(ADD_BUTTON).then_wait_for(ADDED_ELEMENTS))
         and_(Perry).attempts_to(Click.on_the(ADDED_ELEMENTS))
