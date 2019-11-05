@@ -7,7 +7,7 @@ from screenpy.resolutions import (
     Equal,
     IsNot,
     DoesNot,
-    ReadsExactly
+    ReadsExactly,
 )
 
 
