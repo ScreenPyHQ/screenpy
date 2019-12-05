@@ -1,9 +1,9 @@
 from typing import List
 
-from ..abilities.browse_the_web import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat, aside, MINOR
 from ..target import Target
+from .wait import Wait
 
 
 class Enter:
@@ -120,10 +120,7 @@ class Enter:
             aside(f"then hits the {key} key")
             element.send_keys(key)
         if self.action_complete_target is not None:
-            aside(f"then waits to see the {self.action_complete_target}")
-            the_actor.uses_ability_to(BrowseTheWeb).to_wait_for(
-                self.action_complete_target.get_locator()
-            )
+            the_actor.attempts_to(Wait.for_the(self.action_complete_target).to_appear())
 
     def __init__(self, text: str) -> None:
         self.text = text
