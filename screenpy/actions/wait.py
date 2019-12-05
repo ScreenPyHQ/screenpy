@@ -65,7 +65,7 @@ class Wait:
         Returns:
             |Wait|
         """
-        self.log_detail = " to be visible"
+        self.log_detail = " to be visible..."
         return self.using(EC.visibility_of_element_located)
 
     def to_disappear(self) -> "Wait":
@@ -75,7 +75,7 @@ class Wait:
         Returns:
             |Wait|
         """
-        self.log_detail = " to disappear"
+        self.log_detail = " to disappear..."
         return self.using(EC.invisibility_of_element_located)
 
     def to_contain_text(self, text: str) -> "Wait":
@@ -88,12 +88,12 @@ class Wait:
         Returns:
             |Wait|
         """
-        self.log_detail = f" to contain the text '{text}'"
+        self.log_detail = f' to contain the text "{text}"'
         return self.using(
             lambda locator: EC.text_to_be_present_in_element(locator, text)
         )
 
-    @beat("{0} waits for the '{target}'{log_detail}.", gravitas=MINOR)
+    @beat("{0} waits for the {target}{log_detail}.", gravitas=MINOR)
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the |Actor| to performs the Wait action, using the contained
@@ -113,4 +113,4 @@ class Wait:
     def __init__(self, target: Target) -> None:
         self.target = target
         self.condition = EC.visibility_of_element_located
-        self.log_detail = ""
+        self.log_detail = " to be visible..."
