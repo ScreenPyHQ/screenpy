@@ -49,4 +49,4 @@ class Resolution(Matcher):
         return self
 
     def __repr__(self) -> str:
-        return self.line.format(self.expected)
+        return self.line.format(expectation=self.expected)

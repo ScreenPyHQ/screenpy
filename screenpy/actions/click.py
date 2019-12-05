@@ -65,7 +65,7 @@ class Click:
         element = self.target.found_by(the_actor)
         element.click()
         if self.action_complete_target is not None:
-            aside("then waits to see the {}".format(self.action_complete_target))
+            aside(f"then waits to see the {self.action_complete_target}")
             the_actor.uses_ability_to(BrowseTheWeb).to_wait_for(
                 self.action_complete_target
             )

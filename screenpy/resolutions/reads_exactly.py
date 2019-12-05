@@ -8,7 +8,7 @@ class ReadsExactly(Resolution):
     Matches a string exactly (e.g. `"screenplay" == "screenplay"`).
     """
 
-    line = "to read '{},' exactly"
+    line = 'to read "{expectation}", exactly'
 
     def __init__(self, string: str) -> None:
         self.expected = string

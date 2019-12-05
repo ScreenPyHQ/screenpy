@@ -14,18 +14,18 @@ Ability = Any
 
 
 ENTRANCE_DIRECTIONS = [
-    "{} arrives on stage!",
-    "{} enters, from the vomitorium!",
-    "{} enters, on a wire!",
-    "{} enters, stage left!",
-    "{} enters, stage right!",
-    "{} enters the frame!",
-    "{} gets over their stagefright!",
-    "{} hears their cue!",
-    "{} is ready for their close-up!",
-    "{} makes their debut!",
-    "The camera pans to {}!",
-    "The camera jump-cuts to {}!",
+    "{actor} arrives on stage!",
+    "{actor} enters, from the vomitorium!",
+    "{actor} enters, on a wire!",
+    "{actor} enters, stage left!",
+    "{actor} enters, stage right!",
+    "{actor} enters the frame!",
+    "{actor} gets over their stagefright!",
+    "{actor} hears their cue!",
+    "{actor} is ready for their close-up!",
+    "{actor} makes their debut!",
+    "The camera pans to {actor}!",
+    "The camera jump-cuts to {actor}!",
 ]
 
 
@@ -63,7 +63,7 @@ class Actor:
         Returns:
             |Actor|
         """
-        aside(choice(ENTRANCE_DIRECTIONS).format(name), gravitas=TRIVIAL)
+        aside(choice(ENTRANCE_DIRECTIONS).format(actor=name), gravitas=TRIVIAL)
         return Actor(name)
 
     def can(self, *abilities: List[Ability]) -> "Actor":
@@ -102,7 +102,7 @@ class Actor:
                 return a
         else:
             raise UnableToPerformException(
-                "{} does not have the ability to {}".format(self, ability)
+                f"{self} does not have the ability to {ability}"
             )
 
     def uses_ability_to(self, ability: Ability) -> Ability:
@@ -167,12 +167,12 @@ class Actor:
 
     def exit_stage_right(self) -> None:
         """Syntactic sugar for |Actor.exit|."""
-        aside("{} bows and exits, stage right.".format(self), gravitas=TRIVIAL)
+        aside(f"{self} bows and exits, stage right.", gravitas=TRIVIAL)
         self.exit()
 
     def exit_stage_left(self) -> None:
         """Syntactic sugar for |Actor.exit|."""
-        aside("{} bows and exits, stage left.".format(self), gravitas=TRIVIAL)
+        aside(f"{self} bows and exits, stage left.", gravitas=TRIVIAL)
         self.exit()
 
     def __repr__(self) -> str:

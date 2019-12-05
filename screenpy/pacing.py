@@ -69,7 +69,7 @@ def beat(line: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     """
     Decorator to describe a "beat" (a step in a test). A beat's line can
     contain markers for replacement via str.format(), which will be
-    figured out from the decorated method's class.
+    figured out from the properties of a decorated method's class.
 
     Args:
         line (str): the line spoken during this "beat" (the test step

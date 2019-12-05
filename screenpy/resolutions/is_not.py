@@ -8,7 +8,7 @@ class IsNot(Resolution):
     Matches a negated Resolution (e.g. `not ReadsExactly("yes")`).
     """
 
-    line = "not {}"
+    line = "not {expectation}"
 
     def __init__(self, resolution: "Resolution") -> None:
         self.expected = resolution

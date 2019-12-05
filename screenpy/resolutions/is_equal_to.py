@@ -8,7 +8,7 @@ class IsEqualTo(Resolution):
     Matches on equality (i.e. `a == b`).
     """
 
-    line = "to find {}"
+    line = "to find {expectation}"
 
     def __init__(self, obj: object) -> None:
         self.expected = obj

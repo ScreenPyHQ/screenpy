@@ -122,8 +122,8 @@ class BrowseTheWeb:
         try:
             WebDriverWait(self.browser, timeout).until(cond(locator))
         except TimeoutException:
-            msg = "Waiting {0} seconds for '{1}' to satisfy {2} timed out."
-            msg = msg.format(timeout, locator, cond.__name__)
+            msg = "Waiting {time} seconds for '{ele}' to satisfy {cond} timed out."
+            msg = msg.format(time=timeout, ele=locator, cond=cond.__name__)
             raise TimeoutException(msg)
 
     def to_wait_for(self, locator, timeout=20, cond=EC.visibility_of_element_located):
