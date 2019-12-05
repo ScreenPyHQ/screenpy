@@ -78,6 +78,8 @@ rst_prolog = """.. Internal references
 .. .. Abilities
 .. |BrowseTheWeb| replace:: :class:`~screenpy.abilities.browse_the_web.BrowseTheWeb`
 .. |BrowseTheWeb.using| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.using`
+.. |BrowseTheWeb.find| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.find`
+.. |BrowseTheWeb.find_all| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.find_all`
 .. |BrowseTheWeb.wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.wait_for`
 .. |BrowseTheWeb.forget| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.forget`
 

@@ -75,7 +75,7 @@ class Target:
         Returns:
             |WebElement|
         """
-        return the_actor.uses_ability_to(BrowseTheWeb).find(self.get_locator())
+        return the_actor.uses_ability_to(BrowseTheWeb).to_find(self.get_locator())
 
     def all_found_by(self, the_actor: Actor) -> List[WebElement]:
         """
@@ -89,7 +89,7 @@ class Target:
         Returns:
             list(|WebElement|)
         """
-        return the_actor.uses_ability_to(BrowseTheWeb).find_all(self.get_locator())
+        return the_actor.uses_ability_to(BrowseTheWeb).to_find_all(self.get_locator())
 
     def __init__(self, desc: str) -> None:
         self.target_name = desc

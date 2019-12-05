@@ -1,6 +1,7 @@
 from typing import List
 
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver import Chrome, Firefox, Safari
 from selenium.webdriver.remote.webdriver import WebDriver, WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -17,6 +18,39 @@ class BrowseTheWeb:
     This will create the ability that can be passed in to an actor's
     |Actor.who_can| method.
     """
+
+    @staticmethod
+    def using_chrome() -> "BrowseTheWeb":
+        """
+        Creates and uses a default Chrome Selenium webdriver instance. Use
+        this if you don't need to set anything up for your test browser.
+
+        Returns:
+            |BrowseTheWeb|
+        """
+        return BrowseTheWeb.using(Chrome())
+
+    @staticmethod
+    def using_firefox() -> "BrowseTheWeb":
+        """
+        Creates and uses a default Firefox Selenium webdriver instance. Use
+        this if you don't need to set anything up for your test browser.
+
+        Returns:
+            |BrowseTheWeb|
+        """
+        return BrowseTheWeb.using(Firefox())
+
+    @staticmethod
+    def using_safari() -> "BrowseTheWeb":
+        """
+        Creates and uses a default Safari Selenium webdriver instance. Use
+        this if you don't need to set anything up for your test browser.
+
+        Returns:
+            |BrowseTheWeb|
+        """
+        return BrowseTheWeb.using(Safari())
 
     @staticmethod
     def using(browser: WebDriver) -> "BrowseTheWeb":
@@ -45,6 +79,10 @@ class BrowseTheWeb:
         """
         return self.browser.find_element(*locator)
 
+    def to_find(self, locator: tuple) -> WebElement:
+        """Syntactic sugar for |BrowseTheWeb.find|."""
+        return self.find(locator)
+
     def find_all(self, locator: tuple) -> List[WebElement]:
         """
         Locates many elements on the page using the given locator.
@@ -57,6 +95,10 @@ class BrowseTheWeb:
             list(|WebElement|)
         """
         return self.browser.find_elements(*locator)
+
+    def to_find_all(self, locator: tuple) -> WebElement:
+        """Syntactic sugar for |BrowseTheWeb.find_all|."""
+        return self.find_all(locator)
 
     def wait_then_find(
         self, locator: tuple, timeout=20, cond=EC.visibility_of_element_located
@@ -127,7 +169,7 @@ class BrowseTheWeb:
             raise TimeoutException(msg)
 
     def to_wait_for(self, locator, timeout=20, cond=EC.visibility_of_element_located):
-        """Syntactic sugar for |BrowseTheWeb.wait_for|"""
+        """Syntactic sugar for |BrowseTheWeb.wait_for|."""
         return self.wait_for(locator, timeout, cond)
 
     def to_get(self, url: str) -> "BrowseTheWeb":
@@ -142,6 +184,10 @@ class BrowseTheWeb:
         """
         self.browser.get(url)
         return self
+
+    def to_visit(self, url: str) -> "BrowseTheWeb":
+        """Syntactic sugar for |BrowseTheWeb.to_get|."""
+        return self.to_get(url)
 
     def forget(self):
         """

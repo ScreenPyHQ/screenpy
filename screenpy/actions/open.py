@@ -40,7 +40,7 @@ class Open:
         """Syntactic sugar for |Open.browser_on|."""
         return Open.browser_on(location)
 
-    @beat("{0} opens their browser and loads {url}", gravitas=MINOR)
+    @beat("{0} opens their browser and visits {url}", gravitas=MINOR)
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the supplied actor to perform this Open action, using their
@@ -54,7 +54,7 @@ class Open:
             |UnableToPerformException|: if the actor does
                 not have the ability to |BrowseTheWeb|.
         """
-        the_actor.uses_ability_to(BrowseTheWeb).to_get(self.url)
+        the_actor.uses_ability_to(BrowseTheWeb).to_visit(self.url)
 
     def __init__(self, location: Union[str, object]) -> None:
         self.url = getattr(location, "url", location)

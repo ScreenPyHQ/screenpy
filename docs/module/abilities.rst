@@ -10,27 +10,25 @@ Using Abilities
 
 To give an actor an ability, pass it in using the actor's |Actor.who_can| or |Actor.can| methods::
 
-    from selenium.webdriver import Firefox
-
     from screenpy import Actor, AnActor
     from screenpy.abilities import BrowseTheWeb
 
 
     # Add abilities on instantiation
-    Perry = AnActor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
+    Perry = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
 
     # Or add abilities later
     Perry = AnActor.named("Perry")
-    Perry.can(BrowseTheWeb.using(Firefox()))
+    Perry.can(BrowseTheWeb.using_safari())
 
 Granting an ability to an actor allows them to perform any :ref:`actions` or ask any :ref:`questions` that require that ability. If an action or a question require an ability that the actor does not have, the actor will raise an |UnableToPerformException|.
 
-Why Do I Have to Pass In Webdriver?
+What If I Need To Set Up My Driver?
 -----------------------------------
 
-Passing in the Webdriver you want to use allows you to set up the driver however it needs to be to test your application. This way, you can easily switch between any Webdriver you need to use, local or remote.
+Behind the scenes, |BrowseTheWeb.using| is called to pass in a default webdriver. You can do whatever setup with your driver that is needed—use specific options, set up authentication, etc.—then pass it into the ability afterwards. Using this method directly, you can easily switch between any Webdriver you need to use, local or remote.
 
-The examples all use Selenium's webdriver, but you are free to use another webdriver that follows a similar API.
+The examples all use Selenium's webdriver, but you are free to use another webdriver that uses a similar API.
 
 Writing New Abilities
 ---------------------
