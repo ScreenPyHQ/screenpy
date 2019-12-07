@@ -1,4 +1,4 @@
-from typing import Callable, Tuple
+from typing import Callable, Optional, Tuple
 
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -13,11 +13,13 @@ class Wait:
     Waits for an element to fulfill a certain condition. A Wait action is
     expected to be instantiated by its |Wait.for| method, followed by one
     of its strategies. By default, the |Wait.to_appear| strategy is used.
-    Some examples of invocations:
+    Wait can also be instantiated with an integer, like Wait(30), which
+    will set the timeout to be used. Some examples of invocations:
 
         Wait.for_the(LOGIN_FORM)
         Wait.for_the(WELCOME_BANNER).to_contain_text("Welcome!")
         Wait.for(CONFETTI).to_disappear()
+        Wait(10).seconds_for_the(PARADE_FLOATS).to_appear()
 
     It can then be passed along to the |Actor| to perform the action.
     """
@@ -30,17 +32,41 @@ class Wait:
         Wait object's strategy methods, such as
 
         Args:
-            target (Target): The |Target| to enter text into.
+            target (Target): The |Target| to wait for.
 
         Returns:
             |Wait|
         """
-        return Wait(target)
+        return Wait(target=target)
 
     @staticmethod
     def for_the(target: Target) -> "Wait":
         """Syntactic sugar for |Wait.for_|"""
         return Wait.for_(target)
+
+    def seconds_for(self, target: Target) -> "Wait":
+        """
+        Sets the target after invoking |Wait| with the number of seconds
+        you want wait to allow the target to fulfill the expected
+        condition. For example:
+
+            Wait(60).seconds_for_the(CONFETTI).to_disappear()
+
+        This will ask the actor to wait up to 60 seconds for CONFETTI to
+        disappear before throwing an exception.
+
+        Args:
+            target (Target): The |Target| to wait for.
+
+        Returns:
+            |Wait|
+        """
+        self.target = target
+        return self
+
+    def seconds_for_the(self, target: Target) -> "Wait":
+        """Syntactic sugar for |Wait.seconds_for|"""
+        return self.seconds_for(target)
 
     def using(self, strategy: Callable[[Tuple], None]) -> "Wait":
         """
@@ -96,7 +122,7 @@ class Wait:
     @beat("{0} waits for the {target}{log_detail}.", gravitas=MINOR)
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the |Actor| to performs the Wait action, using the contained
+        Asks the |Actor| to perform the Wait action, using the contained
         strategy and any extra arguments provided.
 
         Args:
@@ -107,10 +133,11 @@ class Wait:
                 ability to |BrowseTheWeb|.
         """
         the_actor.uses_ability_to(BrowseTheWeb).to_wait_for(
-            self.target.get_locator(), cond=self.condition
+            self.target.get_locator(), timeout=self.timeout, cond=self.condition
         )
 
-    def __init__(self, target: Target) -> None:
+    def __init__(self, seconds: int=20, target: Optional[Target]=None) -> None:
         self.target = target
+        self.timeout = seconds
         self.condition = EC.visibility_of_element_located
         self.log_detail = " to be visible..."
