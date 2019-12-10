@@ -1,10 +1,27 @@
+import os
 from typing import List
 
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver import Chrome, Firefox, Safari
+from selenium.webdriver import Chrome, Firefox, Remote, Safari
 from selenium.webdriver.remote.webdriver import WebDriver, WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+
+
+DEFAULT_IOS_CAPABILITIES = {
+    "platformName": "iOS",
+    "platformVersion": os.getenv("IOS_DEVICE_VERSION", "13.1"),
+    "deviceName": os.getenv("IOS_DEVICE_NAME", "iPhone Simulator"),
+    "automationName": "xcuitest",
+    "browserName": "Safari",
+}
+DEFAULT_ANDROID_CAPABILITIES = {
+    "platformName": "Android",
+    "platformVersion": os.getenv("ANDROID_DEVICE_VERSION", "10.0"),
+    "deviceName": os.getenv("ANDROID_DEVICE_NAME", "Android Emulator"),
+    "automationName": "UIAutomator2",
+    "browserName": "Chrome",
+}
 
 
 class BrowseTheWeb:
@@ -51,6 +68,56 @@ class BrowseTheWeb:
             |BrowseTheWeb|
         """
         return BrowseTheWeb.using(Safari())
+
+    @staticmethod
+    def using_ios() -> "BrowseTheWeb":
+        """
+        Creates an uses a default Remote driver instance to connect to
+        a running Appium server and open Safari on iOS. Use this if you
+        don't need to set anything up for your test browser.
+
+        Note that Appium requires non-trivial setup to be able to connect
+        to iPhone simulators. See the Appium documentation to get started:
+        http://appium.io/docs/en/writing-running-appium/running-tests/
+
+        Environment Variables:
+            APPIUM_HUB_URL: the URL to look for the Appium server. Default
+                is "http://localhost:4723/wd/hub"
+            IOS_DEVICE_VERSION: the version of the device to put in the
+                desired capabilities. Default is "13.1"
+            IOS_DEVICE_NAME: the device name to request in the desired
+                capabilities. Default is "iPhone Simulator"
+
+        Returns:
+            |BrowseTheWeb|
+        """
+        hub_url = os.getenv("APPIUM_HUB_URL", "http://localhost:4723/wd/hub")
+        return BrowseTheWeb.using(Remote(hub_url, DEFAULT_IOS_CAPABILITIES))
+
+    @staticmethod
+    def using_android() -> "BrowseTheWeb":
+        """
+        Creates an uses a default Remote driver instance to connect to
+        a running Appium server and open Chrome on Android. Use this if
+        you don't need to set anything up for your test browser.
+
+        Note that Appium requires non-trivial setup to be able to connect
+        to Android emulators. See the Appium documentation to get started:
+        http://appium.io/docs/en/writing-running-appium/running-tests/
+
+        Environment Variables:
+            APPIUM_HUB_URL: the URL to look for the Appium server. Default
+                is "http://localhost:4723/wd/hub"
+            ANDROID_DEVICE_VERSION: the version of the device to put in
+                the desired capabilities. Default is "10.0"
+            ANDROID_DEVICE_NAME: the device name to request in the desired
+                capabilities. Default is "Android Emulator"
+
+        Returns:
+            |BrowseTheWeb|
+        """
+        hub_url = os.getenv("APPIUM_HUB_URL", "http://localhost:4723/wd/hub")
+        return BrowseTheWeb.using(Remote(hub_url, DEFAULT_ANDROID_CAPABILITIES))
 
     @staticmethod
     def using(browser: WebDriver) -> "BrowseTheWeb":
@@ -176,13 +243,22 @@ class BrowseTheWeb:
         """
         Uses the connected browser to visit the specified URL.
 
+        This action supports using the BASE_URL environment variable to
+        set a base URL. If you set BASE_URL, the url passed in to this
+        function will be appended to the end of it. For example, if you
+        have `BASE_URL=http://localhost`, then to_get("/home") will send
+        your browser to "http://localhost/home".
+
+        If BASE_URL isn't set, then the passed-in url is assumed to be a
+        fully qualified URL.
+
         Args:
             url (string): the URL to visit.
 
         Returns:
             |BrowseTheWeb|
         """
-        self.browser.get(url)
+        self.browser.get(f'{os.getenv("BASE_URL", "")}{url}')
         return self
 
     def to_visit(self, url: str) -> "BrowseTheWeb":
