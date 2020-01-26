@@ -12,4 +12,3 @@ class SearchResults:
     @beat("{0} checks the returned search results...")
     def answered_by(self, the_actor):
         return Text.of_all(SEARCH_RESULTS).answered_by(the_actor)
-

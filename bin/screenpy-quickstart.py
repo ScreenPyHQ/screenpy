@@ -17,14 +17,16 @@ def create_module(name, filename, contents):
         print(f"> Directory {name} already exists! Skipping.")
 
 
-print(f"""
+print(
+    f"""
     This script will set up the scaffolding for your new ScreenPy project.
     It will create several folders and files in the current directory:
          {os.getcwd()}
     For more information, see https://screenpy-docs.readthedocs.io/en/latest/filehierarchy.html
-""")
+"""
+)
 response = input("Would you like to continue? [Y/n]: ")
-if response and response[0].lower() != 'y':
+if response and response[0].lower() != "y":
     print("OK! Goodbye!")
     sys.exit(0)
 
@@ -45,7 +47,7 @@ url = "https://screenpy-docs.readthedocs.io/en/latest/"
 WELCOME_MESSAGE = Target.the("welcome message").located_by(
     "#welcome-to-screenpy-s-documentation>h1"
 )
-"""
+""",
 )
 
 
@@ -68,7 +70,7 @@ class Start:
     def __init__(self, location):
         self.location = location
 
-"""
+""",
 )
 
 
@@ -89,7 +91,7 @@ class WelcomeMessage:
     @beat("{0} checks the welcome message...")
     def answered_by(self, the_actor):
         return Text.of(home_page.WELCOME_MESSAGE).answered_by(the_actor)
-"""
+""",
 )
 
 
@@ -125,14 +127,16 @@ class TestExample(TestCase):
 
     def tearDown(self):
         self.actor.exit_stage_right()
-"""
+""",
 )
 
 
-print("""
+print(
+    """
 Done! 🎉
 Next steps:
     - Try a test run with `python3 -m pytest features/`
     - Remove or modify any of the files created by this script, or add new ones!
     - Continue maintaining and extending your Screenplay Pattern test suite :)
-""")
+"""
+)

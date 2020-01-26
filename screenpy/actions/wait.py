@@ -136,7 +136,7 @@ class Wait:
             self.target.get_locator(), timeout=self.timeout, cond=self.condition
         )
 
-    def __init__(self, seconds: int=20, target: Optional[Target]=None) -> None:
+    def __init__(self, seconds: int = 20, target: Optional[Target] = None) -> None:
         self.target = target
         self.timeout = seconds
         self.condition = EC.visibility_of_element_located
