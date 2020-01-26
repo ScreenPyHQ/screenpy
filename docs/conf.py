@@ -101,6 +101,7 @@ rst_prolog = """.. Internal references
 .. |Enter.then_wait_for| replace:: :meth:`~screenpy.actions.enter.Enter.then_wait_for`
 .. |Open| replace:: :class:`~screenpy.actions.open.Open`
 .. |Open.browser_on| replace:: :meth:`~screenpy.actions.open.Open.browser_on`
+.. |Pause.for_| replace:: :meth:`~screenpy.actions.pause.Pause.for_`
 .. |Select| replace:: :class:`~screenpy.actions.select.Select`
 .. |Select.the_option_named| replace:: :meth:`~screenpy.actions.select.Select.the_option_named`
 .. |Select.the_option_at_index| replace:: :meth:`~screenpy.actions.select.Select.the_option_at_index`

@@ -2,6 +2,7 @@ from .clear import Clear
 from .click import Click
 from .enter import Enter
 from .open import Open
+from .pause import Pause
 from .select import Select
 from .wait import Wait
 
@@ -13,3 +14,4 @@ Opens = Open
 Press = Presses = Enters = Enter
 Selects = Select
 Waits = Wait
+Sleep = Sleeps = Pauses = Pause

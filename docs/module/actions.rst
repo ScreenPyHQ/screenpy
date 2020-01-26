@@ -140,3 +140,10 @@ Wait
 .. module:: screenpy.actions.wait
 .. autoclass:: Wait
     :members:
+
+Pause
+^^^^^
+
+.. module:: screenpy.actions.pause
+.. autoclass:: Pause
+    :members:
