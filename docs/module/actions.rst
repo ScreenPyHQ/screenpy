@@ -8,7 +8,7 @@ Actions are the things that an |Actor| can do, using their :ref:`abilities`.
 Using Actions
 -------------
 
-Actions can be used pretty much anywhere. They will typically be used to create :ref:`tasks` or move around in your :ref:`features`. Here is an example of using the |Click| action::
+Actions can be used pretty much anywhere. They will typically be used to create :ref:`tasks` or move around in your :ref:`features`. Here is an example of using the |Click| action:
 
     from screenpy.actions import Click
 
@@ -146,4 +146,11 @@ Pause
 
 .. module:: screenpy.actions.pause
 .. autoclass:: Pause
+    :members:
+
+Debug
+^^^^^
+
+.. module:: screenpy.actions.debug
+.. autoclass:: Debug
     :members:
