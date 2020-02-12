@@ -1,3 +1,9 @@
+pytest Example
+==============
+
+This example uses [pytest](https://docs.pytest.org/en/latest/)'s test organization style.
+
+
 Running the Tests
 ----------
 To run the tests, call the following in the project root folder:

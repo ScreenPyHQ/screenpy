@@ -6,9 +6,9 @@ This section of ScreenPy contains some fully-fleshed (albeit maybe a bit contriv
 GitHub
 ------
 
-A very small example that shows off entering text and clicking around a few GitHub pages.
+A very small example that shows off entering text and clicking around a few GitHub pages. It uses [pytest](https://docs.pytest.org/en/latest/)'s test organization style.
 
 The Internet
 ------------
 
-A slightly larger example that goes to [The Internet](https://the-internet.herokuapp.com/) and interacts with some of the widgets there.
+A slightly larger example that goes to [The Internet](https://the-internet.herokuapp.com/) and interacts with some of the widgets there. It uses [unittest](https://docs.python.org/3/library/unittest.html)'s test organization style.

@@ -7,19 +7,18 @@ are given the expected value when instantiated. For example:
 The Resolution will then be passed in to an actor's test method, along
 with a question to get the actual value. An assertion might look like:
 
-    perry.should_see_the((Text.of(THE_WELCOME_MESSAGE), ReadsExactly("Welcome!")),)
-
-Resolutions might be the only example of inheritance in the entirety of
-ScreenPy. Hm.
+    Perry.should_see_the(
+        (Text.of(THE_WELCOME_MESSAGE), ReadsExactly("Welcome!")),
+    )
 """
 
 
-from hamcrest.core.matcher import Matcher
+from hamcrest.core.base_matcher import BaseMatcher
 
-from ..pacing import beat, MINOR
+from ..pacing import MINOR, beat
 
 
-class Resolution(Matcher):
+class BaseResolution(BaseMatcher):
     """
     An abstraction barrier for |PyHamcrest|'s matchers. Allows for
     more natural language possibilities as well as nice logging for the
@@ -30,8 +29,13 @@ class Resolution(Matcher):
     Resolution to your |Actor|, they'll know what to do with it.
     """
 
+    line = (
+        "-- I'm sorry, this resolution did not provide a line. Please define a more"
+        "descriptive line for your custom resolution."
+    )
+
     @beat("... hoping {motivation}", gravitas=MINOR)
-    def matches(self, actual) -> bool:
+    def _matches(self, actual) -> bool:
         """passthrough to the matcher's method."""
         return self.matcher.matches(actual)
 
@@ -44,9 +48,15 @@ class Resolution(Matcher):
         return self.matcher.describe_mismatch(item, mismatch_description)
 
     @property
-    def motivation(self) -> "Resolution":
+    def motivation(self) -> "BaseResolution":
         """Used to provide fancy logging for the allure report."""
         return self
+
+    def __init__(self) -> None:
+        raise NotImplementedError(
+            "Resolutions must implement their own __init__ method. Please implement "
+            f"this method for the custom '{self.__class__.__name__}' Resolution."
+        )
 
     def __repr__(self) -> str:
         return self.line.format(expectation=self.expected)

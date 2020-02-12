@@ -4,7 +4,16 @@
 Welcome to ScreenPy's documentation!
 ====================================
 
-ScreenPy provides a solid, SOLID base for writing maintainable test suites following the Screenplay Pattern, popularized by Antony Marcano. It also provides nice logging through |Allure| and support for BDD-style natural language test case writing.
+ScreenPy provides a solid,
+SOLID base
+for writing maintainable test suites
+following the Screenplay Pattern,
+popularized by Antony Marcano.
+It also provides nice test logging
+through |Allure|
+and support
+for BDD-style
+natural language test case writing.
 
 
 .. toctree::

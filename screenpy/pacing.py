@@ -1,9 +1,16 @@
-from typing import Callable, Any
-from functools import wraps
+"""
+Provides decorators to group your tests into acts (features) and scenes
+(cases), and provide the gravitas (severity) of those groupings. This will
+both use Allure's marking to group the tests together for those reports
+and also set the logging severity for Python's built-in logging library.
+"""
+
+
 import re
+from functools import wraps
+from typing import Any, Callable
 
 import allure
-
 
 TRIVIAL = allure.severity_level.TRIVIAL
 MINOR = allure.severity_level.MINOR
@@ -12,7 +19,7 @@ CRITICAL = allure.severity_level.CRITICAL
 BLOCKER = allure.severity_level.BLOCKER
 
 
-Function = Callable[[Any], Any]
+Function = Callable[..., Any]
 
 
 def act(title: str, gravitas=NORMAL) -> Callable[[Function], Function]:

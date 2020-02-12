@@ -1,5 +1,9 @@
-from screenpy import Target
+"""
+Locators for the GitHub search results page.
+"""
 
+
+from screenpy import Target
 
 RESULTS_MESSAGE = Target.the("search results message").located_by(
     "div.codesearch-results > div > div > h3"  # ew

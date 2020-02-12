@@ -1,0 +1,31 @@
+files: '(screenpy|examples)/*'
+fail_fast: false
+repos:
+- repo: https://github.com/psf/black
+  rev: 19.10b0
+  hooks:
+  - id: black
+    language_version: python3.7
+- repo: https://github.com/timothycrosley/isort
+  rev: 4.3.21
+  hooks:
+  - id: isort
+    language_version: python3.7
+- repo: https://github.com/PyCQA/flake8
+  rev: 3.7.9
+  hooks:
+  - id: flake8
+    language_version: python3.7
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v0.761
+  hooks:
+  - id: mypy
+    language_version: python3.7
+    additional_dependencies: ["PyHamcrest>=1.9.0,<1.10", "pytest>=4.3.0,<4.4", "allure-pytest>=2.6.0,<2.7",  "selenium>=3.141.0,<3.142"]
+- repo: local
+  hooks:
+  - id: pylint
+    name: pylint
+    entry: pylint --max-line-length=88 --disable=bad-continuation --disable=no-self-use --disable=too-few-public-methods --disable=invalid-name --disable=wrong-import-order --disable=import-error --disable=super-init-not-called --disable=duplicate-code
+    language: system
+    types: [python]

@@ -3,11 +3,14 @@
 Installation
 ============
 
-To install ScreenPy, run the following command, preferably in a virtual environment:
+To install ScreenPy,
+run the following command,
+preferably in a virtual environment:
 
 ``pip3 install screenpy``
 
-This will also install the ``screenpy-quickstart`` script and the following dependencies:
+This will also install the ``screenpy-quickstart`` script
+and the following dependencies:
 
 1. |Selenium|
 2. |PyHamcrest|

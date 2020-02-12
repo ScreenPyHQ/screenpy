@@ -1,13 +1,25 @@
+"""
+A question to discover the selected option or options from a dropdown or
+multi-select field. Questions must be asked with an expected resolution,
+like so:
+
+    the_actor.should_see_the(
+        (Selected.option_from_the(STATE_DROPDOWN), ReadsExactly("MN")),
+    )
+"""
+
+
 from typing import List, Union
 
-from selenium.webdriver.support.ui import Select as SelSelect
+from selenium.webdriver.support.ui import Select as SeleniumSelect
 
 from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
+from .base_question import BaseQuestion
 
 
-class Selected:
+class Selected(BaseQuestion):
     """
     Answers questions about what options are selected in dropdowns,
     multi-select fields, etc, viewed by an |Actor|. This question is meant
@@ -20,15 +32,21 @@ class Selected:
     It can then be passed along to the |Actor| to ask the question.
     """
 
+    target: Target
+    multi: bool
+
     @staticmethod
     def option_from(target: Target) -> "Selected":
         """
         Gets the option that is currently selected in a dropdown or the
-        first option selected in a multiselect field.
+        first option selected in a multi-select field.
+
+        Note that if this method is used for a multi-select field, only
+        the first selected option will be returned.
 
         Args:
-            target (Target): the |Target| describing the dropdown or
-                multiselect element.
+            target: the |Target| describing the dropdown or multi-select
+                element.
 
         Returns:
             |Selected|
@@ -43,7 +61,7 @@ class Selected:
     @staticmethod
     def options_from(multiselect_target: Target) -> "Selected":
         """
-        Gets all the options that are currently selected in a multiselect
+        Gets all the options that are currently selected in a multi-select
         field.
 
         Note that this method should not be used for single-select
@@ -51,8 +69,8 @@ class Selected:
         from Selenium when |Selected.answered_by| is invoked.
 
         Args:
-            multiselect_target (Target): the |Target| describing the
-                multiselect element.
+            multiselect_target: the |Target| describing the multi-select
+                element.
 
         Returns:
             |Selected|
@@ -67,24 +85,23 @@ class Selected:
     @beat("{0} checks the selected option(s) from {target}")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
-        Investigates the page as viewed by the supplied |Actor| and gives
-        their answer.
+        Asks the supplied actor to investigate the page and give their
+        answer.
 
         Args:
-            the_actor (Actor): The |Actor| who will answer the question.
+            the_actor: the |Actor| who will answer the question.
 
         Returns:
             str: the text of the single option selected in a dropdown, or
-                the first option selected in a multiselect field.
-            List[str]: the text of all options selected in a multiselect
+                the first option selected in a multi-select field.
+            List[str]: the text of all options selected in a multi-select
                 field.
         """
-        select = SelSelect(self.target.found_by(the_actor))
+        select = SeleniumSelect(self.target.found_by(the_actor))
 
         if self.multi:
             return [e.text for e in select.all_selected_options()]
-        else:
-            return select.first_selected_option.text
+        return select.first_selected_option.text
 
     def __init__(self, target: Target, multi: bool = False):
         self.target = target

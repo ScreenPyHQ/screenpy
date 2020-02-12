@@ -1,3 +1,8 @@
+unittest Example
+================
+
+This example uses [unittest](https://docs.python.org/3/library/unittest.html)'s test organization style.
+
 Running the Tests
 ----------
 To run the tests, call the following in the project root folder:

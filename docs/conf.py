@@ -15,7 +15,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../.."))
+sys.path.insert(0, os.path.abspath("../"))
 sys.path.insert(0, os.path.abspath("../env/lib/python3.7/site-packages/"))
 
 autodoc_mock_imports = ["hamcrest", "allure"]
@@ -79,10 +79,11 @@ rst_prolog = """.. Internal references
 .. .. Abilities
 .. |BrowseTheWeb| replace:: :class:`~screenpy.abilities.browse_the_web.BrowseTheWeb`
 .. |BrowseTheWeb.using| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.using`
-.. |BrowseTheWeb.find| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.find`
-.. |BrowseTheWeb.find_all| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.find_all`
-.. |BrowseTheWeb.wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.wait_for`
+.. |BrowseTheWeb.to_find| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_find`
+.. |BrowseTheWeb.to_find_all| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_find_all`
+.. |BrowseTheWeb.to_wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_wait_for`
 .. |BrowseTheWeb.forget| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.forget`
+.. |BrowseTheWeb.wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.wait_for`
 
 .. .. Actions
 .. |Action| replace:: :ref:`actions`
@@ -94,6 +95,7 @@ rst_prolog = """.. Internal references
 .. |Click.on_the| replace:: :meth:`~screenpy.actions.click.Click.on_the`
 .. |Click.then_wait_for| replace:: :meth:`~screenpy.actions.click.Click.then_wait_for`
 .. |Click.perform_as| replace:: :meth:`~screenpy.actions.click.Click.perform_as`
+.. |Debug| replace:: :class:`~screenpy.actions.debug.Debug`
 .. |Enter| replace:: :class:`~screenpy.actions.enter.Enter`
 .. |Enter.the_text| replace:: :meth:`~screenpy.actions.enter.Enter.the_text`
 .. |Enter.into| replace:: :meth:`~screenpy.actions.enter.Enter.into`
@@ -101,6 +103,7 @@ rst_prolog = """.. Internal references
 .. |Enter.then_wait_for| replace:: :meth:`~screenpy.actions.enter.Enter.then_wait_for`
 .. |Open| replace:: :class:`~screenpy.actions.open.Open`
 .. |Open.browser_on| replace:: :meth:`~screenpy.actions.open.Open.browser_on`
+.. |Pause| replace:: :class:`~screenpy.actions.pause.Pause`
 .. |Pause.for_| replace:: :meth:`~screenpy.actions.pause.Pause.for_`
 .. |Select| replace:: :class:`~screenpy.actions.select.Select`
 .. |Select.the_option_named| replace:: :meth:`~screenpy.actions.select.Select.the_option_named`
@@ -115,8 +118,10 @@ rst_prolog = """.. Internal references
 .. |Wait| replace:: :class:`~screenpy.actions.wait.Wait`
 .. |Wait.for_| replace:: :meth:`~screenpy.actions.wait.Wait.for_`
 .. |Wait.for_the| replace:: :meth:`~screenpy.actions.wait.Wait.for_the`
+.. |wait.to_appear| replace:: :meth:`~screenpy.actions.wait.Wait.to_appear`
 
 .. .. Questions
+.. |Question| replace:: :ref:`questions`
 .. |List| replace:: :class:`~screenpy.questions.list.List`
 .. |List.of| replace:: :meth:`~screenpy.questions.list.List.of`
 .. |List.of_all| replace:: :meth:`~screenpy.questions.list.List.of_all`
@@ -132,7 +137,8 @@ rst_prolog = """.. Internal references
 .. |Selected.answered_by| replace:: :class:`~screenpy.questions.selected.Selected.answered_by`
 
 .. .. Resolutions
-.. |Resolution| replace:: :class:`~screenpy.resolutions.base_resolution.Resolution`
+.. |Resolution| replace:: :ref:`resolutions`
+.. |BaseResolution| replace:: :class:`~screenpy.resolutions.base_resolution.BaseResolution`
 .. |ReadsExactly| replace:: :class:`~screenpy.resolutions.reads_exactly.ReadsExactly`
 
 .. External references

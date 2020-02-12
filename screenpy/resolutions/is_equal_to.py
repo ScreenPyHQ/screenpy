@@ -1,12 +1,23 @@
-from hamcrest import *
+"""
+A resolution that matches using equality. Resolutions must be paired with
+questions and passed together to an actor like so:
 
-from .base_resolution import Resolution
+    the_actor.should_see_the((Number.of_the(TODO_ITEMS), IsEqualTo(4)))
+"""
 
 
-class IsEqualTo(Resolution):
+from hamcrest import equal_to
+
+from .base_resolution import BaseResolution
+
+
+class IsEqualTo(BaseResolution):
     """
     Matches on equality (i.e. `a == b`).
     """
+
+    expected: object
+    matcher: object
 
     line = "to find {expectation}"
 

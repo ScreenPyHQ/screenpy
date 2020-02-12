@@ -1,12 +1,25 @@
-from hamcrest import *
+"""
+A resolution that matches against a substring. Resolutions must be paired
+with questions and passed together to an actor like so:
 
-from .base_resolution import Resolution
+    the_actor.should_see_the(
+        (Text.of_the(WELCOME_BANNER), ContainsTheText("Welcome!")),
+    )
+"""
 
 
-class ContainsTheText(Resolution):
+from hamcrest import contains_string
+
+from .base_resolution import BaseResolution
+
+
+class ContainsTheText(BaseResolution):
     """
     Matches a substring (e.g. `"play" in "screenplay"`).
     """
+
+    expected: str
+    matcher: object
 
     line = 'to have "{expectation}"'
 

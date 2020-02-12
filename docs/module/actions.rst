@@ -3,12 +3,16 @@
 Actions
 =======
 
-Actions are the things that an |Actor| can do, using their :ref:`abilities`.
+Actions are the things that an |Actor| can do,
+using their :ref:`abilities`.
 
 Using Actions
 -------------
 
-Actions can be used pretty much anywhere. They will typically be used to create :ref:`tasks` or move around in your :ref:`features`. Here is an example of using the |Click| action:
+Actions can be used pretty much anywhere.
+They will typically be used to create :ref:`tasks`
+or move around in your :ref:`features`.
+Here is an example of using the |Click| action::
 
     from screenpy.actions import Click
 
@@ -17,49 +21,86 @@ Actions can be used pretty much anywhere. They will typically be used to create 
 
     Perry.attempts_to(Click.on_the(LOGIN_LINK))
 
-Actors will always only *attempt* to perform an action. They may not actually have the correct :ref:`abilities`, after all. If an actor is unable to perform an action or task, they will raise an |UnableToPerformException|.
+
+Actors will always only *attempt*
+to perform an action.
+They may not actually have the correct :ref:`abilities`,
+after all.
+If an actor is unable to perform an action or task,
+they will raise an |UnableToPerformException|.
 
 Writing New Actions
 -------------------
 
-Like most things in the Screenplay Pattern, you may realize you need to define your own custom actions. The only requirement for creating more actions is that they have a ``perform_as`` method defined.
+Occasionally,
+you might find that the base actions
+don't quite cover
+a unique use case you have
+for your test suite.
+Since Screenplay Pattern is built to be extensible,
+it is easy and encouraged
+to create your own custom actions
+to achieve what you need!
+The only requirement for creating more actions
+is that they have a ``perform_as`` method defined
+which takes in the actor who will perform the action.
 
-A very common custom action is the ``Start`` action, which will start the test on the homepage. Here's what that might look like:
-
-.. code-block:: python
-
-    from screenpy.actions import Open
-
-    from user_interface.homepage import HOME_URL
+A base class for Actions is provided
+to ensure the required methods
+are defined:
+``screenpy.actions.base_action.BaseAction``
 
 
-    class Start(object):
-        def perform_as(self, the_actor):
-            the_actor.attempts_to(Open.browser_on(self.location))
+Let's take a look at what an extremely contrived custom action, ``ChecksTheSpelling``, might look like::
 
+    # actions/checks_the_spelling.py
+    from screenpy.actions import BaseAction
+
+
+    class ChecksTheSpelling(BaseAction):
         @staticmethod
-        def on_the_homepage():
-            return Start(HOME_URL)
+        def of_words_in_the(locator):
+            return ChecksSpelling(locator)
 
-        def __init__(self, location):
-            self.location = location
+        def perform_as(self, the_actor):
+            the_actor.uses_ability_to(CheckSpelling).to_check()
 
+        def __init__(self, locator):
+            self.locator = locator
+
+
+ScreenPy attempts to follow a convention
+of putting all the static methods first,
+then the ``perform_as`` function,
+and leaving the dunder methods at the bottom.
+This way the most important methods are first
+for someone perusing your code.
 
 .. _tasks:
 
 Tasks
 -----
 
-Sometimes, your actors might repeat the same series of actions several times. A grouping of common actions can be abstracted into :ref:`tasks-dir`.
+Sometimes,
+your actors might repeat
+the same series of actions
+several times.
+A grouping of common actions
+can be abstracted into a Task
+in your :ref:`tasks-dir`.
 
-A common place this might occur is if your actor needs to log in to test your application. This ``Login`` task might look something like this:
+A common task for Screenplay Pattern suites
+is logging in to your application under test.
+This login task
+might look something like this:
 
 .. code-block:: python
 
-    # task/login.py
+    # tasks/login.py
     import os
 
-    from screenpy.actions import Click, Enter
+    from screenpy import Actor
+    from screenpy.actions import BaseAction, Click, Enter
 
     from ..user_interface.homepage import (
         SIGN_ON_LINK,
@@ -69,26 +110,56 @@ A common place this might occur is if your actor needs to log in to test your ap
     )
 
 
-    class LoginSuccessfully(object):
-        def perform_as(self, the_actor):
+    class LoginSuccessfully(BaseAction):
+        """
+        Log in to the application successfully.
+        """
+
+        @staticmethod
+        def using_credentials(username: str, password: str) -> "LoginSuccessfully":
+            """
+            Supply the credentials for the account.
+
+            Args:
+                username: the username to use.
+                password: the password to use.
+            """
+            return LoginSuccessfully(username, password)
+
+        def perform_as(self, the_actor: Actor) -> None:
+            """
+            Asks the actor to log in to the application.
+
+            Args:
+                the_actor: the actor who will perform this task.
+
+            Raises:
+                UnableToPerformException: if the actor does not possess the
+                    ability to BrowseTheWeb.
+            """
             the_actor.attempts_to(
-                Click.on(SIGN_ON_LINK).then_wait_for(THE_USERNAME_FIELD),
+                Click.on(SIGN_ON_LINK),
+                Wait.for_the(THE_USERNAME_FIELD).to_appear(),
                 Enter.the_text(self.username).into(THE_USERNAME_FIELD),
                 Enter.the_text(self.password).into(THE_PASSWORD_FIELD),
                 Click.on_the(LOGIN_BUTTON)
             )
 
-        @staticmethod
-        def using_credentials(username, password):
-            return LoginSuccessfully(username, password)
-
-        def __init__(self, username, password):
+        def __init__(self, username: str, password: str):
             self.username = username
             self.password = password
 
-And there you have it! Now all you have to do is ask your actor to attempt to ``LoginSuccessfully`` and you've got the same set of actions everywhere.
+And there you have it!
+Now all you have to do
+is ask your actor
+to attempt to ``LoginSuccessfully``,
+and you've got the same set of actions everywhere.
 
-Note that tasks, just like actions, are required to have a ``perform_as`` method defined.
+Note that tasks,
+just like actions,
+are required to have a ``perform_as`` method defined.
+You can use the ``BaseAction`` class
+for tasks as well.
 
 Provided Actions
 ----------------

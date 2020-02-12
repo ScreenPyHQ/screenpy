@@ -1,4 +1,11 @@
-from typing import List, Tuple
+"""
+Provides an object to store a locator with a human-readable string. The
+human-readable string will be used in logging and reporting; the locator
+will be used by actors to find elements.
+"""
+
+
+from typing import List, Tuple, Union
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebElement
@@ -21,6 +28,9 @@ class Target:
     element.
     """
 
+    target_name: str
+    locator: Union[None, Tuple[By, str]]
+
     @staticmethod
     def the(desc: str) -> "Target":
         """
@@ -37,13 +47,15 @@ class Target:
         """
         return Target(desc)
 
-    def located_by(self, locator: str) -> "Target":
+    def located(self, locator: Tuple[By, str]) -> "Target":
         """
-        Supplies an instantiated Target with a locator string.
+        Supplies an instantiated target with a locator. This locator is a
+        tuple of the By strategy to use and the identifying string, e.g.
+
+            (By.id, "report")
 
         Args:
-            locator (str): The string to use as a locator for the element.
-                Can be a CSS selector or an xpath string.
+            locator: the (By, str) locator to use to find the element.
 
         Returns:
             |Target|
@@ -51,18 +63,39 @@ class Target:
         self.locator = locator
         return self
 
-    def get_locator(self) -> Tuple[By, str]:
+    def located_by(self, locator: str) -> "Target":
         """
-        Returns the stored locator as a tuple, figuring out what kind of
-        location strategy the string uses (CSS selector or xpath).
+        Supplies an instantiated Target with a locator string, which is
+        either a CSS selector or an XPATH string. The strategy will be
+        determined before it is stored.
+
+        Args:
+            locator: the string to use as a locator for the element.
+                Can be a CSS selector or an xpath string.
 
         Returns:
-            tuple(|By|, str)
+            |Target|
         """
-        if self.locator.startswith("/"):
-            return (By.XPATH, self.locator)
+        if locator.startswith("/"):
+            self.locator = (By.XPATH, locator)
         else:
-            return (By.CSS_SELECTOR, self.locator)
+            self.locator = (By.CSS_SELECTOR, locator)
+
+        return self
+
+    def get_locator(self) -> Tuple[By, str]:
+        """
+        Returns the stored locator as a (By, str) tuple.
+
+        Returns:
+            Tuple(|By|, str)
+        """
+        if self.locator is None:
+            raise ValueError(
+                "Locator was not supplied to target. Make sure to use either "
+                ".located() or .located_by() to supply a locator."
+            )
+        return self.locator
 
     def found_by(self, the_actor: Actor) -> WebElement:
         """
@@ -93,7 +126,7 @@ class Target:
 
     def __init__(self, desc: str) -> None:
         self.target_name = desc
-        self.locator = ""
+        self.locator = None
 
     def __repr__(self) -> str:
         return self.target_name

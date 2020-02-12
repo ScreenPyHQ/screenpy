@@ -1,12 +1,30 @@
+"""
+An ability which provides an API for Selenium to enable actors to perform
+actions related to web browsing. Grant your actor the ability to browse
+the web like so:
+
+    # during instantiation
+    the_actor = AnActor.who_can(BrowseTheWeb.using_firefox())
+
+    # after instantiation
+    the_actor.can(BrowseTheWeb.using_safari())
+"""
+
+
 import os
-from typing import List
+from typing import TYPE_CHECKING, Callable, List, Tuple, Union
 
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import Chrome, Firefox, Remote, Safari
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver, WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from .base_ability import BaseAbility
+
+if TYPE_CHECKING:
+    from ..target import Target  # noqa: for type checking
 
 DEFAULT_IOS_CAPABILITIES = {
     "platformName": "iOS",
@@ -24,7 +42,7 @@ DEFAULT_ANDROID_CAPABILITIES = {
 }
 
 
-class BrowseTheWeb:
+class BrowseTheWeb(BaseAbility):
     """
     The ability to browse the web with a web browser. This ability is
     meant to be instantiated with its |BrowseTheWeb.using| static method,
@@ -126,61 +144,62 @@ class BrowseTheWeb:
         |WebDriver| instance, even a remote one.
 
         Args:
-            browser (webdriver): The driver to use.
+            browser: the webdriver instance to use.
 
         Returns:
             |BrowseTheWeb|
         """
         return BrowseTheWeb(browser)
 
-    def find(self, locator: tuple) -> WebElement:
+    def to_find(self, locator: Tuple[By, str]) -> WebElement:
         """
         Locates a single element on the page using the given locator.
 
         Args:
-            locator (tuple): The tuple describing the element, like
-                (|By|, string)
+            locator: the tuple describing the element, like (|By|, string)
 
         Returns:
             |WebElement|
         """
         return self.browser.find_element(*locator)
 
-    def to_find(self, locator: tuple) -> WebElement:
-        """Syntactic sugar for |BrowseTheWeb.find|."""
+    def find(self, locator: Tuple[By, str]) -> WebElement:
+        """Syntactic sugar for |BrowseTheWeb.to_find|."""
         return self.find(locator)
 
-    def find_all(self, locator: tuple) -> List[WebElement]:
+    def to_find_all(self, locator: Tuple[By, str]) -> List[WebElement]:
         """
         Locates many elements on the page using the given locator.
 
         Args:
-            locator (tuple): The tuple describing the elements, like
+            locator: The tuple describing the elements, like
                 (|By|, string)
 
         Returns:
-            list(|WebElement|)
+            List(|WebElement|)
         """
         return self.browser.find_elements(*locator)
 
-    def to_find_all(self, locator: tuple) -> WebElement:
-        """Syntactic sugar for |BrowseTheWeb.find_all|."""
+    def find_all(self, locator: Tuple[By, str]) -> WebElement:
+        """Syntactic sugar for |BrowseTheWeb.to_find_all|."""
         return self.find_all(locator)
 
     def wait_then_find(
-        self, locator: tuple, timeout=20, cond=EC.visibility_of_element_located
+        self,
+        locator: Tuple[By, str],
+        timeout: int = 20,
+        cond: Callable = EC.visibility_of_element_located,
     ) -> WebElement:
         """
         Waits for the element described by the locator to appear, then
         gets it.
 
         Args:
-            locator (tuple): The tuple describing the element, like
-                (|By|, string)
-            timeout (int): How many seconds to wait before raising a
+            locator: The tuple describing the element, like (|By|, string)
+            timeout: How many seconds to wait before raising a
                 TimeoutException. Default is 20.
-            cond (ExpectedCondition): The condition to wait for. Default
-                is visibility_of_element_located.
+            cond: The condition to wait for. Default is
+                visibility_of_element_located.
 
         Returns:
             |WebElement|
@@ -189,38 +208,44 @@ class BrowseTheWeb:
         return self.find(locator)
 
     def wait_then_find_all(
-        self, locator: tuple, timeout=20, cond=EC.visibility_of_element_located
+        self,
+        locator: Tuple[By, str],
+        timeout: int = 20,
+        cond: Callable = EC.visibility_of_element_located,
     ) -> List[WebElement]:
         """
         Waits for the elements described by the locator to appear, then
         gets them all.
 
         Args:
-            locator (tuple): The tuple describing the element, like
-                (|By|, string)
-            timeout (int): How many seconds to wait before raising a
+            locator: The tuple describing the element, like (|By|, string)
+            timeout: How many seconds to wait before raising a
                 TimeoutException. Default is 20.
-            cond (ExpectedCondition): The condition to wait for. Default
-                is visibility_of_element_located.
+            cond: The condition to wait for. Default is
+                visibility_of_element_located.
 
         Returns:
-            list(|WebElement|)
+            List(|WebElement|)
         """
         self.wait_for(locator, timeout, cond)
         return self.find_all(locator)
 
-    def wait_for(self, locator, timeout=20, cond=EC.visibility_of_element_located):
+    def to_wait_for(
+        self,
+        locator: Union["Target", Tuple[By, str]],
+        timeout: int = 20,
+        cond: Callable = EC.visibility_of_element_located,
+    ):
         """
         Waits for the element specified by locator to fulfill the given
         condition.
 
         Args:
-            locator (tuple or Target): The tuple or |Target| describing
-            the element.
-            timeout (int): How many seconds to wait before raising a
+            locator: The tuple or |Target| describing the element.
+            timeout: How many seconds to wait before raising a
                 TimeoutException. Default is 20.
-            cond (ExpectedCondition): The condition to wait for. Default
-                is visibility_of_element_located.
+            cond: The condition to wait for. Default is
+                visibility_of_element_located.
 
         Raises:
             TimeoutException: if the element did not satisfy the condition
@@ -235,8 +260,13 @@ class BrowseTheWeb:
             msg = msg.format(time=timeout, ele=locator, cond=cond.__name__)
             raise TimeoutException(msg)
 
-    def to_wait_for(self, locator, timeout=20, cond=EC.visibility_of_element_located):
-        """Syntactic sugar for |BrowseTheWeb.wait_for|."""
+    def wait_for(
+        self,
+        locator: Union["Target", Tuple[By, str]],
+        timeout: int = 20,
+        cond: Callable = EC.visibility_of_element_located,
+    ):
+        """Syntactic sugar for |BrowseTheWeb.to_wait_for|."""
         return self.wait_for(locator, timeout, cond)
 
     def to_get(self, url: str) -> "BrowseTheWeb":
@@ -253,7 +283,7 @@ class BrowseTheWeb:
         fully qualified URL.
 
         Args:
-            url (string): the URL to visit.
+            url: the URL to visit.
 
         Returns:
             |BrowseTheWeb|
@@ -265,14 +295,16 @@ class BrowseTheWeb:
         """Syntactic sugar for |BrowseTheWeb.to_get|."""
         return self.to_get(url)
 
-    def forget(self):
+    def forget(self) -> None:
         """
-        What happens when the actor forgets this ability: it quits the
+        Asks the actor to forget how to BrowseTheWeb. This quits the
         connected browser.
+
+        An actor who is exiting will forget all their abilities.
         """
         self.browser.quit()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Browse the Web"
 
     def __init__(self, browser: "WebDriver") -> None:

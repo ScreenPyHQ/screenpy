@@ -1,68 +1,75 @@
+"""
+An example test module that follows the pattern of subclassing
+unittest.TestCase.
+"""
+
+
 import random
 import unittest
 
-from selenium.webdriver import Firefox
-
-from screenpy import AnActor, given, when, then, and_
-from screenpy.actions import Click, Wait
+from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
+from screenpy.actions import Click, Open, Wait
 from screenpy.pacing import act, scene
 from screenpy.questions import Number
-from screenpy.resolutions import *
+from screenpy.resolutions import IsEqualTo
+from selenium.webdriver import Firefox
 
-from ..tasks.start import Start
-from ..user_interface.homepage import ADD_REMOVE_ELEMENTS_LINK
-from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS
+from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS, URL
 
 
 class TestAddRemoveElements(unittest.TestCase):
+    """
+    Flexes the Add and Remove Elements page of http://the-internet.herokuapp.com/
+    """
+
     def setUp(self):
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
 
     @act("Add And Remove")
     @scene("Add One Element")
     def test_add_one_element(self):
+        """User is able to add one element."""
         Perry = self.actor
 
-        given(Perry).was_able_to(Start.on_the_homepage())
-        when(Perry).attempts_to(
-            Click.on_the(ADD_REMOVE_ELEMENTS_LINK),
-            Wait(10).seconds_for_the(ADD_BUTTON).to_appear(),
-        )
-        and_(Perry).attempts_to(Click.on_the(ADD_BUTTON).then_wait_for(ADDED_ELEMENTS))
+        given(Perry).was_able_to(Open.their_browser_on(URL))
+        when(Perry).attempts_to(Click.on_the(ADD_BUTTON).then_wait_for(ADDED_ELEMENTS))
         then(Perry).should_see_the((Number.of(ADDED_ELEMENTS), IsEqualTo(1)))
 
     @act("Add And Remove")
     @scene("Add Many Elements")
     def test_add_many_elements(self):
+        """
+        User is able to add many elements. This test chooses a random
+        number of elements to add, just to show off how to do that, if you
+        want to do something like that.
+        """
         Perry = self.actor
-        repeat = random.choice(range(2, 10))
+        number_of_times = random.choice(range(2, 10))
 
-        given(Perry).was_able_to(Start.on_the_homepage())
+        given(Perry).was_able_to(Open.their_browser_on(URL))
         when(Perry).attempts_to(
-            Click.on_the(ADD_REMOVE_ELEMENTS_LINK),
-            Wait(10).seconds_for_the(ADD_BUTTON).to_appear(),
-        )
-        and_(Perry).attempts_to(
             *(
                 Click.on_the(ADD_BUTTON).then_wait_for(ADDED_ELEMENTS)
-                for each_time in range(repeat)
+                for each_time in range(number_of_times)
             )
         )
-        then(Perry).should_see_the((Number.of(ADDED_ELEMENTS), IsEqualTo(repeat)))
+        then(Perry).should_see_the(
+            (Number.of(ADDED_ELEMENTS), IsEqualTo(number_of_times))
+        )
 
     @act("Add And Remove")
     @scene("Remove Element")
     def test_remove_element(self):
+        """User is able to remove an element that was added."""
         Perry = self.actor
 
-        given(Perry).was_able_to(Start.on_the_homepage())
-        when(Perry).attempts_to(
-            Click.on_the(ADD_REMOVE_ELEMENTS_LINK),
-            Wait(10).seconds_for_the(ADD_BUTTON).to_appear(),
+        given(Perry).was_able_to(
+            Open.their_browser_on(URL),
+            Click.on_the(ADD_BUTTON),
+            Wait.for_the(ADDED_ELEMENTS),
         )
-        and_(Perry).attempts_to(Click.on_the(ADD_BUTTON).then_wait_for(ADDED_ELEMENTS))
-        and_(Perry).attempts_to(Click.on_the(ADDED_ELEMENTS))
+        when(Perry).attempts_to(Click.on_the(ADDED_ELEMENTS))
         then(Perry).should_see_the((Number.of(ADDED_ELEMENTS), IsEqualTo(0)))
 
     def tearDown(self):

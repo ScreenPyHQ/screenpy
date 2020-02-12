@@ -1,12 +1,25 @@
-from hamcrest import *
+"""
+A resolution that matches an exact string. Resolutions must be paired
+with questions and passed together to an actor like so:
 
-from .base_resolution import Resolution
+    the_actor.should_see_the(
+        (Text.of_the(LOGIN_MESSAGE), ReadsExactly("Log in below.")),
+    )
+"""
 
 
-class ReadsExactly(Resolution):
+from hamcrest import has_string
+
+from .base_resolution import BaseResolution
+
+
+class ReadsExactly(BaseResolution):
     """
     Matches a string exactly (e.g. `"screenplay" == "screenplay"`).
     """
+
+    expected: str
+    matcher: object
 
     line = 'to read "{expectation}", exactly'
 

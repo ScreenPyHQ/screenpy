@@ -1,48 +1,62 @@
-import unittest
+"""
+An example of a test module that follows the typical pytest test
+structure.
+"""
 
+
+from typing import Generator
+
+import pytest
+from screenpy import Actor, AnActor, given, then, when
+from screenpy.abilities import BrowseTheWeb
+from screenpy.actions import Open
+from screenpy.pacing import act, scene
+from screenpy.resolutions import (
+    ContainsTheText,
+    ContainTheText,
+    DoesNot,
+    IsEqualTo,
+    ReadsExactly,
+)
 from selenium.webdriver import Firefox
 
-from screenpy import Actor, given, when, then
-from screenpy.abilities import BrowseTheWeb
-from screenpy.pacing import act, scene
-from screenpy.resolutions import *
-
-from ..questions.search_results_message import SearchResultsMessage
 from ..questions.number_of_search_results import NumberOfSearchResults
-from ..tasks.start import Start
+from ..questions.search_results_message import SearchResultsMessage
 from ..tasks.search_github import SearchGitHub
+from ..user_interface.github_home_page import URL
 
 
-class TestGitHubSearch(unittest.TestCase):
-    def setUp(self):
-        self.perry = Actor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
+@pytest.fixture(scope="function", name="Perry")
+def fixture_actor() -> Generator:
+    """Create the actor for our example tests!"""
+    the_actor = Actor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
+    yield the_actor
+    the_actor.exit_stage_left()
 
-    @act("Search")
-    @scene("Search for the ScreenPy repository on GitHub")
-    def test_search_for_screenpy(self):
-        perry = self.perry
 
-        given(perry).was_able_to(Start.on_the_homepage())
-        when(perry).attempts_to(SearchGitHub.for_text("perrygoy/screenpy"))
-        then(perry).should_see_that(
-            (SearchResultsMessage.text(), DoesNot(ContainTheText("couldn’t"))),
-            (SearchResultsMessage.text(), ReadsExactly("1 repository result")),
-            (NumberOfSearchResults.total(), IsEqualTo(1)),
-        )
+@act("Search")
+@scene("Search for the ScreenPy repository on GitHub")
+def test_search_for_screenpy(Perry: AnActor) -> None:
+    """GitHub search finds the screenpy repository."""
+    given(Perry).was_able_to(Open.their_browser_on(URL))
+    when(Perry).attempts_to(SearchGitHub.for_text("perrygoy/screenpy"))
+    then(Perry).should_see_that(
+        (SearchResultsMessage(), DoesNot(ContainTheText("couldn’t"))),
+        (SearchResultsMessage(), ReadsExactly("1 repository result")),
+        (NumberOfSearchResults(), IsEqualTo(1)),
+    )
 
-    @act("Search")
-    @scene("Search for a nonexistant repository on GitHub")
-    def test_search_for_nonexistent_repo(self):
-        nonexistant_repository = "perrygoy/i-never-made-this-repo"
-        perry = self.perry
 
-        given(perry).was_able_to(Start.on_the_homepage())
-        when(perry).attempts_to(SearchGitHub.for_text(nonexistant_repository))
-        then(perry).should_see_that(
-            (SearchResultsMessage.text(), ContainsTheText("We couldn’t find any")),
-            (SearchResultsMessage.text(), ContainsTheText(nonexistant_repository)),
-            (NumberOfSearchResults.total(), IsEqualTo(0)),
-        )
+@act("Search")
+@scene("Search for a nonexistant repository on GitHub")
+def test_search_for_nonexistent_repo(Perry: AnActor) -> None:
+    """GitHub search fails to find a nonexistant repository."""
+    nonexistant_repository = "perrygoy/i-never-made-this-repo"
 
-    def tearDown(self):
-        self.perry.exit_stage_left()
+    given(Perry).was_able_to(Open.their_browser_on(URL))
+    when(Perry).attempts_to(SearchGitHub.for_text(nonexistant_repository))
+    then(Perry).should_see_that(
+        (SearchResultsMessage(), ContainsTheText("We couldn’t find any")),
+        (SearchResultsMessage(), ContainsTheText(nonexistant_repository)),
+        (NumberOfSearchResults(), IsEqualTo(0)),
+    )

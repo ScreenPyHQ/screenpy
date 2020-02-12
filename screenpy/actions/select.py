@@ -1,18 +1,38 @@
-from typing import Union
+"""
+An action to select an item from a multi-selection field or dropdown. An
+actor must possess the ability to BrowseTheWeb to perform this actin. An
+actor can perform this action like so:
+
+    the_actor.attempts_to(
+        Select.the_option_named("January").from_the(MONTH_DROPDOWN)
+    )
+
+    the_actor.attempts_to(
+        Select.the_option_at_index(0).from_the(MONTH_DROPDOWN)
+    )
+
+    the_actor.attempts_to(
+        Select.the_option_with_value("jan").from_the(MONTH_DROPDOWN)
+    )
+"""
+
+
+from typing import Optional, Union
 
 from selenium.webdriver.support.ui import Select as SelSelect
 
 from ..actor import Actor
-from ..pacing import beat, MINOR
+from ..pacing import MINOR, beat
 from ..target import Target
+from .base_action import BaseAction
 
 
 class Select:
     """
-    Selects an option from a dropdown menu. This is a superclass that will
-    create the correct specific Select action that will need to be used,
-    depending on how the option needs to be selected. Some examples of
-    invocations:
+    Selects an option from a dropdown menu. This is an entry point that
+    will create the correct specific Select action that will need to be
+    used, depending on how the option needs to be selected. Some examples
+    of invocations:
 
         Select.the_option_named("January").from_the(MONTH_DROPDOWN)
         Select.the_option_at_index(0).from_the(MONTH_DROPDOWN)
@@ -24,11 +44,11 @@ class Select:
     @staticmethod
     def the_option_named(text: str) -> "SelectByText":
         """
-        Instantiate a |SelectByText| class which will select the option
-        with the given text.
+        Instantiate a SelectByText class which will select the option with
+        the given text.
 
         Args:
-            text (str): The text of the option to select.
+            text: the text of the option to select.
 
         Returns:
             |SelectByText|
@@ -38,12 +58,11 @@ class Select:
     @staticmethod
     def the_option_at_index(index: Union[int, str]) -> "SelectByIndex":
         """
-        Instantiate a |SelectByIndex| class which will select the option
-        at the specified index. This index is 0-based.
+        Instantiate a SelectByIndex class which will select the option at
+        the specified index. This index is 0-based.
 
         Args:
-            index (Union[int, str]): The index (0-based) of the option to
-                select.
+            index: the index (0-based) of the option to select.
 
         Returns:
             |SelectByIndex|
@@ -53,11 +72,11 @@ class Select:
     @staticmethod
     def the_option_with_value(value: str) -> "SelectByValue":
         """
-        Instantiate a |SelectByText| class which will select the option
-        with the given text.
+        Instantiate a SelectByText class which will select the option with
+        the given text.
 
         Args:
-            value (str): The text of the option to select.
+            value: the value of the option to select.
 
         Returns:
             |SelectByText|
@@ -65,7 +84,7 @@ class Select:
         return SelectByValue(value)
 
 
-class SelectByText:
+class SelectByText(BaseAction):
     """
     A specialized Select action that chooses the option by text. This
     class is meant to be accessed via the Select action's static
@@ -77,13 +96,16 @@ class SelectByText:
     It can then be passed along to the |Actor| to perform the action.
     """
 
+    target: Optional[Target]
+    text: str
+
     def from_the(self, target: Target) -> "SelectByText":
         """
-        Provides the |Target| to select the option from.
+        Provides the target to select the option from.
 
         Args:
-            target (Target): The |Target| describing the dropdown element
-                to select from
+            target: the |Target| describing the dropdown or multi-select
+                element to select the option from.
 
         Returns:
             |SelectByText|
@@ -102,22 +124,28 @@ class SelectByText:
         by the stored target, then performs the select action.
 
         Args:
-            the_actor (Actor): The |Actor| who will perform the action.
+            the_actor: The |Actor| who will perform the action.
 
         Raises:
             |UnableToPerformException|: if the actor does not have the
                 ability to |BrowseTheWeb|.
         """
+        if self.target is None:
+            raise ValueError(
+                "Target was not provided for SelectByText. Provide a "
+                "target using the .from_() or .from_the() methods."
+            )
+
         element = self.target.found_by(the_actor)
         select = SelSelect(element)
         select.select_by_visible_text(self.text)
 
-    def __init__(self, text: str, target: Target = None) -> None:
+    def __init__(self, text: str, target: Optional[Target] = None) -> None:
         self.target = target
         self.text = text
 
 
-class SelectByIndex:
+class SelectByIndex(BaseAction):
     """
     A specialized |Select| action that chooses the option by its index.
     This class is meant to be accessed via the Select action's static
@@ -129,13 +157,16 @@ class SelectByIndex:
     It can then be passed along to the |Actor| to perform the action.
     """
 
+    target: Optional[Target]
+    index: str
+
     def from_the(self, target: Target) -> "SelectByIndex":
         """
-        Provides the |Target| to select the option from.
+        Provides the target to select the option from.
 
         Args:
-            target (Target): The |Target| describing the dropdown element
-                to select from
+            target: The |Target| describing the dropdown or multi-select
+                 element to select the option from.
 
         Returns:
             |SelectByIndex|
@@ -154,23 +185,28 @@ class SelectByIndex:
         by the stored target, then performs the select action.
 
         Args:
-            the_actor (Actor): The |Actor| who will perform the
-                action.
+            the_actor: The |Actor| who will perform the action.
 
         Raises:
             |UnableToPerformException|: if the actor does not have the
                 ability to |BrowseTheWeb|.
         """
+        if self.target is None:
+            raise ValueError(
+                "Target was not provided for SelectByIndex. Provide a "
+                "target using the .from_() or .from_the() methods."
+            )
+
         element = self.target.found_by(the_actor)
         select = SelSelect(element)
         select.select_by_index(self.index)
 
-    def __init__(self, index: Union[int, str], target: Target = None) -> None:
+    def __init__(self, index: Union[int, str], target: Optional[Target] = None) -> None:
         self.target = target
         self.index = str(index)
 
 
-class SelectByValue:
+class SelectByValue(BaseAction):
     """
     A specialized Select action that chooses the option by its value. This
     class is meant to be accessed via the Select action's static
@@ -182,13 +218,16 @@ class SelectByValue:
     It can then be passed along to the |Actor| to perform the action.
     """
 
+    target: Optional[Target]
+    value: str
+
     def from_the(self, target: Target) -> "SelectByValue":
         """
-        Provides the |Target| to select the option from.
+        Provides the target to select the option from.
 
         Args:
-            target (Target): The |Target| describing the dropdown element
-                to select from
+            target: The |Target| describing the dropdown or multi-select
+                element to select the option from.
 
         Returns:
             |SelectByValue|
@@ -209,16 +248,22 @@ class SelectByValue:
         by the stored target, then performs the select action.
 
         Args:
-            the_actor (Actor): The |Actor| who will perform the action.
+            the_actor: The |Actor| who will perform the action.
 
         Raises:
             |UnableToPerformException|: if the actor does not have the
                 ability to |BrowseTheWeb|.
         """
+        if self.target is None:
+            raise ValueError(
+                "Target was not provided for SelectByValue. Provide a "
+                "target using the .from_() or .from_the() methods."
+            )
+
         element = self.target.found_by(the_actor)
         select = SelSelect(element)
         select.select_by_value(self.value)
 
-    def __init__(self, value: Union[int, str], target: Target = None) -> None:
+    def __init__(self, value: Union[int, str], target: Optional[Target] = None) -> None:
         self.target = target
         self.value = str(value)

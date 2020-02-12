@@ -1,13 +1,13 @@
 from os import path
 
-from setuptools import setup, find_packages
-
+from setuptools import find_packages, setup
 
 requires = [
     "PyHamcrest>=1.9.0,<1.10",
     "pytest>=4.3.0,<4.4",
     "allure-pytest>=2.6.0,<2.7",
     "selenium>=3.141.0,<3.142",
+    "typing_extensions>=3.7.4.0<3.7.5",
 ]
 
 repo_dir = path.abspath(path.dirname(__file__))

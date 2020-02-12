@@ -1,12 +1,29 @@
-from typing import List
+"""
+An action to enter text into an input field. An actor must possess the
+ability to BrowseTheWeb to perform this action. An actor performs this
+action like so:
+
+    the_actor.attempts_to(
+        Enter.the_text("Hello!").into_the(GREETINGS_INPUT)
+    )
+
+    the_actor.attempts_to(
+        Enter.the_text("Bye!").into_the(CHAT_INPUT).then_hit(Keys.ENTER)
+    )
+"""
+
+
+import warnings
+from typing import List, Union
 
 from ..actor import Actor
-from ..pacing import beat, aside, MINOR
+from ..pacing import MINOR, aside, beat
 from ..target import Target
+from .base_action import BaseAction
 from .wait import Wait
 
 
-class Enter:
+class Enter(BaseAction):
     """
     Enters text into an input field. An Enter action is expected to be
     instantiated by its static |Enter.the_text| method. A typical
@@ -17,6 +34,11 @@ class Enter:
     It can then be passed along to the |Actor| to perform the action.
     """
 
+    text: str
+    target: Union[None, Target]
+    action_complete_target: Union[None, Target]
+    following_keys: List[str]
+
     @staticmethod
     def the_text(text: str) -> "Enter":
         """
@@ -25,7 +47,7 @@ class Enter:
         |Enter.into| method.
 
         Args:
-            text (str): The text to eventually enter.
+            text: the text to enter into the specified target.
 
         Returns:
             |Enter|
@@ -43,7 +65,7 @@ class Enter:
         an input field.
 
         Args:
-            target (Target): The |Target| to enter text into.
+            target: The |Target| to enter text into.
 
         Returns:
             |Enter|
@@ -59,15 +81,15 @@ class Enter:
         """Syntactic sugar for |Enter.into|."""
         return self.into(target)
 
-    def then_hit(self, *keys: List[str]) -> "Enter":
+    def then_hit(self, *keys: str) -> "Enter":
         """
-        Supplies the target to enter the text into. This is most likely
-        an input field.
+        Supplies additional keys to hit after entering the text, for
+        example if the keyboard ENTER key should be pressed.
 
         Args:
-            keys (list(str)): A list of keys to hit afterwards. These are
-                probably |Keys|, but they can be strings if you know the
-                codes.
+            keys: the keys to hit afterwards. These are probably the
+                constants from Selenium's |Keys|, but they can be strings
+                if you know the codes.
 
         Returns:
             |Enter|
@@ -75,7 +97,7 @@ class Enter:
         self.following_keys.extend(keys)
         return self
 
-    def then_press(self, *keys: List[str]) -> "Enter":
+    def then_press(self, *keys: str) -> "Enter":
         """Syntactic sugar for |Enter.then_hit|."""
         self.following_keys.extend(keys)
         return self
@@ -87,33 +109,43 @@ class Enter:
         called).
 
         Args:
-            target (Target): The |Target| to wait for after entering text.
+            target: the |Target| to wait for after entering text.
 
         Returns:
             |Enter|
         """
+        warnings.warn(
+            "Enter.then_wait_for is deprecated. Please use the new Wait action "
+            "instead.",
+            DeprecationWarning,
+        )
+
         self.action_complete_target = target
         return self
 
     @beat("{0} enters '{text}' into the {target}.", gravitas=MINOR)
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the |Actor| to performs the Enter action, entering the text
-        into the targeted input field using their ability to
-        |BrowseTheWeb|.
+        Asks the actor to perform the Enter action, entering the text into
+        the targeted input field using their ability to browse the web.
 
         If this Enter object's |Enter.then_hit| method was called, it will
         also hit the supplied keys. Finally, if the |Enter.then_wait_for|
-        method was called, it will wait for the supplied |Target| to
-        appear.
+        method was called, it will wait for the supplied target to appear.
 
         Args:
-            the_actor: The |Actor| who will perform this action.
+            the_actor: the |Actor| who will perform this action.
 
         Raises:
             |UnableToPerformException|: if the actor does not have the
                 ability to |BrowseTheWeb|.
         """
+        if self.target is None:
+            raise ValueError(
+                "Target was not supplied for Enter. Provide a target by using either "
+                ".into(), .into_the(), or .on() method."
+            )
+
         element = self.target.found_by(the_actor)
         element.send_keys(self.text)
         for key in self.following_keys:

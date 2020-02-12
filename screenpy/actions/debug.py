@@ -1,10 +1,21 @@
+"""
+An action to launch a debugger either using the debugger set in the
+PYTHONBREAKPOINT environment variable (see more information in PEP-553
+https://www.python.org/dev/peps/pep-0553/) or falling back to pdb. An
+actor can perform this action like so:
+
+    the_actor.attempts_to(Debug())
+"""
+
+
 import pdb
 
-from screenpy import Actor
-from screenpy.pacing import beat
+from ..actors import Actor
+from ..pacing import beat
+from .base_action import BaseAction
 
 
-class Debug:
+class Debug(BaseAction):
     """
     In long chains of actions, it can be difficult to drop a debugger in
     the right place. This action can be placed anywhere in the chain to
@@ -20,20 +31,20 @@ class Debug:
     It can then be passed along to the |Actor| to perform the action.
     """
 
-    @beat("{} enters the debugger...")
+    @beat("{} assumes direct control...")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Activates a debugger.
 
         Args:
-            the_actor (Actor): the actor who will perform this action.
+            the_actor: the |Actor| who will perform this action.
         """
         try:
             breakpoint()
         except NameError:
             pdb.set_trace()
 
-        "Hello! You will probably need to 'return' from this function a "
-        "few times to reach the action chain you're currently in. It "
-        "will look like a for-loop inside the actor's `perform` method. "
-        "Once you are there, you can step through the actions one by one."
+        # Hello! You will probably need to 'return' from this function a
+        # few times to reach the action chain you're currently in. It
+        # will look like a for-loop inside the actor's `perform` method.
+        # Once you are there, you can step through the actions one by one.

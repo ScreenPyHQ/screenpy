@@ -2,11 +2,11 @@ from unittest import TestCase
 
 from screenpy.resolutions import (
     ContainsTheText,
-    Empty,
-    IsEqualTo,
-    Equal,
-    IsNot,
     DoesNot,
+    Empty,
+    Equal,
+    IsEqualTo,
+    IsNot,
     ReadsExactly,
 )
 

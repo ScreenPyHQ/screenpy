@@ -1,25 +1,44 @@
+"""
+An action to pause test execution for a specific time frame. An actor can
+perform this action like so:
+
+    the_actor.attempts_to(
+        Pause.for_(10).seconds_because("this animation takes forever")
+    )
+"""
+
+
 from time import sleep
 
-from screenpy.actor import Actor, UnableToPerformException
-from screenpy.pacing import beat
+from ..actor import Actor, UnableToPerformException
+from ..pacing import beat
+from .base_action import BaseAction
 
 
-class Pause:
+class Pause(BaseAction):
     """
     Pauses the actor's actions for a set amount of time. This class should
-    only be used when absolutely necessary, and make sure to supply a
-    reason to the `because` method! An UnableToPerformException will be
-    raised if it was not called.
+    only be used when absolutely necessary. You must call one of the
+    "..._because" methods to pass in the reason for your pause; an
+    UnableToPerformException will be raised if no reason was given when
+    the actor attempts to perform this action.
 
     A Pause action is expected to be instantiated by its static
-    |Pause.for_| method. A typical invocation might look like:
+    |Pause.for_| method, followed by one of the methods that supply a
+    reason (seconds_because, second_because, or milliseconds_because). A
+    typical invocation might look like:
 
-        Pause.for_(500).milliseconds().because(
+        Pause.for_(500).milliseconds_because(
             "the animation to hide the welcome banner needs to finish."
         )
 
     It can then be passed along to the |Actor| to perform the action.
     """
+
+    number: float
+    time: float
+    unit: str
+    reason: str
 
     @staticmethod
     def for_(number: int) -> "Pause":
@@ -27,50 +46,55 @@ class Pause:
         How many seconds or milliseconds to wait for.
 
         Args:
-            number (int): the number of seconds or milliseconds to sleep for.
+            number: the number of seconds or milliseconds to sleep for.
 
         Returns:
-            Pause
+            |Pause|
         """
         return Pause(number)
 
-    def seconds(self) -> "Pause":
+    def seconds_because(self, reason: str) -> "Pause":
         """
-        Tells the Pause instance to use seconds.
-
-        This is the default behavior, so it's not strictly necessary to
-        call this method.
-        """
-        self.unit = "seconds"
-        return self
-
-    def second(self) -> "Pause":
-        """Syntactic sugar for Pause.seconds"""
-        return self.seconds()
-
-    def milliseconds(self) -> "Pause":
-        """
-        Tells the Pause instance to use milliseconds.
-        """
-        self.unit = "milliseconds"
-        self.time = self.time / 1000.0
-        return self
-
-    def because(self, reason: str) -> "Pause":
-        """
-        Supply a reason for this pause. Hard waits are the worst of all
-        waits, so it helps to document exactly why this wait needs to
-        happen.
-
-        If this method is not called, an UnableToPerformException will be
-        raised.
+        Tells the Pause instance to use seconds and provides a reason for
+        the pause. Hard waits are the worst of all wait strategies, so
+        providing a reason will help explain why it was necessary to use
+        this strategy.
 
         Args:
-            reason (str): the reason for needing to pause.
+            reason: the reason for needing to pause.
+
+        Returns:
+            |Pause|
         """
         if not reason.startswith("because"):
             reason = f"because {reason}"
 
+        self.unit = "seconds"
+        self.reason = reason
+        return self
+
+    def second_because(self, reason: str) -> "Pause":
+        """Syntactic sugar for Pause.seconds_because"""
+        return self.seconds_because(reason)
+
+    def milliseconds_because(self, reason: str) -> "Pause":
+        """
+        Tells the Pause instance to use milliseconds and provides a reason
+        for the pause. Hard waits are the worst of all wait strategies, so
+        providing a reason will help explain why it was necessary to use
+        this strategy.
+
+        Args:
+            reason: the reason for needing to pause.
+
+        Returns:
+            |Pause|
+        """
+        if not reason.startswith("because"):
+            reason = f"because {reason}"
+
+        self.unit = "milliseconds"
+        self.time = self.time / 1000.0  # type: float
         self.reason = reason
         return self
 
@@ -80,19 +104,20 @@ class Pause:
         Asks the actor to take their union-mandated break.
 
         Args:
-            the_actor (Actor): the actor who will perform this action.
+            the_actor: the |Actor| who will perform this action.
 
         Raises:
-            UnableToPerformException: if "because" was not called.
+            |UnableToPerformException|: if no reason was supplied.
         """
         if not self.reason:
             raise UnableToPerformException(
-                "Cannot Pause without a reason. You need to call .because('')"
+                "Cannot Pause without a reason. Use one of "
+                ".seconds_because(), .second_because(), or .milliseconds_because()."
             )
 
         sleep(self.time)
 
-    def __init__(self, number: int) -> None:
+    def __init__(self, number: float) -> None:
         self.number = number
         self.time = number
         self.unit = "seconds"

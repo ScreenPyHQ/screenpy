@@ -1,26 +1,36 @@
+"""
+An example of a test module that follows the typical unittest.TestCase
+test structure.
+"""
+
+
 import unittest
 
-from selenium.webdriver import Firefox
-
-from screenpy import AnActor, given, when, then, and_
-from screenpy.actions import Click, Select
+from screenpy import AnActor, and_, given, then, when
 from screenpy.abilities import BrowseTheWeb
+from screenpy.actions import Click, Select
 from screenpy.pacing import act, scene
 from screenpy.questions import Selected
-from screenpy.resolutions import *
+from screenpy.resolutions import ReadsExactly
+from selenium.webdriver import Firefox
 
 from ..tasks.start import Start
-from ..user_interface.homepage import DROPDOWN_LINK
 from ..user_interface.dropdown import THE_DROPDOWN
+from ..user_interface.homepage import DROPDOWN_LINK
 
 
 class TestDropdowns(unittest.TestCase):
+    """
+    Uses each selection strategy to select an option from a dropdown.
+    """
+
     def setUp(self):
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
 
     @act("Select")
     @scene("Select by text")
     def test_select_by_text(self):
+        """Can select an option from a dropdown by text."""
         Perry = self.actor
 
         given(Perry).was_able_to(Start.on_the_homepage())
@@ -33,6 +43,7 @@ class TestDropdowns(unittest.TestCase):
     @act("Select")
     @scene("Select by index")
     def test_select_by_index(self):
+        """Can select an option from a dropdown by index."""
         Perry = self.actor
 
         given(Perry).was_able_to(Start.on_the_homepage())
@@ -45,6 +56,7 @@ class TestDropdowns(unittest.TestCase):
     @act("Select")
     @scene("Select by value")
     def test_select_by_value(self):
+        """Can select an option from a dropdown by value."""
         Perry = self.actor
 
         given(Perry).was_able_to(Start.on_the_homepage())

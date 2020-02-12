@@ -1,11 +1,22 @@
+"""
+A question to discover the text of an element or many elements. Questions
+must be asked with an expected resolution, like so:
+
+    the_actor.should_see_the(
+        (Text.of_the(WELCOME_BANNER), ReadsExactly("Welcome!")),
+    )
+"""
+
+
 from typing import List, Union
 
 from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
+from .base_question import BaseQuestion
 
 
-class Text(object):
+class Text(BaseQuestion):
     """
     Asks what text appears in an element or elements, viewed by an
     |Actor|. This question is meant to be instantiated using its static
@@ -18,13 +29,17 @@ class Text(object):
     It can then be passed along to the |Actor| to ask the question.
     """
 
+    target: Target
+    multi: bool
+
     @staticmethod
-    def of(target: Target) -> "Text":
+    def of_the(target: Target) -> "Text":
         """
-        Provides the target to read.
+        Provides the target to read, expecting this target to describe a
+        single element or the first of many elements (e.g. "#loginlink").
 
         Args:
-            target (Target): the |Target| describing the element to read.
+            target: the |Target| describing the element to read.
 
         Returns:
             |Text|
@@ -32,13 +47,18 @@ class Text(object):
         return Text(target=target)
 
     @staticmethod
+    def of(target: Target) -> "Text":
+        """Syntactic sugar for |Text.of_the|"""
+        return Text.of_the(target)
+
+    @staticmethod
     def of_all(multi_target: Target) -> "Text":
         """
-        Provides the targets to read.
+        Provides the target to read, expecting this target to describe
+        multiple elements (e.g. "tr.report").
 
         Args:
-            multi_target (Target): the |Target| describing the elements to
-                read.
+            multi_target: the |Target| describing the elements to read.
 
         Returns:
             |Text|
@@ -48,11 +68,11 @@ class Text(object):
     @beat("{} reads the text from {target}")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
-        Investigates the page as viewed by the supplied |Actor| and gives
-        their answer.
+        Asks the supplied actor to investigate the page and give their
+        answer.
 
         Args:
-            the_actor (Actor): The |Actor| who will answer the question.
+            the_actor: the |Actor| who will answer the question.
 
         Returns:
             str: the text of the single element found by target.

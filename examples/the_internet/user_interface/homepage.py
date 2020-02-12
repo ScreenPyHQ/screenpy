@@ -1,5 +1,9 @@
-from screenpy import Target
+"""
+Locators and URL for The Internet app's homepage.
+"""
 
+
+from screenpy import Target
 
 URL = "http://the-internet.herokuapp.com/"
 

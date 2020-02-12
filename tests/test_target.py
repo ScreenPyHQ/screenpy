@@ -1,8 +1,7 @@
 from unittest import TestCase
 
-from selenium.webdriver.common.by import By
-
 from screenpy import Target
+from selenium.webdriver.common.by import By
 
 
 class TestTarget(TestCase):

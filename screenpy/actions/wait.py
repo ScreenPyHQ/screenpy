@@ -1,17 +1,35 @@
-from typing import Callable, Optional, Tuple
+"""
+An action to wait for a specified element to fulfill a given condition.
+An actor must have the ability to BrowseTheWeb to perform this action. An
+actor can perform this action like so:
+
+    the_actor.attempts_to(Wait.for_the(LOGIN_MODAL))
+
+    the_actor.attempts_to(
+        Wait(30).seconds_for_the(WELCOME_BANNER).to_disappear()
+    )
+
+    the_actor.attempts_to(
+        Wait.for_the(BONUS_ICON).using(EC.presence_of_element_located)
+    )
+"""
+
+
+from typing import Optional
 
 from selenium.webdriver.support import expected_conditions as EC
 
 from ..abilities.browse_the_web import BrowseTheWeb
 from ..actor import Actor
-from ..pacing import beat, MINOR
+from ..pacing import MINOR, beat
 from ..target import Target
+from .base_action import BaseAction
 
 
-class Wait:
+class Wait(BaseAction):
     """
     Waits for an element to fulfill a certain condition. A Wait action is
-    expected to be instantiated by its |Wait.for| method, followed by one
+    expected to be instantiated by its |Wait.for_| method, followed by one
     of its strategies. By default, the |Wait.to_appear| strategy is used.
     Wait can also be instantiated with an integer, like Wait(30), which
     will set the timeout to be used. Some examples of invocations:
@@ -24,15 +42,18 @@ class Wait:
     It can then be passed along to the |Actor| to perform the action.
     """
 
+    target: Optional[Target]
+    timeout: float
+    condition: object
+    log_detail: str
+
     @staticmethod
     def for_(target: Target) -> "Wait":
         """
-        Creates a new Wait action holding the provided target. It is
-        expected that the next call will be to one of the instantiated
-        Wait object's strategy methods, such as
+        Creates a new Wait action holding the provided target.
 
         Args:
-            target (Target): The |Target| to wait for.
+            target: The |Target| to wait for.
 
         Returns:
             |Wait|
@@ -50,13 +71,13 @@ class Wait:
         you want wait to allow the target to fulfill the expected
         condition. For example:
 
-            Wait(60).seconds_for_the(CONFETTI).to_disappear()
+            Wait(60).seconds_for(CONFETTI).to_disappear()
 
         This will ask the actor to wait up to 60 seconds for CONFETTI to
         disappear before throwing an exception.
 
         Args:
-            target (Target): The |Target| to wait for.
+            target: The |Target| to wait for.
 
         Returns:
             |Wait|
@@ -68,13 +89,14 @@ class Wait:
         """Syntactic sugar for |Wait.seconds_for|"""
         return self.seconds_for(target)
 
-    def using(self, strategy: Callable[[Tuple], None]) -> "Wait":
+    def using(self, strategy: object) -> "Wait":
         """
         Uses the given strategy to wait for the target.
 
         Args:
-            strategy (ExpectedCondition): the strategy from Selenium's
-                expected_conditions module to use.
+            strategy: the condition to use to wait. This can be one of
+                Selenium's Expected Conditions, or it can be a custom
+                Callable that accepts a Tuple[|By|, str] locator.
 
         Returns:
             |Wait|
@@ -84,7 +106,7 @@ class Wait:
 
     def to_appear(self) -> "Wait":
         """
-        Uses Selenium's "visibility of element" strategy.
+        Uses Selenium's "visibility of element located" strategy.
         This is the default strategy, so calling this is not strictly
         necessary.
 
@@ -94,9 +116,19 @@ class Wait:
         self.log_detail = " to be visible..."
         return self.using(EC.visibility_of_element_located)
 
+    def to_be_clickable(self) -> "Wait":
+        """
+        Uses Selenium's "to be clickable" strategy.
+
+        Returns:
+            |Wait|
+        """
+        self.log_detail = " to be clickable..."
+        return self.using(EC.element_to_be_clickable)
+
     def to_disappear(self) -> "Wait":
         """
-        Uses Selenium's "invisibility of element" strategy.
+        Uses Selenium's "invisibility of element located" strategy.
 
         Returns:
             |Wait|
@@ -109,7 +141,7 @@ class Wait:
         Uses Selenium's "text to be present in element" strategy.
 
         Args:
-            text (str): the text to expect to be present.
+            text: the text to expect to be present.
 
         Returns:
             |Wait|
@@ -122,7 +154,7 @@ class Wait:
     @beat("{0} waits for the {target}{log_detail}.", gravitas=MINOR)
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the |Actor| to perform the Wait action, using the contained
+        Asks the actor to perform the Wait action, using the contained
         strategy and any extra arguments provided.
 
         Args:
@@ -132,6 +164,12 @@ class Wait:
             |UnableToPerformException|: if the actor does not have the
                 ability to |BrowseTheWeb|.
         """
+        if self.target is None:
+            raise ValueError(
+                "Target was not supplied for Wait. Provide a target by using either "
+                ".for_(), .for_the(), .seconds_for(), or .seconds_for_the() method."
+            )
+
         the_actor.uses_ability_to(BrowseTheWeb).to_wait_for(
             self.target.get_locator(), timeout=self.timeout, cond=self.condition
         )
