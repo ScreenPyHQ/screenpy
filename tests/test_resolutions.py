@@ -1,6 +1,7 @@
-from unittest import TestCase
+import pytest
 
 from screenpy.resolutions import (
+    BaseResolution,
     ContainsTheText,
     DoesNot,
     Empty,
@@ -11,76 +12,87 @@ from screenpy.resolutions import (
 )
 
 
-class TestContainsTheText(TestCase):
+class TestBaseAbility:
+    def test___init___must_be_overridden(self):
+        """__init__ must be overridden by subclasses."""
+
+        class SubclassedResolution(BaseResolution):
+            pass
+
+        with pytest.raises(NotImplementedError):
+            SubclassedResolution()
+
+
+class TestContainsTheText:
     def test_can_be_instantiated(self):
         """ContainsTheText can be instantiated"""
         ctt = ContainsTheText("hello")
 
-        self.assertIsInstance(ctt, ContainsTheText)
+        assert isinstance(ctt, ContainsTheText)
 
     def test_the_test(self):
         """ContainsTheText tests what it says on the tin"""
         ctt = ContainsTheText("hello")
 
-        self.assertTrue(ctt.matches("hello world!"))
-        self.assertFalse(ctt.matches("goodbye universe."))
+        assert ctt.matches("hello world!")
+        assert not ctt.matches("goodbye universe.")
 
 
-class TestEmpty(TestCase):
+class TestEmpty:
     def test_can_be_instantiated(self):
         """Empty can be instantiated"""
         e = Empty()
 
-        self.assertIsInstance(e, Empty)
+        assert isinstance(e, Empty)
 
     def test_the_test(self):
         """Empty tests what it says on the tin"""
         e = Empty()
 
-        self.assertTrue(e.matches([]))
-        self.assertFalse(e.matches(["not", "empty"]))
+        assert e.matches([])
+        assert not e.matches(["not", "empty"])
 
 
-class TestIsEqualTo(TestCase):
+class TestIsEqualTo:
     def test_can_be_instantiated(self):
         """IsEqual can be instantiated"""
         ie = IsEqualTo(1)
 
-        self.assertIsInstance(ie, IsEqualTo)
+        assert isinstance(ie, IsEqualTo)
 
     def test_the_test(self):
         """IsEqual tests what it says on the tin"""
         ie = IsEqualTo(1)
 
-        self.assertTrue(ie.matches(1))
-        self.assertFalse(ie.matches(2))
+        assert ie.matches(1)
+        assert not ie.matches(2)
 
 
-class TestIsNot(TestCase):
+class TestIsNot:
     def test_can_be_instantiated(self):
         """IsNot can be instantiated"""
         in_ = IsNot(None)
 
-        self.assertIsInstance(in_, IsNot)
+        assert isinstance(in_, IsNot)
 
     def test_the_test(self):
         """IsNot tests what it says on the tin"""
         in_ = DoesNot(Equal(1))
 
-        self.assertTrue(in_.matches(2))
-        self.assertFalse(in_.matches(1))
+        assert in_.matches(2)
+        assert not in_.matches(1)
 
 
-class TestReadsExactly(TestCase):
+class TestReadsExactly:
     def test_can_be_instantiated(self):
         """ReadsExactly can be instantiated"""
         re_ = ReadsExactly("Blah")
 
-        self.assertIsInstance(re_, ReadsExactly)
+        assert isinstance(re_, ReadsExactly)
 
     def test_the_test(self):
         """ReadsExactly tests what it says on the tin"""
         re_ = ReadsExactly("Blah")
 
-        self.assertTrue(re_.matches("Blah"))
-        self.assertFalse(re_.matches("blah"))
+        assert re_.matches("Blah")
+        assert not re_.matches("blah")

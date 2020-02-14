@@ -1,35 +1,47 @@
-from unittest import TestCase, mock
+from unittest import mock
 
-from screenpy.actor import Actor, AnActor
+import pytest
+
+from screenpy import Actor, AnActor
+from screenpy.actor import UnableToPerformException
 
 
-class TestActor(TestCase):
-    def test_can_be_instantiated(self):
-        """Actor can be instantiated"""
-        a1 = Actor.named("test")
-        a2 = Actor.named("test").can(None)
-        a3 = Actor.named("test").who_can(None)
-        a4 = AnActor.named("test")
+def test_can_be_instantiated():
+    """Actor can be instantiated"""
+    a1 = Actor.named("test")
+    a2 = Actor.named("test").can(None)
+    a3 = Actor.named("test").who_can(None)
+    a4 = AnActor.named("test")
 
-        self.assertIsInstance(a1, Actor)
-        self.assertIsInstance(a2, Actor)
-        self.assertIsInstance(a3, Actor)
-        self.assertIsInstance(a4, Actor)
+    assert isinstance(a1, Actor)
+    assert isinstance(a2, Actor)
+    assert isinstance(a3, Actor)
+    assert isinstance(a4, Actor)
 
-    def test_remembers_abilities(self):
-        """Actors remember abilities granted to them"""
-        ability = 1
-        actor = Actor.named("test").who_can(ability)
 
-        self.assertEqual(actor.ability_to(int), ability)
+def test_complains_for_missing_abilities():
+    """Actors throw an exception if they are missing an ability"""
+    actor = AnActor.named("Tester")
 
-    def test_forgets_abilities_when_exiting(self):
-        """Actors forget their abilities when they exit."""
-        ability = mock.MagicMock()
-        ability.forget = mock.Mock()
+    with pytest.raises(UnableToPerformException):
+        actor.ability_to(1)
 
-        actor = Actor.named("test").who_can(ability)
-        actor.exit()
 
-        ability.forget.assert_called_once()
-        self.assertEqual(len(actor.abilities), 0)
+def test_remembers_abilities():
+    """Actors remember abilities granted to them"""
+    ability = 1
+    actor = Actor.named("test").who_can(ability)
+
+    assert actor.ability_to(int) is ability
+
+
+def test_forgets_abilities_when_exiting():
+    """Actors forget their abilities when they exit"""
+    mocked_ability = mock.Mock()
+    mocked_ability.forget = mock.Mock()
+    actor = Actor.named("test").who_can(mocked_ability)
+
+    actor.exit()
+
+    mocked_ability.forget.assert_called_once()
+    assert len(actor.abilities) == 0

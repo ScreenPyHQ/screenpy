@@ -1,22 +1,51 @@
-from unittest import TestCase
+import pytest
 
-from screenpy.actions import Click, Enter, Open, Opens, Press, Select
+from screenpy.actions import (
+    BaseAction,
+    Click,
+    Debug,
+    Enter,
+    Open,
+    Opens,
+    Pause,
+    Press,
+    Select,
+)
 from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
 
 
-class TestClick(TestCase):
+class TestBaseAction:
+    def test_perform_as_must_be_overridden(self):
+        """perform_as must be overridden in subclasses"""
+
+        class SubclassedAction(BaseAction):
+            pass
+
+        subclassed_action = SubclassedAction()
+
+        with pytest.raises(NotImplementedError):
+            subclassed_action.perform_as(None)
+
+
+class TestClick:
     def test_can_be_instantiated(self):
         """Click can be instantiated"""
         c1 = Click.on(None)
         c2 = Click.on_the(None)
-        c3 = Click.on_the(None).then_wait_for(None)
 
-        self.assertIsInstance(c1, Click)
-        self.assertIsInstance(c2, Click)
-        self.assertIsInstance(c3, Click)
+        assert isinstance(c1, Click)
+        assert isinstance(c2, Click)
 
 
-class TestEnter(TestCase):
+class TestDebug:
+    def test_can_be_instantiated(self):
+        """Debug can be instantiated"""
+        d = Debug()
+
+        assert isinstance(d, Debug)
+
+
+class TestEnter:
     def test_can_be_instantiated(self):
         """Enter can be instantiated"""
         e1 = Enter.the_text("test")
@@ -26,33 +55,57 @@ class TestEnter(TestCase):
         e5 = Enter.the_text("test").on(None)
         e6 = Enter.the_keys("test").on(None)
         e7 = Enter.the_text("test").into(None).then_press(None)
-        e8 = Enter.the_text("test").into(None).then_wait_for(None)
-        e9 = Press.the_keys("test")
+        e8 = Press.the_keys("test")
 
-        self.assertIsInstance(e1, Enter)
-        self.assertIsInstance(e2, Enter)
-        self.assertIsInstance(e3, Enter)
-        self.assertIsInstance(e4, Enter)
-        self.assertIsInstance(e5, Enter)
-        self.assertIsInstance(e6, Enter)
-        self.assertIsInstance(e7, Enter)
-        self.assertIsInstance(e8, Enter)
-        self.assertIsInstance(e9, Enter)
+        assert isinstance(e1, Enter)
+        assert isinstance(e2, Enter)
+        assert isinstance(e3, Enter)
+        assert isinstance(e4, Enter)
+        assert isinstance(e5, Enter)
+        assert isinstance(e6, Enter)
+        assert isinstance(e7, Enter)
+        assert isinstance(e8, Enter)
 
 
-class TestOpen(TestCase):
+class TestOpen:
     def test_can_be_instantiated(self):
         """Open can be instantiated"""
         o1 = Open.browser_on(None)
         o2 = Open.their_browser_on(None)
         o3 = Opens.browser_on(None)
 
-        self.assertIsInstance(o1, Open)
-        self.assertIsInstance(o2, Open)
-        self.assertIsInstance(o3, Open)
+        assert isinstance(o1, Open)
+        assert isinstance(o2, Open)
+        assert isinstance(o3, Open)
 
 
-class TestSelect(TestCase):
+class TestPause:
+    def test_can_be_instantiated(self):
+        """Pause can be instantiated."""
+        p1 = Pause.for_(20)
+        p2 = Pause.for_(20).seconds_because("test")
+        p3 = Pause.for_(20).milliseconds_because("test")
+
+        assert isinstance(p1, Pause)
+        assert isinstance(p2, Pause)
+        assert isinstance(p3, Pause)
+
+    def test_seconds(self):
+        """Choosing seconds stores the correct time."""
+        duration = 20
+        pause = Pause.for_(duration).seconds_because("test")
+
+        assert pause.time == duration
+
+    def test_milliseconds(self):
+        """Choosing milliseconds stores the correct time."""
+        duration = 20
+        pause = Pause.for_(duration).milliseconds_because("Test")
+
+        assert pause.time == duration / 1000.0
+
+
+class TestSelect:
     def test_specifics_can_be_instantiated(self):
         """Select's specific classes can be instantiated"""
         by_index1 = Select.the_option_at_index(0)
@@ -65,12 +118,12 @@ class TestSelect(TestCase):
         by_value2 = Select.the_option_with_value(1).from_(None)
         by_value3 = Select.the_option_with_value(1).from_the(None)
 
-        self.assertIsInstance(by_index1, SelectByIndex)
-        self.assertIsInstance(by_index2, SelectByIndex)
-        self.assertIsInstance(by_index3, SelectByIndex)
-        self.assertIsInstance(by_text1, SelectByText)
-        self.assertIsInstance(by_text2, SelectByText)
-        self.assertIsInstance(by_text3, SelectByText)
-        self.assertIsInstance(by_value1, SelectByValue)
-        self.assertIsInstance(by_value2, SelectByValue)
-        self.assertIsInstance(by_value3, SelectByValue)
+        assert isinstance(by_index1, SelectByIndex)
+        assert isinstance(by_index2, SelectByIndex)
+        assert isinstance(by_index3, SelectByIndex)
+        assert isinstance(by_text1, SelectByText)
+        assert isinstance(by_text2, SelectByText)
+        assert isinstance(by_text3, SelectByText)
+        assert isinstance(by_value1, SelectByValue)
+        assert isinstance(by_value2, SelectByValue)
+        assert isinstance(by_value3, SelectByValue)
