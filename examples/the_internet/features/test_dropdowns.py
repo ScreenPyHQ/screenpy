@@ -6,17 +6,15 @@ test structure.
 
 import unittest
 
-from screenpy import AnActor, and_, given, then, when
+from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Click, Select
+from screenpy.actions import Open, Select
 from screenpy.pacing import act, scene
 from screenpy.questions import Selected
 from screenpy.resolutions import ReadsExactly
 from selenium.webdriver import Firefox
 
-from ..tasks.start import Start
-from ..user_interface.dropdown import THE_DROPDOWN
-from ..user_interface.homepage import DROPDOWN_LINK
+from ..user_interface.dropdown import THE_DROPDOWN, URL
 
 
 class TestDropdowns(unittest.TestCase):
@@ -33,9 +31,8 @@ class TestDropdowns(unittest.TestCase):
         """Can select an option from a dropdown by text."""
         Perry = self.actor
 
-        given(Perry).was_able_to(Start.on_the_homepage())
-        when(Perry).attempts_to(Click.on_the(DROPDOWN_LINK).then_wait_for(THE_DROPDOWN))
-        and_(Perry).attempts_to(Select.the_option_named("Option 1").from_(THE_DROPDOWN))
+        given(Perry).was_able_to(Open.their_browser_on(URL))
+        when(Perry).attempts_to(Select.the_option_named("Option 1").from_(THE_DROPDOWN))
         then(Perry).should_see_the(
             (Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 1"))
         )
@@ -46,9 +43,8 @@ class TestDropdowns(unittest.TestCase):
         """Can select an option from a dropdown by index."""
         Perry = self.actor
 
-        given(Perry).was_able_to(Start.on_the_homepage())
-        when(Perry).attempts_to(Click.on_the(DROPDOWN_LINK).then_wait_for(THE_DROPDOWN))
-        and_(Perry).attempts_to(Select.the_option_at_index(1).from_(THE_DROPDOWN))
+        given(Perry).was_able_to(Open.their_browser_on(URL))
+        when(Perry).attempts_to(Select.the_option_at_index(1).from_(THE_DROPDOWN))
         then(Perry).should_see_the(
             (Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 1"))
         )
@@ -59,9 +55,8 @@ class TestDropdowns(unittest.TestCase):
         """Can select an option from a dropdown by value."""
         Perry = self.actor
 
-        given(Perry).was_able_to(Start.on_the_homepage())
-        when(Perry).attempts_to(Click.on_the(DROPDOWN_LINK).then_wait_for(THE_DROPDOWN))
-        and_(Perry).attempts_to(Select.the_option_with_value(2).from_(THE_DROPDOWN))
+        given(Perry).was_able_to(Open.their_browser_on(URL))
+        when(Perry).attempts_to(Select.the_option_with_value(2).from_(THE_DROPDOWN))
         then(Perry).should_see_the(
             (Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 2"))
         )

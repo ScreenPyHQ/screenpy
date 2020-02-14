@@ -33,7 +33,7 @@ class TestAddRemoveElements(unittest.TestCase):
         Perry = self.actor
 
         given(Perry).was_able_to(Open.their_browser_on(URL))
-        when(Perry).attempts_to(Click.on_the(ADD_BUTTON).then_wait_for(ADDED_ELEMENTS))
+        when(Perry).attempts_to(Click.on_the(ADD_BUTTON), Wait.for_the(ADDED_ELEMENTS))
         then(Perry).should_see_the((Number.of(ADDED_ELEMENTS), IsEqualTo(1)))
 
     @act("Add And Remove")
@@ -49,10 +49,7 @@ class TestAddRemoveElements(unittest.TestCase):
 
         given(Perry).was_able_to(Open.their_browser_on(URL))
         when(Perry).attempts_to(
-            *(
-                Click.on_the(ADD_BUTTON).then_wait_for(ADDED_ELEMENTS)
-                for each_time in range(number_of_times)
-            )
+            *(Click.on_the(ADD_BUTTON) for each_time in range(number_of_times))
         )
         then(Perry).should_see_the(
             (Number.of(ADDED_ELEMENTS), IsEqualTo(number_of_times))
