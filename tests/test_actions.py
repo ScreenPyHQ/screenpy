@@ -5,6 +5,7 @@ from screenpy.actions import (
     Click,
     Debug,
     Enter,
+    Enter2FAToken,
     Open,
     Opens,
     Pause,
@@ -65,6 +66,16 @@ class TestEnter:
         assert isinstance(e6, Enter)
         assert isinstance(e7, Enter)
         assert isinstance(e8, Enter)
+
+
+class TestEnter2FAToken:
+    def test_can_be_instantiated(self):
+        """Enter2FAToken can be instantiated"""
+        e1 = Enter2FAToken.into(None)
+        e2 = Enter2FAToken.into_the(None)
+
+        assert isinstance(e1, Enter2FAToken)
+        assert isinstance(e2, Enter2FAToken)
 
 
 class TestOpen:

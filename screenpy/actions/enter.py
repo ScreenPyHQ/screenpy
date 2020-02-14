@@ -68,7 +68,7 @@ class Enter(BaseAction):
         an input field.
 
         Args:
-            target: The |Target| to enter text into.
+            target: The |Target| describing the input field.
 
         Returns:
             |Enter|
@@ -81,7 +81,7 @@ class Enter(BaseAction):
         return self.into(target)
 
     def on(self, target: Target) -> "Enter":
-        """Syntactic sugar for |Enter.into|."""
+        """Syntactic sugar for |Enter.into|"""
         return self.into(target)
 
     def then_hit(self, *keys: str) -> "Enter":

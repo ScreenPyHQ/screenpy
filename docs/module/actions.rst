@@ -167,29 +167,31 @@ Provided Actions
 Open
 ^^^^
 
-.. module:: screenpy.actions.open
-.. autoclass:: Open
+.. autoclass:: screenpy.actions.open.Open
     :members:
 
 Click
 ^^^^^
 
-.. module:: screenpy.actions.click
-.. autoclass:: Click
+.. autoclass:: screenpy.actions.click.Click
     :members:
 
 Clear
 ^^^^^
 
-.. module:: screenpy.actions.clear
-.. autoclass:: Clear
+.. autoclass:: screenpy.actions.clear.Clear
     :members:
 
 Enter
 ^^^^^
 
-.. module:: screenpy.actions.enter
-.. autoclass:: Enter
+.. autoclass:: screenpy.actions.enter.Enter
+    :members:
+
+Enter2FAToken
+^^^^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.enter_2fa_token.Enter2FAToken
     :members:
 
 Select
@@ -208,20 +210,17 @@ Select
 Wait
 ^^^^
 
-.. module:: screenpy.actions.wait
-.. autoclass:: Wait
+.. autoclass:: screenpy.actions.wait.Wait
     :members:
 
 Pause
 ^^^^^
 
-.. module:: screenpy.actions.pause
-.. autoclass:: Pause
+.. autoclass:: screenpy.actions.pause.Pause
     :members:
 
 Debug
 ^^^^^
 
-.. module:: screenpy.actions.debug
-.. autoclass:: Debug
+.. autoclass:: screenpy.actions.debug.Debug
     :members:

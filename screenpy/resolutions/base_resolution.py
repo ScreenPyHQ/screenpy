@@ -29,21 +29,23 @@ class BaseResolution(BaseMatcher):
     Resolution to your |Actor|, they'll know what to do with it.
     """
 
+    matcher: BaseMatcher
+    expected: object
     line = (
         "-- I'm sorry, this resolution did not provide a line. Please define a more"
         "descriptive line for your custom resolution."
     )
 
     @beat("... hoping {motivation}")
-    def _matches(self, actual) -> bool:
+    def _matches(self, item: object) -> bool:
         """passthrough to the matcher's method."""
-        return self.matcher.matches(actual)
+        return self.matcher.matches(item)
 
-    def describe_to(self, description) -> str:
+    def describe_to(self, description: str) -> str:
         """passthrough to the matcher's method."""
         return self.matcher.describe_to(description)
 
-    def describe_mismatch(self, item, mismatch_description) -> str:
+    def describe_mismatch(self, item: object, mismatch_description: str) -> str:
         """passthrough to the matcher's method."""
         return self.matcher.describe_mismatch(item, mismatch_description)
 

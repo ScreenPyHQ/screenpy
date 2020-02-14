@@ -10,6 +10,7 @@ from .clear import Clear
 from .click import Click
 from .debug import Debug
 from .enter import Enter
+from .enter_2fa_token import Enter2FAToken
 from .open import Open
 from .pause import Pause
 from .select import Select, SelectByIndex, SelectByText, SelectByValue
@@ -19,6 +20,7 @@ from .wait import Wait
 Clears = Clear
 Clicks = Click
 Debugs = Debug
+Enters2FAToken = Enter2FAToken
 Opens = Open
 Press = Presses = Enters = Enter
 Selects = Select
@@ -36,6 +38,8 @@ __all__ = [
     "Debugs",
     "Enter",
     "Enters",
+    "Enter2FAToken",
+    "Enters2FAToken",
     "Open",
     "Opens",
     "Pause",

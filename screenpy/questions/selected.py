@@ -100,7 +100,7 @@ class Selected(BaseQuestion):
         select = SeleniumSelect(self.target.found_by(the_actor))
 
         if self.multi:
-            return [e.text for e in select.all_selected_options()]
+            return [e.text for e in select.all_selected_options]
         return select.first_selected_option.text
 
     def __init__(self, target: Target, multi: bool = False):

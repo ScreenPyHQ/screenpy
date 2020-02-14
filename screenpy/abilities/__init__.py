@@ -5,7 +5,8 @@ actions. Abilities are granted to actors through their |Actor.who_can| or
 """
 
 
+from .authenticate_with_2fa import AuthenticateWith2FA
 from .base_ability import BaseAbility
 from .browse_the_web import BrowseTheWeb
 
-__all__ = ["BaseAbility", "BrowseTheWeb"]
+__all__ = ["AuthenticateWith2FA", "BaseAbility", "BrowseTheWeb"]

@@ -4,8 +4,9 @@ Abilities
 =========
 
 Abilities allow your |Actor| to **do** things.
-ScreenPy comes with one built in ability, currently—
-the ability to |BrowseTheWeb|.
+Actors will leverage their abilities
+to perform actions
+that require those abilities.
 
 Using Abilities
 ---------------
@@ -34,20 +35,6 @@ If an action or a question require an ability
 that the actor does not have,
 the actor will raise an |UnableToPerformError|.
 
-What If I Need To Set Up My Driver?
------------------------------------
-
-Behind the scenes, |BrowseTheWeb.using| is called
-to pass in a default Selenium webdriver.
-You can do whatever setup your driver needs—
-use specific options,
-set up authentication,
-etc.—
-then pass it into the ability afterwards.
-Using this method directly,
-you can easily switch between any Webdriver you need to use,
-local or remote.
-
 Writing New Abilities
 ---------------------
 
@@ -63,10 +50,17 @@ of the BrowseTheWeb ability.
 A base class for Abilities is provided for convenience:
 ``screenpy.abilities.base_ability.BaseAbility``
 
-BrowseTheWeb Class
+Included Abilities
 ------------------
 
-.. module:: screenpy.abilities.browse_the_web
-.. autoclass:: BrowseTheWeb
+BrowseTheWeb
+^^^^^^^^^^^^
+
+.. autoclass:: screenpy.abilities.browse_the_web.BrowseTheWeb
     :members:
 
+AuthenticateWith2FA
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: screenpy.abilities.authenticate_with_2fa.AuthenticateWith2FA
+    :members:

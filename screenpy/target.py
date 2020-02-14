@@ -58,10 +58,10 @@ class Target:
         Supplies an instantiated target with a locator. This locator is a
         tuple of the By strategy to use and the identifying string, e.g.
 
-            (By.id, "report")
+            Target.the("signout link").located((By.LINK_TEXT, "Sign Out"))
 
         Args:
-            locator: the (By, str) locator to use to find the element.
+            locator: the (|By|, str) tuple to use to find the element.
 
         Returns:
             |Target|
@@ -121,7 +121,7 @@ class Target:
             |TargetingError|: if the target is not able to be found.
         """
         try:
-            return the_actor.uses_ability_to(BrowseTheWeb).to_find(self.get_locator())
+            return the_actor.uses_ability_to(BrowseTheWeb).to_find(self)
         except WebDriverException as e:
             error_type = e.__class__.__name__
             msg = f"Encountered an issue while attempting to find {self}: {error_type}"
@@ -142,14 +142,7 @@ class Target:
         Raises:
             |TargetingError|: if the targets are not able to be found.
         """
-        try:
-            return the_actor.uses_ability_to(BrowseTheWeb).to_find_all(
-                self.get_locator()
-            )
-        except WebDriverException as e:
-            error_type = e.__class__.__name__
-            msg = f"Encountered an issue while attempting to find {self}: {error_type}"
-            raise TargetingError(msg).with_traceback(e.__traceback__)
+        return the_actor.uses_ability_to(BrowseTheWeb).to_find_all(self)
 
     def __init__(self, desc: str) -> None:
         self.target_name = desc

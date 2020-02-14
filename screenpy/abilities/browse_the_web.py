@@ -8,13 +8,16 @@ the web like so:
 
     # after instantiation
     the_actor.can(BrowseTheWeb.using_safari())
+
+    # use in new actions
+    the_actor.uses_ability_to(BrowseTheWeb).to_find(target)
 """
 
 
 import os
 from typing import TYPE_CHECKING, Callable, List, Tuple, Union
 
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver import Chrome, Firefox, Remote, Safari
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver, WebElement
@@ -27,6 +30,7 @@ from .base_ability import BaseAbility
 if TYPE_CHECKING:
     from ..target import Target  # noqa: for type checking
 
+DEFAULT_APPIUM_HUB_URL = "http://localhost:4723/wd/hub"
 DEFAULT_IOS_CAPABILITIES = {
     "platformName": "iOS",
     "platformVersion": os.getenv("IOS_DEVICE_VERSION", "13.1"),
@@ -51,9 +55,11 @@ class BrowseTheWeb(BaseAbility):
     """
     The ability to browse the web with a web browser. This ability is
     meant to be instantiated with its |BrowseTheWeb.using| static method,
-    which takes in the WebDriver to use. A typical invocation looks like:
+    which takes in the WebDriver to use, or one of its other "using"
+    methods. A typical invocation looks like:
 
         BrowseTheWeb.using(selenium.webdriver.Firefox())
+        BrowseTheWeb.using_firefox()
 
     This will create the ability that can be passed in to an actor's
     |Actor.who_can| method.
@@ -114,7 +120,7 @@ class BrowseTheWeb(BaseAbility):
         Returns:
             |BrowseTheWeb|
         """
-        hub_url = os.getenv("APPIUM_HUB_URL", "http://localhost:4723/wd/hub")
+        hub_url = os.getenv("APPIUM_HUB_URL", DEFAULT_APPIUM_HUB_URL)
         return BrowseTheWeb.using(Remote(hub_url, DEFAULT_IOS_CAPABILITIES))
 
     @staticmethod
@@ -139,7 +145,7 @@ class BrowseTheWeb(BaseAbility):
         Returns:
             |BrowseTheWeb|
         """
-        hub_url = os.getenv("APPIUM_HUB_URL", "http://localhost:4723/wd/hub")
+        hub_url = os.getenv("APPIUM_HUB_URL", DEFAULT_APPIUM_HUB_URL)
         return BrowseTheWeb.using(Remote(hub_url, DEFAULT_ANDROID_CAPABILITIES))
 
     @staticmethod
@@ -156,34 +162,54 @@ class BrowseTheWeb(BaseAbility):
         """
         return BrowseTheWeb(browser)
 
-    def to_find(self, locator: Tuple[By, str]) -> WebElement:
+    def to_find(self, target: Union["Target", Tuple[By, str]]) -> WebElement:
         """
         Locates a single element on the page using the given locator.
 
         Args:
-            locator: the tuple describing the element, like (|By|, string)
+            target: the |Target| or tuple describing the element.
 
         Returns:
             |WebElement|
-        """
-        return self.browser.find_element(*locator)
 
-    def find(self, locator: Tuple[By, str]) -> WebElement:
+        Raises:
+            |BrowsingError|:
+        """
+        locator = self._resolve_locator(target)
+
+        try:
+            return self.browser.find_element(*locator)
+        except WebDriverException as e:
+            msg = (
+                "Encountered an issue while attempting to find "
+                f"{target}: {e.__class__.__name__}"
+            )
+            raise BrowsingError(msg).with_traceback(e.__traceback__)
+
+    def find(self, locator: Union["Target", Tuple[By, str]]) -> WebElement:
         """Syntactic sugar for |BrowseTheWeb.to_find|."""
         return self.find(locator)
 
-    def to_find_all(self, locator: Tuple[By, str]) -> List[WebElement]:
+    def to_find_all(self, target: Union["Target", Tuple[By, str]]) -> List[WebElement]:
         """
         Locates many elements on the page using the given locator.
 
         Args:
-            locator: The tuple describing the elements, like
-                (|By|, string)
+            target: the |Target| or tuple describing the elements.
 
         Returns:
-            List(|WebElement|)
+            List[|WebElement|]
         """
-        return self.browser.find_elements(*locator)
+        locator = self._resolve_locator(target)
+
+        try:
+            return self.browser.find_elements(*locator)
+        except WebDriverException as e:
+            msg = (
+                "Encountered an issue while attempting to find all "
+                f"{target}: {e.__class__.__name__}"
+            )
+            raise BrowsingError(msg).with_traceback(e.__traceback__)
 
     def find_all(self, locator: Tuple[By, str]) -> WebElement:
         """Syntactic sugar for |BrowseTheWeb.to_find_all|."""
@@ -191,32 +217,30 @@ class BrowseTheWeb(BaseAbility):
 
     def to_wait_for(
         self,
-        locator: Union["Target", Tuple[By, str]],
+        target: Union["Target", Tuple[By, str]],
         timeout: int = 20,
         cond: Callable = EC.visibility_of_element_located,
     ):
         """
-        Waits for the element specified by locator to fulfill the given
-        condition.
+        Waits for the element to fulfill the given condition.
 
         Args:
-            locator: The tuple or |Target| describing the element.
-            timeout: How many seconds to wait before raising a
+            target: the tuple or |Target| describing the element.
+            timeout: how many seconds to wait before raising a
                 TimeoutException. Default is 20.
-            cond: The condition to wait for. Default is
+            cond: the condition to wait for. Default is
                 visibility_of_element_located.
 
         Raises:
-            TimeoutException: if the element did not satisfy the condition
-                in a timely manner.
+            |BrowsingError|: the target did not satisfy the condition in time.
         """
-        if not isinstance(locator, tuple):
-            locator = locator.get_locator()
+        locator = self._resolve_locator(target)
+
         try:
             WebDriverWait(self.browser, timeout).until(cond(locator))
         except TimeoutException as e:
-            msg = "Waiting {time} seconds for '{element}' to satisfy {cond} timed out."
-            msg = msg.format(time=timeout, element=locator, cond=cond.__name__)
+            msg = "Waiting {time} seconds for {element} to satisfy {cond} timed out."
+            msg = msg.format(time=timeout, element=target, cond=cond.__name__)
             raise BrowsingError(msg).with_traceback(e.__traceback__)
 
     def wait_for(
@@ -262,6 +286,24 @@ class BrowseTheWeb(BaseAbility):
         An actor who is exiting will forget all their abilities.
         """
         self.browser.quit()
+
+    def _resolve_locator(
+        self, target_or_locator: Union["Target", Tuple[By, str]]
+    ) -> Tuple[By, str]:
+        """
+        Given a |Target| or a tuple, ensures we get a tuple back.
+
+        Args:
+            target_or_locator: the |Target| or locator to resolve.
+
+        Returns:
+            Tuple[By, str]
+        """
+        if not isinstance(target_or_locator, tuple):
+            locator = target_or_locator.get_locator()
+        else:
+            locator = target_or_locator
+        return locator
 
     def __repr__(self) -> str:
         return "Browse the Web"

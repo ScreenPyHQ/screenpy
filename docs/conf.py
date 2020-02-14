@@ -81,6 +81,9 @@ rst_prolog = """.. Internal references
 .. |Target.located_by| replace:: :meth:`~screenpy.target.Target.located_by`
 
 .. .. Abilities
+.. |AuthenticateWith2FA| replace:: :class:`~screenpy.abilities.authenticate_with_2fa.AuthenticateWith2FA`
+.. |AuthenticateWith2FA.using| replace:: :meth:`~screenpy.abilities.authenticate_with_2fa.AuthenticateWith2FA.using`
+.. |AuthenticateWith2FA.using_secret| replace:: :meth:`~screenpy.abilities.authenticate_with_2fa.AuthenticateWith2FA.using_secret`
 .. |BrowseTheWeb| replace:: :class:`~screenpy.abilities.browse_the_web.BrowseTheWeb`
 .. |BrowseTheWeb.using| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.using`
 .. |BrowseTheWeb.to_find| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_find`
@@ -107,6 +110,9 @@ rst_prolog = """.. Internal references
 .. |Enter.into| replace:: :meth:`~screenpy.actions.enter.Enter.into`
 .. |Enter.then_hit| replace:: :meth:`~screenpy.actions.enter.Enter.then_hit`
 .. |Enter.then_wait_for| replace:: :meth:`~screenpy.actions.enter.Enter.then_wait_for`
+.. |Enter2FAToken| replace:: :class:`~screenpy.actions.enter_2fa_token.Enter2FAToken`
+.. |Enter2FAToken.into| replace:: :meth:`~screenpy.actions.enter_2fa_token.Enter2FAToken.into`
+.. |Enter2FAToken.into_the| replace:: :meth:`~screenpy.actions.enter_2fa_token.Enter2FAToken.into_the`
 .. |Open| replace:: :class:`~screenpy.actions.open.Open`
 .. |Open.browser_on| replace:: :meth:`~screenpy.actions.open.Open.browser_on`
 .. |Pause| replace:: :class:`~screenpy.actions.pause.Pause`
