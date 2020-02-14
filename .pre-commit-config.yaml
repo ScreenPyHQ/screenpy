@@ -21,7 +21,7 @@ repos:
   hooks:
   - id: mypy
     language_version: python3.7
-    additional_dependencies: ["PyHamcrest>=1.9.0,<1.10", "pytest>=4.3.0,<4.4", "allure-pytest>=2.6.0,<2.7",  "selenium>=3.141.0,<3.142"]
+    additional_dependencies: ["PyHamcrest>=2.0.0,<2.1", "pytest>=5.3.0,<5.4", "allure-pytest>=2.8.0,<2.9", "selenium>=3.141.0,<3.142"]
 - repo: local
   hooks:
   - id: pylint
