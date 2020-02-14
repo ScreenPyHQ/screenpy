@@ -1,7 +1,7 @@
 import pytest
 from selenium.webdriver.common.by import By
 
-from screenpy import Target
+from screenpy.target import Target, TargetingError
 
 
 def test_can_be_instantiated():
@@ -17,7 +17,7 @@ def test_complains_for_no_locator():
     """Target will complain if no locator was supplied."""
     target = Target.the("test")
 
-    with pytest.raises(ValueError):
+    with pytest.raises(TargetingError):
         target.get_locator()
 
 

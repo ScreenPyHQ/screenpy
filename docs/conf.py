@@ -59,17 +59,21 @@ templates_path = ["_templates"]
 source_suffix = ".rst"
 
 rst_prolog = """.. Internal references
+.. .. Exceptions
+.. |DeliveryError| replace:: :class:`~screenpy.exceptions.DeliveryError`
+.. |UnableToActError| replace:: :class:`~screenpy.exceptions.UnableToActError`
+.. |UnableToPerformError| replace:: :class:`~screenpy.actor.UnableToPerformError`
+
 .. .. Actors
 .. |Actor| replace:: :class:`~screenpy.actor.Actor`
 .. |Actor.named| replace:: :meth:`~screenpy.actor.Actor.named`
 .. |Actor.who_can| replace:: :meth:`~screenpy.actor.Actor.who_can`
 .. |Actor.can| replace:: :meth:`~screenpy.actor.Actor.can`
-.. |Actor.ability_to| replace:: :meth:`~screenpy.actor.Actor.ability_to`
+.. |Actor.uses_ability_to| replace:: :meth:`~screenpy.actor.Actor.uses_ability_to`
 .. |Actor.attempts_to| replace:: :meth:`~screenpy.actor.Actor.attempts_to`
 .. |Actor.should_see_that| replace:: :meth:`~screenpy.actor.Actor.should_see_that`
 .. |Actor.should_see_the| replace:: :meth:`~screenpy.actor.Actor.should_see_the`
 .. |Actor.exit| replace:: :meth:`~screenpy.actor.Actor.exit`
-.. |UnableToPerformException| replace:: :class:`~screenpy.actor.UnableToPerformException`
 
 .. .. Targets
 .. |Target| replace:: :class:`~screenpy.target.Target`
@@ -81,6 +85,7 @@ rst_prolog = """.. Internal references
 .. |BrowseTheWeb.using| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.using`
 .. |BrowseTheWeb.to_find| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_find`
 .. |BrowseTheWeb.to_find_all| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_find_all`
+.. |BrowseTheWeb.to_get| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_get`
 .. |BrowseTheWeb.to_wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_wait_for`
 .. |BrowseTheWeb.forget| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.forget`
 .. |BrowseTheWeb.wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.wait_for`
@@ -94,6 +99,7 @@ rst_prolog = """.. Internal references
 .. |Click.on| replace:: :meth:`~screenpy.actions.click.Click.on`
 .. |Click.on_the| replace:: :meth:`~screenpy.actions.click.Click.on_the`
 .. |Click.then_wait_for| replace:: :meth:`~screenpy.actions.click.Click.then_wait_for`
+.. |Click.then_wait_for_the| replace:: :meth:`~screenpy.actions.click.Click.then_wait_for_the`
 .. |Click.perform_as| replace:: :meth:`~screenpy.actions.click.Click.perform_as`
 .. |Debug| replace:: :class:`~screenpy.actions.debug.Debug`
 .. |Enter| replace:: :class:`~screenpy.actions.enter.Enter`
@@ -117,6 +123,7 @@ rst_prolog = """.. Internal references
 .. |SelectByValue.from_the| replace:: :meth:`~screenpy.actions.select.SelectByValue.from_the`
 .. |Wait| replace:: :class:`~screenpy.actions.wait.Wait`
 .. |Wait.for_| replace:: :meth:`~screenpy.actions.wait.Wait.for_`
+.. |Wait.seconds_for| replace:: :meth:`~screenpy.actions.wait.Wait.seconds_for`
 .. |Wait.for_the| replace:: :meth:`~screenpy.actions.wait.Wait.for_the`
 .. |wait.to_appear| replace:: :meth:`~screenpy.actions.wait.Wait.to_appear`
 

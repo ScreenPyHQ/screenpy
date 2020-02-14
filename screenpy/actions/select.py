@@ -19,10 +19,12 @@ actor can perform this action like so:
 
 from typing import Optional, Union
 
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.support.ui import Select as SeleniumSelect
 
 from ..actor import Actor
-from ..pacing import MINOR, beat
+from ..exceptions import DeliveryError, UnableToActError
+from ..pacing import beat
 from ..target import Target
 from .base_action import BaseAction
 
@@ -117,7 +119,7 @@ class SelectByText(BaseAction):
         """Syntactic sugar for |SelectByText.from_the|."""
         return self.from_the(target)
 
-    @beat("{0} selects the option '{text}' from the {target}.", gravitas=MINOR)
+    @beat("{0} selects the option '{text}' from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to attempt to find the dropdown element described
@@ -127,19 +129,27 @@ class SelectByText(BaseAction):
             the_actor: The |Actor| who will perform the action.
 
         Raises:
-            ValueError: if no target was supplied.
-            |UnableToPerformException|: if the actor does not have the
-                ability to |BrowseTheWeb|.
+            |DeliveryError|: an exception was raised by Selenium.
+            |UnableToActError|: no target was supplied.
+            |UnableToPerformError|: the actor does not have the ability to
+                |BrowseTheWeb|.
         """
         if self.target is None:
-            raise ValueError(
-                "Target was not provided for SelectByText. Provide a "
-                "target using the .from_() or .from_the() methods."
+            raise UnableToActError(
+                "Target was not provided for SelectByText. Provide a target using the "
+                ".from_() or .from_the() methods."
             )
 
         element = self.target.found_by(the_actor)
         select = SeleniumSelect(element)
-        select.select_by_visible_text(self.text)
+        try:
+            select.select_by_visible_text(self.text)
+        except WebDriverException as e:
+            msg = (
+                "Encountered an issue while attempting to select the option with text "
+                f"'{self.text}' from {self.target}: {e.__class__.__name__}"
+            )
+            raise DeliveryError(msg).with_traceback(e.__traceback__)
 
     def __init__(self, text: str, target: Optional[Target] = None) -> None:
         self.target = target
@@ -179,7 +189,7 @@ class SelectByIndex(BaseAction):
         """Syntactic sugar for |SelectByIndex.from_the|."""
         return self.from_the(target)
 
-    @beat("{0} selects the option at index {index} from the {target}.", gravitas=MINOR)
+    @beat("{0} selects the option at index {index} from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to attempt to find the dropdown element described
@@ -189,19 +199,27 @@ class SelectByIndex(BaseAction):
             the_actor: The |Actor| who will perform the action.
 
         Raises:
-            ValueError: if no target was supplied.
-            |UnableToPerformException|: if the actor does not have the
-                ability to |BrowseTheWeb|.
+            |DeliveryError|: an exception was raised by Selenium.
+            |UnableToActError|: no target was supplied.
+            |UnableToPerformError|: the actor does not have the ability to
+                |BrowseTheWeb|.
         """
         if self.target is None:
-            raise ValueError(
-                "Target was not provided for SelectByIndex. Provide a "
-                "target using the .from_() or .from_the() methods."
+            raise UnableToActError(
+                "Target was not provided for SelectByIndex. Provide a target using the "
+                ".from_() or .from_the() methods."
             )
 
         element = self.target.found_by(the_actor)
         select = SeleniumSelect(element)
-        select.select_by_index(self.index)
+        try:
+            select.select_by_index(self.index)
+        except WebDriverException as e:
+            msg = (
+                "Encountered an issue while attempting to select the option at index "
+                f"{self.index} from {self.target}: {e.__class__.__name__}"
+            )
+            raise DeliveryError(msg).with_traceback(e.__traceback__)
 
     def __init__(self, index: Union[int, str], target: Optional[Target] = None) -> None:
         self.target = target
@@ -241,9 +259,7 @@ class SelectByValue(BaseAction):
         """Syntactic sugar for |SelectByValue.from_the|."""
         return self.from_the(target)
 
-    @beat(
-        "{0} selects the option with value '{value}' from the {target}.", gravitas=MINOR
-    )
+    @beat("{0} selects the option with value '{value}' from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to attempt to find the dropdown element described
@@ -253,19 +269,27 @@ class SelectByValue(BaseAction):
             the_actor: The |Actor| who will perform the action.
 
         Raises:
-            ValueError: if no target was supplied.
-            |UnableToPerformException|: if the actor does not have the
-                ability to |BrowseTheWeb|.
+            |DeliveryError|: an exception was raised by Selenium.
+            |UnableToActError|: no target was supplied.
+            |UnableToPerformError|: the actor does not have the ability to
+                |BrowseTheWeb|.
         """
         if self.target is None:
-            raise ValueError(
-                "Target was not provided for SelectByValue. Provide a "
-                "target using the .from_() or .from_the() methods."
+            raise UnableToActError(
+                "Target was not provided for SelectByValue. Provide a target using the "
+                ".from_() or .from_the() methods."
             )
 
         element = self.target.found_by(the_actor)
         select = SeleniumSelect(element)
-        select.select_by_value(self.value)
+        try:
+            select.select_by_value(self.value)
+        except WebDriverException as e:
+            msg = (
+                "Encountered an issue while attempting to select the option with value "
+                f"{self.value} from {self.target}: {e.__class__.__name__}"
+            )
+            raise DeliveryError(msg).with_traceback(e.__traceback__)
 
     def __init__(self, value: Union[int, str], target: Optional[Target] = None) -> None:
         self.target = target

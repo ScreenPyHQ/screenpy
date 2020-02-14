@@ -14,8 +14,11 @@ so:
 import warnings
 from typing import Union
 
+from selenium.common.exceptions import WebDriverException
+
 from ..actor import Actor
-from ..pacing import MINOR, beat
+from ..exceptions import DeliveryError
+from ..pacing import beat
 from ..target import Target
 from .base_action import BaseAction
 from .wait import Wait
@@ -78,7 +81,7 @@ class Click(BaseAction):
         """Syntactic sugar for |Click.then_wait_for_the|."""
         return self.then_wait_for_the(target)
 
-    @beat("{0} clicks on the {target}.", gravitas=MINOR)
+    @beat("{0} clicks on the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to find the element described by the stored target,
@@ -89,11 +92,21 @@ class Click(BaseAction):
             the_actor: the |Actor| who will perform the action.
 
         Raises:
-            |UnableToPerformException|: if the actor does not have the
-                ability to |BrowseTheWeb|.
+            |DeliveryError|: an exception was raised by Selenium.
+            |UnableToPerformError|: the actor does not have the ability to
+                |BrowseTheWeb|.
         """
         element = self.target.found_by(the_actor)
-        element.click()
+
+        try:
+            element.click()
+        except WebDriverException as e:
+            msg = (
+                "Encountered an issue while attempting to click "
+                f"{self.target}: {e.__class__.__name__}"
+            )
+            raise DeliveryError(msg).with_traceback(e.__traceback__)
+
         if self.action_complete_target is not None:
             the_actor.attempts_to(Wait.for_the(self.action_complete_target).to_appear())
 

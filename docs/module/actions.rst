@@ -27,7 +27,7 @@ to perform an action.
 They may not actually have the correct :ref:`abilities`,
 after all.
 If an actor is unable to perform an action or task,
-they will raise an |UnableToPerformException|.
+they will raise an |UnableToPerformError|.
 
 Writing New Actions
 -------------------
@@ -134,8 +134,8 @@ might look something like this:
                 the_actor: the actor who will perform this task.
 
             Raises:
-                UnableToPerformException: if the actor does not possess the
-                    ability to BrowseTheWeb.
+                UnableToPerformError: the actor does not have the ability to
+                    BrowseTheWeb.
             """
             the_actor.attempts_to(
                 Click.on(SIGN_ON_LINK),

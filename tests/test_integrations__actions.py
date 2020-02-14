@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from screenpy import Target
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actions import Clear, Click, Debug, Enter, Open, Pause, Select, Wait
+from screenpy.exceptions import UnableToActError
 
 
 def test_clear(Tester):
@@ -84,7 +85,7 @@ def test_enter_following_keys(Tester):
 
 def test_enter_complains_for_no_target(Tester):
     """Enter complains if no target was given"""
-    with pytest.raises(ValueError):
+    with pytest.raises(UnableToActError):
         Tester.attempts_to(Enter.the_text("test"))
 
 
@@ -110,7 +111,7 @@ def test_pause(mocked_sleep, Tester):
 
 def test_pause_complains_for_no_reason(Tester):
     """Pause throws an assertion if no reason was given"""
-    with pytest.raises(ValueError):
+    with pytest.raises(UnableToActError):
         Tester.attempts_to(Pause.for_(20))
 
 
@@ -132,7 +133,7 @@ def test_select_by_index(mocked_selenium_select, Tester):
 
 def test_select_by_index_complains_for_no_target(Tester):
     """SelectByIndex complains if no target was given"""
-    with pytest.raises(ValueError):
+    with pytest.raises(UnableToActError):
         Tester.attempts_to(Select.the_option_at_index(1))
 
 
@@ -154,7 +155,7 @@ def test_select_by_text(mocked_selenium_select, Tester):
 
 def test_select_by_text_complains_for_no_target(Tester):
     """SelectByText complains if no target was given"""
-    with pytest.raises(ValueError):
+    with pytest.raises(UnableToActError):
         Tester.attempts_to(Select.the_option_named("text"))
 
 
@@ -176,7 +177,7 @@ def test_select_by_value(mocked_selenium_select, Tester):
 
 def test_select_by_value_complains_for_no_target(Tester):
     """SelectByValue complains if no target was given"""
-    with pytest.raises(ValueError):
+    with pytest.raises(UnableToActError):
         Tester.attempts_to(Select.the_option_with_value("value"))
 
 
@@ -189,5 +190,5 @@ def test_wait(Tester):
 
     mocked_ability = Tester.ability_to(BrowseTheWeb)
     mocked_ability.to_wait_for.assert_called_once_with(
-        (By.XPATH, fake_xpath), timeout=20, cond=EC.visibility_of_element_located
+        fake_target, timeout=20, cond=EC.visibility_of_element_located
     )

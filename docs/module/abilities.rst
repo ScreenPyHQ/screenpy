@@ -32,12 +32,13 @@ or ask any :ref:`questions`
 that require that ability.
 If an action or a question require an ability
 that the actor does not have,
-the actor will raise an |UnableToPerformException|.
+the actor will raise an |UnableToPerformError|.
 
 What If I Need To Set Up My Driver?
 -----------------------------------
 
-Behind the scenes, |BrowseTheWeb.using| is called to pass in a default webdriver.
+Behind the scenes, |BrowseTheWeb.using| is called
+to pass in a default Selenium webdriver.
 You can do whatever setup your driver needs—
 use specific options,
 set up authentication,
@@ -46,10 +47,6 @@ then pass it into the ability afterwards.
 Using this method directly,
 you can easily switch between any Webdriver you need to use,
 local or remote.
-
-The examples all use Selenium's webdriver,
-but you are free to use another webdriver
-that uses a similar API.
 
 Writing New Abilities
 ---------------------

@@ -6,7 +6,9 @@ and also set the logging severity for Python's built-in logging library.
 """
 
 
+import logging
 import re
+from enum import Enum
 from functools import wraps
 from typing import Any, Callable
 
@@ -20,17 +22,18 @@ BLOCKER = allure.severity_level.BLOCKER
 
 
 Function = Callable[..., Any]
+logger = logging.getLogger("screenpy")
 
 
-def act(title: str, gravitas=NORMAL) -> Callable[[Function], Function]:
+def act(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
     """
     Decorator to mark an "act" (a feature). Use the same title to group
     your individual "scenes" (test cases) together under the same act in
     the allure report.
 
     Args:
-        title (str): the title of this "act" (the feature name).
-        gravitas: how serious this act is (the log level).
+        title: the title of this "act" (the feature name).
+        gravitas: how serious this act is (the severity level).
 
     Returns:
         Decorated function
@@ -39,22 +42,25 @@ def act(title: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     def decorator(func: Function) -> Function:
         @wraps(func)
         @allure.feature(title)
+        @allure.severity(gravitas)
         def wrapper(*args, **kwargs) -> Any:
-            allure.severity(gravitas)
-            return func(*args, **kwargs)
+            logger.info(f"ACT {title.upper()}")
+            retval = func(*args, **kwargs)
+
+            return retval
 
         return wrapper
 
     return decorator
 
 
-def scene(title: str, gravitas=NORMAL) -> Callable[[Function], Function]:
+def scene(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
     """
     Decorator to mark a "scene" (a user story).
 
     Args:
-        title (str): the title of this "scene" (the user story summary).
-        gravitas: how serious this scene is (the log level).
+        title: the title of this "scene" (the user story summary).
+        gravitas: how serious this scene is (the severity level).
 
     Returns:
         Decorated function
@@ -63,8 +69,10 @@ def scene(title: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     def decorator(func: Function) -> Function:
         @wraps(func)
         @allure.story(title)
+        @allure.severity(gravitas)
         def wrapper(*args, **kwargs) -> Any:
-            allure.severity(gravitas)
+            logger.info(f"Scene: {title.title()}")
+
             return func(*args, **kwargs)
 
         return wrapper
@@ -72,16 +80,14 @@ def scene(title: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     return decorator
 
 
-def beat(line: str, gravitas=NORMAL) -> Callable[[Function], Function]:
+def beat(line: str) -> Callable[[Function], Function]:
     """
     Decorator to describe a "beat" (a step in a test). A beat's line can
     contain markers for replacement via str.format(), which will be
     figured out from the properties of a decorated method's class.
 
     Args:
-        line (str): the line spoken during this "beat" (the test step
-            description).
-        gravitas: how serious this beat is (the log level).
+        line: the line spoken during this "beat" (the step description).
 
     Returns:
         Decorated function
@@ -94,12 +100,14 @@ def beat(line: str, gravitas=NORMAL) -> Callable[[Function], Function]:
 
             markers = re.findall(r"\{([^0-9\}]+)}", line)
             cues = {mark: getattr(args[0], mark) for mark in markers}
+            completed_line = line.format(actor, **cues)
 
-            allure.severity(gravitas)
-            with allure.step(line.format(actor, **cues)):
+            logger.info(completed_line)
+            with allure.step(completed_line):
                 retval = func(*args, **kwargs)
                 if retval is not None:
-                    aside(retval, gravitas=TRIVIAL)
+                    aside(retval)
+
             return retval
 
         return wrapper
@@ -107,16 +115,16 @@ def beat(line: str, gravitas=NORMAL) -> Callable[[Function], Function]:
     return decorator
 
 
-def aside(line: str, gravitas=NORMAL) -> None:
+def aside(line: str) -> None:
     """
     A line spoken in a stage whisper to the audience. Or, in this case,
     a quick message to log.
 
     Args:
-        line (str): the line spoken in this aside (the log text).
-        gravitas: how serious this aside is (the log level).
+        line: the line spoken in this aside (the log text).
+        gravitas: how serious this aside is (the severity level).
     """
-    allure.severity(gravitas)
+    logger.info(line)
     with allure.step(line):
-        # Can't just straight up call, have to enter or decorate
+        # Can't call method directly, have to enter or decorate
         pass

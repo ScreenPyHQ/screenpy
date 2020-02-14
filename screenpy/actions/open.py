@@ -15,7 +15,7 @@ from typing import Union
 
 from ..abilities.browse_the_web import BrowseTheWeb
 from ..actor import Actor
-from ..pacing import MINOR, beat
+from ..pacing import beat
 from .base_action import BaseAction
 
 
@@ -56,7 +56,7 @@ class Open(BaseAction):
         """Syntactic sugar for |Open.browser_on|."""
         return Open.browser_on(location)
 
-    @beat("{0} opens their browser and visits {url}", gravitas=MINOR)
+    @beat("{0} opens their browser and visits {url}")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the supplied actor to perform this Open action, using their
@@ -66,8 +66,8 @@ class Open(BaseAction):
             the_actor: The |Actor| who will perform the action.
 
         Raises:
-            |UnableToPerformException|: if the actor does not have the
-                ability to |BrowseTheWeb|.
+            |UnableToPerformError|: the actor does not have the ability to
+                |BrowseTheWeb|.
         """
         the_actor.uses_ability_to(BrowseTheWeb).to_visit(self.url)
 

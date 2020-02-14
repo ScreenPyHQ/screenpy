@@ -26,6 +26,6 @@ repos:
   hooks:
   - id: pylint
     name: pylint
-    entry: pylint --max-line-length=88 --disable=bad-continuation --disable=no-self-use --disable=too-few-public-methods --disable=invalid-name --disable=wrong-import-order --disable=import-error --disable=super-init-not-called --disable=duplicate-code
+    entry: pylint --max-line-length=88 --disable=bad-continuation --disable=no-self-use --disable=too-few-public-methods --disable=invalid-name --disable=wrong-import-order --disable=import-error --disable=super-init-not-called --disable=duplicate-code --disable=logging-format-interpolation
     language: system
     types: [python]

@@ -16,8 +16,11 @@ action like so:
 import warnings
 from typing import List, Union
 
+from selenium.common.exceptions import WebDriverException
+
 from ..actor import Actor
-from ..pacing import MINOR, aside, beat
+from ..exceptions import DeliveryError, UnableToActError
+from ..pacing import aside, beat
 from ..target import Target
 from .base_action import BaseAction
 from .wait import Wait
@@ -123,7 +126,7 @@ class Enter(BaseAction):
         self.action_complete_target = target
         return self
 
-    @beat("{0} enters '{text}' into the {target}.", gravitas=MINOR)
+    @beat("{0} enters '{text}' into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to perform the Enter action, entering the text into
@@ -137,21 +140,31 @@ class Enter(BaseAction):
             the_actor: the |Actor| who will perform this action.
 
         Raises:
-            ValueError: if no target was supplied.
-            |UnableToPerformException|: if the actor does not have the
-                ability to |BrowseTheWeb|.
+            |DeliveryError|: an exception was raised by Selenium.
+            |UnableToActError|: no target was supplied.
+            |UnableToPerformError|: the actor does not have the ability to
+                |BrowseTheWeb|.
         """
         if self.target is None:
-            raise ValueError(
+            raise UnableToActError(
                 "Target was not supplied for Enter. Provide a target by using either "
-                ".into(), .into_the(), or .on() method."
+                "the .into(), .into_the(), or .on() method."
             )
 
         element = self.target.found_by(the_actor)
-        element.send_keys(self.text)
-        for key in self.following_keys:
-            aside(f"then hits the {key} key")
-            element.send_keys(key)
+
+        try:
+            element.send_keys(self.text)
+            for key in self.following_keys:
+                aside(f"then hits the {key} key")
+                element.send_keys(key)
+        except WebDriverException as e:
+            msg = (
+                "Encountered an issue while attempting to enter text into "
+                f"{self.target}: {e.__class__.__name__}"
+            )
+            raise DeliveryError(msg).with_traceback(e.__traceback__)
+
         if self.action_complete_target is not None:
             the_actor.attempts_to(Wait.for_the(self.action_complete_target).to_appear())
 

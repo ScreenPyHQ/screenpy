@@ -15,7 +15,7 @@ with a question to get the actual value. An assertion might look like:
 
 from hamcrest.core.base_matcher import BaseMatcher
 
-from ..pacing import MINOR, beat
+from ..pacing import beat
 
 
 class BaseResolution(BaseMatcher):
@@ -34,7 +34,7 @@ class BaseResolution(BaseMatcher):
         "descriptive line for your custom resolution."
     )
 
-    @beat("... hoping {motivation}", gravitas=MINOR)
+    @beat("... hoping {motivation}")
     def _matches(self, actual) -> bool:
         """passthrough to the matcher's method."""
         return self.matcher.matches(actual)

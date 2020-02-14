@@ -13,7 +13,8 @@ from typing import Any, List, Text, Tuple
 
 from hamcrest import assert_that
 
-from .pacing import TRIVIAL, aside
+from .exceptions import ScreenPyError
+from .pacing import aside
 
 ENTRANCE_DIRECTIONS = [
     "{actor} arrives on stage!",
@@ -37,9 +38,9 @@ Question = Any
 Resolution = Any
 
 
-class UnableToPerformException(Exception):
+class UnableToPerformError(ScreenPyError):
     """
-    Raised when an actor does not possess the ability to perform the
+    Raised when an actor does not have the ability to perform the
     action they attempted.
     """
 
@@ -72,10 +73,10 @@ class Actor:
         Returns:
             |Actor|
         """
-        aside(choice(ENTRANCE_DIRECTIONS).format(actor=name), gravitas=TRIVIAL)
+        aside(choice(ENTRANCE_DIRECTIONS).format(actor=name))
         return Actor(name)
 
-    def can(self, *abilities: Ability) -> "Actor":
+    def who_can(self, *abilities: Ability) -> "Actor":
         """
         Adds an ability to this actor.
 
@@ -88,11 +89,11 @@ class Actor:
         self.abilities.extend(abilities)
         return self
 
-    def who_can(self, *abilities: Ability) -> "Actor":
-        """Syntactic sugar for |Actor.can|."""
-        return self.can(*abilities)
+    def can(self, *abilities: Ability) -> "Actor":
+        """Syntactic sugar for |Actor.who_can|."""
+        return self.who_can(*abilities)
 
-    def ability_to(self, ability: Ability) -> Ability:
+    def uses_ability_to(self, ability: Ability) -> Ability:
         """
         Finds the ability referenced and returns it, if the actor is able
         to do it.
@@ -104,18 +105,17 @@ class Actor:
             The requested ability.
 
         Raises:
-            |UnableToPerformException|: if this actor does not possess
-                this ability.
+            |UnableToPerformError|: the actor doesn't possess the ability.
         """
         for a in self.abilities:
             if isinstance(a, ability):
                 return a
 
-        raise UnableToPerformException(f"{self} does not have the ability to {ability}")
+        raise UnableToPerformError(f"{self} does not have the ability to {ability}")
 
-    def uses_ability_to(self, ability: Ability) -> Ability:
-        """Syntactic sugar for |Actor.ability_to|."""
-        return self.ability_to(ability)
+    def ability_to(self, ability: Ability) -> Ability:
+        """Syntactic sugar for |Actor.uses_ability_to|."""
+        return self.uses_ability_to(ability)
 
     def attempts_to(self, *actions: Action) -> None:
         """
@@ -140,7 +140,7 @@ class Actor:
         """
         action.perform_as(self)
 
-    def should_see_that(self, *tests: Tuple[Question, Resolution]) -> None:
+    def should_see_the(self, *tests: Tuple[Question, Resolution]) -> None:
         """
         Asks a series of questions, asserting that the expected answer
         resolves.
@@ -155,13 +155,13 @@ class Actor:
         for question, test in tests:
             assert_that(question.answered_by(self), test)
 
-    def should_see_the(self, *tests: Tuple[Question, Resolution]) -> None:
-        """Syntactic sugar for |Actor.should_see_that|."""
-        return self.should_see_that(*tests)
+    def should_see_that(self, *tests: Tuple[Question, Resolution]) -> None:
+        """Syntactic sugar for |Actor.should_see_the|."""
+        return self.should_see_the(*tests)
 
     def should_see(self, *tests: Tuple[Question, Resolution]) -> None:
-        """Syntactic sugar for |Actor.should_see_that|."""
-        return self.should_see_that(*tests)
+        """Syntactic sugar for |Actor.should_see_the|."""
+        return self.should_see_the(*tests)
 
     def exit(self) -> None:
         """
@@ -174,12 +174,12 @@ class Actor:
 
     def exit_stage_right(self) -> None:
         """Syntactic sugar for |Actor.exit|."""
-        aside(f"{self} bows and exits, stage right.", gravitas=TRIVIAL)
+        aside(f"{self} bows and exits, stage right.")
         self.exit()
 
     def exit_stage_left(self) -> None:
         """Syntactic sugar for |Actor.exit|."""
-        aside(f"{self} bows and exits, stage left.", gravitas=TRIVIAL)
+        aside(f"{self} bows and exits, stage left.")
         self.exit()
 
     def __repr__(self) -> str:

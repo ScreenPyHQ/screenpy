@@ -25,6 +25,7 @@ natural language test case writing.
    filehierarchy
    toolkit
    debugging
+   exceptions
    context
 
 

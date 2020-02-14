@@ -7,8 +7,11 @@ so:
 """
 
 
+from selenium.common.exceptions import WebDriverException
+
 from ..actor import Actor
-from ..pacing import MINOR, beat
+from ..exceptions import DeliveryError
+from ..pacing import beat
 from ..target import Target
 from .base_action import BaseAction
 
@@ -44,7 +47,7 @@ class Clear(BaseAction):
         """Syntactic sugar for |Clear.the_text_from_the|."""
         return Clear.the_text_from_the(target)
 
-    @beat("{0} clears text from the {target}.", gravitas=MINOR)
+    @beat("{0} clears text from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to performs the Clear action, clearing the text
@@ -55,11 +58,19 @@ class Clear(BaseAction):
             the_actor: The |Actor| who will perform this action.
 
         Raises:
-            |UnableToPerformException|: if the actor does not have the
-                ability to |BrowseTheWeb|.
+            |UnableToPerformError|: the actor does not have the ability to
+                |BrowseTheWeb|.
         """
         element = self.target.found_by(the_actor)
-        element.clear()
+
+        try:
+            element.clear()
+        except WebDriverException as e:
+            msg = (
+                "Encountered an issue while attempting to clear "
+                f"{self.target}: {e.__class__.__name__}"
+            )
+            raise DeliveryError(msg).with_traceback(e.__traceback__)
 
     def __init__(self, target: Target) -> None:
         self.target = target

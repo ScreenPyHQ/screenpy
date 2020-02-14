@@ -17,11 +17,13 @@ actor can perform this action like so:
 
 from typing import Optional
 
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
 
 from ..abilities.browse_the_web import BrowseTheWeb
 from ..actor import Actor
-from ..pacing import MINOR, beat
+from ..exceptions import DeliveryError, UnableToActError
+from ..pacing import beat
 from ..target import Target
 from .base_action import BaseAction
 
@@ -151,7 +153,7 @@ class Wait(BaseAction):
             lambda locator: EC.text_to_be_present_in_element(locator, text)
         )
 
-    @beat("{0} waits for the {target}{log_detail}.", gravitas=MINOR)
+    @beat("{0} waits for the {target}{log_detail}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to perform the Wait action, using the contained
@@ -161,18 +163,26 @@ class Wait(BaseAction):
             the_actor: The |Actor| who will perform this action.
 
         Raises:
-            |UnableToPerformException|: if the actor does not have the
-                ability to |BrowseTheWeb|.
+            |UnableToActError|: no target was supplied.
+            |UnableToPerformError|: the actor does not have the ability to
+                |BrowseTheWeb|.
         """
         if self.target is None:
-            raise ValueError(
+            raise UnableToActError(
                 "Target was not supplied for Wait. Provide a target by using either "
                 ".for_(), .for_the(), .seconds_for(), or .seconds_for_the() method."
             )
 
-        the_actor.uses_ability_to(BrowseTheWeb).to_wait_for(
-            self.target.get_locator(), timeout=self.timeout, cond=self.condition
-        )
+        try:
+            the_actor.uses_ability_to(BrowseTheWeb).to_wait_for(
+                self.target, timeout=self.timeout, cond=self.condition
+            )
+        except WebDriverException as e:
+            msg = (
+                "Encountered an issue while attempting to wait for the "
+                f"{self.target}: {e.__class__.__name__}"
+            )
+            raise DeliveryError(msg).with_traceback(e.__traceback__)
 
     def __init__(self, seconds: int = 20, target: Optional[Target] = None) -> None:
         self.target = target

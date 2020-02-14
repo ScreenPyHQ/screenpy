@@ -7,11 +7,17 @@ will be used by actors to find elements.
 
 from typing import List, Tuple, Union
 
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebElement
 
 from .abilities.browse_the_web import BrowseTheWeb
 from .actor import Actor
+from .exceptions import ScreenPyError
+
+
+class TargetingError(ScreenPyError):
+    """Raised when there is an issue preventing target acquisition."""
 
 
 class Target:
@@ -91,10 +97,10 @@ class Target:
             Tuple(|By|, str)
 
         Raises:
-            ValueError: if no locator was supplied to the target.
+            |TargetingError|: if no locator was supplied to the target.
         """
         if self.locator is None:
-            raise ValueError(
+            raise TargetingError(
                 f"Locator was not supplied to the {self} target. Make sure to use "
                 "either .located() or .located_by() to supply a locator."
             )
@@ -110,8 +116,16 @@ class Target:
 
         Returns:
             |WebElement|
+
+        Raises:
+            |TargetingError|: if the target is not able to be found.
         """
-        return the_actor.uses_ability_to(BrowseTheWeb).to_find(self.get_locator())
+        try:
+            return the_actor.uses_ability_to(BrowseTheWeb).to_find(self.get_locator())
+        except WebDriverException as e:
+            error_type = e.__class__.__name__
+            msg = f"Encountered an issue while attempting to find {self}: {error_type}"
+            raise TargetingError(msg).with_traceback(e.__traceback__)
 
     def all_found_by(self, the_actor: Actor) -> List[WebElement]:
         """
@@ -124,8 +138,18 @@ class Target:
 
         Returns:
             list(|WebElement|)
+
+        Raises:
+            |TargetingError|: if the targets are not able to be found.
         """
-        return the_actor.uses_ability_to(BrowseTheWeb).to_find_all(self.get_locator())
+        try:
+            return the_actor.uses_ability_to(BrowseTheWeb).to_find_all(
+                self.get_locator()
+            )
+        except WebDriverException as e:
+            error_type = e.__class__.__name__
+            msg = f"Encountered an issue while attempting to find {self}: {error_type}"
+            raise TargetingError(msg).with_traceback(e.__traceback__)
 
     def __init__(self, desc: str) -> None:
         self.target_name = desc

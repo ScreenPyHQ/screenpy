@@ -21,6 +21,7 @@ from selenium.webdriver.remote.webdriver import WebDriver, WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from ..exceptions import AbilityError
 from .base_ability import BaseAbility
 
 if TYPE_CHECKING:
@@ -40,6 +41,10 @@ DEFAULT_ANDROID_CAPABILITIES = {
     "automationName": "UIAutomator2",
     "browserName": "Chrome",
 }
+
+
+class BrowsingError(AbilityError):
+    """Raised when BrowseTheWeb encounters an error."""
 
 
 class BrowseTheWeb(BaseAbility):
@@ -184,52 +189,6 @@ class BrowseTheWeb(BaseAbility):
         """Syntactic sugar for |BrowseTheWeb.to_find_all|."""
         return self.find_all(locator)
 
-    def wait_then_find(
-        self,
-        locator: Tuple[By, str],
-        timeout: int = 20,
-        cond: Callable = EC.visibility_of_element_located,
-    ) -> WebElement:
-        """
-        Waits for the element described by the locator to appear, then
-        gets it.
-
-        Args:
-            locator: The tuple describing the element, like (|By|, string)
-            timeout: How many seconds to wait before raising a
-                TimeoutException. Default is 20.
-            cond: The condition to wait for. Default is
-                visibility_of_element_located.
-
-        Returns:
-            |WebElement|
-        """
-        self.wait_for(locator, timeout, cond)
-        return self.find(locator)
-
-    def wait_then_find_all(
-        self,
-        locator: Tuple[By, str],
-        timeout: int = 20,
-        cond: Callable = EC.visibility_of_element_located,
-    ) -> List[WebElement]:
-        """
-        Waits for the elements described by the locator to appear, then
-        gets them all.
-
-        Args:
-            locator: The tuple describing the element, like (|By|, string)
-            timeout: How many seconds to wait before raising a
-                TimeoutException. Default is 20.
-            cond: The condition to wait for. Default is
-                visibility_of_element_located.
-
-        Returns:
-            List(|WebElement|)
-        """
-        self.wait_for(locator, timeout, cond)
-        return self.find_all(locator)
-
     def to_wait_for(
         self,
         locator: Union["Target", Tuple[By, str]],
@@ -255,10 +214,10 @@ class BrowseTheWeb(BaseAbility):
             locator = locator.get_locator()
         try:
             WebDriverWait(self.browser, timeout).until(cond(locator))
-        except TimeoutException:
-            msg = "Waiting {time} seconds for '{ele}' to satisfy {cond} timed out."
-            msg = msg.format(time=timeout, ele=locator, cond=cond.__name__)
-            raise TimeoutException(msg)
+        except TimeoutException as e:
+            msg = "Waiting {time} seconds for '{element}' to satisfy {cond} timed out."
+            msg = msg.format(time=timeout, element=locator, cond=cond.__name__)
+            raise BrowsingError(msg).with_traceback(e.__traceback__)
 
     def wait_for(
         self,
