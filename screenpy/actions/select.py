@@ -19,7 +19,7 @@ actor can perform this action like so:
 
 from typing import Optional, Union
 
-from selenium.webdriver.support.ui import Select as SelSelect
+from selenium.webdriver.support.ui import Select as SeleniumSelect
 
 from ..actor import Actor
 from ..pacing import MINOR, beat
@@ -127,6 +127,7 @@ class SelectByText(BaseAction):
             the_actor: The |Actor| who will perform the action.
 
         Raises:
+            ValueError: if no target was supplied.
             |UnableToPerformException|: if the actor does not have the
                 ability to |BrowseTheWeb|.
         """
@@ -137,7 +138,7 @@ class SelectByText(BaseAction):
             )
 
         element = self.target.found_by(the_actor)
-        select = SelSelect(element)
+        select = SeleniumSelect(element)
         select.select_by_visible_text(self.text)
 
     def __init__(self, text: str, target: Optional[Target] = None) -> None:
@@ -188,6 +189,7 @@ class SelectByIndex(BaseAction):
             the_actor: The |Actor| who will perform the action.
 
         Raises:
+            ValueError: if no target was supplied.
             |UnableToPerformException|: if the actor does not have the
                 ability to |BrowseTheWeb|.
         """
@@ -198,7 +200,7 @@ class SelectByIndex(BaseAction):
             )
 
         element = self.target.found_by(the_actor)
-        select = SelSelect(element)
+        select = SeleniumSelect(element)
         select.select_by_index(self.index)
 
     def __init__(self, index: Union[int, str], target: Optional[Target] = None) -> None:
@@ -251,6 +253,7 @@ class SelectByValue(BaseAction):
             the_actor: The |Actor| who will perform the action.
 
         Raises:
+            ValueError: if no target was supplied.
             |UnableToPerformException|: if the actor does not have the
                 ability to |BrowseTheWeb|.
         """
@@ -261,7 +264,7 @@ class SelectByValue(BaseAction):
             )
 
         element = self.target.found_by(the_actor)
-        select = SelSelect(element)
+        select = SeleniumSelect(element)
         select.select_by_value(self.value)
 
     def __init__(self, value: Union[int, str], target: Optional[Target] = None) -> None:

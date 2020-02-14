@@ -52,7 +52,7 @@ class Click(BaseAction):
     @staticmethod
     def on(target: Target) -> "Click":
         """Syntactic sugar for |Click.on_the|."""
-        return Click.on(target)
+        return Click.on_the(target)
 
     def then_wait_for_the(self, target: Target) -> "Click":
         """
@@ -76,7 +76,7 @@ class Click(BaseAction):
 
     def then_wait_for(self, target: Target) -> "Click":
         """Syntactic sugar for |Click.then_wait_for_the|."""
-        return self.then_wait_for(target)
+        return self.then_wait_for_the(target)
 
     @beat("{0} clicks on the {target}.", gravitas=MINOR)
     def perform_as(self, the_actor: Actor) -> None:

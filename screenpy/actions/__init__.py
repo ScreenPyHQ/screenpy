@@ -8,6 +8,7 @@ Ask your actors to perform actions by passing the actions into their
 from .base_action import BaseAction
 from .clear import Clear
 from .click import Click
+from .debug import Debug
 from .enter import Enter
 from .open import Open
 from .pause import Pause
@@ -17,6 +18,7 @@ from .wait import Wait
 # Natural-language-enabling syntactic sugar
 Clears = Clear
 Clicks = Click
+Debugs = Debug
 Opens = Open
 Press = Presses = Enters = Enter
 Selects = Select
@@ -30,6 +32,8 @@ __all__ = [
     "Clears",
     "Click",
     "Clicks",
+    "Debug",
+    "Debugs",
     "Enter",
     "Enters",
     "Open",

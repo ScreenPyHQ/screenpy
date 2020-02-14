@@ -10,7 +10,7 @@ perform this action like so:
 
 from time import sleep
 
-from ..actor import Actor, UnableToPerformException
+from ..actor import Actor
 from ..pacing import beat
 from .base_action import BaseAction
 
@@ -107,10 +107,10 @@ class Pause(BaseAction):
             the_actor: the |Actor| who will perform this action.
 
         Raises:
-            |UnableToPerformException|: if no reason was supplied.
+            ValueError: if no reason was supplied.
         """
         if not self.reason:
-            raise UnableToPerformException(
+            raise ValueError(
                 "Cannot Pause without a reason. Use one of "
                 ".seconds_because(), .second_because(), or .milliseconds_because()."
             )

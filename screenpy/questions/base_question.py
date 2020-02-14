@@ -8,7 +8,7 @@ the required methods.
 
 from typing import Any
 
-from ..actors import Actor
+from ..actor import Actor
 
 
 class BaseQuestion:

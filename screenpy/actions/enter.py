@@ -137,6 +137,7 @@ class Enter(BaseAction):
             the_actor: the |Actor| who will perform this action.
 
         Raises:
+            ValueError: if no target was supplied.
             |UnableToPerformException|: if the actor does not have the
                 ability to |BrowseTheWeb|.
         """

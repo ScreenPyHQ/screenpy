@@ -42,7 +42,7 @@ class Clear(BaseAction):
     @staticmethod
     def the_text_from(target: Target) -> "Clear":
         """Syntactic sugar for |Clear.the_text_from_the|."""
-        return Clear.the_text_from(target)
+        return Clear.the_text_from_the(target)
 
     @beat("{0} clears text from the {target}.", gravitas=MINOR)
     def perform_as(self, the_actor: Actor) -> None:

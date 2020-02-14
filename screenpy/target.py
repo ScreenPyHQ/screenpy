@@ -89,11 +89,14 @@ class Target:
 
         Returns:
             Tuple(|By|, str)
+
+        Raises:
+            ValueError: if no locator was supplied to the target.
         """
         if self.locator is None:
             raise ValueError(
-                "Locator was not supplied to target. Make sure to use either "
-                ".located() or .located_by() to supply a locator."
+                f"Locator was not supplied to the {self} target. Make sure to use "
+                "either .located() or .located_by() to supply a locator."
             )
         return self.locator
 

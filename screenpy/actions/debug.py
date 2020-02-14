@@ -10,7 +10,7 @@ actor can perform this action like so:
 
 import pdb
 
-from ..actors import Actor
+from ..actor import Actor
 from ..pacing import beat
 from .base_action import BaseAction
 
