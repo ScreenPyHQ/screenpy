@@ -50,7 +50,7 @@ class Enter(BaseAction):
         |Enter.into| method.
 
         Args:
-            text: the text to enter into the specified target.
+            text: the text to enter into the target.
 
         Returns:
             |Enter|
@@ -61,6 +61,22 @@ class Enter(BaseAction):
     def the_keys(text: str) -> "Enter":
         """Syntactic sugar for |Enter.the_text|."""
         return Enter.the_text(text)
+
+    @staticmethod
+    def the_secret(text: str) -> "Enter":
+        """
+        Creates a new Enter action with the provided text, but will mask
+        the text for logging. The text will appear as "[REDACTED]" in the
+        report. It is expected that the next call will be to the
+        instantiated Enter object's |Enter.into| method.
+
+        Args:
+            text: the text to enter into the target, but it's a secret.
+
+        Returns:
+            |Enter|
+        """
+        return Enter(text, mask=True)
 
     def into(self, target: Target) -> "Enter":
         """
@@ -126,7 +142,7 @@ class Enter(BaseAction):
         self.action_complete_target = target
         return self
 
-    @beat("{0} enters '{text}' into the {target}.")
+    @beat("{0} enters '{text_to_log}' into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to perform the Enter action, entering the text into
@@ -168,8 +184,9 @@ class Enter(BaseAction):
         if self.action_complete_target is not None:
             the_actor.attempts_to(Wait.for_the(self.action_complete_target).to_appear())
 
-    def __init__(self, text: str) -> None:
+    def __init__(self, text: str, mask: bool = False) -> None:
         self.text = text
+        self.text_to_log = "[CENSORED]" if mask else text
         self.target = None
         self.action_complete_target = None
         self.following_keys = []

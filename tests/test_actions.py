@@ -56,6 +56,7 @@ class TestEnter:
         e5 = Enter.the_text("test").on(None)
         e6 = Enter.the_keys("test").on(None)
         e7 = Enter.the_text("test").into(None).then_press(None)
+        e9 = Enter.the_secret("test")
         e8 = Press.the_keys("test")
 
         assert isinstance(e1, Enter)
@@ -66,6 +67,7 @@ class TestEnter:
         assert isinstance(e6, Enter)
         assert isinstance(e7, Enter)
         assert isinstance(e8, Enter)
+        assert isinstance(e9, Enter)
 
 
 class TestEnter2FAToken:
