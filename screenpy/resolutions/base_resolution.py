@@ -32,11 +32,12 @@ class BaseResolution(BaseMatcher):
     matcher: BaseMatcher
     expected: object
     line = (
-        "-- I'm sorry, this resolution did not provide a line. Please define a more"
-        "descriptive line for your custom resolution."
+        "-- I'm sorry, this resolution did not provide a line. Please define a more "
+        "descriptive line for this custom resolution such that it completes the "
+        'phrase: "hoping it\'s...".'
     )
 
-    @beat("... hoping {motivation}")
+    @beat("... hoping it's {motivation}")
     def _matches(self, item: object) -> bool:
         """passthrough to the matcher's method."""
         return self.matcher.matches(item)
@@ -49,10 +50,14 @@ class BaseResolution(BaseMatcher):
         """passthrough to the matcher's method."""
         return self.matcher.describe_mismatch(item, mismatch_description)
 
+    def get_line(self) -> str:
+        """Gets the line that describes this resolution."""
+        return self.line.format(expectation=self.expected)
+
     @property
-    def motivation(self) -> "BaseResolution":
+    def motivation(self) -> str:
         """Used to provide fancy logging for the allure report."""
-        return self
+        return self.get_line()
 
     def __init__(self) -> None:
         raise NotImplementedError(
@@ -61,4 +66,4 @@ class BaseResolution(BaseMatcher):
         )
 
     def __repr__(self) -> str:
-        return self.line.format(expectation=self.expected)
+        return self.get_line()

@@ -19,7 +19,7 @@ class IsEmpty(BaseResolution):
     expected: None
     matcher: object
 
-    line = "for the collection to be empty"
+    line = "an empty collection"
 
     def __init__(self) -> None:
         self.expected = None

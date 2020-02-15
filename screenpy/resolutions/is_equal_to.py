@@ -19,7 +19,7 @@ class IsEqualTo(BaseResolution):
     expected: object
     matcher: object
 
-    line = "to find {expectation}"
+    line = "equal to {expectation}"
 
     def __init__(self, obj: object) -> None:
         self.expected = obj

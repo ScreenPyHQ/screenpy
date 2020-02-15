@@ -21,7 +21,7 @@ class ContainsTheText(BaseResolution):
     expected: str
     matcher: object
 
-    line = 'to have "{expectation}"'
+    line = 'text containing "{expectation}"'
 
     def __init__(self, substring: str) -> None:
         self.expected = substring

@@ -25,6 +25,10 @@ class IsNot(BaseResolution):
 
     line = "not {expectation}"
 
+    def get_line(self) -> str:
+        """Override base get_line because of the unique circumstance."""
+        return self.line.format(expectation=self.expected.get_line())
+
     def __init__(self, resolution: Any) -> None:
         self.expected = resolution
         self.matcher = is_not(resolution)
