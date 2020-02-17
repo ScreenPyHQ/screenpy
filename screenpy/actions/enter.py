@@ -66,7 +66,7 @@ class Enter(BaseAction):
     def the_secret(text: str) -> "Enter":
         """
         Creates a new Enter action with the provided text, but will mask
-        the text for logging. The text will appear as "[REDACTED]" in the
+        the text for logging. The text will appear as "[CENSORED]" in the
         report. It is expected that the next call will be to the
         instantiated Enter object's |Enter.into| method.
 
