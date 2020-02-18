@@ -109,6 +109,7 @@ rst_prolog = """.. Internal references
 .. |DismissAlert| replace:: :class:`~screenpy.actions.dismiss_alert.DismissAlert`
 .. |Enter| replace:: :class:`~screenpy.actions.enter.Enter`
 .. |Enter.the_text| replace:: :meth:`~screenpy.actions.enter.Enter.the_text`
+.. |Enter.the_secret| replace:: :meth:`~screenpy.actions.enter.Enter.the_secret`
 .. |Enter.into| replace:: :meth:`~screenpy.actions.enter.Enter.into`
 .. |Enter.then_hit| replace:: :meth:`~screenpy.actions.enter.Enter.then_hit`
 .. |Enter.then_wait_for| replace:: :meth:`~screenpy.actions.enter.Enter.then_wait_for`

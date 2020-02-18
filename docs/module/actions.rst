@@ -51,7 +51,10 @@ are defined:
 ``screenpy.actions.base_action.BaseAction``
 
 
-Let's take a look at what an extremely contrived custom action, ``ChecksTheSpelling``, might look like::
+Let's take a look
+at what an extremely contrived custom action,
+``ChecksTheSpelling``,
+might look like::
 
     # actions/checks_the_spelling.py
     from screenpy.actions import BaseAction

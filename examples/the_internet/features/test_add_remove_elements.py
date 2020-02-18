@@ -1,6 +1,6 @@
 """
-An example test module that follows the pattern of subclassing
-unittest.TestCase.
+An example of a test module that follows the typical unittest.TestCase
+test structure. These tests exercise the clicking and waiting actions.
 """
 
 

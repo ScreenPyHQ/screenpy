@@ -1,7 +1,7 @@
 """
 Actions are what the actors do, possibly requiring use of their abilities.
 Ask your actors to perform actions by passing the actions into their
-|Actor.attempts_to| method.
+|Actor.was_able_to| or |Actor.attempts_to| method.
 """
 
 
@@ -49,8 +49,8 @@ __all__ = [
     "DismissAlert",
     "DismissesAlert",
     "Enter",
-    "Enters",
     "Enter2FAToken",
+    "Enters",
     "Enters2FAToken",
     "Open",
     "Opens",

@@ -37,7 +37,9 @@ class Select:
     of invocations:
 
         Select.the_option_named("January").from_the(MONTH_DROPDOWN)
+
         Select.the_option_at_index(0).from_the(MONTH_DROPDOWN)
+
         Select.the_option_with_value("jan").from_the(MONTH_DROPDOWN)
 
     It can then be passed along to the |Actor| to perform the action.
@@ -119,7 +121,7 @@ class SelectByText(BaseAction):
         """Syntactic sugar for |SelectByText.from_the|."""
         return self.from_the(target)
 
-    @beat("{0} selects the option '{text}' from the {target}.")
+    @beat('{0} selects the option "{text}"" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to attempt to find the dropdown element described
@@ -259,7 +261,7 @@ class SelectByValue(BaseAction):
         """Syntactic sugar for |SelectByValue.from_the|."""
         return self.from_the(target)
 
-    @beat("{0} selects the option with value '{value}' from the {target}.")
+    @beat('{0} selects the option with value "{value}" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to attempt to find the dropdown element described

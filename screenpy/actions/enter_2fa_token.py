@@ -12,9 +12,10 @@ from screenpy.actions import Enter
 from screenpy.pacing import beat
 
 from ..abilities.authenticate_with_2fa import AuthenticateWith2FA
+from .base_action import BaseAction
 
 
-class Enter2FAToken:
+class Enter2FAToken(BaseAction):
     """
     Enters the current two-factor authentication token into an input field. An
     Enter2FAToken action is expected to be instantiated by its static

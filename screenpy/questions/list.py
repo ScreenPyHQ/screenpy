@@ -25,6 +25,7 @@ class List(BaseQuestion):
     methods. Typical invocations might look like:
 
         List.of(SEARCH_RESULTS)
+
         List.of_all(IMAGES)
 
     It can then be passed along to the |Actor| to ask the question.
@@ -50,7 +51,7 @@ class List(BaseQuestion):
         """Syntactic sugar for |List.of|."""
         return List.of(target)
 
-    @beat("{} lists off the {target}")
+    @beat("{} lists off the {target}.")
     def answered_by(self, the_actor: Actor) -> ListType[WebElement]:
         """
         Asks the supplied actor to investigate the page and give their

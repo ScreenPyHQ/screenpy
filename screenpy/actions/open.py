@@ -26,6 +26,7 @@ class Open(BaseAction):
     invocation might look like:
 
         Open.browser_on(the_homepage_url)
+
         Open.browser_on(HomepageObject)
 
     If you pass in an object, make sure the object has a `url` property

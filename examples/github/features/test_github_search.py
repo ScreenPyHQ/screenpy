@@ -1,6 +1,7 @@
 """
 An example of a test module that follows the typical pytest test
-structure.
+structure. These tests show off how to use custom tasks and questions,
+though they are a little bit contrived.
 """
 
 

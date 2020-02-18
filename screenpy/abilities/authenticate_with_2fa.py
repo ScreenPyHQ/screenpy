@@ -29,7 +29,8 @@ class AuthenticateWith2FA:
     secret, or its |AuthenticateWith2FA.using| static method, which takes in
     an instantiated PyOTP instance. A typical invocation looks like:
 
-        AuthenticateWith2FA.using_secret("THISISWHERETHESECRETGOES")
+        AuthenticateWith2FA.using_secret("KEEPITSECRETKEEPITSAFE")
+
         AuthenticateWith2FA.using(pyotp_instance)
 
     This will create the ability that can be passed in to an actor's

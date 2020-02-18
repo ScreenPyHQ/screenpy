@@ -64,6 +64,7 @@ class BrowseTheWeb(BaseAbility):
     methods. A typical invocation looks like:
 
         BrowseTheWeb.using(selenium.webdriver.Firefox())
+
         BrowseTheWeb.using_firefox()
 
     This will create the ability that can be passed in to an actor's
@@ -193,7 +194,7 @@ class BrowseTheWeb(BaseAbility):
 
     def find(self, locator: Union["Target", Tuple[By, str]]) -> WebElement:
         """Syntactic sugar for |BrowseTheWeb.to_find|."""
-        return self.find(locator)
+        return self.to_find(locator)
 
     def to_find_all(self, target: Union["Target", Tuple[By, str]]) -> List[WebElement]:
         """
@@ -216,9 +217,9 @@ class BrowseTheWeb(BaseAbility):
             )
             raise BrowsingError(msg).with_traceback(e.__traceback__)
 
-    def find_all(self, locator: Tuple[By, str]) -> WebElement:
+    def find_all(self, target: Union["Target", Tuple[By, str]]) -> WebElement:
         """Syntactic sugar for |BrowseTheWeb.to_find_all|."""
-        return self.find_all(locator)
+        return self.find_all(target)
 
     def to_switch_to_alert(self) -> Alert:
         """

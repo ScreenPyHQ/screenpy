@@ -78,6 +78,11 @@ class Enter(BaseAction):
         """
         return Enter(text, mask=True)
 
+    @staticmethod
+    def the_password(text: str) -> "Enter":
+        """Syntactic sugar for |Enter.the_secret|."""
+        return Enter.the_secret(text)
+
     def into(self, target: Target) -> "Enter":
         """
         Supplies the target to enter the text into. This is most likely
@@ -126,6 +131,10 @@ class Enter(BaseAction):
         Supplies the target to wait for after entering text (and hitting
         any additional keys, if this object's |Enter.then_hit| method was
         called).
+
+        This method has been deprecated as of version 1.0.0. Please use
+        the included |Wait| action instead. This method will be removed in
+        version 2.0.0.
 
         Args:
             target: the |Target| to wait for after entering text.

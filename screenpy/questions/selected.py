@@ -27,6 +27,7 @@ class Selected(BaseQuestion):
     |Selected.options_from| methods. Typical invocations might look like:
 
         Selected.option_from(THE_STATE_DROPDOWN)
+
         Selected.options_from(INDUSTRIES)
 
     It can then be passed along to the |Actor| to ask the question.
@@ -82,7 +83,7 @@ class Selected(BaseQuestion):
         """Syntactic sugar for |Selected.options_from|"""
         return Selected.options_from(target)
 
-    @beat("{0} checks the selected option(s) from {target}")
+    @beat("{0} checks the selected option(s) from {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
         Asks the supplied actor to investigate the page and give their

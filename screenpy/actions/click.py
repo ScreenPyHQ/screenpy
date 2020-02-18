@@ -30,7 +30,7 @@ class Click(BaseAction):
     via its static |Click.on| or |Click.on_the| methods. A typical
     invocation might look like:
 
-        Click.on_the(PROFILE_LINK).then_wait_for(ACCOUNT_WELCOME_MESSAGE)
+        Click.on_the(PROFILE_LINK)
 
     It can then be passed along to the |Actor| to perform the action.
     """
@@ -60,6 +60,10 @@ class Click(BaseAction):
     def then_wait_for_the(self, target: Target) -> "Click":
         """
         Supplies a target to wait for after performing the click.
+
+        This method has been deprecated as of version 1.0.0. Please use
+        the included |Wait| action instead. This method will be removed in
+        version 2.0.0.
 
         Args:
             target: The |Target| describing the element to wait for after

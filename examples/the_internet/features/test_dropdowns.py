@@ -1,6 +1,6 @@
 """
 An example of a test module that follows the typical unittest.TestCase
-test structure.
+test structure. These tests exercise the selecting actions.
 """
 
 
@@ -19,7 +19,7 @@ from ..user_interface.dropdown import THE_DROPDOWN, URL
 
 class TestDropdowns(unittest.TestCase):
     """
-    Uses each selection strategy to select an option from a dropdown.
+    Flexes each selection strategy to select an option from a dropdown.
     """
 
     def setUp(self):

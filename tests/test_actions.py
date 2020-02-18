@@ -89,6 +89,14 @@ class TestEnter:
         assert isinstance(e8, Enter)
         assert isinstance(e9, Enter)
 
+    def test_secret_masks_text(self):
+        """the_secret sets text_to_log to [CENSORED]"""
+        text = "Keep it a secret to everybody"
+        e = Enter.the_secret(text)
+
+        assert e.text == text
+        assert e.text_to_log == "[CENSORED]"
+
 
 class TestEnter2FAToken:
     def test_can_be_instantiated(self):

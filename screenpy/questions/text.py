@@ -24,6 +24,7 @@ class Text(BaseQuestion):
     like:
 
         Text.of(THE_WELCOME_HEADER)
+
         Text.of_all(SEARCH_RESULTS)
 
     It can then be passed along to the |Actor| to ask the question.
@@ -65,7 +66,7 @@ class Text(BaseQuestion):
         """
         return Text(target=multi_target, multi=True)
 
-    @beat("{} reads the text from {target}")
+    @beat("{} reads the text from the {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
         Asks the supplied actor to investigate the page and give their

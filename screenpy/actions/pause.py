@@ -29,9 +29,7 @@ class Pause(BaseAction):
     reason (seconds_because, second_because, or milliseconds_because). A
     typical invocation might look like:
 
-        Pause.for_(500).milliseconds_because(
-            "the animation to hide the welcome banner needs to finish."
-        )
+        Pause.for_(500).milliseconds_because("the welcome banner needs to hide.")
 
     It can then be passed along to the |Actor| to perform the action.
     """

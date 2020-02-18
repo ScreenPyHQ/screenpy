@@ -37,8 +37,11 @@ class Wait(BaseAction):
     will set the timeout to be used. Some examples of invocations:
 
         Wait.for_the(LOGIN_FORM)
+
         Wait.for_the(WELCOME_BANNER).to_contain_text("Welcome!")
+
         Wait.for(CONFETTI).to_disappear()
+
         Wait(10).seconds_for_the(PARADE_FLOATS).to_appear()
 
     It can then be passed along to the |Actor| to perform the action.
@@ -148,12 +151,12 @@ class Wait(BaseAction):
         Returns:
             |Wait|
         """
-        self.log_detail = f' to contain the text "{text}"'
+        self.log_detail = f' to contain the text "{text}"...'
         return self.using(
             lambda locator: EC.text_to_be_present_in_element(locator, text)
         )
 
-    @beat("{0} waits for the {target}{log_detail}.")
+    @beat("{0} waits for the {target}{log_detail}")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to perform the Wait action, using the contained

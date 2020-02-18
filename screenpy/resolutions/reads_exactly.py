@@ -21,7 +21,7 @@ class ReadsExactly(BaseResolution):
     expected: str
     matcher: object
 
-    line = 'the text "{expectation}", exactly'
+    line = '"{expectation}", verbatim.'
 
     def __init__(self, string: str) -> None:
         self.expected = string
