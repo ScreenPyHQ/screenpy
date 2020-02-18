@@ -14,6 +14,7 @@ from screenpy.actions import (
     Press,
     RespondToThePrompt,
     Select,
+    SwitchTo,
 )
 from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
 
@@ -167,3 +168,13 @@ class TestSelect:
         assert isinstance(by_value1, SelectByValue)
         assert isinstance(by_value2, SelectByValue)
         assert isinstance(by_value3, SelectByValue)
+
+
+class TestSwitchTo:
+    def test_can_be_instantiated(self):
+        """SwitchTo can be instantiated"""
+        st1 = SwitchTo.the(None)
+        st2 = SwitchTo.default()
+
+        assert isinstance(st1, SwitchTo)
+        assert isinstance(st2, SwitchTo)

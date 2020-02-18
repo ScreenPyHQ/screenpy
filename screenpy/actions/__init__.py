@@ -17,6 +17,7 @@ from .open import Open
 from .pause import Pause
 from .respond_to_the_prompt import RespondToThePrompt
 from .select import Select, SelectByIndex, SelectByText, SelectByValue
+from .switch_to import SwitchTo
 from .wait import Wait
 
 # Natural-language-enabling syntactic sugar
@@ -30,8 +31,9 @@ Opens = Open
 Press = Presses = Enters = Enter
 RespondsToPrompt = RespondToPrompt = RespondsToThePrompt = RespondToThePrompt
 Selects = Select
-Waits = Wait
 Sleep = Sleeps = Pauses = Pause
+SwitchesTo = SwitchTo
+Waits = Wait
 
 
 __all__ = [
@@ -67,6 +69,8 @@ __all__ = [
     "Selects",
     "Sleep",
     "Sleeps",
+    "SwitchesTo",
+    "SwitchTo",
     "Wait",
     "Waits",
 ]

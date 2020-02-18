@@ -225,6 +225,12 @@ RespondToThePrompt
 .. autoclass:: screenpy.actions.respond_to_the_prompt.RespondToThePrompt
     :members:
 
+SwitchTo
+^^^^^^^^
+
+.. autoclass:: screenpy.actions.switch_to.SwitchTo
+    :members:
+
 Wait
 ^^^^
 

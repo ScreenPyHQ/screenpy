@@ -237,6 +237,21 @@ class BrowseTheWeb(BaseAbility):
                 e.__traceback__
             )
 
+    def to_switch_to(self, target: "Target") -> None:
+        """
+        Switches the browser context to the target.
+
+        Args:
+            target: the |Target|  or tuple describing the element to
+                switch to.
+        """
+        element = self.find(target)
+        self.browser.switch_to.frame(element)
+
+    def to_switch_to_default(self) -> None:
+        """Switches the browser context back to the default frame."""
+        self.browser.switch_to.default_content()
+
     def to_wait_for(
         self,
         target: Union["Target", Tuple[By, str]],

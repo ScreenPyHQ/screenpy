@@ -131,6 +131,9 @@ rst_prolog = """.. Internal references
 .. |SelectByIndex.from_the| replace:: :meth:`~screenpy.actions.select.SelectByIndex.from_the`
 .. |SelectByValue| replace:: :class:`~screenpy.actions.select.SelectByValue`
 .. |SelectByValue.from_the| replace:: :meth:`~screenpy.actions.select.SelectByValue.from_the`
+.. |SwitchTo| replace:: :class:`~screenpy.actions.switch_to.SwitchTo`
+.. |SwitchTo.the| replace:: :meth:`~screenpy.actions.switch_to.SwitchTo.the`
+.. |SwitchTo.default| replace:: :meth:`~screenpy.actions.switch_to.SwitchTo.default`
 .. |Wait| replace:: :class:`~screenpy.actions.wait.Wait`
 .. |Wait.for_| replace:: :meth:`~screenpy.actions.wait.Wait.for_`
 .. |Wait.seconds_for| replace:: :meth:`~screenpy.actions.wait.Wait.seconds_for`

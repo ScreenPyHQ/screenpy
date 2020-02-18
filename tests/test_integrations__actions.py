@@ -243,6 +243,25 @@ class TestSelectByValue:
             Tester.attempts_to(Select.the_option_with_value("value"))
 
 
+class TestSwitchTo:
+    def test_switch_to_frame(self, Tester):
+        """SwitchTo calls .to_switch_to()"""
+        fake_xpath = "//xpath"
+        fake_target = Target.the("fake").located_by(fake_xpath)
+
+        Tester.attempts_to(SwitchTo.the(fake_target))
+
+        mocked_btw = Tester.ability_to(BrowseTheWeb)
+        mocked_btw.to_switch_to.assert_called_once_with(fake_target)
+
+    def test_switch_to_default(self, Tester):
+        """SwitchTo calls .to_switch_to_default()"""
+        Tester.attempts_to(SwitchTo.default())
+
+        mocked_btw = Tester.ability_to(BrowseTheWeb)
+        mocked_btw.to_switch_to_default.assert_called_once()
+
+
 def test_wait(Tester):
     """Wait calls .to_wait_for()"""
     fake_xpath = "//xpath"
