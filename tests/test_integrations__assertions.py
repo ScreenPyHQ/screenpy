@@ -1,11 +1,10 @@
 from unittest import mock
 
 import pytest
-from selenium.webdriver.common.by import By
 
 from screenpy import Target
 from screenpy.abilities import BrowseTheWeb
-from screenpy.questions import List, Number, Selected, Text
+from screenpy.questions import List, Number, Selected, Text, TextOfTheAlert
 from screenpy.resolutions import (
     ContainsTheText,
     Empty,
@@ -25,7 +24,7 @@ def test_ask_for_list(Tester):
 
     Tester.should_see_the((List.of(fake_target), IsEmpty()))
 
-    assert mocked_btw.to_find_all.called_once_with(fake_target)
+    mocked_btw.to_find_all.assert_called_once_with(fake_target)
 
 
 def test_is_empty_nonempty_list(Tester):
@@ -49,7 +48,7 @@ def test_ask_for_number(Tester):
 
     Tester.should_see_the((Number.of(fake_target), IsEqualTo(len(return_value))))
 
-    assert mocked_btw.to_find_all.called_once_with(fake_target)
+    mocked_btw.to_find_all.assert_called_once_with(fake_target)
 
 
 def test_is_equal_to_unequal_value(Tester):
@@ -97,16 +96,30 @@ def test_reads_exactly_mismatched_string(mocked_selenium_select, Tester):
 
 def test_ask_for_text(Tester):
     """Text finds its target and gets its text"""
+    text = "spam"
     fake_xpath = "//xpath"
     fake_target = Target.the("fake").located_by(fake_xpath)
     mocked_btw = Tester.ability_to(BrowseTheWeb)
     mocked_element = mock.Mock()
-    mocked_element.text = "spam and eggs"
+    mocked_element.text = f"{text} and eggs"
     mocked_btw.to_find.return_value = mocked_element
 
-    Tester.should_see_the((Text.of_the(fake_target), ContainsTheText("spam")))
+    Tester.should_see_the((Text.of_the(fake_target), ContainsTheText(text)))
 
-    assert mocked_btw.to_find_all.called_once_with(fake_target)
+    mocked_btw.to_find.assert_called_once_with(fake_target)
+
+
+def test_ask_for_text_of_the_alert(Tester):
+    """TextOfTheAlert gets the alert's text"""
+    text = "spam"
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_alert = mock.Mock()
+    mocked_alert.text = f"{text} and eggs"
+    mocked_btw.to_switch_to_alert.return_value = mocked_alert
+
+    Tester.should_see_the((TextOfTheAlert(), ContainsTheText(text)))
+
+    mocked_btw.to_switch_to_alert.assert_called_once()
 
 
 def test_contains_the_text_no_it_doesnt(Tester):

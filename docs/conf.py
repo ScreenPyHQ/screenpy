@@ -94,6 +94,7 @@ rst_prolog = """.. Internal references
 .. |BrowseTheWeb.wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.wait_for`
 
 .. .. Actions
+.. |AcceptAlert| replace:: :class:`~screenpy.actions.accept_alert.AcceptAlert`
 .. |Action| replace:: :ref:`actions`
 .. |Clear| replace:: :class:`~screenpy.actions.clear.Clear`
 .. |Clear.the_text_from| replace:: :meth:`~screenpy.actions.clear.Clear.the_text_from`
@@ -105,6 +106,7 @@ rst_prolog = """.. Internal references
 .. |Click.then_wait_for_the| replace:: :meth:`~screenpy.actions.click.Click.then_wait_for_the`
 .. |Click.perform_as| replace:: :meth:`~screenpy.actions.click.Click.perform_as`
 .. |Debug| replace:: :class:`~screenpy.actions.debug.Debug`
+.. |DismissAlert| replace:: :class:`~screenpy.actions.dismiss_alert.DismissAlert`
 .. |Enter| replace:: :class:`~screenpy.actions.enter.Enter`
 .. |Enter.the_text| replace:: :meth:`~screenpy.actions.enter.Enter.the_text`
 .. |Enter.into| replace:: :meth:`~screenpy.actions.enter.Enter.into`
@@ -117,6 +119,8 @@ rst_prolog = """.. Internal references
 .. |Open.browser_on| replace:: :meth:`~screenpy.actions.open.Open.browser_on`
 .. |Pause| replace:: :class:`~screenpy.actions.pause.Pause`
 .. |Pause.for_| replace:: :meth:`~screenpy.actions.pause.Pause.for_`
+.. |RespondToThePrompt| replace:: :class:`~screenpy.actions.respond_to_the_text.RespondToTheText`
+.. |RespondToThePrompt.with_| replace:: :meth:`~screenpy.actions.respond_to_the_text.RespondToTheText.with_`
 .. |Select| replace:: :class:`~screenpy.actions.select.Select`
 .. |Select.the_option_named| replace:: :meth:`~screenpy.actions.select.Select.the_option_named`
 .. |Select.the_option_at_index| replace:: :meth:`~screenpy.actions.select.Select.the_option_at_index`
@@ -159,6 +163,7 @@ rst_prolog = """.. Internal references
 .. |Selenium| replace:: `Selenium <https://selenium-python.readthedocs.io/>`__
 .. |WebDriver| replace:: `WebDriver <https://seleniumhq.github.io/selenium/docs/api/py/api.html>`__
 .. |WebElement| replace:: `WebElement <https://seleniumhq.github.io/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webelement.html#module-selenium.webdriver.remote.webelement>`__
+.. |Alert| replace:: `Alert <https://selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.alert.html?highlight=alert#selenium.webdriver.common.alert.Alert>`__
 .. |Keys| replace:: `Keys <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys>`__
 .. |By| replace:: `By <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.by.html>`__
 

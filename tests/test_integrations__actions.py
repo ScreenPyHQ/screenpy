@@ -7,17 +7,31 @@ from selenium.webdriver.support import expected_conditions as EC
 from screenpy import Target
 from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb
 from screenpy.actions import (
+    AcceptAlert,
     Clear,
     Click,
     Debug,
+    DismissAlert,
     Enter,
     Enter2FAToken,
     Open,
     Pause,
+    RespondToThePrompt,
     Select,
+    SwitchTo,
     Wait,
 )
 from screenpy.exceptions import UnableToActError
+
+
+def test_accept_alert(Tester):
+    """AcceptAlert calls .to_switch_to_alert() and .accept()"""
+    Tester.attempts_to(AcceptAlert())
+
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_btw.to_switch_to_alert.assert_called_once()
+    mocked_alert = mocked_btw.to_switch_to_alert.return_value
+    mocked_alert.accept.assert_called_once()
 
 
 def test_clear(Tester):
@@ -61,6 +75,16 @@ class TestDebug:
         Tester.attempts_to(Debug())
 
         mocked_pdb.set_trace.assert_called_once()
+
+
+def test_dismiss_alert(Tester):
+    """DismissAlert calls .to_switch_to_alert() and .dismiss()"""
+    Tester.attempts_to(DismissAlert())
+
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_btw.to_switch_to_alert.assert_called_once()
+    mocked_alert = mocked_btw.to_switch_to_alert.return_value
+    mocked_alert.dismiss.assert_called_once()
 
 
 class TestEnter:
@@ -139,6 +163,19 @@ def test_pause_complains_for_no_reason(Tester):
     """Pause throws an assertion if no reason was given"""
     with pytest.raises(UnableToActError):
         Tester.attempts_to(Pause.for_(20))
+
+
+def test_respond_to_the_prompt(Tester):
+    """RespondToThePrompt calls .to_switch_to_alert() and .dismiss()"""
+    text = "Hello!"
+
+    Tester.attempts_to(RespondToThePrompt.with_(text))
+
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_btw.to_switch_to_alert.assert_called_once()
+    mocked_alert = mocked_btw.to_switch_to_alert.return_value
+    mocked_alert.send_keys.assert_called_once_with(text)
+    mocked_alert.accept.assert_called_once()
 
 
 class TestSelectByIndex:

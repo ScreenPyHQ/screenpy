@@ -1,15 +1,18 @@
 import pytest
 
 from screenpy.actions import (
+    AcceptAlert,
     BaseAction,
     Click,
     Debug,
+    DismissAlert,
     Enter,
     Enter2FAToken,
     Open,
     Opens,
     Pause,
     Press,
+    RespondToThePrompt,
     Select,
 )
 from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
@@ -28,6 +31,14 @@ class TestBaseAction:
             subclassed_action.perform_as(None)
 
 
+class TestAcceptAlert:
+    def test_can_be_instantiated(self):
+        """AcceptAlert can be instantiated"""
+        aa = AcceptAlert()
+
+        assert isinstance(aa, AcceptAlert)
+
+
 class TestClick:
     def test_can_be_instantiated(self):
         """Click can be instantiated"""
@@ -44,6 +55,14 @@ class TestDebug:
         d = Debug()
 
         assert isinstance(d, Debug)
+
+
+class TestDismissAlert:
+    def test_can_be_instantiated(self):
+        """DismissAlert can be instantiated"""
+        da = DismissAlert()
+
+        assert isinstance(da, DismissAlert)
 
 
 class TestEnter:
@@ -116,6 +135,14 @@ class TestPause:
         pause = Pause.for_(duration).milliseconds_because("Test")
 
         assert pause.time == duration / 1000.0
+
+
+class TestRespondToThePrompt:
+    def test_can_be_instantiated(self):
+        """RespondToThePrompt can be instantiated"""
+        rttp = RespondToThePrompt.with_("test")
+
+        assert isinstance(rttp, RespondToThePrompt)
 
 
 class TestSelect:

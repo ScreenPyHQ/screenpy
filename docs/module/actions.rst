@@ -207,6 +207,24 @@ Select
 .. autoclass:: SelectByValue
     :members:
 
+AcceptAlert
+^^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.accept_alert.AcceptAlert
+    :members:
+
+DismissAlert
+^^^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.dismiss_alert.DismissAlert
+    :members:
+
+RespondToThePrompt
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.respond_to_the_prompt.RespondToThePrompt
+    :members:
+
 Wait
 ^^^^
 

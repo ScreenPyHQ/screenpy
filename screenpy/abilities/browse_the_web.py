@@ -17,8 +17,13 @@ the web like so:
 import os
 from typing import TYPE_CHECKING, Callable, List, Tuple, Union
 
-from selenium.common.exceptions import TimeoutException, WebDriverException
+from selenium.common.exceptions import (
+    NoAlertPresentException,
+    TimeoutException,
+    WebDriverException,
+)
 from selenium.webdriver import Chrome, Firefox, Remote, Safari
+from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver, WebElement
 from selenium.webdriver.support import expected_conditions as EC
@@ -214,6 +219,23 @@ class BrowseTheWeb(BaseAbility):
     def find_all(self, locator: Tuple[By, str]) -> WebElement:
         """Syntactic sugar for |BrowseTheWeb.to_find_all|."""
         return self.find_all(locator)
+
+    def to_switch_to_alert(self) -> Alert:
+        """
+        Switches to an alert and returns it.
+
+        Returns:
+            |Alert|
+
+        Raises:
+            |BrowsingError|: no alert was present to switch to.
+        """
+        try:
+            return self.browser.switch_to.alert
+        except NoAlertPresentException as e:
+            raise BrowsingError("No alert was present to switch to.").with_traceback(
+                e.__traceback__
+            )
 
     def to_wait_for(
         self,

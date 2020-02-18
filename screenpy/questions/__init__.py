@@ -14,12 +14,14 @@ from .list import List
 from .number import Number
 from .selected import Selected
 from .text import Text
+from .text_of_the_alert import TextOfTheAlert
 
 # Natural-language-enabling syntactic sugar
 TheList = List
 TheNumber = Number
 TheSelected = Selected
 TheText = Text
+TheTextOfTheAlert = TextOfTheAlert
 
 
 __all__ = [
@@ -28,8 +30,10 @@ __all__ = [
     "Number",
     "Selected",
     "Text",
+    "TextOfTheAlert",
     "TheList",
     "TheNumber",
     "TheSelected",
     "TheText",
+    "TheTextOfTheAlert",
 ]
