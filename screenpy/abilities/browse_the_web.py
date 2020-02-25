@@ -219,7 +219,7 @@ class BrowseTheWeb(BaseAbility):
 
     def find_all(self, target: Union["Target", Tuple[By, str]]) -> WebElement:
         """Syntactic sugar for |BrowseTheWeb.to_find_all|."""
-        return self.find_all(target)
+        return self.to_find_all(target)
 
     def to_switch_to_alert(self) -> Alert:
         """
@@ -288,7 +288,7 @@ class BrowseTheWeb(BaseAbility):
         cond: Callable = EC.visibility_of_element_located,
     ):
         """Syntactic sugar for |BrowseTheWeb.to_wait_for|."""
-        return self.wait_for(locator, timeout, cond)
+        return self.to_wait_for(locator, timeout, cond)
 
     def to_get(self, url: str) -> "BrowseTheWeb":
         """

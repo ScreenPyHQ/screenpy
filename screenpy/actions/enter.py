@@ -123,8 +123,7 @@ class Enter(BaseAction):
 
     def then_press(self, *keys: str) -> "Enter":
         """Syntactic sugar for |Enter.then_hit|."""
-        self.following_keys.extend(keys)
-        return self
+        return self.then_hit(*keys)
 
     def then_wait_for(self, target: Target) -> "Enter":
         """

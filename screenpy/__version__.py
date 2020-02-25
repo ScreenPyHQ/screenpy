@@ -8,7 +8,7 @@
 __title__ = "screenpy"
 __description__ = "Screenplay pattern base for Python automated UI test suites."
 __url__ = "https://github.com/perrygoy/screenpy"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __author__ = "Perry Goy"
 __author_email__ = "perry.goy@gmail.com"
 __license__ = "MIT"
