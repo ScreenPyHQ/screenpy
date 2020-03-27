@@ -4,7 +4,15 @@ import pytest
 
 from screenpy import Target
 from screenpy.abilities import BrowseTheWeb
-from screenpy.questions import List, Number, Selected, Text, TextOfTheAlert
+from screenpy.questions import (
+    BrowserTitle,
+    BrowserURL,
+    List,
+    Number,
+    Selected,
+    Text,
+    TextOfTheAlert,
+)
 from screenpy.resolutions import (
     ContainsTheText,
     Empty,
@@ -145,3 +153,25 @@ def test_is_not_negates(Tester):
     mocked_btw.to_find_all.return_value = [1, 2, 3]
 
     Tester.should_see_the((List.of(fake_target), IsNot(Empty())))
+
+
+def test_browser_title(Tester):
+    """BrowserTitle asks for the browser's title"""
+    fake_title = "ScreenPy's Totally Awesome Webpage!"
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_browser = mock.Mock()
+    mocked_browser.title = fake_title
+    mocked_btw.browser = mocked_browser
+
+    Tester.should_see_the((BrowserTitle(), ReadsExactly(fake_title)))
+
+
+def test_browser_url(Tester):
+    """BrowserURL asks for the browser's current_url"""
+    fake_url = "http://www.screenpy.com"
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_browser = mock.Mock()
+    mocked_browser.current_url = fake_url
+    mocked_btw.browser = mocked_browser
+
+    Tester.should_see_the((BrowserURL(), ReadsExactly(fake_url)))

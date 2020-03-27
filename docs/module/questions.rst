@@ -56,13 +56,13 @@ that you may want to write additional questions,
 and you are encouraged to do so!
 The only prescribed method
 for a question class
-is an ``asked_by`` method
+is an ``answered_by`` method
 that takes in an actor.
 This method will do the work
 of getting the answer to the question.
 For example,
 you may want to take a look at
-the |Text.asked_by| method
+the |Text.answered_by| method
 of the |Text| class.
 
 A base class for Questions is provided
@@ -97,3 +97,15 @@ Selected
 
 .. module:: screenpy.questions.selected
 .. autoclass:: Selected
+
+BrowserTitle
+^^^^^^^^^^
+
+.. module:: screenpy.questions.browser_title
+.. autoclass:: BrowserTitle
+
+BrowserURL
+^^^^^^^^^^
+
+.. module:: screenpy.questions.browser_url
+.. autoclass:: BrowserURL
