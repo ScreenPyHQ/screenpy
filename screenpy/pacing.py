@@ -46,7 +46,6 @@ def act(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
         def wrapper(*args, **kwargs) -> Any:
             logger.info(f"ACT {title.upper()}")
             retval = func(*args, **kwargs)
-
             return retval
 
         return wrapper
@@ -72,7 +71,6 @@ def scene(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]
         @allure.severity(gravitas)
         def wrapper(*args, **kwargs) -> Any:
             logger.info(f"Scene: {title.title()}")
-
             return func(*args, **kwargs)
 
         return wrapper
@@ -106,8 +104,7 @@ def beat(line: str) -> Callable[[Function], Function]:
             with allure.step(completed_line):
                 retval = func(*args, **kwargs)
                 if retval is not None:
-                    aside(retval)
-
+                    aside(str(retval))
             return retval
 
         return wrapper
