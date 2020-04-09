@@ -40,13 +40,12 @@ def act(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
     """
 
     def decorator(func: Function) -> Function:
-        @wraps(func)
         @allure.feature(title)
         @allure.severity(gravitas)
+        @wraps(func)
         def wrapper(*args, **kwargs) -> Any:
             logger.info(f"ACT {title.upper()}")
-            retval = func(*args, **kwargs)
-            return retval
+            return func(*args, **kwargs)
 
         return wrapper
 
@@ -66,9 +65,9 @@ def scene(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]
     """
 
     def decorator(func: Function) -> Function:
-        @wraps(func)
         @allure.story(title)
         @allure.severity(gravitas)
+        @wraps(func)
         def wrapper(*args, **kwargs) -> Any:
             logger.info(f"Scene: {title.title()}")
             return func(*args, **kwargs)
