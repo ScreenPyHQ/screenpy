@@ -20,7 +20,7 @@ class IsNot(BaseResolution):
     """
 
     expected: BaseResolution
-    matcher: Matcher[object]
+    matcher: Matcher
 
     line = "not {expectation}"
 

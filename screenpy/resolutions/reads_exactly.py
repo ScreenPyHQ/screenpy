@@ -20,7 +20,7 @@ class ReadsExactly(BaseResolution):
     """
 
     expected: str
-    matcher: Matcher[object]
+    matcher: Matcher
 
     line = '"{expectation}", verbatim.'
 

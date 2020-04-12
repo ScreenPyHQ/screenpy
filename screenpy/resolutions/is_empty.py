@@ -6,8 +6,6 @@ with questions and passed together to an actor like so:
 """
 
 
-from typing import Sized
-
 from hamcrest import empty
 from hamcrest.core.base_matcher import Matcher
 
@@ -20,7 +18,7 @@ class IsEmpty(BaseResolution):
     """
 
     expected: None
-    matcher: Matcher[Sized]
+    matcher: Matcher
 
     line = "an empty collection"
 

@@ -20,7 +20,7 @@ class ContainsTheText(BaseResolution):
     """
 
     expected: str
-    matcher: Matcher[str]
+    matcher: Matcher
 
     line = 'text containing "{expectation}"'
 
