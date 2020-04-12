@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 requires = [
     "PyHamcrest>=2.0.0,<2.1",
-    "pytest>=5.3.0,<5.4",
+    "pytest>=5.4.0,<5.5",
     "allure-pytest>=2.8.0,<2.9",
     "selenium>=3.141.0,<3.142",
     "pyotp>=2.3.0,<2.4.0",
