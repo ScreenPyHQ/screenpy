@@ -62,6 +62,7 @@ rst_prolog = """.. Internal references
 .. .. Exceptions
 .. |DeliveryError| replace:: :class:`~screenpy.exceptions.DeliveryError`
 .. |UnableToActError| replace:: :class:`~screenpy.exceptions.UnableToActError`
+.. |UnableToChainError| replace:: :class:`~screenpy.exceptions.UnableToChainError`
 .. |UnableToPerformError| replace:: :class:`~screenpy.actor.UnableToPerformError`
 
 .. .. Actors
@@ -96,6 +97,7 @@ rst_prolog = """.. Internal references
 .. .. Actions
 .. |AcceptAlert| replace:: :class:`~screenpy.actions.accept_alert.AcceptAlert`
 .. |Action| replace:: :ref:`actions`
+.. |Chain| replace:: :class:`~screenpy.actions.chain.Chain`
 .. |Clear| replace:: :class:`~screenpy.actions.clear.Clear`
 .. |Clear.the_text_from| replace:: :meth:`~screenpy.actions.clear.Clear.the_text_from`
 .. |Clear.the_text_from_the| replace:: :meth:`~screenpy.actions.clear.Clear.the_text_from_the`
@@ -165,6 +167,7 @@ rst_prolog = """.. Internal references
 .. External references
 .. .. Selenium
 .. |Selenium| replace:: `Selenium <https://selenium-python.readthedocs.io/>`__
+.. |ActionChains| replace:: `ActionChains <https://selenium-python.readthedocs.io/api.html#module-selenium.webdriver.common.action_chains>`__
 .. |WebDriver| replace:: `WebDriver <https://seleniumhq.github.io/selenium/docs/api/py/api.html>`__
 .. |WebElement| replace:: `WebElement <https://seleniumhq.github.io/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webelement.html#module-selenium.webdriver.remote.webelement>`__
 .. |Alert| replace:: `Alert <https://selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.alert.html?highlight=alert#selenium.webdriver.common.alert.Alert>`__
@@ -177,8 +180,11 @@ rst_prolog = """.. Internal references
 .. .. Allure
 .. |Allure| replace:: `Allure <https://docs.qameta.io/allure/>`__
 
-.. .. Pytst
-.. |Pytest| replace:: `Pytest <https://docs.pytest.org/en/latest/>`__
+.. .. Pytest
+.. |pytest| replace:: `pytest <https://docs.pytest.org/en/latest/>`__
+
+.. .. PyOTP
+.. |PyOTP| replace:: `PyOTP <https://pyotp.readthedocs.io/en/latest/>`__
 """
 
 # The master toctree document.

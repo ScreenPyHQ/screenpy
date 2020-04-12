@@ -18,6 +18,7 @@ You'll be set up in time to make curtain call!
    module/abilities
    module/targets
    module/actions
+   module/chaining
    module/questions
    module/resolutions
    module/waiting

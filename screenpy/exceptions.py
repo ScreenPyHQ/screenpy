@@ -21,3 +21,7 @@ class DeliveryError(ActionError):
 
 class UnableToActError(ActionError):
     """Raised when an action is missing direction."""
+
+
+class UnableToChainError(ActionError):
+    """Raised when attempting to chain an action that cannot be chained."""
