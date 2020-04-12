@@ -9,6 +9,7 @@ with questions and passed together to an actor like so:
 
 
 from hamcrest import has_string
+from hamcrest.core.base_matcher import Matcher
 
 from .base_resolution import BaseResolution
 
@@ -19,7 +20,7 @@ class ReadsExactly(BaseResolution):
     """
 
     expected: str
-    matcher: object
+    matcher: Matcher[object]
 
     line = '"{expectation}", verbatim.'
 

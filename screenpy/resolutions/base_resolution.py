@@ -13,7 +13,8 @@ with a question to get the actual value. An assertion might look like:
 """
 
 
-from hamcrest.core.base_matcher import BaseMatcher
+from hamcrest.core.base_matcher import BaseMatcher, Matcher
+from hamcrest.core.description import Description
 
 from ..pacing import beat
 
@@ -29,7 +30,7 @@ class BaseResolution(BaseMatcher):
     Resolution to your |Actor|, they'll know what to do with it.
     """
 
-    matcher: BaseMatcher
+    matcher: Matcher
     expected: object
     line = (
         "-- I'm sorry, this resolution did not provide a line. Please define a more "
@@ -42,13 +43,15 @@ class BaseResolution(BaseMatcher):
         """passthrough to the matcher's method."""
         return self.matcher.matches(item)
 
-    def describe_to(self, description: str) -> str:
+    def describe_to(self, description: Description) -> None:
         """passthrough to the matcher's method."""
         return self.matcher.describe_to(description)
 
-    def describe_mismatch(self, item: object, mismatch_description: str) -> str:
+    def describe_mismatch(
+        self, item: object, mismatch_description: Description
+    ) -> None:
         """passthrough to the matcher's method."""
-        return self.matcher.describe_mismatch(item, mismatch_description)
+        self.matcher.describe_mismatch(item, mismatch_description)
 
     def get_line(self) -> str:
         """Gets the line that describes this resolution."""

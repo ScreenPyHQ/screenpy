@@ -6,7 +6,10 @@ questions and passed together to an actor like so:
 """
 
 
+from typing import Any
+
 from hamcrest import equal_to
+from hamcrest.core.base_matcher import Matcher
 
 from .base_resolution import BaseResolution
 
@@ -17,7 +20,7 @@ class IsEqualTo(BaseResolution):
     """
 
     expected: object
-    matcher: object
+    matcher: Matcher[Any]
 
     line = "equal to {expectation}"
 

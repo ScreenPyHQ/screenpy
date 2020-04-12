@@ -9,6 +9,7 @@ with questions and passed together to an actor like so:
 
 
 from hamcrest import contains_string
+from hamcrest.core.base_matcher import Matcher
 
 from .base_resolution import BaseResolution
 
@@ -19,7 +20,7 @@ class ContainsTheText(BaseResolution):
     """
 
     expected: str
-    matcher: object
+    matcher: Matcher[str]
 
     line = 'text containing "{expectation}"'
 
