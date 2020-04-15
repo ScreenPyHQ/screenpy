@@ -240,6 +240,12 @@ Chain
 .. autoclass:: screenpy.actions.chain.Chain
     :members:
 
+HoldDown
+^^^^^^^^
+
+.. autoclass:: screenpy.actions.hold_down.HoldDown
+    :members:
+
 Wait
 ^^^^
 

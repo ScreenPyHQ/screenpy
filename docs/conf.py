@@ -118,10 +118,13 @@ rst_prolog = """.. Internal references
 .. |Enter2FAToken| replace:: :class:`~screenpy.actions.enter_2fa_token.Enter2FAToken`
 .. |Enter2FAToken.into| replace:: :meth:`~screenpy.actions.enter_2fa_token.Enter2FAToken.into`
 .. |Enter2FAToken.into_the| replace:: :meth:`~screenpy.actions.enter_2fa_token.Enter2FAToken.into_the`
+.. |HoldDown| replace:: :class:`~screenpy.actions.hold_down.HoldDown`
+.. |HoldDown.on_the| replace:: :meth:`~screenpy.actions.hold_down.HoldDown.on_the`
 .. |Open| replace:: :class:`~screenpy.actions.open.Open`
 .. |Open.browser_on| replace:: :meth:`~screenpy.actions.open.Open.browser_on`
 .. |Pause| replace:: :class:`~screenpy.actions.pause.Pause`
 .. |Pause.for_| replace:: :meth:`~screenpy.actions.pause.Pause.for_`
+.. |Release| replace:: :class:`~screenpy.actions.release.Release`
 .. |RespondToThePrompt| replace:: :class:`~screenpy.actions.respond_to_the_text.RespondToTheText`
 .. |RespondToThePrompt.with_| replace:: :meth:`~screenpy.actions.respond_to_the_text.RespondToTheText.with_`
 .. |Select| replace:: :class:`~screenpy.actions.select.Select`

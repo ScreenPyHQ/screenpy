@@ -1,4 +1,6 @@
 import pytest
+from selenium.webdriver.common.keys import Keys
+from unittest import mock
 
 from screenpy.actions import (
     AcceptAlert,
@@ -8,6 +10,7 @@ from screenpy.actions import (
     DismissAlert,
     Enter,
     Enter2FAToken,
+    HoldDown,
     Open,
     Opens,
     Pause,
@@ -106,6 +109,41 @@ class TestEnter2FAToken:
 
         assert isinstance(e1, Enter2FAToken)
         assert isinstance(e2, Enter2FAToken)
+
+
+class TestHoldDown:
+    def test_can_be_instantiated(self):
+        """HoldDown can be instantiated"""
+        hd1 = HoldDown.left_mouse_button()
+        hd2 = HoldDown.left_mouse_button().on_the(None)
+        hd3 = HoldDown(Keys.ALT)
+        hd4 = HoldDown.command_or_control_key()
+
+        assert isinstance(hd1, HoldDown)
+        assert isinstance(hd2, HoldDown)
+        assert isinstance(hd3, HoldDown)
+        assert isinstance(hd4, HoldDown)
+
+    @pytest.mark.parametrize(
+        "platform,expected_key", [["Windows", Keys.CONTROL], ["Darwin", Keys.COMMAND]]
+    )
+    def test_command_or_control_key(self, platform, expected_key):
+        """HoldDown figures out which key to use based on platform"""
+        system_path = "screenpy.actions.hold_down.platform.system"
+        with mock.patch(system_path, return_value=platform):
+            hd = HoldDown.command_or_control_key()
+
+        assert hd.key == expected_key
+
+    def test_description_is_correct(self):
+        """description is set based on the button or key"""
+        hd1 = HoldDown.left_mouse_button()
+        hd2 = HoldDown(Keys.LEFT_ALT)
+        hd3 = HoldDown(Keys.SHIFT)
+
+        assert hd1.description == "LEFT MOUSE BUTTON"
+        assert hd2.description == "ALT"
+        assert hd3.description == "SHIFT"
 
 
 class TestOpen:

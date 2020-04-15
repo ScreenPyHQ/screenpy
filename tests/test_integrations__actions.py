@@ -8,12 +8,14 @@ from screenpy import Target
 from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb
 from screenpy.actions import (
     AcceptAlert,
+    Chain,
     Clear,
     Click,
     Debug,
     DismissAlert,
     Enter,
     Enter2FAToken,
+    HoldDown,
     Open,
     Pause,
     RespondToThePrompt,
@@ -137,6 +139,33 @@ def test_enter_2FA_token(Tester):
     mocked_btw = Tester.ability_to(BrowseTheWeb)
     mocked_btw.to_find.assert_called_once_with(fake_target)
     mocked_btw.to_find.return_value.send_keys.assert_called_once_with(text)
+
+
+class TestHoldDown:
+    def test_cannot_be_performed(self, Tester):
+        """HoldDown action cannot be performed"""
+        with pytest.raises(UnableToActError):
+            Tester.attempts_to(HoldDown(Keys.SHIFT))
+
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_uses_key_down(self, MockedActionChains, Tester):
+        """HoldDown key uses ActionChains.key_down()"""
+        mocked_btw = Tester.ability_to(BrowseTheWeb)
+        mocked_btw.browser = mock.Mock()
+
+        Tester.attempts_to(Chain(HoldDown(Keys.ALT)))
+
+        MockedActionChains().key_down.assert_called_once_with(Keys.ALT)
+
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_uses_click_and_hold(self, MockedActionChains, Tester):
+        """HoldDown left mouse button uses ActionChains.click_and_hold"""
+        mocked_btw = Tester.ability_to(BrowseTheWeb)
+        mocked_btw.browser = mock.Mock()
+
+        Tester.attempts_to(Chain(HoldDown.left_mouse_button()))
+
+        MockedActionChains().click_and_hold.assert_called_once()
 
 
 def test_open(Tester):
