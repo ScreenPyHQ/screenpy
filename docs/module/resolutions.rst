@@ -27,6 +27,7 @@ into your actor's
 
     from ..user_interface.homepage import WELCOME_MESSAGE
 
+
     Perry.should_see_the((Text.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")))
 
 In that line of code,
@@ -103,4 +104,3 @@ ReadsExactly
 ^^^^^^^^^^^^
 
 .. autoclass:: ReadsExactly
-

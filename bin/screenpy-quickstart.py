@@ -14,9 +14,6 @@ __init__.py
 features/
  - __init__.py
  - test_example.py
-questions/
- - __init__.py
- - welcome_message.py
 tasks/
  - __init__.py
  - start.py
@@ -36,7 +33,7 @@ def create_module(name: str, filename: str, contents: str) -> None:
     Create one of the many modules for ScreenPy.
 
     Args:
-        name: the name of the module, e.g. "questions".
+        name: the name of the module, e.g. "tasks".
         filename: the name of the file to create in the module.
         contents: what to write in the file.
     """
@@ -93,8 +90,9 @@ create_module(
     "tasks",
     "start.py",
     '''"""
-A very simple Task to give you an idea of what a Task might be or do. You
-can give this task to your actor like so:
+A very simple Task to give you an idea of what a Task might be or do. An actor
+must possess the ability to BrowseTheWeb to perform this task. An actor
+performs this task like so:
 
     the_actor.attempts_to(Start.on_the_homepage())
 """
@@ -118,9 +116,7 @@ class Start:
 
     def perform_as(self, the_actor: AnActor) -> None:
         """
-        Asks the actor to perform this task. Will raise an
-        UnableToPerformException if the actor does not possess the ability
-        to BrowseTheWeb.
+        Asks the actor to visit the specified URL in their browser.
 
         Args:
             the_actor: the actor who will perform this task.
@@ -139,68 +135,37 @@ class Start:
 
 
 create_module(
-    "questions",
-    "welcome_message.py",
-    '''"""
-A very simple Question to give you an idea of what a question might be or
-do. You can give this Question to your actor paired with a Resolution
-like so:
-
-    the_actor.should_see_the(
-        (WelcomeMessage(), ContainsTheText("Screenpy"))
-    )
-"""
-
-
-from screenpy import AnActor
-from screenpy.questions import Text
-from screenpy.pacing import beat
-
-from ..user_interface.home_page import WELCOME_MESSAGE
-
-
-class WelcomeMessage:
-    """
-    Gets the text of the welcome message.
-    """
-
-    @beat("{0} checks the welcome message...")
-    def answered_by(self, the_actor: AnActor) -> None:
-        return Text.of_the(WELCOME_MESSAGE).answered_by(the_actor)
-
-''',
-)
-
-
-create_module(
     "features",
     "test_example.py",
     '''"""
-A very simple example test that asserts the welcome message on ScreenPy's
-ReadTheDocs homepage is as we expect. This test module follows the
-structure of inheriting from unittest.TestCase.
+Two very simple example tests that assert the welcome message on ScreenPy's
+ReadTheDocs homepage contains "ScreenPy". This test module includes an example
+following the unittest.TestCase style and an example using pytest fixtures.
+You will probably want to only follow one style.
 """
 
-from unittest import TestCase
 
 from selenium.webdriver import Firefox
-
 from screenpy import AnActor, given, when, then
 from screenpy.abilities import BrowseTheWeb
 from screenpy.resolutions import ContainsTheText
 
-from ..questions.welcome_message import WelcomeMessage
 from ..tasks.start import Start
-from ..user_interface import home_page
+from ..user_interface.home_page import WELCOME_MESSAGE
 
+
+# Example using unittest.TestCase
+from unittest import TestCase
 
 class TestExample(TestCase):
     """
-    A simple example to show how a test is put together.
+    A simple example to show a test using unittest.TestCase.
     """
 
     def setUp(self):
-        self.actor = AnActor.named("Name me!").who_can(BrowseTheWeb.using(Firefox()))
+        self.actor = AnActor.named("Tester").who_can(
+            BrowseTheWeb.using(Firefox())
+        )
 
     def test_open_homepage(self):
         """Tests that the user can visit the homepage. Extend me!"""
@@ -209,11 +174,31 @@ class TestExample(TestCase):
         given(Actor).was_able_to(Start.on_the_homepage())
         # ... fill in your test steps here!
         then(Actor).should_see_the(
-            (WelcomeMessage(), ContainsTheText("Welcome to ScreenPy’s documentation!"))
+            (Text.of_the(WELCOME_MESSAGE), ContainsTheText("ScreenPy"))
         )
 
     def tearDown(self):
         self.actor.exit_stage_right()
+
+
+# Example using pytest
+import pytest
+
+@pytest.fixture(scope="function")
+def TheActor():
+    """A simple Actor fixture for the pytest example"""
+    the_actor = AnActor.named("Tester").who_can(BrowseTheWeb.using(Firefox()))
+    yield the_actor
+    the_actor.exit_stage_left()
+
+
+def test_open_homepage_pytest(TheActor):
+    """A simple example to show a test using pytest fixtures"""
+    given(TheActor).was_able_to(Start.on_the_homepage())
+    # ... fill in your test steps here!
+    then(TheActor).should_see_the(
+        (Text.of_the(WELCOME_MESSAGE), ContainsTheText("ScreenPy"))
+    )
 
 ''',
 )

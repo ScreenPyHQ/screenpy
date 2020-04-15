@@ -12,7 +12,7 @@ can be difficult.
 To aid in debugging,
 the |Debug| action class can be used
 to drop into a debugger
-in the middle of any action chain!
+in the middle of any series of Actions!
 It hooks into Python 3.7+'s `breakpoint` function if it can,
 so you can modify your preferred debugger
 and turn debugging off
@@ -20,8 +20,8 @@ by manipulating the `PYTHONBREAKPOINT` environment variable.
 You can read more about this excellent new function
 by perusing `PEP553 <https://www.python.org/dev/peps/pep-0553/>`_.
 
-As for the action class,
-here's an example of an action chain:
+As for the Debug class,
+here's an example:
 
 .. code-block:: python
 
@@ -52,12 +52,14 @@ we can add a `Debug()` call there:
 Now the test will drop us into either
 your chosen debugger
 or `pdb`.
-You'll need to return a couple times
+You'll need to move up a few frames
 to get back up to the |Actor| class's |Actor.attempts_to| method.
 From there,
-you can step through the rest of the actions
+you can step through
+the rest of the actions
 one at a time,
-or dive into one if you need to!
+or dive into one
+if you need to!
 
 Alternative Method
 ------------------
@@ -73,7 +75,7 @@ like so:
         Click.on_the(LOGIN_LINK),
         Enter.the_text(USERNAME).into_the(USERNAME_FIELD),
         Enter.the_password(PASSWORD).into_the(PASSWORD_FIELD),
-        Pause.for_(20).seconds_because("I need to see something"),  # stops the execution here for 20 seconds.
+        Pause.for_(60).seconds_because("I need to see something"),  # stops the execution here for 60 seconds.
         Click.on_the(SIGN_IN_BUTTON),
         Wait(60).seconds_for_the(WELCOME_BANNER),
     )

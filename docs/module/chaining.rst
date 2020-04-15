@@ -42,10 +42,11 @@ If you write a custom Action
 which should be able
 to be added to a Chain,
 you must define
-an `add_to_chain(self, the_chain)` method
+an `add_to_chain(self, the_actor, the_chain)` method
 on your custom Action.
 This method takes in
-the instantiated ActionChains object
+the actor who will perform the chain
+along with an instantiated ActionChains object
 and adds your action
 to the chain
 using the |ActionChains| API.

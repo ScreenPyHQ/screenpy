@@ -9,10 +9,12 @@ preferably in a virtual environment:
 
 ``pip3 install screenpy``
 
-This will also install the ``screenpy-quickstart`` script
+This will also install
+the ``screenpy-quickstart`` script
 and the following dependencies:
 
 1. |Selenium|
 2. |PyHamcrest|
-3. |Allure|'s Pytest plugin
-4. |Pytest|
+3. |Allure|'s pytest plugin
+4. |pytest|
+5. |PyOTP|

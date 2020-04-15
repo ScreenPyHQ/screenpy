@@ -11,8 +11,8 @@ that require those abilities.
 Using Abilities
 ---------------
 
-To give an actor an ability,
-pass it in using the actor's |Actor.who_can|
+To grant an Actor an ability,
+pass it in using the Actor's |Actor.who_can|
 or |Actor.can|
 methods::
 
@@ -47,7 +47,8 @@ which will complete any cleanup required.
 For an example,
 see the |BrowseTheWeb.forget| method
 of the BrowseTheWeb ability.
-A base class for Abilities is provided for convenience:
+A base class for Abilities
+is provided for convenience:
 ``screenpy.abilities.base_ability.BaseAbility``
 
 Included Abilities

@@ -22,6 +22,7 @@ Action Exceptions
 .. autoclass:: screenpy.exceptions.ActionError
 .. autoclass:: screenpy.exceptions.DeliveryError
 .. autoclass:: screenpy.exceptions.UnableToActError
+.. autoclass:: screenpy.exceptions.UnableToChainError
 
 Actor Exceptions
 ^^^^^^^^^^^^^^^^

@@ -12,7 +12,6 @@ If your team feels strongly that there are better conventions to follow,
 renaming the files will not break
 any of ScreenPy's functionality.
 
-
 Here is an example hierarchy:
 
 - suite_root
@@ -20,12 +19,6 @@ Here is an example hierarchy:
   - features        # this is where the actual test files will live
 
     - feature1.py
-
-    - ...
-
-  - questions       # questions your actors will ask about the site
-
-    - question1.py
 
     - ...
 
@@ -41,8 +34,12 @@ Here is an example hierarchy:
 
     - ...
 
-  - requirements.txt  # where you list screenpy!
-
+You may have other folders,
+such as `actions`
+or `abilities`,
+depending on whether your Actors
+need additional capabilities.
+The above blueprint
 
 .. _features-dir:
 
@@ -52,25 +49,10 @@ Features
 The feature films!
 The story arcs!
 The whole point of the suite!
-These are the features of your application that you are testing;
-this is where all the actual test files go.
-
-
-.. _questions-dir:
-
-Questions
----------
-
-Things your actor asks about the application,
-to perform a thrilling turnabout (test fail)
-or a cathartic confirmation (test pass)
-upon finding the answer.
-These files are where you will access elements on the page
-to figure out if your test has passed.
-
-For more information,
-see the :ref:`questions` page!
-
+These are the features of your application
+that you are testing;
+this is where
+all the actual test files go.
 
 .. _tasks-dir:
 
@@ -80,13 +62,14 @@ Tasks
 Tasks are descriptive ways
 to group one or more actions
 that your actors will do.
-A common task is a ``Login`` task,
+A common task is a ``LogIn`` task,
 which will contain the actions necessary to log in.
-There may be many tasks your actors will need to do in your suite.
+There may be many tasks
+your actors will need to perform
+in your suite.
 
 For more information,
 see the :ref:`tasks` section!
-
 
 .. _userinterface-dir:
 
@@ -97,5 +80,8 @@ These files collect all the locators
 (built using the |Target| class)
 and maybe URLs
 for the pages of your application.
-These probably will not be super interesting files;
-they're kind of like the blocking notes for the screenplay.
+These probably will not be
+super interesting files;
+they're kind of like
+the blocking notes
+for the screenplay.

@@ -33,6 +33,7 @@ just give it a name::
 
     from screenpy.actor import Actor, AnActor
 
+
     Perry = AnActor.named("Perry")
 
 Without any abilities,
@@ -42,7 +43,9 @@ To give your actor an ability,
 you can do something like::
 
     from selenium.webdriver import Firefox
+
     from screenpy.abilities import BrowseTheWeb
+
 
     Perry.can(BrowseTheWeb.using(Firefox()))
 
@@ -57,7 +60,9 @@ to BrowseTheWeb.
 Attempting actions looks like this::
 
     from screenpy import Target
+
     from screenpy.actions import Click
+
 
     EXAMPLE_LINK = Target.the("example link").located_by("//a")
     Perry.attempts_to(Click.the(EXAMPLE_LINK))
@@ -85,6 +90,7 @@ like so::
 
     from screenpy.questions import Text
     from screenpy.resolutions import ReadsExactly
+
 
     THE_WELCOME_MESSAGE = Target.the("welcome_message").located_by("span.welcome")
     Perry.should_see_the((Text.of(THE_WELCOME_MESSAGE), ReadsExactly("Welcome!"))

@@ -5,7 +5,7 @@ Welcome to ScreenPy's documentation!
 ====================================
 
 ScreenPy provides a solid,
-SOLID base
+`SOLID <https://en.wikipedia.org/wiki/SOLID>`__ base
 for writing maintainable test suites
 following the Screenplay Pattern,
 popularized by Antony Marcano.

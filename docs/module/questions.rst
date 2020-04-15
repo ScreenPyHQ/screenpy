@@ -99,7 +99,7 @@ Selected
 .. autoclass:: Selected
 
 BrowserTitle
-^^^^^^^^^^
+^^^^^^^^^^^^
 
 .. module:: screenpy.questions.browser_title
 .. autoclass:: BrowserTitle

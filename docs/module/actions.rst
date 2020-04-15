@@ -234,6 +234,12 @@ SwitchTo
 .. autoclass:: screenpy.actions.switch_to.SwitchTo
     :members:
 
+Chain
+^^^^^
+
+.. autoclass:: screenpy.actions.chain.Chain
+    :members:
+
 Wait
 ^^^^
 

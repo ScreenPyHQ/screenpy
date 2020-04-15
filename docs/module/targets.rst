@@ -14,6 +14,7 @@ something like this::
 
     from screenpy import Target
 
+
     EXAMPLE_ELEMENT1 = Target.the("first example element").located_by("//div")
     EXAMPLE_ELEMENT2 = Target.the("second example element").located_by("span.example")
 
