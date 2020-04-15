@@ -246,6 +246,12 @@ HoldDown
 .. autoclass:: screenpy.actions.hold_down.HoldDown
     :members:
 
+Release
+^^^^^^^
+
+.. autoclass:: screenpy.actions.release.Release
+    :members:
+
 Wait
 ^^^^
 

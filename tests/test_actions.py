@@ -15,6 +15,7 @@ from screenpy.actions import (
     Opens,
     Pause,
     Press,
+    Release,
     RespondToThePrompt,
     Select,
     SwitchTo,
@@ -182,6 +183,39 @@ class TestPause:
         pause = Pause.for_(duration).milliseconds_because("Test")
 
         assert pause.time == duration / 1000.0
+
+
+class TestRelease:
+    def test_can_be_instantiated(self):
+        """Release can be instantiated"""
+        r1 = Release.left_mouse_button()
+        r2 = Release(Keys.ALT)
+        r3 = Release.command_or_control_key()
+
+        assert isinstance(r1, Release)
+        assert isinstance(r2, Release)
+        assert isinstance(r3, Release)
+
+    @pytest.mark.parametrize(
+        "platform,expected_key", [["Windows", Keys.CONTROL], ["Darwin", Keys.COMMAND]]
+    )
+    def test_command_or_control_key(self, platform, expected_key):
+        """Release figures out which key to use based on platform"""
+        system_path = "screenpy.actions.hold_down.platform.system"
+        with mock.patch(system_path, return_value=platform):
+            r = Release.command_or_control_key()
+
+        assert r.key == expected_key
+
+    def test_description_is_correct(self):
+        """description is set based on the button or key"""
+        r1 = Release.left_mouse_button()
+        r2 = Release(Keys.LEFT_ALT)
+        r3 = Release(Keys.SHIFT)
+
+        assert r1.description == "LEFT MOUSE BUTTON"
+        assert r2.description == "ALT"
+        assert r3.description == "SHIFT"
 
 
 class TestRespondToThePrompt:

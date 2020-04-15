@@ -17,6 +17,7 @@ from .enter_2fa_token import Enter2FAToken
 from .hold_down import HoldDown
 from .open import Open
 from .pause import Pause
+from .release import Release
 from .respond_to_the_prompt import RespondToThePrompt
 from .select import Select, SelectByIndex, SelectByText, SelectByValue
 from .switch_to import SwitchTo
@@ -33,6 +34,7 @@ Enters2FAToken = Enter2FAToken
 HoldsDown = HoldDown
 Opens = Open
 Press = Presses = Enters = Enter
+Releases = Release
 RespondsToPrompt = RespondToPrompt = RespondsToThePrompt = RespondToThePrompt
 Selects = Select
 Sleep = Sleeps = Pauses = Pause
@@ -66,6 +68,8 @@ __all__ = [
     "Pauses",
     "Press",
     "Presses",
+    "Release",
+    "Releases",
     "RespondsToPrompt",
     "RespondsToThePrompt",
     "RespondToPrompt",

@@ -18,6 +18,7 @@ from screenpy.actions import (
     HoldDown,
     Open,
     Pause,
+    Release,
     RespondToThePrompt,
     Select,
     SwitchTo,
@@ -149,7 +150,7 @@ class TestHoldDown:
 
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_uses_key_down(self, MockedActionChains, Tester):
-        """HoldDown key uses ActionChains.key_down()"""
+        """HoldDown key uses ActionChains.key_down"""
         mocked_btw = Tester.ability_to(BrowseTheWeb)
         mocked_btw.browser = mock.Mock()
 
@@ -192,6 +193,33 @@ def test_pause_complains_for_no_reason(Tester):
     """Pause throws an assertion if no reason was given"""
     with pytest.raises(UnableToActError):
         Tester.attempts_to(Pause.for_(20))
+
+
+class TestRelease:
+    def test_cannot_be_performed(self, Tester):
+        """Release action cannot be performed"""
+        with pytest.raises(UnableToActError):
+            Tester.attempts_to(Release(Keys.SHIFT))
+
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_uses_key_down(self, MockedActionChains, Tester):
+        """Release key uses ActionChains.key_up"""
+        mocked_btw = Tester.ability_to(BrowseTheWeb)
+        mocked_btw.browser = mock.Mock()
+
+        Tester.attempts_to(Chain(Release(Keys.ALT)))
+
+        MockedActionChains().key_up.assert_called_once_with(Keys.ALT)
+
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_uses_click_and_hold(self, MockedActionChains, Tester):
+        """Release left mouse button uses ActionChains.release"""
+        mocked_btw = Tester.ability_to(BrowseTheWeb)
+        mocked_btw.browser = mock.Mock()
+
+        Tester.attempts_to(Chain(Release.left_mouse_button()))
+
+        MockedActionChains().release.assert_called_once()
 
 
 def test_respond_to_the_prompt(Tester):
