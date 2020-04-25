@@ -252,6 +252,12 @@ Release
 .. autoclass:: screenpy.actions.release.Release
     :members:
 
+MoveMouse
+^^^^^^^^^
+
+.. autoclass:: screenpy.actions.move_mouse.MoveMouse
+    :members:
+
 Wait
 ^^^^
 

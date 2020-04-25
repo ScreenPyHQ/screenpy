@@ -16,6 +16,7 @@ from screenpy.actions import (
     Enter,
     Enter2FAToken,
     HoldDown,
+    MoveMouse,
     Open,
     Pause,
     Release,
@@ -161,12 +162,54 @@ class TestHoldDown:
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_uses_click_and_hold(self, MockedActionChains, Tester):
         """HoldDown left mouse button uses ActionChains.click_and_hold"""
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.browser = mock.Mock()
-
         Tester.attempts_to(Chain(HoldDown.left_mouse_button()))
 
         MockedActionChains().click_and_hold.assert_called_once()
+
+
+class TestMoveMouse:
+    @mock.patch("screenpy.actions.move_mouse.ActionChains")
+    def test_calls_move_to_element(self, MockedActionChains, Tester):
+        """MoveMouse calls move_to_element if element provided"""
+        mock_target = mock.Mock()
+        mock_element = "element"
+        mock_target.found_by.return_value = mock_element
+
+        Tester.attempts_to(MoveMouse.to_the(mock_target))
+
+        MockedActionChains().move_to_element.assert_called_once_with(mock_element)
+
+    @mock.patch("screenpy.actions.move_mouse.ActionChains")
+    def test_calls_move_by_offset(self, MockedActionChains, Tester):
+        """MoveMouse calls move_by_offset if offset provided"""
+        offset = (1, 2)
+
+        Tester.attempts_to(MoveMouse.by_offset(*offset))
+
+        MockedActionChains().move_by_offset.assert_called_once_with(*offset)
+
+    @mock.patch("screenpy.actions.move_mouse.ActionChains")
+    def test_calls_move_to_element_by_offset(self, MockedActionChains, Tester):
+        """MoveMouse calls move_to_element_by_offset if both provided"""
+        mock_target = mock.Mock()
+        mock_element = "element"
+        mock_target.found_by.return_value = mock_element
+        offset = (1, 2)
+
+        Tester.attempts_to(MoveMouse.to_the(mock_target).with_offset(*offset))
+
+        MockedActionChains().move_to_element_with_offset.assert_called_once_with(
+            mock_element, *offset
+        )
+
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_can_be_chained(self, MockedActionChains, Tester):
+        """MoveMouse can be chained"""
+        offset = (1, 2)
+
+        Tester.attempts_to(Chain(MoveMouse.by_offset(*offset)))
+
+        MockedActionChains().move_by_offset.assert_called_once_with(*offset)
 
 
 def test_open(Tester):

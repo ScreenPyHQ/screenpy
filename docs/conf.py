@@ -120,6 +120,7 @@ rst_prolog = """.. Internal references
 .. |Enter2FAToken.into_the| replace:: :meth:`~screenpy.actions.enter_2fa_token.Enter2FAToken.into_the`
 .. |HoldDown| replace:: :class:`~screenpy.actions.hold_down.HoldDown`
 .. |HoldDown.on_the| replace:: :meth:`~screenpy.actions.hold_down.HoldDown.on_the`
+.. |MoveMouse| replace:: :class:`~screenpy.actions.move_mouse.MoveMouse`
 .. |Open| replace:: :class:`~screenpy.actions.open.Open`
 .. |Open.browser_on| replace:: :meth:`~screenpy.actions.open.Open.browser_on`
 .. |Pause| replace:: :class:`~screenpy.actions.pause.Pause`
@@ -236,6 +237,11 @@ html_static_path = ["_static"]
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
+
+# Other HTML settings
+autodoc_member_order = "bysource"
+autodoc_typehints = "none"
+add_module_names = False
 
 
 # -- Options for HTMLHelp output ---------------------------------------------

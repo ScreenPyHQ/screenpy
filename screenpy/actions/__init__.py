@@ -15,6 +15,7 @@ from .dismiss_alert import DismissAlert
 from .enter import Enter
 from .enter_2fa_token import Enter2FAToken
 from .hold_down import HoldDown
+from .move_mouse import MoveMouse
 from .open import Open
 from .pause import Pause
 from .release import Release
@@ -32,6 +33,7 @@ Debugs = Debug
 DismissesAlert = DismissAlert
 Enters2FAToken = Enter2FAToken
 HoldsDown = HoldDown
+Hover = MoveMouse
 Opens = Open
 Press = Presses = Enters = Enter
 Releases = Release
@@ -62,6 +64,8 @@ __all__ = [
     "Enters2FAToken",
     "HoldDown",
     "HoldsDown",
+    "Hover",
+    "MoveMouse",
     "Open",
     "Opens",
     "Pause",

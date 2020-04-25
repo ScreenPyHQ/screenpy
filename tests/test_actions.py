@@ -11,6 +11,7 @@ from screenpy.actions import (
     Enter,
     Enter2FAToken,
     HoldDown,
+    MoveMouse,
     Open,
     Opens,
     Pause,
@@ -21,6 +22,7 @@ from screenpy.actions import (
     SwitchTo,
 )
 from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
+from screenpy import Target
 
 
 class TestBaseAction:
@@ -145,6 +147,33 @@ class TestHoldDown:
         assert hd1.description == "LEFT MOUSE BUTTON"
         assert hd2.description == "ALT"
         assert hd3.description == "SHIFT"
+
+
+class TestMoveMouse:
+    def test_can_be_instantiated(self):
+        """MoveMouse can be instantiated"""
+        mm1 = MoveMouse.to_the(None)
+        mm2 = MoveMouse.on_the(None)
+        mm3 = MoveMouse.by_offset(1, 1)
+        mm4 = MoveMouse.to_the(None).with_offset(1, 1)
+
+        assert isinstance(mm1, MoveMouse)
+        assert isinstance(mm2, MoveMouse)
+        assert isinstance(mm3, MoveMouse)
+        assert isinstance(mm4, MoveMouse)
+
+    def test_description_is_set_by_method(self):
+        """Description is built by what is included"""
+        element_name = "test_element"
+        coords = (1, 2)
+        target = Target.the(element_name).located_by("*")
+        mm1 = MoveMouse.to_the(target)
+        mm2 = MoveMouse.by_offset(*coords)
+        mm3 = MoveMouse.to_the(target).with_offset(*coords)
+
+        assert element_name in mm1.description
+        assert str(coords) in mm2.description
+        assert element_name in mm3.description and str(coords) in mm3.description
 
 
 class TestOpen:
