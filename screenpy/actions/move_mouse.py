@@ -19,11 +19,11 @@ from typing import Optional, Tuple
 from selenium.webdriver.common.action_chains import ActionChains
 
 from ..abilities.browse_the_web import BrowseTheWeb
-from ..actions.base_action import BaseAction
 from ..actor import Actor
 from ..exceptions import UnableToActError
 from ..pacing import beat
 from ..target import Target
+from .base_action import BaseAction
 
 
 class MoveMouse(BaseAction):
