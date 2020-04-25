@@ -152,9 +152,6 @@ class TestHoldDown:
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_uses_key_down(self, MockedActionChains, Tester):
         """HoldDown key uses ActionChains.key_down"""
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.browser = mock.Mock()
-
         Tester.attempts_to(Chain(HoldDown(Keys.ALT)))
 
         MockedActionChains().key_down.assert_called_once_with(Keys.ALT)
@@ -222,20 +219,20 @@ def test_open(Tester):
     mocked_btw.to_visit.assert_called_once_with(url)
 
 
-@mock.patch("screenpy.actions.pause.sleep")
-def test_pause(mocked_sleep, Tester):
-    """Pause calls time.sleep()"""
-    duration = 20
+class TestPause:
+    @mock.patch("screenpy.actions.pause.sleep")
+    def test_calls_sleep(self, mocked_sleep, Tester):
+        """Pause calls time.sleep()"""
+        duration = 20
 
-    Tester.attempts_to(Pause.for_(duration).seconds_because("test"))
+        Tester.attempts_to(Pause.for_(duration).seconds_because("test"))
 
-    mocked_sleep.assert_called_once_with(duration)
+        mocked_sleep.assert_called_once_with(duration)
 
-
-def test_pause_complains_for_no_reason(Tester):
-    """Pause throws an assertion if no reason was given"""
-    with pytest.raises(UnableToActError):
-        Tester.attempts_to(Pause.for_(20))
+    def test_complains_for_missing_reason(self, Tester):
+        """Pause throws an assertion if no reason was given"""
+        with pytest.raises(UnableToActError):
+            Tester.attempts_to(Pause.for_(20))
 
 
 class TestRelease:
@@ -247,9 +244,6 @@ class TestRelease:
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_uses_key_down(self, MockedActionChains, Tester):
         """Release key uses ActionChains.key_up"""
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.browser = mock.Mock()
-
         Tester.attempts_to(Chain(Release(Keys.ALT)))
 
         MockedActionChains().key_up.assert_called_once_with(Keys.ALT)
@@ -257,9 +251,6 @@ class TestRelease:
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_uses_click_and_hold(self, MockedActionChains, Tester):
         """Release left mouse button uses ActionChains.release"""
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.browser = mock.Mock()
-
         Tester.attempts_to(Chain(Release.left_mouse_button()))
 
         MockedActionChains().release.assert_called_once()

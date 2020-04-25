@@ -159,9 +159,7 @@ def test_browser_title(Tester):
     """BrowserTitle asks for the browser's title"""
     fake_title = "ScreenPy's Totally Awesome Webpage!"
     mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_browser = mock.Mock()
-    mocked_browser.title = fake_title
-    mocked_btw.browser = mocked_browser
+    mocked_btw.browser.title = fake_title
 
     Tester.should_see_the((BrowserTitle(), ReadsExactly(fake_title)))
 
@@ -170,8 +168,6 @@ def test_browser_url(Tester):
     """BrowserURL asks for the browser's current_url"""
     fake_url = "http://www.screenpy.com"
     mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_browser = mock.Mock()
-    mocked_browser.current_url = fake_url
-    mocked_btw.browser = mocked_browser
+    mocked_btw.browser.current_url = fake_url
 
     Tester.should_see_the((BrowserURL(), ReadsExactly(fake_url)))
