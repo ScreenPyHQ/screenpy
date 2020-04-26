@@ -8,6 +8,7 @@ from screenpy.actions import (
     Click,
     Debug,
     DismissAlert,
+    DoubleClick,
     Enter,
     Enter2FAToken,
     HoldDown,
@@ -70,6 +71,16 @@ class TestDismissAlert:
         da = DismissAlert()
 
         assert isinstance(da, DismissAlert)
+
+
+class TestDoubleClick:
+    def test_can_be_instantiated(self):
+        """DoubleClick can be instantiated"""
+        dc1 = DoubleClick()
+        dc2 = DoubleClick.on_the(None)
+
+        assert isinstance(dc1, DoubleClick)
+        assert isinstance(dc2, DoubleClick)
 
 
 class TestEnter:

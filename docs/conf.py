@@ -109,6 +109,9 @@ rst_prolog = """.. Internal references
 .. |Click.perform_as| replace:: :meth:`~screenpy.actions.click.Click.perform_as`
 .. |Debug| replace:: :class:`~screenpy.actions.debug.Debug`
 .. |DismissAlert| replace:: :class:`~screenpy.actions.dismiss_alert.DismissAlert`
+.. |DoubleClick| replace:: :class:`~screenpy.actions.double_click.DoubleClick`
+.. |DoubleClick.on| replace:: :meth:`~screenpy.actions.double_click.DoubleClick.on`
+.. |DoubleClick.on_the| replace:: :meth:`~screenpy.actions.double_click.DoubleClick.on_the`
 .. |Enter| replace:: :class:`~screenpy.actions.enter.Enter`
 .. |Enter.the_text| replace:: :meth:`~screenpy.actions.enter.Enter.the_text`
 .. |Enter.the_secret| replace:: :meth:`~screenpy.actions.enter.Enter.the_secret`

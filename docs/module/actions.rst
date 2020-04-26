@@ -240,6 +240,12 @@ Chain
 .. autoclass:: screenpy.actions.chain.Chain
     :members:
 
+DoubleClick
+^^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.double_click.DoubleClick
+    :members:
+
 HoldDown
 ^^^^^^^^
 

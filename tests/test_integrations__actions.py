@@ -13,6 +13,7 @@ from screenpy.actions import (
     Click,
     Debug,
     DismissAlert,
+    DoubleClick,
     Enter,
     Enter2FAToken,
     HoldDown,
@@ -89,6 +90,28 @@ def test_dismiss_alert(Tester):
     mocked_btw.to_switch_to_alert.assert_called_once()
     mocked_alert = mocked_btw.to_switch_to_alert.return_value
     mocked_alert.dismiss.assert_called_once()
+
+
+class TestDoubleClick:
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_calls_double_click(self, MockedActionChains, Tester):
+        """DoubleClick calls .double_click()"""
+        mock_target = mock.Mock()
+        mock_element = "element"
+        mock_target.found_by.return_value = mock_element
+
+        Tester.attempts_to(Chain(DoubleClick.on_the(mock_target)))
+
+        MockedActionChains().double_click.assert_called_once_with(
+            on_element=mock_element
+        )
+
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_without_element(self, MockedActionChains, Tester):
+        """DoubleClick works with no target"""
+        Tester.attempts_to(Chain(DoubleClick()))
+
+        MockedActionChains().double_click.assert_called_once_with(on_element=None)
 
 
 class TestEnter:

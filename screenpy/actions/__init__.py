@@ -12,6 +12,7 @@ from .clear import Clear
 from .click import Click
 from .debug import Debug
 from .dismiss_alert import DismissAlert
+from .double_click import DoubleClick
 from .enter import Enter
 from .enter_2fa_token import Enter2FAToken
 from .hold_down import HoldDown
@@ -58,6 +59,7 @@ __all__ = [
     "Debugs",
     "DismissAlert",
     "DismissesAlert",
+    "DoubleClick",
     "Enter",
     "Enter2FAToken",
     "Enters",
