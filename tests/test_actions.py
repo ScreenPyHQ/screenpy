@@ -19,6 +19,7 @@ from screenpy.actions import (
     Press,
     Release,
     RespondToThePrompt,
+    RightClick,
     Select,
     SwitchTo,
 )
@@ -264,6 +265,16 @@ class TestRespondToThePrompt:
         rttp = RespondToThePrompt.with_("test")
 
         assert isinstance(rttp, RespondToThePrompt)
+
+
+class TestRightClick:
+    def test_can_be_instantiated(self):
+        """RightClick can be instantiated"""
+        rc1 = RightClick()
+        rc2 = RightClick.on_the(None)
+
+        assert isinstance(rc1, RightClick)
+        assert isinstance(rc2, RightClick)
 
 
 class TestSelect:

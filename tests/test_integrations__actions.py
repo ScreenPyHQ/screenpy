@@ -22,6 +22,7 @@ from screenpy.actions import (
     Pause,
     Release,
     RespondToThePrompt,
+    RightClick,
     Select,
     SwitchTo,
     Wait,
@@ -110,6 +111,13 @@ class TestDoubleClick:
     def test_without_element(self, MockedActionChains, Tester):
         """DoubleClick works with no target"""
         Tester.attempts_to(Chain(DoubleClick()))
+
+        MockedActionChains().double_click.assert_called_once_with(on_element=None)
+
+    @mock.patch("screenpy.actions.double_click.ActionChains")
+    def test_can_be_performed(self, MockedActionChains, Tester):
+        """DoubleClick can be performed directly"""
+        Tester.attempts_to(DoubleClick())
 
         MockedActionChains().double_click.assert_called_once_with(on_element=None)
 
@@ -290,6 +298,35 @@ def test_respond_to_the_prompt(Tester):
     mocked_alert = mocked_btw.to_switch_to_alert.return_value
     mocked_alert.send_keys.assert_called_once_with(text)
     mocked_alert.accept.assert_called_once()
+
+
+class TestRightClick:
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_calls_double_click(self, MockedActionChains, Tester):
+        """RightClick calls .double_click()"""
+        mock_target = mock.Mock()
+        mock_element = "element"
+        mock_target.found_by.return_value = mock_element
+
+        Tester.attempts_to(Chain(RightClick.on_the(mock_target)))
+
+        MockedActionChains().context_click.assert_called_once_with(
+            on_element=mock_element
+        )
+
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_without_element(self, MockedActionChains, Tester):
+        """RightClick works with no target"""
+        Tester.attempts_to(Chain(RightClick()))
+
+        MockedActionChains().context_click.assert_called_once_with(on_element=None)
+
+    @mock.patch("screenpy.actions.right_click.ActionChains")
+    def test_can_be_performed(self, MockedActionChains, Tester):
+        """RightClick can be performed directly"""
+        Tester.attempts_to(RightClick())
+
+        MockedActionChains().context_click.assert_called_once_with(on_element=None)
 
 
 class TestSelectByIndex:

@@ -131,6 +131,9 @@ rst_prolog = """.. Internal references
 .. |Release| replace:: :class:`~screenpy.actions.release.Release`
 .. |RespondToThePrompt| replace:: :class:`~screenpy.actions.respond_to_the_text.RespondToTheText`
 .. |RespondToThePrompt.with_| replace:: :meth:`~screenpy.actions.respond_to_the_text.RespondToTheText.with_`
+.. |RightClick| replace:: :class:`~screenpy.actions.right_click.RightClick`
+.. |RightClick.on| replace:: :meth:`~screenpy.actions.right_click.RightClick.on`
+.. |RightClick.on_the| replace:: :meth:`~screenpy.actions.right_click.RightClick.on_the`
 .. |Select| replace:: :class:`~screenpy.actions.select.Select`
 .. |Select.the_option_named| replace:: :meth:`~screenpy.actions.select.Select.the_option_named`
 .. |Select.the_option_at_index| replace:: :meth:`~screenpy.actions.select.Select.the_option_at_index`

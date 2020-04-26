@@ -246,6 +246,12 @@ DoubleClick
 .. autoclass:: screenpy.actions.double_click.DoubleClick
     :members:
 
+RightClick
+^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.right_click.RightClick
+    :members:
+
 HoldDown
 ^^^^^^^^
 

@@ -21,6 +21,7 @@ from .open import Open
 from .pause import Pause
 from .release import Release
 from .respond_to_the_prompt import RespondToThePrompt
+from .right_click import RightClick
 from .select import Select, SelectByIndex, SelectByText, SelectByValue
 from .switch_to import SwitchTo
 from .wait import Wait
@@ -30,6 +31,7 @@ AcceptsAlert = AcceptAlert
 Chains = Chain
 Clears = Clear
 Clicks = Click
+ContextClick = RightClick
 Debugs = Debug
 DismissesAlert = DismissAlert
 Enters2FAToken = Enter2FAToken
@@ -55,6 +57,7 @@ __all__ = [
     "Clears",
     "Click",
     "Clicks",
+    "ContextClick",
     "Debug",
     "Debugs",
     "DismissAlert",
@@ -80,6 +83,7 @@ __all__ = [
     "RespondsToThePrompt",
     "RespondToPrompt",
     "RespondToThePrompt",
+    "RightClick",
     "Select",
     "SelectByIndex",
     "SelectByText",
