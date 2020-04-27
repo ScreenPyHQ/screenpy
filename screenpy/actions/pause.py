@@ -71,7 +71,7 @@ class Pause(BaseAction):
         if not reason.startswith("because"):
             reason = f"because {reason}"
 
-        self.unit = "seconds"
+        self.unit = f"second{'s' if self.number != 1 else ''}"
         self.reason = reason
         return self
 
@@ -93,7 +93,7 @@ class Pause(BaseAction):
         if not reason.startswith("because"):
             reason = f"because {reason}"
 
-        self.unit = "milliseconds"
+        self.unit = f"millisecond{'s' if self.number != 1 else ''}"
         self.time = self.time / 1000.0
         self.reason = reason
         return self
@@ -131,5 +131,5 @@ class Pause(BaseAction):
     def __init__(self, number: float) -> None:
         self.number = number
         self.time = number
-        self.unit = "seconds"
+        self.unit = f"second{'s' if self.number != 1 else ''}"
         self.reason = ""

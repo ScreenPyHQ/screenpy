@@ -207,7 +207,7 @@ class TestOpen:
 
 class TestPause:
     def test_can_be_instantiated(self):
-        """Pause can be instantiated."""
+        """Pause can be instantiated"""
         p1 = Pause.for_(20)
         p2 = Pause.for_(20).seconds_because("test")
         p3 = Pause.for_(20).milliseconds_because("test")
@@ -217,18 +217,30 @@ class TestPause:
         assert isinstance(p3, Pause)
 
     def test_seconds(self):
-        """Choosing seconds stores the correct time."""
+        """Choosing seconds stores the correct time"""
         duration = 20
         pause = Pause.for_(duration).seconds_because("test")
 
         assert pause.time == duration
 
     def test_milliseconds(self):
-        """Choosing milliseconds stores the correct time."""
+        """Choosing milliseconds stores the correct time"""
         duration = 20
         pause = Pause.for_(duration).milliseconds_because("Test")
 
         assert pause.time == duration / 1000.0
+
+    def test_units_are_pluralized_correctly(self):
+        """Unit is pluralized if more than 1"""
+        p1 = Pause.for_(1).second_because("test")
+        p2 = Pause.for_(1).milliseconds_because("test")
+        p3 = Pause.for_(2).seconds_because("test")
+        p4 = Pause.for_(2).milliseconds_because("test")
+
+        assert not p1.unit.endswith("s")
+        assert not p2.unit.endswith("s")
+        assert p3.unit.endswith("s")
+        assert p4.unit.endswith("s")
 
 
 class TestRelease:
