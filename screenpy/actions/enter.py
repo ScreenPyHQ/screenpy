@@ -14,15 +14,18 @@ action like so:
 
 
 import warnings
+from functools import partial
 from typing import List, Union
 
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.action_chains import ActionChains
 
 from ..actor import Actor
 from ..exceptions import DeliveryError, UnableToActError
 from ..pacing import aside, beat
 from ..target import Target
 from .base_action import BaseAction
+from .hold_down import KEY_NAMES
 from .wait import Wait
 
 
@@ -34,7 +37,8 @@ class Enter(BaseAction):
 
         Enter.the_text("Hello world!").into(COMMENT_FIELD)
 
-    It can then be passed along to the |Actor| to perform the action.
+    It can then be passed along to the |Actor| or added to a |Chain| to
+    perform the action.
     """
 
     text: str
@@ -192,9 +196,35 @@ class Enter(BaseAction):
         if self.action_complete_target is not None:
             the_actor.attempts_to(Wait.for_the(self.action_complete_target).to_appear())
 
+    @beat("  Enters the text {text_to_log} into the {target}!")
+    def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
+        """
+        Adds the Enter action to an in-progress |Chain| of actions.
+
+        Args:
+            the_actor: the |Actor| who will be performing the action chain.
+            the_chain: the |ActionChains| instance that is being built.
+        """
+        if self.target is None:
+            send_keys = the_chain.send_keys
+        else:
+            element = self.target.found_by(the_actor)
+            send_keys = partial(the_chain.send_keys_to_element, element)
+
+        send_keys(self.text)
+        for key in self.following_keys:
+            send_keys(key)
+
     def __init__(self, text: str, mask: bool = False) -> None:
         self.text = text
-        self.text_to_log = "[CENSORED]" if mask else text
         self.target = None
         self.action_complete_target = None
         self.following_keys = []
+
+        if mask:
+            self.text_to_log = "[CENSORED]"
+        else:
+            altered_text = text
+            for value, keyname in KEY_NAMES.items():
+                altered_text = altered_text.replace(value, keyname)
+            self.text_to_log = altered_text

@@ -6,13 +6,14 @@ can perform this action like so:
     the_actor.attempts_to(Enter2FAToken.into_the(2FA_INPUT_FIELD))
 """
 
-
-from screenpy import Actor, Target
-from screenpy.actions import Enter
-from screenpy.pacing import beat
+from selenium.webdriver.common.action_chains import ActionChains
 
 from ..abilities.authenticate_with_2fa import AuthenticateWith2FA
+from ..actor import Actor
+from ..pacing import beat
+from ..target import Target
 from .base_action import BaseAction
+from .enter import Enter
 
 
 class Enter2FAToken(BaseAction):
@@ -23,7 +24,8 @@ class Enter2FAToken(BaseAction):
 
         Enter2FAToken.into_the(2FA_INPUT_FIELD)
 
-    It can then be passed along to the |Actor| to perform the action.
+    It can then be passed along to the |Actor| or added to a |Chain| to
+    perform the action.
     """
 
     @staticmethod
@@ -59,6 +61,18 @@ class Enter2FAToken(BaseAction):
         """
         token = the_actor.uses_ability_to(AuthenticateWith2FA).to_get_token()
         the_actor.attempts_to(Enter.the_text(token).into_the(self.target))
+
+    @beat("  Enters their 2FA token into the {target}!")
+    def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
+        """
+        Adds the Enter2FAToken action to an in-progress |Chain| of actions.
+
+        Args:
+            the_actor: the |Actor| who will be performing the action chain.
+            the_chain: the |ActionChains| instance that is being built.
+        """
+        token = the_actor.uses_ability_to(AuthenticateWith2FA).to_get_token()
+        the_chain.send_keys_to_element(self.target.found_by(the_actor), token)
 
     def __init__(self, target: Target) -> None:
         self.target = target

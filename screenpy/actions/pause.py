@@ -10,6 +10,8 @@ perform this action like so:
 
 from time import sleep
 
+from selenium.webdriver.common.action_chains import ActionChains
+
 from ..actor import Actor
 from ..exceptions import UnableToActError
 from ..pacing import beat
@@ -31,7 +33,8 @@ class Pause(BaseAction):
 
         Pause.for_(500).milliseconds_because("the welcome banner needs to hide.")
 
-    It can then be passed along to the |Actor| to perform the action.
+    It can then be passed along to the |Actor| or added to a |Chain| to
+    perform the action.
     """
 
     number: float
@@ -93,11 +96,11 @@ class Pause(BaseAction):
             reason = f"because {reason}"
 
         self.unit = "milliseconds"
-        self.time = self.time / 1000.0  # type: float
+        self.time = self.time / 1000.0
         self.reason = reason
         return self
 
-    @beat("{} pauses for {number} {unit}... {reason}")
+    @beat("{} pauses for {number} {unit} {reason}")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to take their union-mandated break.
@@ -115,6 +118,17 @@ class Pause(BaseAction):
             )
 
         sleep(self.time)
+
+    @beat("  Pauses for {number} {unit} ({reason})!")
+    def add_to_chain(self, _: Actor, the_chain: ActionChains) -> None:
+        """
+        Adds the Pause action to an in-progress |Chain| of actions.
+
+        Args:
+            _: the |Actor| who will be performing the action chain (unused).
+            the_chain: the |ActionChains| instance that is being built.
+        """
+        the_chain.pause(self.time)
 
     def __init__(self, number: float) -> None:
         self.number = number

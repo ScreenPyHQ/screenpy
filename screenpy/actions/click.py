@@ -15,6 +15,7 @@ import warnings
 from typing import Union
 
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.action_chains import ActionChains
 
 from ..actor import Actor
 from ..exceptions import DeliveryError
@@ -32,7 +33,8 @@ class Click(BaseAction):
 
         Click.on_the(PROFILE_LINK)
 
-    It can then be passed along to the |Actor| to perform the action.
+    It can then be passed along to the |Actor| or added to a |Chain| to
+    perform the action.
     """
 
     target: Target
@@ -113,6 +115,17 @@ class Click(BaseAction):
 
         if self.action_complete_target is not None:
             the_actor.attempts_to(Wait.for_the(self.action_complete_target).to_appear())
+
+    @beat("  Clicks on the {target}!")
+    def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
+        """
+        Adds the Click action to an in-progress |Chain| of actions.
+
+        Args:
+            the_actor: the |Actor| who will be performing the action chain.
+            the_chain: the |ActionChains| instance that is being built.
+        """
+        the_chain.click(self.target.found_by(the_actor))
 
     def __init__(self, target: Target) -> None:
         self.target = target

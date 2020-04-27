@@ -115,6 +115,12 @@ class TestEnter:
         assert e.text == text
         assert e.text_to_log == "[CENSORED]"
 
+    def test_text_to_log_humanizes_keys(self):
+        """unicode key values are turned into human-readable text"""
+        e = Enter.the_text(Keys.ENTER)
+
+        assert "ENTER" in e.text_to_log
+
 
 class TestEnter2FAToken:
     def test_can_be_instantiated(self):

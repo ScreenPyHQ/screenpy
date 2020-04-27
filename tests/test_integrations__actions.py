@@ -52,16 +52,28 @@ def test_clear(Tester):
     mocked_btw.to_find.return_value.clear.assert_called_once()
 
 
-def test_click(Tester):
-    """Click finds its target and calls .click()"""
-    fake_xpath = "//xpath"
-    fake_target = Target.the("fake").located_by(fake_xpath)
+class TestClick:
+    def test_calls_click(self, Tester):
+        """Click finds its target and calls .click()"""
+        fake_xpath = "//xpath"
+        fake_target = Target.the("fake").located_by(fake_xpath)
 
-    Tester.attempts_to(Click.on_the(fake_target))
+        Tester.attempts_to(Click.on_the(fake_target))
 
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.to_find.assert_called_once_with(fake_target)
-    mocked_btw.to_find.return_value.click.assert_called_once()
+        mocked_btw = Tester.ability_to(BrowseTheWeb)
+        mocked_btw.to_find.assert_called_once_with(fake_target)
+        mocked_btw.to_find.return_value.click.assert_called_once()
+
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_can_be_chained(self, MockedActionChains, Tester):
+        """Click chained calls .click()"""
+        mock_target = mock.Mock()
+        mock_element = "element"
+        mock_target.found_by.return_value = mock_element
+
+        Tester.attempts_to(Chain(Click.on_the(mock_target)))
+
+        MockedActionChains().click.assert_called_once_with(mock_element)
 
 
 class TestDebug:
@@ -157,21 +169,60 @@ class TestEnter:
         with pytest.raises(UnableToActError):
             Tester.attempts_to(Enter.the_text("test"))
 
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_chained_calls_send_keys(self, MockedActionChains, Tester):
+        """Enter chained with no element calls .send_keys()"""
+        text = "test"
 
-def test_enter_2FA_token(Tester):
-    """Enter2FAToken calls .to_get_token(), .to_find(), and .send_keys()"""
-    text = "test"
-    mocked_2fa = Tester.ability_to(AuthenticateWith2FA)
-    mocked_2fa.to_get_token.return_value = text
-    fake_xpath = "//xpath"
-    fake_target = Target.the("fake").located_by(fake_xpath)
+        Tester.attempts_to(Chain(Enter.the_text(text)))
 
-    Tester.attempts_to(Enter2FAToken.into_the(fake_target))
+        MockedActionChains().send_keys.assert_called_once_with(text)
 
-    mocked_2fa.to_get_token.assert_called_once()
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.to_find.assert_called_once_with(fake_target)
-    mocked_btw.to_find.return_value.send_keys.assert_called_once_with(text)
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_chained_calls_send_keys_to_element(self, MockedActionChains, Tester):
+        """Enter chained with an element calls .send_keys_to_element()"""
+        mock_target = mock.Mock()
+        mock_element = "element"
+        mock_target.found_by.return_value = mock_element
+        text = "test"
+
+        Tester.attempts_to(Chain(Enter.the_text(text).into_the(mock_target)))
+
+        MockedActionChains().send_keys_to_element.assert_called_once_with(
+            mock_element, text
+        )
+
+
+class TestEnter2FAToken:
+    def test_enter_2FA_token(self, Tester):
+        """Enter2FAToken calls .to_get_token(), .to_find(), and .send_keys()"""
+        text = "test"
+        mocked_2fa = Tester.ability_to(AuthenticateWith2FA)
+        mocked_2fa.to_get_token.return_value = text
+        fake_xpath = "//xpath"
+        fake_target = Target.the("fake").located_by(fake_xpath)
+
+        Tester.attempts_to(Enter2FAToken.into_the(fake_target))
+        mocked_2fa.to_get_token.assert_called_once()
+        mocked_btw = Tester.ability_to(BrowseTheWeb)
+        mocked_btw.to_find.assert_called_once_with(fake_target)
+        mocked_btw.to_find.return_value.send_keys.assert_called_once_with(text)
+
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_can_be_chained(self, MockedActionChains, Tester):
+        """Enter2FAToken when chained calls .send_keys_to_element()"""
+        text = "test"
+        mocked_2fa = Tester.ability_to(AuthenticateWith2FA)
+        mocked_2fa.to_get_token.return_value = text
+        mock_target = mock.Mock()
+        mock_element = "element"
+        mock_target.found_by.return_value = mock_element
+
+        Tester.attempts_to(Chain(Enter2FAToken.into_the(mock_target)))
+
+        MockedActionChains().send_keys_to_element.assert_called_once_with(
+            mock_element, text
+        )
 
 
 class TestHoldDown:
@@ -265,6 +316,15 @@ class TestPause:
         with pytest.raises(UnableToActError):
             Tester.attempts_to(Pause.for_(20))
 
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_can_be_chained(self, MockedActionChains, Tester):
+        """Pause when chained calls .pause()"""
+        duration = 20
+
+        Tester.attempts_to(Chain(Pause.for_(duration).seconds_because("... reasons")))
+
+        MockedActionChains().pause.assert_called_once_with(duration)
+
 
 class TestRelease:
     def test_cannot_be_performed(self, Tester):
@@ -303,7 +363,7 @@ def test_respond_to_the_prompt(Tester):
 class TestRightClick:
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_calls_double_click(self, MockedActionChains, Tester):
-        """RightClick calls .double_click()"""
+        """RightClick calls .context_click()"""
         mock_target = mock.Mock()
         mock_element = "element"
         mock_target.found_by.return_value = mock_element
