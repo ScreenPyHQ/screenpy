@@ -13,7 +13,6 @@ action like so:
 """
 
 
-import warnings
 from functools import partial
 from typing import List, Union
 
@@ -26,7 +25,6 @@ from ..pacing import aside, beat
 from ..target import Target
 from .base_action import BaseAction
 from .hold_down import KEY_NAMES
-from .wait import Wait
 
 
 class Enter(BaseAction):
@@ -35,7 +33,7 @@ class Enter(BaseAction):
     instantiated by its static |Enter.the_text| method. A typical
     invocation might look like:
 
-        Enter.the_text("Hello world!").into(COMMENT_FIELD)
+        Enter.the_text("Hello world!").into_the(COMMENT_FIELD)
 
     It can then be passed along to the |Actor| or added to a |Chain| to
     perform the action.
@@ -43,7 +41,6 @@ class Enter(BaseAction):
 
     text: str
     target: Union[None, Target]
-    action_complete_target: Union[None, Target]
     following_keys: List[str]
 
     @staticmethod
@@ -129,31 +126,6 @@ class Enter(BaseAction):
         """Syntactic sugar for |Enter.then_hit|."""
         return self.then_hit(*keys)
 
-    def then_wait_for(self, target: Target) -> "Enter":
-        """
-        Supplies the target to wait for after entering text (and hitting
-        any additional keys, if this object's |Enter.then_hit| method was
-        called).
-
-        This method has been deprecated as of version 1.0.0. Please use
-        the included |Wait| action instead. This method will be removed in
-        version 2.0.0.
-
-        Args:
-            target: the |Target| to wait for after entering text.
-
-        Returns:
-            |Enter|
-        """
-        warnings.warn(
-            "Enter.then_wait_for is deprecated. Please use the new Wait action "
-            "instead.",
-            DeprecationWarning,
-        )
-
-        self.action_complete_target = target
-        return self
-
     @beat("{0} enters '{text_to_log}' into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
@@ -161,8 +133,7 @@ class Enter(BaseAction):
         the targeted input field using their ability to browse the web.
 
         If this Enter object's |Enter.then_hit| method was called, it will
-        also hit the supplied keys. Finally, if the |Enter.then_wait_for|
-        method was called, it will wait for the supplied target to appear.
+        also hit the supplied keys.
 
         Args:
             the_actor: the |Actor| who will perform this action.
@@ -193,9 +164,6 @@ class Enter(BaseAction):
             )
             raise DeliveryError(msg).with_traceback(e.__traceback__)
 
-        if self.action_complete_target is not None:
-            the_actor.attempts_to(Wait.for_the(self.action_complete_target).to_appear())
-
     @beat("  Enters the text {text_to_log} into the {target}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
@@ -218,7 +186,6 @@ class Enter(BaseAction):
     def __init__(self, text: str, mask: bool = False) -> None:
         self.text = text
         self.target = None
-        self.action_complete_target = None
         self.following_keys = []
 
         if mask:

@@ -11,9 +11,6 @@ so:
 """
 
 
-import warnings
-from typing import Union
-
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -22,7 +19,6 @@ from ..exceptions import DeliveryError
 from ..pacing import beat
 from ..target import Target
 from .base_action import BaseAction
-from .wait import Wait
 
 
 class Click(BaseAction):
@@ -38,7 +34,6 @@ class Click(BaseAction):
     """
 
     target: Target
-    action_complete_target: Union[None, Target]
 
     @staticmethod
     def on_the(target: Target) -> "Click":
@@ -59,40 +54,11 @@ class Click(BaseAction):
         """Syntactic sugar for |Click.on_the|."""
         return Click.on_the(target)
 
-    def then_wait_for_the(self, target: Target) -> "Click":
-        """
-        Supplies a target to wait for after performing the click.
-
-        This method has been deprecated as of version 1.0.0. Please use
-        the included |Wait| action instead. This method will be removed in
-        version 2.0.0.
-
-        Args:
-            target: The |Target| describing the element to wait for after
-                performing the click.
-
-        Returns:
-            |Click|
-        """
-        warnings.warn(
-            "Click.then_wait_for_the is deprecated. Please use the new Wait action "
-            "instead.",
-            DeprecationWarning,
-        )
-
-        self.action_complete_target = target
-        return self
-
-    def then_wait_for(self, target: Target) -> "Click":
-        """Syntactic sugar for |Click.then_wait_for_the|."""
-        return self.then_wait_for_the(target)
-
     @beat("{0} clicks on the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to find the element described by the stored target,
-        and then clicks it. May wait for another target to appear, if
-        |Click.then_wait_for| had been called.
+        and then clicks it.
 
         Args:
             the_actor: the |Actor| who will perform the action.
@@ -113,9 +79,6 @@ class Click(BaseAction):
             )
             raise DeliveryError(msg).with_traceback(e.__traceback__)
 
-        if self.action_complete_target is not None:
-            the_actor.attempts_to(Wait.for_the(self.action_complete_target).to_appear())
-
     @beat("  Clicks on the {target}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
@@ -129,4 +92,3 @@ class Click(BaseAction):
 
     def __init__(self, target: Target) -> None:
         self.target = target
-        self.action_complete_target = None
