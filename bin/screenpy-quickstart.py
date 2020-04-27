@@ -148,6 +148,7 @@ You will probably want to only follow one style.
 from selenium.webdriver import Firefox
 from screenpy import AnActor, given, when, then
 from screenpy.abilities import BrowseTheWeb
+from screenpy.questions import Text
 from screenpy.resolutions import ContainsTheText
 
 from ..tasks.start import Start
