@@ -19,6 +19,7 @@ from .hold_down import HoldDown
 from .move_mouse import MoveMouse
 from .open import Open
 from .pause import Pause
+from .refresh_page import RefreshPage
 from .release import Release
 from .respond_to_the_prompt import RespondToThePrompt
 from .right_click import RightClick
@@ -31,6 +32,7 @@ ContextClick = RightClick
 Hover = MoveMouse
 Visit = Open
 Press = Enter
+Refresh = Reload = ReloadPage = RefreshPage
 RespondToPrompt = RespondToThePrompt
 Sleep = Pause
 
@@ -53,7 +55,11 @@ __all__ = [
     "Open",
     "Pause",
     "Press",
+    "Refresh",
+    "RefreshPage",
     "Release",
+    "Reload",
+    "ReloadPage",
     "RespondToPrompt",
     "RespondToThePrompt",
     "RightClick",

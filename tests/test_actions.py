@@ -16,6 +16,7 @@ from screenpy.actions import (
     Open,
     Pause,
     Press,
+    RefreshPage,
     Release,
     RespondToThePrompt,
     RightClick,
@@ -260,6 +261,14 @@ class TestRelease:
         assert r1.description == "LEFT MOUSE BUTTON"
         assert r2.description == "ALT"
         assert r3.description == "SHIFT"
+
+
+class TestRefreshPage:
+    def test_can_be_instantiated(self):
+        """RefreshPage can be instantiated"""
+        r = RefreshPage()
+
+        assert isinstance(r, RefreshPage)
 
 
 class TestRespondToThePrompt:

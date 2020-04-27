@@ -20,6 +20,7 @@ from screenpy.actions import (
     MoveMouse,
     Open,
     Pause,
+    RefreshPage,
     Release,
     RespondToThePrompt,
     RightClick,
@@ -320,6 +321,14 @@ class TestPause:
         Tester.attempts_to(Chain(Pause.for_(duration).seconds_because("... reasons")))
 
         MockedActionChains().pause.assert_called_once_with(duration)
+
+
+def test_refresh_page(Tester):
+    """RefreshPage calls .refresh()"""
+    Tester.attempts_to(RefreshPage())
+
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.refresh.assert_called_once()
 
 
 class TestRelease:

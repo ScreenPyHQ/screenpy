@@ -234,6 +234,12 @@ SwitchTo
 .. autoclass:: screenpy.actions.switch_to.SwitchTo
     :members:
 
+RefreshPage
+^^^^^^^^^^^
+
+.. autoclass:: screenpy.action.refresh_page.RefreshPage
+    :members:
+
 Chain
 ^^^^^
 
