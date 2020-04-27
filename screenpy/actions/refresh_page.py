@@ -8,6 +8,7 @@ BrowseTheWeb to perform this action. An actor performs this action like so:
 
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
+from ..pacing import beat
 from .base_action import BaseAction
 
 
@@ -21,6 +22,7 @@ class RefreshPage(BaseAction):
     It can then be passed along to the |Actor| to perform the action.
     """
 
+    @beat("{} refreshes the page.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to refresh the page.

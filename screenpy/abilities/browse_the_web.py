@@ -217,7 +217,7 @@ class BrowseTheWeb(BaseAbility):
         target: Union["Target", Tuple[By, str]],
         timeout: int = 20,
         cond: Callable = EC.visibility_of_element_located,
-    ):
+    ) -> None:
         """
         Waits for the element to fulfill the given condition.
 

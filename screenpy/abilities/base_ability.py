@@ -11,7 +11,7 @@ class BaseAbility:
     This base class is only used to enforce proper Ability implementation.
     """
 
-    def forget(self):
+    def forget(self) -> None:
         """
         Cause the actor to forget this ability -- exit and clean up any
         resources needed.
