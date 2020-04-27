@@ -22,10 +22,12 @@ from .base_action import BaseAction
 
 class SwitchTo(BaseAction):
     """
-    Switches to something, most likely an iframe, or back to default. A
+    Switches to an element, most likely an iframe, or back to default. A
     SwitchTo action is expected to be instantiated by its static
-    |SwitchTo.the| or |SwitchTo.default| methods, or on its own. A typical
-    invocation might look like:
+    |SwitchTo.the| or |SwitchTo.default| methods, or on its own with a target.
+    Typical invocations might look like:
+
+        SwitchTo(THE_ORDERS_FRAME)
 
         SwitchTo.the(ORDERS_FRAME)
 

@@ -81,8 +81,8 @@ class Release(BaseAction):
             "it can only be used with the Chain action."
         )
 
-    @beat("Release the {description}!")
-    def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> ActionChains:
+    @beat("  Releases the {description}!")
+    def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
         Adds the configured Release action to an in-progress |Chain| of
         actions.
@@ -91,11 +91,8 @@ class Release(BaseAction):
             the_actor: the |Actor| who will be performing the action chain.
             the_chain: the |ActionChains| instance that is being built.
 
-        Returns:
-            |ActionChains|
-
         Raises:
-            |UnableToChainError|: if the action was not told what to hold down.
+            |UnableToChainError|: if the action was not told what to release.
         """
         if self.lmb:
             the_chain.release()

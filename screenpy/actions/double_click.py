@@ -17,6 +17,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
+from ..pacing import beat
 from ..target import Target
 from .base_action import BaseAction
 
@@ -61,6 +62,7 @@ class DoubleClick(BaseAction):
 
         the_chain.double_click(on_element=the_element)
 
+    @beat("{} double-clicks{description}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Asks the actor to perform the DoubleClick action, double-clicking on
@@ -79,6 +81,7 @@ class DoubleClick(BaseAction):
         self._add_action_to_chain(the_actor, the_chain)
         the_chain.perform()
 
+    @beat("  Double-clicks{description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
         Adds the DoubleClick action to an in-progress |Chain| of actions.
@@ -91,3 +94,4 @@ class DoubleClick(BaseAction):
 
     def __init__(self, target: Optional[Target] = None) -> None:
         self.target = target
+        self.description = f" on the {target}" if target is not None else ""

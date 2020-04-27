@@ -30,7 +30,6 @@ KEY_NAMES = {
     for key_name in dir(Keys)
     if key_name.isupper() and not key_name.startswith("LEFT_")
 }
-KEY_NAMES[None] = "I AM ERROR"
 
 
 class HoldDown(BaseAction):
@@ -111,8 +110,8 @@ class HoldDown(BaseAction):
             "it can only be used with the Chain action."
         )
 
-    @beat("Hold down the {description}!")
-    def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> ActionChains:
+    @beat("  Holds down the {description}!")
+    def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
         Adds the configured HoldDown action to an in-progress |Chain| of
         actions.
@@ -120,9 +119,6 @@ class HoldDown(BaseAction):
         Args:
             the_actor: the |Actor| who will be performing the action chain.
             the_chain: the |ActionChains| instance that is being built.
-
-        Returns:
-            |ActionChains|
 
         Raises:
             |UnableToChainError|: if the action was not told what to hold down.

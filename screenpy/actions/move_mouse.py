@@ -11,6 +11,9 @@ performs this action like so:
         MoveMouse.to_the(HAMBURGER_MENU).with_offset(500, -200)
     )
 
+    the_actor.attempts_to(
+        Chain(MoveMouse.to_the(HAMBURGER_MENU))
+    )
 """
 
 
@@ -38,7 +41,8 @@ class MoveMouse(BaseAction):
 
         MoveMouse.to_the(HAMBURGER_MENU).with_offset(500, -200)
 
-    It can then be passed along to the |Actor| to perform the action.
+    It can then be passed along to the |Actor| or added to a |Chain| to
+    perform the action.
     """
 
     offset: Optional[Tuple[int, int]]
@@ -56,7 +60,7 @@ class MoveMouse(BaseAction):
         """
         return MoveMouse(target=target, description=f"to the {target}")
 
-    on_the = to_the
+    on_the = over_the = to_the
 
     @staticmethod
     def by_offset(x_offset: int, y_offset: int) -> "MoveMouse":
@@ -98,7 +102,7 @@ class MoveMouse(BaseAction):
         self.description += f" offset by ({x_offset}, {y_offset})"
         return self
 
-    def _add_action_to_chain(self, the_actor, the_chain):
+    def _add_action_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """Private method to add the action to the chain."""
         if self.target is not None and self.offset is not None:
             the_chain.move_to_element_with_offset(
@@ -133,19 +137,15 @@ class MoveMouse(BaseAction):
         the_chain.perform()
 
     @beat("  Move the mouse {description}!")
-    def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> ActionChains:
+    def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
         Adds the MoveMouse action to an in-progress |Chain| of actions.
 
         Args:
             the_actor: the |Actor| who will be performing the action chain.
             the_chain: the |ActionChains| instance that is being built.
-
-        Returns:
-            |ActionChains|
         """
         self._add_action_to_chain(the_actor, the_chain)
-        return the_chain
 
     def __init__(
         self,
