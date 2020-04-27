@@ -81,7 +81,7 @@ to find its matching ability
 to perform the action.
 If the actor
 does not have that ability,
-the actor will raise an |UnableToPerformError|.
+the actor will raise an |UnableToPerform|.
 
 Now that our actor has performed an action,
 they are ready to perform a test.

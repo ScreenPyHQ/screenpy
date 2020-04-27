@@ -27,7 +27,7 @@ to perform an action.
 They may not actually have the correct :ref:`abilities`,
 after all.
 If an actor is unable to perform an action or task,
-they will raise an |UnableToPerformError|.
+they will raise an |UnableToPerform|.
 
 Writing New Actions
 -------------------
@@ -137,7 +137,7 @@ might look something like this:
                 the_actor: the actor who will perform this task.
 
             Raises:
-                UnableToPerformError: the actor does not have the ability to
+                UnableToPerform: the actor does not have the ability to
                     BrowseTheWeb.
             """
             the_actor.attempts_to(

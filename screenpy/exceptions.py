@@ -7,6 +7,10 @@ class ScreenPyError(Exception):
     """The base exception for all of ScreenPy."""
 
 
+class UnableToPerform(ScreenPyError):
+    """Raised when an actor lacks the ability to perform an action."""
+
+
 class AbilityError(ScreenPyError):
     """These errors are raised when an ability fails in some way."""
 

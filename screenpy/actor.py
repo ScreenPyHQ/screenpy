@@ -13,7 +13,7 @@ from typing import Any, List, Text, Tuple
 
 from hamcrest import assert_that
 
-from .exceptions import ScreenPyError
+from .exceptions import UnableToPerform
 from .pacing import aside
 
 ENTRANCE_DIRECTIONS = [
@@ -36,13 +36,6 @@ Ability = Any
 Action = Any
 Question = Any
 Resolution = Any
-
-
-class UnableToPerformError(ScreenPyError):
-    """
-    Raised when an actor does not have the ability to perform the
-    action they attempted.
-    """
 
 
 class Actor:
@@ -105,13 +98,13 @@ class Actor:
             The requested ability.
 
         Raises:
-            |UnableToPerformError|: the actor doesn't possess the ability.
+            |UnableToPerform|: the actor doesn't possess the ability.
         """
         for a in self.abilities:
             if isinstance(a, ability):
                 return a
 
-        raise UnableToPerformError(f"{self} does not have the ability to {ability}")
+        raise UnableToPerform(f"{self} does not have the ability to {ability}")
 
     def ability_to(self, ability: Ability) -> Ability:
         """Syntactic sugar for |Actor.uses_ability_to|."""

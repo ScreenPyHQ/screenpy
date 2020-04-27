@@ -48,7 +48,7 @@ class Chain(BaseAction):
 
         Raises:
             |UnableToAct|: an action in the Chain was not chainable.
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         browser = the_actor.ability_to(BrowseTheWeb).browser

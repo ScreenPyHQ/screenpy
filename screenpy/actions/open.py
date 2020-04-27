@@ -67,7 +67,7 @@ class Open(BaseAction):
             the_actor: The |Actor| who will perform the action.
 
         Raises:
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         the_actor.uses_ability_to(BrowseTheWeb).to_visit(self.url)

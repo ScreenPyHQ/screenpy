@@ -133,7 +133,7 @@ class SelectByText(BaseAction):
         Raises:
             |DeliveryError|: an exception was raised by Selenium.
             |UnableToAct|: no target was supplied.
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         if self.target is None:
@@ -203,7 +203,7 @@ class SelectByIndex(BaseAction):
         Raises:
             |DeliveryError|: an exception was raised by Selenium.
             |UnableToAct|: no target was supplied.
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         if self.target is None:
@@ -273,7 +273,7 @@ class SelectByValue(BaseAction):
         Raises:
             |DeliveryError|: an exception was raised by Selenium.
             |UnableToAct|: no target was supplied.
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         if self.target is None:

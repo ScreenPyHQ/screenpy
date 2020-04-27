@@ -34,7 +34,7 @@ class AcceptAlert(BaseAction):
 
         Raises:
             |BrowsingError|: no alert was present.
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         alert = the_actor.uses_ability_to(BrowseTheWeb).to_switch_to_alert()

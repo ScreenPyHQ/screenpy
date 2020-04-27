@@ -128,7 +128,7 @@ class MoveMouse(BaseAction):
 
         Raises:
             |UnableToAct|: neither target nor offset were supplied.
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         browser = the_actor.ability_to(BrowseTheWeb).browser

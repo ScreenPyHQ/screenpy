@@ -33,7 +33,7 @@ or ask any :ref:`questions`
 that require that ability.
 If an action or a question require an ability
 that the actor does not have,
-the actor will raise an |UnableToPerformError|.
+the actor will raise an |UnableToPerform|.
 
 Writing New Abilities
 ---------------------

@@ -167,7 +167,7 @@ class Wait(BaseAction):
 
         Raises:
             |UnableToAct|: no target was supplied.
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         if self.target is None:

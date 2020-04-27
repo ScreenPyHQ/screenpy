@@ -3,7 +3,7 @@ from unittest import mock
 import pytest
 
 from screenpy import Actor, AnActor
-from screenpy.actor import UnableToPerformError
+from screenpy.exceptions import UnableToPerform
 
 
 def test_can_be_instantiated():
@@ -23,7 +23,7 @@ def test_complains_for_missing_abilities():
     """Actors throw an exception if they are missing an ability"""
     actor = AnActor.named("Tester")
 
-    with pytest.raises(UnableToPerformError):
+    with pytest.raises(UnableToPerform):
         actor.ability_to(1)
 
 

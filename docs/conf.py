@@ -62,7 +62,7 @@ rst_prolog = """.. Internal references
 .. .. Exceptions
 .. |DeliveryError| replace:: :class:`~screenpy.exceptions.DeliveryError`
 .. |UnableToAct| replace:: :class:`~screenpy.exceptions.UnableToAct`
-.. |UnableToPerformError| replace:: :class:`~screenpy.actor.UnableToPerformError`
+.. |UnableToPerform| replace:: :class:`~screenpy.actor.UnableToPerform`
 
 .. .. Actors
 .. |Actor| replace:: :class:`~screenpy.actor.Actor`

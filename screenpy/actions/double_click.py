@@ -73,7 +73,7 @@ class DoubleClick(BaseAction):
             the_actor: the |Actor| who will perform this action.
 
         Raises:
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         browser = the_actor.ability_to(BrowseTheWeb).browser

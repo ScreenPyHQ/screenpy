@@ -99,7 +99,7 @@ class Click(BaseAction):
 
         Raises:
             |DeliveryError|: an exception was raised by Selenium.
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         element = self.target.found_by(the_actor)

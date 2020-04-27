@@ -25,7 +25,7 @@ Action Exceptions
 
 Actor Exceptions
 ^^^^^^^^^^^^^^^^
-.. autoclass:: screenpy.actor.UnableToPerformError
+.. autoclass:: screenpy.exceptions.UnableToPerform
 
 Target Exceptions
 ^^^^^^^^^^^^^^^^^

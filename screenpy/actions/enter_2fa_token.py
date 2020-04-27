@@ -56,7 +56,7 @@ class Enter2FAToken(BaseAction):
             the_actor: the |Actor| who will perform this action.
 
         Raises:
-            |UnableToPerformError|: if the actor does not have the
+            |UnableToPerform|: if the actor does not have the
                 abilities to |AuthenticateWith2FA| and |BrowseTheWeb|.
         """
         token = the_actor.uses_ability_to(AuthenticateWith2FA).to_get_token()

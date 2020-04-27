@@ -68,7 +68,7 @@ class SwitchTo(BaseAction):
             the_actor: The |Actor| who will perform this action.
 
         Raises:
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         if self.target is None:

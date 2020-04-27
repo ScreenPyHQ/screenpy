@@ -58,7 +58,7 @@ class Clear(BaseAction):
             the_actor: The |Actor| who will perform this action.
 
         Raises:
-            |UnableToPerformError|: the actor does not have the ability to
+            |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         element = self.target.found_by(the_actor)
