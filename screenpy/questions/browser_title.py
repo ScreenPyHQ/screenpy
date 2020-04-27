@@ -26,8 +26,7 @@ class BrowserTitle(BaseQuestion):
     @beat("{} reads the URL from the browser.")
     def answered_by(self, the_actor: Actor) -> str:
         """
-        Asks the supplied actor to investigate the browser's title and
-        give their answer.
+        Asks the actor to investigate the browser's title.
 
         Args:
             the_actor: the |Actor| who will answer the question.

@@ -86,8 +86,7 @@ class Selected(BaseQuestion):
     @beat("{0} checks the selected option(s) from {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
-        Asks the supplied actor to investigate the page and give their
-        answer.
+        Asks the actor to name the selected option(s).
 
         Args:
             the_actor: the |Actor| who will answer the question.

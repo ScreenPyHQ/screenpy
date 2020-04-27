@@ -54,8 +54,7 @@ class List(BaseQuestion):
     @beat("{} lists off the {target}.")
     def answered_by(self, the_actor: Actor) -> ListType[WebElement]:
         """
-        Asks the supplied actor to investigate the page and give their
-        answer.
+        Asks the actor to rattle off the specified elements.
 
         Args:
             the_actor: the |Actor| who will answer the question.

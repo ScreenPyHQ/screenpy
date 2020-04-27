@@ -28,8 +28,7 @@ class TextOfTheAlert(BaseQuestion):
     @beat("{} reads the text from the alert.")
     def answered_by(self, the_actor: Actor) -> str:
         """
-        Asks the supplied actor to investigate the alert and give their
-        answer.
+        Asks the actor to read off the alert's text.
 
         Args:
             the_actor: the |Actor| who will answer the question.

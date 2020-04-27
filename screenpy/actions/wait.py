@@ -159,8 +159,7 @@ class Wait(BaseAction):
     @beat("{0} waits for the {target}{log_detail}")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to perform the Wait action, using the contained
-        strategy and any extra arguments provided.
+        Asks the actor to wait for the specified condition to be satisfied.
 
         Args:
             the_actor: The |Actor| who will perform this action.

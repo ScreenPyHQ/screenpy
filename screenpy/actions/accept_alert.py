@@ -27,7 +27,7 @@ class AcceptAlert(BaseAction):
     @beat("{0} accepts the alert.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to perform the AcceptAlert action.
+        Asks the actor to accept the alert.
 
         Args:
             the_actor: The |Actor| who will perform this action.

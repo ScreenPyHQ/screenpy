@@ -57,8 +57,7 @@ class Click(BaseAction):
     @beat("{0} clicks on the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to find the element described by the stored target,
-        and then clicks it.
+        Asks the actor to click on the element described by the given target.
 
         Args:
             the_actor: the |Actor| who will perform the action.

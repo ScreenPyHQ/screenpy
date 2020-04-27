@@ -124,8 +124,8 @@ class SelectByText(BaseAction):
     @beat('{0} selects the option "{text}"" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to attempt to find the dropdown element described
-        by the stored target, then performs the select action.
+        Asks the actor to select the chosen option from the targeted dropdown
+        or multiselect field.
 
         Args:
             the_actor: The |Actor| who will perform the action.
@@ -194,8 +194,8 @@ class SelectByIndex(BaseAction):
     @beat("{0} selects the option at index {index} from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to attempt to find the dropdown element described
-        by the stored target, then performs the select action.
+        Asks the actor to select the chosen option from the targeted dropdown
+        or multiselect field.
 
         Args:
             the_actor: The |Actor| who will perform the action.
@@ -264,8 +264,8 @@ class SelectByValue(BaseAction):
     @beat('{0} selects the option with value "{value}" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to attempt to find the dropdown element described
-        by the stored target, then performs the select action.
+        Asks the actor to select the chosen option from the targeted dropdown
+        or multiselect field.
 
         Args:
             the_actor: The |Actor| who will perform the action.

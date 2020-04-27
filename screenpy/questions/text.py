@@ -56,7 +56,7 @@ class Text(BaseQuestion):
     def of_all(multi_target: Target) -> "Text":
         """
         Provides the target to read, expecting this target to describe
-        multiple elements (e.g. "tr.report").
+        multiple elements.
 
         Args:
             multi_target: the |Target| describing the elements to read.
@@ -69,8 +69,7 @@ class Text(BaseQuestion):
     @beat("{} reads the text from the {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
-        Asks the supplied actor to investigate the page and give their
-        answer.
+        Asks the actor to read off the targeted element's text.
 
         Args:
             the_actor: the |Actor| who will answer the question.

@@ -86,8 +86,8 @@ class Enter(BaseAction):
 
     def into(self, target: Target) -> "Enter":
         """
-        Supplies the target to enter the text into. This is most likely
-        an input field.
+        Supplies the target to enter the text into. This is most likely an
+        input field.
 
         Args:
             target: The |Target| describing the input field.
@@ -108,8 +108,8 @@ class Enter(BaseAction):
 
     def then_hit(self, *keys: str) -> "Enter":
         """
-        Supplies additional keys to hit after entering the text, for
-        example if the keyboard ENTER key should be pressed.
+        Supplies additional keys to hit after entering the text, for example
+        if the keyboard ENTER key should be pressed.
 
         Args:
             keys: the keys to hit afterwards. These are probably the
@@ -129,11 +129,9 @@ class Enter(BaseAction):
     @beat("{0} enters '{text_to_log}' into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to perform the Enter action, entering the text into
-        the targeted input field using their ability to browse the web.
-
-        If this Enter object's |Enter.then_hit| method was called, it will
-        also hit the supplied keys.
+        Asks the actor to enter the text into the targeted input field. If
+        this Enter object's |Enter.then_hit| method was called, it will also
+        hit the supplied keys.
 
         Args:
             the_actor: the |Actor| who will perform this action.

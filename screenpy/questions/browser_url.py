@@ -26,8 +26,7 @@ class BrowserURL(BaseQuestion):
     @beat("{} reads the URL from the browser.")
     def answered_by(self, the_actor: Actor) -> str:
         """
-        Asks the supplied actor to investigate the browser's current URL
-        and give their answer.
+        Asks the actor to investigate the browser's current URL.
 
         Args:
             the_actor: the |Actor| who will answer the question.

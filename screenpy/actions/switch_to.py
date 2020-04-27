@@ -62,7 +62,7 @@ class SwitchTo(BaseAction):
     @beat("{0} switches to the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to perform the SwitchTo action.
+        Asks the actor to switch to the specified element, or back to default.
 
         Args:
             the_actor: The |Actor| who will perform this action.

@@ -27,7 +27,7 @@ class DismissAlert(BaseAction):
     @beat("{0} dismisses the alert.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to perform the DismissAlert action.
+        Asks the actor to dismiss the alert.
 
         Args:
             the_actor: The |Actor| who will perform this action.

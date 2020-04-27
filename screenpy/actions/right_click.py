@@ -70,9 +70,8 @@ class RightClick(BaseAction):
     @beat("{} right-clicks{description}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to perform the RightClick action, right-clicking on
-        the specified element (or wherever the cursor is, if no element was
-        specified).
+        Asks the actor to right-click on the specified element (or wherever
+        the cursor currently is, if no element was specified).
 
         Args:
             the_actor: the |Actor| who will perform this action.

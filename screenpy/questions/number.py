@@ -43,8 +43,7 @@ class Number(BaseQuestion):
     @beat("{} counts the number of {target}.")
     def answered_by(self, the_actor: Actor) -> int:
         """
-        Asks the supplied actor to investigate the page and give their
-        answer.
+        Asks the actor to count the elements.
 
         Args:
             the_actor: the |Actor| who will answer the question.

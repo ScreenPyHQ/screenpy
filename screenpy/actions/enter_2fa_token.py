@@ -49,8 +49,8 @@ class Enter2FAToken(BaseAction):
     @beat("{0} enters their 2FA token into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to perform the Enter2FAToken action, which will get the
-        current token using the actor's AuthenticateWith2FA ability.
+        Asks the actor to get the two-factor authentication instrument's
+        current token and enter it into the targeted input field.
 
         Args:
             the_actor: the |Actor| who will perform this action.

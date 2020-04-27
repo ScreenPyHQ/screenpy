@@ -50,9 +50,7 @@ class Clear(BaseAction):
     @beat("{0} clears text from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to performs the Clear action, clearing the text
-        from the targeted input field using their ability to browse the
-        web.
+        Asks the actor to clear the text from the targeted input field.
 
         Args:
             the_actor: The |Actor| who will perform this action.

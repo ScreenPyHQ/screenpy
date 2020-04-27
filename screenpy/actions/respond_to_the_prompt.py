@@ -44,7 +44,7 @@ class RespondToThePrompt(BaseAction):
     @beat('{0} responds to the prompt with "{text}".')
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to perform the RespondToPrompt action.
+        Asks the actor to respond to the prompt using the given text.
 
         Args:
             the_actor: The |Actor| who will perform this action.
