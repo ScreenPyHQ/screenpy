@@ -55,15 +55,13 @@ class Chain(BaseAction):
         the_chain = ActionChains(browser)
 
         for action in self.actions:
-            try:
-                action.add_to_chain(the_actor, the_chain)
-            except AttributeError:
+            if "add_to_chain" not in dir(action):
                 raise UnableToChainError(
                     f"The {action.__class__.__name__} action is not able to "
-                    "be chained; it has no add_to_chain(self, the_chain, the_actor) "
+                    "be chained; it has no add_to_chain(self, the_actor, the_chain) "
                     "method defined."
                 )
-
+            action.add_to_chain(the_actor, the_chain)
         the_chain.perform()
 
     def __init__(self, *actions: Action):
