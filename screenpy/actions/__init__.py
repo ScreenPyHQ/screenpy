@@ -25,16 +25,18 @@ from .respond_to_the_prompt import RespondToThePrompt
 from .right_click import RightClick
 from .select import Select, SelectByIndex, SelectByText, SelectByValue
 from .switch_to import SwitchTo
+from .switch_to_tab import SwitchToTab
 from .wait import Wait
 
 # Natural-language-enabling syntactic sugar
 ContextClick = RightClick
 Hover = MoveMouse
-Visit = Open
 Press = Enter
 Refresh = Reload = ReloadPage = RefreshPage
 RespondToPrompt = RespondToThePrompt
 Sleep = Pause
+SwitchToWindow = SwitchToTab
+Visit = Open
 
 
 __all__ = [
@@ -69,5 +71,7 @@ __all__ = [
     "SelectByValue",
     "Sleep",
     "SwitchTo",
+    "SwitchToTab",
+    "SwitchToWindow",
     "Wait",
 ]

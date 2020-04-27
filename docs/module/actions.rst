@@ -234,10 +234,16 @@ SwitchTo
 .. autoclass:: screenpy.actions.switch_to.SwitchTo
     :members:
 
+SwitchToTab
+^^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.switch_to_tab.SwitchToTab
+    :members:
+
 RefreshPage
 ^^^^^^^^^^^
 
-.. autoclass:: screenpy.action.refresh_page.RefreshPage
+.. autoclass:: screenpy.actions.refresh_page.RefreshPage
     :members:
 
 Chain

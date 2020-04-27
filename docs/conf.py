@@ -146,6 +146,8 @@ rst_prolog = """.. Internal references
 .. |SwitchTo| replace:: :class:`~screenpy.actions.switch_to.SwitchTo`
 .. |SwitchTo.the| replace:: :meth:`~screenpy.actions.switch_to.SwitchTo.the`
 .. |SwitchTo.default| replace:: :meth:`~screenpy.actions.switch_to.SwitchTo.default`
+.. |SwitchToTab| replace:: :class:`~screenpy.actions.switch_to_tab.SwitchToTab`
+.. |SwitchToTab.on_top| replace:: :meth:`~screenpy.actions.switch_to_tab.SwitchToTab.on_top`
 .. |Wait| replace:: :class:`~screenpy.actions.wait.Wait`
 .. |Wait.for_| replace:: :meth:`~screenpy.actions.wait.Wait.for_`
 .. |Wait.seconds_for| replace:: :meth:`~screenpy.actions.wait.Wait.seconds_for`

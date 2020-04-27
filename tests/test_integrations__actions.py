@@ -26,6 +26,7 @@ from screenpy.actions import (
     RightClick,
     Select,
     SwitchTo,
+    SwitchToTab,
     Wait,
 )
 from screenpy.exceptions import UnableToAct
@@ -475,6 +476,17 @@ class TestSwitchTo:
 
         mocked_btw = Tester.ability_to(BrowseTheWeb)
         mocked_btw.browser.switch_to.default_content.assert_called_once()
+
+
+def test_switch_to_tab(Tester):
+    """SwitchToTab calls .window()"""
+    number = 3
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_btw.browser.window_handles = range(number + 1)
+
+    Tester.attempts_to(SwitchToTab(number))
+
+    mocked_btw.browser.switch_to.window.assert_called_once_with(number - 1)
 
 
 def test_wait(Tester):

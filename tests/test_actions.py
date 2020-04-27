@@ -22,6 +22,7 @@ from screenpy.actions import (
     RightClick,
     Select,
     SwitchTo,
+    SwitchToTab,
 )
 from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
 from screenpy import Target
@@ -321,3 +322,21 @@ class TestSwitchTo:
 
         assert isinstance(st1, SwitchTo)
         assert isinstance(st2, SwitchTo)
+
+
+class TestSwitchToTab:
+    def test_can_be_instantiated(self):
+        """SwitchToTab can be instantiated"""
+        stt1 = SwitchToTab(1)
+        stt2 = SwitchToTab.on_top()
+
+        assert isinstance(stt1, SwitchToTab)
+        assert isinstance(stt2, SwitchToTab)
+
+    def test_description_describes_chosen_tab(self):
+        """description is set based on which tab to switch to"""
+        stt1 = SwitchToTab(1)
+        stt2 = SwitchToTab.on_top()
+
+        assert "tab #1" in stt1.description
+        assert "newest tab" in stt2.description
