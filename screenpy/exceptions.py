@@ -11,6 +11,10 @@ class UnableToPerform(ScreenPyError):
     """Raised when an actor lacks the ability to perform an action."""
 
 
+class TargetingError(ScreenPyError):
+    """Raised when there is an issue preventing target acquisition."""
+
+
 class AbilityError(ScreenPyError):
     """These errors are raised when an ability fails in some way."""
 

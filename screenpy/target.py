@@ -12,11 +12,7 @@ from selenium.webdriver.remote.webdriver import WebElement
 
 from .abilities.browse_the_web import BrowseTheWeb
 from .actor import Actor
-from .exceptions import ScreenPyError
-
-
-class TargetingError(ScreenPyError):
-    """Raised when there is an issue preventing target acquisition."""
+from .exceptions import TargetingError
 
 
 class Target:
