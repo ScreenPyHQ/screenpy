@@ -27,7 +27,7 @@ from screenpy.actions import (
     SwitchTo,
     Wait,
 )
-from screenpy.exceptions import UnableToActError
+from screenpy.exceptions import UnableToAct
 
 
 def test_accept_alert(Tester):
@@ -166,7 +166,7 @@ class TestEnter:
 
     def test_complains_for_no_target(self, Tester):
         """Enter complains if no target was given"""
-        with pytest.raises(UnableToActError):
+        with pytest.raises(UnableToAct):
             Tester.attempts_to(Enter.the_text("test"))
 
     @mock.patch("screenpy.actions.chain.ActionChains")
@@ -228,7 +228,7 @@ class TestEnter2FAToken:
 class TestHoldDown:
     def test_cannot_be_performed(self, Tester):
         """HoldDown action cannot be performed"""
-        with pytest.raises(UnableToActError):
+        with pytest.raises(UnableToAct):
             Tester.attempts_to(HoldDown(Keys.SHIFT))
 
     @mock.patch("screenpy.actions.chain.ActionChains")
@@ -313,7 +313,7 @@ class TestPause:
 
     def test_complains_for_missing_reason(self, Tester):
         """Pause throws an assertion if no reason was given"""
-        with pytest.raises(UnableToActError):
+        with pytest.raises(UnableToAct):
             Tester.attempts_to(Pause.for_(20))
 
     @mock.patch("screenpy.actions.chain.ActionChains")
@@ -329,7 +329,7 @@ class TestPause:
 class TestRelease:
     def test_cannot_be_performed(self, Tester):
         """Release action cannot be performed"""
-        with pytest.raises(UnableToActError):
+        with pytest.raises(UnableToAct):
             Tester.attempts_to(Release(Keys.SHIFT))
 
     @mock.patch("screenpy.actions.chain.ActionChains")
@@ -407,7 +407,7 @@ class TestSelectByIndex:
 
     def test_complains_for_no_target(self, Tester):
         """SelectByIndex complains if no target was given"""
-        with pytest.raises(UnableToActError):
+        with pytest.raises(UnableToAct):
             Tester.attempts_to(Select.the_option_at_index(1))
 
 
@@ -428,7 +428,7 @@ class TestSelectByText:
 
     def test_complains_for_no_target(self, Tester):
         """SelectByText complains if no target was given"""
-        with pytest.raises(UnableToActError):
+        with pytest.raises(UnableToAct):
             Tester.attempts_to(Select.the_option_named("text"))
 
 
@@ -450,7 +450,7 @@ class TestSelectByValue:
 
     def test_complains_for_no_target(self, Tester):
         """SelectByValue complains if no target was given"""
-        with pytest.raises(UnableToActError):
+        with pytest.raises(UnableToAct):
             Tester.attempts_to(Select.the_option_with_value("value"))
 
 

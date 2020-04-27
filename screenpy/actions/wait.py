@@ -22,7 +22,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from ..abilities.browse_the_web import BrowseTheWeb
 from ..actor import Actor
-from ..exceptions import DeliveryError, UnableToActError
+from ..exceptions import DeliveryError, UnableToAct
 from ..pacing import beat
 from ..target import Target
 from .base_action import BaseAction
@@ -166,12 +166,12 @@ class Wait(BaseAction):
             the_actor: The |Actor| who will perform this action.
 
         Raises:
-            |UnableToActError|: no target was supplied.
+            |UnableToAct|: no target was supplied.
             |UnableToPerformError|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         if self.target is None:
-            raise UnableToActError(
+            raise UnableToAct(
                 "Target was not supplied for Wait. Provide a target by using either "
                 ".for_(), .for_the(), .seconds_for(), or .seconds_for_the() method."
             )

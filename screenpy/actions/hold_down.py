@@ -20,7 +20,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from ..actor import Actor
-from ..exceptions import UnableToActError, UnableToChainError
+from ..exceptions import UnableToAct
 from ..pacing import beat
 from ..target import Target
 from .base_action import BaseAction
@@ -103,9 +103,9 @@ class HoldDown(BaseAction):
         it must be used with |Chain|.
 
         Raises:
-            |UnableToActError|: always.
+            |UnableToAct|: always.
         """
-        raise UnableToActError(
+        raise UnableToAct(
             "The HoldDown action cannot be performed directly, "
             "it can only be used with the Chain action."
         )
@@ -121,7 +121,7 @@ class HoldDown(BaseAction):
             the_chain: the |ActionChains| instance that is being built.
 
         Raises:
-            |UnableToChainError|: if the action was not told what to hold down.
+            |UnableToAct|: if the action was not told what to hold down.
         """
         if self.lmb:
             element = self.target.found_by(the_actor) if self.target else None
@@ -129,7 +129,7 @@ class HoldDown(BaseAction):
         elif self.key is not None:
             the_chain.key_down(self.key)
         else:
-            raise UnableToChainError("HoldDown must be told what to hold down.")
+            raise UnableToAct("HoldDown must be told what to hold down.")
 
     def __init__(self, key: Optional[str] = None, lmb: bool = False) -> None:
         self.key = key

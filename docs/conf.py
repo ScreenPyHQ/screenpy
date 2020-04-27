@@ -61,8 +61,7 @@ source_suffix = ".rst"
 rst_prolog = """.. Internal references
 .. .. Exceptions
 .. |DeliveryError| replace:: :class:`~screenpy.exceptions.DeliveryError`
-.. |UnableToActError| replace:: :class:`~screenpy.exceptions.UnableToActError`
-.. |UnableToChainError| replace:: :class:`~screenpy.exceptions.UnableToChainError`
+.. |UnableToAct| replace:: :class:`~screenpy.exceptions.UnableToAct`
 .. |UnableToPerformError| replace:: :class:`~screenpy.actor.UnableToPerformError`
 
 .. .. Actors

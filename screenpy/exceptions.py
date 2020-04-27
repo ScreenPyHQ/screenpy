@@ -19,9 +19,5 @@ class DeliveryError(ActionError):
     """Raised when an action encounters an error while being performed."""
 
 
-class UnableToActError(ActionError):
+class UnableToAct(ActionError):
     """Raised when an action is missing direction."""
-
-
-class UnableToChainError(ActionError):
-    """Raised when attempting to chain an action that cannot be chained."""

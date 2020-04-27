@@ -21,7 +21,7 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
 
 from ..actor import Actor
-from ..exceptions import DeliveryError, UnableToActError
+from ..exceptions import DeliveryError, UnableToAct
 from ..pacing import aside, beat
 from ..target import Target
 from .base_action import BaseAction
@@ -169,12 +169,12 @@ class Enter(BaseAction):
 
         Raises:
             |DeliveryError|: an exception was raised by Selenium.
-            |UnableToActError|: no target was supplied.
+            |UnableToAct|: no target was supplied.
             |UnableToPerformError|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         if self.target is None:
-            raise UnableToActError(
+            raise UnableToAct(
                 "Target was not supplied for Enter. Provide a target by using either "
                 "the .into(), .into_the(), or .on() method."
             )

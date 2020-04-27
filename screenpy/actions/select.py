@@ -23,7 +23,7 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.support.ui import Select as SeleniumSelect
 
 from ..actor import Actor
-from ..exceptions import DeliveryError, UnableToActError
+from ..exceptions import DeliveryError, UnableToAct
 from ..pacing import beat
 from ..target import Target
 from .base_action import BaseAction
@@ -132,12 +132,12 @@ class SelectByText(BaseAction):
 
         Raises:
             |DeliveryError|: an exception was raised by Selenium.
-            |UnableToActError|: no target was supplied.
+            |UnableToAct|: no target was supplied.
             |UnableToPerformError|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         if self.target is None:
-            raise UnableToActError(
+            raise UnableToAct(
                 "Target was not provided for SelectByText. Provide a target using the "
                 ".from_() or .from_the() methods."
             )
@@ -202,12 +202,12 @@ class SelectByIndex(BaseAction):
 
         Raises:
             |DeliveryError|: an exception was raised by Selenium.
-            |UnableToActError|: no target was supplied.
+            |UnableToAct|: no target was supplied.
             |UnableToPerformError|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         if self.target is None:
-            raise UnableToActError(
+            raise UnableToAct(
                 "Target was not provided for SelectByIndex. Provide a target using the "
                 ".from_() or .from_the() methods."
             )
@@ -272,12 +272,12 @@ class SelectByValue(BaseAction):
 
         Raises:
             |DeliveryError|: an exception was raised by Selenium.
-            |UnableToActError|: no target was supplied.
+            |UnableToAct|: no target was supplied.
             |UnableToPerformError|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
         if self.target is None:
-            raise UnableToActError(
+            raise UnableToAct(
                 "Target was not provided for SelectByValue. Provide a target using the "
                 ".from_() or .from_the() methods."
             )

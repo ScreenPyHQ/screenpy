@@ -23,7 +23,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 from ..abilities.browse_the_web import BrowseTheWeb
 from ..actor import Actor
-from ..exceptions import UnableToActError
+from ..exceptions import UnableToAct
 from ..pacing import beat
 from ..target import Target
 from .base_action import BaseAction
@@ -113,7 +113,7 @@ class MoveMouse(BaseAction):
         elif self.offset is not None:
             the_chain.move_by_offset(*self.offset)
         else:
-            raise UnableToActError(
+            raise UnableToAct(
                 "MoveMouse was given neither coordinates nor a target. Supply "
                 "one of these using MoveMouse.by_offset or MoveMouse.to_the."
             )
@@ -127,7 +127,7 @@ class MoveMouse(BaseAction):
             the_actor: the |Actor| who will perform this action.
 
         Raises:
-            |UnableToActError|: neither target nor offset were supplied.
+            |UnableToAct|: neither target nor offset were supplied.
             |UnableToPerformError|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """

@@ -15,7 +15,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
-from ..exceptions import UnableToChainError
+from ..exceptions import UnableToAct
 from ..pacing import beat
 from .base_action import BaseAction
 
@@ -47,7 +47,7 @@ class Chain(BaseAction):
             the_actor: the |Actor| who will perform the action.
 
         Raises:
-            |UnableToChainError|: an action in the Chain was not chainable.
+            |UnableToAct|: an action in the Chain was not chainable.
             |UnableToPerformError|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
@@ -56,7 +56,7 @@ class Chain(BaseAction):
 
         for action in self.actions:
             if "add_to_chain" not in dir(action):
-                raise UnableToChainError(
+                raise UnableToAct(
                     f"The {action.__class__.__name__} action is not able to "
                     "be chained; it has no add_to_chain(self, the_actor, the_chain) "
                     "method defined."

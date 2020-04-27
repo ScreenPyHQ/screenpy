@@ -19,7 +19,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from ..actor import Actor
-from ..exceptions import UnableToActError, UnableToChainError
+from ..exceptions import UnableToAct
 from ..pacing import beat
 from .base_action import BaseAction
 from .hold_down import KEY_NAMES
@@ -74,9 +74,9 @@ class Release(BaseAction):
         it must be used with |Chain|.
 
         Raises:
-            |UnableToActError|: always.
+            |UnableToAct|: always.
         """
-        raise UnableToActError(
+        raise UnableToAct(
             "The Release action cannot be performed directly, "
             "it can only be used with the Chain action."
         )
@@ -92,14 +92,14 @@ class Release(BaseAction):
             the_chain: the |ActionChains| instance that is being built.
 
         Raises:
-            |UnableToChainError|: if the action was not told what to release.
+            |UnableToAct|: if the action was not told what to release.
         """
         if self.lmb:
             the_chain.release()
         elif self.key is not None:
             the_chain.key_up(self.key)
         else:
-            raise UnableToChainError("Release must be told what to release.")
+            raise UnableToAct("Release must be told what to release.")
 
     def __init__(self, key: Optional[str] = None, lmb: bool = False) -> None:
         self.key = key

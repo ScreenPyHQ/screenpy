@@ -17,7 +17,7 @@ Many of the included :ref:`actions`
 may be added to a Chain,
 but some of the Actions
 are not chainable
-and will raise an |UnableToChainError|.
+and will raise an |UnableToAct|.
 The Actions
 which can be chained
 correspond to the methods

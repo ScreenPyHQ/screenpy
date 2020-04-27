@@ -13,7 +13,7 @@ from time import sleep
 from selenium.webdriver.common.action_chains import ActionChains
 
 from ..actor import Actor
-from ..exceptions import UnableToActError
+from ..exceptions import UnableToAct
 from ..pacing import beat
 from .base_action import BaseAction
 
@@ -23,7 +23,7 @@ class Pause(BaseAction):
     Pauses the actor's actions for a set amount of time. This class should
     only be used when absolutely necessary. You must call one of the
     "..._because" methods to pass in the reason for your pause; an
-    |UnableToActError| will be raised if no reason was given when the
+    |UnableToAct| will be raised if no reason was given when the
     actor attempts to perform this action.
 
     A Pause action is expected to be instantiated by its static
@@ -109,10 +109,10 @@ class Pause(BaseAction):
             the_actor: the |Actor| who will perform this action.
 
         Raises:
-            |UnableToActError|: no reason was supplied.
+            |UnableToAct|: no reason was supplied.
         """
         if not self.reason:
-            raise UnableToActError(
+            raise UnableToAct(
                 "Cannot Pause without a reason. Use one of "
                 ".seconds_because(), .second_because(), or .milliseconds_because()."
             )
