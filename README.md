@@ -71,7 +71,8 @@ Contributing
 
 You want to contribute? Great! Here are the things you should do before submitting your PR:
 
-1. run `tox` to perform tests.
-1. run `black` to format code.
+1. Install [`pre-commit`](https://pre-commit.com/)
+1. run `pre-commit install` once.
+1. run `tox` to perform tests frequently.
 
 That's it! :)
