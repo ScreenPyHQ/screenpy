@@ -19,6 +19,8 @@ from .text import Text
 from .text_of_the_alert import TextOfTheAlert
 
 # Natural-language-enabling syntactic sugar
+TheBrowserTitle = BrowserTitle
+TheBrowserURL = BrowserURL
 TheList = List
 TheNumber = Number
 TheSelected = Selected
@@ -35,6 +37,8 @@ __all__ = [
     "Selected",
     "Text",
     "TextOfTheAlert",
+    "TheBrowserTitle",
+    "TheBrowserURL",
     "TheList",
     "TheNumber",
     "TheSelected",

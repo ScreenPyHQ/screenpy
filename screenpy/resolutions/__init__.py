@@ -18,14 +18,13 @@ from .reads_exactly import ReadsExactly
 
 # Natural-language-enabling syntactic sugar
 ContainTheText = ContainsTheText
-DoesNot = DoNot = AreNot = IsNot
-IsEqual = Equals = Equal = IsEqualTo
+DoesNot = DoNot = IsNot
+IsEqual = Equals = Equal = EqualTo = IsEqualTo
 ReadExactly = ReadsExactly
-ToBeEmpty = Empty = IsEmpty
+Empty = IsEmpty
 
 
 __all__ = [
-    "AreNot",
     "BaseResolution",
     "ContainsTheText",
     "ContainTheText",
@@ -34,11 +33,11 @@ __all__ = [
     "Empty",
     "Equal",
     "Equals",
+    "EqualTo",
     "IsEmpty",
     "IsEqual",
     "IsEqualTo",
     "IsNot",
     "ReadExactly",
     "ReadsExactly",
-    "ToBeEmpty",
 ]

@@ -93,9 +93,7 @@ class HoldDown(BaseAction):
         self.target = target
         return self
 
-    def on(self, target: Target) -> "HoldDown":
-        """Syntactic sugar for |HoldDown.on_the|"""
-        return self.on_the(target)
+    on = on_the
 
     def perform_as(self, the_actor: Actor) -> None:
         """

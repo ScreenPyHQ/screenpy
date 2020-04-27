@@ -49,10 +49,7 @@ class Click(BaseAction):
         """
         return Click(target)
 
-    @staticmethod
-    def on(target: Target) -> "Click":
-        """Syntactic sugar for |Click.on_the|."""
-        return Click.on_the(target)
+    on = on_the
 
     @beat("{0} clicks on the {target}.")
     def perform_as(self, the_actor: Actor) -> None:

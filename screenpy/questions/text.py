@@ -47,10 +47,7 @@ class Text(BaseQuestion):
         """
         return Text(target=target)
 
-    @staticmethod
-    def of(target: Target) -> "Text":
-        """Syntactic sugar for |Text.of_the|"""
-        return Text.of_the(target)
+    of = of_the
 
     @staticmethod
     def of_all(multi_target: Target) -> "Text":

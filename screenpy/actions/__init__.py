@@ -27,60 +27,33 @@ from .switch_to import SwitchTo
 from .wait import Wait
 
 # Natural-language-enabling syntactic sugar
-AcceptsAlert = AcceptAlert
-Chains = Chain
-Clears = Clear
-Clicks = Click
 ContextClick = RightClick
-Debugs = Debug
-DismissesAlert = DismissAlert
-Enters2FAToken = Enter2FAToken
-HoldsDown = HoldDown
 Hover = MoveMouse
-Opens = Open
-Press = Presses = Enters = Enter
-Releases = Release
-RespondsToPrompt = RespondToPrompt = RespondsToThePrompt = RespondToThePrompt
-Selects = Select
-Sleep = Sleeps = Pauses = Pause
-SwitchesTo = SwitchTo
-Waits = Wait
+Visit = Open
+Press = Enter
+RespondToPrompt = RespondToThePrompt
+Sleep = Pause
 
 
 __all__ = [
     "AcceptAlert",
-    "AcceptsAlert",
     "BaseAction",
     "Chain",
-    "Chains",
     "Clear",
-    "Clears",
     "Click",
-    "Clicks",
     "ContextClick",
     "Debug",
-    "Debugs",
     "DismissAlert",
-    "DismissesAlert",
     "DoubleClick",
     "Enter",
     "Enter2FAToken",
-    "Enters",
-    "Enters2FAToken",
     "HoldDown",
-    "HoldsDown",
     "Hover",
     "MoveMouse",
     "Open",
-    "Opens",
     "Pause",
-    "Pauses",
     "Press",
-    "Presses",
     "Release",
-    "Releases",
-    "RespondsToPrompt",
-    "RespondsToThePrompt",
     "RespondToPrompt",
     "RespondToThePrompt",
     "RightClick",
@@ -88,11 +61,7 @@ __all__ = [
     "SelectByIndex",
     "SelectByText",
     "SelectByValue",
-    "Selects",
     "Sleep",
-    "Sleeps",
-    "SwitchesTo",
     "SwitchTo",
     "Wait",
-    "Waits",
 ]

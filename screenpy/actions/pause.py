@@ -75,9 +75,7 @@ class Pause(BaseAction):
         self.reason = reason
         return self
 
-    def second_because(self, reason: str) -> "Pause":
-        """Syntactic sugar for Pause.seconds_because"""
-        return self.seconds_because(reason)
+    second_because = seconds_because
 
     def milliseconds_because(self, reason: str) -> "Pause":
         """

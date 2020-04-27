@@ -53,7 +53,7 @@ class Wait(BaseAction):
     log_detail: str
 
     @staticmethod
-    def for_(target: Target) -> "Wait":
+    def for_the(target: Target) -> "Wait":
         """
         Creates a new Wait action holding the provided target.
 
@@ -65,12 +65,9 @@ class Wait(BaseAction):
         """
         return Wait(target=target)
 
-    @staticmethod
-    def for_the(target: Target) -> "Wait":
-        """Syntactic sugar for |Wait.for_|"""
-        return Wait.for_(target)
+    for_ = for_the
 
-    def seconds_for(self, target: Target) -> "Wait":
+    def seconds_for_the(self, target: Target) -> "Wait":
         """
         Sets the target after invoking |Wait| with the number of seconds
         you want wait to allow the target to fulfill the expected
@@ -90,9 +87,7 @@ class Wait(BaseAction):
         self.target = target
         return self
 
-    def seconds_for_the(self, target: Target) -> "Wait":
-        """Syntactic sugar for |Wait.seconds_for|"""
-        return self.seconds_for(target)
+    seconds_for = seconds_for_the
 
     def using(self, strategy: object) -> "Wait":
         """

@@ -14,7 +14,6 @@ from screenpy.actions import (
     HoldDown,
     MoveMouse,
     Open,
-    Opens,
     Pause,
     Press,
     Release,
@@ -199,11 +198,9 @@ class TestOpen:
         """Open can be instantiated"""
         o1 = Open.browser_on(None)
         o2 = Open.their_browser_on(None)
-        o3 = Opens.browser_on(None)
 
         assert isinstance(o1, Open)
         assert isinstance(o2, Open)
-        assert isinstance(o3, Open)
 
 
 class TestPause:

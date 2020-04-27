@@ -82,9 +82,7 @@ class Actor:
         self.abilities.extend(abilities)
         return self
 
-    def can(self, *abilities: Ability) -> "Actor":
-        """Syntactic sugar for |Actor.who_can|."""
-        return self.who_can(*abilities)
+    can = who_can
 
     def uses_ability_to(self, ability: Ability) -> Ability:
         """
@@ -106,9 +104,7 @@ class Actor:
 
         raise UnableToPerform(f"{self} does not have the ability to {ability}")
 
-    def ability_to(self, ability: Ability) -> Ability:
-        """Syntactic sugar for |Actor.uses_ability_to|."""
-        return self.uses_ability_to(ability)
+    ability_to = uses_ability_to
 
     def attempts_to(self, *actions: Action) -> None:
         """
@@ -120,9 +116,7 @@ class Actor:
         for action in actions:
             self.perform(action)
 
-    def was_able_to(self, *actions: Action) -> None:
-        """Syntactic sugar for |Actor.attempts_to|."""
-        return self.attempts_to(*actions)
+    was_able_to = attempts_to
 
     def perform(self, action: Action) -> None:
         """
@@ -148,13 +142,7 @@ class Actor:
         for question, test in tests:
             assert_that(question.answered_by(self), test)
 
-    def should_see_that(self, *tests: Tuple[Question, Resolution]) -> None:
-        """Syntactic sugar for |Actor.should_see_the|."""
-        return self.should_see_the(*tests)
-
-    def should_see(self, *tests: Tuple[Question, Resolution]) -> None:
-        """Syntactic sugar for |Actor.should_see_the|."""
-        return self.should_see_the(*tests)
+    should_see = should_see_that = should_see_the
 
     def exit(self) -> None:
         """
@@ -165,15 +153,7 @@ class Actor:
             ability.forget()
             self.abilities.remove(ability)
 
-    def exit_stage_right(self) -> None:
-        """Syntactic sugar for |Actor.exit|."""
-        aside(f"{self} bows and exits, stage right.")
-        self.exit()
-
-    def exit_stage_left(self) -> None:
-        """Syntactic sugar for |Actor.exit|."""
-        aside(f"{self} bows and exits, stage left.")
-        self.exit()
+    exit_stage_left = exit_stage_right = exit_through_vomitorium = exit
 
     def __repr__(self) -> str:
         return self.name

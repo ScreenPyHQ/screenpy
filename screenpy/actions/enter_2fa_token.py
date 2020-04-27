@@ -41,10 +41,7 @@ class Enter2FAToken(BaseAction):
         """
         return Enter2FAToken(target)
 
-    @staticmethod
-    def into(target: Target) -> "Enter2FAToken":
-        """Syntactic sugar for |Enter2FAToken.into_the|"""
-        return Enter2FAToken.into_the(target)
+    into = into_the
 
     @beat("{0} enters their 2FA token into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:

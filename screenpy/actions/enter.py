@@ -58,10 +58,7 @@ class Enter(BaseAction):
         """
         return Enter(text)
 
-    @staticmethod
-    def the_keys(text: str) -> "Enter":
-        """Syntactic sugar for |Enter.the_text|."""
-        return Enter.the_text(text)
+    the_keys = the_text
 
     @staticmethod
     def the_secret(text: str) -> "Enter":
@@ -79,12 +76,9 @@ class Enter(BaseAction):
         """
         return Enter(text, mask=True)
 
-    @staticmethod
-    def the_password(text: str) -> "Enter":
-        """Syntactic sugar for |Enter.the_secret|."""
-        return Enter.the_secret(text)
+    the_password = the_secret
 
-    def into(self, target: Target) -> "Enter":
+    def into_the(self, target: Target) -> "Enter":
         """
         Supplies the target to enter the text into. This is most likely an
         input field.
@@ -98,13 +92,7 @@ class Enter(BaseAction):
         self.target = target
         return self
 
-    def into_the(self, target: Target) -> "Enter":
-        """Syntactic sugar for |Enter.into|"""
-        return self.into(target)
-
-    def on(self, target: Target) -> "Enter":
-        """Syntactic sugar for |Enter.into|"""
-        return self.into(target)
+    on = into = into_the
 
     def then_hit(self, *keys: str) -> "Enter":
         """
@@ -122,9 +110,7 @@ class Enter(BaseAction):
         self.following_keys.extend(keys)
         return self
 
-    def then_press(self, *keys: str) -> "Enter":
-        """Syntactic sugar for |Enter.then_hit|."""
-        return self.then_hit(*keys)
+    then_press = then_hit
 
     @beat("{0} enters '{text_to_log}' into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:

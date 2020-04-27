@@ -37,7 +37,7 @@ class Selected(BaseQuestion):
     multi: bool
 
     @staticmethod
-    def option_from(target: Target) -> "Selected":
+    def option_from_the(target: Target) -> "Selected":
         """
         Gets the option that is currently selected in a dropdown or the
         first option selected in a multi-select field.
@@ -54,13 +54,10 @@ class Selected(BaseQuestion):
         """
         return Selected(target)
 
-    @staticmethod
-    def option_from_the(target: Target) -> "Selected":
-        """Syntactic sugar for |Selected.option_from|"""
-        return Selected.option_from(target)
+    option_from = option_from_the
 
     @staticmethod
-    def options_from(multiselect_target: Target) -> "Selected":
+    def options_from_the(multiselect_target: Target) -> "Selected":
         """
         Gets all the options that are currently selected in a multi-select
         field.
@@ -78,10 +75,7 @@ class Selected(BaseQuestion):
         """
         return Selected(multiselect_target, multi=True)
 
-    @staticmethod
-    def options_from_the(target: Target) -> "Selected":
-        """Syntactic sugar for |Selected.options_from|"""
-        return Selected.options_from(target)
+    options_from = options_from_the
 
     @beat("{0} checks the selected option(s) from {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:

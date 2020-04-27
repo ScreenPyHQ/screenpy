@@ -34,7 +34,7 @@ class List(BaseQuestion):
     target: Target
 
     @staticmethod
-    def of(target: Target) -> "List":
+    def of_the(target: Target) -> "List":
         """
         Provides the target to list.
 
@@ -46,10 +46,7 @@ class List(BaseQuestion):
         """
         return List(target)
 
-    @staticmethod
-    def of_all(target):
-        """Syntactic sugar for |List.of|."""
-        return List.of(target)
+    of_all_the = of_all = of = of_the
 
     @beat("{} lists off the {target}.")
     def answered_by(self, the_actor: Actor) -> ListType[WebElement]:

@@ -38,7 +38,7 @@ class Open(BaseAction):
     url: str
 
     @staticmethod
-    def browser_on(location: Union[str, object]) -> "Open":
+    def their_browser_on(location: Union[str, object]) -> "Open":
         """
         Creates a new Open action which holds its destined location.
 
@@ -52,10 +52,7 @@ class Open(BaseAction):
         """
         return Open(location)
 
-    @staticmethod
-    def their_browser_on(location: Union[str, object]) -> "Open":
-        """Syntactic sugar for |Open.browser_on|."""
-        return Open.browser_on(location)
+    browser_on = their_browser_on
 
     @beat("{0} opens their browser and visits {url}")
     def perform_as(self, the_actor: Actor) -> None:
