@@ -33,10 +33,10 @@ class DismissAlert(BaseAction):
             the_actor: The |Actor| who will perform this action.
 
         Raises:
-            |BrowsingError|: no alert was present.
             |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
-        alert = the_actor.uses_ability_to(BrowseTheWeb).to_switch_to_alert()
+        browser = the_actor.uses_ability_to(BrowseTheWeb).browser
+        alert = browser.switch_to.alert
         aside(f'... the alert says "{alert.text}"')
         alert.dismiss()

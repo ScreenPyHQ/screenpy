@@ -17,13 +17,8 @@ the web like so:
 import os
 from typing import TYPE_CHECKING, Callable, List, Tuple, Union
 
-from selenium.common.exceptions import (
-    NoAlertPresentException,
-    TimeoutException,
-    WebDriverException,
-)
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver import Chrome, Firefox, Remote, Safari
-from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver, WebElement
 from selenium.webdriver.support import expected_conditions as EC
@@ -192,9 +187,7 @@ class BrowseTheWeb(BaseAbility):
             )
             raise BrowsingError(msg).with_traceback(e.__traceback__)
 
-    def find(self, locator: Union["Target", Tuple[By, str]]) -> WebElement:
-        """Syntactic sugar for |BrowseTheWeb.to_find|."""
-        return self.to_find(locator)
+    find = to_find
 
     def to_find_all(self, target: Union["Target", Tuple[By, str]]) -> List[WebElement]:
         """
@@ -217,41 +210,7 @@ class BrowseTheWeb(BaseAbility):
             )
             raise BrowsingError(msg).with_traceback(e.__traceback__)
 
-    def find_all(self, target: Union["Target", Tuple[By, str]]) -> WebElement:
-        """Syntactic sugar for |BrowseTheWeb.to_find_all|."""
-        return self.to_find_all(target)
-
-    def to_switch_to_alert(self) -> Alert:
-        """
-        Switches to an alert and returns it.
-
-        Returns:
-            |Alert|
-
-        Raises:
-            |BrowsingError|: no alert was present to switch to.
-        """
-        try:
-            return self.browser.switch_to.alert
-        except NoAlertPresentException as e:
-            raise BrowsingError("No alert was present to switch to.").with_traceback(
-                e.__traceback__
-            )
-
-    def to_switch_to(self, target: "Target") -> None:
-        """
-        Switches the browser context to the target.
-
-        Args:
-            target: the |Target|  or tuple describing the element to
-                switch to.
-        """
-        element = self.find(target)
-        self.browser.switch_to.frame(element)
-
-    def to_switch_to_default(self) -> None:
-        """Switches the browser context back to the default frame."""
-        self.browser.switch_to.default_content()
+    find_all = to_find_all
 
     def to_wait_for(
         self,
@@ -281,14 +240,7 @@ class BrowseTheWeb(BaseAbility):
             msg = msg.format(time=timeout, element=target, cond=cond.__name__)
             raise BrowsingError(msg).with_traceback(e.__traceback__)
 
-    def wait_for(
-        self,
-        locator: Union["Target", Tuple[By, str]],
-        timeout: int = 20,
-        cond: Callable = EC.visibility_of_element_located,
-    ):
-        """Syntactic sugar for |BrowseTheWeb.to_wait_for|."""
-        return self.to_wait_for(locator, timeout, cond)
+    wait_for = to_wait_for
 
     def to_get(self, url: str) -> "BrowseTheWeb":
         """
@@ -312,9 +264,7 @@ class BrowseTheWeb(BaseAbility):
         self.browser.get(f'{os.getenv("BASE_URL", "")}{url}')
         return self
 
-    def to_visit(self, url: str) -> "BrowseTheWeb":
-        """Syntactic sugar for |BrowseTheWeb.to_get|."""
-        return self.to_get(url)
+    to_visit = to_get
 
     def forget(self) -> None:
         """

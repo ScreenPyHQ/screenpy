@@ -31,13 +31,11 @@ from screenpy.exceptions import UnableToAct
 
 
 def test_accept_alert(Tester):
-    """AcceptAlert calls .to_switch_to_alert() and .accept()"""
+    """AcceptAlert calls .accept()"""
     Tester.attempts_to(AcceptAlert())
 
     mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.to_switch_to_alert.assert_called_once()
-    mocked_alert = mocked_btw.to_switch_to_alert.return_value
-    mocked_alert.accept.assert_called_once()
+    mocked_btw.browser.switch_to.alert.accept.assert_called_once()
 
 
 def test_clear(Tester):
@@ -96,13 +94,11 @@ class TestDebug:
 
 
 def test_dismiss_alert(Tester):
-    """DismissAlert calls .to_switch_to_alert() and .dismiss()"""
+    """DismissAlert calls .dismiss()"""
     Tester.attempts_to(DismissAlert())
 
     mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.to_switch_to_alert.assert_called_once()
-    mocked_alert = mocked_btw.to_switch_to_alert.return_value
-    mocked_alert.dismiss.assert_called_once()
+    mocked_btw.browser.switch_to.alert.dismiss.assert_called_once()
 
 
 class TestDoubleClick:
@@ -348,14 +344,12 @@ class TestRelease:
 
 
 def test_respond_to_the_prompt(Tester):
-    """RespondToThePrompt calls .to_switch_to_alert() and .dismiss()"""
+    """RespondToThePrompt calls .send_keys() and .accept()"""
     text = "Hello!"
 
     Tester.attempts_to(RespondToThePrompt.with_(text))
 
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.to_switch_to_alert.assert_called_once()
-    mocked_alert = mocked_btw.to_switch_to_alert.return_value
+    mocked_alert = Tester.ability_to(BrowseTheWeb).browser.switch_to.alert
     mocked_alert.send_keys.assert_called_once_with(text)
     mocked_alert.accept.assert_called_once()
 
@@ -456,21 +450,22 @@ class TestSelectByValue:
 
 class TestSwitchTo:
     def test_switch_to_frame(self, Tester):
-        """SwitchTo calls .to_switch_to()"""
-        fake_xpath = "//xpath"
-        fake_target = Target.the("fake").located_by(fake_xpath)
+        """SwitchTo calls .frame()"""
+        mock_target = mock.Mock()
+        mock_element = "element"
+        mock_target.found_by.return_value = mock_element
 
-        Tester.attempts_to(SwitchTo.the(fake_target))
+        Tester.attempts_to(SwitchTo.the(mock_target))
 
         mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.to_switch_to.assert_called_once_with(fake_target)
+        mocked_btw.browser.switch_to.frame.assert_called_once_with(mock_element)
 
     def test_switch_to_default(self, Tester):
-        """SwitchTo calls .to_switch_to_default()"""
+        """SwitchTo calls .default_content()"""
         Tester.attempts_to(SwitchTo.default())
 
         mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.to_switch_to_default.assert_called_once()
+        mocked_btw.browser.switch_to.default_content.assert_called_once()
 
 
 def test_wait(Tester):

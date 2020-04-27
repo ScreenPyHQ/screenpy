@@ -123,11 +123,9 @@ def test_ask_for_text_of_the_alert(Tester):
     mocked_btw = Tester.ability_to(BrowseTheWeb)
     mocked_alert = mock.Mock()
     mocked_alert.text = f"{text} and eggs"
-    mocked_btw.to_switch_to_alert.return_value = mocked_alert
+    mocked_btw.browser.switch_to.alert = mocked_alert
 
     Tester.should_see_the((TextOfTheAlert(), ContainsTheText(text)))
-
-    mocked_btw.to_switch_to_alert.assert_called_once()
 
 
 def test_contains_the_text_no_it_doesnt(Tester):

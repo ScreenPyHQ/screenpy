@@ -71,10 +71,11 @@ class SwitchTo(BaseAction):
             |UnableToPerform|: the actor does not have the ability to
                 |BrowseTheWeb|.
         """
+        browser = the_actor.ability_to(BrowseTheWeb).browser
         if self.target is None:
-            the_actor.uses_ability_to(BrowseTheWeb).to_switch_to_default()
+            browser.switch_to.default_content()
         else:
-            the_actor.uses_ability_to(BrowseTheWeb).to_switch_to(self.target)
+            browser.switch_to.frame(self.target.found_by(the_actor))
 
     def __init__(self, target: Optional[Target]) -> None:
         self.target = target

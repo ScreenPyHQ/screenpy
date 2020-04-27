@@ -37,5 +37,5 @@ class TextOfTheAlert(BaseQuestion):
         Returns:
             str: the text of the alert.
         """
-        alert = the_actor.uses_ability_to(BrowseTheWeb).to_switch_to_alert()
-        return alert.text
+        browser = the_actor.uses_ability_to(BrowseTheWeb).browser
+        return browser.switch_to.alert.text

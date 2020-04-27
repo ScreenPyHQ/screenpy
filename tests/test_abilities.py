@@ -83,6 +83,6 @@ class TestAuthenticateWith2FA:
     def test_using_secret(self, mocked_pyotp):
         """Creates pyotp.TOTP instance"""
         secret = "THISISJUSTATESTTOKENITSNOTAREAL1"
-        a = AuthenticateWith2FA.using_secret(secret)
+        AuthenticateWith2FA.using_secret(secret)
 
         mocked_pyotp.TOTP.assert_called_once_with(secret)
