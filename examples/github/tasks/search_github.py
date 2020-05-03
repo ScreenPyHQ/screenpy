@@ -33,8 +33,7 @@ class SearchGitHub:
     @beat("{0} searches GitHub for '{search_query}'")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to perform this task. Note the actor must possess
-        the ability to BrowseTheWeb.
+        Direct the actor to search github for the given term.
 
         Args:
             the_actor: the actor who will perform this task.

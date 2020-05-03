@@ -17,7 +17,7 @@ from .base_action import BaseAction
 
 class SwitchToTab(BaseAction):
     """
-    Switches to a specified tab or window. A SwitchToTab action is expected to
+    Switch to a specified tab or window. A SwitchToTab action is expected to
     be instantiated either with the number of the tab or window or its static
     |SwitchToTab.on_top| method. A typical invocation might look like this:
 
@@ -41,7 +41,7 @@ class SwitchToTab(BaseAction):
     @beat("{} switches to {description}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to switch to the specified tab.
+        Direct the actor to switch to the specified tab.
 
         Args:
             the_actor: The |Actor| who will perform the action.

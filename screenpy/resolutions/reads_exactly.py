@@ -16,7 +16,7 @@ from .base_resolution import BaseResolution
 
 class ReadsExactly(BaseResolution):
     """
-    Matches a string exactly (e.g. `"screenplay" == "screenplay"`).
+    Match a string exactly (e.g. `"screenplay" == "screenplay"`).
     """
 
     expected: str

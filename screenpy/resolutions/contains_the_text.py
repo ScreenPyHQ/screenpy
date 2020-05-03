@@ -16,7 +16,7 @@ from .base_resolution import BaseResolution
 
 class ContainsTheText(BaseResolution):
     """
-    Matches a substring (e.g. `"play" in "screenplay"`).
+    Match a substring (e.g. `"play" in "screenplay"`).
     """
 
     expected: str

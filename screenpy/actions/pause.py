@@ -20,11 +20,10 @@ from .base_action import BaseAction
 
 class Pause(BaseAction):
     """
-    Pauses the actor's actions for a set amount of time. This class should
-    only be used when absolutely necessary. You must call one of the
-    "..._because" methods to pass in the reason for your pause; an
-    |UnableToAct| will be raised if no reason was given when the
-    actor attempts to perform this action.
+    Pause the actor's actions for a set amount of time. This class should only
+    be used when absolutely necessary. You must call one of the "..._because"
+    methods to pass in the reason for your pause; an |UnableToAct| will be
+    raised if no reason was given.
 
     A Pause action is expected to be instantiated by its static
     |Pause.for_| method, followed by one of the methods that supply a
@@ -45,7 +44,7 @@ class Pause(BaseAction):
     @staticmethod
     def for_(number: int) -> "Pause":
         """
-        How many seconds or milliseconds to wait for.
+        Specify how many seconds or milliseconds to wait for.
 
         Args:
             number: the number of seconds or milliseconds to sleep for.
@@ -57,10 +56,9 @@ class Pause(BaseAction):
 
     def seconds_because(self, reason: str) -> "Pause":
         """
-        Tells the Pause instance to use seconds and provides a reason for
-        the pause. Hard waits are the worst of all wait strategies, so
-        providing a reason will help explain why it was necessary to use
-        this strategy.
+        Use seconds and provide a reason for the pause. Hard waits are the
+        worst of all wait strategies, so providing a reason will help explain
+        why it was necessary to use this strategy.
 
         Args:
             reason: the reason for needing to pause.
@@ -79,10 +77,9 @@ class Pause(BaseAction):
 
     def milliseconds_because(self, reason: str) -> "Pause":
         """
-        Tells the Pause instance to use milliseconds and provides a reason
-        for the pause. Hard waits are the worst of all wait strategies, so
-        providing a reason will help explain why it was necessary to use
-        this strategy.
+        Use milliseconds and provide a reason for the pause. Hard waits are
+        the worst of all wait strategies, so providing a reason will help
+        explain why it was necessary to use this strategy.
 
         Args:
             reason: the reason for needing to pause.
@@ -101,7 +98,7 @@ class Pause(BaseAction):
     @beat("{} pauses for {number} {unit} {reason}")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to take their union-mandated break.
+        Direct the actor to take their union-mandated break.
 
         Args:
             the_actor: the |Actor| who will perform this action.
@@ -117,10 +114,10 @@ class Pause(BaseAction):
 
         sleep(self.time)
 
-    @beat("  Pauses for {number} {unit} ({reason})!")
+    @beat("  Pause for {number} {unit} ({reason})!")
     def add_to_chain(self, _: Actor, the_chain: ActionChains) -> None:
         """
-        Adds the Pause action to an in-progress |Chain| of actions.
+        Add the Pause action to an in-progress |Chain| of actions.
 
         Args:
             _: the |Actor| who will be performing the action chain (unused).

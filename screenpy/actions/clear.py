@@ -18,7 +18,7 @@ from .base_action import BaseAction
 
 class Clear(BaseAction):
     """
-    Clears the text from an input field. A Clear action is expected to be
+    Clear the text from an input field. A Clear action is expected to be
     instantiated by its static |Clear.the_text_from| method. A typical
     invocation might look like:
 
@@ -32,7 +32,7 @@ class Clear(BaseAction):
     @staticmethod
     def the_text_from_the(target: Target) -> "Clear":
         """
-        Creates a new Clear action with the provided text.
+        Specify which target from which to clear the text.
 
         Args:
             target: the |Target| from which to clear the text.
@@ -47,7 +47,7 @@ class Clear(BaseAction):
     @beat("{0} clears text from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to clear the text from the targeted input field.
+        Direct the actor to clear the text from the targeted input field.
 
         Args:
             the_actor: The |Actor| who will perform this action.

@@ -18,12 +18,14 @@ from .base_action import BaseAction
 
 class RespondToThePrompt(BaseAction):
     """
-    Responds to a javascript prompt by entering the specified text and
+    Respond to a javascript prompt by entering the specified text and
     accepting the prompt. RespondToThePrompt is expected to be
     instantiated using its |RespondToThePrompt.with_| static method. A
     typical instantiation might look like:
 
-        RespondToThePrompt.with_("I am big. It’s the pictures that got small.")
+        RespondToThePrompt.with_(
+            "I *am* big. It’s the pictures that got small."
+        )
 
     It can then be passed along to the |Actor| to perform the action.
     """
@@ -31,7 +33,7 @@ class RespondToThePrompt(BaseAction):
     @staticmethod
     def with_(text: str) -> "RespondToThePrompt":
         """
-        Specifies the text to enter into the prompt.
+        Provide the text to enter into the prompt.
 
         Args:
             text: the text to enter.
@@ -44,7 +46,7 @@ class RespondToThePrompt(BaseAction):
     @beat('{0} responds to the prompt with "{text}".')
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to respond to the prompt using the given text.
+        Direct the actor to respond to the prompt using the given text.
 
         Args:
             the_actor: The |Actor| who will perform this action.

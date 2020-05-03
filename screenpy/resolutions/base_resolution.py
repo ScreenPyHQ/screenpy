@@ -54,7 +54,7 @@ class BaseResolution(BaseMatcher):
         self.matcher.describe_mismatch(item, mismatch_description)
 
     def get_line(self) -> str:
-        """Gets the line that describes this resolution."""
+        """Get the line that describes this resolution."""
         return self.line.format(expectation=self.expected)
 
     @property

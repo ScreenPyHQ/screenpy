@@ -35,7 +35,7 @@ class Target:
     @staticmethod
     def the(desc: str) -> "Target":
         """
-        Creates a Target with a description. This method call should be
+        Provide a human-readable description. This method call should be
         followed up with a call to |Target.located_by|.
 
         Args:
@@ -50,7 +50,7 @@ class Target:
 
     def located(self, locator: Tuple[By, str]) -> "Target":
         """
-        Supplies an instantiated target with a locator. This locator is a
+        Supply an instantiated target with a locator. This locator is a
         tuple of the By strategy to use and the identifying string, e.g.
 
             Target.the("signout link").located((By.LINK_TEXT, "Sign Out"))
@@ -66,9 +66,8 @@ class Target:
 
     def located_by(self, locator: str) -> "Target":
         """
-        Supplies an instantiated Target with a locator string, which is
-        either a CSS selector or an XPATH string. The strategy will be
-        determined before it is stored.
+        Supply an instantiated Target with a locator string, which is either a
+        CSS selector or an XPATH string.
 
         Args:
             locator: the string to use as a locator for the element.
@@ -86,7 +85,7 @@ class Target:
 
     def get_locator(self) -> Tuple[By, str]:
         """
-        Returns the stored locator as a (By, str) tuple.
+        Return the stored locator as a (By, str) tuple.
 
         Returns:
             Tuple(|By|, str)
@@ -103,7 +102,8 @@ class Target:
 
     def found_by(self, the_actor: Actor) -> WebElement:
         """
-        Gets the |WebElement| object representing the targeted element.
+        Get the |WebElement| object representing the targeted element, as
+        found by the actor.
 
         Args:
             the_actor (Actor): The |Actor| who should look for this
@@ -116,8 +116,8 @@ class Target:
 
     def all_found_by(self, the_actor: Actor) -> List[WebElement]:
         """
-        Gets a list of |WebElement| objects described by the stored
-        locator.
+        Get a list of |WebElement| objects described by the stored locator, as
+        found by the actor.
 
         Args:
             the_actor (Actor): The |Actor| who should look for these

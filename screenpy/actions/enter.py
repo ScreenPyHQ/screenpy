@@ -29,7 +29,7 @@ from .hold_down import KEY_NAMES
 
 class Enter(BaseAction):
     """
-    Enters text into an input field. An Enter action is expected to be
+    Enter text into an input field. An Enter action is expected to be
     instantiated by its static |Enter.the_text| method. A typical
     invocation might look like:
 
@@ -46,12 +46,11 @@ class Enter(BaseAction):
     @staticmethod
     def the_text(text: str) -> "Enter":
         """
-        Creates a new Enter action with the provided text. It is expected
-        that the next call will be to the instantiated Enter object's
-        |Enter.into| method.
+        Provide the text to enter in to the field. It is expected the next
+        call will be to the instantiated Enter object's |Enter.into| method.
 
         Args:
-            text: the text to enter into the target.
+            text: the text to enter into the |Target|.
 
         Returns:
             |Enter|
@@ -63,13 +62,13 @@ class Enter(BaseAction):
     @staticmethod
     def the_secret(text: str) -> "Enter":
         """
-        Creates a new Enter action with the provided text, but will mask
-        the text for logging. The text will appear as "[CENSORED]" in the
-        report. It is expected that the next call will be to the
-        instantiated Enter object's |Enter.into| method.
+        Provide the text to enter into the field, but note that the text
+        should be masked in the log. The text will appear as "[CENSORED]".
+        It is expected that the next call will be to the instantiated Enter
+        object's |Enter.into| method.
 
         Args:
-            text: the text to enter into the target, but it's a secret.
+            text: the text to enter into the |Target|, but it's a secret.
 
         Returns:
             |Enter|
@@ -80,7 +79,7 @@ class Enter(BaseAction):
 
     def into_the(self, target: Target) -> "Enter":
         """
-        Supplies the target to enter the text into. This is most likely an
+        Specify the target to enter the text into. This is most likely an
         input field.
 
         Args:
@@ -96,13 +95,12 @@ class Enter(BaseAction):
 
     def then_hit(self, *keys: str) -> "Enter":
         """
-        Supplies additional keys to hit after entering the text, for example
-        if the keyboard ENTER key should be pressed.
+        Supply additional keys to hit after entering the text, for example if
+        the keyboard ENTER key should be pressed.
 
         Args:
             keys: the keys to hit afterwards. These are probably the
-                constants from Selenium's |Keys|, but they can be strings
-                if you know the codes.
+                constants from Selenium's |Keys|, but can also be a string.
 
         Returns:
             |Enter|
@@ -115,7 +113,7 @@ class Enter(BaseAction):
     @beat("{0} enters '{text_to_log}' into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to enter the text into the targeted input field. If
+        Direct the actor to enter the text into the targeted input field. If
         this Enter object's |Enter.then_hit| method was called, it will also
         hit the supplied keys.
 
@@ -148,10 +146,10 @@ class Enter(BaseAction):
             )
             raise DeliveryError(msg).with_traceback(e.__traceback__)
 
-    @beat("  Enters the text {text_to_log} into the {target}!")
+    @beat("  Enter the text {text_to_log} into the {target}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
-        Adds the Enter action to an in-progress |Chain| of actions.
+        Add the Enter action to an in-progress |Chain| of actions.
 
         Args:
             the_actor: the |Actor| who will be performing the action chain.

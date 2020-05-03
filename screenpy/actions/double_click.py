@@ -24,7 +24,7 @@ from .base_action import BaseAction
 
 class DoubleClick(BaseAction):
     """
-    Double-clicks! A DoubleClick action is expected to be instantiated via its
+    Double-click! A DoubleClick action is expected to be instantiated via its
     static |DoubleClick.on| or |DoubleClick.on_the| methods, or on its own. If
     called without an element, DoubleClick will click wherever the cursor
     currently is. A typical invocation might look like:
@@ -42,7 +42,7 @@ class DoubleClick(BaseAction):
     @staticmethod
     def on_the(target: Target) -> "DoubleClick":
         """
-        Specifies which element to double-click on.
+        Specify which element to double-click on.
 
         Args:
             target: The |Target| describing the element to double-click.
@@ -55,6 +55,7 @@ class DoubleClick(BaseAction):
     on = on_the
 
     def _add_action_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
+        """Private method to add the action to the chain."""
         if self.target is not None:
             the_element = self.target.found_by(the_actor)
         else:
@@ -65,7 +66,7 @@ class DoubleClick(BaseAction):
     @beat("{} double-clicks{description}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to double-click on the specified element (or wherever
+        Direct the actor to double-click on the specified element (or wherever
         the cursor currently is, if no element was specified).
 
         Args:
@@ -80,10 +81,10 @@ class DoubleClick(BaseAction):
         self._add_action_to_chain(the_actor, the_chain)
         the_chain.perform()
 
-    @beat("  Double-clicks{description}!")
+    @beat("  Double-click{description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
-        Adds the DoubleClick action to an in-progress |Chain| of actions.
+        Add the DoubleClick action to an in-progress |Chain| of actions.
 
         Args:
             the_actor: the |Actor| who will be performing the action chain.

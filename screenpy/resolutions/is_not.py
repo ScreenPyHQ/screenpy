@@ -16,7 +16,7 @@ from .base_resolution import BaseResolution
 
 class IsNot(BaseResolution):
     """
-    Matches a negated Resolution (e.g. `not ReadsExactly("yes")`).
+    Match a negated Resolution (e.g. `not ReadsExactly("yes")`).
     """
 
     expected: BaseResolution

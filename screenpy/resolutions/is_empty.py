@@ -14,7 +14,7 @@ from .base_resolution import BaseResolution
 
 class IsEmpty(BaseResolution):
     """
-    Matches on an empty collection (e.g. `[]`).
+    Match on an empty collection (e.g. `[]`).
     """
 
     expected: None

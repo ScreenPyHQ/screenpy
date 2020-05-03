@@ -18,7 +18,7 @@ from .enter import Enter
 
 class Enter2FAToken(BaseAction):
     """
-    Enters the current two-factor authentication token into an input field. An
+    Enter the current two-factor authentication token into an input field. An
     Enter2FAToken action is expected to be instantiated by its static
     |Enter2FAToken.into_the| method. A typical invocation might look like:
 
@@ -46,23 +46,23 @@ class Enter2FAToken(BaseAction):
     @beat("{0} enters their 2FA token into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to get the two-factor authentication instrument's
+        Direct the actor to get the two-factor authentication instrument's
         current token and enter it into the targeted input field.
 
         Args:
             the_actor: the |Actor| who will perform this action.
 
         Raises:
-            |UnableToPerform|: if the actor does not have the
+            |UnableToPerform|: the actor does not have the
                 abilities to |AuthenticateWith2FA| and |BrowseTheWeb|.
         """
         token = the_actor.uses_ability_to(AuthenticateWith2FA).to_get_token()
         the_actor.attempts_to(Enter.the_text(token).into_the(self.target))
 
-    @beat("  Enters their 2FA token into the {target}!")
+    @beat("  Enter their 2FA token into the {target}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
-        Adds the Enter2FAToken action to an in-progress |Chain| of actions.
+        Add the Enter2FAToken action to an in-progress |Chain| of actions.
 
         Args:
             the_actor: the |Actor| who will be performing the action chain.

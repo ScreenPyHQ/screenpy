@@ -15,7 +15,7 @@ from .base_question import BaseQuestion
 
 class BrowserURL(BaseQuestion):
     """
-    Asks what the current url of the |Actor|'s browser is. This question
+    Ask what the current url of the |Actor|'s browser is. This question
     is meant to be instantiated all on its own:
 
         BrowserURL()
@@ -26,7 +26,7 @@ class BrowserURL(BaseQuestion):
     @beat("{} reads the URL from the browser.")
     def answered_by(self, the_actor: Actor) -> str:
         """
-        Asks the actor to investigate the browser's current URL.
+        Direct the actor to investigate the browser's current URL.
 
         Args:
             the_actor: the |Actor| who will answer the question.

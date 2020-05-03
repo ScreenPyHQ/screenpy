@@ -24,7 +24,7 @@ class SearchResultsMessage:
     @beat("{0} checks the results message...")
     def answered_by(self, the_actor: Actor) -> str:
         """
-        Asks the actor to read off the text of the results message.
+        Direct the actor to read off the text of the results message.
 
         Args:
             the_actor:

@@ -34,7 +34,7 @@ class Debug(BaseAction):
     @beat("{} assumes direct control...")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Activates a debugger.
+        Activate a debugger.
 
         Args:
             the_actor: the |Actor| who will perform this action.

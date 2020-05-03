@@ -16,7 +16,7 @@ from .base_question import BaseQuestion
 
 class Number(BaseQuestion):
     """
-    Asks how many of a certain element are on the page, viewed by an
+    Ask how many of a certain element are on the page, viewed by an
     |Actor|. This question is meant to be instantiated via its static
     |Number.of| method. A typical invocation might look like:
 
@@ -30,7 +30,7 @@ class Number(BaseQuestion):
     @staticmethod
     def of(target: Target) -> "Number":
         """
-        Provides the target to count.
+        Specify the target to count.
 
         Args:
             target: the |Target| describing the element to count.
@@ -43,7 +43,7 @@ class Number(BaseQuestion):
     @beat("{} counts the number of {target}.")
     def answered_by(self, the_actor: Actor) -> int:
         """
-        Asks the actor to count the elements.
+        Direct the actor to count the elements.
 
         Args:
             the_actor: the |Actor| who will answer the question.

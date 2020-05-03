@@ -18,10 +18,9 @@ from .base_question import BaseQuestion
 
 class Text(BaseQuestion):
     """
-    Asks what text appears in an element or elements, viewed by an
-    |Actor|. This question is meant to be instantiated using its static
-    |Text.of| or |Text.of_all| methods. Typical invocations might look
-    like:
+    Ask what text appears in an element or elements, viewed by an |Actor|.
+    This question is meant to be instantiated using its static |Text.of| or
+    |Text.of_all| methods. Typical invocations might look like:
 
         Text.of(THE_WELCOME_HEADER)
 
@@ -36,8 +35,8 @@ class Text(BaseQuestion):
     @staticmethod
     def of_the(target: Target) -> "Text":
         """
-        Provides the target to read, expecting this target to describe a
-        single element or the first of many elements (e.g. "#loginlink").
+        Specify the target to read, expecting this target to describe a single
+        element or the first of many elements (e.g. "#loginlink").
 
         Args:
             target: the |Target| describing the element to read.
@@ -52,8 +51,8 @@ class Text(BaseQuestion):
     @staticmethod
     def of_all(multi_target: Target) -> "Text":
         """
-        Provides the target to read, expecting this target to describe
-        multiple elements.
+        Specify the target to read, expecting this target to describe multiple
+        elements.
 
         Args:
             multi_target: the |Target| describing the elements to read.
@@ -66,7 +65,7 @@ class Text(BaseQuestion):
     @beat("{} reads the text from the {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
-        Asks the actor to read off the targeted element's text.
+        Direct the actor to read off the targeted element's text.
 
         Args:
             the_actor: the |Actor| who will answer the question.

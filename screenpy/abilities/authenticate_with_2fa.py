@@ -40,7 +40,7 @@ class AuthenticateWith2FA:
     @staticmethod
     def using_secret(secret: str) -> "AuthenticateWith2FA":
         """
-        Creates a TOTP instance with the given secret.
+        Create a TOTP instance with the given secret.
 
         Args:
             secret: the secret given by the 2FA service. You may need to
@@ -55,7 +55,7 @@ class AuthenticateWith2FA:
     @staticmethod
     def using(otp: pyotp.TOTP) -> "AuthenticateWith2FA":
         """
-        Uses an already-created TOTP instance to provide tokens.
+        Specify an already-created TOTP instance to provide tokens.
 
         Args:
             otp (pyotp.TOTP): an instance of a TOTP object.
@@ -67,7 +67,7 @@ class AuthenticateWith2FA:
 
     def to_get_token(self) -> str:
         """
-        Gets the current two-factor token to use as a one-time password.
+        Get the current two-factor token to use as a one-time password.
 
         Returns:
             str
@@ -78,7 +78,7 @@ class AuthenticateWith2FA:
         return self.otp.now()
 
     def forget(self) -> None:
-        """Cleans up the pyotp instance stored in this ability."""
+        """Clean up the pyotp instance stored in this ability."""
         del self.otp
 
     def __repr__(self) -> str:

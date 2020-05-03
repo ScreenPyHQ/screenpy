@@ -16,7 +16,7 @@ class BaseAction:
 
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to perform this action.
+        Direct the actor to perform this action.
 
         Args:
             the_actor: the actor who will perform this action.

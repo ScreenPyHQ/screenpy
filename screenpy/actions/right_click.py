@@ -24,7 +24,7 @@ from .base_action import BaseAction
 
 class RightClick(BaseAction):
     """
-    Right-clicks! A RightClick action is expected to be instantiated via its
+    Right-click! A RightClick action is expected to be instantiated via its
     static |RightClick.on| or |RightClick.on_the| methods, or on its own. If
     called without an element, RightClick will click wherever the cursor
     currently is. A typical invocation might look like:
@@ -47,7 +47,7 @@ class RightClick(BaseAction):
     @staticmethod
     def on_the(target: Target) -> "RightClick":
         """
-        Specifies which element to right-click on.
+        Specify which element to right-click on.
 
         Args:
             target: The |Target| describing the element to right-click.
@@ -60,6 +60,7 @@ class RightClick(BaseAction):
     on = on_the
 
     def _add_action_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
+        """Private method to add the action to the chain."""
         if self.target is not None:
             the_element = self.target.found_by(the_actor)
         else:
@@ -70,7 +71,7 @@ class RightClick(BaseAction):
     @beat("{} right-clicks{description}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to right-click on the specified element (or wherever
+        Direct the actor to right-click on the specified element (or wherever
         the cursor currently is, if no element was specified).
 
         Args:
@@ -85,10 +86,10 @@ class RightClick(BaseAction):
         self._add_action_to_chain(the_actor, the_chain)
         the_chain.perform()
 
-    @beat("  Right-clicks{description}!")
+    @beat("  Right-click{description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
-        Adds the RightClick action to an in-progress |Chain| of actions.
+        Add the RightClick action to an in-progress |Chain| of actions.
 
         Args:
             the_actor: the |Actor| who will be performing the action chain.

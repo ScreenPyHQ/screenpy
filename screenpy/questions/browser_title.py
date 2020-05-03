@@ -15,7 +15,7 @@ from .base_question import BaseQuestion
 
 class BrowserTitle(BaseQuestion):
     """
-    Asks what the title of the |Actor|'s browser's current window is. This
+    Ask what the title of the |Actor|'s browser's current window is. This
     question is meant to be instantiated all on its own:
 
         BrowserTitle()
@@ -26,7 +26,7 @@ class BrowserTitle(BaseQuestion):
     @beat("{} reads the URL from the browser.")
     def answered_by(self, the_actor: Actor) -> str:
         """
-        Asks the actor to investigate the browser's title.
+        Direct the actor to investigate the browser's title.
 
         Args:
             the_actor: the |Actor| who will answer the question.

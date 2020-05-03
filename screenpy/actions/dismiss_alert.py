@@ -15,9 +15,8 @@ from .base_action import BaseAction
 
 class DismissAlert(BaseAction):
     """
-    Dismisses an alert. An DismissAlert action is expected to be
-    instantiated as it is, no static methods for this one. The only
-    invocation looks like:
+    Dismiss an alert. A DismissAlert action is expected to be instantiated on
+    its own. Its invocation looks like:
 
         DismissAlert()
 

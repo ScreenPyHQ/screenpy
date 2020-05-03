@@ -14,7 +14,7 @@ from .base_resolution import BaseResolution
 
 class IsEqualTo(BaseResolution):
     """
-    Matches on equality (i.e. `a == b`).
+    Match on equality (i.e. `a == b`).
     """
 
     expected: object

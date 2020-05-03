@@ -31,7 +31,7 @@ from .base_action import BaseAction
 
 class Select:
     """
-    Selects an option from a dropdown menu. This is an entry point that
+    Select an option from a dropdown menu. This is an entry point that
     will create the correct specific Select action that will need to be
     used, depending on how the option needs to be selected. Some examples
     of invocations:
@@ -105,7 +105,7 @@ class SelectByText(BaseAction):
 
     def from_the(self, target: Target) -> "SelectByText":
         """
-        Provides the target to select the option from.
+        Specify the target to select the option from.
 
         Args:
             target: the |Target| describing the dropdown or multi-select
@@ -122,8 +122,8 @@ class SelectByText(BaseAction):
     @beat('{0} selects the option "{text}"" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to select the chosen option from the targeted dropdown
-        or multiselect field.
+        Direct the actor to select the chosen option from the targeted
+        dropdown or multiselect field.
 
         Args:
             the_actor: The |Actor| who will perform the action.
@@ -173,7 +173,7 @@ class SelectByIndex(BaseAction):
 
     def from_the(self, target: Target) -> "SelectByIndex":
         """
-        Provides the target to select the option from.
+        Specify the target to select the option from.
 
         Args:
             target: The |Target| describing the dropdown or multi-select
@@ -190,8 +190,8 @@ class SelectByIndex(BaseAction):
     @beat("{0} selects the option at index {index} from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to select the chosen option from the targeted dropdown
-        or multiselect field.
+        Direct the actor to select the chosen option from the targeted
+        dropdown or multiselect field.
 
         Args:
             the_actor: The |Actor| who will perform the action.
@@ -241,7 +241,7 @@ class SelectByValue(BaseAction):
 
     def from_the(self, target: Target) -> "SelectByValue":
         """
-        Provides the target to select the option from.
+        Specify the target to select the option from.
 
         Args:
             target: The |Target| describing the dropdown or multi-select
@@ -258,8 +258,8 @@ class SelectByValue(BaseAction):
     @beat('{0} selects the option with value "{value}" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to select the chosen option from the targeted dropdown
-        or multiselect field.
+        Direct the actor to select the chosen option from the targeted
+        dropdown or multiselect field.
 
         Args:
             the_actor: The |Actor| who will perform the action.

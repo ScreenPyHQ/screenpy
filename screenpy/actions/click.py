@@ -23,9 +23,9 @@ from .base_action import BaseAction
 
 class Click(BaseAction):
     """
-    Clicks on an element! A Click action is expected to be instantiated
-    via its static |Click.on| or |Click.on_the| methods. A typical
-    invocation might look like:
+    Click on an element! A Click action is expected to be instantiated via its
+    static |Click.on| or |Click.on_the| methods. A typical invocation might
+    look like:
 
         Click.on_the(PROFILE_LINK)
 
@@ -38,8 +38,7 @@ class Click(BaseAction):
     @staticmethod
     def on_the(target: Target) -> "Click":
         """
-        Creates a new Click action with its crosshairs aimed at the
-        provided target.
+        Specify the target to click.
 
         Args:
             target: The |Target| describing the element to click.
@@ -54,7 +53,7 @@ class Click(BaseAction):
     @beat("{0} clicks on the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to click on the element described by the given target.
+        Direct the actor to click on the element described by the given target.
 
         Args:
             the_actor: the |Actor| who will perform the action.
@@ -75,10 +74,10 @@ class Click(BaseAction):
             )
             raise DeliveryError(msg).with_traceback(e.__traceback__)
 
-    @beat("  Clicks on the {target}!")
+    @beat("  Click on the {target}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
-        Adds the Click action to an in-progress |Chain| of actions.
+        Add the Click action to an in-progress |Chain| of actions.
 
         Args:
             the_actor: the |Actor| who will be performing the action chain.

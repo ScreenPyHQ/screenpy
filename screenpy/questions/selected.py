@@ -21,10 +21,10 @@ from .base_question import BaseQuestion
 
 class Selected(BaseQuestion):
     """
-    Answers questions about what options are selected in dropdowns,
-    multi-select fields, etc, viewed by an |Actor|. This question is meant
-    to be instantiated using its static |Selected.option_from| or
-    |Selected.options_from| methods. Typical invocations might look like:
+    Ask what options are selected in dropdowns, multi-select fields, etc.
+    This question is meant to be instantiated using its static
+    |Selected.option_from| or |Selected.options_from| methods. Typical
+    invocations might look like:
 
         Selected.option_from(THE_STATE_DROPDOWN)
 
@@ -39,11 +39,11 @@ class Selected(BaseQuestion):
     @staticmethod
     def option_from_the(target: Target) -> "Selected":
         """
-        Gets the option that is currently selected in a dropdown or the
-        first option selected in a multi-select field.
+        Get the option that is currently selected in a dropdown or the first
+        option selected in a multi-select field.
 
-        Note that if this method is used for a multi-select field, only
-        the first selected option will be returned.
+        Note that if this method is used for a multi-select field, only the
+        first selected option will be returned.
 
         Args:
             target: the |Target| describing the dropdown or multi-select
@@ -59,12 +59,12 @@ class Selected(BaseQuestion):
     @staticmethod
     def options_from_the(multiselect_target: Target) -> "Selected":
         """
-        Gets all the options that are currently selected in a multi-select
+        Get all the options that are currently selected in a multi-select
         field.
 
-        Note that this method should not be used for single-select
-        dropdowns, that will cause a NotImplemented error to be raised
-        from Selenium when |Selected.answered_by| is invoked.
+        Note that this method should not be used for single-select dropdowns,
+        that will cause a NotImplemented error to be raised from Selenium when
+        answering this question.
 
         Args:
             multiselect_target: the |Target| describing the multi-select
@@ -80,7 +80,7 @@ class Selected(BaseQuestion):
     @beat("{0} checks the selected option(s) from {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """
-        Asks the actor to name the selected option(s).
+        Direct the actor to name the selected option(s).
 
         Args:
             the_actor: the |Actor| who will answer the question.

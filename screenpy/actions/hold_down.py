@@ -34,7 +34,7 @@ KEY_NAMES = {
 
 class HoldDown(BaseAction):
     """
-    Holds down the specified key or left mouse button. This action can only be
+    Hold down the specified key or left mouse button. This action can only be
     used with the |Chain| meta-action, and it is expected that a corresponding
     |Release| action will be called later to release the held key or button.
 
@@ -58,7 +58,7 @@ class HoldDown(BaseAction):
     def command_or_control_key() -> "HoldDown":
         """
         A convenience method that figures out what operating system the actor
-        is using and tells the actor which execution key to hold down.
+        is using and directs the actor which execution key to hold down.
 
         Returns:
             |HoldDown|
@@ -70,9 +70,8 @@ class HoldDown(BaseAction):
     @staticmethod
     def left_mouse_button() -> "HoldDown":
         """
-        Indicates the HoldDown action should hold down the left mouse button.
-        To provide a target to hold down the mouse button on, follow up this
-        method call with |HoldDown.on_the|.
+        Hold down the left mouse button. To provide a target to hold down the
+        mouse button on, follow up this method call with |HoldDown.on_the|.
 
         Returns:
             |HoldDown|
@@ -81,7 +80,7 @@ class HoldDown(BaseAction):
 
     def on_the(self, target: Target) -> "HoldDown":
         """
-        Supplies a target to hold down the left mouse button on. If this is
+        Supply a target to hold down the left mouse button on. If this is
         not called, the currently focused element will receive the click.
 
         Args:
@@ -97,8 +96,8 @@ class HoldDown(BaseAction):
 
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Raises an exception. A HoldDown action cannot be directly performed,
-        it must be used with |Chain|.
+        Raise an exception. A HoldDown action cannot be directly performed,
+        it must be used with |Chain|. It just doesn't make sense otherwise.
 
         Raises:
             |UnableToAct|: always.
@@ -108,10 +107,10 @@ class HoldDown(BaseAction):
             "it can only be used with the Chain action."
         )
 
-    @beat("  Holds down the {description}!")
+    @beat("  Hold down the {description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
-        Adds the configured HoldDown action to an in-progress |Chain| of
+        Add the configured HoldDown action to an in-progress |Chain| of
         actions.
 
         Args:
@@ -119,7 +118,7 @@ class HoldDown(BaseAction):
             the_chain: the |ActionChains| instance that is being built.
 
         Raises:
-            |UnableToAct|: if the action was not told what to hold down.
+            |UnableToAct|: the action was not told what to hold down.
         """
         if self.lmb:
             element = self.target.found_by(the_actor) if self.target else None

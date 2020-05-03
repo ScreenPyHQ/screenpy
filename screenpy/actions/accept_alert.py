@@ -15,9 +15,8 @@ from .base_action import BaseAction
 
 class AcceptAlert(BaseAction):
     """
-    Accepts an alert. An AcceptAlert action is expected to be instantiated
-    as it is, no static methods for this one. The only invocation looks
-    like:
+    Accept an alert. An AcceptAlert action is expected to be instantiated as
+    on its own. Its invocation looks like:
 
         AcceptAlert()
 
@@ -27,7 +26,7 @@ class AcceptAlert(BaseAction):
     @beat("{0} accepts the alert.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to accept the alert.
+        Direct the actor to accept the alert.
 
         Args:
             the_actor: The |Actor| who will perform this action.

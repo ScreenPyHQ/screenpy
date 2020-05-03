@@ -58,7 +58,7 @@ class Actor:
     @staticmethod
     def named(name: Text) -> "Actor":
         """
-        Names this actor, logs their entrance, and returns the instance.
+        Name this actor.
 
         Args:
             name: the name of this new Actor.
@@ -71,10 +71,10 @@ class Actor:
 
     def who_can(self, *abilities: Ability) -> "Actor":
         """
-        Adds an ability to this actor.
+        Add one or more abilities to this actor.
 
         Args:
-            abilities: The abilities this actor can do.
+            abilities: The abilities this actor can use.
 
         Returns:
             |Actor|
@@ -86,8 +86,7 @@ class Actor:
 
     def uses_ability_to(self, ability: Ability) -> Ability:
         """
-        Finds the ability referenced and returns it, if the actor is able
-        to do it.
+        Find the ability referenced and return it, if the actor is capable.
 
         Args:
             ability: the ability to retrieve.
@@ -108,7 +107,7 @@ class Actor:
 
     def attempts_to(self, *actions: Action) -> None:
         """
-        Performs a list of actions, one after the other.
+        Perform a list of actions, one after the other.
 
         Args:
             actions: the list of actions to perform.
@@ -120,7 +119,7 @@ class Actor:
 
     def perform(self, action: Action) -> None:
         """
-        Performs the given action.
+        Perform the given action.
 
         Args:
             action: the |Action| to perform.
@@ -129,8 +128,7 @@ class Actor:
 
     def should_see_the(self, *tests: Tuple[Question, Resolution]) -> None:
         """
-        Asks a series of questions, asserting that the expected answer
-        resolves.
+        Ask a series of questions, asserting their expected answers.
 
         Args:
             tests: tuples of a |Question| and a |Resolution|.
@@ -146,7 +144,7 @@ class Actor:
 
     def exit(self) -> None:
         """
-        The actor forgets all of their abilities, ready to assume a new
+        Direct the actor to forget all their abilities, ready to assume a new
         role when their next cue calls them.
         """
         for ability in self.abilities:

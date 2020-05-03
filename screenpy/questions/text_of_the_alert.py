@@ -16,9 +16,8 @@ from .base_question import BaseQuestion
 
 class TextOfTheAlert(BaseQuestion):
     """
-    Asks what text appears in the alert, viewed by an |Actor|. This
-    question is expected to be instantiated as it is, no static methods
-    for this one. The only invocation looks like:
+    Ask what text appears in the alert, viewed by an |Actor|. This question is
+    expected to be instantiated all on its own:
 
         TextOfTheAlert()
 
@@ -28,7 +27,7 @@ class TextOfTheAlert(BaseQuestion):
     @beat("{} reads the text from the alert.")
     def answered_by(self, the_actor: Actor) -> str:
         """
-        Asks the actor to read off the alert's text.
+        Direct the actor to read off the alert's text.
 
         Args:
             the_actor: the |Actor| who will answer the question.

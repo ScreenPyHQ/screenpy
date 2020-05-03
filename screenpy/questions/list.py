@@ -20,7 +20,7 @@ from .base_question import BaseQuestion
 
 class List(BaseQuestion):
     """
-    Asks for a list of elements, viewed by an |Actor|. This question is
+    Ask for a list of elements, viewed by an |Actor|. This question is
     meant to be instantiated using its static |List.of| or |List.of_all|
     methods. Typical invocations might look like:
 
@@ -36,7 +36,7 @@ class List(BaseQuestion):
     @staticmethod
     def of_the(target: Target) -> "List":
         """
-        Provides the target to list.
+        Specify the target to list.
 
         Args:
             target: the |Target| describing the elements to list out.
@@ -51,7 +51,7 @@ class List(BaseQuestion):
     @beat("{} lists off the {target}.")
     def answered_by(self, the_actor: Actor) -> ListType[WebElement]:
         """
-        Asks the actor to rattle off the specified elements.
+        Direct the actor to rattle off the specified elements.
 
         Args:
             the_actor: the |Actor| who will answer the question.

@@ -15,7 +15,7 @@ from .base_action import BaseAction
 class GoBack(BaseAction):
     """
     Press the browser back button. A GoBack action is expected to be
-    instantiated on its own. A typical invocation looks like:
+    instantiated on its own. Its invocation looks like:
 
         GoBack()
 

@@ -21,7 +21,7 @@ class NumberOfSearchResults:
     @beat("{0} checks the number of results...")
     def answered_by(self, the_actor: Actor) -> float:
         """
-        Asks the actor to count the number of search results.
+        Direct the actor to count the number of search results.
 
         Args:
             the_actor: the actor who will answer the question.

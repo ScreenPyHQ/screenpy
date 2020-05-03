@@ -27,7 +27,7 @@ from .hold_down import KEY_NAMES
 
 class Release(BaseAction):
     """
-    Releases the specified key or left mouse button. This action can only be
+    Release the specified key or left mouse button. This action can only be
     used with the |Chain| meta-action, and it is expected that a corresponding
     |HoldDown| action was called earlier in the Chain.
 
@@ -61,7 +61,7 @@ class Release(BaseAction):
     @staticmethod
     def left_mouse_button() -> "Release":
         """
-        Indicates the Release action should release the left mouse button.
+        Release the left mouse button.
 
         Returns:
             |Release|
@@ -70,8 +70,8 @@ class Release(BaseAction):
 
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Raises an exception. A Release action cannot be directly performed,
-        it must be used with |Chain|.
+        Raise an exception. A Release action cannot be directly performed,
+        it must be used with |Chain|. It just doesnt make sense otherwise.
 
         Raises:
             |UnableToAct|: always.
@@ -81,10 +81,10 @@ class Release(BaseAction):
             "it can only be used with the Chain action."
         )
 
-    @beat("  Releases the {description}!")
+    @beat("  Release the {kraken}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
-        Adds the configured Release action to an in-progress |Chain| of
+        Add the configured Release action to an in-progress |Chain| of
         actions.
 
         Args:
@@ -105,3 +105,4 @@ class Release(BaseAction):
         self.key = key
         self.lmb = lmb
         self.description = "LEFT MOUSE BUTTON" if lmb else KEY_NAMES[key]
+        self.kraken = self.description  # i can't help myself

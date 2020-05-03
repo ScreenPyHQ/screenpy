@@ -13,13 +13,12 @@ from ..actor import Actor
 
 class BaseQuestion:
     """
-    This base class is only used and enforce proper Question
-    implementation.
+    This base class is only used and enforce proper Question implementation.
     """
 
     def answered_by(self, the_actor: Actor) -> Any:
         """
-        Asks the actor to answer this question.
+        Direct the actor to answer this question.
 
         Args:
             the_actor: the actor who will answer this question.

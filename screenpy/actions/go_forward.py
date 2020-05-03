@@ -16,14 +16,14 @@ from .base_action import BaseAction
 class GoForward(BaseAction):
     """
     Press the browser forward button. A GoForward action is expected to be
-    instantiated on its own. A typical invocation looks like:
+    instantiated on its own. Its invocation looks like:
 
         GoForward()
 
     It can then be passed along to the |Actor| to perform the action.
     """
 
-    @beat("{} goes back.")
+    @beat("{} goes forward.")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Direct the actor to press the browser forward button.

@@ -22,7 +22,7 @@ from .base_action import BaseAction
 
 class SwitchTo(BaseAction):
     """
-    Switches to an element, most likely an iframe, or back to default. A
+    Switch to an element, most likely an iframe, or back to default. A
     SwitchTo action is expected to be instantiated by its static
     |SwitchTo.the| or |SwitchTo.default| methods, or on its own with a target.
     Typical invocations might look like:
@@ -39,7 +39,7 @@ class SwitchTo(BaseAction):
     @staticmethod
     def the(target: Target) -> "SwitchTo":
         """
-        Provide the element to switch to.
+        Specify the target to switch to.
 
         Args:
             target: the |Target| describing the element to switch to.
@@ -52,7 +52,7 @@ class SwitchTo(BaseAction):
     @staticmethod
     def default() -> "SwitchTo":
         """
-        Switches back to the default frame, the browser window.
+        Switch back to the default frame, the browser window.
 
         Returns:
             |SwitchTo|
@@ -62,7 +62,8 @@ class SwitchTo(BaseAction):
     @beat("{0} switches to the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to switch to the specified element, or back to default.
+        Direct the actor to switch to the specified element, or back to
+        the default.
 
         Args:
             the_actor: The |Actor| who will perform this action.

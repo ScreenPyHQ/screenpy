@@ -69,7 +69,7 @@ class BrowseTheWeb(BaseAbility):
     @staticmethod
     def using_chrome() -> "BrowseTheWeb":
         """
-        Creates and uses a default Chrome Selenium webdriver instance. Use
+        Create and use a default Chrome Selenium webdriver instance. Use
         this if you don't need to set anything up for your test browser.
 
         Returns:
@@ -80,7 +80,7 @@ class BrowseTheWeb(BaseAbility):
     @staticmethod
     def using_firefox() -> "BrowseTheWeb":
         """
-        Creates and uses a default Firefox Selenium webdriver instance. Use
+        Create and use a default Firefox Selenium webdriver instance. Use
         this if you don't need to set anything up for your test browser.
 
         Returns:
@@ -91,7 +91,7 @@ class BrowseTheWeb(BaseAbility):
     @staticmethod
     def using_safari() -> "BrowseTheWeb":
         """
-        Creates and uses a default Safari Selenium webdriver instance. Use
+        Create and use a default Safari Selenium webdriver instance. Use
         this if you don't need to set anything up for your test browser.
 
         Returns:
@@ -102,9 +102,9 @@ class BrowseTheWeb(BaseAbility):
     @staticmethod
     def using_ios() -> "BrowseTheWeb":
         """
-        Creates an uses a default Remote driver instance to connect to
-        a running Appium server and open Safari on iOS. Use this if you
-        don't need to set anything up for your test browser.
+        Create and use a default Remote driver instance to connect to a
+        running Appium server and open Safari on iOS. Use this if you don't
+        need to set anything up for your test browser.
 
         Note that Appium requires non-trivial setup to be able to connect
         to iPhone simulators. See the Appium documentation to get started:
@@ -127,9 +127,9 @@ class BrowseTheWeb(BaseAbility):
     @staticmethod
     def using_android() -> "BrowseTheWeb":
         """
-        Creates an uses a default Remote driver instance to connect to
-        a running Appium server and open Chrome on Android. Use this if
-        you don't need to set anything up for your test browser.
+        Create and use a default Remote driver instance to connect to a
+        running Appium server and open Chrome on Android. Use this if you
+        don't need to set anything up for your test browser.
 
         Note that Appium requires non-trivial setup to be able to connect
         to Android emulators. See the Appium documentation to get started:
@@ -152,7 +152,7 @@ class BrowseTheWeb(BaseAbility):
     @staticmethod
     def using(browser: WebDriver) -> "BrowseTheWeb":
         """
-        Specifies the driver to use to browse the web. This can be any
+        Specify the driver to use to browse the web. This can be any
         |WebDriver| instance, even a remote one.
 
         Args:
@@ -165,16 +165,16 @@ class BrowseTheWeb(BaseAbility):
 
     def to_find(self, target: Union["Target", Tuple[By, str]]) -> WebElement:
         """
-        Locates a single element on the page using the given locator.
+        Locate a single element on the page using the given target or locator.
 
         Args:
-            target: the |Target| or tuple describing the element.
+            target: the |Target| or locator tuple describing the element.
 
         Returns:
             |WebElement|
 
         Raises:
-            |BrowsingError|:
+            |BrowsingError|: unable to find the described element.
         """
         locator = self._resolve_locator(target)
 
@@ -191,13 +191,16 @@ class BrowseTheWeb(BaseAbility):
 
     def to_find_all(self, target: Union["Target", Tuple[By, str]]) -> List[WebElement]:
         """
-        Locates many elements on the page using the given locator.
+        Locate many elements on the page using the given target or locator.
 
         Args:
-            target: the |Target| or tuple describing the elements.
+            target: the |Target| or locator tuple describing the elements.
 
         Returns:
             List[|WebElement|]
+
+        Raises:
+            |BrowsingError|: unable to find the described elements.
         """
         locator = self._resolve_locator(target)
 
@@ -219,10 +222,10 @@ class BrowseTheWeb(BaseAbility):
         cond: Callable = EC.visibility_of_element_located,
     ) -> None:
         """
-        Waits for the element to fulfill the given condition.
+        Wait for the element to fulfill the given condition.
 
         Args:
-            target: the tuple or |Target| describing the element.
+            target: the |Target| or locator tuple describing the element.
             timeout: how many seconds to wait before raising a
                 TimeoutException. Default is 20.
             cond: the condition to wait for. Default is
@@ -244,7 +247,7 @@ class BrowseTheWeb(BaseAbility):
 
     def to_get(self, url: str) -> "BrowseTheWeb":
         """
-        Uses the connected browser to visit the specified URL.
+        Use the connected browser to visit the specified URL.
 
         This action supports using the BASE_URL environment variable to
         set a base URL. If you set BASE_URL, the url passed in to this
@@ -267,19 +270,14 @@ class BrowseTheWeb(BaseAbility):
     to_visit = to_get
 
     def forget(self) -> None:
-        """
-        Asks the actor to forget how to BrowseTheWeb. This quits the
-        connected browser.
-
-        An actor who is exiting will forget all their abilities.
-        """
+        """Quit the attached browser."""
         self.browser.quit()
 
     def _resolve_locator(
         self, target_or_locator: Union["Target", Tuple[By, str]]
     ) -> Tuple[By, str]:
         """
-        Given a |Target| or a tuple, ensures we get a tuple back.
+        Given a |Target| or a tuple, ensure we get a tuple back.
 
         Args:
             target_or_locator: the |Target| or locator to resolve.

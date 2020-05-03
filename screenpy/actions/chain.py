@@ -41,7 +41,7 @@ class Chain(BaseAction):
     @beat("{} performs a complicated series of actions!")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Groups the actions together and asks the actor to perform the chain.
+        Choreograph the actions and direct the actor to perform the chain.
 
         Args:
             the_actor: the |Actor| who will perform the action.

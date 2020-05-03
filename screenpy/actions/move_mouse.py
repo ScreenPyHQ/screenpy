@@ -31,7 +31,7 @@ from .base_action import BaseAction
 
 class MoveMouse(BaseAction):
     """
-    Moves the mouse to a specific element or by a pixel offset. A MoveMouse
+    Move the mouse to a specific element or by a pixel offset. A MoveMouse
     action is expected to be instantiated by one of its many static methods.
     A typical invocation might look like:
 
@@ -50,7 +50,7 @@ class MoveMouse(BaseAction):
     @staticmethod
     def to_the(target: Target) -> "MoveMouse":
         """
-        Specifies an element to move the mouse to.
+        Specify an element to move the mouse to.
 
         Args:
             target: The |Target| describing the element to move to.
@@ -65,9 +65,8 @@ class MoveMouse(BaseAction):
     @staticmethod
     def by_offset(x_offset: int, y_offset: int) -> "MoveMouse":
         """
-        Specifies the offset by which to move the mouse. The x and y offsets
-        are measured in pixels, with the "origin" at the top left of the
-        screen.
+        Specify the offset by which to move the mouse. The x and y offsets are
+        measured in pixels, with the "origin" at the top left of the screen.
 
         * To move left, give a negative x_offset.
         * To move right, give a positive x_offset.
@@ -121,7 +120,7 @@ class MoveMouse(BaseAction):
     @beat("{} moves the mouse {description}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Ask the actor to move the mouse in the specified way.
+        Direct the actor to move the mouse in the specified way.
 
         Args:
             the_actor: the |Actor| who will perform this action.
@@ -139,7 +138,7 @@ class MoveMouse(BaseAction):
     @beat("  Move the mouse {description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
-        Adds the MoveMouse action to an in-progress |Chain| of actions.
+        Add the MoveMouse action to an in-progress |Chain| of actions.
 
         Args:
             the_actor: the |Actor| who will be performing the action chain.

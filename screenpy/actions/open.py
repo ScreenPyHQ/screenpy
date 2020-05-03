@@ -21,11 +21,10 @@ from .base_action import BaseAction
 
 class Open(BaseAction):
     """
-    A very important action; opens the browser! An Open action is expected
-    to be instantiated via its static |Open.browser_on| method. A typical
-    invocation might look like:
+    Open the browser! An Open action is expected to be instantiated via its
+    static |Open.browser_on| method. A typical invocation might look like:
 
-        Open.browser_on(the_homepage_url)
+        Open.their_browser_on(the_homepage_url)
 
         Open.browser_on(HomepageObject)
 
@@ -40,7 +39,7 @@ class Open(BaseAction):
     @staticmethod
     def their_browser_on(location: Union[str, object]) -> "Open":
         """
-        Creates a new Open action which holds its destined location.
+        Open the actor's browser on the specified URL.
 
         Args:
             location: The URL to open when this action is performed, or an
@@ -57,7 +56,7 @@ class Open(BaseAction):
     @beat("{0} opens their browser and visits {url}")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Asks the actor to visit the specified URL.
+        Direct the actor to visit the specified URL.
 
         Args:
             the_actor: The |Actor| who will perform the action.
