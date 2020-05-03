@@ -246,6 +246,12 @@ GoBack
 .. autoclass:: screenpy.actions.go_back.GoBack
     :members:
 
+GoForward
+^^^^^^^^^
+
+.. autoclass:: screenpy.actions.go_forward.GoForward
+    :members:
+
 RefreshPage
 ^^^^^^^^^^^
 

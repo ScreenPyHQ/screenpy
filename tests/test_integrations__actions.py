@@ -17,6 +17,7 @@ from screenpy.actions import (
     Enter,
     Enter2FAToken,
     GoBack,
+    GoForward,
     HoldDown,
     MoveMouse,
     Open,
@@ -230,6 +231,14 @@ def test_go_back_uses_back(Tester):
 
     mocked_btw = Tester.ability_to(BrowseTheWeb)
     mocked_btw.browser.back.assert_called_once()
+
+
+def test_go_forward_uses_forward(Tester):
+    """GoForward uses .forward()"""
+    Tester.attempts_to(GoForward())
+
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_btw.browser.forward.assert_called_once()
 
 
 class TestHoldDown:

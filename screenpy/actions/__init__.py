@@ -16,6 +16,7 @@ from .double_click import DoubleClick
 from .enter import Enter
 from .enter_2fa_token import Enter2FAToken
 from .go_back import GoBack
+from .go_forward import GoForward
 from .hold_down import HoldDown
 from .move_mouse import MoveMouse
 from .open import Open
@@ -53,6 +54,7 @@ __all__ = [
     "Enter",
     "Enter2FAToken",
     "GoBack",
+    "GoForward",
     "HoldDown",
     "Hover",
     "MoveMouse",
