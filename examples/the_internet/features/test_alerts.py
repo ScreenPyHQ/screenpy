@@ -9,6 +9,7 @@ import unittest
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actions import AcceptAlert, Click, DismissAlert, Open, RespondToPrompt
+from screenpy.pacing import act, scene
 from screenpy.questions import Text, TextOfTheAlert
 from screenpy.resolutions import ReadsExactly
 
@@ -30,6 +31,8 @@ class TestAlerts(unittest.TestCase):
     def setUp(self):
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
 
+    @act("Perform")
+    @scene("TextOfTheAlert")
     def test_inspect_alert(self):
         """User can read the text of the alert."""
         Perry = self.actor
@@ -38,6 +41,8 @@ class TestAlerts(unittest.TestCase):
         when(Perry).attempts_to(Click.on_the(JS_ALERT_BUTTON))
         then(Perry).should_see_the((TextOfTheAlert(), ReadsExactly("I am a JS Alert")))
 
+    @act("Perform")
+    @scene("AcceptAlert")
     def test_accept_alert(self):
         """User can accept an alert."""
         Perry = self.actor
@@ -50,6 +55,8 @@ class TestAlerts(unittest.TestCase):
             (Text.of_the(RESULT_MESSAGE), ReadsExactly("You clicked: Ok"))
         )
 
+    @act("Perform")
+    @scene("DismissAlert")
     def test_dismiss_alert(self):
         """User can dismiss an alert."""
         Perry = self.actor
@@ -62,6 +69,8 @@ class TestAlerts(unittest.TestCase):
             (Text.of_the(RESULT_MESSAGE), ReadsExactly("You clicked: Cancel"))
         )
 
+    @act("Perform")
+    @scene("RespondToPrompt")
     def test_respond_to_prompt(self):
         """User can enter text into a prompt."""
         Perry = self.actor

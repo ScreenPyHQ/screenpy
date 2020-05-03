@@ -9,6 +9,7 @@ import unittest
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actions import Open, SwitchTo
+from screenpy.pacing import act, scene
 from screenpy.questions import Text
 from screenpy.resolutions import ReadsExactly
 
@@ -23,6 +24,8 @@ class TestFrames(unittest.TestCase):
     def setUp(self):
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
 
+    @act("Perform")
+    @scene("SwitchTo")
     def test_switch_to_iframe(self):
         """User is able to switch to an iframe."""
         Perry = self.actor

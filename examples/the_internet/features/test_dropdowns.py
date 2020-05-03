@@ -25,7 +25,7 @@ class TestDropdowns(unittest.TestCase):
     def setUp(self):
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
 
-    @act("Select")
+    @act("Perform")
     @scene("Select by text")
     def test_select_by_text(self):
         """Can select an option from a dropdown by text."""
@@ -37,7 +37,7 @@ class TestDropdowns(unittest.TestCase):
             (Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 1"))
         )
 
-    @act("Select")
+    @act("Perform")
     @scene("Select by index")
     def test_select_by_index(self):
         """Can select an option from a dropdown by index."""
@@ -49,7 +49,7 @@ class TestDropdowns(unittest.TestCase):
             (Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 1"))
         )
 
-    @act("Select")
+    @act("Perform")
     @scene("Select by value")
     def test_select_by_value(self):
         """Can select an option from a dropdown by value."""

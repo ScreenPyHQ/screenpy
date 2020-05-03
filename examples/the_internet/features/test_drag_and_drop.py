@@ -9,6 +9,7 @@ import unittest
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actions import Chain, HoldDown, MoveMouse, Open, Release, Wait
+from screenpy.pacing import act, scene
 from screenpy.questions import Text
 from screenpy.resolutions import ReadsExactly
 
@@ -27,6 +28,10 @@ class TestDragAndDrop(unittest.TestCase):
     def setUp(self):
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
 
+    @act("Chain")
+    @scene("HoldDown")
+    @scene("MoveMouse")
+    @scene("Release")
     @unittest.expectedFailure
     def test_drag_and_drop(self):
         """

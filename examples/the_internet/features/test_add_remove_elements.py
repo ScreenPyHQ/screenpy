@@ -26,8 +26,8 @@ class TestAddRemoveElements(unittest.TestCase):
     def setUp(self):
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
 
-    @act("Add And Remove")
-    @scene("Add One Element")
+    @act("Perform")
+    @scene("Click")
     def test_add_one_element(self):
         """User is able to add one element."""
         Perry = self.actor
@@ -36,8 +36,8 @@ class TestAddRemoveElements(unittest.TestCase):
         when(Perry).attempts_to(Click.on_the(ADD_BUTTON), Wait.for_the(ADDED_ELEMENTS))
         then(Perry).should_see_the((Number.of(ADDED_ELEMENTS), IsEqualTo(1)))
 
-    @act("Add And Remove")
-    @scene("Add Many Elements")
+    @act("Perform")
+    @scene("Click")
     def test_add_many_elements(self):
         """
         User is able to add many elements. This test chooses a random
@@ -55,8 +55,8 @@ class TestAddRemoveElements(unittest.TestCase):
             (Number.of(ADDED_ELEMENTS), IsEqualTo(number_of_times))
         )
 
-    @act("Add And Remove")
-    @scene("Remove Element")
+    @act("Perform")
+    @scene("Click")
     def test_remove_element(self):
         """User is able to remove an element that was added."""
         Perry = self.actor

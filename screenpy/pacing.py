@@ -27,12 +27,12 @@ logger = logging.getLogger("screenpy")
 
 def act(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
     """
-    Decorator to mark an "act" (a feature). Use the same title to group
-    your individual "scenes" (test cases) together under the same act in
-    the allure report.
+    Decorator to mark an "act". Use the same title to group your tests under
+    the same "epic" in Allure's behavior view, and gravitas to group the tests
+    by "severity".
 
     Args:
-        title: the title of this "act" (the feature name).
+        title: the title of this "act" (the feature/epic name).
         gravitas: how serious this act is (the severity level).
 
     Returns:
@@ -40,7 +40,7 @@ def act(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
     """
 
     def decorator(func: Function) -> Function:
-        @allure.feature(title)
+        @allure.epic(title)
         @allure.severity(gravitas)
         @wraps(func)
         def wrapper(*args, **kwargs) -> Any:
@@ -54,10 +54,12 @@ def act(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
 
 def scene(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
     """
-    Decorator to mark a "scene" (a user story).
+    Decorator to mark a "scene". Use the same title to group your tests under
+    the same "feature" in Allure's behavior view, and gravitas to group the
+    tests by "severity".
 
     Args:
-        title: the title of this "scene" (the user story summary).
+        title: the title of this "scene" (the feature).
         gravitas: how serious this scene is (the severity level).
 
     Returns:
@@ -65,7 +67,7 @@ def scene(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]
     """
 
     def decorator(func: Function) -> Function:
-        @allure.story(title)
+        @allure.feature(title)
         @allure.severity(gravitas)
         @wraps(func)
         def wrapper(*args, **kwargs) -> Any:
@@ -113,8 +115,7 @@ def beat(line: str) -> Callable[[Function], Function]:
 
 def aside(line: str) -> None:
     """
-    A line spoken in a stage whisper to the audience. Or, in this case,
-    a quick message to log.
+    A line spoken in a stage whisper to the audience. Or, a message to log.
 
     Args:
         line: the line spoken in this aside (the log text).
