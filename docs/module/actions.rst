@@ -240,6 +240,12 @@ SwitchToTab
 .. autoclass:: screenpy.actions.switch_to_tab.SwitchToTab
     :members:
 
+GoBack
+^^^^^^
+
+.. autoclass:: screenpy.actions.go_back.GoBack
+    :members:
+
 RefreshPage
 ^^^^^^^^^^^
 

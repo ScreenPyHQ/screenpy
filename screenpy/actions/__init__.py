@@ -15,6 +15,7 @@ from .dismiss_alert import DismissAlert
 from .double_click import DoubleClick
 from .enter import Enter
 from .enter_2fa_token import Enter2FAToken
+from .go_back import GoBack
 from .hold_down import HoldDown
 from .move_mouse import MoveMouse
 from .open import Open
@@ -51,6 +52,7 @@ __all__ = [
     "DoubleClick",
     "Enter",
     "Enter2FAToken",
+    "GoBack",
     "HoldDown",
     "Hover",
     "MoveMouse",

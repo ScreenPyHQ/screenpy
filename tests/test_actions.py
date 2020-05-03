@@ -11,6 +11,7 @@ from screenpy.actions import (
     DoubleClick,
     Enter,
     Enter2FAToken,
+    GoBack,
     HoldDown,
     MoveMouse,
     Open,
@@ -131,6 +132,14 @@ class TestEnter2FAToken:
 
         assert isinstance(e1, Enter2FAToken)
         assert isinstance(e2, Enter2FAToken)
+
+
+class TestGoBack:
+    def test_can_be_instantiated(self):
+        """GoBack can be instantiated"""
+        gb = GoBack()
+
+        assert isinstance(gb, GoBack)
 
 
 class TestHoldDown:

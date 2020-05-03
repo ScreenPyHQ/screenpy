@@ -16,6 +16,7 @@ from screenpy.actions import (
     DoubleClick,
     Enter,
     Enter2FAToken,
+    GoBack,
     HoldDown,
     MoveMouse,
     Open,
@@ -221,6 +222,14 @@ class TestEnter2FAToken:
         MockedActionChains().send_keys_to_element.assert_called_once_with(
             mock_element, text
         )
+
+
+def test_go_back_uses_back(Tester):
+    """GoBack uses .back()"""
+    Tester.attempts_to(GoBack())
+
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_btw.browser.back.assert_called_once()
 
 
 class TestHoldDown:
