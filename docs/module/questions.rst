@@ -98,6 +98,12 @@ Selected
 .. module:: screenpy.questions.selected
 .. autoclass:: Selected
 
+Element
+^^^^^^^
+
+.. module:: screenpy.questions.element
+.. autoclass:: Element
+
 BrowserTitle
 ^^^^^^^^^^^^
 

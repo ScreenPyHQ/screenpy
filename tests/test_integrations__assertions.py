@@ -7,6 +7,7 @@ from screenpy.abilities import BrowseTheWeb
 from screenpy.questions import (
     BrowserTitle,
     BrowserURL,
+    Element,
     List,
     Number,
     Selected,
@@ -16,6 +17,7 @@ from screenpy.questions import (
 from screenpy.resolutions import (
     ContainsTheText,
     Empty,
+    EqualTo,
     IsEmpty,
     IsEqualTo,
     IsNot,
@@ -169,3 +171,15 @@ def test_browser_url(Tester):
     mocked_btw.browser.current_url = fake_url
 
     Tester.should_see_the((BrowserURL(), ReadsExactly(fake_url)))
+
+
+def test_ask_for_element(Tester):
+    """Element asks for, duh, an element"""
+    fake_target = Target.the("fake").located_by("//html")
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_element = mock.Mock()
+    mocked_btw.to_find.return_value = mocked_element
+
+    Tester.should_see_the((Element(fake_target), IsNot(EqualTo(None))))
+
+    mocked_btw.to_find.assert_called_once_with(fake_target)

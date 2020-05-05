@@ -4,9 +4,7 @@ BrowseTheWeb to perform this action. An actor performs this action like
 so:
 
     the_actor.attempts_to(
-        RespondToThePrompt.with_(
-            "I am big. It’s the pictures that got small."
-        )
+        RespondToThePrompt.with_("Roger, Roger. What's your vector, Victor?")
     )
 """
 
@@ -23,9 +21,7 @@ class RespondToThePrompt(BaseAction):
     instantiated using its |RespondToThePrompt.with_| static method. A
     typical instantiation might look like:
 
-        RespondToThePrompt.with_(
-            "I *am* big. It’s the pictures that got small."
-        )
+        RespondToThePrompt.with_("Roger, Roger. What's your vector, Victor?")
 
     It can then be passed along to the |Actor| to perform the action.
     """
