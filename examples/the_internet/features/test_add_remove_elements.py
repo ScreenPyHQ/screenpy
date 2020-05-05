@@ -11,8 +11,8 @@ from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actions import Click, Open, Wait
 from screenpy.pacing import act, scene
-from screenpy.questions import Number
-from screenpy.resolutions import IsEqualTo
+from screenpy.questions import Element, Number
+from screenpy.resolutions import IsEqualTo, IsVisible
 from selenium.webdriver import Firefox
 
 from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS, URL
@@ -34,7 +34,7 @@ class TestAddRemoveElements(unittest.TestCase):
 
         given(Perry).was_able_to(Open.their_browser_on(URL))
         when(Perry).attempts_to(Click.on_the(ADD_BUTTON), Wait.for_the(ADDED_ELEMENTS))
-        then(Perry).should_see_the((Number.of(ADDED_ELEMENTS), IsEqualTo(1)))
+        then(Perry).should_see_the((Element(ADDED_ELEMENTS), IsVisible()))
 
     @act("Perform")
     @scene("Click")

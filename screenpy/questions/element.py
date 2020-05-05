@@ -16,7 +16,7 @@ from .base_question import BaseQuestion
 
 class Element(BaseQuestion):
     """
-    Ask to retrieve a specific element. This question is meant to be 
+    Ask to retrieve a specific element. This question is meant to be
     instantiated with a target. A typical invocation might look like:
 
         Element(WELCOME_BANNER)

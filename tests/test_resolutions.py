@@ -1,4 +1,5 @@
 import pytest
+from unittest import mock
 
 from screenpy.resolutions import (
     BaseResolution,
@@ -8,6 +9,7 @@ from screenpy.resolutions import (
     Equal,
     IsEqualTo,
     IsNot,
+    IsVisible,
     ReadsExactly,
 )
 
@@ -81,6 +83,25 @@ class TestIsNot:
 
         assert in_.matches(2)
         assert not in_.matches(1)
+
+
+class TestIsVisible:
+    def test_can_be_instantiated(self):
+        """IsVisible can be instantiated"""
+        iv = IsVisible()
+
+        assert isinstance(iv, IsVisible)
+
+    def test_the_test(self):
+        """IsVisible tests what it says on the tin"""
+        mock_visible_element = mock.Mock()
+        mock_visible_element.is_displayed.return_value = True
+        mock_invisible_element = mock.Mock()
+        mock_invisible_element.is_displayed.return_value = False
+        iv = IsVisible()
+
+        assert iv.matches(mock_visible_element)
+        assert not iv.matches(mock_invisible_element)
 
 
 class TestReadsExactly:

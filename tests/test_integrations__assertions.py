@@ -21,6 +21,7 @@ from screenpy.resolutions import (
     IsEmpty,
     IsEqualTo,
     IsNot,
+    IsVisible,
     ReadsExactly,
 )
 
@@ -183,3 +184,14 @@ def test_ask_for_element(Tester):
     Tester.should_see_the((Element(fake_target), IsNot(EqualTo(None))))
 
     mocked_btw.to_find.assert_called_once_with(fake_target)
+
+
+def test_visible_element(Tester):
+    """IsVisible matches a visible element"""
+    fake_target = Target.the("fake").located_by("//html")
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_element = mock.Mock()
+    mocked_element.is_displayed.return_value = True
+    mocked_btw.to_find.return_value = mocked_element
+
+    Tester.should_see_the((Element(fake_target), IsVisible()))
