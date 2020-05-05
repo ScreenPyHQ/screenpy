@@ -313,8 +313,8 @@ def test_open(Tester):
 
     Tester.attempts_to(Open.their_browser_on(url))
 
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.to_visit.assert_called_once_with(url)
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.get.assert_called_once_with(url)
 
 
 class TestPause:

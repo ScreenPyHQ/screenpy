@@ -245,30 +245,6 @@ class BrowseTheWeb(BaseAbility):
 
     wait_for = to_wait_for
 
-    def to_get(self, url: str) -> "BrowseTheWeb":
-        """
-        Use the connected browser to visit the specified URL.
-
-        This action supports using the BASE_URL environment variable to
-        set a base URL. If you set BASE_URL, the url passed in to this
-        function will be appended to the end of it. For example, if you
-        have `BASE_URL=http://localhost`, then to_get("/home") will send
-        your browser to "http://localhost/home".
-
-        If BASE_URL isn't set, then the passed-in url is assumed to be a
-        fully qualified URL.
-
-        Args:
-            url: the URL to visit.
-
-        Returns:
-            |BrowseTheWeb|
-        """
-        self.browser.get(f'{os.getenv("BASE_URL", "")}{url}')
-        return self
-
-    to_visit = to_get
-
     def forget(self) -> None:
         """Quit the attached browser."""
         self.browser.quit()
