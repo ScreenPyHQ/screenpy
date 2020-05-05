@@ -2,13 +2,13 @@ Release History
 ===============
 
 
-2.0.0 (2020-04-27)
+2.0.0 (2020-05-05)
 ------------------
 
 ### Breaking Changes
 
 - Removed `.then_wait_for` methods from Enter and Click.
-- Removed all `to_switch_to...` methods from BrowseTheWeb, preferring to use the browser directly.
+- Removed all `to_switch_to...` methods from BrowseTheWeb, preferring to use the browser directly. Also removed `to_visit` and `to_get` from BrowseTheWeb for the same reason.
 - Changed UnableToPerformError and UnableToActError to UnableToPerform and UnableToAct.
 - Moved DeliveryError and TargetingError to `exceptions.py` (though you can still technically import them from `actor.py` and `target.py`).
 - Removed several syntactic sugar options that, upon retrospect, aren't really grammatically possible in this module.
