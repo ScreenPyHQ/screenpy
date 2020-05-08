@@ -24,7 +24,7 @@ from selenium.webdriver.remote.webdriver import WebDriver, WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from ..exceptions import AbilityError
+from ..exceptions import BrowsingError
 from .base_ability import BaseAbility
 
 if TYPE_CHECKING:
@@ -45,10 +45,6 @@ DEFAULT_ANDROID_CAPABILITIES = {
     "automationName": "UIAutomator2",
     "browserName": "Chrome",
 }
-
-
-class BrowsingError(AbilityError):
-    """Raised when BrowseTheWeb encounters an error."""
 
 
 class BrowseTheWeb(BaseAbility):

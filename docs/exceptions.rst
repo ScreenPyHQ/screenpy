@@ -15,7 +15,7 @@ Base
 Ability Exceptions
 ^^^^^^^^^^^^^^^^^^
 .. autoclass:: screenpy.exceptions.AbilityError
-.. autoclass:: screenpy.abilities.browse_the_web.BrowsingError
+.. autoclass:: screenpy.exceptions.BrowsingError
 
 Action Exceptions
 ^^^^^^^^^^^^^^^^^
@@ -29,4 +29,4 @@ Actor Exceptions
 
 Target Exceptions
 ^^^^^^^^^^^^^^^^^
-.. autoclass:: screenpy.target.TargetingError
+.. autoclass:: screenpy.exceptions.TargetingError

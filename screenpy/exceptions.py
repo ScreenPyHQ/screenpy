@@ -19,6 +19,10 @@ class AbilityError(ScreenPyError):
     """These errors are raised when an ability fails in some way."""
 
 
+class BrowsingError(AbilityError):
+    """Raised when BrowseTheWeb encounters an error."""
+
+
 class ActionError(ScreenPyError):
     """These errors are raised when an action fails."""
 
