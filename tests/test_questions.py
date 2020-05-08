@@ -1,3 +1,7 @@
+from unittest import mock
+
+from screenpy import Target
+from screenpy.abilities.browse_the_web import BrowsingError
 from screenpy.questions import (
     BrowserTitle,
     BrowserURL,
@@ -31,6 +35,15 @@ class TestElement:
         e = Element(None)
 
         assert isinstance(e, Element)
+
+    def test_returns_none_if_no_element(self, Tester):
+        """Element returns None if the target can't be found"""
+        mock_target = mock.Mock(spec=Target)
+        mock_target.found_by.side_effect = BrowsingError()
+
+        element = Element(mock_target).answered_by(Tester)
+
+        assert element is None
 
 
 class TestList:
