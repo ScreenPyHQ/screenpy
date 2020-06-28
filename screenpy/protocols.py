@@ -3,8 +3,8 @@ Protocols to define the expected functions each of the types of Screenplay
 Pattern will need to implement.
 
 ScreenPy uses structural subtyping to define its "subclasses" -- for example,
-any class that implements `perform_as` can be an Action, any class that
-implements `answered_by` is a Question, etc. For more information, see
+any class that implements ``perform_as`` can be an Action, any class that
+implements ``answered_by`` is a Question, etc. For more information, see
 https://mypy.readthedocs.io/en/stable/protocols.html
 """
 

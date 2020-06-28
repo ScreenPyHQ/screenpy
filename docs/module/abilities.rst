@@ -47,9 +47,6 @@ which will complete any cleanup required.
 For an example,
 see the |BrowseTheWeb.forget| method
 of the BrowseTheWeb ability.
-A base class for Abilities
-is provided for convenience:
-``screenpy.abilities.base_ability.BaseAbility``
 
 Included Abilities
 ------------------

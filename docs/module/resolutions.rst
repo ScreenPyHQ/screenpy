@@ -49,30 +49,22 @@ Our test fails.
 Writing New Resolutions
 -----------------------
 
-Resolutions are really
-just an abstraction barrier
-for the truly excellent
-|PyHamcrest| library.
+Resolutions are really just an abstraction barrier
+for the truly excellent |PyHamcrest| library.
 To add your own resolutions,
 create your resolution class
-by inheriting from the
-|BaseResolution| class.
+by inheriting from the |BaseResolution| class.
 All you need to provide in your resolution
 is a ``line`` class property,
-which is just a human readable string
-for the log,
-and then to define
-the ``__init__`` method.
+which is just a human readable string for the log,
+and then to define the ``__init__`` method.
 
-The custom Resolution's
-``__init__`` method
-will need to set
-the expected value,
+The custom Resolution's ``__init__`` method
+will need to set the expected value,
 and instantiate the PyHamcrest matcher
 that your resolution is masking.
 For several examples,
-see the documentation
-of the :ref:`provided_resolutions` below.
+see the documentation of the provided resolutions below.
 
 .. _provided_resolutions:
 

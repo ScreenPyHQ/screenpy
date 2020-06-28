@@ -44,12 +44,8 @@ to achieve what you need!
 The only requirement for creating more actions
 is that they have a ``perform_as`` method defined
 which takes in the actor who will perform the action.
-
-A base class for Actions is provided
-to ensure the required methods
-are defined:
-``screenpy.actions.base_action.BaseAction``
-
+For more information,
+refer to the :ref:`protocols` page.
 
 Let's take a look
 at what an extremely contrived custom action,
@@ -161,8 +157,6 @@ and you've got the same set of actions everywhere.
 Note that tasks,
 just like actions,
 are required to have a ``perform_as`` method defined.
-You can use the ``BaseAction`` class
-for tasks as well.
 
 Provided Actions
 ----------------

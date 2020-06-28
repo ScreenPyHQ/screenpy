@@ -4,14 +4,10 @@ Questions
 =========
 
 Questions are asked by an actor
-about the current state
-of the page or application.
+about the current state of the page or application.
 They are the first half
 (the "actual value")
-of ScreenPy's test assertions
-(the other half,
-:ref:`resolutions`,
-is next).
+of ScreenPy's test assertions.
 
 Asking Questions
 ----------------
@@ -47,29 +43,24 @@ If they do not match,
 a tragedy!
 Our test fails.
 
-
 Writing New Questions
 ---------------------
 
 It is very likely
 that you may want to write additional questions,
 and you are encouraged to do so!
-The only prescribed method
-for a question class
+The only prescribed method for a question class
 is an ``answered_by`` method
 that takes in an actor.
-This method will do the work
+For more information,
+refer to the :ref:`protocols` page.
+
+This ``answered_by`` method
+will do the work
 of getting the answer to the question.
 For example,
 you may want to take a look at
-the |Text.answered_by| method
-of the |Text| class.
-
-A base class for Questions is provided
-to ensure the required methods
-are defined:
-``screenpy.questions.base_question.BaseQuestion``
-
+the |Text.answered_by| method of the |Text| class.
 
 Provided Questions
 ------------------
