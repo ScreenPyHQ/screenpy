@@ -11,7 +11,7 @@ from typing import Optional
 from hamcrest.core.base_matcher import Matcher
 
 from .base_resolution import BaseResolution
-from .custom_matchers import has_method_with_return_value
+from .custom_matchers import is_visible_element
 
 
 class IsVisible(BaseResolution[Optional[object]]):
@@ -26,4 +26,4 @@ class IsVisible(BaseResolution[Optional[object]]):
 
     def __init__(self) -> None:
         self.expected = True
-        self.matcher = has_method_with_return_value("is_displayed", match=True)
+        self.matcher = is_visible_element()
