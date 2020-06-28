@@ -16,10 +16,9 @@ from selenium.webdriver.support.ui import Select as SeleniumSelect
 from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
-from .base_question import BaseQuestion
 
 
-class Selected(BaseQuestion):
+class Selected:
     """
     Ask what options are selected in dropdowns, multi-select fields, etc.
     This question is meant to be instantiated using its static

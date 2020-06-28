@@ -10,10 +10,9 @@ like so:
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
-from .base_action import BaseAction
 
 
-class GoForward(BaseAction):
+class GoForward:
     """
     Press the browser forward button. A GoForward action is expected to be
     instantiated on its own. Its invocation looks like:

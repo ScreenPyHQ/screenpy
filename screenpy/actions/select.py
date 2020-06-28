@@ -26,7 +26,6 @@ from ..actor import Actor
 from ..exceptions import DeliveryError, UnableToAct
 from ..pacing import beat
 from ..target import Target
-from .base_action import BaseAction
 
 
 class Select:
@@ -88,7 +87,7 @@ class Select:
         return SelectByValue(value)
 
 
-class SelectByText(BaseAction):
+class SelectByText:
     """
     A specialized Select action that chooses the option by text. This
     class is meant to be accessed via the Select action's static
@@ -156,7 +155,7 @@ class SelectByText(BaseAction):
         self.text = text
 
 
-class SelectByIndex(BaseAction):
+class SelectByIndex:
     """
     A specialized |Select| action that chooses the option by its index.
     This class is meant to be accessed via the Select action's static
@@ -224,7 +223,7 @@ class SelectByIndex(BaseAction):
         self.index = str(index)
 
 
-class SelectByValue(BaseAction):
+class SelectByValue:
     """
     A specialized Select action that chooses the option by its value. This
     class is meant to be accessed via the Select action's static

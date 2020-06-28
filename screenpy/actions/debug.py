@@ -12,10 +12,9 @@ import pdb
 
 from ..actor import Actor
 from ..pacing import beat
-from .base_action import BaseAction
 
 
-class Debug(BaseAction):
+class Debug:
     """
     In long chains of actions, it can be difficult to drop a debugger in
     the right place. This action can be placed anywhere in the chain to
@@ -32,13 +31,8 @@ class Debug(BaseAction):
     """
 
     @beat("{} assumes direct control...")
-    def perform_as(self, the_actor: Actor) -> None:
-        """
-        Activate a debugger.
-
-        Args:
-            the_actor: the |Actor| who will perform this action.
-        """
+    def perform_as(self, _: Actor) -> None:
+        """Activate a debugger."""
         try:
             breakpoint()
         except NameError:

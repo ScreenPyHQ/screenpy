@@ -17,10 +17,9 @@ from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
-from .base_action import BaseAction
 
 
-class SwitchTo(BaseAction):
+class SwitchTo:
     """
     Switch to an element, most likely an iframe, or back to default. A
     SwitchTo action is expected to be instantiated by its static

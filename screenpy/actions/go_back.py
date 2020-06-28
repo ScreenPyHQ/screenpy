@@ -9,10 +9,9 @@ to BrowseTheWeb to perform this action. An actor performs this action like so:
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
-from .base_action import BaseAction
 
 
-class GoBack(BaseAction):
+class GoBack:
     """
     Press the browser back button. A GoBack action is expected to be
     instantiated on its own. Its invocation looks like:

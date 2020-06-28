@@ -15,10 +15,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 from ..actor import Actor
 from ..exceptions import UnableToAct
 from ..pacing import beat
-from .base_action import BaseAction
 
 
-class Pause(BaseAction):
+class Pause:
     """
     Pause the actor's actions for a set amount of time. This class should only
     be used when absolutely necessary. You must call one of the "..._because"

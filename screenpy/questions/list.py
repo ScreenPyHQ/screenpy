@@ -15,10 +15,9 @@ from selenium.webdriver.remote.webdriver import WebElement
 from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
-from .base_question import BaseQuestion
 
 
-class List(BaseQuestion):
+class List:
     """
     Ask for a list of elements, viewed by an |Actor|. This question is
     meant to be instantiated using its static |List.of| or |List.of_all|

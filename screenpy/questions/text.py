@@ -13,10 +13,9 @@ from typing import List, Union
 from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
-from .base_question import BaseQuestion
 
 
-class Text(BaseQuestion):
+class Text:
     """
     Ask what text appears in an element or elements, viewed by an |Actor|.
     This question is meant to be instantiated using its static |Text.of| or

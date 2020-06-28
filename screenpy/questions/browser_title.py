@@ -10,10 +10,9 @@ browser. Questions must be asked with an expected resolution, like so:
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
-from .base_question import BaseQuestion
 
 
-class BrowserTitle(BaseQuestion):
+class BrowserTitle:
     """
     Ask what the title of the |Actor|'s browser's current window is. This
     question is meant to be instantiated all on its own:

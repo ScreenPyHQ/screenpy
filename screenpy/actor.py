@@ -9,12 +9,14 @@ actor like so:
 
 
 from random import choice
-from typing import Any, List, Text, Tuple
+from typing import List, Text, Tuple, Type, TypeVar
 
 from hamcrest import assert_that
 
 from .exceptions import UnableToPerform
 from .pacing import aside
+from .protocols import Answerable, Forgettable, Performable
+from .resolutions.base_resolution import BaseResolution
 
 ENTRANCE_DIRECTIONS = [
     "{actor} arrives on stage!",
@@ -31,11 +33,7 @@ ENTRANCE_DIRECTIONS = [
     "The camera jump-cuts to {actor}!",
 ]
 
-# For type-hinting
-Ability = Any
-Action = Any
-Question = Any
-Resolution = Any
+T = TypeVar("T")
 
 
 class Actor:
@@ -53,7 +51,7 @@ class Actor:
     """
 
     name: str
-    abilities: List[Ability]
+    abilities: List[Forgettable]
 
     @staticmethod
     def named(name: Text) -> "Actor":
@@ -69,7 +67,7 @@ class Actor:
         aside(choice(ENTRANCE_DIRECTIONS).format(actor=name))
         return Actor(name)
 
-    def who_can(self, *abilities: Ability) -> "Actor":
+    def who_can(self, *abilities: Forgettable) -> "Actor":
         """
         Add one or more abilities to this actor.
 
@@ -84,7 +82,7 @@ class Actor:
 
     can = who_can
 
-    def uses_ability_to(self, ability: Ability) -> Ability:
+    def uses_ability_to(self, ability: Type[T]) -> T:
         """
         Find the ability referenced and return it, if the actor is capable.
 
@@ -105,7 +103,7 @@ class Actor:
 
     ability_to = uses_ability_to
 
-    def attempts_to(self, *actions: Action) -> None:
+    def attempts_to(self, *actions: Performable) -> None:
         """
         Perform a list of actions, one after the other.
 
@@ -117,7 +115,7 @@ class Actor:
 
     was_able_to = attempts_to
 
-    def perform(self, action: Action) -> None:
+    def perform(self, action: Performable) -> None:
         """
         Perform the given action.
 
@@ -126,7 +124,7 @@ class Actor:
         """
         action.perform_as(self)
 
-    def should_see_the(self, *tests: Tuple[Question, Resolution]) -> None:
+    def should_see_the(self, *tests: Tuple[Answerable, BaseResolution]) -> None:
         """
         Ask a series of questions, asserting their expected answers.
 

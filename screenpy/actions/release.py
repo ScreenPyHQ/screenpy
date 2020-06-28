@@ -21,11 +21,10 @@ from selenium.webdriver.common.keys import Keys
 from ..actor import Actor
 from ..exceptions import UnableToAct
 from ..pacing import beat
-from .base_action import BaseAction
 from .hold_down import KEY_NAMES
 
 
-class Release(BaseAction):
+class Release:
     """
     Release the specified key or left mouse button. This action can only be
     used with the |Chain| meta-action, and it is expected that a corresponding

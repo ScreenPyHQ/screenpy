@@ -10,10 +10,9 @@ so:
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import aside, beat
-from .base_action import BaseAction
 
 
-class AcceptAlert(BaseAction):
+class AcceptAlert:
     """
     Accept an alert. An AcceptAlert action is expected to be instantiated as
     on its own. Its invocation looks like:

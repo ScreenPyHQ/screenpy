@@ -23,7 +23,6 @@ from ..actor import Actor
 from ..exceptions import UnableToAct
 from ..pacing import beat
 from ..target import Target
-from .base_action import BaseAction
 
 KEY_NAMES = {
     getattr(Keys, key_name): key_name
@@ -32,7 +31,7 @@ KEY_NAMES = {
 }
 
 
-class HoldDown(BaseAction):
+class HoldDown:
     """
     Hold down the specified key or left mouse button. This action can only be
     used with the |Chain| meta-action, and it is expected that a corresponding

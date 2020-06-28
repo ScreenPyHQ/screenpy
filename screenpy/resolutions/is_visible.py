@@ -6,19 +6,21 @@ must be paired with questions and passed together to an actor like so:
 """
 
 
+from typing import Optional
+
 from hamcrest.core.base_matcher import Matcher
 
 from .base_resolution import BaseResolution
 from .custom_matchers import has_method_with_return_value
 
 
-class IsVisible(BaseResolution):
+class IsVisible(BaseResolution[Optional[object]]):
     """
     Match on visibility of an element (i.e. `element.is_displayed()`).
     """
 
     expected: object
-    matcher: Matcher
+    matcher: Matcher[Optional[object]]
 
     line = "visible"
 

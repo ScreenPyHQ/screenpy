@@ -4,7 +4,6 @@ from unittest import mock
 
 from screenpy.actions import (
     AcceptAlert,
-    BaseAction,
     Click,
     Debug,
     DismissAlert,
@@ -28,19 +27,6 @@ from screenpy.actions import (
 )
 from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
 from screenpy import Target
-
-
-class TestBaseAction:
-    def test_perform_as_must_be_overridden(self):
-        """perform_as must be overridden in subclasses"""
-
-        class SubclassedAction(BaseAction):
-            pass
-
-        subclassed_action = SubclassedAction()
-
-        with pytest.raises(NotImplementedError):
-            subclassed_action.perform_as(None)
 
 
 class TestAcceptAlert:

@@ -13,10 +13,9 @@ from ..actor import Actor
 from ..exceptions import DeliveryError
 from ..pacing import beat
 from ..target import Target
-from .base_action import BaseAction
 
 
-class Clear(BaseAction):
+class Clear:
     """
     Clear the text from an input field. A Clear action is expected to be
     instantiated by its static |Clear.the_text_from| method. A typical

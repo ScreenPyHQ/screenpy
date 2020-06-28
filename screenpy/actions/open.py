@@ -17,10 +17,9 @@ from typing import Union
 from ..abilities.browse_the_web import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
-from .base_action import BaseAction
 
 
-class Open(BaseAction):
+class Open:
     """
     Open the browser to a specific URL! An Open action is expected to be
     instantiated via its static |Open.browser_on| method. A typical invocation

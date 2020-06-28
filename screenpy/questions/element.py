@@ -13,10 +13,9 @@ from ..actor import Actor
 from ..exceptions import BrowsingError
 from ..pacing import beat
 from ..target import Target
-from .base_question import BaseQuestion
 
 
-class Element(BaseQuestion):
+class Element:
     """
     Ask to retrieve a specific element. This question is meant to be
     instantiated with a target. A typical invocation might look like:

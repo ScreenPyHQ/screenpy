@@ -11,10 +11,9 @@ an expected resolution, like so:
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
-from .base_question import BaseQuestion
 
 
-class TextOfTheAlert(BaseQuestion):
+class TextOfTheAlert:
     """
     Ask what text appears in the alert, viewed by an |Actor|. This question is
     expected to be instantiated all on its own:

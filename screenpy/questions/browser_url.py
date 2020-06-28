@@ -10,10 +10,9 @@ must be asked with an expected resolution, like so:
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
-from .base_question import BaseQuestion
 
 
-class BrowserURL(BaseQuestion):
+class BrowserURL:
     """
     Ask what the current url of the |Actor|'s browser is. This question
     is meant to be instantiated all on its own:

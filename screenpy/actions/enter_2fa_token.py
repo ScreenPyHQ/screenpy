@@ -12,11 +12,10 @@ from ..abilities.authenticate_with_2fa import AuthenticateWith2FA
 from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
-from .base_action import BaseAction
 from .enter import Enter
 
 
-class Enter2FAToken(BaseAction):
+class Enter2FAToken:
     """
     Enter the current two-factor authentication token into an input field. An
     Enter2FAToken action is expected to be instantiated by its static

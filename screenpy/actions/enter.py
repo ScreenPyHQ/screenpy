@@ -23,11 +23,10 @@ from ..actor import Actor
 from ..exceptions import DeliveryError, UnableToAct
 from ..pacing import aside, beat
 from ..target import Target
-from .base_action import BaseAction
 from .hold_down import KEY_NAMES
 
 
-class Enter(BaseAction):
+class Enter:
     """
     Enter text into an input field. An Enter action is expected to be
     instantiated by its static |Enter.the_text| method. A typical

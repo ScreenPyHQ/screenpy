@@ -10,10 +10,9 @@ so:
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import aside, beat
-from .base_action import BaseAction
 
 
-class DismissAlert(BaseAction):
+class DismissAlert:
     """
     Dismiss an alert. A DismissAlert action is expected to be instantiated on
     its own. Its invocation looks like:

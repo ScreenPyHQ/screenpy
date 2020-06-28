@@ -25,10 +25,9 @@ from ..actor import Actor
 from ..exceptions import DeliveryError, UnableToAct
 from ..pacing import beat
 from ..target import Target
-from .base_action import BaseAction
 
 
-class Wait(BaseAction):
+class Wait:
     """
     Wait for an element to fulfill a certain condition. A Wait action is
     expected to be instantiated by its |Wait.for_| method, followed by one

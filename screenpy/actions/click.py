@@ -18,10 +18,9 @@ from ..actor import Actor
 from ..exceptions import DeliveryError
 from ..pacing import beat
 from ..target import Target
-from .base_action import BaseAction
 
 
-class Click(BaseAction):
+class Click:
     """
     Click on an element! A Click action is expected to be instantiated via its
     static |Click.on| or |Click.on_the| methods. A typical invocation might

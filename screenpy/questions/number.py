@@ -11,10 +11,9 @@ Questions must be asked with an expected resolution, like so:
 from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
-from .base_question import BaseQuestion
 
 
-class Number(BaseQuestion):
+class Number:
     """
     Ask how many of a certain element are on the page, viewed by an
     |Actor|. This question is meant to be instantiated via its static

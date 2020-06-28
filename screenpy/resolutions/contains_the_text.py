@@ -7,20 +7,19 @@ with questions and passed together to an actor like so:
     )
 """
 
-
 from hamcrest import contains_string
 from hamcrest.core.base_matcher import Matcher
 
 from .base_resolution import BaseResolution
 
 
-class ContainsTheText(BaseResolution):
+class ContainsTheText(BaseResolution[str]):
     """
     Match a substring (e.g. `"play" in "screenplay"`).
     """
 
     expected: str
-    matcher: Matcher
+    matcher: Matcher[str]
 
     line = 'text containing "{expectation}"'
 

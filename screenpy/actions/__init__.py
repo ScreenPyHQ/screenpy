@@ -6,7 +6,6 @@ Ask your actors to perform actions by passing the actions into their
 
 
 from .accept_alert import AcceptAlert
-from .base_action import BaseAction
 from .chain import Chain
 from .clear import Clear
 from .click import Click
@@ -43,7 +42,6 @@ Visit = Open
 
 __all__ = [
     "AcceptAlert",
-    "BaseAction",
     "Chain",
     "Clear",
     "Click",

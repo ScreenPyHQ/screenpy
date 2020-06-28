@@ -7,20 +7,19 @@ with questions and passed together to an actor like so:
     )
 """
 
-
 from hamcrest import has_string
 from hamcrest.core.base_matcher import Matcher
 
 from .base_resolution import BaseResolution
 
 
-class ReadsExactly(BaseResolution):
+class ReadsExactly(BaseResolution[object]):
     """
     Match a string exactly (e.g. `"screenplay" == "screenplay"`).
     """
 
     expected: str
-    matcher: Matcher
+    matcher: Matcher[object]
 
     line = '"{expectation}", verbatim.'
 

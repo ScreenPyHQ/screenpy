@@ -19,10 +19,9 @@ from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
-from .base_action import BaseAction
 
 
-class RightClick(BaseAction):
+class RightClick:
     """
     Right-click! A RightClick action is expected to be instantiated via its
     static |RightClick.on| or |RightClick.on_the| methods, or on its own. If

@@ -12,10 +12,9 @@ like so:
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
-from .base_action import BaseAction
 
 
-class SwitchToTab(BaseAction):
+class SwitchToTab:
     """
     Switch to a specified tab or window. A SwitchToTab action is expected to
     be instantiated either with the number of the tab or window or its static

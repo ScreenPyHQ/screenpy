@@ -6,19 +6,21 @@ questions and passed together to an actor like so:
 """
 
 
+from typing import Any, Optional
+
 from hamcrest import equal_to
 from hamcrest.core.base_matcher import Matcher
 
 from .base_resolution import BaseResolution
 
 
-class IsEqualTo(BaseResolution):
+class IsEqualTo(BaseResolution[Optional[Any]]):
     """
     Match on equality (i.e. `a == b`).
     """
 
     expected: object
-    matcher: Matcher
+    matcher: Matcher[Optional[Any]]
 
     line = "equal to {expectation}"
 

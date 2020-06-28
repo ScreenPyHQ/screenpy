@@ -12,14 +12,17 @@ with a question to get the actual value. An assertion might look like:
     )
 """
 
+from typing import TypeVar
 
 from hamcrest.core.base_matcher import BaseMatcher, Matcher
 from hamcrest.core.description import Description
 
 from ..pacing import beat
 
+T = TypeVar("T")
 
-class BaseResolution(BaseMatcher):
+
+class BaseResolution(BaseMatcher[T]):
     """
     An abstraction barrier for |PyHamcrest|'s matchers. Allows for
     more natural language possibilities as well as nice logging for the

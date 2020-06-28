@@ -25,7 +25,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from ..exceptions import BrowsingError
-from .base_ability import BaseAbility
 
 if TYPE_CHECKING:
     from ..target import Target  # noqa: for type checking
@@ -47,7 +46,7 @@ DEFAULT_ANDROID_CAPABILITIES = {
 }
 
 
-class BrowseTheWeb(BaseAbility):
+class BrowseTheWeb:
     """
     The ability to browse the web with a web browser. This ability is
     meant to be instantiated with its |BrowseTheWeb.using| static method,

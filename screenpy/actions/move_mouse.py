@@ -26,10 +26,9 @@ from ..actor import Actor
 from ..exceptions import UnableToAct
 from ..pacing import beat
 from ..target import Target
-from .base_action import BaseAction
 
 
-class MoveMouse(BaseAction):
+class MoveMouse:
     """
     Move the mouse to a specific element or by a pixel offset. A MoveMouse
     action is expected to be instantiated by one of its many static methods.

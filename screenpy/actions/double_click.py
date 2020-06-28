@@ -19,10 +19,9 @@ from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
 from ..target import Target
-from .base_action import BaseAction
 
 
-class DoubleClick(BaseAction):
+class DoubleClick:
     """
     Double-click! A DoubleClick action is expected to be instantiated via its
     static |DoubleClick.on| or |DoubleClick.on_the| methods, or on its own. If

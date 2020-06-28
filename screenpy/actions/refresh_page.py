@@ -9,10 +9,9 @@ BrowseTheWeb to perform this action. An actor performs this action like so:
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import beat
-from .base_action import BaseAction
 
 
-class RefreshPage(BaseAction):
+class RefreshPage:
     """
     Refresh the browser page! A RefreshPage action is expected to be
     instantiated on its own. Its invocation looks like:

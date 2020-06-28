@@ -6,19 +6,21 @@ with questions and passed together to an actor like so:
 """
 
 
+from typing import Sized
+
 from hamcrest import empty
 from hamcrest.core.base_matcher import Matcher
 
 from .base_resolution import BaseResolution
 
 
-class IsEmpty(BaseResolution):
+class IsEmpty(BaseResolution[Sized]):
     """
     Match on an empty collection (e.g. `[]`).
     """
 
     expected: None
-    matcher: Matcher
+    matcher: Matcher[Sized]
 
     line = "an empty collection"
 

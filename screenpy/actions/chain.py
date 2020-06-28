@@ -9,21 +9,16 @@ like so:
 """
 
 
-from typing import Any
-
 from selenium.webdriver.common.action_chains import ActionChains
 
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..exceptions import UnableToAct
 from ..pacing import beat
-from .base_action import BaseAction
-
-# For type-hinting
-Action = Any
+from ..protocols import Chainable
 
 
-class Chain(BaseAction):
+class Chain:
     """
     A meta-action to group a series of lower-level actions together, like
     hovering and dragging. A Chain action is expected to be instantiated with
@@ -64,5 +59,5 @@ class Chain(BaseAction):
             action.add_to_chain(the_actor, the_chain)
         the_chain.perform()
 
-    def __init__(self, *actions: Action):
+    def __init__(self, *actions: Chainable):
         self.actions = actions

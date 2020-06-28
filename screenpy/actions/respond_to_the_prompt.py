@@ -11,10 +11,9 @@ so:
 from ..abilities import BrowseTheWeb
 from ..actor import Actor
 from ..pacing import aside, beat
-from .base_action import BaseAction
 
 
-class RespondToThePrompt(BaseAction):
+class RespondToThePrompt:
     """
     Respond to a javascript prompt by entering the specified text and
     accepting the prompt. RespondToThePrompt is expected to be

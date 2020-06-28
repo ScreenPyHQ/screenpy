@@ -1,26 +1,11 @@
 from unittest import mock
 
-import pytest
-
-from screenpy.abilities import AuthenticateWith2FA, BaseAbility, BrowseTheWeb
+from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb
 from screenpy.abilities.browse_the_web import (
     DEFAULT_ANDROID_CAPABILITIES,
     DEFAULT_APPIUM_HUB_URL,
     DEFAULT_IOS_CAPABILITIES,
 )
-
-
-class TestBaseAbility:
-    def test_forget_must_be_overridden(self):
-        """forget must be overridden by subclasses"""
-
-        class SubclassedAbility(BaseAbility):
-            pass
-
-        subclassed_ability = SubclassedAbility()
-
-        with pytest.raises(NotImplementedError):
-            subclassed_ability.forget()
 
 
 class TestBrowseTheWeb:
