@@ -25,7 +25,7 @@ from screenpy.actions import (
     SwitchTo,
     SwitchToTab,
 )
-from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
+from screenpy.actions.web.select import SelectByIndex, SelectByText, SelectByValue
 from screenpy import Target
 
 
@@ -155,7 +155,7 @@ class TestHoldDown:
     )
     def test_command_or_control_key(self, platform, expected_key):
         """HoldDown figures out which key to use based on platform"""
-        system_path = "screenpy.actions.hold_down.platform.system"
+        system_path = "screenpy.actions.web.hold_down.platform.system"
         with mock.patch(system_path, return_value=platform):
             hd = HoldDown.command_or_control_key()
 
@@ -263,7 +263,7 @@ class TestRelease:
     )
     def test_command_or_control_key(self, platform, expected_key):
         """Release figures out which key to use based on platform"""
-        system_path = "screenpy.actions.hold_down.platform.system"
+        system_path = "screenpy.actions.web.hold_down.platform.system"
         with mock.patch(system_path, return_value=platform):
             r = Release.command_or_control_key()
 

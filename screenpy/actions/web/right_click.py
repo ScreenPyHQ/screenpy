@@ -1,55 +1,59 @@
 """
-An action to double-click on an element, or wherever the cursor currently is.
+An action to right-click on an element, or wherever the cursor currently is.
 An actor must possess the ability to BrowseTheWeb to perform this action. An
 actor performs this action like so:
 
-    the_actor.attempts_to(DoubleClick.on_the(LOGIN_LINK))
+    the_actor.attempts_to(RightClick.on_the(HERO_IMAGE))
 
-    the_actor.attempts_to(DoubleClick())
+    the_actor.attempts_to(RightClick())
 
-    the_actor.attempts_to(Chain(DoubleClick()))
+    the_actor.attempts_to(Chain(RightClick()))
 """
 
 
 from typing import Optional
 
+from screenpy.abilities import BrowseTheWeb
+from screenpy.actor import Actor
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.webdriver.common.action_chains import ActionChains
 
-from ..abilities import BrowseTheWeb
-from ..actor import Actor
-from ..pacing import beat
-from ..target import Target
 
-
-class DoubleClick:
+class RightClick:
     """
-    Double-click! A DoubleClick action is expected to be instantiated via its
-    static |DoubleClick.on| or |DoubleClick.on_the| methods, or on its own. If
-    called without an element, DoubleClick will click wherever the cursor
+    Right-click! A RightClick action is expected to be instantiated via its
+    static |RightClick.on| or |RightClick.on_the| methods, or on its own. If
+    called without an element, RightClick will click wherever the cursor
     currently is. A typical invocation might look like:
 
-        DoubleClick.on_the(FILE_ICON)
+        RightClick.on_the(HERO_IMAGE)
 
-        DoubleClick()
+        RightClick()
 
     It can then be passed along to the |Actor| or added to a |Chain| to
     perform the action.
+
+    *Note*: Most of the time, the context menu that appears after a user
+    right-clicks is not interactable through Selenium, because it is an
+    application-level menu. A website will need to have implemented a custom
+    context menu made of web elements to be able to interact with it.
     """
 
     target: Optional[Target]
 
     @staticmethod
-    def on_the(target: Target) -> "DoubleClick":
+    def on_the(target: Target) -> "RightClick":
         """
-        Specify which element to double-click on.
+        Specify which element to right-click on.
 
         Args:
-            target: The |Target| describing the element to double-click.
+            target: The |Target| describing the element to right-click.
 
         Returns:
-            |DoubleClick|
+            |RightClick|
         """
-        return DoubleClick(target=target)
+        return RightClick(target=target)
 
     on = on_the
 
@@ -60,12 +64,12 @@ class DoubleClick:
         else:
             the_element = None
 
-        the_chain.double_click(on_element=the_element)
+        the_chain.context_click(on_element=the_element)
 
-    @beat("{} double-clicks{description}.")
+    @beat("{} right-clicks{description}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Direct the actor to double-click on the specified element (or wherever
+        Direct the actor to right-click on the specified element (or wherever
         the cursor currently is, if no element was specified).
 
         Args:
@@ -80,10 +84,10 @@ class DoubleClick:
         self._add_action_to_chain(the_actor, the_chain)
         the_chain.perform()
 
-    @beat("  Double-click{description}!")
+    @beat("  Right-click{description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """
-        Add the DoubleClick action to an in-progress |Chain| of actions.
+        Add the RightClick action to an in-progress |Chain| of actions.
 
         Args:
             the_actor: the |Actor| who will be performing the action chain.

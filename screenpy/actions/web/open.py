@@ -14,9 +14,9 @@ so:
 import os
 from typing import Union
 
-from ..abilities.browse_the_web import BrowseTheWeb
-from ..actor import Actor
-from ..pacing import beat
+from screenpy.abilities.browse_the_web import BrowseTheWeb
+from screenpy.actor import Actor
+from screenpy.pacing import beat
 
 
 class Open:
@@ -40,8 +40,6 @@ class Open:
 
     It can then be passed along to the |Actor| to perform the action.
     """
-
-    url: str
 
     @staticmethod
     def their_browser_on(location: Union[str, object]) -> "Open":

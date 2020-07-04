@@ -19,13 +19,12 @@ performs this action like so:
 
 from typing import Optional, Tuple
 
+from screenpy.abilities.browse_the_web import BrowseTheWeb
+from screenpy.actor import Actor
+from screenpy.exceptions import UnableToAct
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.webdriver.common.action_chains import ActionChains
-
-from ..abilities.browse_the_web import BrowseTheWeb
-from ..actor import Actor
-from ..exceptions import UnableToAct
-from ..pacing import beat
-from ..target import Target
 
 
 class MoveMouse:

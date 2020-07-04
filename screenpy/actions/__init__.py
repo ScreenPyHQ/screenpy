@@ -5,29 +5,29 @@ Ask your actors to perform actions by passing the actions into their
 """
 
 
-from .accept_alert import AcceptAlert
-from .chain import Chain
-from .clear import Clear
-from .click import Click
-from .debug import Debug
-from .dismiss_alert import DismissAlert
-from .double_click import DoubleClick
-from .enter import Enter
-from .enter_2fa_token import Enter2FAToken
-from .go_back import GoBack
-from .go_forward import GoForward
-from .hold_down import HoldDown
-from .move_mouse import MoveMouse
-from .open import Open
-from .pause import Pause
-from .refresh_page import RefreshPage
-from .release import Release
-from .respond_to_the_prompt import RespondToThePrompt
-from .right_click import RightClick
-from .select import Select, SelectByIndex, SelectByText, SelectByValue
-from .switch_to import SwitchTo
-from .switch_to_tab import SwitchToTab
-from .wait import Wait
+from .web.accept_alert import AcceptAlert
+from .web.chain import Chain
+from .web.clear import Clear
+from .web.click import Click
+from .web.debug import Debug
+from .web.dismiss_alert import DismissAlert
+from .web.double_click import DoubleClick
+from .web.enter import Enter
+from .web.enter_2fa_token import Enter2FAToken
+from .web.go_back import GoBack
+from .web.go_forward import GoForward
+from .web.hold_down import HoldDown
+from .web.move_mouse import MoveMouse
+from .web.open import Open
+from .web.pause import Pause
+from .web.refresh_page import RefreshPage
+from .web.release import Release
+from .web.respond_to_the_prompt import RespondToThePrompt
+from .web.right_click import RightClick
+from .web.select import Select, SelectByIndex, SelectByText, SelectByValue
+from .web.switch_to import SwitchTo
+from .web.switch_to_tab import SwitchToTab
+from .web.wait import Wait
 
 # Natural-language-enabling syntactic sugar
 ContextClick = RightClick
@@ -75,5 +75,6 @@ __all__ = [
     "SwitchTo",
     "SwitchToTab",
     "SwitchToWindow",
+    "Visit",
     "Wait",
 ]

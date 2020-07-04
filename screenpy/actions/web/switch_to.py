@@ -13,10 +13,10 @@ action like so:
 
 from typing import Optional
 
-from ..abilities import BrowseTheWeb
-from ..actor import Actor
-from ..pacing import beat
-from ..target import Target
+from screenpy.abilities import BrowseTheWeb
+from screenpy.actor import Actor
+from screenpy.pacing import beat
+from screenpy.target import Target
 
 
 class SwitchTo:

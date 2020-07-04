@@ -10,8 +10,8 @@ actor can perform this action like so:
 
 import pdb
 
-from ..actor import Actor
-from ..pacing import beat
+from screenpy.actor import Actor
+from screenpy.pacing import beat
 
 
 class Debug:

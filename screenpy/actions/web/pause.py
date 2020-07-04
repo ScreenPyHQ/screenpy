@@ -10,11 +10,10 @@ perform this action like so:
 
 from time import sleep
 
+from screenpy.actor import Actor
+from screenpy.exceptions import UnableToAct
+from screenpy.pacing import beat
 from selenium.webdriver.common.action_chains import ActionChains
-
-from ..actor import Actor
-from ..exceptions import UnableToAct
-from ..pacing import beat
 
 
 class Pause:
@@ -35,10 +34,7 @@ class Pause:
     perform the action.
     """
 
-    number: float
     time: float
-    unit: str
-    reason: str
 
     @staticmethod
     def for_(number: int) -> "Pause":

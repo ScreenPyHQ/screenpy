@@ -15,16 +15,15 @@ actor can perform this action like so:
 """
 
 
-from typing import Optional
+from typing import Any, Callable, Optional
 
+from screenpy.abilities.browse_the_web import BrowseTheWeb
+from screenpy.actor import Actor
+from screenpy.exceptions import DeliveryError, UnableToAct
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
-
-from ..abilities.browse_the_web import BrowseTheWeb
-from ..actor import Actor
-from ..exceptions import DeliveryError, UnableToAct
-from ..pacing import beat
-from ..target import Target
 
 
 class Wait:
@@ -47,9 +46,6 @@ class Wait:
     """
 
     target: Optional[Target]
-    timeout: float
-    condition: object
-    log_detail: str
 
     @staticmethod
     def for_the(target: Target) -> "Wait":
@@ -88,7 +84,7 @@ class Wait:
 
     seconds_for = seconds_for_the
 
-    def using(self, strategy: object) -> "Wait":
+    def using(self, strategy: Callable[..., Any]) -> "Wait":
         """
         Use the given strategy to wait for the target.
 

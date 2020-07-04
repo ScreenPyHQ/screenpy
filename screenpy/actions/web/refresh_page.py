@@ -6,9 +6,9 @@ BrowseTheWeb to perform this action. An actor performs this action like so:
 """
 
 
-from ..abilities import BrowseTheWeb
-from ..actor import Actor
-from ..pacing import beat
+from screenpy.abilities import BrowseTheWeb
+from screenpy.actor import Actor
+from screenpy.pacing import beat
 
 
 class RefreshPage:

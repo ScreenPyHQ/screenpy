@@ -14,15 +14,15 @@ action like so:
 
 
 from functools import partial
-from typing import List, Union
+from typing import List, Optional
 
+from screenpy.actor import Actor
+from screenpy.exceptions import DeliveryError, UnableToAct
+from screenpy.pacing import aside, beat
+from screenpy.target import Target
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
 
-from ..actor import Actor
-from ..exceptions import DeliveryError, UnableToAct
-from ..pacing import aside, beat
-from ..target import Target
 from .hold_down import KEY_NAMES
 
 
@@ -38,8 +38,7 @@ class Enter:
     perform the action.
     """
 
-    text: str
-    target: Union[None, Target]
+    target: Optional[Target]
     following_keys: List[str]
 
     @staticmethod

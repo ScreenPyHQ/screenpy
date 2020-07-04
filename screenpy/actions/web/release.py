@@ -15,12 +15,12 @@ performs this action like so:
 import platform
 from typing import Optional
 
+from screenpy.actor import Actor
+from screenpy.exceptions import UnableToAct
+from screenpy.pacing import beat
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
-from ..actor import Actor
-from ..exceptions import UnableToAct
-from ..pacing import beat
 from .hold_down import KEY_NAMES
 
 

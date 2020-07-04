@@ -19,13 +19,12 @@ actor can perform this action like so:
 
 from typing import Optional, Union
 
+from screenpy.actor import Actor
+from screenpy.exceptions import DeliveryError, UnableToAct
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.support.ui import Select as SeleniumSelect
-
-from ..actor import Actor
-from ..exceptions import DeliveryError, UnableToAct
-from ..pacing import beat
-from ..target import Target
 
 
 class Select:
@@ -100,7 +99,6 @@ class SelectByText:
     """
 
     target: Optional[Target]
-    text: str
 
     def from_the(self, target: Target) -> "SelectByText":
         """
@@ -168,7 +166,6 @@ class SelectByIndex:
     """
 
     target: Optional[Target]
-    index: str
 
     def from_the(self, target: Target) -> "SelectByIndex":
         """
@@ -236,7 +233,6 @@ class SelectByValue:
     """
 
     target: Optional[Target]
-    value: str
 
     def from_the(self, target: Target) -> "SelectByValue":
         """

@@ -11,13 +11,12 @@ so:
 """
 
 
+from screenpy.actor import Actor
+from screenpy.exceptions import DeliveryError
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
-
-from ..actor import Actor
-from ..exceptions import DeliveryError
-from ..pacing import beat
-from ..target import Target
 
 
 class Click:
@@ -31,8 +30,6 @@ class Click:
     It can then be passed along to the |Actor| or added to a |Chain| to
     perform the action.
     """
-
-    target: Target
 
     @staticmethod
     def on_the(target: Target) -> "Click":

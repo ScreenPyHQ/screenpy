@@ -9,13 +9,12 @@ like so:
 """
 
 
+from screenpy.abilities import BrowseTheWeb
+from screenpy.actor import Actor
+from screenpy.exceptions import UnableToAct
+from screenpy.pacing import beat
+from screenpy.protocols import Chainable
 from selenium.webdriver.common.action_chains import ActionChains
-
-from ..abilities import BrowseTheWeb
-from ..actor import Actor
-from ..exceptions import UnableToAct
-from ..pacing import beat
-from ..protocols import Chainable
 
 
 class Chain:

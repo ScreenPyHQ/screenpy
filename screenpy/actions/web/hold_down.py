@@ -16,13 +16,12 @@ like so:
 import platform
 from typing import Optional
 
+from screenpy.actor import Actor
+from screenpy.exceptions import UnableToAct
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-
-from ..actor import Actor
-from ..exceptions import UnableToAct
-from ..pacing import beat
-from ..target import Target
 
 KEY_NAMES = {
     getattr(Keys, key_name): key_name

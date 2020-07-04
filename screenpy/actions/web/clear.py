@@ -7,12 +7,11 @@ so:
 """
 
 
+from screenpy.actor import Actor
+from screenpy.exceptions import DeliveryError
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.common.exceptions import WebDriverException
-
-from ..actor import Actor
-from ..exceptions import DeliveryError
-from ..pacing import beat
-from ..target import Target
 
 
 class Clear:
@@ -25,8 +24,6 @@ class Clear:
 
     It can then be passed along to the |Actor| to perform the action.
     """
-
-    target: Target
 
     @staticmethod
     def the_text_from_the(target: Target) -> "Clear":

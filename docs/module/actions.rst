@@ -164,37 +164,37 @@ Provided Actions
 Open
 ^^^^
 
-.. autoclass:: screenpy.actions.open.Open
+.. autoclass:: screenpy.actions.web.open.Open
     :members:
 
 Click
 ^^^^^
 
-.. autoclass:: screenpy.actions.click.Click
+.. autoclass:: screenpy.actions.web.click.Click
     :members:
 
 Clear
 ^^^^^
 
-.. autoclass:: screenpy.actions.clear.Clear
+.. autoclass:: screenpy.actions.web.clear.Clear
     :members:
 
 Enter
 ^^^^^
 
-.. autoclass:: screenpy.actions.enter.Enter
+.. autoclass:: screenpy.actions.web.enter.Enter
     :members:
 
 Enter2FAToken
 ^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.enter_2fa_token.Enter2FAToken
+.. autoclass:: screenpy.actions.web.enter_2fa_token.Enter2FAToken
     :members:
 
 Select
 ^^^^^^
 
-.. module:: screenpy.actions.select
+.. module:: screenpy.actions.web.select
 .. autoclass:: Select
     :members:
 .. autoclass:: SelectByText
@@ -207,101 +207,101 @@ Select
 AcceptAlert
 ^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.accept_alert.AcceptAlert
+.. autoclass:: screenpy.actions.web.accept_alert.AcceptAlert
     :members:
 
 DismissAlert
 ^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.dismiss_alert.DismissAlert
+.. autoclass:: screenpy.actions.web.dismiss_alert.DismissAlert
     :members:
 
 RespondToThePrompt
 ^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.respond_to_the_prompt.RespondToThePrompt
+.. autoclass:: screenpy.actions.web.respond_to_the_prompt.RespondToThePrompt
     :members:
 
 SwitchTo
 ^^^^^^^^
 
-.. autoclass:: screenpy.actions.switch_to.SwitchTo
+.. autoclass:: screenpy.actions.web.switch_to.SwitchTo
     :members:
 
 SwitchToTab
 ^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.switch_to_tab.SwitchToTab
+.. autoclass:: screenpy.actions.web.switch_to_tab.SwitchToTab
     :members:
 
 GoBack
 ^^^^^^
 
-.. autoclass:: screenpy.actions.go_back.GoBack
+.. autoclass:: screenpy.actions.web.go_back.GoBack
     :members:
 
 GoForward
 ^^^^^^^^^
 
-.. autoclass:: screenpy.actions.go_forward.GoForward
+.. autoclass:: screenpy.actions.web.go_forward.GoForward
     :members:
 
 RefreshPage
 ^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.refresh_page.RefreshPage
+.. autoclass:: screenpy.actions.web.refresh_page.RefreshPage
     :members:
 
 Chain
 ^^^^^
 
-.. autoclass:: screenpy.actions.chain.Chain
+.. autoclass:: screenpy.actions.web.chain.Chain
     :members:
 
 DoubleClick
 ^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.double_click.DoubleClick
+.. autoclass:: screenpy.actions.web.double_click.DoubleClick
     :members:
 
 RightClick
 ^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.right_click.RightClick
+.. autoclass:: screenpy.actions.web.right_click.RightClick
     :members:
 
 HoldDown
 ^^^^^^^^
 
-.. autoclass:: screenpy.actions.hold_down.HoldDown
+.. autoclass:: screenpy.actions.web.hold_down.HoldDown
     :members:
 
 Release
 ^^^^^^^
 
-.. autoclass:: screenpy.actions.release.Release
+.. autoclass:: screenpy.actions.web.release.Release
     :members:
 
 MoveMouse
 ^^^^^^^^^
 
-.. autoclass:: screenpy.actions.move_mouse.MoveMouse
+.. autoclass:: screenpy.actions.web.move_mouse.MoveMouse
     :members:
 
 Wait
 ^^^^
 
-.. autoclass:: screenpy.actions.wait.Wait
+.. autoclass:: screenpy.actions.web.wait.Wait
     :members:
 
 Pause
 ^^^^^
 
-.. autoclass:: screenpy.actions.pause.Pause
+.. autoclass:: screenpy.actions.web.pause.Pause
     :members:
 
 Debug
 ^^^^^
 
-.. autoclass:: screenpy.actions.debug.Debug
+.. autoclass:: screenpy.actions.web.debug.Debug
     :members:

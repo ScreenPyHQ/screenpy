@@ -6,12 +6,12 @@ can perform this action like so:
     the_actor.attempts_to(Enter2FAToken.into_the(2FA_INPUT_FIELD))
 """
 
+from screenpy.abilities.authenticate_with_2fa import AuthenticateWith2FA
+from screenpy.actor import Actor
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.webdriver.common.action_chains import ActionChains
 
-from ..abilities.authenticate_with_2fa import AuthenticateWith2FA
-from ..actor import Actor
-from ..pacing import beat
-from ..target import Target
 from .enter import Enter
 
 
