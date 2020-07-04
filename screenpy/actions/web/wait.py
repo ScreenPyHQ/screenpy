@@ -84,7 +84,11 @@ class Wait:
 
     seconds_for = seconds_for_the
 
-    def using(self, strategy: Callable[..., Any]) -> "Wait":
+    def using(
+        self,
+        strategy: Callable[..., Any],
+        log_detail: str = " to fulfill a custom expectation...",
+    ) -> "Wait":
         """
         Use the given strategy to wait for the target.
 
@@ -92,11 +96,16 @@ class Wait:
             strategy: the condition to use to wait. This can be one of
                 Selenium's Expected Conditions, or it can be a custom
                 Callable that accepts a Tuple[|By|, str] locator.
+            log_detail: an optional message to describe the strategy,
+                beginning with "to be" (e.g. "to be clickable...").
 
         Returns:
             |Wait|
         """
         self.condition = strategy
+        if not log_detail.startswith(" "):
+            log_detail = " " + log_detail
+        self.log_detail = log_detail
         return self
 
     def to_appear(self) -> "Wait":
@@ -107,8 +116,7 @@ class Wait:
         Returns:
             |Wait|
         """
-        self.log_detail = " to be visible..."
-        return self.using(EC.visibility_of_element_located)
+        return self.using(EC.visibility_of_element_located, " to be visible...")
 
     def to_be_clickable(self) -> "Wait":
         """
@@ -117,8 +125,7 @@ class Wait:
         Returns:
             |Wait|
         """
-        self.log_detail = " to be clickable..."
-        return self.using(EC.element_to_be_clickable)
+        return self.using(EC.element_to_be_clickable, " to be clickable...")
 
     def to_disappear(self) -> "Wait":
         """
@@ -127,8 +134,7 @@ class Wait:
         Returns:
             |Wait|
         """
-        self.log_detail = " to disappear..."
-        return self.using(EC.invisibility_of_element_located)
+        return self.using(EC.invisibility_of_element_located, " to disappear...")
 
     def to_contain_text(self, text: str) -> "Wait":
         """
@@ -140,9 +146,9 @@ class Wait:
         Returns:
             |Wait|
         """
-        self.log_detail = f' to contain the text "{text}"...'
         return self.using(
-            lambda locator: EC.text_to_be_present_in_element(locator, text)
+            lambda locator: EC.text_to_be_present_in_element(locator, text),
+            f' to contain the text "{text}"...',
         )
 
     @beat("{0} waits for the {target}{log_detail}")
@@ -179,4 +185,4 @@ class Wait:
         self.target = target
         self.timeout = seconds
         self.condition = EC.visibility_of_element_located
-        self.log_detail = " to be visible..."
+        self.log_detail = ""
