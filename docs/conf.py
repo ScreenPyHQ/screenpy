@@ -92,6 +92,7 @@ rst_prolog = """.. Internal references
 .. |BrowseTheWeb.to_wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_wait_for`
 .. |BrowseTheWeb.forget| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.forget`
 .. |BrowseTheWeb.wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.wait_for`
+.. |MakeAPIRequests| replace:: :class:`~screenpy.abilities.make_api_requests.MakeAPIRequests`
 
 .. .. Actions
 .. |Action| replace:: :ref:`actions`
@@ -196,6 +197,10 @@ rst_prolog = """.. Internal references
 
 .. .. PyOTP
 .. |PyOTP| replace:: `PyOTP <https://pyotp.readthedocs.io/en/latest/>`__
+
+.. .. Requests
+.. |requests| replace:: `requests <https://requests.readthedocs.io/en/master/>`__
+.. |request| replace:: `Session.request <https://requests.readthedocs.io/en/master/api/#requests.Session.request>`__
 """
 
 # The master toctree document.

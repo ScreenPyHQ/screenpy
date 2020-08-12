@@ -158,8 +158,8 @@ Note that tasks,
 just like actions,
 are required to have a ``perform_as`` method defined.
 
-Provided Actions
-----------------
+Provided Web Actions
+--------------------
 
 Open
 ^^^^
@@ -304,4 +304,19 @@ Debug
 ^^^^^
 
 .. autoclass:: screenpy.actions.web.debug.Debug
+    :members:
+
+Provided API Actions
+--------------------
+
+SendGETRequest
+^^^^^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.api.send_get_request.SendGETRequest
+    :members:
+
+SendAPIRequest
+^^^^^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.api.send_api_request.SendAPIRequest
     :members:
