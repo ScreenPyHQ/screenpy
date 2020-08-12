@@ -23,6 +23,10 @@ class BrowsingError(AbilityError):
     """Raised when BrowseTheWeb encounters an error."""
 
 
+class RequestError(AbilityError):
+    """Raised when MakeAPIRequests encounters an error."""
+
+
 class ActionError(ScreenPyError):
     """These errors are raised when an action fails."""
 
