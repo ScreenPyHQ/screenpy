@@ -315,6 +315,12 @@ SendGETRequest
 .. autoclass:: screenpy.actions.api.send_get_request.SendGETRequest
     :members:
 
+SendHEADRequest
+^^^^^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.api.send_head_request.SendHEADRequest
+    :members:
+
 SendAPIRequest
 ^^^^^^^^^^^^^^
 
