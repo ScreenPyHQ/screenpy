@@ -6,6 +6,7 @@ from .send_delete_request import SendDELETERequest
 from .send_get_request import SendGETRequest
 from .send_head_request import SendHEADRequest
 from .send_options_request import SendOPTIONSRequest
+from .send_patch_request import SendPATCHRequest
 from .send_post_request import SendPOSTRequest
 
 __all__ = [
@@ -13,5 +14,6 @@ __all__ = [
     "SendGETRequest",
     "SendHEADRequest",
     "SendOPTIONSRequest",
+    "SendPATCHRequest",
     "SendPOSTRequest",
 ]

@@ -5,6 +5,7 @@ from screenpy.actions.api import (
     SendGETRequest,
     SendHEADRequest,
     SendOPTIONSRequest,
+    SendPATCHRequest,
     SendPOSTRequest,
 )
 from screenpy.actions.api.send_api_request import SendAPIRequest
@@ -17,6 +18,7 @@ from screenpy.actions.api.send_api_request import SendAPIRequest
         SendGETRequest,
         SendHEADRequest,
         SendOPTIONSRequest,
+        SendPATCHRequest,
         SendPOSTRequest,
     ],
 )
