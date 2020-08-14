@@ -1,6 +1,7 @@
 import pytest
 
 from screenpy.actions.api import (
+    SendDELETERequest,
     SendGETRequest,
     SendHEADRequest,
     SendPOSTRequest,
@@ -9,7 +10,8 @@ from screenpy.actions.api.send_api_request import SendAPIRequest
 
 
 @pytest.mark.parametrize(
-    "request_class", [SendGETRequest, SendHEADRequest, SendPOSTRequest]
+    "request_class",
+    [SendDELETERequest, SendGETRequest, SendHEADRequest, SendPOSTRequest],
 )
 def test_can_be_instantiated(request_class):
     """Send{METHOD}Request instantiation gives back SendAPIRequest"""

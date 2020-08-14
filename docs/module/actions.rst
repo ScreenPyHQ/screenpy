@@ -321,6 +321,12 @@ SendPOSTRequest
 .. autoclass:: screenpy.actions.api.send_post_request.SendPOSTRequest
     :members:
 
+SendDELETERequest
+^^^^^^^^^^^^^^^^^
+
+.. autoclass:: screenpy.actions.api.send_delete_request.SendDELETERequest
+    :members:
+
 SendHEADRequest
 ^^^^^^^^^^^^^^^
 
