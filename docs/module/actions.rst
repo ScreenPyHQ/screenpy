@@ -327,6 +327,12 @@ SendDELETERequest
 .. autoclass:: screenpy.actions.api.send_delete_request.SendDELETERequest
     :members:
 
+SendOPTIONSRequest
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass::screenpy.actions.api.send_delete_request.SendOPTIONSRequest
+    :members:
+
 SendHEADRequest
 ^^^^^^^^^^^^^^^
 
