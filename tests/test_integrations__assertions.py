@@ -76,7 +76,7 @@ def test_is_equal_to_unequal_value(Tester):
         )
 
 
-@mock.patch("screenpy.questions.selected.SeleniumSelect")
+@mock.patch("screenpy.questions.web.selected.SeleniumSelect")
 def test_ask_for_selected(mocked_selenium_select, Tester):
     """Selected finds its target and gets the first_selected_option"""
     fake_xpath = "//xpath"
@@ -92,7 +92,7 @@ def test_ask_for_selected(mocked_selenium_select, Tester):
     mocked_btw.to_find.assert_called_once_with(fake_target)
 
 
-@mock.patch("screenpy.questions.selected.SeleniumSelect")
+@mock.patch("screenpy.questions.web.selected.SeleniumSelect")
 def test_reads_exactly_mismatched_string(mocked_selenium_select, Tester):
     """ReadsExactly complains if the strings do not match exactly"""
     fake_xpath = "//xpath"
