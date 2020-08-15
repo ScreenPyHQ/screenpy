@@ -14,7 +14,7 @@ from hamcrest.core.base_matcher import Matcher
 from .base_resolution import BaseResolution
 
 
-class IsEqualTo(BaseResolution[Optional[Any]]):
+class IsEqualTo(BaseResolution):
     """
     Match on equality (i.e. `a == b`).
     """

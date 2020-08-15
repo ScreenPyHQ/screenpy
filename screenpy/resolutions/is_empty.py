@@ -14,7 +14,7 @@ from hamcrest.core.base_matcher import Matcher
 from .base_resolution import BaseResolution
 
 
-class IsEmpty(BaseResolution[Sized]):
+class IsEmpty(BaseResolution):
     """
     Match on an empty collection (e.g. `[]`).
     """

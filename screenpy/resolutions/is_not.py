@@ -14,7 +14,7 @@ from hamcrest.core.base_matcher import Matcher
 from .base_resolution import BaseResolution
 
 
-class IsNot(BaseResolution[BaseResolution]):
+class IsNot(BaseResolution):
     """
     Match a negated Resolution (e.g. `not ReadsExactly("yes")`).
     """

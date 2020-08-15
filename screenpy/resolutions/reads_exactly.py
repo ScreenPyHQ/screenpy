@@ -13,7 +13,7 @@ from hamcrest.core.base_matcher import Matcher
 from .base_resolution import BaseResolution
 
 
-class ReadsExactly(BaseResolution[object]):
+class ReadsExactly(BaseResolution):
     """
     Match a string exactly (e.g. `"screenplay" == "screenplay"`).
     """

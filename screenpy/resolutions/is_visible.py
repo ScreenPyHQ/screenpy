@@ -14,7 +14,7 @@ from .base_resolution import BaseResolution
 from .custom_matchers import is_visible_element
 
 
-class IsVisible(BaseResolution[Optional[object]]):
+class IsVisible(BaseResolution):
     """
     Match on visibility of an element (i.e. `element.is_displayed()`).
     """
