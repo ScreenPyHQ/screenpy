@@ -1,14 +1,26 @@
 import pytest
 
 from screenpy.actions.api import (
+    generate_send_method_class,
     SendDELETERequest,
     SendGETRequest,
     SendHEADRequest,
     SendOPTIONSRequest,
     SendPATCHRequest,
     SendPOSTRequest,
+    SendPUTRequest,
 )
 from screenpy.actions.api.send_api_request import SendAPIRequest
+
+
+def test_generate_send_method_class_docstring():
+    """Generated class and method's docstring both contain method name."""
+    test_method = "TEST"
+
+    SendTESTMethod = generate_send_method_class(test_method)
+
+    assert test_method in SendTESTMethod.__doc__
+    assert test_method in SendTESTMethod.to.__doc__
 
 
 @pytest.mark.parametrize(
@@ -20,6 +32,7 @@ from screenpy.actions.api.send_api_request import SendAPIRequest
         SendOPTIONSRequest,
         SendPATCHRequest,
         SendPOSTRequest,
+        SendPUTRequest,
     ],
 )
 def test_can_be_instantiated(request_class):

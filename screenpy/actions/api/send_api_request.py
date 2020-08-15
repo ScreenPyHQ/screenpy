@@ -16,19 +16,18 @@ can be performed like so:
 
 from screenpy.abilities import MakeAPIRequests
 from screenpy.actor import Actor
+from screenpy.pacing import aside, beat
 
 
 class SendAPIRequest:
     """
     Send an API request. You can use this action class directly if you wish,
     but the Send{METHOD}Request classes are easier to read. If you do wish to
-    use this class directly, it is expected to be instantiated like so:
+    use this class directly, you can do that like so:
 
         SendAPIRequest("GET", "http://www.example.com")
 
         SendAPIRequest("POST", "http://www.example.com").with_(data={"a": "b"})
-
-    It can then be passed along to the |Actor| to perform the action.
     """
 
     def with_(self, **kwargs) -> "SendAPIRequest":
@@ -41,17 +40,17 @@ class SendAPIRequest:
         self.kwargs = kwargs
         return self
 
+    @beat("{0} sends a {method} request to {url}")
     def perform_as(self, the_actor: Actor) -> None:
         """
         Direct the actor to send a GET request to the stored URL.
 
         Args:
             the_actor: The |Actor| who will perform this action.
-
-        Raises:
-            |UnableToPerform|: the actor does not have the ability to
-                |MakeAPIRequests|.
         """
+        if self.kwargs:
+            aside(f"... along with the following: {self.kwargs}")
+
         the_actor.uses_ability_to(MakeAPIRequests).to_send(
             self.method, self.url, **self.kwargs
         )

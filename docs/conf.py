@@ -144,6 +144,7 @@ rst_prolog = """.. Internal references
 .. |SelectByIndex.from_the| replace:: :meth:`~screenpy.actions.web.select.SelectByIndex.from_the`
 .. |SelectByValue| replace:: :class:`~screenpy.actions.web.select.SelectByValue`
 .. |SelectByValue.from_the| replace:: :meth:`~screenpy.actions.web.select.SelectByValue.from_the`
+.. |SendAPIRequest| replace:: :class:`~screenpy.actions.api.send_api_request.SendAPIRequest`
 .. |SwitchTo| replace:: :class:`~screenpy.actions.web.switch_to.SwitchTo`
 .. |SwitchTo.the| replace:: :meth:`~screenpy.actions.web.switch_to.SwitchTo.the`
 .. |SwitchTo.default| replace:: :meth:`~screenpy.actions.web.switch_to.SwitchTo.default`
