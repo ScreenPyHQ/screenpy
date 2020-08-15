@@ -71,11 +71,27 @@ see the documentation of the provided resolutions below.
 Provided Resolutions
 --------------------
 
+.. module:: screenpy.resolutions
+
 ContainsTheText
 ^^^^^^^^^^^^^^^
 
-.. module:: screenpy.resolutions
 .. autoclass:: ContainsTheText
+
+ContainsTheEntry
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: ContainsTheEntry
+
+ContainsTheKey
+^^^^^^^^^^^^^^
+
+.. autoclass:: ContainsTheKey
+
+ContainsTheValue
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: ContainsTheValue
 
 IsEmpty
 ^^^^^^^
@@ -91,6 +107,11 @@ IsNot
 ^^^^^
 
 .. autoclass:: IsNot
+
+IsVisible
+^^^^^^^^^
+
+.. autoclass:: IsVisible
 
 ReadsExactly
 ^^^^^^^^^^^^

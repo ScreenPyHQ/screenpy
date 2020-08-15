@@ -10,7 +10,10 @@ first half is handled by Questions.
 
 
 from .base_resolution import BaseResolution
+from .contains_the_entry import ContainsTheEntry
+from .contains_the_key import ContainsTheKey
 from .contains_the_text import ContainsTheText
+from .contains_the_value import ContainsTheValue
 from .is_empty import IsEmpty
 from .is_equal_to import IsEqualTo
 from .is_not import IsNot
@@ -19,6 +22,9 @@ from .reads_exactly import ReadsExactly
 
 # Natural-language-enabling syntactic sugar
 ContainTheText = ContainsTheText
+ContainTheKey = ContainsTheKey
+ContainTheValue = ContainsTheValue
+ContainTheEntry = ContainTheEntries = ContainsTheEntries = ContainsTheEntry
 DoesNot = DoNot = IsNot
 IsDisplayed = Displayed = Visible = IsVisible
 IsEqual = Equals = Equal = EqualTo = IsEqualTo
@@ -28,8 +34,16 @@ Empty = IsEmpty
 
 __all__ = [
     "BaseResolution",
+    "ContainsTheEntries",
+    "ContainsTheEntry",
+    "ContainsTheKey",
     "ContainsTheText",
+    "ContainsTheValue",
+    "ContainTheEntries",
+    "ContainTheEntry",
+    "ContainTheKey",
     "ContainTheText",
+    "ContainTheValue",
     "Displayed",
     "DoesNot",
     "DoNot",
