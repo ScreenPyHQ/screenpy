@@ -7,12 +7,11 @@ Questions must be asked with an expected resolution, like so:
 
 from typing import Optional
 
+from screenpy.actor import Actor
+from screenpy.exceptions import BrowsingError
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.webdriver.remote.webelement import WebElement
-
-from ..actor import Actor
-from ..exceptions import BrowsingError
-from ..pacing import beat
-from ..target import Target
 
 
 class Element:

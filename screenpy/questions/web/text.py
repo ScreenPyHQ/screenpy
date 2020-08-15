@@ -10,9 +10,9 @@ must be asked with an expected resolution, like so:
 
 from typing import List, Union
 
-from ..actor import Actor
-from ..pacing import beat
-from ..target import Target
+from screenpy.actor import Actor
+from screenpy.pacing import beat
+from screenpy.target import Target
 
 
 class Text:

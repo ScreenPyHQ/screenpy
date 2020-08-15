@@ -10,11 +10,10 @@ must be asked with an expected resolution, like so:
 
 from typing import List as ListType
 
+from screenpy.actor import Actor
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.webdriver.remote.webdriver import WebElement
-
-from ..actor import Actor
-from ..pacing import beat
-from ..target import Target
 
 
 class List:

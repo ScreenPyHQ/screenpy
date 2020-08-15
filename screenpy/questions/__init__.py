@@ -9,14 +9,14 @@ second half is handled by Resolutions.
 """
 
 
-from .browser_title import BrowserTitle
-from .browser_url import BrowserURL
-from .element import Element
-from .list import List
-from .number import Number
-from .selected import Selected
-from .text import Text
-from .text_of_the_alert import TextOfTheAlert
+from .web.browser_title import BrowserTitle
+from .web.browser_url import BrowserURL
+from .web.element import Element
+from .web.list import List
+from .web.number import Number
+from .web.selected import Selected
+from .web.text import Text
+from .web.text_of_the_alert import TextOfTheAlert
 
 # Natural-language-enabling syntactic sugar
 TheBrowserTitle = BrowserTitle
