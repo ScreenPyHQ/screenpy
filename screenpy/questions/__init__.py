@@ -9,6 +9,7 @@ second half is handled by Resolutions.
 """
 
 
+from .api.body_of_the_last_response import BodyOfTheLastResponse
 from .web.browser_title import BrowserTitle
 from .web.browser_url import BrowserURL
 from .web.element import Element
@@ -30,6 +31,7 @@ TheTextOfTheAlert = TextOfTheAlert
 
 
 __all__ = [
+    "BodyOfTheLastResponse",
     "BrowserTitle",
     "BrowserURL",
     "Element",

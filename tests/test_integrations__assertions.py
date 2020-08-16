@@ -3,8 +3,9 @@ from unittest import mock
 import pytest
 
 from screenpy import Target
-from screenpy.abilities import BrowseTheWeb
+from screenpy.abilities import BrowseTheWeb, MakeAPIRequests
 from screenpy.questions import (
+    BodyOfTheLastResponse,
     BrowserTitle,
     BrowserURL,
     Element,
@@ -15,6 +16,8 @@ from screenpy.questions import (
     TextOfTheAlert,
 )
 from screenpy.resolutions import (
+    ContainsTheEntry,
+    ContainsTheEntries,
     ContainsTheText,
     Empty,
     EqualTo,
@@ -195,3 +198,27 @@ def test_visible_element(Tester):
     mocked_btw.to_find.return_value = mocked_element
 
     Tester.should_see_the((Element(fake_target), IsVisible()))
+
+
+def test_body_of_the_last_response(APITester):
+    """BodyOfTheLastResponse and ContainsTheEntry tests the JSON body"""
+    test_json = {"play": "Hamlet"}
+    fake_response = mock.Mock()
+    fake_response.json.return_value = test_json
+    mocked_mar = APITester.ability_to(MakeAPIRequests)
+    mocked_mar.responses = [fake_response]
+
+    APITester.should_see_the((BodyOfTheLastResponse(), ContainsTheEntry(**test_json)))
+
+
+def test_contains_the_entries_multiple(APITester):
+    """ContainsTheEntries can test multiple key/value pairs"""
+    test_json = {"play": "Hamlet", "intermission": "1hr"}
+    fake_response = mock.Mock()
+    fake_response.json.return_value = test_json
+    mocked_mar = APITester.ability_to(MakeAPIRequests)
+    mocked_mar.responses = [fake_response]
+
+    APITester.should_see_the(
+        (BodyOfTheLastResponse(), ContainsTheEntries(**test_json))
+    )

@@ -101,3 +101,11 @@ BrowserURL
 ^^^^^^^^^^
 
 .. autoclass:: BrowserURL
+
+Provided API Questions
+----------------------
+
+BodyOfTheLastResponse
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: BodyOfTheLastResponse
