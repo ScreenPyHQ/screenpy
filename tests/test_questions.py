@@ -1,10 +1,18 @@
 from unittest import mock
 
-from screenpy import Target
+import pytest
+
+from screenpy import AnActor, Target
+from screenpy.abilities import MakeAPIRequests
 from screenpy.abilities.browse_the_web import BrowsingError
+from screenpy.exceptions import UnableToAnswer
 from screenpy.questions import (
+    BodyOfTheLastResponse,
     BrowserTitle,
     BrowserURL,
+    Cookies,
+    CookiesOnTheAPISession,
+    CookiesOnTheWebSession,
     Element,
     List,
     Number,
@@ -27,6 +35,53 @@ class TestBrowserURL:
         b = BrowserURL()
 
         assert isinstance(b, BrowserURL)
+
+
+class TestCookies:
+    def test_can_be_instantiated(self):
+        """Cookies can be instantiated"""
+        c = Cookies()
+
+        assert isinstance(c, Cookies)
+
+    @mock.patch("screenpy.questions.cookies.CookiesOnTheWebSession")
+    def test_calls_web_session(self, mock_CookiesOnTheWebSession, Tester):
+        """Cookies calls CookiesOnTheWebSession for BrowseTheWeb"""
+        Cookies().answered_by(Tester)
+
+        mock_CookiesOnTheWebSession.return_value.answered_by.assert_called_once_with(
+            Tester
+        )
+
+    @mock.patch("screenpy.questions.cookies.CookiesOnTheAPISession")
+    def test_calls_api_session(self, mock_CookiesOnTheAPISession, APITester):
+        """Cookies calls CookiesOnTheAPISession for BrowseTheWeb"""
+        Cookies().answered_by(APITester)
+
+        mock_CookiesOnTheAPISession.return_value.answered_by.assert_called_once_with(
+            APITester
+        )
+
+    def test_raises_exception_if_missing_abilities(self):
+        """Cookies complains if the actor can't MakeAPIRequests or BrowseTheWeb"""
+        with pytest.raises(UnableToAnswer):
+            Cookies().answered_by(AnActor.named("Bob"))
+
+
+class TestCookiesOnTheAPISession:
+    def test_can_be_instantiated(self):
+        """CookiesOnTheAPISession can be instantiated"""
+        c = CookiesOnTheAPISession()
+
+        assert isinstance(c, CookiesOnTheAPISession)
+
+
+class TestCookiesOnTheWebSession:
+    def test_can_be_instantiated(self):
+        """CookiesOnTheWebSession can be instantiated"""
+        c = CookiesOnTheWebSession()
+
+        assert isinstance(c, CookiesOnTheWebSession)
 
 
 class TestElement:
@@ -98,3 +153,18 @@ class TestText:
         multi_text = Text.of_all(None)
 
         assert multi_text.multi
+
+
+class TestBodyOfTheLastResponse:
+    def test_can_be_instantiated(self):
+        botlr = BodyOfTheLastResponse()
+
+        assert isinstance(botlr, BodyOfTheLastResponse)
+
+    def test_raises_error_if_no_responses(self, APITester):
+        """Raises UnableToAnswer if no responses yet"""
+        botlr = BodyOfTheLastResponse()
+        APITester.ability_to(MakeAPIRequests).responses = []
+
+        with pytest.raises(UnableToAnswer):
+            botlr.answered_by(APITester)

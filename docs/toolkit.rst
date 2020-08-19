@@ -22,3 +22,4 @@ You'll be set up in time to make curtain call!
    module/questions
    module/resolutions
    module/waiting
+   module/protocols

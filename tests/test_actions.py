@@ -10,6 +10,7 @@ from screenpy.actions import (
     DoubleClick,
     Enter,
     Enter2FAToken,
+    generate_send_method_class,
     GoBack,
     GoForward,
     HoldDown,
@@ -22,10 +23,18 @@ from screenpy.actions import (
     RespondToThePrompt,
     RightClick,
     Select,
+    SendAPIRequest,
+    SendDELETERequest,
+    SendGETRequest,
+    SendHEADRequest,
+    SendOPTIONSRequest,
+    SendPATCHRequest,
+    SendPOSTRequest,
+    SendPUTRequest,
     SwitchTo,
     SwitchToTab,
 )
-from screenpy.actions.web.select import SelectByIndex, SelectByText, SelectByValue
+from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
 from screenpy import Target
 
 
@@ -155,7 +164,7 @@ class TestHoldDown:
     )
     def test_command_or_control_key(self, platform, expected_key):
         """HoldDown figures out which key to use based on platform"""
-        system_path = "screenpy.actions.web.hold_down.platform.system"
+        system_path = "screenpy.actions.hold_down.platform.system"
         with mock.patch(system_path, return_value=platform):
             hd = HoldDown.command_or_control_key()
 
@@ -263,7 +272,7 @@ class TestRelease:
     )
     def test_command_or_control_key(self, platform, expected_key):
         """Release figures out which key to use based on platform"""
-        system_path = "screenpy.actions.web.hold_down.platform.system"
+        system_path = "screenpy.actions.hold_down.platform.system"
         with mock.patch(system_path, return_value=platform):
             r = Release.command_or_control_key()
 
@@ -356,3 +365,51 @@ class TestSwitchToTab:
 
         assert "tab #1" in stt1.description
         assert "newest tab" in stt2.description
+
+
+def test_generate_send_method_class_docstring():
+    """Generated class and method's docstring both contain method name."""
+    test_method = "TEST"
+
+    SendTESTMethod = generate_send_method_class(test_method)
+
+    assert test_method in SendTESTMethod.__doc__
+    assert test_method in SendTESTMethod.to.__doc__
+
+
+@pytest.mark.parametrize(
+    "request_class",
+    [
+        SendDELETERequest,
+        SendGETRequest,
+        SendHEADRequest,
+        SendOPTIONSRequest,
+        SendPATCHRequest,
+        SendPOSTRequest,
+        SendPUTRequest,
+    ],
+)
+def test_can_be_instantiated(request_class):
+    """Send{METHOD}Request instantiation gives back SendAPIRequest"""
+    sr1 = request_class.to("url")
+    sr2 = request_class.to("url").with_(some="kwarg")
+
+    assert isinstance(sr1, SendAPIRequest)
+    assert isinstance(sr2, SendAPIRequest)
+
+
+class TestSendAPIRequest:
+    def test_can_be_instantiated(self):
+        """SendAPIRequest can be instantiated"""
+        sar1 = SendAPIRequest("GET", "test")
+        sar2 = SendAPIRequest("GET", "test").with_(some="kwarg")
+
+        assert isinstance(sar1, SendAPIRequest)
+        assert isinstance(sar2, SendAPIRequest)
+
+    def test_stores_kwargs(self):
+        """kwargs are stored to send in the request later"""
+        test_kwargs = {"test": "kwarg"}
+        sar = SendAPIRequest("GET", "test").with_(**test_kwargs)
+
+        assert sar.kwargs == test_kwargs

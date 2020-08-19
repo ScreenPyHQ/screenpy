@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+from requests.cookies import RequestsCookieJar
 
 from screenpy import Target
 from screenpy.abilities import BrowseTheWeb, MakeAPIRequests
@@ -8,6 +9,7 @@ from screenpy.questions import (
     BodyOfTheLastResponse,
     BrowserTitle,
     BrowserURL,
+    Cookies,
     Element,
     List,
     Number,
@@ -16,9 +18,10 @@ from screenpy.questions import (
     TextOfTheAlert,
 )
 from screenpy.resolutions import (
-    ContainsTheEntry,
     ContainsTheEntries,
+    ContainsTheEntry,
     ContainsTheText,
+    ContainTheEntry,
     Empty,
     EqualTo,
     IsEmpty,
@@ -79,7 +82,7 @@ def test_is_equal_to_unequal_value(Tester):
         )
 
 
-@mock.patch("screenpy.questions.web.selected.SeleniumSelect")
+@mock.patch("screenpy.questions.selected.SeleniumSelect")
 def test_ask_for_selected(mocked_selenium_select, Tester):
     """Selected finds its target and gets the first_selected_option"""
     fake_xpath = "//xpath"
@@ -95,7 +98,7 @@ def test_ask_for_selected(mocked_selenium_select, Tester):
     mocked_btw.to_find.assert_called_once_with(fake_target)
 
 
-@mock.patch("screenpy.questions.web.selected.SeleniumSelect")
+@mock.patch("screenpy.questions.selected.SeleniumSelect")
 def test_reads_exactly_mismatched_string(mocked_selenium_select, Tester):
     """ReadsExactly complains if the strings do not match exactly"""
     fake_xpath = "//xpath"
@@ -222,3 +225,27 @@ def test_contains_the_entries_multiple(APITester):
     APITester.should_see_the(
         (BodyOfTheLastResponse(), ContainsTheEntries(**test_json))
     )
+
+
+def test_cookies_api_dict(APITester):
+    """Cookies returns a dict for actors who can MakeAPIRequests"""
+    test_name = "cookie_type"
+    test_value = "madeleine"
+    test_cookie = {test_name: test_value}
+    test_jar = RequestsCookieJar()
+    test_jar.set(test_name, test_value)
+    APITester.ability_to(MakeAPIRequests).session.cookies = test_jar
+
+    APITester.should_see_the((Cookies(), ContainTheEntry(**test_cookie)))
+
+
+def test_cookies_web_dict(Tester):
+    """Cookies returns a dict for actors who can BrowseTheWeb"""
+    test_name = "cookie_type"
+    test_value = "madeleine"
+    test_cookie = {test_name: test_value}
+    Tester.ability_to(BrowseTheWeb).browser.get_cookies.return_value = [
+        {"name": test_name, "value": test_value}
+    ]
+
+    Tester.should_see_the((Cookies(), ContainTheEntry(**test_cookie)))

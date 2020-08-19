@@ -102,9 +102,6 @@ BrowserURL
 
 .. autoclass:: BrowserURL
 
-Provided API Questions
-----------------------
-
 BodyOfTheLastResponse
 ^^^^^^^^^^^^^^^^^^^^^
 

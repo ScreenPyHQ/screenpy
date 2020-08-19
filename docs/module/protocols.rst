@@ -23,24 +23,26 @@ and Questions
 through the methods
 they are required to implement.
 
+.. module:: screenpy.protocols
+
 Abilities
 ---------
 
-.. autoclass:: screenpy.protocols.Forgettable
+.. autoclass:: Forgettable
     :members:
 
 Actions
 -------
 
-.. autoclass:: screenpy.protocols.Performable
+.. autoclass:: Performable
     :members:
 
-.. autoclass:: screenpy.protocols.Chainable
+.. autoclass:: Chainable
     :members:
 
 Questions
 ---------
 
-.. autoclass:: screenpy.protocols.Answerable
+.. autoclass:: Answerable
     :members:
 
