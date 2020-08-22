@@ -6,6 +6,7 @@ Ask your actors to perform actions by passing the actions into their
 
 
 from .accept_alert import AcceptAlert
+from .add_header import AddHeader
 from .chain import Chain
 from .clear import Clear
 from .click import Click
@@ -31,6 +32,7 @@ from .switch_to_tab import SwitchToTab
 from .wait import Wait
 
 # Natural-language-enabling syntactic sugar
+AddHeaders = AddHeader
 ContextClick = RightClick
 Hover = MoveMouse
 Press = Enter
@@ -123,6 +125,8 @@ SendPUTRequest = generate_send_method_class("PUT")
 
 __all__ = [
     "AcceptAlert",
+    "AddHeader",
+    "AddHeaders",
     "Chain",
     "Clear",
     "Click",

@@ -4,6 +4,7 @@ from unittest import mock
 
 from screenpy.actions import (
     AcceptAlert,
+    AddHeader,
     Click,
     Debug,
     DismissAlert,
@@ -44,6 +45,13 @@ class TestAcceptAlert:
         aa = AcceptAlert()
 
         assert isinstance(aa, AcceptAlert)
+
+
+class TestAddHeader:
+    def test_can_be_instantiated(self):
+        ah = AddHeader()
+
+        assert isinstance(ah, AddHeader)
 
 
 class TestClick:

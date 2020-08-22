@@ -322,6 +322,11 @@ and returns a |SendAPIRequest| action.
 Please excuse
 the sparse documentation.
 
+AddHeader
+^^^^^^^^^
+
+.. autoclass:: AddHeader
+
 SendGETRequest
 ^^^^^^^^^^^^^^
 

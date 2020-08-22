@@ -8,6 +8,7 @@ from screenpy import Target
 from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequests
 from screenpy.actions import (
     AcceptAlert,
+    AddHeaders,
     Chain,
     Clear,
     Click,
@@ -53,6 +54,17 @@ def test_clear(Tester):
     mocked_btw = Tester.ability_to(BrowseTheWeb)
     mocked_btw.to_find.assert_called_once_with(fake_target)
     mocked_btw.to_find.return_value.clear.assert_called_once()
+
+
+def test_add_headers(APITester):
+    """AddHeaders adds the headers to the session."""
+    test_headers = {"test": "header", "another": "one"}
+    session = APITester.ability_to(MakeAPIRequests).session
+    session.headers = {}
+
+    APITester.attempts_to(AddHeaders(**test_headers))
+
+    assert session.headers == test_headers
 
 
 class TestClick:

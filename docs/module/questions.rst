@@ -102,7 +102,17 @@ BrowserURL
 
 .. autoclass:: BrowserURL
 
+Cookies
+^^^^^^^
+
+.. autoclass:: Cookies
+
 BodyOfTheLastResponse
 ^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: BodyOfTheLastResponse
+
+StatusCodeOfTheLastResponse
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: StatusCodeOfTheLastResponse
