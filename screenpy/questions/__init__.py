@@ -18,6 +18,7 @@ from .headers_of_the_last_response import HeadersOfTheLastResponse
 from .list import List
 from .number import Number
 from .selected import Selected
+from .status_code_of_the_last_response import StatusCodeOfTheLastResponse
 from .text import Text
 from .text_of_the_alert import TextOfTheAlert
 
@@ -33,6 +34,7 @@ TheHeadersOfTheLastResponse = HeadersOfTheLastResponse
 TheList = List
 TheNumber = Number
 TheSelected = Selected
+TheStatusCodeOfTheLastResponse = StatusCodeOfTheLastResponse
 TheText = Text
 TheTextOfTheAlert = TextOfTheAlert
 
@@ -49,6 +51,7 @@ __all__ = [
     "List",
     "Number",
     "Selected",
+    "StatusCodeOfTheLastResponse",
     "Text",
     "TextOfTheAlert",
     "TheBodyOfTheLastResponse",
@@ -62,6 +65,7 @@ __all__ = [
     "TheList",
     "TheNumber",
     "TheSelected",
+    "TheStatusCodeOfTheLastResponse",
     "TheText",
     "TheTextOfTheAlert",
 ]

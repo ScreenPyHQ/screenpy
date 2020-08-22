@@ -18,6 +18,7 @@ from screenpy.questions import (
     List,
     Number,
     Selected,
+    StatusCodeOfTheLastResponse,
     Text,
 )
 
@@ -117,20 +118,20 @@ class TestElement:
         assert element is None
 
 
-class TestHeadersOfTheLastResponse:
+class TestStatusCodeOfTheLastResponse:
     def test_can_be_instantiated(self):
-        """HeadersOfTheLastResponse can be instantiated"""
-        hotlr = HeadersOfTheLastResponse()
+        """StatusCodeOfTheLastResponse can be instantiated"""
+        scotlr = StatusCodeOfTheLastResponse()
 
-        assert isinstance(hotlr, HeadersOfTheLastResponse)
+        assert isinstance(scotlr, StatusCodeOfTheLastResponse)
 
     def test_raises_error_if_no_responses(self, APITester):
         """Raises UnableToAnswer if no responses yet"""
-        hotlr = HeadersOfTheLastResponse()
+        scotlr = StatusCodeOfTheLastResponse()
         APITester.ability_to(MakeAPIRequests).responses = []
 
         with pytest.raises(UnableToAnswer):
-            hotlr.answered_by(APITester)
+            scotlr.answered_by(APITester)
 
 
 class TestList:
@@ -169,6 +170,22 @@ class TestSelected:
         multi_selected = Selected.options_from(None)
 
         assert multi_selected.multi
+
+
+class TestHeadersOfTheLastResponse:
+    def test_can_be_instantiated(self):
+        """HeadersOfTheLastResponse can be instantiated"""
+        hotlr = HeadersOfTheLastResponse()
+
+        assert isinstance(hotlr, HeadersOfTheLastResponse)
+
+    def test_raises_error_if_no_responses(self, APITester):
+        """Raises UnableToAnswer if no responses yet"""
+        hotlr = HeadersOfTheLastResponse()
+        APITester.ability_to(MakeAPIRequests).responses = []
+
+        with pytest.raises(UnableToAnswer):
+            hotlr.answered_by(APITester)
 
 
 class TestText:

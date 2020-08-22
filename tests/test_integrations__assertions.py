@@ -15,6 +15,7 @@ from screenpy.questions import (
     List,
     Number,
     Selected,
+    StatusCodeOfTheLastResponse,
     Text,
     TextOfTheAlert,
 )
@@ -261,4 +262,15 @@ def test_headers_returns_a_dict(APITester):
 
     APITester.should_see_the(
         (HeadersOfTheLastResponse(), ContainTheEntry(**test_headers))
+    )
+
+
+def test_status_code_of_the_last_response(APITester):
+    test_status_code = 1337
+    mock_response = mock.Mock()
+    mock_response.status_code = test_status_code
+    APITester.ability_to(MakeAPIRequests).responses = [mock_response]
+
+    APITester.should_see_the(
+        (StatusCodeOfTheLastResponse(), IsEqualTo(test_status_code))
     )
