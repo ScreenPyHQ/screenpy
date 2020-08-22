@@ -14,11 +14,27 @@ from screenpy.questions import (
     CookiesOnTheAPISession,
     CookiesOnTheWebSession,
     Element,
+    HeadersOfTheLastResponse,
     List,
     Number,
     Selected,
     Text,
 )
+
+
+class TestBodyOfTheLastResponse:
+    def test_can_be_instantiated(self):
+        botlr = BodyOfTheLastResponse()
+
+        assert isinstance(botlr, BodyOfTheLastResponse)
+
+    def test_raises_error_if_no_responses(self, APITester):
+        """Raises UnableToAnswer if no responses yet"""
+        botlr = BodyOfTheLastResponse()
+        APITester.ability_to(MakeAPIRequests).responses = []
+
+        with pytest.raises(UnableToAnswer):
+            botlr.answered_by(APITester)
 
 
 class TestBrowserTitle:
@@ -101,6 +117,22 @@ class TestElement:
         assert element is None
 
 
+class TestHeadersOfTheLastResponse:
+    def test_can_be_instantiated(self):
+        """HeadersOfTheLastResponse can be instantiated"""
+        hotlr = HeadersOfTheLastResponse()
+
+        assert isinstance(hotlr, HeadersOfTheLastResponse)
+
+    def test_raises_error_if_no_responses(self, APITester):
+        """Raises UnableToAnswer if no responses yet"""
+        hotlr = HeadersOfTheLastResponse()
+        APITester.ability_to(MakeAPIRequests).responses = []
+
+        with pytest.raises(UnableToAnswer):
+            hotlr.answered_by(APITester)
+
+
 class TestList:
     def test_can_be_instantiated(self):
         """List can be instantiated"""
@@ -153,18 +185,3 @@ class TestText:
         multi_text = Text.of_all(None)
 
         assert multi_text.multi
-
-
-class TestBodyOfTheLastResponse:
-    def test_can_be_instantiated(self):
-        botlr = BodyOfTheLastResponse()
-
-        assert isinstance(botlr, BodyOfTheLastResponse)
-
-    def test_raises_error_if_no_responses(self, APITester):
-        """Raises UnableToAnswer if no responses yet"""
-        botlr = BodyOfTheLastResponse()
-        APITester.ability_to(MakeAPIRequests).responses = []
-
-        with pytest.raises(UnableToAnswer):
-            botlr.answered_by(APITester)

@@ -11,6 +11,7 @@ from screenpy.questions import (
     BrowserURL,
     Cookies,
     Element,
+    HeadersOfTheLastResponse,
     List,
     Number,
     Selected,
@@ -249,3 +250,15 @@ def test_cookies_web_dict(Tester):
     ]
 
     Tester.should_see_the((Cookies(), ContainTheEntry(**test_cookie)))
+
+
+def test_headers_returns_a_dict(APITester):
+    """HeadersOfTheLastResponse returns a dict"""
+    test_headers = {"Content-Type": "application/json"}
+    mock_response = mock.Mock()
+    mock_response.headers = test_headers
+    APITester.ability_to(MakeAPIRequests).responses = [mock_response]
+
+    APITester.should_see_the(
+        (HeadersOfTheLastResponse(), ContainTheEntry(**test_headers))
+    )

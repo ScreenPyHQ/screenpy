@@ -14,6 +14,7 @@ from .browser_title import BrowserTitle
 from .browser_url import BrowserURL
 from .cookies import Cookies, CookiesOnTheAPISession, CookiesOnTheWebSession
 from .element import Element
+from .headers_of_the_last_response import HeadersOfTheLastResponse
 from .list import List
 from .number import Number
 from .selected import Selected
@@ -28,6 +29,7 @@ TheCookiesOnTheAPISession = CookiesOnTheAPISession
 TheCookiesOnTheWebSession = CookiesOnTheWebSession
 TheBrowserURL = BrowserURL
 TheElement = Element
+TheHeadersOfTheLastResponse = HeadersOfTheLastResponse
 TheList = List
 TheNumber = Number
 TheSelected = Selected
@@ -43,6 +45,7 @@ __all__ = [
     "CookiesOnTheAPISession",
     "CookiesOnTheWebSession",
     "Element",
+    "HeadersOfTheLastResponse",
     "List",
     "Number",
     "Selected",
@@ -55,6 +58,7 @@ __all__ = [
     "TheCookiesOnTheAPISession",
     "TheCookiesOnTheWebSession",
     "TheElement",
+    "TheHeadersOfTheLastResponse",
     "TheList",
     "TheNumber",
     "TheSelected",
