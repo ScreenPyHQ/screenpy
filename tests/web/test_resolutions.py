@@ -3,7 +3,10 @@ from unittest import mock
 
 from screenpy.resolutions import (
     BaseResolution,
+    ContainsTheEntry,
+    ContainsTheKey,
     ContainsTheText,
+    ContainsTheValue,
     DoesNot,
     Empty,
     Equal,
@@ -25,6 +28,46 @@ class TestBaseAbility:
             SubclassedResolution()
 
 
+class TestContainsTheEntry:
+    def test_can_be_instantiated(self):
+        """ContainsTheEntry can be instantiated"""
+        cte_single = ContainsTheEntry(key="value")
+        cte_multiple = ContainsTheEntry(key1="value1", key2="value2")
+
+        assert isinstance(cte_single, ContainsTheEntry)
+        assert isinstance(cte_multiple, ContainsTheEntry)
+
+    def test_the_test(self):
+        """ContainsTheEntry tests what it says on the tin"""
+        cte_single = ContainsTheEntry(key="value")
+        cte_multiple = ContainsTheEntry(key1="value1", key2="value2")
+
+        assert cte_single.matches({"key": "value"})
+        assert cte_single.matches({"key": "value", "play": "Hamlet"})
+        assert not cte_single.matches({"play": "Hamlet"})
+        assert cte_multiple.matches({"key1": "value1", "key2": "value2"})
+        assert cte_multiple.matches(
+            {"key1": "value1", "key2": "value2", "play": "Hamlet"}
+        )
+        assert not cte_multiple.matches({"key1": "value1"})
+
+
+class TestContainsTheKey:
+    def test_can_be_instantiated(self):
+        """ContainsTheKey can be instantiated"""
+        ctk = ContainsTheKey("key")
+
+        assert isinstance(ctk, ContainsTheKey)
+
+    def test_the_test(self):
+        """ContainsTheKey tests what it says on the tin"""
+        ctk = ContainsTheKey("key")
+
+        assert ctk.matches({"key": "value"})
+        assert ctk.matches({"key": "value", "play": "Hamlet"})
+        assert not ctk.matches({"play": "Hamlet"})
+
+
 class TestContainsTheText:
     def test_can_be_instantiated(self):
         """ContainsTheText can be instantiated"""
@@ -38,6 +81,22 @@ class TestContainsTheText:
 
         assert ctt.matches("hello world!")
         assert not ctt.matches("goodbye universe.")
+
+
+class TestContainsTheValue:
+    def test_can_be_instantiated(self):
+        """ContainsTheValue can be instantiated"""
+        ctv = ContainsTheValue("Value")
+
+        assert isinstance(ctv, ContainsTheValue)
+
+    def test_the_test(self):
+        """ContainsTheValue tests what it says on the tin"""
+        ctv = ContainsTheValue("value")
+
+        assert ctv.matches({"key": "value"})
+        assert ctv.matches({"key": "value", "play": "Hamlet"})
+        assert not ctv.matches({"play": "Hamlet"})
 
 
 class TestEmpty:

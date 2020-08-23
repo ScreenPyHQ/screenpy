@@ -9,41 +9,63 @@ second half is handled by Resolutions.
 """
 
 
+from .body_of_the_last_response import BodyOfTheLastResponse
 from .browser_title import BrowserTitle
 from .browser_url import BrowserURL
+from .cookies import Cookies, CookiesOnTheAPISession, CookiesOnTheWebSession
 from .element import Element
+from .headers_of_the_last_response import HeadersOfTheLastResponse
 from .list import List
 from .number import Number
 from .selected import Selected
+from .status_code_of_the_last_response import StatusCodeOfTheLastResponse
 from .text import Text
 from .text_of_the_alert import TextOfTheAlert
 
 # Natural-language-enabling syntactic sugar
+TheBodyOfTheLastResponse = BodyOfTheLastResponse
 TheBrowserTitle = BrowserTitle
+TheCookies = Cookies
+TheCookiesOnTheAPISession = CookiesOnTheAPISession
+TheCookiesOnTheWebSession = CookiesOnTheWebSession
 TheBrowserURL = BrowserURL
 TheElement = Element
+TheHeadersOfTheLastResponse = HeadersOfTheLastResponse
 TheList = List
 TheNumber = Number
 TheSelected = Selected
+TheStatusCodeOfTheLastResponse = StatusCodeOfTheLastResponse
 TheText = Text
 TheTextOfTheAlert = TextOfTheAlert
 
 
 __all__ = [
+    "BodyOfTheLastResponse",
     "BrowserTitle",
     "BrowserURL",
+    "Cookies",
+    "CookiesOnTheAPISession",
+    "CookiesOnTheWebSession",
     "Element",
+    "HeadersOfTheLastResponse",
     "List",
     "Number",
     "Selected",
+    "StatusCodeOfTheLastResponse",
     "Text",
     "TextOfTheAlert",
+    "TheBodyOfTheLastResponse",
     "TheBrowserTitle",
     "TheBrowserURL",
+    "TheCookies",
+    "TheCookiesOnTheAPISession",
+    "TheCookiesOnTheWebSession",
     "TheElement",
+    "TheHeadersOfTheLastResponse",
     "TheList",
     "TheNumber",
     "TheSelected",
+    "TheStatusCodeOfTheLastResponse",
     "TheText",
     "TheTextOfTheAlert",
 ]

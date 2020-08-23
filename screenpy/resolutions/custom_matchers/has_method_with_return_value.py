@@ -18,10 +18,6 @@ from hamcrest.core.helpers.wrap_matcher import wrap_matcher as wrap_shortcut
 from hamcrest.core.matcher import Matcher
 from hamcrest.core.string_description import StringDescription
 
-__author__ = "Perry Goy"
-__copyright__ = "Copyright 2011 hamcrest.org"
-__license__ = "BSD, see License.txt"
-
 
 class IsObjectWithCallableProducingValue(BaseMatcher[object]):
     """

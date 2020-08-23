@@ -11,11 +11,10 @@ like so:
 
 from typing import List, Union
 
+from screenpy.actor import Actor
+from screenpy.pacing import beat
+from screenpy.target import Target
 from selenium.webdriver.support.ui import Select as SeleniumSelect
-
-from ..actor import Actor
-from ..pacing import beat
-from ..target import Target
 
 
 class Selected:

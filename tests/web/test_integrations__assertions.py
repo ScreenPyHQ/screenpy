@@ -1,21 +1,29 @@
 from unittest import mock
 
 import pytest
+from requests.cookies import RequestsCookieJar
 
 from screenpy import Target
-from screenpy.abilities import BrowseTheWeb
+from screenpy.abilities import BrowseTheWeb, MakeAPIRequests
 from screenpy.questions import (
+    BodyOfTheLastResponse,
     BrowserTitle,
     BrowserURL,
+    Cookies,
     Element,
+    HeadersOfTheLastResponse,
     List,
     Number,
     Selected,
+    StatusCodeOfTheLastResponse,
     Text,
     TextOfTheAlert,
 )
 from screenpy.resolutions import (
+    ContainsTheEntries,
+    ContainsTheEntry,
     ContainsTheText,
+    ContainTheEntry,
     Empty,
     EqualTo,
     IsEmpty,
@@ -195,3 +203,74 @@ def test_visible_element(Tester):
     mocked_btw.to_find.return_value = mocked_element
 
     Tester.should_see_the((Element(fake_target), IsVisible()))
+
+
+def test_body_of_the_last_response(APITester):
+    """BodyOfTheLastResponse and ContainsTheEntry tests the JSON body"""
+    test_json = {"play": "Hamlet"}
+    fake_response = mock.Mock()
+    fake_response.json.return_value = test_json
+    mocked_mar = APITester.ability_to(MakeAPIRequests)
+    mocked_mar.responses = [fake_response]
+
+    APITester.should_see_the((BodyOfTheLastResponse(), ContainsTheEntry(**test_json)))
+
+
+def test_contains_the_entries_multiple(APITester):
+    """ContainsTheEntries can test multiple key/value pairs"""
+    test_json = {"play": "Hamlet", "intermission": "1hr"}
+    fake_response = mock.Mock()
+    fake_response.json.return_value = test_json
+    mocked_mar = APITester.ability_to(MakeAPIRequests)
+    mocked_mar.responses = [fake_response]
+
+    APITester.should_see_the(
+        (BodyOfTheLastResponse(), ContainsTheEntries(**test_json))
+    )
+
+
+def test_cookies_api_dict(APITester):
+    """Cookies returns a dict for actors who can MakeAPIRequests"""
+    test_name = "cookie_type"
+    test_value = "madeleine"
+    test_cookie = {test_name: test_value}
+    test_jar = RequestsCookieJar()
+    test_jar.set(test_name, test_value)
+    APITester.ability_to(MakeAPIRequests).session.cookies = test_jar
+
+    APITester.should_see_the((Cookies(), ContainTheEntry(**test_cookie)))
+
+
+def test_cookies_web_dict(Tester):
+    """Cookies returns a dict for actors who can BrowseTheWeb"""
+    test_name = "cookie_type"
+    test_value = "madeleine"
+    test_cookie = {test_name: test_value}
+    Tester.ability_to(BrowseTheWeb).browser.get_cookies.return_value = [
+        {"name": test_name, "value": test_value}
+    ]
+
+    Tester.should_see_the((Cookies(), ContainTheEntry(**test_cookie)))
+
+
+def test_headers_returns_a_dict(APITester):
+    """HeadersOfTheLastResponse returns a dict"""
+    test_headers = {"Content-Type": "application/json"}
+    mock_response = mock.Mock()
+    mock_response.headers = test_headers
+    APITester.ability_to(MakeAPIRequests).responses = [mock_response]
+
+    APITester.should_see_the(
+        (HeadersOfTheLastResponse(), ContainTheEntry(**test_headers))
+    )
+
+
+def test_status_code_of_the_last_response(APITester):
+    test_status_code = 1337
+    mock_response = mock.Mock()
+    mock_response.status_code = test_status_code
+    APITester.ability_to(MakeAPIRequests).responses = [mock_response]
+
+    APITester.should_see_the(
+        (StatusCodeOfTheLastResponse(), IsEqualTo(test_status_code))
+    )

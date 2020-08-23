@@ -37,3 +37,11 @@ class DeliveryError(ActionError):
 
 class UnableToAct(ActionError):
     """Raised when an action is missing direction."""
+
+
+class QuestionError(ScreenPyError):
+    """These errors are raised when a question fails."""
+
+
+class UnableToAnswer(QuestionError):
+    """The actor cannot answer the question."""

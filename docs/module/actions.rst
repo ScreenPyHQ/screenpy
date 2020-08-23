@@ -161,40 +161,41 @@ are required to have a ``perform_as`` method defined.
 Provided Web Actions
 --------------------
 
+.. module:: screenpy.actions
+
 Open
 ^^^^
 
-.. autoclass:: screenpy.actions.web.open.Open
+.. autoclass:: Open
     :members:
 
 Click
 ^^^^^
 
-.. autoclass:: screenpy.actions.web.click.Click
+.. autoclass:: Click
     :members:
 
 Clear
 ^^^^^
 
-.. autoclass:: screenpy.actions.web.clear.Clear
+.. autoclass:: Clear
     :members:
 
 Enter
 ^^^^^
 
-.. autoclass:: screenpy.actions.web.enter.Enter
+.. autoclass:: Enter
     :members:
 
 Enter2FAToken
 ^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.enter_2fa_token.Enter2FAToken
+.. autoclass:: Enter2FAToken
     :members:
 
 Select
 ^^^^^^
 
-.. module:: screenpy.actions.web.select
 .. autoclass:: Select
     :members:
 .. autoclass:: SelectByText
@@ -207,103 +208,103 @@ Select
 AcceptAlert
 ^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.accept_alert.AcceptAlert
+.. autoclass:: AcceptAlert
     :members:
 
 DismissAlert
 ^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.dismiss_alert.DismissAlert
+.. autoclass:: DismissAlert
     :members:
 
 RespondToThePrompt
 ^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.respond_to_the_prompt.RespondToThePrompt
+.. autoclass:: RespondToThePrompt
     :members:
 
 SwitchTo
 ^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.switch_to.SwitchTo
+.. autoclass:: SwitchTo
     :members:
 
 SwitchToTab
 ^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.switch_to_tab.SwitchToTab
+.. autoclass:: SwitchToTab
     :members:
 
 GoBack
 ^^^^^^
 
-.. autoclass:: screenpy.actions.web.go_back.GoBack
+.. autoclass:: GoBack
     :members:
 
 GoForward
 ^^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.go_forward.GoForward
+.. autoclass:: GoForward
     :members:
 
 RefreshPage
 ^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.refresh_page.RefreshPage
+.. autoclass:: RefreshPage
     :members:
 
 Chain
 ^^^^^
 
-.. autoclass:: screenpy.actions.web.chain.Chain
+.. autoclass:: Chain
     :members:
 
 DoubleClick
 ^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.double_click.DoubleClick
+.. autoclass:: DoubleClick
     :members:
 
 RightClick
 ^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.right_click.RightClick
+.. autoclass:: RightClick
     :members:
 
 HoldDown
 ^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.hold_down.HoldDown
+.. autoclass:: HoldDown
     :members:
 
 Release
 ^^^^^^^
 
-.. autoclass:: screenpy.actions.web.release.Release
+.. autoclass:: Release
     :members:
 
 MoveMouse
 ^^^^^^^^^
 
-.. autoclass:: screenpy.actions.web.move_mouse.MoveMouse
+.. autoclass:: MoveMouse
     :members:
 
 Wait
 ^^^^
 
-.. autoclass:: screenpy.actions.web.wait.Wait
+.. autoclass:: Wait
     :members:
 
 Pause
 ^^^^^
 
-.. autoclass:: screenpy.actions.web.pause.Pause
+.. autoclass:: Pause
     :members:
 
 Debug
 ^^^^^
 
-.. autoclass:: screenpy.actions.web.debug.Debug
+.. autoclass:: Debug
     :members:
 
 Provided API Actions
@@ -321,38 +322,43 @@ and returns a |SendAPIRequest| action.
 Please excuse
 the sparse documentation.
 
+AddHeader
+^^^^^^^^^
+
+.. autoclass:: AddHeader
+
 SendGETRequest
 ^^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.api.SendGETRequest
+.. autoclass:: SendGETRequest
 
 SendPOSTRequest
 ^^^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.api.SendPOSTRequest
+.. autoclass:: SendPOSTRequest
 
 SendDELETERequest
 ^^^^^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.api.SendDELETERequest
+.. autoclass:: SendDELETERequest
 
 SendPATCHRequest
 ^^^^^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.api.SendPATCHRequest
+.. autoclass:: SendPATCHRequest
 
 SendHEADRequest
 ^^^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.api.SendHEADRequest
+.. autoclass:: SendHEADRequest
 
 SendOPTIONSRequest
 ^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.api.SendOPTIONSRequest
+.. autoclass:: SendOPTIONSRequest
 
 SendAPIRequest
 ^^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.actions.api.send_api_request.SendAPIRequest
+.. autoclass:: SendAPIRequest
     :members:

@@ -65,44 +65,54 @@ the |Text.answered_by| method of the |Text| class.
 Provided Questions
 ------------------
 
+.. module:: screenpy.questions
+
 List
 ^^^^
 
-.. module:: screenpy.questions.list
 .. autoclass:: List
 
 Number
 ^^^^^^
 
-.. module:: screenpy.questions.number
 .. autoclass:: Number
 
 Text
 ^^^^
 
-.. module:: screenpy.questions.text
 .. autoclass:: Text
 
 Selected
 ^^^^^^^^
 
-.. module:: screenpy.questions.selected
 .. autoclass:: Selected
 
 Element
 ^^^^^^^
 
-.. module:: screenpy.questions.element
 .. autoclass:: Element
 
 BrowserTitle
 ^^^^^^^^^^^^
 
-.. module:: screenpy.questions.browser_title
 .. autoclass:: BrowserTitle
 
 BrowserURL
 ^^^^^^^^^^
 
-.. module:: screenpy.questions.browser_url
 .. autoclass:: BrowserURL
+
+Cookies
+^^^^^^^
+
+.. autoclass:: Cookies
+
+BodyOfTheLastResponse
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: BodyOfTheLastResponse
+
+StatusCodeOfTheLastResponse
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: StatusCodeOfTheLastResponse

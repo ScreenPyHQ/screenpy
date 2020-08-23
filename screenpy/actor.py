@@ -103,6 +103,14 @@ class Actor:
 
     ability_to = uses_ability_to
 
+    def has_ability_to(self, ability: Type[Forgettable]) -> bool:
+        """Ask whether the actor has the ability to do something."""
+        try:
+            self.uses_ability_to(ability)
+            return True
+        except UnableToPerform:
+            return False
+
     def attempts_to(self, *actions: Performable) -> None:
         """
         Perform a list of actions, one after the other.
