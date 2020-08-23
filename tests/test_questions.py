@@ -1,3 +1,4 @@
+from json.decoder import JSONDecodeError
 from unittest import mock
 
 import pytest
@@ -36,6 +37,21 @@ class TestBodyOfTheLastResponse:
 
         with pytest.raises(UnableToAnswer):
             botlr.answered_by(APITester)
+
+    def test_handles_non_json(self, APITester):
+        """Non-JSON bodies are returned as text."""
+        botlr = BodyOfTheLastResponse()
+        test_body = "And stop calling me Shirley."
+        mock_response = mock.Mock()
+        mock_response.json.side_effect = JSONDecodeError(
+            "Surely, it's not JSON", test_body, 1
+        )
+        mock_response.text = test_body
+        APITester.ability_to(MakeAPIRequests).responses = [mock_response]
+
+        answer = botlr.answered_by(APITester)
+
+        assert answer == test_body
 
 
 class TestBrowserTitle:
