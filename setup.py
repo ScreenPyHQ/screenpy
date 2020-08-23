@@ -9,6 +9,7 @@ requires = [
     "selenium>=3.141.0,<3.142",
     "pyotp>=2.3.0,<2.4.0",
     "requests>=2.22.0,<2.23.0",
+    "typing_extensions>=3.7.4.2",
 ]
 
 repo_dir = path.abspath(path.dirname(__file__))
