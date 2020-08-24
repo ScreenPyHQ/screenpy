@@ -10,6 +10,7 @@ from screenpy.resolutions import (
     DoesNot,
     Empty,
     Equal,
+    HasLength,
     IsEqualTo,
     IsNot,
     IsVisible,
@@ -112,6 +113,20 @@ class TestEmpty:
 
         assert e.matches([])
         assert not e.matches(["not", "empty"])
+
+
+class TestHasLength:
+    def test_can_be_instantiated(self):
+        hl = HasLength(5)
+
+        assert isinstance(hl, HasLength)
+
+    def test_the_test(self):
+        """HasLength tests the length of a list"""
+        hl = HasLength(5)
+
+        assert hl.matches([1, 2, 3, 4, 5])
+        assert not hl.matches([1])
 
 
 class TestIsEqualTo:

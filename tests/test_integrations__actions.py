@@ -255,11 +255,6 @@ def test_go_forward_uses_forward(Tester):
 
 
 class TestHoldDown:
-    def test_cannot_be_performed(self, Tester):
-        """HoldDown action cannot be performed"""
-        with pytest.raises(UnableToAct):
-            Tester.attempts_to(HoldDown(Keys.SHIFT))
-
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_uses_key_down(self, MockedActionChains, Tester):
         """HoldDown key uses ActionChains.key_down"""
@@ -364,11 +359,6 @@ def test_refresh_page(Tester):
 
 
 class TestRelease:
-    def test_cannot_be_performed(self, Tester):
-        """Release action cannot be performed"""
-        with pytest.raises(UnableToAct):
-            Tester.attempts_to(Release(Keys.SHIFT))
-
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_uses_key_down(self, MockedActionChains, Tester):
         """Release key uses ActionChains.key_up"""
