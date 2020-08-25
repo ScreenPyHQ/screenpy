@@ -4,6 +4,7 @@ from unittest import mock
 from screenpy.resolutions import (
     BaseResolution,
     ContainsTheEntry,
+    ContainsTheItem,
     ContainsTheKey,
     ContainsTheText,
     ContainsTheValue,
@@ -51,6 +52,20 @@ class TestContainsTheEntry:
             {"key1": "value1", "key2": "value2", "play": "Hamlet"}
         )
         assert not cte_multiple.matches({"key1": "value1"})
+
+
+class TestContainsTheItem:
+    def test_can_be_instantiated(self):
+        cti = ContainsTheItem(1)
+
+        assert isinstance(cti, ContainsTheItem)
+
+    def test_the_test(self):
+        """ContainsTheItem matches against a list containing the item."""
+        cti = ContainsTheItem(1)
+
+        assert cti.matches(range(0, 10))
+        assert not cti.matches({0, 3, 5})
 
 
 class TestContainsTheKey:

@@ -93,6 +93,11 @@ ContainsTheValue
 
 .. autoclass:: ContainsTheValue
 
+ContainsTheItem
+^^^^^^^^^^^^^^^
+
+.. autoclass:: ContainsTheItem
+
 HasLength
 ^^^^^^^^^
 
