@@ -32,16 +32,7 @@ class Enter:
 
     @staticmethod
     def the_text(text: str) -> "Enter":
-        """
-        Provide the text to enter in to the field. It is expected the next
-        call will be to the instantiated Enter object's |Enter.into| method.
-
-        Args:
-            text: the text to enter into the |Target|.
-
-        Returns:
-            |Enter|
-        """
+        """Provide the text to enter in to the field."""
         return Enter(text)
 
     the_keys = the_text
@@ -49,48 +40,26 @@ class Enter:
     @staticmethod
     def the_secret(text: str) -> "Enter":
         """
-        Provide the text to enter into the field, but note that the text
+        Provide the text to enter into the field, but mark that the text
         should be masked in the log. The text will appear as "[CENSORED]".
-        It is expected that the next call will be to the instantiated Enter
-        object's |Enter.into| method.
-
-        Args:
-            text: the text to enter into the |Target|, but it's a secret.
-
-        Returns:
-            |Enter|
         """
         return Enter(text, mask=True)
 
     the_password = the_secret
 
     def into_the(self, target: Target) -> "Enter":
-        """
-        Specify the target to enter the text into. This is most likely an
-        input field.
-
-        Args:
-            target: The |Target| describing the input field.
-
-        Returns:
-            |Enter|
-        """
+        """Target the element to enter text into."""
         self.target = target
         return self
 
     on = into = into_the
 
     def then_hit(self, *keys: str) -> "Enter":
-        """
-        Supply additional keys to hit after entering the text, for example if
-        the keyboard ENTER key should be pressed.
+        """Supply additional keys to hit after entering the text.
 
         Args:
             keys: the keys to hit afterwards. These are probably the
-                constants from Selenium's |Keys|, but can also be a string.
-
-        Returns:
-            |Enter|
+                constants from Selenium's |Keys|.
         """
         self.following_keys.extend(keys)
         return self
