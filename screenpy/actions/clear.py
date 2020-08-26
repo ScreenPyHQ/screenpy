@@ -15,7 +15,8 @@ class Clear:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(Clear.the_text_from_the(NAME_INPUT))
     """
 

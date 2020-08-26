@@ -24,7 +24,8 @@ class Release:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(Release.left_mouse_button())
 
         the_actor.attempts_to(Release(Keys.SHIFT))

@@ -18,7 +18,8 @@ class Enter2FAToken:
         |BrowseTheWeb|
         |AuthenticateWith2FA|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(Enter2FAToken.into_the(2FA_INPUT_FIELD))
     """
 

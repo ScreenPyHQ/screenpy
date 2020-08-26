@@ -61,7 +61,8 @@ def generate_send_method_class(method):
 Abilities Required:
     |MakeAPIRequests|
 
-Examples:
+Examples::
+
     the_actor.attempts_to(Send{method}Request.to("https://www.example.com")))
 
     the_actor.attempts_to(
@@ -78,7 +79,8 @@ Examples:
 #: Abilities Required:
 #:     |MakeAPIRequests|
 #:
-#: Examples:
+#: Examples::
+#:
 #:     the_actor.attempts_to(SendDELETERequest.to("https://www.example.com")))
 #:
 #:     the_actor.attempts_to(
@@ -91,7 +93,8 @@ SendDELETERequest = generate_send_method_class("DELETE")
 #: Abilities Required:
 #:     |MakeAPIRequests|
 #:
-#: Examples:
+#: Examples::
+#:
 #:     the_actor.attempts_to(SendGETRequest.to("https://www.example.com")))
 #:
 #:     the_actor.attempts_to(
@@ -104,7 +107,8 @@ SendGETRequest = generate_send_method_class("GET")
 #: Abilities Required:
 #:     |MakeAPIRequests|
 #:
-#: Examples:
+#: Examples::
+#:
 #:     the_actor.attempts_to(SendHEADRequest.to("https://www.example.com")))
 #:
 #:     the_actor.attempts_to(
@@ -117,7 +121,8 @@ SendHEADRequest = generate_send_method_class("HEAD")
 #: Abilities Required:
 #:     |MakeAPIRequests|
 #:
-#: Examples:
+#: Examples::
+#:
 #:     the_actor.attempts_to(SendOPTIONSRequest.to("https://www.example.com")))
 #:
 #:     the_actor.attempts_to(
@@ -130,7 +135,8 @@ SendOPTIONSRequest = generate_send_method_class("OPTIONS")
 #: Abilities Required:
 #:     |MakeAPIRequests|
 #:
-#: Examples:
+#: Examples::
+#:
 #:     the_actor.attempts_to(SendPATCHRequest.to("https://www.example.com")))
 #:
 #:     the_actor.attempts_to(
@@ -143,7 +149,8 @@ SendPATCHRequest = generate_send_method_class("PATCH")
 #: Abilities Required:
 #:     |MakeAPIRequests|
 #:
-#: Examples:
+#: Examples::
+#:
 #:     the_actor.attempts_to(SendPOSTRequest.to("https://www.example.com")))
 #:
 #:     the_actor.attempts_to(
@@ -156,7 +163,8 @@ SendPOSTRequest = generate_send_method_class("POST")
 #: Abilities Required:
 #:     |MakeAPIRequests|
 #:
-#: Examples:
+#: Examples::
+#:
 #:     the_actor.attempts_to(SendPUTRequest.to("https://www.example.com")))
 #:
 #:     the_actor.attempts_to(

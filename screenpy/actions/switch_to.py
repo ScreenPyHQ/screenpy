@@ -16,7 +16,8 @@ class SwitchTo:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(SwitchTo(THE_ORDERS_FRAME))
 
         the_actor.attempts_to(SwitchTo.the(ORDERS_FRAME))

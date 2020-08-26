@@ -13,7 +13,8 @@ from .base_resolution import BaseResolution
 class ContainsTheItem(BaseResolution):
     """Match an iterable containing a specific item.
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (Text.of_all(SEARCH_RESULTS), ContainsTheItem("The Droids"))
         )

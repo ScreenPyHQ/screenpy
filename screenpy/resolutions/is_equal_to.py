@@ -13,7 +13,8 @@ from .base_resolution import BaseResolution
 class IsEqualTo(BaseResolution):
     """Match on an equal object.
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (Number.of(ADVERTISEMENT_BANNERS), IsEqualTo(0))
         )

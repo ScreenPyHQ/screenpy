@@ -19,7 +19,8 @@ class Pause:
     to pass in the reason for your pause; an |UnableToAct| will be raised if
     no reason was given.
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(
             Pause.for_(10).seconds_because("the alert banner needs to hide.")
         )

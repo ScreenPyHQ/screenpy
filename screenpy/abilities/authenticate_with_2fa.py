@@ -3,7 +3,6 @@ An ability that will allow the actor to get a generated code for two-factor
 authentication.
 """
 
-
 from datetime import datetime
 from time import sleep
 
@@ -15,19 +14,20 @@ class AuthenticateWith2FA:
     The ability to retrieve a one-time password from a two-factor
     authenticator.
 
-    Examples:
-        # during actor instantiation
-        the_actor = AnActor.who_can(AuthenticateWith2FA.using_secret(2FA_SECRET))
-        the_actor = AnActor.who_can(AuthenticateWith2FA.using(pyotp_instance))
+    Examples::
 
-        # after actor instantiation
-        the_actor.can(AuthenticateWith2FA.using_secret(2FA_SECRET))
+        Perry = AnActor.named("Perry")who_can(
+            AuthenticateWith2FA.using_secret(2FA_SECRET)
+        )
+
+        Perry = AnActor.named("Perry").who_can(
+            AuthenticateWith2FA.using(pyotp_instance)
+        )
     """
 
     @staticmethod
     def using_secret(secret: str) -> "AuthenticateWith2FA":
-        """
-        Create a TOTP instance with the given secret.
+        """Create a TOTP instance with the given secret.
 
         Args:
             secret: the secret given by the 2FA service. You may need to

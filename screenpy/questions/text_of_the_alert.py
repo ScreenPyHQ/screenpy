@@ -13,7 +13,8 @@ class TextOfTheAlert:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (TextOfTheAlert(), ReadsExactly("Danger, Will Robinson!"))
         )

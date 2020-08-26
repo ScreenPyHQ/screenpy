@@ -13,7 +13,8 @@ class DismissAlert:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(DismissAlert())
     """
 

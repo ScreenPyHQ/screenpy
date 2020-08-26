@@ -16,7 +16,8 @@ class List:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the((List.of(CONFETTI), IsEmpty()))
     """
 

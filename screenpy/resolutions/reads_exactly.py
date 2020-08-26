@@ -11,7 +11,8 @@ from .base_resolution import BaseResolution
 class ReadsExactly(BaseResolution):
     """Match a specific string exactly.
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (Text.of_the(LOGIN_MESSAGE), ReadsExactly("Log in below."))
         )

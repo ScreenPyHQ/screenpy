@@ -21,7 +21,8 @@ class Select:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(
             Select.the_option_named("January").from_the(MONTH_DROPDOWN)
         )

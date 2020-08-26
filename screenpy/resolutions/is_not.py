@@ -11,7 +11,8 @@ from .base_resolution import BaseResolution
 class IsNot(BaseResolution):
     """Match a negated Resolution.
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the((Element(WELCOME_BANNER), IsNot(Visible())))
     """
 

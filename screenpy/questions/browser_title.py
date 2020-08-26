@@ -13,7 +13,8 @@ class BrowserTitle:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the((BrowserTitle(), ReadsExactly("Welcome!")))
     """
 

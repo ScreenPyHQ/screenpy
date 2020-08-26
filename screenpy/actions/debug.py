@@ -19,7 +19,8 @@ class Debug:
     uses Python 3.7+'s breakpoint() call if it can, otherwise it will
     default to pdb.set_trace().
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(
             Click.on_the(SIGN_IN_BUTTON),
             # ...

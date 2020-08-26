@@ -26,7 +26,8 @@ class MoveMouse:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(MoveMouse.to_the(HAMBURGER_MENU))
 
         the_actor.attempts_to(MoveMouse.by_offset(500, -200))

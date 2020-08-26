@@ -15,7 +15,8 @@ class RespondToThePrompt:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(
             RespondToThePrompt.with_("Roger, Roger. What's your vector, Victor?")
         )

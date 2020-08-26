@@ -39,12 +39,15 @@ DEFAULT_ANDROID_CAPABILITIES = {
 class BrowseTheWeb:
     """The ability to browse the web with a web browser.
 
-    Examples:
-        # during actor instantiation
-        the_actor = AnActor.who_can(BrowseTheWeb.using(driver))
+    Examples::
 
-        # after actor instantiation
-        the_actor.can(BrowseTheWeb.using_safari())
+        Perry = AnActor.named("Perry").who_can(
+            BrowseTheWeb.using_firefox()
+        )
+
+        Perry = AnActor.named("Perry").who_can(
+            BrowseTheWeb.using(driver)
+        )
     """
 
     @staticmethod
@@ -110,8 +113,7 @@ class BrowseTheWeb:
         return BrowseTheWeb(browser)
 
     def to_find(self, target: Union["Target", Tuple[By, str]]) -> WebElement:
-        """
-        Locate a single element on the page using the given target or locator.
+        """Locate a single element on the page using the target or locator.
 
         Args:
             target: the |Target| or locator tuple describing the element.
@@ -133,8 +135,7 @@ class BrowseTheWeb:
     find = to_find
 
     def to_find_all(self, target: Union["Target", Tuple[By, str]]) -> List[WebElement]:
-        """
-        Locate many elements on the page using the given target or locator.
+        """Locate many elements on the page using the target or locator.
 
         Args:
             target: the |Target| or locator tuple describing the elements.
@@ -191,11 +192,11 @@ class BrowseTheWeb:
     def _resolve_locator(
         self, target_or_locator: Union["Target", Tuple[By, str]]
     ) -> Tuple[By, str]:
-        """Given a |Target| or a tuple, ensure we get a tuple back."""
-        if not isinstance(target_or_locator, tuple):
-            locator = target_or_locator.get_locator()
-        else:
+        """Given a Target or a tuple, ensure we get a tuple back."""
+        if isinstance(target_or_locator, tuple):
             locator = target_or_locator
+        else:
+            locator = target_or_locator.get_locator()
         return locator
 
     def __repr__(self) -> str:

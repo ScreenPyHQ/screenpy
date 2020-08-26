@@ -13,12 +13,13 @@ from ..exceptions import RequestError
 class MakeAPIRequests:
     """The ability to send API requests.
 
-    Examples:
-        # during actor instantiation
-        the_actor = AnActor.who_can(MakeAPIRequests.using(session_instance))
+    Examples::
 
-        # after actor instantiation
-        the_actor.can(MakeAPIRequests())
+        Perry = AnActor.named("Perry").who_can(MakeAPIRequests())
+
+        Perry = AnActor.named("Perry").who_can(
+            MakeAPIRequests.using(session_instance)
+        )
     """
 
     @staticmethod

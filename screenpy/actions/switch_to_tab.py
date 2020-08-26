@@ -13,7 +13,8 @@ class SwitchToTab:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(SwitchToTab(4))
     """
 

@@ -21,7 +21,8 @@ class Enter:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(
             Enter.the_text("Hello world!").into_the(COMMENT_FIELD)
         )

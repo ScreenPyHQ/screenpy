@@ -14,7 +14,8 @@ from .base_resolution import BaseResolution
 class ContainsTheEntry(BaseResolution):
     """Match a dictionary containing the specified key/value pair(s).
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (HeadersOfTheLastRequest(), ContainTheEntry(Authorization="Bearer 1"))
         )

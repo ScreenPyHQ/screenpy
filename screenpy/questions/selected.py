@@ -17,7 +17,8 @@ class Selected:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (Selected.option_from(THE_STATE_DROPDOWN), ReadsExactly("Minnesota")),
         )

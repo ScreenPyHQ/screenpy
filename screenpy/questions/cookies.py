@@ -18,7 +18,8 @@ class Cookies:
     Abilities Required:
         |BrowseTheWeb| or |MakeAPIRequests|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (Cookies(), ContainTheEntry(type="chocolate chip"))
         )
@@ -40,7 +41,8 @@ class CookiesOnTheWebSession:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (CookiesOnTheWebSession(), ContainTheEntry(type="oatmeal raisin"))
         )
@@ -59,7 +61,8 @@ class CookiesOnTheAPISession:
     Abilities Required:
         |MakeAPIRequests|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (CookiesOnTheAPISession(), ContainTheEntry(type="snickerdoodle"))
         )

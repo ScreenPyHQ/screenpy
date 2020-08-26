@@ -13,7 +13,8 @@ from .base_resolution import BaseResolution
 class ContainsTheValue(BaseResolution):
     """Match a dictionary containing a specific value.
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (Cookies(), ContainTheValue("pumpernickle"))
         )

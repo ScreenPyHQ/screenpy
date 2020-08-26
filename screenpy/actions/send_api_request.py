@@ -16,13 +16,14 @@ class SendAPIRequest:
     Abilities Required:
         |MakeAPIRequests|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(SendAPIRequest("GET", "http://www.example.com"))
 
         the_actor.attempts_to(
-            SendAPIRequest(
-                "POST", "http://www.example.com"
-            ).with_(data={"a": "b"})
+            SendAPIRequest("POST", "http://www.example.com").with_(
+                data={"screenplay": "Citizen Kane"}
+            )
         )
     """
 

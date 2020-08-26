@@ -15,7 +15,8 @@ class Text:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (Text.of(THE_WELCOME_HEADER), ReadsExactly("Welcome!"))
         )

@@ -13,7 +13,8 @@ class AddHeader:
     Abilities Required:
         |MakeAPIRequests|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(AddHeader(Authorization=TOKEN_AUTH_STRING))
     """
 

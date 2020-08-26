@@ -30,7 +30,8 @@ class HoldDown:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(Chain(HoldDown(Keys.SHIFT))
 
         the_actor.attempts_to(Chain(HoldDown.command_or_control_key()))

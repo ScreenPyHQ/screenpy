@@ -140,7 +140,8 @@ def has_method_with_return_value(
     Match against an object which has a method with the given name that, when
     called with the given args and kwargs, returns the expected value.
 
-    Examples:
+    Examples::
+
         assert_that(
             list(1, 2, 3), has_method_with_return_value("copy", [1, 2, 3])
         )
@@ -156,9 +157,6 @@ def has_method_with_return_value(
         args: the list of args to provide when calling.
         kwargs: a dictionary of kwargs to pass when calling.
         match: the expected value of calling the method.
-
-    Returns:
-        Matcher[object]
     """
     if match is None:
         match = not_none()

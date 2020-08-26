@@ -38,7 +38,8 @@ class Actor:
     Actors are the performers of your screenplay, they represent your users as
     they go about their business using your product.
 
-    Examples:
+    Examples::
+
         Perry = Actor.named("Perry")
     """
 

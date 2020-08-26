@@ -14,7 +14,8 @@ class StatusCodeOfTheLastResponse:
     Abilities Required:
         |MakeAPIRequests|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (StatusCodeOfTheLastResponse(), IsEqualTo(200))
         )

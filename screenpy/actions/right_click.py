@@ -17,7 +17,8 @@ class RightClick:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(RightClick.on_the(HERO_IMAGE))
 
         the_actor.attempts_to(

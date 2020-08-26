@@ -13,7 +13,8 @@ from .base_resolution import BaseResolution
 class ContainsTheKey(BaseResolution):
     """Match a dictionary containing a specific key.
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the((LastResponseBody(), ContainsTheKey("skeleton")))
     """
 

@@ -17,12 +17,11 @@ class DoubleClick:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(DoubleClick.on_the(FILE_ICON))
 
-        the_actor.attempts_to(
-            Chain(MoveMouse.by_offset(2001, 300), DoubleClick())
-        )
+        the_actor.attempts_to(Chain(MoveMouse.by_offset(2001, 300), DoubleClick()))
     """
 
     target: Optional[Target]

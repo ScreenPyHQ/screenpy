@@ -17,7 +17,8 @@ from .exceptions import TargetingError
 class Target:
     """Describe an element with a human-readable string and a locator.
 
-    Examples:
+    Examples::
+
         Target.the("header search bar").located_by("div.searchbar")
 
         Target.the("welcome message").located_by('//h2[@name = "welcome"]')

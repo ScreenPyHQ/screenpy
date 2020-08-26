@@ -19,7 +19,8 @@ class Wait:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(Wait.for_the(LOGIN_FORM))
 
         the_actor.attempts_to(

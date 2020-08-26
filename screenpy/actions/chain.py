@@ -25,13 +25,13 @@ class Chain:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(
-            Chain(Hover.on_the(MENU_ELEMENT), Click.on_the(SUBMENU_ELEMENT))
+            Chain(Hover.on_the(MENU_ICON), Click.on_the(SUBMENU_LINK))
         )
 
-    *Note*: Several actions cannot be Chained, and will raise an exception if
-        you try.
+    *Note*: Several actions cannot be Chained, and will raise an exception.
     """
 
     @beat("{} performs a complicated series of actions!")

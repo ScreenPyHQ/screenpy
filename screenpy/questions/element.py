@@ -17,7 +17,8 @@ class Element:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the((Element(WELCOME_BANNER), IsVisible()))
     """
 

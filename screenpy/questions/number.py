@@ -13,7 +13,8 @@ class Number:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the((Number.of(SEARCH_RESULTS), IsEqualTo(4)))
     """
 

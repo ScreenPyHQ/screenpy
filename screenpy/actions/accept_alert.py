@@ -13,7 +13,8 @@ class AcceptAlert:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(AcceptAlert())
     """
 

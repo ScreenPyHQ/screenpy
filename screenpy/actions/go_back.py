@@ -13,7 +13,8 @@ class GoBack:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(GoBack())
     """
 

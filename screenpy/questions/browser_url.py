@@ -13,7 +13,8 @@ class BrowserURL:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the((BrowserURL(), ContainsTheText("/screenplays")))
     """
 

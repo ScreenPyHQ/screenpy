@@ -13,7 +13,8 @@ from .base_resolution import BaseResolution
 class HasLength(BaseResolution):
     """Match against a collection with a specific length.
 
-    Examples:
+    Examples::
+
         the_actor.should_see_the(
             (Selected.options_from(INDUSTRIES), HasLength(5))
         )

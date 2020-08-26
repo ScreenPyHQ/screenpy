@@ -11,7 +11,7 @@ from screenpy.pacing import beat
 
 
 class Open:
-    """Open the browser to a specific URL!
+    """Go to a specific URL!
 
     This action supports using the BASE_URL environment variable to
     set a base URL. If you set BASE_URL, the url passed in to this
@@ -25,8 +25,9 @@ class Open:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
-        the_actor.attempts_to(Open.their_browser_on(the_homepage_url))
+    Examples::
+
+        the_actor.attempts_to(Open.their_browser_on(HOMEPAGE_URL))
 
         # using environment variable BASE_URL
         the_actor.attempts_to(Open.their_browser_on("/login"))

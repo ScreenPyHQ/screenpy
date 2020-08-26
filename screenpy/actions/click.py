@@ -16,7 +16,8 @@ class Click:
     Abilities Required:
         |BrowseTheWeb|
 
-    Examples:
+    Examples::
+
         the_actor.attempts_to(Click.on_the(PROFILE_LINK))
     """
 
