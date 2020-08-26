@@ -1,10 +1,5 @@
 """
-A resolution that matches against a dictionary that contains the desired value.
-Resolutions must be paired with questions and passed together to an actor:
-
-    the_actor.should_see_the(
-        (LastResponseBody(), ContainsTheValue("gold")),
-    )
+A resolution that matches against a dictionary that contains a specific value.
 """
 
 from typing import Any, Mapping
@@ -16,9 +11,12 @@ from .base_resolution import BaseResolution
 
 
 class ContainsTheValue(BaseResolution):
-    """
-    Match a dictionary containing a value
-    (e.g. `"Hamlet" in {"play": "Hamlet"}.values()`).
+    """Match a dictionary containing a specific value.
+
+    Examples:
+        the_actor.should_see_the(
+            (Cookies(), ContainTheValue("pumpernickle"))
+        )
     """
 
     expected: object

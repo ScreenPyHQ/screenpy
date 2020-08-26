@@ -3,7 +3,7 @@ An ability that will allow the actor to make API requests and store the
 responses.
 """
 
-from typing import List, Optional
+from typing import Callable, Dict, List, Optional
 
 from requests import Response, Session
 
@@ -11,33 +11,22 @@ from ..exceptions import RequestError
 
 
 class MakeAPIRequests:
-    """
-    The ability to send API requests. This ability is meant to be instantiated
-    with its |MakeAPIRequests.using| static method, which takes in a |Requests|
-    Session instance that has been set up. A typical invocation looks like:
+    """The ability to send API requests.
 
-        MakeAPIRequests()
+    Examples:
+        # during actor instantiation
+        the_actor = AnActor.who_can(MakeAPIRequests.using(session_instance))
 
-        MakeAPIRequests.using(session_instance)
-
-    This will create the ability that can be passed in to an actor's
-    |Actor.who_can| method.
+        # after actor instantiation
+        the_actor.can(MakeAPIRequests())
     """
 
     @staticmethod
     def using(session: Session) -> "MakeAPIRequests":
-        """
-        Provide a |Requests| session for the ability to use.
-
-        Args:
-            session: an instantiated, pre-built and set-up session.
-
-        Returns:
-            |MakeAPIRequests|
-        """
+        """Provide a |Requests| session for the ability to use."""
         return MakeAPIRequests(session=session)
 
-    def to_send(self, method, url, **kwargs):
+    def to_send(self, method, url, **kwargs) -> None:
         """
         Send a request. This is a pass-through to the session's ``request``
         method and has the same signature. The response is stored in the
@@ -46,10 +35,9 @@ class MakeAPIRequests:
         Args:
             method: the HTTP method of the request - GET, POST, etc.
             url: the URL to which to send the request.
-            kwargs: additional keyword arguments to pass through to
-                |requests.Session.request|
+            kwargs: additional keyword arguments to pass through to |request|.
         """
-        http_requests = {
+        http_requests: Dict[str, Callable] = {
             "DELETE": self.session.delete,
             "GET": self.session.get,
             "HEAD": self.session.head,
@@ -73,6 +61,8 @@ class MakeAPIRequests:
 
     def __repr__(self) -> str:
         return "Make API Requests"
+
+    __str__ = __repr__
 
     def __init__(self, session: Optional[Session] = None):
         if session is None:

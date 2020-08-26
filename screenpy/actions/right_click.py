@@ -1,15 +1,6 @@
 """
 An action to right-click on an element, or wherever the cursor currently is.
-An actor must possess the ability to BrowseTheWeb to perform this action. An
-actor performs this action like so:
-
-    the_actor.attempts_to(RightClick.on_the(HERO_IMAGE))
-
-    the_actor.attempts_to(RightClick())
-
-    the_actor.attempts_to(Chain(RightClick()))
 """
-
 
 from typing import Optional
 
@@ -21,18 +12,17 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 class RightClick:
-    """
-    Right-click! A RightClick action is expected to be instantiated via its
-    static |RightClick.on| or |RightClick.on_the| methods, or on its own. If
-    called without an element, RightClick will click wherever the cursor
-    currently is. A typical invocation might look like:
+    """Right-click on an element, or wherever the cursor currently is.
 
-        RightClick.on_the(HERO_IMAGE)
+    Abilities Required:
+        |BrowseTheWeb|
 
-        RightClick()
+    Examples:
+        the_actor.attempts_to(RightClick.on_the(HERO_IMAGE))
 
-    It can then be passed along to the |Actor| or added to a |Chain| to
-    perform the action.
+        the_actor.attempts_to(
+            Chain(MoveMouse.by_offset(7, 101), RightClick())
+        )
 
     *Note*: Most of the time, the context menu that appears after a user
     right-clicks is not interactable through Selenium, because it is an
@@ -44,15 +34,7 @@ class RightClick:
 
     @staticmethod
     def on_the(target: Target) -> "RightClick":
-        """
-        Specify which element to right-click on.
-
-        Args:
-            target: The |Target| describing the element to right-click.
-
-        Returns:
-            |RightClick|
-        """
+        """Target an element to right-click on."""
         return RightClick(target=target)
 
     on = on_the
@@ -68,17 +50,7 @@ class RightClick:
 
     @beat("{} right-clicks{description}.")
     def perform_as(self, the_actor: Actor) -> None:
-        """
-        Direct the actor to right-click on the specified element (or wherever
-        the cursor currently is, if no element was specified).
-
-        Args:
-            the_actor: the |Actor| who will perform this action.
-
-        Raises:
-            |UnableToPerform|: the actor does not have the ability to
-                |BrowseTheWeb|.
-        """
+        """Direct the actor to right-click on the targeted element."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         the_chain = ActionChains(browser)
         self._add_action_to_chain(the_actor, the_chain)
@@ -86,13 +58,7 @@ class RightClick:
 
     @beat("  Right-click{description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """
-        Add the RightClick action to an in-progress |Chain| of actions.
-
-        Args:
-            the_actor: the |Actor| who will be performing the action chain.
-            the_chain: the |ActionChains| instance that is being built.
-        """
+        """Add the RightClick action to an in-progress |Chain| of actions."""
         self._add_action_to_chain(the_actor, the_chain)
 
     def __init__(self, target: Optional[Target] = None) -> None:

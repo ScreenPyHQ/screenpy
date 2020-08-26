@@ -1,11 +1,6 @@
 """
-An action to clear text from an input. An actor must possess the ability
-to BrowseTheWeb to perform this action. An actor performs this action like
-so:
-
-    the_actor.attempts_to(Clear.the_text_from_the(NAME_INPUT))
+An action to clear text from an input.
 """
-
 
 from screenpy.actor import Actor
 from screenpy.exceptions import DeliveryError
@@ -15,43 +10,25 @@ from selenium.common.exceptions import WebDriverException
 
 
 class Clear:
-    """
-    Clear the text from an input field. A Clear action is expected to be
-    instantiated by its static |Clear.the_text_from| method. A typical
-    invocation might look like:
+    """Clear the text from an input field.
 
-        Clear.the_text_from(COMMENT_FIELD)
+    Abilities Required:
+        |BrowseTheWeb|
 
-    It can then be passed along to the |Actor| to perform the action.
+    Examples:
+        the_actor.attempts_to(Clear.the_text_from_the(NAME_INPUT))
     """
 
     @staticmethod
     def the_text_from_the(target: Target) -> "Clear":
-        """
-        Specify which target from which to clear the text.
-
-        Args:
-            target: the |Target| from which to clear the text.
-
-        Returns:
-            |Clear|
-        """
+        """Specify which target from which to clear the text."""
         return Clear(target)
 
     the_text_from = the_text_from_the
 
-    @beat("{0} clears text from the {target}.")
+    @beat("{} clears text from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
-        """
-        Direct the actor to clear the text from the targeted input field.
-
-        Args:
-            the_actor: The |Actor| who will perform this action.
-
-        Raises:
-            |UnableToPerform|: the actor does not have the ability to
-                |BrowseTheWeb|.
-        """
+        """Direct the actor to clear the text from the targeted input field."""
         element = self.target.found_by(the_actor)
 
         try:

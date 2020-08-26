@@ -1,12 +1,6 @@
 """
-A resolution that negates another resolution. Resolutions must be paired
-with questions and passed together to an actor like so:
-
-    the_actor.should_see_the(
-        (Text.of_the(WELCOME_BANNER), IsNot(EqualTo("Goodbye!"))),
-    )
+A resolution that matches the negation of another resolution.
 """
-
 
 from hamcrest import is_not
 from hamcrest.core.base_matcher import Matcher
@@ -15,8 +9,10 @@ from .base_resolution import BaseResolution
 
 
 class IsNot(BaseResolution):
-    """
-    Match a negated Resolution (e.g. `not ReadsExactly("yes")`).
+    """Match a negated Resolution.
+
+    Examples:
+        the_actor.should_see_the((Element(WELCOME_BANNER), IsNot(Visible())))
     """
 
     expected: BaseResolution

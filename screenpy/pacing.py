@@ -5,7 +5,6 @@ both use Allure's marking to group the tests together for those reports
 and also set the logging severity for Python's built-in logging library.
 """
 
-
 import logging
 import re
 from enum import Enum
@@ -26,17 +25,16 @@ logger = logging.getLogger("screenpy")
 
 
 def act(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
-    """
-    Decorator to mark an "act". Use the same title to group your tests under
-    the same "epic" in Allure's behavior view, and gravitas to group the tests
-    by "severity".
+    """Decorator to mark an "act".
+
+    Using the same title for this decorator on multiple test cases will group
+    your tests under the same epic in Allure's behavior view. Using the same
+    gravitas will group the tests by that severity, which allows you to run
+    all those tests together using Allure's pytest plugin.
 
     Args:
-        title: the title of this "act" (the feature/epic name).
+        title: the title of this "act" (the epic name).
         gravitas: how serious this act is (the severity level).
-
-    Returns:
-        Decorated function
     """
 
     def decorator(func: Function) -> Function:
@@ -53,17 +51,16 @@ def act(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
 
 
 def scene(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
-    """
-    Decorator to mark a "scene". Use the same title to group your tests under
-    the same "feature" in Allure's behavior view, and gravitas to group the
-    tests by "severity".
+    """Decorator to mark a "scene".
+
+    Using the same title for this decorator on multiple test cases will group
+    your tests under the same "feature" in Allure's behavior view. Using the
+    same gravitas will group the tests by that severity, which allows you to
+    run all those tests together using Allure's pytest plugin
 
     Args:
         title: the title of this "scene" (the feature).
         gravitas: how serious this scene is (the severity level).
-
-    Returns:
-        Decorated function
     """
 
     def decorator(func: Function) -> Function:
@@ -80,16 +77,17 @@ def scene(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]
 
 
 def beat(line: str) -> Callable[[Function], Function]:
-    """
-    Decorator to describe a "beat" (a step in a test). A beat's line can
-    contain markers for replacement via str.format(), which will be
-    figured out from the properties of a decorated method's class.
+    """Decorator to describe a "beat" (a step in a test).
+
+    A beat's line can contain markers for replacement via str.format(), which
+    will be figured out from the properties of a decorated method's class.
+
+    For example, if the beat line is "{} clicks on the {target}", then "{}"
+    will be replaced by the actor's name, and "{target}" will be replaced
+    using the action class's target property (e.g. Click.target).
 
     Args:
         line: the line spoken during this "beat" (the step description).
-
-    Returns:
-        Decorated function
     """
 
     def decorator(func: Function) -> Function:
@@ -114,13 +112,7 @@ def beat(line: str) -> Callable[[Function], Function]:
 
 
 def aside(line: str) -> None:
-    """
-    A line spoken in a stage whisper to the audience. Or, a message to log.
-
-    Args:
-        line: the line spoken in this aside (the log text).
-        gravitas: how serious this aside is (the severity level).
-    """
+    """A line spoken in a stage whisper to the audience (log a message)."""
     logger.info(line)
     with allure.step(line):
         # Can't call method directly, have to enter or decorate

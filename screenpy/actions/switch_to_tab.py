@@ -1,13 +1,6 @@
 """
-An action to switch to a specific tab or window. An actor must possess the
-ability to BrowseTheWeb to perform this action. An actor performs this action
-like so:
-
-    the_actor.attempts_to(SwitchToTab.on_top())
-
-    the_actor.attempts_to(SwitchToTab(2))
+An action to switch to a specific tab or window.
 """
-
 
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actor import Actor

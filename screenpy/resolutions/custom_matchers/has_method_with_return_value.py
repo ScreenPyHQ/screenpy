@@ -36,8 +36,9 @@ class IsObjectWithCallableProducingValue(BaseMatcher[object]):
         self.args = args if args is not None else []
         self.kwargs = kwargs if kwargs is not None else {}
         self.value_matcher = value_matcher
+        self.retval = None
 
-    def get_callargs_str(self):
+    def get_callargs_str(self) -> str:
         """Produce a string showing the structure of the called method."""
         args_str = ", ".join(map(str, self.args)) if self.args else ""
 
@@ -50,9 +51,9 @@ class IsObjectWithCallableProducingValue(BaseMatcher[object]):
             kwargs_str = ", ".join(kwargs_bits)
 
         if args_str and kwargs_str:
-            kwargs_str = ", " + kwargs_str
+            kwargs_str = f", {kwargs_str}"
 
-        return "(" + args_str + kwargs_str + ")"
+        return f"({args_str}{kwargs_str})"
 
     def get_return_value(self, item: object) -> Any:
         """
@@ -63,9 +64,10 @@ class IsObjectWithCallableProducingValue(BaseMatcher[object]):
             item: the object in which to find the method.
 
         Returns:
-            Whatever item's method returns.
+            Whatever the item's method returns.
         """
-        return getattr(item, self.method_name)(*self.args, **self.kwargs)
+        self.retval = getattr(item, self.method_name)(*self.args, **self.kwargs)
+        return self.retval
 
     def _matches(self, item: object) -> bool:
         if item is None:
@@ -120,9 +122,7 @@ class IsObjectWithCallableProducingValue(BaseMatcher[object]):
             " "
         )
 
-        self.value_matcher.describe_mismatch(
-            self.get_return_value(item), mismatch_description
-        )
+        self.value_matcher.describe_mismatch(self.retval, mismatch_description)
 
     def __str__(self):
         d = StringDescription()

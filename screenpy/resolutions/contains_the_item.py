@@ -11,9 +11,12 @@ from .base_resolution import BaseResolution
 
 
 class ContainsTheItem(BaseResolution):
-    """
-    Match an iterable containing an item
-    (e.g. `"Hamlet" in ["Hamlet", "Othello", "Psycho"]`).
+    """Match an iterable containing a specific item.
+
+    Examples:
+        the_actor.should_see_the(
+            (Text.of_all(SEARCH_RESULTS), ContainsTheItem("The Droids"))
+        )
     """
 
     expected: object

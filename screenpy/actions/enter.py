@@ -1,17 +1,6 @@
 """
-An action to enter text into an input field. An actor must possess the
-ability to BrowseTheWeb to perform this action. An actor performs this
-action like so:
-
-    the_actor.attempts_to(
-        Enter.the_text("Hello!").into_the(GREETINGS_INPUT)
-    )
-
-    the_actor.attempts_to(
-        Enter.the_text("Bye!").into_the(CHAT_INPUT).then_hit(Keys.ENTER)
-    )
+An action to enter text into an input field.
 """
-
 
 from functools import partial
 from typing import List, Optional
@@ -27,15 +16,15 @@ from .hold_down import KEY_NAMES
 
 
 class Enter:
-    """
-    Enter text into an input field. An Enter action is expected to be
-    instantiated by its static |Enter.the_text| method. A typical
-    invocation might look like:
+    """Enter text into an input field.
 
-        Enter.the_text("Hello world!").into_the(COMMENT_FIELD)
+    Abilities Required:
+        |BrowseTheWeb|
 
-    It can then be passed along to the |Actor| or added to a |Chain| to
-    perform the action.
+    Examples:
+        the_actor.attempts_to(
+            Enter.the_text("Hello world!").into_the(COMMENT_FIELD)
+        )
     """
 
     target: Optional[Target]
@@ -108,22 +97,9 @@ class Enter:
 
     then_press = then_hit
 
-    @beat("{0} enters '{text_to_log}' into the {target}.")
+    @beat("{} enters '{text_to_log}' into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
-        """
-        Direct the actor to enter the text into the targeted input field. If
-        this Enter object's |Enter.then_hit| method was called, it will also
-        hit the supplied keys.
-
-        Args:
-            the_actor: the |Actor| who will perform this action.
-
-        Raises:
-            |DeliveryError|: an exception was raised by Selenium.
-            |UnableToAct|: no target was supplied.
-            |UnableToPerform|: the actor does not have the ability to
-                |BrowseTheWeb|.
-        """
+        """Direct the actor to enter the text into the targeted element."""
         if self.target is None:
             raise UnableToAct(
                 "Target was not supplied for Enter. Provide a target by using either "
@@ -135,7 +111,7 @@ class Enter:
         try:
             element.send_keys(self.text)
             for key in self.following_keys:
-                aside(f"then hits the {key} key")
+                aside(f"then hits the {KEY_NAMES[key]} key")
                 element.send_keys(key)
         except WebDriverException as e:
             msg = (
@@ -146,13 +122,7 @@ class Enter:
 
     @beat("  Enter the text {text_to_log} into the {target}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """
-        Add the Enter action to an in-progress |Chain| of actions.
-
-        Args:
-            the_actor: the |Actor| who will be performing the action chain.
-            the_chain: the |ActionChains| instance that is being built.
-        """
+        """Add the Enter action to an in-progress |Chain| of actions."""
         if self.target is None:
             send_keys = the_chain.send_keys
         else:

@@ -1,17 +1,7 @@
 """
 An action to hold down the left mouse button, optionally on an element, or a
-specific modifier key. It is expected that a |Release| action will be called
-later in the |Chain| to release the button or key. An actor must possess the
-ability to BrowseTheWeb to perform this action. An actor performs this action
-like so:
-
-    the_actor.attempts_to(Chain(HoldDown(Keys.ALT)))
-
-    the_actor.attempts_to(
-        Chain(HoldDown.left_mouse_button().on_the(DRAGGABLE_BOX))
-    )
+specific modifier key.
 """
-
 
 import platform
 from typing import Optional
@@ -31,23 +21,23 @@ KEY_NAMES = {
 
 
 class HoldDown:
-    """
-    Hold down the specified key or left mouse button. This action can only be
-    used with the |Chain| meta-action, and it is expected that a corresponding
-    |Release| action will be called later to release the held key or button.
+    """Hold down the specified key or left mouse button.
 
-    A HoldDown action is expected to be instantiated via one of its static
-    methods, or on its own with a specific key. A typical invocation might
-    look like:
+    This action can only be used with the |Chain| meta-action, and it is
+    expected that a corresponding |Release| action will be called later to
+    release the held key or button.
 
-        HoldDown.left_mouse_button().on_the(DRAGGABLE_BOX)
+    Abilities Required:
+        |BrowseTheWeb|
 
-        HoldDown(Keys.SHIFT)
+    Examples:
+        the_actor.attempts_to(Chain(HoldDown(Keys.SHIFT))
 
-        HoldDown.command_or_control_key()
+        the_actor.attempts_to(Chain(HoldDown.command_or_control_key()))
 
-    It can then be passed along to the |Actor| in a Chain to perform the
-    action.
+        the_actor.attempts_to(
+            Chain(HoldDown.left_mouse_button().on_the(DRAGGABLE_BOX))
+        )
     """
 
     target: Optional[Target]
@@ -57,9 +47,6 @@ class HoldDown:
         """
         A convenience method that figures out what operating system the actor
         is using and directs the actor which execution key to hold down.
-
-        Returns:
-            |HoldDown|
         """
         if platform.system() == "Darwin":
             return HoldDown(Keys.COMMAND)
@@ -67,57 +54,19 @@ class HoldDown:
 
     @staticmethod
     def left_mouse_button() -> "HoldDown":
-        """
-        Hold down the left mouse button. To provide a target to hold down the
-        mouse button on, follow up this method call with |HoldDown.on_the|.
-
-        Returns:
-            |HoldDown|
-        """
+        """Hold down the left mouse button."""
         return HoldDown(lmb=True)
 
     def on_the(self, target: Target) -> "HoldDown":
-        """
-        Supply a target to hold down the left mouse button on. If this is
-        not called, the currently focused element will receive the click.
-
-        Args:
-            target: The |Target| describing the element to click.
-
-        Returns:
-            |HoldDown|
-        """
+        """Target an element to hold down left click on."""
         self.target = target
         return self
 
     on = on_the
 
-    def perform_as(self, the_actor: Actor) -> None:
-        """
-        Raise an exception. A HoldDown action cannot be directly performed,
-        it must be used with |Chain|. It just doesn't make sense otherwise.
-
-        Raises:
-            |UnableToAct|: always.
-        """
-        raise UnableToAct(
-            "The HoldDown action cannot be performed directly, "
-            "it can only be used with the Chain action."
-        )
-
     @beat("  Hold down the {description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """
-        Add the configured HoldDown action to an in-progress |Chain| of
-        actions.
-
-        Args:
-            the_actor: the |Actor| who will be performing the action chain.
-            the_chain: the |ActionChains| instance that is being built.
-
-        Raises:
-            |UnableToAct|: the action was not told what to hold down.
-        """
+        """Add the HoldDown action to an in-progress |Chain| of actions."""
         if self.lmb:
             element = self.target.found_by(the_actor) if self.target else None
             the_chain.click_and_hold(on_element=element)

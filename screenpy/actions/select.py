@@ -1,21 +1,6 @@
 """
-An action to select an item from a multi-selection field or dropdown. An
-actor must possess the ability to BrowseTheWeb to perform this actin. An
-actor can perform this action like so:
-
-    the_actor.attempts_to(
-        Select.the_option_named("January").from_the(MONTH_DROPDOWN)
-    )
-
-    the_actor.attempts_to(
-        Select.the_option_at_index(0).from_the(MONTH_DROPDOWN)
-    )
-
-    the_actor.attempts_to(
-        Select.the_option_with_value("jan").from_the(MONTH_DROPDOWN)
-    )
+An action to select an item from a multi-selection field or dropdown.
 """
-
 
 from typing import Optional, Union
 
@@ -28,108 +13,70 @@ from selenium.webdriver.support.ui import Select as SeleniumSelect
 
 
 class Select:
-    """
-    Select an option from a dropdown menu. This is an entry point that
-    will create the correct specific Select action that will need to be
-    used, depending on how the option needs to be selected. Some examples
-    of invocations:
+    """Select an option from a dropdown menu.
 
-        Select.the_option_named("January").from_the(MONTH_DROPDOWN)
+    This is an entry point that will create the correct specific Select action
+    to be used, depending on how the option needs to be selected.
 
-        Select.the_option_at_index(0).from_the(MONTH_DROPDOWN)
+    Abilities Required:
+        |BrowseTheWeb|
 
-        Select.the_option_with_value("jan").from_the(MONTH_DROPDOWN)
+    Examples:
+        the_actor.attempts_to(
+            Select.the_option_named("January").from_the(MONTH_DROPDOWN)
+        )
 
-    It can then be passed along to the |Actor| to perform the action.
+        the_actor.attempts_to(
+            Select.the_option_at_index(0).from_the(MONTH_DROPDOWN)
+        )
+
+        the_actor.attempts_to(
+            Select.the_option_with_value("jan").from_the(MONTH_DROPDOWN)
+        )
     """
 
     @staticmethod
     def the_option_named(text: str) -> "SelectByText":
-        """
-        Instantiate a SelectByText class which will select the option with
-        the given text.
-
-        Args:
-            text: the text of the option to select.
-
-        Returns:
-            |SelectByText|
-        """
+        """Select the option by its text."""
         return SelectByText(text)
 
     @staticmethod
     def the_option_at_index(index: Union[int, str]) -> "SelectByIndex":
-        """
-        Instantiate a SelectByIndex class which will select the option at
-        the specified index. This index is 0-based.
-
-        Args:
-            index: the index (0-based) of the option to select.
-
-        Returns:
-            |SelectByIndex|
-        """
+        """Select the option by its index. This index is 0-based."""
         return SelectByIndex(index)
 
     @staticmethod
     def the_option_with_value(value: str) -> "SelectByValue":
-        """
-        Instantiate a SelectByText class which will select the option with
-        the given text.
-
-        Args:
-            value: the value of the option to select.
-
-        Returns:
-            |SelectByText|
-        """
+        """Select the option by its value."""
         return SelectByValue(value)
 
 
 class SelectByText:
-    """
-    A specialized Select action that chooses the option by text. This
-    class is meant to be accessed via the Select action's static
-    |Select.the_option_named| method. A typical invocation might look
-    like:
+    """Select an option in a dropdown or multi-select field by its text.
 
-        Select.the_option_named("January").from_the(MONTH_DROPDOWN)
+    This action will probably not be used directly, rather it will be used by
+    calling |Select.the_option_named|.
 
-    It can then be passed along to the |Actor| to perform the action.
+    Abilities Required:
+        |BrowseTheWeb|
     """
 
     target: Optional[Target]
 
     def from_the(self, target: Target) -> "SelectByText":
         """
-        Specify the target to select the option from.
-
-        Args:
-            target: the |Target| describing the dropdown or multi-select
-                element to select the option from.
-
-        Returns:
-            |SelectByText|
+        Target the dropdown or multi-select field to select the option from.
         """
         self.target = target
         return self
 
     from_ = from_the
 
-    @beat('{0} selects the option "{text}"" from the {target}.')
+    @beat('{} selects the option "{text}"" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Direct the actor to select the chosen option from the targeted
-        dropdown or multiselect field.
-
-        Args:
-            the_actor: The |Actor| who will perform the action.
-
-        Raises:
-            |DeliveryError|: an exception was raised by Selenium.
-            |UnableToAct|: no target was supplied.
-            |UnableToPerform|: the actor does not have the ability to
-                |BrowseTheWeb|.
+        Direct the actor to select the option from the targeted dropdown or
+        multiselect field by its text.
         """
         if self.target is None:
             raise UnableToAct(
@@ -154,49 +101,31 @@ class SelectByText:
 
 
 class SelectByIndex:
-    """
-    A specialized |Select| action that chooses the option by its index.
-    This class is meant to be accessed via the Select action's static
-    |Select.the_option_at_index| method. A typical invocation might look
-    like:
+    """Select an option in a dropdown or multi-select field by its index.
 
-        Select.the_option_at_index(0).from_the(MONTH_DROPDOWN)
+    This action will probably not be used directly, rather it will be used by
+    calling |Select.the_option_at_index|.
 
-    It can then be passed along to the |Actor| to perform the action.
+    Abilities Required:
+        |BrowseTheWeb|
     """
 
     target: Optional[Target]
 
     def from_the(self, target: Target) -> "SelectByIndex":
         """
-        Specify the target to select the option from.
-
-        Args:
-            target: The |Target| describing the dropdown or multi-select
-                 element to select the option from.
-
-        Returns:
-            |SelectByIndex|
+        Target the dropdown or multi-select field to select the option from.
         """
         self.target = target
         return self
 
     from_ = from_the
 
-    @beat("{0} selects the option at index {index} from the {target}.")
+    @beat("{} selects the option at index {index} from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Direct the actor to select the chosen option from the targeted
-        dropdown or multiselect field.
-
-        Args:
-            the_actor: The |Actor| who will perform the action.
-
-        Raises:
-            |DeliveryError|: an exception was raised by Selenium.
-            |UnableToAct|: no target was supplied.
-            |UnableToPerform|: the actor does not have the ability to
-                |BrowseTheWeb|.
+        Direct the actor to select the option from the targeted dropdown or
+        multiselect field using its index.
         """
         if self.target is None:
             raise UnableToAct(
@@ -221,49 +150,31 @@ class SelectByIndex:
 
 
 class SelectByValue:
-    """
-    A specialized Select action that chooses the option by its value. This
-    class is meant to be accessed via the Select action's static
-    |Select.the_option_with_value| method. A typical invocation might look
-    like:
+    """Select an option in a dropdown or multi-select field by its value.
 
-        Select.the_option_with_value("jan").from_the(MONTH_DROPDOWN)
+    This action will probably not be used directly, rather it will be used by
+    calling |Select.the_option_with_value|.
 
-    It can then be passed along to the |Actor| to perform the action.
+    Abilities Required:
+        |BrowseTheWeb|
     """
 
     target: Optional[Target]
 
     def from_the(self, target: Target) -> "SelectByValue":
         """
-        Specify the target to select the option from.
-
-        Args:
-            target: The |Target| describing the dropdown or multi-select
-                element to select the option from.
-
-        Returns:
-            |SelectByValue|
+        Target the dropdown or multi-select field to select the option from.
         """
         self.target = target
         return self
 
     from_ = from_the
 
-    @beat('{0} selects the option with value "{value}" from the {target}.')
+    @beat('{} selects the option with value "{value}" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """
-        Direct the actor to select the chosen option from the targeted
-        dropdown or multiselect field.
-
-        Args:
-            the_actor: The |Actor| who will perform the action.
-
-        Raises:
-            |DeliveryError|: an exception was raised by Selenium.
-            |UnableToAct|: no target was supplied.
-            |UnableToPerform|: the actor does not have the ability to
-                |BrowseTheWeb|.
+        Direct the actor to select the option from the targeted dropdown or
+        multiselect field by its value.
         """
         if self.target is None:
             raise UnableToAct(

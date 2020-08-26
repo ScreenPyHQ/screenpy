@@ -1,11 +1,6 @@
 """
-A question to discover the title of the current window of an Actor's
-browser. Questions must be asked with an expected resolution, like so:
-    the_actor.should_see_the(
-        (BrowserTitle(), ContainsTheText("ScreenPy's Documentation")),
-    )
+A question to discover the title of an Actor's active browser window.
 """
-
 
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actor import Actor
@@ -13,25 +8,17 @@ from screenpy.pacing import beat
 
 
 class BrowserTitle:
+    """Ask what the title of the browser's active window is.
+
+    Abilities Required:
+        |BrowseTheWeb|
+
+    Examples:
+        the_actor.should_see_the((BrowserTitle(), ReadsExactly("Welcome!")))
     """
-    Ask what the title of the |Actor|'s browser's current window is. This
-    question is meant to be instantiated all on its own:
 
-        BrowserTitle()
-
-    It can then be passed along to the |Actor| to ask the question.
-    """
-
-    @beat("{} reads the URL from the browser.")
+    @beat("{} reads the title of the page from their browser.")
     def answered_by(self, the_actor: Actor) -> str:
-        """
-        Direct the actor to investigate the browser's title.
-
-        Args:
-            the_actor: the |Actor| who will answer the question.
-
-        Returns:
-            str: the title of the browser's current window.
-        """
+        """Direct the actor to investigate the browser's title."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         return browser.title

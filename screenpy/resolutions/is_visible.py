@@ -1,10 +1,6 @@
 """
-A resolution that matches against the visibility of an element. Resolutions
-must be paired with questions and passed together to an actor like so:
-
-    the_actor.should_see((TheElement(SUCCESS_MESSAGE), IsVisible()))
+A resolution that matches against the a visible element.
 """
-
 
 from typing import Optional
 
@@ -15,8 +11,10 @@ from .custom_matchers import is_visible_element
 
 
 class IsVisible(BaseResolution):
-    """
-    Match on visibility of an element (i.e. `element.is_displayed()`).
+    """Match on a visible element.
+
+    Examples:
+        the_actor.should_see_the((Element(WELCOME_BANNER), IsVisible()))
     """
 
     expected: object

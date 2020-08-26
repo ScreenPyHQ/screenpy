@@ -1,21 +1,6 @@
 """
-An action to move the mouse to a specific element, or by an offset. An actor
-must possess the ability to BrowseTheWeb to perform this action. An actor
-performs this action like so:
-
-    the_actor.attempts_to(MoveMouse.to_the(HAMBURGER_MENU))
-
-    the_actor.attempts_to(MoveMouse.by_offset(500, -200))
-
-    the_actor.attempts_to(
-        MoveMouse.to_the(HAMBURGER_MENU).with_offset(500, -200)
-    )
-
-    the_actor.attempts_to(
-        Chain(MoveMouse.to_the(HAMBURGER_MENU))
-    )
+An action to move the mouse to a specific element, or by an offset.
 """
-
 
 from typing import Optional, Tuple
 
@@ -28,73 +13,48 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 class MoveMouse:
-    """
-    Move the mouse to a specific element or by a pixel offset. A MoveMouse
-    action is expected to be instantiated by one of its many static methods.
-    A typical invocation might look like:
+    """Move the mouse to a specific element or by a pixel offset.
 
-        MoveMouse.to_the(HAMBURGER_MENU)
+    The x and y offsets are measured in pixels, with the "origin" at the top
+    left of the screen.
 
-        MoveMouse.by_offset(500, -200)
+    * To move left, give a negative x_offset.
+    * To move right, give a positive x_offset.
+    * To move up, give a negative y_offset.
+    * To move down, give a positive y_offset.
 
-        MoveMouse.to_the(HAMBURGER_MENU).with_offset(500, -200)
+    Abilities Required:
+        |BrowseTheWeb|
 
-    It can then be passed along to the |Actor| or added to a |Chain| to
-    perform the action.
+    Examples:
+        the_actor.attempts_to(MoveMouse.to_the(HAMBURGER_MENU))
+
+        the_actor.attempts_to(MoveMouse.by_offset(500, -200))
+
+        the_actor.attempts_to(
+            Chain(MoveMouse.to_the(HAMBURGER_MENU).with_offset(500, -200))
+        )
     """
 
     offset: Optional[Tuple[int, int]]
 
     @staticmethod
     def to_the(target: Target) -> "MoveMouse":
-        """
-        Specify an element to move the mouse to.
-
-        Args:
-            target: The |Target| describing the element to move to.
-
-        Returns:
-            |MoveMouse|
-        """
+        """Target an element to move the mouse to."""
         return MoveMouse(target=target, description=f"to the {target}")
 
     on_the = over_the = to_the
 
     @staticmethod
     def by_offset(x_offset: int, y_offset: int) -> "MoveMouse":
-        """
-        Specify the offset by which to move the mouse. The x and y offsets are
-        measured in pixels, with the "origin" at the top left of the screen.
-
-        * To move left, give a negative x_offset.
-        * To move right, give a positive x_offset.
-        * To move up, give a negative y_offset.
-        * To move down, give a positive y_offset.
-
-        Args:
-            x_offset: the number of pixels to move left or right.
-            y_offset: the number of pixels to move up or down.
-
-        Returns:
-            |MoveMouse|
-        """
+        """Specify the offset by which to move the mouse."""
         return MoveMouse(
             offset=(x_offset, y_offset),
             description=f"by an offset of ({x_offset}, {y_offset})",
         )
 
     def with_offset(self, x_offset: int, y_offset: int) -> "MoveMouse":
-        """
-        Specify that the mouse should be moved to a specific position relative
-        to the element, with the "origin" at the top left of the element.
-
-        Args:
-            x_offset: the number of pixels to move left or right.
-            y_offset: the number of pixels to move up or down.
-
-        Returns:
-            |MoveMouse|
-        """
+        """Specify the mouse should be moved to the element with an offset."""
         self.offset = (x_offset, y_offset)
         self.description += f" offset by ({x_offset}, {y_offset})"
         return self
@@ -117,17 +77,7 @@ class MoveMouse:
 
     @beat("{} moves the mouse {description}.")
     def perform_as(self, the_actor: Actor) -> None:
-        """
-        Direct the actor to move the mouse in the specified way.
-
-        Args:
-            the_actor: the |Actor| who will perform this action.
-
-        Raises:
-            |UnableToAct|: neither target nor offset were supplied.
-            |UnableToPerform|: the actor does not have the ability to
-                |BrowseTheWeb|.
-        """
+        """Direct the actor to move the mouse."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         the_chain = ActionChains(browser)
         self._add_action_to_chain(the_actor, the_chain)
@@ -135,13 +85,7 @@ class MoveMouse:
 
     @beat("  Move the mouse {description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """
-        Add the MoveMouse action to an in-progress |Chain| of actions.
-
-        Args:
-            the_actor: the |Actor| who will be performing the action chain.
-            the_chain: the |ActionChains| instance that is being built.
-        """
+        """Add the MoveMouse action to an in-progress |Chain| of actions."""
         self._add_action_to_chain(the_actor, the_chain)
 
     def __init__(

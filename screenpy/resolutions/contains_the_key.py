@@ -1,10 +1,5 @@
 """
 A resolution that matches against a dictionary that contains the desired key.
-Resolutions must be paired with questions and passed together to an actor:
-
-    the_actor.should_see_the(
-        (LastResponseBody(), ContainsTheKey("token")),
-    )
 """
 
 from typing import Any, Hashable, Mapping
@@ -16,8 +11,10 @@ from .base_resolution import BaseResolution
 
 
 class ContainsTheKey(BaseResolution):
-    """
-    Match a dictionary containing a key (e.g. `"play" in {"play": "Hamlet"}`).
+    """Match a dictionary containing a specific key.
+
+    Examples:
+        the_actor.should_see_the((LastResponseBody(), ContainsTheKey("skeleton")))
     """
 
     expected: object

@@ -1,12 +1,8 @@
 """
 Actors are the stars of the show. They perform your actions, ask questions
 about the state of the application, and assert resolutions, all in the
-service of perfoming their roles. You can give a curtain call for a new
-actor like so:
-
-    Perry = AnActor.named("Perry")
+service of perfoming their roles.
 """
-
 
 from random import choice
 from typing import List, Text, Tuple, Type, TypeVar
@@ -37,60 +33,32 @@ T = TypeVar("T")
 
 
 class Actor:
-    """
-    Represents an actor, holding their name and abilities. Actors are the
-    performers of your screenplay, they represent your users as they go
-    about their business on your product.
+    """Represents an actor, holding their name and abilities.
 
-    An actor is meant to be instantiated using its static |Actor.named|
-    method. A typical invocation might look like:
+    Actors are the performers of your screenplay, they represent your users as
+    they go about their business using your product.
 
+    Examples:
         Perry = Actor.named("Perry")
-
-    This will create the actor, ready to take on their first role.
     """
 
-    name: str
     abilities: List[Forgettable]
 
     @staticmethod
     def named(name: Text) -> "Actor":
-        """
-        Name this actor.
-
-        Args:
-            name: the name of this new Actor.
-
-        Returns:
-            |Actor|
-        """
+        """Give a name to this actor."""
         aside(choice(ENTRANCE_DIRECTIONS).format(actor=name))
         return Actor(name)
 
     def who_can(self, *abilities: Forgettable) -> "Actor":
-        """
-        Add one or more abilities to this actor.
-
-        Args:
-            abilities: The abilities this actor can use.
-
-        Returns:
-            |Actor|
-        """
+        """Add one or more abilities to this actor."""
         self.abilities.extend(abilities)
         return self
 
     can = who_can
 
     def uses_ability_to(self, ability: Type[T]) -> T:
-        """
-        Find the ability referenced and return it, if the actor is capable.
-
-        Args:
-            ability: the ability to retrieve.
-
-        Returns:
-            The requested ability.
+        """Find the ability referenced and return it, if the actor is capable.
 
         Raises:
             |UnableToPerform|: the actor doesn't possess the ability.
@@ -106,53 +74,36 @@ class Actor:
     def has_ability_to(self, ability: Type[Forgettable]) -> bool:
         """Ask whether the actor has the ability to do something."""
         try:
-            self.uses_ability_to(ability)
+            self.ability_to(ability)
             return True
         except UnableToPerform:
             return False
 
     def attempts_to(self, *actions: Performable) -> None:
-        """
-        Perform a list of actions, one after the other.
-
-        Args:
-            actions: the list of actions to perform.
-        """
+        """Perform a list of actions, one after the other."""
         for action in actions:
             self.perform(action)
 
     was_able_to = attempts_to
 
     def perform(self, action: Performable) -> None:
-        """
-        Perform the given action.
-
-        Args:
-            action: the |Action| to perform.
-        """
+        """Perform an action."""
         action.perform_as(self)
 
     def should_see_the(self, *tests: Tuple[Answerable, BaseResolution]) -> None:
-        """
-        Ask a series of questions, asserting their expected answers.
-
-        Args:
-            tests: tuples of a |Question| and a |Resolution|.
+        """Ask a series of questions, asserting their resolutions.
 
         Raises:
             AssertionError: If the question's actual answer does not match
                 the expected answer from the |Resolution|.
         """
-        for question, test in tests:
-            assert_that(question.answered_by(self), test)
+        for question, resolution in tests:
+            assert_that(question.answered_by(self), resolution)
 
     should_see = should_see_that = should_see_the
 
     def exit(self) -> None:
-        """
-        Direct the actor to forget all their abilities, ready to assume a new
-        role when their next cue calls them.
-        """
+        """Direct the actor to forget all their abilities."""
         for ability in self.abilities:
             ability.forget()
             self.abilities.remove(ability)

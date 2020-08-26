@@ -11,7 +11,7 @@ from .base_resolution import BaseResolution
 
 
 class HasLength(BaseResolution):
-    """Match against the length of a collection (e.g. `len(["Yorick"]) == 1`).
+    """Match against a collection with a specific length.
 
     Examples:
         the_actor.should_see_the(

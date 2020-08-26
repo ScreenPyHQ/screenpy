@@ -1,7 +1,7 @@
 """
-A resolution that matches a visible element. Resolutions must be paired with
-questions and passed together to an actor like so:
-    the_actor.should_see((TheElement(WELCOME_BANNER), IsVisible()))
+A matcher that matches a visible element. For example:
+
+    assert_that(driver.find_element_by_id("search"), is_visible_element())
 """
 
 
@@ -12,9 +12,9 @@ from hamcrest.core.description import Description
 from selenium.webdriver.remote.webelement import WebElement
 
 
-class _IsVisibleElement(BaseMatcher[Optional[object]]):
+class IsVisibleElement(BaseMatcher[Optional[object]]):
     """
-    Matches an element whose `is_displayed` method returns True.
+    Matches an element whose ``is_displayed`` method returns True.
     """
 
     def _matches(self, item: Optional[WebElement]) -> bool:
@@ -38,4 +38,4 @@ class _IsVisibleElement(BaseMatcher[Optional[object]]):
 
 def is_visible_element():
     """This matcher matches any element that is visible."""
-    return _IsVisibleElement()
+    return IsVisibleElement()

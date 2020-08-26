@@ -1,10 +1,5 @@
 """
-A resolution that matches an exact string. Resolutions must be paired
-with questions and passed together to an actor like so:
-
-    the_actor.should_see_the(
-        (Text.of_the(LOGIN_MESSAGE), ReadsExactly("Log in below.")),
-    )
+A resolution that matches an exact string.
 """
 
 from hamcrest import has_string
@@ -14,8 +9,12 @@ from .base_resolution import BaseResolution
 
 
 class ReadsExactly(BaseResolution):
-    """
-    Match a string exactly (e.g. `"screenplay" == "screenplay"`).
+    """Match a specific string exactly.
+
+    Examples:
+        the_actor.should_see_the(
+            (Text.of_the(LOGIN_MESSAGE), ReadsExactly("Log in below."))
+        )
     """
 
     expected: str

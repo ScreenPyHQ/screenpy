@@ -1,16 +1,15 @@
 """
-A question to investigate the status code of the last response received by the
-actor, using their ability to MakeAPIRequests.
+A question to investigate the status code of the last API response received.
 """
 
 from screenpy import Actor
 from screenpy.abilities import MakeAPIRequests
 from screenpy.exceptions import UnableToAnswer
+from screenpy.pacing import beat
 
 
 class StatusCodeOfTheLastResponse:
-    """
-    Ask about the status code of the last API response received by the actor.
+    """Ask about the status code of the last API response received.
 
     Abilities Required:
         |MakeAPIRequests|
@@ -21,6 +20,7 @@ class StatusCodeOfTheLastResponse:
         )
     """
 
+    @beat("{} examines the status code of the last response they received.")
     def answered_by(self, the_actor: Actor) -> float:
         """Direct the actor to investigate the status code of the last response."""
         responses = the_actor.ability_to(MakeAPIRequests).responses

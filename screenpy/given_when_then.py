@@ -1,10 +1,10 @@
 """
 Given, When, and Then are Gherkin-style directives. The general idea is:
 
-* `given`/`given_that` is for test setup or "arrange" steps.
-* `when` is for test actions or the "act" steps.
-* `then` is for test assertions or the "assert" steps.
-* `and_` can be used for continuations of any of the above.
+* given/given_that is for test setup or "arrange" steps.
+* when is for test actions or the "act" steps.
+* then is for test assertions or the "assert" steps.
+* and_ can be used for continuations of any of the above.
 
 All of these are identity functions, only used to provide a little extra
 context to your tests. An example test flow might be:

@@ -1,16 +1,6 @@
 """
 An ability which provides an API for Selenium to enable actors to perform
-actions related to web browsing. Grant your actor the ability to browse
-the web like so:
-
-    # during instantiation
-    the_actor = AnActor.who_can(BrowseTheWeb.using_firefox())
-
-    # after instantiation
-    the_actor.can(BrowseTheWeb.using_safari())
-
-    # use in new actions
-    the_actor.uses_ability_to(BrowseTheWeb).to_find(target)
+actions related to web browsing.
 """
 
 
@@ -47,59 +37,36 @@ DEFAULT_ANDROID_CAPABILITIES = {
 
 
 class BrowseTheWeb:
-    """
-    The ability to browse the web with a web browser. This ability is
-    meant to be instantiated with its |BrowseTheWeb.using| static method,
-    which takes in the WebDriver to use, or one of its other "using"
-    methods. A typical invocation looks like:
+    """The ability to browse the web with a web browser.
 
-        BrowseTheWeb.using(selenium.webdriver.Firefox())
+    Examples:
+        # during actor instantiation
+        the_actor = AnActor.who_can(BrowseTheWeb.using(driver))
 
-        BrowseTheWeb.using_firefox()
-
-    This will create the ability that can be passed in to an actor's
-    |Actor.who_can| method.
+        # after actor instantiation
+        the_actor.can(BrowseTheWeb.using_safari())
     """
 
     @staticmethod
     def using_chrome() -> "BrowseTheWeb":
-        """
-        Create and use a default Chrome Selenium webdriver instance. Use
-        this if you don't need to set anything up for your test browser.
-
-        Returns:
-            |BrowseTheWeb|
-        """
+        """Create and use a default Chrome Selenium webdriver instance."""
         return BrowseTheWeb.using(Chrome())
 
     @staticmethod
     def using_firefox() -> "BrowseTheWeb":
-        """
-        Create and use a default Firefox Selenium webdriver instance. Use
-        this if you don't need to set anything up for your test browser.
-
-        Returns:
-            |BrowseTheWeb|
-        """
+        """Create and use a default Firefox Selenium webdriver instance."""
         return BrowseTheWeb.using(Firefox())
 
     @staticmethod
     def using_safari() -> "BrowseTheWeb":
-        """
-        Create and use a default Safari Selenium webdriver instance. Use
-        this if you don't need to set anything up for your test browser.
-
-        Returns:
-            |BrowseTheWeb|
-        """
+        """Create and use a default Safari Selenium webdriver instance."""
         return BrowseTheWeb.using(Safari())
 
     @staticmethod
     def using_ios() -> "BrowseTheWeb":
         """
         Create and use a default Remote driver instance to connect to a
-        running Appium server and open Safari on iOS. Use this if you don't
-        need to set anything up for your test browser.
+        running Appium server and open Safari on iOS.
 
         Note that Appium requires non-trivial setup to be able to connect
         to iPhone simulators. See the Appium documentation to get started:
@@ -112,9 +79,6 @@ class BrowseTheWeb:
                 desired capabilities. Default is "13.1"
             IOS_DEVICE_NAME: the device name to request in the desired
                 capabilities. Default is "iPhone Simulator"
-
-        Returns:
-            |BrowseTheWeb|
         """
         hub_url = os.getenv("APPIUM_HUB_URL", DEFAULT_APPIUM_HUB_URL)
         return BrowseTheWeb.using(Remote(hub_url, DEFAULT_IOS_CAPABILITIES))
@@ -123,8 +87,7 @@ class BrowseTheWeb:
     def using_android() -> "BrowseTheWeb":
         """
         Create and use a default Remote driver instance to connect to a
-        running Appium server and open Chrome on Android. Use this if you
-        don't need to set anything up for your test browser.
+        running Appium server and open Chrome on Android.
 
         Note that Appium requires non-trivial setup to be able to connect
         to Android emulators. See the Appium documentation to get started:
@@ -137,25 +100,13 @@ class BrowseTheWeb:
                 the desired capabilities. Default is "10.0"
             ANDROID_DEVICE_NAME: the device name to request in the desired
                 capabilities. Default is "Android Emulator"
-
-        Returns:
-            |BrowseTheWeb|
         """
         hub_url = os.getenv("APPIUM_HUB_URL", DEFAULT_APPIUM_HUB_URL)
         return BrowseTheWeb.using(Remote(hub_url, DEFAULT_ANDROID_CAPABILITIES))
 
     @staticmethod
     def using(browser: WebDriver) -> "BrowseTheWeb":
-        """
-        Specify the driver to use to browse the web. This can be any
-        |WebDriver| instance, even a remote one.
-
-        Args:
-            browser: the webdriver instance to use.
-
-        Returns:
-            |BrowseTheWeb|
-        """
+        """Provide an already-set-up |WebDriver| to use to browse the web."""
         return BrowseTheWeb(browser)
 
     def to_find(self, target: Union["Target", Tuple[By, str]]) -> WebElement:
@@ -164,9 +115,6 @@ class BrowseTheWeb:
 
         Args:
             target: the |Target| or locator tuple describing the element.
-
-        Returns:
-            |WebElement|
 
         Raises:
             |BrowsingError|: unable to find the described element.
@@ -191,9 +139,6 @@ class BrowseTheWeb:
         Args:
             target: the |Target| or locator tuple describing the elements.
 
-        Returns:
-            List[|WebElement|]
-
         Raises:
             |BrowsingError|: unable to find the described elements.
         """
@@ -216,8 +161,7 @@ class BrowseTheWeb:
         timeout: int = 20,
         cond: Callable = EC.visibility_of_element_located,
     ) -> None:
-        """
-        Wait for the element to fulfill the given condition.
+        """Wait for an element to fulfill the given condition.
 
         Args:
             target: the |Target| or locator tuple describing the element.
@@ -247,15 +191,7 @@ class BrowseTheWeb:
     def _resolve_locator(
         self, target_or_locator: Union["Target", Tuple[By, str]]
     ) -> Tuple[By, str]:
-        """
-        Given a |Target| or a tuple, ensure we get a tuple back.
-
-        Args:
-            target_or_locator: the |Target| or locator to resolve.
-
-        Returns:
-            Tuple[By, str]
-        """
+        """Given a |Target| or a tuple, ensure we get a tuple back."""
         if not isinstance(target_or_locator, tuple):
             locator = target_or_locator.get_locator()
         else:
@@ -264,6 +200,8 @@ class BrowseTheWeb:
 
     def __repr__(self) -> str:
         return "Browse the Web"
+
+    __str__ = __repr__
 
     def __init__(self, browser: "WebDriver") -> None:
         self.browser = browser

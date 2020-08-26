@@ -1,10 +1,6 @@
 """
-A resolution that matches an empty collection. Resolutions must be paired
-with questions and passed together to an actor like so:
-
-    the_actor.should_see_the((List.of_the(TODO_ITEMS), IsEmpty()))
+A resolution that matches an empty collection.
 """
-
 
 from typing import Sized
 
@@ -15,8 +11,10 @@ from .base_resolution import BaseResolution
 
 
 class IsEmpty(BaseResolution):
-    """
-    Match on an empty collection (e.g. `[]`).
+    """Match on an empty collection.
+
+    Examples:
+        the_actor.should_see_the((List.of_all(VIDEO_FRAMES), IsEmpty()))
     """
 
     expected: None

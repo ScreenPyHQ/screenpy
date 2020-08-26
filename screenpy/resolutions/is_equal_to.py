@@ -1,10 +1,6 @@
 """
-A resolution that matches using equality. Resolutions must be paired with
-questions and passed together to an actor like so:
-
-    the_actor.should_see_the((Number.of_the(TODO_ITEMS), IsEqualTo(4)))
+A resolution that matches using equality.
 """
-
 
 from typing import Any, Optional
 
@@ -15,8 +11,15 @@ from .base_resolution import BaseResolution
 
 
 class IsEqualTo(BaseResolution):
-    """
-    Match on equality (i.e. `a == b`).
+    """Match on an equal object.
+
+    Examples:
+        the_actor.should_see_the(
+            (Number.of(ADVERTISEMENT_BANNERS), IsEqualTo(0))
+        )
+
+        the_actor.should_see_the(
+            (Text.of_all(SEARCH_RESULTS), IsEqualTo(["R2-D2", "C-3PO"])))
     """
 
     expected: object

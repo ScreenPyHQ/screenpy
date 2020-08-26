@@ -56,70 +56,112 @@ def generate_send_method_class(method):
             "Will be programmatically replaced."
             return SendAPIRequest(method, url)
 
-    SendMETHODRequest.__doc__ = f"""
-        Send a {method} request to a URL. Use a Send{method}Request action like so:
+    SendMETHODRequest.__doc__ = f"""Send a {method} request to a URL.
 
-            Send{method}Request.to("https://www.example.com"))
+Abilities Required:
+    |MakeAPIRequests|
 
-            Send{method}Request.to("https://www.example.com").with_(auth=(USER, PASS))
-    """
-    SendMETHODRequest.to.__doc__ = f"""
-        Set the URL to send the {method} request to.
+Examples:
+    the_actor.attempts_to(Send{method}Request.to("https://www.example.com")))
 
-        Args:
-            url: the URL to which to send the {method} request.
-    """
+    the_actor.attempts_to(
+        Send{method}Request.to("https://www.example.com").with_(auth=(USER, PASS)
+    )
+"""
+    SendMETHODRequest.to.__doc__ = f"""Set the URL to send the {method} request to."""
 
     return SendMETHODRequest
 
 
-#: Send a DELETE request to a URL. Use a SendDELETERequest action like so:
+#: Send a DELETE request to a URL.
 #:
-#:     SendDELETERequest.to("https://www.example.com"))
+#: Abilities Required:
+#:     |MakeAPIRequests|
 #:
-#:     SendDELETERequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#: Examples:
+#:     the_actor.attempts_to(SendDELETERequest.to("https://www.example.com")))
+#:
+#:     the_actor.attempts_to(
+#:         SendDELETERequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#:     )
 SendDELETERequest = generate_send_method_class("DELETE")
 
-#: Send a GET request to a URL. Use a SendGETRequest action like so:
+#: Send a GET request to a URL.
 #:
-#:     SendGETRequest.to("https://www.example.com"))
+#: Abilities Required:
+#:     |MakeAPIRequests|
 #:
-#:     SendGETRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#: Examples:
+#:     the_actor.attempts_to(SendGETRequest.to("https://www.example.com")))
+#:
+#:     the_actor.attempts_to(
+#:         SendGETRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#:     )
 SendGETRequest = generate_send_method_class("GET")
 
-#: Send a HEAD request to a URL. Use a SendHEADRequest action like so:
+#: Send a HEAD request to a URL.
 #:
-#:     SendHEADRequest.to("https://www.example.com"))
+#: Abilities Required:
+#:     |MakeAPIRequests|
 #:
-#:     SendHEADRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#: Examples:
+#:     the_actor.attempts_to(SendHEADRequest.to("https://www.example.com")))
+#:
+#:     the_actor.attempts_to(
+#:         SendHEADRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#:     )
 SendHEADRequest = generate_send_method_class("HEAD")
 
-#: Send an OPTIONS request to a URL. Use a SendOPTIONSRequest action like so:
+#: Send an OPTIONS request to a URL.
 #:
-#:     SendOPTIONSRequest.to("https://www.example.com"))
+#: Abilities Required:
+#:     |MakeAPIRequests|
 #:
-#:     SendOPTIONSRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#: Examples:
+#:     the_actor.attempts_to(SendOPTIONSRequest.to("https://www.example.com")))
+#:
+#:     the_actor.attempts_to(
+#:         SendOPTIONSRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#:     )
 SendOPTIONSRequest = generate_send_method_class("OPTIONS")
 
-#: Send a PATCH request to a URL. Use a SendPATCHRequest action like so:
+#: Send a PATCH request to a URL.
 #:
-#:     SendPATCHRequest.to("https://www.example.com"))
+#: Abilities Required:
+#:     |MakeAPIRequests|
 #:
-#:     SendPATCHRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#: Examples:
+#:     the_actor.attempts_to(SendPATCHRequest.to("https://www.example.com")))
+#:
+#:     the_actor.attempts_to(
+#:         SendPATCHRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#:     )
 SendPATCHRequest = generate_send_method_class("PATCH")
 
-#: Send a POST request to a URL. Use a SendPOSTRequest action like so:
+#: Send a POST request to a URL.
 #:
-#:     SendPOSTRequest.to("https://www.example.com"))
+#: Abilities Required:
+#:     |MakeAPIRequests|
 #:
-#:     SendPOSTRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#: Examples:
+#:     the_actor.attempts_to(SendPOSTRequest.to("https://www.example.com")))
+#:
+#:     the_actor.attempts_to(
+#:         SendPOSTRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#:     )
 SendPOSTRequest = generate_send_method_class("POST")
 
-#: Send a PUT request to a URL. Use a SendPUTRequest action like so:
+#: Send a PUT request to a URL.
 #:
-#:     SendPUTRequest.to("https://www.example.com"))
+#: Abilities Required:
+#:     |MakeAPIRequests|
 #:
-#:     SendPUTRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#: Examples:
+#:     the_actor.attempts_to(SendPUTRequest.to("https://www.example.com")))
+#:
+#:     the_actor.attempts_to(
+#:         SendPUTRequest.to("https://www.example.com").with_(auth=(USER, PASS))
+#:     )
 SendPUTRequest = generate_send_method_class("PUT")
 
 

@@ -1,10 +1,5 @@
 """
-A resolution that matches against a substring. Resolutions must be paired
-with questions and passed together to an actor like so:
-
-    the_actor.should_see_the(
-        (Text.of_the(WELCOME_BANNER), ContainsTheText("Welcome!")),
-    )
+A resolution that matches against a substring.
 """
 
 from hamcrest import contains_string
@@ -14,8 +9,12 @@ from .base_resolution import BaseResolution
 
 
 class ContainsTheText(BaseResolution):
-    """
-    Match a substring (e.g. `"play" in "screenplay"`).
+    """Match a specific substring of a string.
+
+    Examples:
+        the_actor.should_see_the(
+            (Text.of_the(WELCOME_MESSAGE), ContainsTheText("Hello,"))
+        )
     """
 
     expected: str

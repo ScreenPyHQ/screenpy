@@ -1,6 +1,5 @@
 """
-A question to ask about the cookies on the actor's session. This can be an API
-session or their browsing session.
+A few questions to ask about the cookies on the actor's session.
 """
 
 from screenpy import Actor

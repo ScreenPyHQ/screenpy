@@ -1,15 +1,6 @@
 """
 A resolution that matches against a dictionary that contains the specified
-key/value pair(s). Resolutions must be paired with questions and passed
-together to an actor:
-
-    the_actor.should_see_the(
-        (LastResponseBody(), ContainsTheEntry(token="foo")),
-    )
-
-    the_actor.should_see_the(
-        (LastResponseBody(), ContainsTheEntries(token="foo", value="gold")),
-    )
+key/value pair(s).
 """
 
 from typing import Mapping
@@ -21,9 +12,12 @@ from .base_resolution import BaseResolution
 
 
 class ContainsTheEntry(BaseResolution):
-    """
-    Match a dictionary containing the specified key/value pair(s)
-    (e.g. `("play", "Hamlet") in {"play": "Hamlet"}.items()`).
+    """Match a dictionary containing the specified key/value pair(s).
+
+    Examples:
+        the_actor.should_see_the(
+            (HeadersOfTheLastRequest(), ContainTheEntry(Authorization="Bearer 1"))
+        )
     """
 
     expected: object

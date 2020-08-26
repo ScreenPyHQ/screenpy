@@ -1,11 +1,5 @@
 """
-An action to respond to a prompt. An actor must possess the ability to
-BrowseTheWeb to perform this action. An actor performs this action like
-so:
-
-    the_actor.attempts_to(
-        RespondToThePrompt.with_("Roger, Roger. What's your vector, Victor?")
-    )
+An action to respond to a prompt.
 """
 
 from screenpy.abilities import BrowseTheWeb
@@ -16,40 +10,25 @@ from screenpy.pacing import aside, beat
 class RespondToThePrompt:
     """
     Respond to a javascript prompt by entering the specified text and
-    accepting the prompt. RespondToThePrompt is expected to be
-    instantiated using its |RespondToThePrompt.with_| static method. A
-    typical instantiation might look like:
+    accepting the prompt.
 
-        RespondToThePrompt.with_("Roger, Roger. What's your vector, Victor?")
+    Abilities Required:
+        |BrowseTheWeb|
 
-    It can then be passed along to the |Actor| to perform the action.
+    Examples:
+        the_actor.attempts_to(
+            RespondToThePrompt.with_("Roger, Roger. What's your vector, Victor?")
+        )
     """
 
     @staticmethod
     def with_(text: str) -> "RespondToThePrompt":
-        """
-        Provide the text to enter into the prompt.
-
-        Args:
-            text: the text to enter.
-
-        Returns:
-            |RespondToThePrompt|
-        """
+        """Provide the text to enter into the prompt."""
         return RespondToThePrompt(text)
 
     @beat('{0} responds to the prompt with "{text}".')
     def perform_as(self, the_actor: Actor) -> None:
-        """
-        Direct the actor to respond to the prompt using the given text.
-
-        Args:
-            the_actor: The |Actor| who will perform this action.
-
-        Raises:
-            |UnableToPerform|: the actor does not have the ability to
-                |BrowseTheWeb|.
-        """
+        """Direct the actor to respond to the prompt using the given text."""
         browser = the_actor.uses_ability_to(BrowseTheWeb).browser
         alert = browser.switch_to.alert
         aside(f"... the alert says {alert.text}")
