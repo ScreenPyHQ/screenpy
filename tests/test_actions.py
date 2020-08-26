@@ -340,19 +340,9 @@ class TestSwitchTo:
 
 class TestSwitchToTab:
     def test_can_be_instantiated(self):
-        stt1 = SwitchToTab(1)
-        stt2 = SwitchToTab.on_top()
+        stt = SwitchToTab(1)
 
-        assert isinstance(stt1, SwitchToTab)
-        assert isinstance(stt2, SwitchToTab)
-
-    def test_description_describes_chosen_tab(self):
-        """description is set based on which tab to switch to"""
-        stt1 = SwitchToTab(1)
-        stt2 = SwitchToTab.on_top()
-
-        assert "tab #1" in stt1.description
-        assert "newest tab" in stt2.description
+        assert isinstance(stt, SwitchToTab)
 
 
 def test_generate_send_method_class_docstring():

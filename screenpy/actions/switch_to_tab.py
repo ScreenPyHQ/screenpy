@@ -17,12 +17,11 @@ class SwitchToTab:
         the_actor.attempts_to(SwitchToTab(4))
     """
 
-    @beat("{} switches to {description}.")
+    @beat("{} switches to tab #{number}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to switch to the specified tab."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
-        browser.switch_to.window(browser.window_handles[self.index])
+        browser.switch_to.window(browser.window_handles[self.number - 1])
 
     def __init__(self, number: int) -> None:
-        self.index = number - 1
-        self.description = f"tab #{number}" if number >= 1 else "the newest tab"
+        self.number = number
