@@ -5,7 +5,6 @@ from screenpy.target import Target, TargetingError
 
 
 def test_can_be_instantiated():
-    """Target can be instantiated"""
     t1 = Target.the("test")
     t2 = Target.the("test").located_by("test")
 
@@ -14,7 +13,7 @@ def test_can_be_instantiated():
 
 
 def test_complains_for_no_locator():
-    """Target will complain if no locator was supplied."""
+    """Raises if no locator was supplied."""
     target = Target.the("test")
 
     with pytest.raises(TargetingError):
@@ -22,7 +21,7 @@ def test_complains_for_no_locator():
 
 
 def test_get_locator():
-    """Target returns the correct locator tuple"""
+    """Returns the locator tuple when asked for it"""
     css_selector = "#id"
     xpath_locator = '//div[@id="id"]'
     css_target = Target.the("css element").located_by(css_selector)
@@ -33,7 +32,7 @@ def test_get_locator():
 
 
 def test_located():
-    """Target accepts the locator provided by a user"""
+    """Uses the provided locator tuple, unaltered"""
     locator = (By.ID, "spam")
     target = Target.the("test").located(locator)
 

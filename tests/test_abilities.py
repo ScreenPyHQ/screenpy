@@ -13,7 +13,6 @@ from screenpy.exceptions import RequestError
 
 class TestBrowseTheWeb:
     def test_can_be_instantiated(self):
-        """Can be instantiated"""
         b = BrowseTheWeb.using(None)
 
         assert isinstance(b, BrowseTheWeb)
@@ -60,7 +59,6 @@ class TestBrowseTheWeb:
 
 class TestAuthenticateWith2FA:
     def test_can_be_instantiated(self):
-        """Can be instantiated"""
         a1 = AuthenticateWith2FA.using_secret("")
         a2 = AuthenticateWith2FA.using(None)
 
@@ -69,7 +67,7 @@ class TestAuthenticateWith2FA:
 
     @mock.patch("screenpy.abilities.authenticate_with_2fa.pyotp")
     def test_using_secret(self, mocked_pyotp):
-        """Creates pyotp.TOTP instance"""
+        """Creates a new pyotp.TOTP instance"""
         secret = "THISISJUSTATESTTOKENITSNOTAREAL1"
         AuthenticateWith2FA.using_secret(secret)
 

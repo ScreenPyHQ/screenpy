@@ -41,7 +41,6 @@ from screenpy import Target
 
 class TestAcceptAlert:
     def test_can_be_instantiated(self):
-        """AcceptAlert can be instantiated"""
         aa = AcceptAlert()
 
         assert isinstance(aa, AcceptAlert)
@@ -56,7 +55,6 @@ class TestAddHeader:
 
 class TestClick:
     def test_can_be_instantiated(self):
-        """Click can be instantiated"""
         c1 = Click.on(None)
         c2 = Click.on_the(None)
 
@@ -66,7 +64,6 @@ class TestClick:
 
 class TestDebug:
     def test_can_be_instantiated(self):
-        """Debug can be instantiated"""
         d = Debug()
 
         assert isinstance(d, Debug)
@@ -74,7 +71,6 @@ class TestDebug:
 
 class TestDismissAlert:
     def test_can_be_instantiated(self):
-        """DismissAlert can be instantiated"""
         da = DismissAlert()
 
         assert isinstance(da, DismissAlert)
@@ -82,7 +78,6 @@ class TestDismissAlert:
 
 class TestDoubleClick:
     def test_can_be_instantiated(self):
-        """DoubleClick can be instantiated"""
         dc1 = DoubleClick()
         dc2 = DoubleClick.on_the(None)
 
@@ -92,7 +87,6 @@ class TestDoubleClick:
 
 class TestEnter:
     def test_can_be_instantiated(self):
-        """Enter can be instantiated"""
         e1 = Enter.the_text("test")
         e2 = Enter.the_text("test").into(None)
         e3 = Enter.the_keys("test").into(None)
@@ -130,7 +124,6 @@ class TestEnter:
 
 class TestEnter2FAToken:
     def test_can_be_instantiated(self):
-        """Enter2FAToken can be instantiated"""
         e1 = Enter2FAToken.into(None)
         e2 = Enter2FAToken.into_the(None)
 
@@ -140,7 +133,6 @@ class TestEnter2FAToken:
 
 class TestGoBack:
     def test_can_be_instantiated(self):
-        """GoBack can be instantiated"""
         gb = GoBack()
 
         assert isinstance(gb, GoBack)
@@ -148,7 +140,6 @@ class TestGoBack:
 
 class TestGoForward:
     def test_can_be_instantiated(self):
-        """GoForward can be instantiated"""
         gf = GoForward()
 
         assert isinstance(gf, GoForward)
@@ -156,7 +147,6 @@ class TestGoForward:
 
 class TestHoldDown:
     def test_can_be_instantiated(self):
-        """HoldDown can be instantiated"""
         hd1 = HoldDown.left_mouse_button()
         hd2 = HoldDown.left_mouse_button().on_the(None)
         hd3 = HoldDown(Keys.ALT)
@@ -191,7 +181,6 @@ class TestHoldDown:
 
 class TestMoveMouse:
     def test_can_be_instantiated(self):
-        """MoveMouse can be instantiated"""
         mm1 = MoveMouse.to_the(None)
         mm2 = MoveMouse.on_the(None)
         mm3 = MoveMouse.by_offset(1, 1)
@@ -218,7 +207,6 @@ class TestMoveMouse:
 
 class TestOpen:
     def test_can_be_instantiated(self):
-        """Open can be instantiated"""
         o1 = Open.browser_on(None)
         o2 = Open.their_browser_on(None)
 
@@ -228,7 +216,6 @@ class TestOpen:
 
 class TestPause:
     def test_can_be_instantiated(self):
-        """Pause can be instantiated"""
         p1 = Pause.for_(20)
         p2 = Pause.for_(20).seconds_because("test")
         p3 = Pause.for_(20).milliseconds_because("test")
@@ -266,7 +253,6 @@ class TestPause:
 
 class TestRelease:
     def test_can_be_instantiated(self):
-        """Release can be instantiated"""
         r1 = Release.left_mouse_button()
         r2 = Release(Keys.ALT)
         r3 = Release.command_or_control_key()
@@ -299,7 +285,6 @@ class TestRelease:
 
 class TestRefreshPage:
     def test_can_be_instantiated(self):
-        """RefreshPage can be instantiated"""
         r = RefreshPage()
 
         assert isinstance(r, RefreshPage)
@@ -307,7 +292,6 @@ class TestRefreshPage:
 
 class TestRespondToThePrompt:
     def test_can_be_instantiated(self):
-        """RespondToThePrompt can be instantiated"""
         rttp = RespondToThePrompt.with_("test")
 
         assert isinstance(rttp, RespondToThePrompt)
@@ -315,7 +299,6 @@ class TestRespondToThePrompt:
 
 class TestRightClick:
     def test_can_be_instantiated(self):
-        """RightClick can be instantiated"""
         rc1 = RightClick()
         rc2 = RightClick.on_the(None)
 
@@ -325,7 +308,6 @@ class TestRightClick:
 
 class TestSelect:
     def test_specifics_can_be_instantiated(self):
-        """Select's specific classes can be instantiated"""
         by_index1 = Select.the_option_at_index(0)
         by_index2 = Select.the_option_at_index(0).from_(None)
         by_index3 = Select.the_option_at_index(0).from_the(None)
@@ -349,7 +331,6 @@ class TestSelect:
 
 class TestSwitchTo:
     def test_can_be_instantiated(self):
-        """SwitchTo can be instantiated"""
         st1 = SwitchTo.the(None)
         st2 = SwitchTo.default()
 
@@ -359,7 +340,6 @@ class TestSwitchTo:
 
 class TestSwitchToTab:
     def test_can_be_instantiated(self):
-        """SwitchToTab can be instantiated"""
         stt1 = SwitchToTab(1)
         stt2 = SwitchToTab.on_top()
 
@@ -408,7 +388,6 @@ def test_can_be_instantiated(request_class):
 
 class TestSendAPIRequest:
     def test_can_be_instantiated(self):
-        """SendAPIRequest can be instantiated"""
         sar1 = SendAPIRequest("GET", "test")
         sar2 = SendAPIRequest("GET", "test").with_(some="kwarg")
 

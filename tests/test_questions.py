@@ -31,7 +31,6 @@ class TestBodyOfTheLastResponse:
         assert isinstance(botlr, BodyOfTheLastResponse)
 
     def test_raises_error_if_no_responses(self, APITester):
-        """Raises UnableToAnswer if no responses yet"""
         botlr = BodyOfTheLastResponse()
         APITester.ability_to(MakeAPIRequests).responses = []
 
@@ -56,7 +55,6 @@ class TestBodyOfTheLastResponse:
 
 class TestBrowserTitle:
     def test_can_be_instantiated(self):
-        """BrowserTitle can be instantiated"""
         b = BrowserTitle()
 
         assert isinstance(b, BrowserTitle)
@@ -64,7 +62,6 @@ class TestBrowserTitle:
 
 class TestBrowserURL:
     def test_can_be_instantiated(self):
-        """BrowserURL can be instantiated"""
         b = BrowserURL()
 
         assert isinstance(b, BrowserURL)
@@ -72,7 +69,6 @@ class TestBrowserURL:
 
 class TestCookies:
     def test_can_be_instantiated(self):
-        """Cookies can be instantiated"""
         c = Cookies()
 
         assert isinstance(c, Cookies)
@@ -88,7 +84,7 @@ class TestCookies:
 
     @mock.patch("screenpy.questions.cookies.CookiesOnTheAPISession")
     def test_calls_api_session(self, mock_CookiesOnTheAPISession, APITester):
-        """Cookies calls CookiesOnTheAPISession for BrowseTheWeb"""
+        """Cookies calls CookiesOnTheAPISession for MakeAPIRequests"""
         Cookies().answered_by(APITester)
 
         mock_CookiesOnTheAPISession.return_value.answered_by.assert_called_once_with(
@@ -96,14 +92,12 @@ class TestCookies:
         )
 
     def test_raises_exception_if_missing_abilities(self):
-        """Cookies complains if the actor can't MakeAPIRequests or BrowseTheWeb"""
         with pytest.raises(UnableToAnswer):
             Cookies().answered_by(AnActor.named("Bob"))
 
 
 class TestCookiesOnTheAPISession:
     def test_can_be_instantiated(self):
-        """CookiesOnTheAPISession can be instantiated"""
         c = CookiesOnTheAPISession()
 
         assert isinstance(c, CookiesOnTheAPISession)
@@ -111,7 +105,6 @@ class TestCookiesOnTheAPISession:
 
 class TestCookiesOnTheWebSession:
     def test_can_be_instantiated(self):
-        """CookiesOnTheWebSession can be instantiated"""
         c = CookiesOnTheWebSession()
 
         assert isinstance(c, CookiesOnTheWebSession)
@@ -119,13 +112,11 @@ class TestCookiesOnTheWebSession:
 
 class TestElement:
     def test_can_be_instantiated(self):
-        """Element can be instantiated"""
         e = Element(None)
 
         assert isinstance(e, Element)
 
-    def test_returns_none_if_no_element(self, Tester):
-        """Element returns None if the target can't be found"""
+    def test_question_returns_none_if_no_element_found(self, Tester):
         mock_target = mock.Mock(spec=Target)
         mock_target.found_by.side_effect = BrowsingError()
 
@@ -136,13 +127,11 @@ class TestElement:
 
 class TestStatusCodeOfTheLastResponse:
     def test_can_be_instantiated(self):
-        """StatusCodeOfTheLastResponse can be instantiated"""
         scotlr = StatusCodeOfTheLastResponse()
 
         assert isinstance(scotlr, StatusCodeOfTheLastResponse)
 
     def test_raises_error_if_no_responses(self, APITester):
-        """Raises UnableToAnswer if no responses yet"""
         scotlr = StatusCodeOfTheLastResponse()
         APITester.ability_to(MakeAPIRequests).responses = []
 
@@ -152,7 +141,6 @@ class TestStatusCodeOfTheLastResponse:
 
 class TestList:
     def test_can_be_instantiated(self):
-        """List can be instantiated"""
         l1 = List.of(None)
         l2 = List.of_all(None)
 
@@ -162,7 +150,6 @@ class TestList:
 
 class TestNumber:
     def test_can_be_instantiated(self):
-        """Number can be instantiated"""
         n1 = Number.of(None)
 
         assert isinstance(n1, Number)
@@ -170,7 +157,6 @@ class TestNumber:
 
 class TestSelected:
     def test_can_be_instantiated(self):
-        """Selected can be instantiated"""
         s1 = Selected.option_from(None)
         s2 = Selected.option_from_the(None)
         s3 = Selected.options_from(None)
@@ -182,7 +168,6 @@ class TestSelected:
         assert isinstance(s4, Selected)
 
     def test_options_from_sets_multi(self):
-        """Selected.options_from sets multi to True"""
         multi_selected = Selected.options_from(None)
 
         assert multi_selected.multi
@@ -190,13 +175,11 @@ class TestSelected:
 
 class TestHeadersOfTheLastResponse:
     def test_can_be_instantiated(self):
-        """HeadersOfTheLastResponse can be instantiated"""
         hotlr = HeadersOfTheLastResponse()
 
         assert isinstance(hotlr, HeadersOfTheLastResponse)
 
     def test_raises_error_if_no_responses(self, APITester):
-        """Raises UnableToAnswer if no responses yet"""
         hotlr = HeadersOfTheLastResponse()
         APITester.ability_to(MakeAPIRequests).responses = []
 
@@ -206,7 +189,6 @@ class TestHeadersOfTheLastResponse:
 
 class TestText:
     def test_can_be_instantiated(self):
-        """Text can be instantiated"""
         t1 = Text.of(None)
         t2 = Text.of_all(None)
 
@@ -214,7 +196,6 @@ class TestText:
         assert isinstance(t2, Text)
 
     def test_of_all_sets_multi(self):
-        """Text.of_all sets multi to True"""
         multi_text = Text.of_all(None)
 
         assert multi_text.multi

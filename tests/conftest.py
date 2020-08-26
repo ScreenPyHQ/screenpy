@@ -8,7 +8,7 @@ from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequest
 
 @pytest.fixture(scope="function")
 def Tester():
-    """Provides an actor with mocked abilities."""
+    """Provide an actor with mocked web browsing abilities."""
     AuthenticateWith2FA_Mocked = mock.Mock(spec=AuthenticateWith2FA)
     AuthenticateWith2FA_Mocked.otp = mock.Mock()
     BrowseTheWeb_Mocked = mock.Mock(spec=BrowseTheWeb)
@@ -21,7 +21,7 @@ def Tester():
 
 @pytest.fixture(scope="function")
 def APITester():
-    """Provides an actor with mocked abilities."""
+    """Provide an actor with mocked API testing abilities."""
     MakeAPIRequests_Mocked = mock.Mock(spec=MakeAPIRequests)
     MakeAPIRequests_Mocked.session = mock.Mock()
 

@@ -36,16 +36,14 @@ from screenpy.actions import (
 from screenpy.exceptions import UnableToAct
 
 
-def test_accept_alert(Tester):
-    """AcceptAlert calls .accept()"""
+def test_accept_alert_calls_accept(Tester):
     Tester.attempts_to(AcceptAlert())
 
     mocked_btw = Tester.ability_to(BrowseTheWeb)
     mocked_btw.browser.switch_to.alert.accept.assert_called_once()
 
 
-def test_clear(Tester):
-    """Clear finds its target and calls .clear()"""
+def test_clear_calls_clear(Tester):
     fake_xpath = "//xpath"
     fake_target = Target.the("fake").located_by(fake_xpath)
 
@@ -56,8 +54,7 @@ def test_clear(Tester):
     mocked_btw.to_find.return_value.clear.assert_called_once()
 
 
-def test_add_headers(APITester):
-    """AddHeaders adds the headers to the session."""
+def test_add_headers_adds_headers(APITester):
     test_headers = {"test": "header", "another": "one"}
     session = APITester.ability_to(MakeAPIRequests).session
     session.headers = {}
@@ -69,7 +66,6 @@ def test_add_headers(APITester):
 
 class TestClick:
     def test_calls_click(self, Tester):
-        """Click finds its target and calls .click()"""
         fake_xpath = "//xpath"
         fake_target = Target.the("fake").located_by(fake_xpath)
 
@@ -81,7 +77,6 @@ class TestClick:
 
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_can_be_chained(self, MockedActionChains, Tester):
-        """Click chained calls .click()"""
         mock_target = mock.Mock()
         mock_element = "element"
         mock_target.found_by.return_value = mock_element
@@ -93,8 +88,7 @@ class TestClick:
 
 class TestDebug:
     @mock.patch("screenpy.actions.debug.breakpoint")
-    def test_breakpoint(self, mocked_breakpoint, Tester):
-        """Debug calls breakpoint()"""
+    def test_calls_breakpoint(self, mocked_breakpoint, Tester):
         Tester.attempts_to(Debug())
 
         mocked_breakpoint.assert_called_once()
@@ -102,7 +96,6 @@ class TestDebug:
     @mock.patch("screenpy.actions.debug.breakpoint")
     @mock.patch("screenpy.actions.debug.pdb")
     def test_falls_back_to_pdb(self, mocked_pdb, mocked_breakpoint, Tester):
-        """Debug calls set_trace() if breakpoint is unavailable"""
         mocked_breakpoint.side_effect = NameError("name 'breakpoint' is not defined")
 
         Tester.attempts_to(Debug())
@@ -110,8 +103,7 @@ class TestDebug:
         mocked_pdb.set_trace.assert_called_once()
 
 
-def test_dismiss_alert(Tester):
-    """DismissAlert calls .dismiss()"""
+def test_dismiss_alert_calls_dismiss(Tester):
     Tester.attempts_to(DismissAlert())
 
     mocked_btw = Tester.ability_to(BrowseTheWeb)
@@ -121,7 +113,6 @@ def test_dismiss_alert(Tester):
 class TestDoubleClick:
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_calls_double_click(self, MockedActionChains, Tester):
-        """DoubleClick calls .double_click()"""
         mock_target = mock.Mock()
         mock_element = "element"
         mock_target.found_by.return_value = mock_element
@@ -133,23 +124,20 @@ class TestDoubleClick:
         )
 
     @mock.patch("screenpy.actions.chain.ActionChains")
-    def test_without_element(self, MockedActionChains, Tester):
-        """DoubleClick works with no target"""
+    def test_without_target(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(DoubleClick()))
 
         MockedActionChains().double_click.assert_called_once_with(on_element=None)
 
     @mock.patch("screenpy.actions.double_click.ActionChains")
     def test_can_be_performed(self, MockedActionChains, Tester):
-        """DoubleClick can be performed directly"""
         Tester.attempts_to(DoubleClick())
 
         MockedActionChains().double_click.assert_called_once_with(on_element=None)
 
 
 class TestEnter:
-    def test_basic_action(self, Tester):
-        """Enter finds its target and calls .send_keys()"""
+    def test_calls_send_keys(self, Tester):
         text = "test"
         fake_xpath = "//xpath"
         fake_target = Target.the("fake").located_by(fake_xpath)
@@ -161,7 +149,6 @@ class TestEnter:
         mocked_btw.to_find.return_value.send_keys.assert_called_once_with(text)
 
     def test_following_keys(self, Tester):
-        """Enter hits the following keys"""
         text = "test"
         fake_xpath = "//xpath"
         fake_target = Target.the("fake").located_by(fake_xpath)
@@ -178,13 +165,11 @@ class TestEnter:
         assert Keys.ENTER in called_args
 
     def test_complains_for_no_target(self, Tester):
-        """Enter complains if no target was given"""
         with pytest.raises(UnableToAct):
             Tester.attempts_to(Enter.the_text("test"))
 
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_chained_calls_send_keys(self, MockedActionChains, Tester):
-        """Enter chained with no element calls .send_keys()"""
         text = "test"
 
         Tester.attempts_to(Chain(Enter.the_text(text)))
@@ -193,7 +178,6 @@ class TestEnter:
 
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_chained_calls_send_keys_to_element(self, MockedActionChains, Tester):
-        """Enter chained with an element calls .send_keys_to_element()"""
         mock_target = mock.Mock()
         mock_element = "element"
         mock_target.found_by.return_value = mock_element
@@ -207,7 +191,7 @@ class TestEnter:
 
 
 class TestEnter2FAToken:
-    def test_enter_2FA_token(self, Tester):
+    def test_calls_relevant_methods(self, Tester):
         """Enter2FAToken calls .to_get_token(), .to_find(), and .send_keys()"""
         text = "test"
         mocked_2fa = Tester.ability_to(AuthenticateWith2FA)
@@ -223,7 +207,6 @@ class TestEnter2FAToken:
 
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_can_be_chained(self, MockedActionChains, Tester):
-        """Enter2FAToken when chained calls .send_keys_to_element()"""
         text = "test"
         mocked_2fa = Tester.ability_to(AuthenticateWith2FA)
         mocked_2fa.to_get_token.return_value = text
@@ -239,7 +222,6 @@ class TestEnter2FAToken:
 
 
 def test_go_back_uses_back(Tester):
-    """GoBack uses .back()"""
     Tester.attempts_to(GoBack())
 
     mocked_btw = Tester.ability_to(BrowseTheWeb)
@@ -247,7 +229,6 @@ def test_go_back_uses_back(Tester):
 
 
 def test_go_forward_uses_forward(Tester):
-    """GoForward uses .forward()"""
     Tester.attempts_to(GoForward())
 
     mocked_btw = Tester.ability_to(BrowseTheWeb)
@@ -256,15 +237,13 @@ def test_go_forward_uses_forward(Tester):
 
 class TestHoldDown:
     @mock.patch("screenpy.actions.chain.ActionChains")
-    def test_uses_key_down(self, MockedActionChains, Tester):
-        """HoldDown key uses ActionChains.key_down"""
+    def test_calls_key_down(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(HoldDown(Keys.ALT)))
 
         MockedActionChains().key_down.assert_called_once_with(Keys.ALT)
 
     @mock.patch("screenpy.actions.chain.ActionChains")
-    def test_uses_click_and_hold(self, MockedActionChains, Tester):
-        """HoldDown left mouse button uses ActionChains.click_and_hold"""
+    def test_calls_click_and_hold(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(HoldDown.left_mouse_button()))
 
         MockedActionChains().click_and_hold.assert_called_once()
@@ -273,7 +252,6 @@ class TestHoldDown:
 class TestMoveMouse:
     @mock.patch("screenpy.actions.move_mouse.ActionChains")
     def test_calls_move_to_element(self, MockedActionChains, Tester):
-        """MoveMouse calls move_to_element if element provided"""
         mock_target = mock.Mock()
         mock_element = "element"
         mock_target.found_by.return_value = mock_element
@@ -284,7 +262,6 @@ class TestMoveMouse:
 
     @mock.patch("screenpy.actions.move_mouse.ActionChains")
     def test_calls_move_by_offset(self, MockedActionChains, Tester):
-        """MoveMouse calls move_by_offset if offset provided"""
         offset = (1, 2)
 
         Tester.attempts_to(MoveMouse.by_offset(*offset))
@@ -293,7 +270,6 @@ class TestMoveMouse:
 
     @mock.patch("screenpy.actions.move_mouse.ActionChains")
     def test_calls_move_to_element_by_offset(self, MockedActionChains, Tester):
-        """MoveMouse calls move_to_element_by_offset if both provided"""
         mock_target = mock.Mock()
         mock_element = "element"
         mock_target.found_by.return_value = mock_element
@@ -307,7 +283,6 @@ class TestMoveMouse:
 
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_can_be_chained(self, MockedActionChains, Tester):
-        """MoveMouse can be chained"""
         offset = (1, 2)
 
         Tester.attempts_to(Chain(MoveMouse.by_offset(*offset)))
@@ -315,8 +290,7 @@ class TestMoveMouse:
         MockedActionChains().move_by_offset.assert_called_once_with(*offset)
 
 
-def test_open(Tester):
-    """Open calls .get()"""
+def test_open_calls_get(Tester):
     url = "https://localtest.test"
 
     Tester.attempts_to(Open.their_browser_on(url))
@@ -328,7 +302,6 @@ def test_open(Tester):
 class TestPause:
     @mock.patch("screenpy.actions.pause.sleep")
     def test_calls_sleep(self, mocked_sleep, Tester):
-        """Pause calls time.sleep()"""
         duration = 20
 
         Tester.attempts_to(Pause.for_(duration).seconds_because("test"))
@@ -336,13 +309,11 @@ class TestPause:
         mocked_sleep.assert_called_once_with(duration)
 
     def test_complains_for_missing_reason(self, Tester):
-        """Pause throws an assertion if no reason was given"""
         with pytest.raises(UnableToAct):
             Tester.attempts_to(Pause.for_(20))
 
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_can_be_chained(self, MockedActionChains, Tester):
-        """Pause when chained calls .pause()"""
         duration = 20
 
         Tester.attempts_to(Chain(Pause.for_(duration).seconds_because("... reasons")))
@@ -350,8 +321,7 @@ class TestPause:
         MockedActionChains().pause.assert_called_once_with(duration)
 
 
-def test_refresh_page(Tester):
-    """RefreshPage calls .refresh()"""
+def test_refresh_page_calls_refresh(Tester):
     Tester.attempts_to(RefreshPage())
 
     mocked_browser = Tester.ability_to(BrowseTheWeb).browser
@@ -360,21 +330,19 @@ def test_refresh_page(Tester):
 
 class TestRelease:
     @mock.patch("screenpy.actions.chain.ActionChains")
-    def test_uses_key_down(self, MockedActionChains, Tester):
-        """Release key uses ActionChains.key_up"""
+    def test_calls_key_down(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(Release(Keys.ALT)))
 
         MockedActionChains().key_up.assert_called_once_with(Keys.ALT)
 
     @mock.patch("screenpy.actions.chain.ActionChains")
-    def test_uses_click_and_hold(self, MockedActionChains, Tester):
-        """Release left mouse button uses ActionChains.release"""
+    def test_calls_release(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(Release.left_mouse_button()))
 
         MockedActionChains().release.assert_called_once()
 
 
-def test_respond_to_the_prompt(Tester):
+def test_respond_to_the_prompt_calls_relevant_methods(Tester):
     """RespondToThePrompt calls .send_keys() and .accept()"""
     text = "Hello!"
 
@@ -388,7 +356,6 @@ def test_respond_to_the_prompt(Tester):
 class TestRightClick:
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_calls_double_click(self, MockedActionChains, Tester):
-        """RightClick calls .context_click()"""
         mock_target = mock.Mock()
         mock_element = "element"
         mock_target.found_by.return_value = mock_element
@@ -400,15 +367,13 @@ class TestRightClick:
         )
 
     @mock.patch("screenpy.actions.chain.ActionChains")
-    def test_without_element(self, MockedActionChains, Tester):
-        """RightClick works with no target"""
+    def test_without_target(self, MockedActionChains, Tester):
         Tester.attempts_to(Chain(RightClick()))
 
         MockedActionChains().context_click.assert_called_once_with(on_element=None)
 
     @mock.patch("screenpy.actions.right_click.ActionChains")
     def test_can_be_performed(self, MockedActionChains, Tester):
-        """RightClick can be performed directly"""
         Tester.attempts_to(RightClick())
 
         MockedActionChains().context_click.assert_called_once_with(on_element=None)
@@ -416,8 +381,7 @@ class TestRightClick:
 
 class TestSelectByIndex:
     @mock.patch("screenpy.actions.select.SeleniumSelect")
-    def test_basic_action(self, mocked_selenium_select, Tester):
-        """SelectByIndex finds its target and calls .select_by_index()"""
+    def test_calls_select_by_index(self, mocked_selenium_select, Tester):
         index = 1
         fake_xpath = "//xpath"
         fake_target = Target.the("fake").located_by(fake_xpath)
@@ -431,15 +395,13 @@ class TestSelectByIndex:
         )
 
     def test_complains_for_no_target(self, Tester):
-        """SelectByIndex complains if no target was given"""
         with pytest.raises(UnableToAct):
             Tester.attempts_to(Select.the_option_at_index(1))
 
 
 class TestSelectByText:
     @mock.patch("screenpy.actions.select.SeleniumSelect")
-    def test_basic_action(self, mocked_selenium_select, Tester):
-        """SelectByText finds its target and calls .select_by_visible_text()"""
+    def test_calls_select_by_visible_text(self, mocked_selenium_select, Tester):
         text = "test"
         fake_xpath = "//xpath"
         fake_target = Target.the("fake").located_by(fake_xpath)
@@ -452,15 +414,13 @@ class TestSelectByText:
         mocked_select.select_by_visible_text.assert_called_once_with(text)
 
     def test_complains_for_no_target(self, Tester):
-        """SelectByText complains if no target was given"""
         with pytest.raises(UnableToAct):
             Tester.attempts_to(Select.the_option_named("text"))
 
 
 class TestSelectByValue:
     @mock.patch("screenpy.actions.select.SeleniumSelect")
-    def test_basic_action(self, mocked_selenium_select, Tester):
-        """SelectByValue finds its target and calls .select_by_visible_text()"""
+    def test_calls_select_by_value(self, mocked_selenium_select, Tester):
         value = 1337
         fake_xpath = "//xpath"
         fake_target = Target.the("fake").located_by(fake_xpath)
@@ -474,14 +434,12 @@ class TestSelectByValue:
         )
 
     def test_complains_for_no_target(self, Tester):
-        """SelectByValue complains if no target was given"""
         with pytest.raises(UnableToAct):
             Tester.attempts_to(Select.the_option_with_value("value"))
 
 
 class TestSwitchTo:
-    def test_switch_to_frame(self, Tester):
-        """SwitchTo calls .frame()"""
+    def test_switch_to_frame_calls_frame(self, Tester):
         mock_target = mock.Mock()
         mock_element = "element"
         mock_target.found_by.return_value = mock_element
@@ -491,16 +449,14 @@ class TestSwitchTo:
         mocked_btw = Tester.ability_to(BrowseTheWeb)
         mocked_btw.browser.switch_to.frame.assert_called_once_with(mock_element)
 
-    def test_switch_to_default(self, Tester):
-        """SwitchTo calls .default_content()"""
+    def test_switch_to_default_calls_default_content(self, Tester):
         Tester.attempts_to(SwitchTo.default())
 
         mocked_btw = Tester.ability_to(BrowseTheWeb)
         mocked_btw.browser.switch_to.default_content.assert_called_once()
 
 
-def test_switch_to_tab(Tester):
-    """SwitchToTab calls .window()"""
+def test_switch_to_tab_calls_window(Tester):
     number = 3
     mocked_btw = Tester.ability_to(BrowseTheWeb)
     mocked_btw.browser.window_handles = range(number + 1)
@@ -510,8 +466,7 @@ def test_switch_to_tab(Tester):
     mocked_btw.browser.switch_to.window.assert_called_once_with(number - 1)
 
 
-def test_wait(Tester):
-    """Wait calls .to_wait_for()"""
+def test_wait_calls_to_wait_for(Tester):
     fake_xpath = "//xpath"
     fake_target = Target.the("fake").located_by(fake_xpath)
 
@@ -523,8 +478,8 @@ def test_wait(Tester):
     )
 
 
-def test_send_api_request_parameters_passed_to_session(APITester):
-    """Args and kwargs given to SendAPIRequest are passed to the session"""
+def test_send_api_request_parameters_passed_along(APITester):
+    """Args and kwargs given to SendAPIRequest are passed to ``to_send``"""
     method = "GET"
     url = "TEST_URL"
     kwargs = {"test": "kwargs"}

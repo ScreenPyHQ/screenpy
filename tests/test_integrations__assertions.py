@@ -139,8 +139,8 @@ def test_ask_for_text_of_the_alert(Tester):
     Tester.should_see_the((TextOfTheAlert(), ContainsTheText(text)))
 
 
-def test_contains_the_text_no_it_doesnt(Tester):
-    """ContainsTheText complains if the substring does not exist"""
+def test_contains_the_text_no_it_does_not(Tester):
+    """ContainsTheText test fails if the substring does not exist"""
     fake_xpath = "//xpath"
     fake_target = Target.the("fake").located_by(fake_xpath)
     mocked_btw = Tester.ability_to(BrowseTheWeb)

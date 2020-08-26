@@ -32,7 +32,6 @@ class TestBaseAbility:
 
 class TestContainsTheEntry:
     def test_can_be_instantiated(self):
-        """ContainsTheEntry can be instantiated"""
         cte_single = ContainsTheEntry(key="value")
         cte_multiple = ContainsTheEntry(key1="value1", key2="value2")
 
@@ -40,7 +39,7 @@ class TestContainsTheEntry:
         assert isinstance(cte_multiple, ContainsTheEntry)
 
     def test_the_test(self):
-        """ContainsTheEntry tests what it says on the tin"""
+        """Matches dictionaries containing the entry(/ies)"""
         cte_single = ContainsTheEntry(key="value")
         cte_multiple = ContainsTheEntry(key1="value1", key2="value2")
 
@@ -61,7 +60,7 @@ class TestContainsTheItem:
         assert isinstance(cti, ContainsTheItem)
 
     def test_the_test(self):
-        """ContainsTheItem matches against a list containing the item."""
+        """Matches lists containing the item"""
         cti = ContainsTheItem(1)
 
         assert cti.matches(range(0, 10))
@@ -70,13 +69,12 @@ class TestContainsTheItem:
 
 class TestContainsTheKey:
     def test_can_be_instantiated(self):
-        """ContainsTheKey can be instantiated"""
         ctk = ContainsTheKey("key")
 
         assert isinstance(ctk, ContainsTheKey)
 
     def test_the_test(self):
-        """ContainsTheKey tests what it says on the tin"""
+        """Matches dictionaries containing the key"""
         ctk = ContainsTheKey("key")
 
         assert ctk.matches({"key": "value"})
@@ -86,13 +84,12 @@ class TestContainsTheKey:
 
 class TestContainsTheText:
     def test_can_be_instantiated(self):
-        """ContainsTheText can be instantiated"""
         ctt = ContainsTheText("hello")
 
         assert isinstance(ctt, ContainsTheText)
 
     def test_the_test(self):
-        """ContainsTheText tests what it says on the tin"""
+        """Matches text with the substring"""
         ctt = ContainsTheText("hello")
 
         assert ctt.matches("hello world!")
@@ -101,13 +98,12 @@ class TestContainsTheText:
 
 class TestContainsTheValue:
     def test_can_be_instantiated(self):
-        """ContainsTheValue can be instantiated"""
         ctv = ContainsTheValue("Value")
 
         assert isinstance(ctv, ContainsTheValue)
 
     def test_the_test(self):
-        """ContainsTheValue tests what it says on the tin"""
+        """Matches dictionaries which contain the value"""
         ctv = ContainsTheValue("value")
 
         assert ctv.matches({"key": "value"})
@@ -117,13 +113,12 @@ class TestContainsTheValue:
 
 class TestEmpty:
     def test_can_be_instantiated(self):
-        """Empty can be instantiated"""
         e = Empty()
 
         assert isinstance(e, Empty)
 
     def test_the_test(self):
-        """Empty tests what it says on the tin"""
+        """Matches against empty collections"""
         e = Empty()
 
         assert e.matches([])
@@ -137,7 +132,7 @@ class TestHasLength:
         assert isinstance(hl, HasLength)
 
     def test_the_test(self):
-        """HasLength tests the length of a list"""
+        """Matches lists with the right length"""
         hl = HasLength(5)
 
         assert hl.matches([1, 2, 3, 4, 5])
@@ -146,13 +141,12 @@ class TestHasLength:
 
 class TestIsEqualTo:
     def test_can_be_instantiated(self):
-        """IsEqual can be instantiated"""
         ie = IsEqualTo(1)
 
         assert isinstance(ie, IsEqualTo)
 
     def test_the_test(self):
-        """IsEqual tests what it says on the tin"""
+        """Matches objects that are equal to what was passed in"""
         ie = IsEqualTo(1)
 
         assert ie.matches(1)
@@ -161,13 +155,12 @@ class TestIsEqualTo:
 
 class TestIsNot:
     def test_can_be_instantiated(self):
-        """IsNot can be instantiated"""
         in_ = IsNot(None)
 
         assert isinstance(in_, IsNot)
 
     def test_the_test(self):
-        """IsNot tests what it says on the tin"""
+        """Matches the opposite of what was passed in"""
         in_ = DoesNot(Equal(1))
 
         assert in_.matches(2)
@@ -176,13 +169,12 @@ class TestIsNot:
 
 class TestIsVisible:
     def test_can_be_instantiated(self):
-        """IsVisible can be instantiated"""
         iv = IsVisible()
 
         assert isinstance(iv, IsVisible)
 
     def test_the_test(self):
-        """IsVisible tests what it says on the tin"""
+        """Matches elements which are visible"""
         mock_visible_element = mock.Mock()
         mock_visible_element.is_displayed.return_value = True
         mock_invisible_element = mock.Mock()
@@ -195,13 +187,12 @@ class TestIsVisible:
 
 class TestReadsExactly:
     def test_can_be_instantiated(self):
-        """ReadsExactly can be instantiated"""
         re_ = ReadsExactly("Blah")
 
         assert isinstance(re_, ReadsExactly)
 
     def test_the_test(self):
-        """ReadsExactly tests what it says on the tin"""
+        """Matches text exactly"""
         re_ = ReadsExactly("Blah")
 
         assert re_.matches("Blah")
