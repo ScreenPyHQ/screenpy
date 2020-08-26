@@ -13,3 +13,4 @@ def Perry():
     """An actor who can make API requests."""
     the_actor = AnActor.named("Perry").who_can(MakeAPIRequests())
     yield the_actor
+    the_actor.exit_stage_left()
