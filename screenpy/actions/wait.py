@@ -73,6 +73,8 @@ class Wait:
         self.log_detail = log_detail
         return self
 
+    to = using
+
     def to_appear(self) -> "Wait":
         """Use Selenium's "visibility of element located" strategy."""
         return self.using(EC.visibility_of_element_located, " to be visible...")
