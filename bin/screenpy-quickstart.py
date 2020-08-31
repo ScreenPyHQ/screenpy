@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-
-
 """
 A helpful script to setup a Screenplay Pattern scaffold. You can run it
 in the directory where you want your suite to be created like so:
@@ -21,7 +19,6 @@ user_interface/
  - __init__.py
  - home_page.py
 """
-
 
 import os
 import sys
