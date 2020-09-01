@@ -59,133 +59,139 @@ templates_path = ["_templates"]
 source_suffix = ".rst"
 
 rst_prolog = """.. Internal references
+.. .. Docs Pages
+.. |wait strategies| replace:: :ref:`waiting`
+
 .. .. Exceptions
 .. |DeliveryError| replace:: :class:`~screenpy.exceptions.DeliveryError`
 .. |UnableToAct| replace:: :class:`~screenpy.exceptions.UnableToAct`
 .. |UnableToPerform| replace:: :class:`~screenpy.actor.UnableToPerform`
 
 .. .. Actors
-.. |Actor| replace:: :class:`~screenpy.actor.Actor`
-.. |Actor.named| replace:: :meth:`~screenpy.actor.Actor.named`
-.. |Actor.who_can| replace:: :meth:`~screenpy.actor.Actor.who_can`
-.. |Actor.can| replace:: :meth:`~screenpy.actor.Actor.can`
-.. |Actor.uses_ability_to| replace:: :meth:`~screenpy.actor.Actor.uses_ability_to`
 .. |Actor.attempts_to| replace:: :meth:`~screenpy.actor.Actor.attempts_to`
+.. |Actor.can| replace:: :meth:`~screenpy.actor.Actor.can`
+.. |Actor.exit| replace:: :meth:`~screenpy.actor.Actor.exit`
+.. |Actor.named| replace:: :meth:`~screenpy.actor.Actor.named`
 .. |Actor.should_see_that| replace:: :meth:`~screenpy.actor.Actor.should_see_that`
 .. |Actor.should_see_the| replace:: :meth:`~screenpy.actor.Actor.should_see_the`
-.. |Actor.exit| replace:: :meth:`~screenpy.actor.Actor.exit`
+.. |Actor.uses_ability_to| replace:: :meth:`~screenpy.actor.Actor.uses_ability_to`
+.. |Actor.who_can| replace:: :meth:`~screenpy.actor.Actor.who_can`
+.. |Actor| replace:: :class:`~screenpy.actor.Actor`
 
 .. .. Targets
-.. |Target| replace:: :class:`~screenpy.target.Target`
-.. |Target.the| replace:: :meth:`~screenpy.target.Target.the`
 .. |Target.located_by| replace:: :meth:`~screenpy.target.Target.located_by`
+.. |Target.located| replace:: :meth:`~screenpy.target.Target.located`
+.. |Target.the| replace:: :meth:`~screenpy.target.Target.the`
+.. |Target| replace:: :class:`~screenpy.target.Target`
 
 .. .. Abilities
-.. |AuthenticateWith2FA| replace:: :class:`~screenpy.abilities.authenticate_with_2fa.AuthenticateWith2FA`
-.. |AuthenticateWith2FA.using| replace:: :meth:`~screenpy.abilities.authenticate_with_2fa.AuthenticateWith2FA.using`
 .. |AuthenticateWith2FA.using_secret| replace:: :meth:`~screenpy.abilities.authenticate_with_2fa.AuthenticateWith2FA.using_secret`
-.. |BrowseTheWeb| replace:: :class:`~screenpy.abilities.browse_the_web.BrowseTheWeb`
-.. |BrowseTheWeb.using| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.using`
-.. |BrowseTheWeb.to_find| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_find`
+.. |AuthenticateWith2FA.using| replace:: :meth:`~screenpy.abilities.authenticate_with_2fa.AuthenticateWith2FA.using`
+.. |AuthenticateWith2FA| replace:: :class:`~screenpy.abilities.authenticate_with_2fa.AuthenticateWith2FA`
+.. |BrowseTheWeb.forget| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.forget`
 .. |BrowseTheWeb.to_find_all| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_find_all`
+.. |BrowseTheWeb.to_find| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_find`
 .. |BrowseTheWeb.to_get| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_get`
 .. |BrowseTheWeb.to_wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.to_wait_for`
-.. |BrowseTheWeb.forget| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.forget`
+.. |BrowseTheWeb.using| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.using`
 .. |BrowseTheWeb.wait_for| replace:: :meth:`~screenpy.abilities.browse_the_web.BrowseTheWeb.wait_for`
+.. |BrowseTheWeb| replace:: :class:`~screenpy.abilities.browse_the_web.BrowseTheWeb`
 .. |MakeAPIRequests| replace:: :class:`~screenpy.abilities.make_api_requests.MakeAPIRequests`
 
 .. .. Actions
+.. |AcceptAlert| replace:: :class:`~screenpy.actions.accept_alert.AcceptAlert`
 .. |Action| replace:: :ref:`actions`
-.. |AcceptAlert| replace:: :class:`~screenpy.actions.web.accept_alert.AcceptAlert`
-.. |Chain| replace:: :class:`~screenpy.actions.web.chain.Chain`
-.. |Clear| replace:: :class:`~screenpy.actions.web.clear.Clear`
-.. |Clear.the_text_from| replace:: :meth:`~screenpy.actions.web.clear.Clear.the_text_from`
-.. |Clear.the_text_from_the| replace:: :meth:`~screenpy.actions.web.clear.Clear.the_text_from_the`
-.. |Click| replace:: :class:`~screenpy.actions.web.click.Click`
-.. |Click.on| replace:: :meth:`~screenpy.actions.web.click.Click.on`
-.. |Click.on_the| replace:: :meth:`~screenpy.actions.web.click.Click.on_the`
-.. |Click.then_wait_for| replace:: :meth:`~screenpy.actions.web.click.Click.then_wait_for`
-.. |Click.then_wait_for_the| replace:: :meth:`~screenpy.actions.web.click.Click.then_wait_for_the`
-.. |Click.perform_as| replace:: :meth:`~screenpy.actions.web.click.Click.perform_as`
-.. |Debug| replace:: :class:`~screenpy.actions.web.debug.Debug`
-.. |DismissAlert| replace:: :class:`~screenpy.actions.web.dismiss_alert.DismissAlert`
-.. |DoubleClick| replace:: :class:`~screenpy.actions.web.double_click.DoubleClick`
-.. |DoubleClick.on| replace:: :meth:`~screenpy.actions.web.double_click.DoubleClick.on`
-.. |DoubleClick.on_the| replace:: :meth:`~screenpy.actions.web.double_click.DoubleClick.on_the`
-.. |Enter| replace:: :class:`~screenpy.actions.web.enter.Enter`
-.. |Enter.the_text| replace:: :meth:`~screenpy.actions.web.enter.Enter.the_text`
-.. |Enter.the_secret| replace:: :meth:`~screenpy.actions.web.enter.Enter.the_secret`
-.. |Enter.into| replace:: :meth:`~screenpy.actions.web.enter.Enter.into`
-.. |Enter.then_hit| replace:: :meth:`~screenpy.actions.web.enter.Enter.then_hit`
-.. |Enter.then_wait_for| replace:: :meth:`~screenpy.actions.web.enter.Enter.then_wait_for`
-.. |Enter2FAToken| replace:: :class:`~screenpy.actions.web.enter_2fa_token.Enter2FAToken`
-.. |Enter2FAToken.into| replace:: :meth:`~screenpy.actions.web.enter_2fa_token.Enter2FAToken.into`
-.. |Enter2FAToken.into_the| replace:: :meth:`~screenpy.actions.web.enter_2fa_token.Enter2FAToken.into_the`
-.. |HoldDown| replace:: :class:`~screenpy.actions.web.hold_down.HoldDown`
-.. |HoldDown.on_the| replace:: :meth:`~screenpy.actions.web.hold_down.HoldDown.on_the`
-.. |MoveMouse| replace:: :class:`~screenpy.actions.web.move_mouse.MoveMouse`
-.. |Open| replace:: :class:`~screenpy.actions.web.open.Open`
-.. |Open.browser_on| replace:: :meth:`~screenpy.actions.web.open.Open.browser_on`
-.. |Pause| replace:: :class:`~screenpy.actions.web.pause.Pause`
-.. |Pause.for_| replace:: :meth:`~screenpy.actions.web.pause.Pause.for_`
-.. |Release| replace:: :class:`~screenpy.actions.web.release.Release`
-.. |RespondToThePrompt| replace:: :class:`~screenpy.actions.web.respond_to_the_text.RespondToTheText`
-.. |RespondToThePrompt.with_| replace:: :meth:`~screenpy.actions.web.respond_to_the_text.RespondToTheText.with_`
-.. |RightClick| replace:: :class:`~screenpy.actions.web.right_click.RightClick`
-.. |RightClick.on| replace:: :meth:`~screenpy.actions.web.right_click.RightClick.on`
-.. |RightClick.on_the| replace:: :meth:`~screenpy.actions.web.right_click.RightClick.on_the`
-.. |Select| replace:: :class:`~screenpy.actions.web.select.Select`
-.. |Select.the_option_named| replace:: :meth:`~screenpy.actions.web.select.Select.the_option_named`
-.. |Select.the_option_at_index| replace:: :meth:`~screenpy.actions.web.select.Select.the_option_at_index`
-.. |Select.the_option_with_value| replace:: :meth:`~screenpy.actions.web.select.Select.the_option_with_value`
-.. |SelectByText| replace:: :class:`~screenpy.actions.web.select.SelectByText`
-.. |SelectByText.from_the| replace:: :meth:`~screenpy.actions.web.select.SelectByText.from_the`
-.. |SelectByIndex| replace:: :class:`~screenpy.actions.web.select.SelectByIndex`
-.. |SelectByIndex.from_the| replace:: :meth:`~screenpy.actions.web.select.SelectByIndex.from_the`
-.. |SelectByValue| replace:: :class:`~screenpy.actions.web.select.SelectByValue`
-.. |SelectByValue.from_the| replace:: :meth:`~screenpy.actions.web.select.SelectByValue.from_the`
+.. |Chain| replace:: :class:`~screenpy.actions.chain.Chain`
+.. |Clear.the_text_from_the| replace:: :meth:`~screenpy.actions.clear.Clear.the_text_from_the`
+.. |Clear.the_text_from| replace:: :meth:`~screenpy.actions.clear.Clear.the_text_from`
+.. |Clear| replace:: :class:`~screenpy.actions.clear.Clear`
+.. |Click.on_the| replace:: :meth:`~screenpy.actions.click.Click.on_the`
+.. |Click.on| replace:: :meth:`~screenpy.actions.click.Click.on`
+.. |Click.perform_as| replace:: :meth:`~screenpy.actions.click.Click.perform_as`
+.. |Click.then_wait_for_the| replace:: :meth:`~screenpy.actions.click.Click.then_wait_for_the`
+.. |Click.then_wait_for| replace:: :meth:`~screenpy.actions.click.Click.then_wait_for`
+.. |Click| replace:: :class:`~screenpy.actions.click.Click`
+.. |Debug| replace:: :class:`~screenpy.actions.debug.Debug`
+.. |DismissAlert| replace:: :class:`~screenpy.actions.dismiss_alert.DismissAlert`
+.. |DoubleClick.on_the| replace:: :meth:`~screenpy.actions.double_click.DoubleClick.on_the`
+.. |DoubleClick.on| replace:: :meth:`~screenpy.actions.double_click.DoubleClick.on`
+.. |DoubleClick| replace:: :class:`~screenpy.actions.double_click.DoubleClick`
+.. |Enter.into| replace:: :meth:`~screenpy.actions.enter.Enter.into`
+.. |Enter.the_secret| replace:: :meth:`~screenpy.actions.enter.Enter.the_secret`
+.. |Enter.the_text| replace:: :meth:`~screenpy.actions.enter.Enter.the_text`
+.. |Enter.then_hit| replace:: :meth:`~screenpy.actions.enter.Enter.then_hit`
+.. |Enter.then_wait_for| replace:: :meth:`~screenpy.actions.enter.Enter.then_wait_for`
+.. |Enter| replace:: :class:`~screenpy.actions.enter.Enter`
+.. |Enter2FAToken.into_the| replace:: :meth:`~screenpy.actions.enter_2fa_token.Enter2FAToken.into_the`
+.. |Enter2FAToken.into| replace:: :meth:`~screenpy.actions.enter_2fa_token.Enter2FAToken.into`
+.. |Enter2FAToken| replace:: :class:`~screenpy.actions.enter_2fa_token.Enter2FAToken`
+.. |HoldDown.on_the| replace:: :meth:`~screenpy.actions.hold_down.HoldDown.on_the`
+.. |HoldDown| replace:: :class:`~screenpy.actions.hold_down.HoldDown`
+.. |MoveMouse| replace:: :class:`~screenpy.actions.move_mouse.MoveMouse`
+.. |Open.browser_on| replace:: :meth:`~screenpy.actions.open.Open.browser_on`
+.. |Open| replace:: :class:`~screenpy.actions.open.Open`
+.. |Pause.for_| replace:: :meth:`~screenpy.actions.pause.Pause.for_`
+.. |Pause| replace:: :class:`~screenpy.actions.pause.Pause`
+.. |Release| replace:: :class:`~screenpy.actions.release.Release`
+.. |RespondToThePrompt.with_| replace:: :meth:`~screenpy.actions.respond_to_the_text.RespondToTheText.with_`
+.. |RespondToThePrompt| replace:: :class:`~screenpy.actions.respond_to_the_text.RespondToTheText`
+.. |RightClick.on_the| replace:: :meth:`~screenpy.actions.right_click.RightClick.on_the`
+.. |RightClick.on| replace:: :meth:`~screenpy.actions.right_click.RightClick.on`
+.. |RightClick| replace:: :class:`~screenpy.actions.right_click.RightClick`
+.. |Select.the_option_at_index| replace:: :meth:`~screenpy.actions.select.Select.the_option_at_index`
+.. |Select.the_option_named| replace:: :meth:`~screenpy.actions.select.Select.the_option_named`
+.. |Select.the_option_with_value| replace:: :meth:`~screenpy.actions.select.Select.the_option_with_value`
+.. |Select| replace:: :class:`~screenpy.actions.select.Select`
+.. |SelectByIndex.from_the| replace:: :meth:`~screenpy.actions.select.SelectByIndex.from_the`
+.. |SelectByIndex| replace:: :class:`~screenpy.actions.select.SelectByIndex`
+.. |SelectByText.from_the| replace:: :meth:`~screenpy.actions.select.SelectByText.from_the`
+.. |SelectByText| replace:: :class:`~screenpy.actions.select.SelectByText`
+.. |SelectByValue.from_the| replace:: :meth:`~screenpy.actions.select.SelectByValue.from_the`
+.. |SelectByValue| replace:: :class:`~screenpy.actions.select.SelectByValue`
 .. |SendAPIRequest| replace:: :class:`~screenpy.actions.api.send_api_request.SendAPIRequest`
-.. |SwitchTo| replace:: :class:`~screenpy.actions.web.switch_to.SwitchTo`
-.. |SwitchTo.the| replace:: :meth:`~screenpy.actions.web.switch_to.SwitchTo.the`
-.. |SwitchTo.default| replace:: :meth:`~screenpy.actions.web.switch_to.SwitchTo.default`
-.. |SwitchToTab| replace:: :class:`~screenpy.actions.web.switch_to_tab.SwitchToTab`
-.. |SwitchToTab.on_top| replace:: :meth:`~screenpy.actions.web.switch_to_tab.SwitchToTab.on_top`
-.. |Wait| replace:: :class:`~screenpy.actions.web.wait.Wait`
-.. |Wait.for_| replace:: :meth:`~screenpy.actions.web.wait.Wait.for_`
-.. |Wait.seconds_for| replace:: :meth:`~screenpy.actions.web.wait.Wait.seconds_for`
-.. |Wait.for_the| replace:: :meth:`~screenpy.actions.web.wait.Wait.for_the`
-.. |wait.to_appear| replace:: :meth:`~screenpy.actions.web.wait.Wait.to_appear`
+.. |SwitchTo.default| replace:: :meth:`~screenpy.actions.switch_to.SwitchTo.default`
+.. |SwitchTo.the| replace:: :meth:`~screenpy.actions.switch_to.SwitchTo.the`
+.. |SwitchTo| replace:: :class:`~screenpy.actions.switch_to.SwitchTo`
+.. |SwitchToTab.on_top| replace:: :meth:`~screenpy.actions.switch_to_tab.SwitchToTab.on_top`
+.. |SwitchToTab| replace:: :class:`~screenpy.actions.switch_to_tab.SwitchToTab`
+.. |Wait.for_| replace:: :meth:`~screenpy.actions.wait.Wait.for_`
+.. |Wait.for_the| replace:: :meth:`~screenpy.actions.wait.Wait.for_the`
+.. |Wait.seconds_for| replace:: :meth:`~screenpy.actions.wait.Wait.seconds_for`
+.. |wait.to_appear| replace:: :meth:`~screenpy.actions.wait.Wait.to_appear`
+.. |Wait| replace:: :class:`~screenpy.actions.wait.Wait`
 
 .. .. Questions
-.. |Question| replace:: :ref:`questions`
-.. |List| replace:: :class:`~screenpy.questions.list.List`
-.. |List.of| replace:: :meth:`~screenpy.questions.list.List.of`
+.. |CookiesOnTheAPISession| replace:: :class:`~screenpy.questions.cookies.CookiesOnTheAPISession`
+.. |CookiesOnTheWebSession| replace:: :class:`~screenpy.questions.cookies.CookiesOnTheWebSession`
 .. |List.of_all| replace:: :meth:`~screenpy.questions.list.List.of_all`
-.. |Number| replace:: :class:`~screenpy.questions.number.Number`
+.. |List.of| replace:: :meth:`~screenpy.questions.list.List.of`
+.. |List| replace:: :class:`~screenpy.questions.list.List`
 .. |Number.of| replace:: :meth:`~screenpy.questions.number.Number.of`
-.. |Text| replace:: :class:`~screenpy.questions.text.Text`
-.. |Text.of| replace:: :meth:`~screenpy.questions.text.Text.of`
-.. |Text.of_all| replace:: :meth:`~screenpy.questions.text.Text.of_all`
-.. |Text.answered_by| replace:: :meth:`~screenpy.questions.text.Text.answered_by`
-.. |Selected| replace:: :class:`~screenpy.questions.selected.Selected`
+.. |Number| replace:: :class:`~screenpy.questions.number.Number`
+.. |Question| replace:: :ref:`questions`
+.. |Selected.answered_by| replace:: :class:`~screenpy.questions.selected.Selected.answered_by`
 .. |Selected.option_from| replace:: :class:`~screenpy.questions.selected.Selected.option_from`
 .. |Selected.options_from| replace:: :class:`~screenpy.questions.selected.Selected.option_from`
-.. |Selected.answered_by| replace:: :class:`~screenpy.questions.selected.Selected.answered_by`
+.. |Selected| replace:: :class:`~screenpy.questions.selected.Selected`
+.. |Text.answered_by| replace:: :meth:`~screenpy.questions.text.Text.answered_by`
+.. |Text.of_all| replace:: :meth:`~screenpy.questions.text.Text.of_all`
+.. |Text.of| replace:: :meth:`~screenpy.questions.text.Text.of`
+.. |Text| replace:: :class:`~screenpy.questions.text.Text`
 
 .. .. Resolutions
-.. |Resolution| replace:: :ref:`resolutions`
 .. |BaseResolution| replace:: :class:`~screenpy.resolutions.base_resolution.BaseResolution`
 .. |ReadsExactly| replace:: :class:`~screenpy.resolutions.reads_exactly.ReadsExactly`
+.. |Resolution| replace:: :ref:`resolutions`
 
 .. External references
 .. .. Selenium
-.. |Selenium| replace:: `Selenium <https://selenium-python.readthedocs.io/>`__
 .. |ActionChains| replace:: `ActionChains <https://selenium-python.readthedocs.io/api.html#module-selenium.webdriver.common.action_chains>`__
+.. |Alert| replace:: `Alert <https://selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.alert.html?highlight=alert#selenium.webdriver.common.alert.Alert>`__
+.. |By| replace:: `By <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.by.html>`__
+.. |Keys| replace:: `Keys <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys>`__
+.. |Selenium| replace:: `Selenium <https://selenium-python.readthedocs.io/>`__
 .. |WebDriver| replace:: `WebDriver <https://seleniumhq.github.io/selenium/docs/api/py/api.html>`__
 .. |WebElement| replace:: `WebElement <https://seleniumhq.github.io/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webelement.html#module-selenium.webdriver.remote.webelement>`__
-.. |Alert| replace:: `Alert <https://selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.alert.html?highlight=alert#selenium.webdriver.common.alert.Alert>`__
-.. |Keys| replace:: `Keys <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys>`__
-.. |By| replace:: `By <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.by.html>`__
 
 .. .. PyHamcrest
 .. |PyHamcrest| replace:: `PyHamcrest <https://pyhamcrest.readthedocs.io/en/latest/>`__
@@ -200,8 +206,8 @@ rst_prolog = """.. Internal references
 .. |PyOTP| replace:: `PyOTP <https://pyotp.readthedocs.io/en/latest/>`__
 
 .. .. Requests
-.. |requests| replace:: `requests <https://requests.readthedocs.io/en/master/>`__
 .. |request| replace:: `Session.request <https://requests.readthedocs.io/en/master/api/#requests.Session.request>`__
+.. |Requests| replace:: `requests <https://requests.readthedocs.io/en/master/>`__
 """
 
 # The master toctree document.

@@ -7,7 +7,7 @@ ScreenPy uses Protocols
 to enable "structure subclassing,"
 which is to say that
 a Question is only a Question
-if it is Answerable,
+if it is ``Answerable``,
 for example.
 
 Note that :ref:`resolutions`
@@ -16,12 +16,11 @@ to this subclassing strategy,
 as they use traditional inheritance
 to take advantage of |PyHamcrest|'s matchers.
 
-The following Protocols
-describe Actions,
+The following Protocols describe
+Actions,
 Abilities,
 and Questions
-through the methods
-they are required to implement.
+through the methods they are required to implement.
 
 .. module:: screenpy.protocols
 

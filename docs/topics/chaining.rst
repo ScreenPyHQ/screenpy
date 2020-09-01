@@ -3,23 +3,24 @@
 Chaining
 ========
 
-The |Chain| action
-is a sort of meta-action
+The |Chain| action is a sort of meta-action
 that can group many other actions into a series.
-This is useful for those features
-that require things like
-clicking-and-dragging
-or hovering.
+This is useful for those features that require things like
+clicking-and-dragging or hovering.
 
 Many of the included :ref:`actions` may be added to a Chain,
-but some of the Actions are not chainable
+but some of the Actions are not ``Chainable``
 and will raise an |UnableToAct|.
 The Actions which can be chained
 correspond to the methods of Selenium's |ActionChains| class.
 
-Adding Actions to a Chain looks like this:
+In order to be ``Chainable``,
+an action must implement an ``add_to_chain`` method.
+Keep this in mind
+when you write custom actions.
+See the :ref:`protocols` page for more information.
 
-.. code-block:: python
+Adding Actions to a Chain looks like this::
 
     from screenpy.actions import Chain, Click, Hover
 
@@ -30,9 +31,3 @@ Adding Actions to a Chain looks like this:
         Chain(Hover.on_the(HAMBURGER_MENU), Click.on_the(SIGN_IN_LINK))
     )
 
-If you write a custom Action
-which should be able to be added to a Chain,
-you must define an ``add_to_chain`` method
-on your custom Action.
-For more information,
-refer to the :ref:`protocols` page.

@@ -5,16 +5,14 @@ Abilities
 
 Abilities allow your |Actor| to **do** things.
 Actors will leverage their abilities
-to perform actions
-that require those abilities.
+to perform their role in your test scripts.
 
-Using Abilities
----------------
+Granting Abilities
+------------------
 
 To grant an Actor an ability,
-pass it in using the Actor's |Actor.who_can|
-or |Actor.can|
-methods::
+pass it in using the Actor's
+|Actor.who_can| or |Actor.can| methods::
 
     from screenpy import Actor, AnActor
     from screenpy.abilities import BrowseTheWeb
@@ -32,8 +30,8 @@ allows them to perform any :ref:`actions`
 or ask any :ref:`questions`
 that require that ability.
 If an action or a question require an ability
-that the actor does not have,
-the actor will raise an |UnableToPerform|.
+which the actor does not have,
+the actor will raise an |UnableToPerform| exception.
 
 Writing New Abilities
 ---------------------
@@ -41,24 +39,38 @@ Writing New Abilities
 There may be other abilities your actors need to possess
 in order to test your application.
 You are encouraged to write your own!
-The only prescribed method for an ability
-is the ``forget`` method,
-which will complete any cleanup required.
-For an example,
-see the |BrowseTheWeb.forget| method
-of the BrowseTheWeb ability.
+Abilities must be ``Forgettable``,
+which means they must have a ``forget`` method
+which cleans up after them.
+See the :ref:`protocols` page for more information.
+
+Up Next
+-------
+
+The guided tour continues
+on the :ref:`targets` page!
 
 Included Abilities
 ------------------
 
-BrowseTheWeb
-^^^^^^^^^^^^
+These are the abilities included in ScreenPy.
 
-.. autoclass:: screenpy.abilities.browse_the_web.BrowseTheWeb
-    :members:
+.. module:: screenpy.abilities
 
 AuthenticateWith2FA
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: screenpy.abilities.authenticate_with_2fa.AuthenticateWith2FA
+.. autoclass:: AuthenticateWith2FA
+    :members:
+
+BrowseTheWeb
+^^^^^^^^^^^^
+
+.. autoclass:: BrowseTheWeb
+    :members:
+
+MakeAPIRequests
+^^^^^^^^^^^^^^^
+
+.. autoclass:: MakeAPIRequests
     :members:

@@ -8,25 +8,37 @@ thrown about in ScreenPy.
 Mostly they are used to provide extra context
 when other exceptions are raised.
 
+.. module:: screenpy.exceptions
+
 Base
 ^^^^
-.. autoclass:: screenpy.exceptions.ScreenPyError
+
+.. autoclass:: ScreenPyError
 
 Ability Exceptions
 ^^^^^^^^^^^^^^^^^^
-.. autoclass:: screenpy.exceptions.AbilityError
-.. autoclass:: screenpy.exceptions.BrowsingError
+
+.. autoclass:: AbilityError
+.. autoclass:: BrowsingError
 
 Action Exceptions
 ^^^^^^^^^^^^^^^^^
-.. autoclass:: screenpy.exceptions.ActionError
-.. autoclass:: screenpy.exceptions.DeliveryError
-.. autoclass:: screenpy.exceptions.UnableToAct
+
+.. autoclass:: ActionError
+.. autoclass:: DeliveryError
+.. autoclass:: UnableToAct
 
 Actor Exceptions
 ^^^^^^^^^^^^^^^^
-.. autoclass:: screenpy.exceptions.UnableToPerform
+
+.. autoclass:: UnableToPerform
+
+Question Exceptions
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: UnableToAnswer
 
 Target Exceptions
 ^^^^^^^^^^^^^^^^^
-.. autoclass:: screenpy.exceptions.TargetingError
+
+.. autoclass:: TargetingError

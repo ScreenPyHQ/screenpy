@@ -3,48 +3,37 @@
 Resolutions
 ===========
 
-Resolutions provide an expected answer to questions.
+Resolutions provide the correct answer to :ref:`questions`.
 They are the second half
-of test assertions
-in ScreenPy:
-the "expected value".
-(The first half are :ref:`questions`,
-if you missed that page.)
+(the "expected value")
+of test assertions in ScreenPy.
 
 Using Resolutions
 -----------------
 
-Like :ref:`questions`,
-you probably will not use
-a resolution directly.
+Like questions,
+you probably will not use a resolution directly.
 You will typically pass a resolution
 along with a question
-into your actor's
-|Actor.should_see_the| method::
+into your actor's |Actor.should_see_the| method::
 
     from screenpy.questions import Text
     from screenpy.resolutions import ReadsExactly
 
     from ..user_interface.homepage import WELCOME_MESSAGE
 
-
+                                                      # ⇩ here is the resolution
     Perry.should_see_the((Text.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")))
 
-In that line of code,
-|ReadsExactly| is returning
-a |PyHamcrest| matcher.
-It will be evaluated later
-as |Actor.should_see_the| does its job.
 If the expected value
-("Welcome!")
+passed in to |ReadsExactly| (``"Welcome!"``)
 matches the actual value
-retrieved by our question,
+retrieved by our |Text| question,
 bravo!
 Our test passes.
 If they do not match,
 boo!
 Our test fails.
-
 
 Writing New Resolutions
 -----------------------
@@ -63,13 +52,31 @@ The custom Resolution's ``__init__`` method
 will need to set the expected value,
 and instantiate the PyHamcrest matcher
 that your resolution is masking.
+
 For several examples,
-see the documentation of the provided resolutions below.
+see the source code
+of the :ref:`provided_resolutions` below.
+
+Up Next
+-------
+
+The guided tour... concludes here!
+You should know everything you need
+to get started with your first test.
+
+There are some other pages
+which should be very helpful to you,
+such as :ref:`cookbook` or :ref:`waiting`,
+but from here on out the tour is self-guided.
+
+Thanks for using ScreenPy!
 
 .. _provided_resolutions:
 
 Provided Resolutions
 --------------------
+
+These are the resolutions included in ScreenPy.
 
 .. module:: screenpy.resolutions
 
