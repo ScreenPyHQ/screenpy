@@ -95,13 +95,31 @@ class Actor:
         """Ask a series of questions, asserting their resolutions.
 
         Raises:
-            AssertionError: If the question's actual answer does not match
+            AssertionError: If the |Question|'s actual answer does not match
                 the expected answer from the |Resolution|.
         """
         for question, resolution in tests:
             assert_that(question.answered_by(self), resolution)
 
     should_see = should_see_that = should_see_the
+
+    def should_see_any_of(self, *tests: Tuple[Answerable, BaseResolution]) -> None:
+        """Ask a series of questions, at least one of which should be true.
+
+        Raises:
+            AssertionError: If none of the |Question|s' answers match with
+                their expected answers from their paired |Resolution|s
+        """
+        none_passed = True
+        for question, resolution in tests:
+            try:
+                assert_that(question.answered_by(self), resolution)
+                none_passed = False
+            except AssertionError:
+                pass
+
+        if none_passed:
+            raise AssertionError(f"{self} did not find any expected answers!")
 
     def exit(self) -> None:
         """Direct the actor to forget all their abilities."""

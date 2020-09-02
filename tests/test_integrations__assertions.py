@@ -274,3 +274,35 @@ def test_status_code_of_the_last_response(APITester):
     APITester.should_see_the(
         (StatusCodeOfTheLastResponse(), IsEqualTo(test_status_code))
     )
+
+
+def test_should_see_any_of_one_is_true(Tester):
+    fake_xpath = "//xpath"
+    fake_target = Target.the("fake").located_by(fake_xpath)
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_element = mock.Mock()
+    test_text = "spam and eggs"
+    mocked_element.text = test_text
+    mocked_btw.to_find.return_value = mocked_element
+
+    Tester.should_see_any_of(
+        (Text.of_the(fake_target), ReadsExactly(test_text)),
+        (Text.of_the(fake_target), ReadsExactly("egg, bacon, sausage, and spam")),
+        (Text.of_the(fake_target), ReadsExactly("spam, bacon, sausage, and spam")),
+    )
+
+
+def test_should_see_any_of_none_are_true(Tester):
+    fake_xpath = "//xpath"
+    fake_target = Target.the("fake").located_by(fake_xpath)
+    mocked_btw = Tester.ability_to(BrowseTheWeb)
+    mocked_element = mock.Mock()
+    mocked_element.text = "spam and eggs"
+    mocked_btw.to_find.return_value = mocked_element
+
+    with pytest.raises(AssertionError):
+        Tester.should_see_any_of(
+            (Text.of_the(fake_target), ReadsExactly("egg, bacon, and spam")),
+            (Text.of_the(fake_target), ReadsExactly("egg, bacon, sausage, and spam")),
+            (Text.of_the(fake_target), ReadsExactly("spam, bacon, sausage, and spam")),
+        )
