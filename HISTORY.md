@@ -1,6 +1,42 @@
 Release History
 ===============
 
+2.1.0 (2020-09-03)
+------------------
+
+### Breaking Changes
+
+- Removed `on_top` method from SwitchToTab, it wasn't consistent under certain circumstances and that could be misleading.
+- Removed the BaseAction, BaseAbility, and BaseQuestion classes in favor of Protocols.
+
+### New Features
+
+- Added API testing support!
+  - Added MakeAPIRequests ability.
+  - Added SendGETRequest, SendPOSTRequest, SendPATCHRequest, SendPUTRequest, SendOPTIONSRequest, SendHEADRequest, SendDELETERequest, and SendAPIRequest actions.
+  - Added AddHeader/AddHeaders action.
+  - Added Cookies, CookiesOnTheWebSession, CookiesOnTheAPISession questions.
+  - Added StatusCodeOfTheLastResponse question.
+  - Added BodyOfTheLastResponse question.
+  - Added HeadersOfTheLastResponse question.
+  - Added ContainsTheKey, ContainsTheValue, ContainsTheEntry resolutions.
+- Added `should_see_any_of` assertion method to Actors, which is similar to `should_see_the` but passes if *at least* one of its tests are true, instead of all of them.
+- Added HasLength resolution, for fun.
+- Added a "cookbook" section to the docs to give examples of common use-cases.
+
+### Improvements:
+
+- *Huge* docs overhaul, aimed at reducing word count and increasing word value.
+- Switched to using Protocols for type hinting instead of base classes.
+- IsVisible resolution now has a nicer mismatch message.
+
+### Bugfixes:
+
+- Fixed a timing issue with has_method_with_return_value where the return value could change by the time the mismatch message was being written to the log, which made it look like a passing test was failing.
+- Fixed `SwitchTo.default()` logging a very metaphysical "{The Actor} switches to the None".
+- Fixed Enter's logging when `then_hits` is used to hit a key without a nice text representation (like "Return").
+- Fixed a small collection of copy/paste errors in documentation and logged strings.
+
 2.0.1 (2020-05-10)
 ------------------
 
