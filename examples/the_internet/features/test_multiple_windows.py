@@ -26,15 +26,15 @@ class TestTabs(unittest.TestCase):
 
     @act("Perform")
     @scene("SwitchToTab")
-    def test_switch_to_iframe(self):
-        """User is able to switch to an iframe."""
+    def test_switch_to_new_tab(self):
+        """User is able to switch to a new tab."""
         Perry = self.actor
 
         given(Perry).was_able_to(Open.their_browser_on(URL))
         when(Perry).attempts_to(
             Click.on_the(CLICK_HERE_LINK),
             Pause.for_(1).second_because("Selenium needs to catch up"),
-            SwitchToTab.on_top(),
+            SwitchToTab(2),
         )
         then(Perry).should_see_the(
             (BrowserURL(), ContainsTheText("windows/new")),
