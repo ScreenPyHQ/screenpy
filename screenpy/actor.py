@@ -95,8 +95,8 @@ class Actor:
         """Ask a series of questions, asserting their resolutions.
 
         Raises:
-            AssertionError: If the |Question|'s actual answer does not match
-                the expected answer from the |Resolution|.
+            AssertionError: if any of the |Question| + |Resolution| pairs do
+                not match.
         """
         for question, resolution in tests:
             assert_that(question.answered_by(self), resolution)
@@ -107,8 +107,7 @@ class Actor:
         """Ask a series of questions, at least one of which should be true.
 
         Raises:
-            AssertionError: If none of the |Question|s' answers match with
-                their expected answers from their paired |Resolution|s
+            AssertionError: if none of the |Question| + |Resolution| pairs match.
         """
         none_passed = True
         for question, resolution in tests:
