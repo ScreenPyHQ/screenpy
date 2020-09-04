@@ -258,7 +258,6 @@ html_static_path = ["_static"]
 
 # Other HTML settings
 autodoc_member_order = "bysource"
-autodoc_typehints = "none"
 add_module_names = False
 
 
