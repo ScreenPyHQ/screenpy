@@ -250,6 +250,15 @@ class TestPause:
         assert p3.unit.endswith("s")
         assert p4.unit.endswith("s")
 
+    def test_reason_is_massaged_correctly(self):
+        p1 = Pause.for_(1).second_because("because reasons.")
+        p2 = Pause.for_(1).second_because("reasons")
+        p3 = Pause.for_(1000).milliseconds_because("because reasons.")
+        p4 = Pause.for_(1000).milliseconds_because("reasons")
+
+        assert p1.reason == p2.reason == "because reasons"
+        assert p3.reason == p4.reason == "because reasons"
+
 
 class TestRelease:
     def test_can_be_instantiated(self):
