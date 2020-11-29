@@ -7,6 +7,7 @@ Release History
 ### Improvements
 
 - Updated all the dependencies to support Python 3.9! Kind of a boring update.
+- Made the reported actions more consistently worded.
 
 2.1.0 (2020-09-03)
 ------------------
