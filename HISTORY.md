@@ -1,6 +1,13 @@
 Release History
 ===============
 
+2.2.0 (2020-11-29)
+------------------
+
+### Improvements
+
+- Updated all the dependencies to support Python 3.9! Kind of a boring update.
+
 2.1.0 (2020-09-03)
 ------------------
 
