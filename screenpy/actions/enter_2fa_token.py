@@ -2,11 +2,12 @@
 An action to enter a 2-factor authentication code into a text field.
 """
 
+from selenium.webdriver.common.action_chains import ActionChains
+
 from screenpy.abilities.authenticate_with_2fa import AuthenticateWith2FA
 from screenpy.actor import Actor
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.webdriver.common.action_chains import ActionChains
 
 from .enter import Enter
 

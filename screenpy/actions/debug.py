@@ -11,7 +11,7 @@ from screenpy.pacing import beat
 
 
 class Debug:
-    """ Activate a debugger to step through actions.
+    """Activate a debugger to step through actions.
 
     In long series of actions, it can be difficult to drop a debugger in
     the right place. This action can be placed anywhere in the chain to

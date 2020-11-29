@@ -6,13 +6,14 @@ test structure. These tests exercise the selecting actions.
 
 import unittest
 
+from selenium.webdriver import Firefox
+
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actions import Open, Select
 from screenpy.pacing import act, scene
 from screenpy.questions import Selected
 from screenpy.resolutions import ReadsExactly
-from selenium.webdriver import Firefox
 
 from ..user_interface.dropdown import THE_DROPDOWN, URL
 

@@ -2,12 +2,13 @@
 An action to click on an element.
 """
 
+from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.action_chains import ActionChains
+
 from screenpy.actor import Actor
 from screenpy.exceptions import DeliveryError
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 class Click:

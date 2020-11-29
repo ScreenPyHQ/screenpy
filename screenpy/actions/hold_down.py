@@ -6,12 +6,13 @@ specific modifier key.
 import platform
 from typing import Optional
 
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+
 from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 
 KEY_NAMES = {
     getattr(Keys, key_name): key_name
@@ -65,7 +66,7 @@ class HoldDown:
 
     on = on_the
 
-    @beat("  Hold down the {description}!")
+    @beat("  Hold down {description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """Add the HoldDown action to an in-progress |Chain| of actions."""
         if self.lmb:

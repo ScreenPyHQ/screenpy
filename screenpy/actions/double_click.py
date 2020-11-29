@@ -4,11 +4,12 @@ An action to double-click on an element, or wherever the cursor currently is.
 
 from typing import Optional
 
+from selenium.webdriver.common.action_chains import ActionChains
+
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actor import Actor
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 class DoubleClick:

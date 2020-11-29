@@ -4,12 +4,13 @@ An action to move the mouse to a specific element, or by an offset.
 
 from typing import Optional, Tuple
 
+from selenium.webdriver.common.action_chains import ActionChains
+
 from screenpy.abilities.browse_the_web import BrowseTheWeb
 from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 class MoveMouse:

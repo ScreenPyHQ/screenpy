@@ -5,12 +5,13 @@ An action to enter text into an input field.
 from functools import partial
 from typing import List, Optional
 
+from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.action_chains import ActionChains
+
 from screenpy.actor import Actor
 from screenpy.exceptions import DeliveryError, UnableToAct
 from screenpy.pacing import aside, beat
 from screenpy.target import Target
-from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.common.action_chains import ActionChains
 
 from .hold_down import KEY_NAMES
 
@@ -67,7 +68,7 @@ class Enter:
 
     then_press = then_hit
 
-    @beat("{} enters '{text_to_log}' into the {target}.")
+    @beat('{} enters "{text_to_log}" into the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to enter the text into the targeted element."""
         if self.target is None:
@@ -90,7 +91,7 @@ class Enter:
             )
             raise DeliveryError(msg).with_traceback(e.__traceback__)
 
-    @beat("  Enter the text {text_to_log} into the {target}!")
+    @beat('  Enter "{text_to_log}" into the {target}!')
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """Add the Enter action to an in-progress |Chain| of actions."""
         if self.target is None:

@@ -8,6 +8,8 @@ though they are a little bit contrived.
 from typing import Generator
 
 import pytest
+from selenium.webdriver import Firefox
+
 from screenpy import Actor, AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actions import Open
@@ -19,7 +21,6 @@ from screenpy.resolutions import (
     IsEqualTo,
     ReadsExactly,
 )
-from selenium.webdriver import Firefox
 
 from ..questions.number_of_search_results import NumberOfSearchResults
 from ..questions.search_results_message import SearchResultsMessage

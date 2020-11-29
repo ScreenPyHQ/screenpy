@@ -5,10 +5,11 @@ dropdown or multi-select field.
 
 from typing import List, Union
 
+from selenium.webdriver.support.ui import Select as SeleniumSelect
+
 from screenpy.actor import Actor
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.webdriver.support.ui import Select as SeleniumSelect
 
 
 class Selected:

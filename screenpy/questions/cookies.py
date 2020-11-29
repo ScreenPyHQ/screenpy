@@ -68,7 +68,7 @@ class CookiesOnTheAPISession:
         )
     """
 
-    @beat("{} inspects their API session's cookies...")
+    @beat("{} inspects their API session's cookies.")
     def answered_by(self, the_actor: Actor) -> dict:
         """Direct the actor to investigate their API session's cookies."""
         cookies = the_actor.uses_ability_to(MakeAPIRequests).session.cookies

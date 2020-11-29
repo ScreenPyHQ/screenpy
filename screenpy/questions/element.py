@@ -4,11 +4,12 @@ A question to retrieve an element from the page.
 
 from typing import Optional
 
+from selenium.webdriver.remote.webelement import WebElement
+
 from screenpy.actor import Actor
 from screenpy.exceptions import BrowsingError
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.webdriver.remote.webelement import WebElement
 
 
 class Element:
@@ -22,7 +23,7 @@ class Element:
         the_actor.should_see_the((Element(WELCOME_BANNER), IsVisible()))
     """
 
-    @beat('{} views the "{target}" element.')
+    @beat("{} inspects the {target}.")
     def answered_by(self, the_actor: Actor) -> Optional[WebElement]:
         """Direct the actor to find the element."""
         try:

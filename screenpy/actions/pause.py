@@ -4,10 +4,11 @@ An action to pause test execution for a specific time frame.
 
 from time import sleep
 
+from selenium.webdriver.common.action_chains import ActionChains
+
 from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 class Pause:
@@ -33,28 +34,32 @@ class Pause:
         """Specify how many seconds or milliseconds to wait for."""
         return Pause(number)
 
-    def seconds_because(self, reason: str) -> "Pause":
-        """Use seconds and provide a reason for the pause."""
+    def _massage_reason(self, reason: str) -> str:
+        """Apply some gentle massaging to the reason string."""
         if not reason.startswith("because"):
             reason = f"because {reason}"
 
+        if reason[-1] in [".", ".", "!"]:
+            reason = reason[:-1]
+
+        return reason
+
+    def seconds_because(self, reason: str) -> "Pause":
+        """Use seconds and provide a reason for the pause."""
         self.unit = f"second{'s' if self.number != 1 else ''}"
-        self.reason = reason
+        self.reason = self._massage_reason(reason)
         return self
 
     second_because = seconds_because
 
     def milliseconds_because(self, reason: str) -> "Pause":
         """Use milliseconds and provide a reason for the pause."""
-        if not reason.startswith("because"):
-            reason = f"because {reason}"
-
         self.unit = f"millisecond{'s' if self.number != 1 else ''}"
         self.time = self.time / 1000.0
-        self.reason = reason
+        self.reason = self._massage_reason(reason)
         return self
 
-    @beat("{} pauses for {number} {unit} {reason}")
+    @beat("{} pauses for {number} {unit} {reason}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to take their union-mandated break."""
         if not self.reason:

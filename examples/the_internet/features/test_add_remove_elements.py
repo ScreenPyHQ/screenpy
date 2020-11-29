@@ -7,13 +7,14 @@ test structure. These tests exercise the clicking and waiting actions.
 import random
 import unittest
 
+from selenium.webdriver import Firefox
+
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actions import Click, Open, Wait
 from screenpy.pacing import act, scene
 from screenpy.questions import Element, Number
 from screenpy.resolutions import IsEqualTo, IsVisible
-from selenium.webdriver import Firefox
 
 from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS, URL
 

@@ -4,6 +4,7 @@ Fixtures for API testing.
 
 
 import pytest
+
 from screenpy import AnActor
 from screenpy.abilities import MakeAPIRequests
 

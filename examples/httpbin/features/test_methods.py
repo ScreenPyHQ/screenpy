@@ -3,6 +3,7 @@ API test examples that use all the HTTP methods.
 """
 
 import pytest
+
 from screenpy import then, when
 from screenpy.actions import SendAPIRequest, SendGETRequest
 from screenpy.questions import BodyOfTheLastResponse, StatusCodeOfTheLastResponse

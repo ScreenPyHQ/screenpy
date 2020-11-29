@@ -4,12 +4,13 @@ An action to select an item from a multi-selection field or dropdown.
 
 from typing import Optional, Union
 
+from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.support.ui import Select as SeleniumSelect
+
 from screenpy.actor import Actor
 from screenpy.exceptions import DeliveryError, UnableToAct
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.support.ui import Select as SeleniumSelect
 
 
 class Select:
@@ -73,7 +74,7 @@ class SelectByText:
 
     from_ = from_the
 
-    @beat('{} selects the option "{text}"" from the {target}.')
+    @beat('{} selects the option "{text}" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """
         Direct the actor to select the option from the targeted dropdown or

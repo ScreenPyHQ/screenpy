@@ -2,11 +2,12 @@
 An action to clear text from an input.
 """
 
+from selenium.common.exceptions import WebDriverException
+
 from screenpy.actor import Actor
 from screenpy.exceptions import DeliveryError
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.common.exceptions import WebDriverException
 
 
 class Clear:

@@ -8,12 +8,13 @@ like so:
     )
 """
 
+from selenium.webdriver.common.action_chains import ActionChains
+
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 from screenpy.protocols import Chainable
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 class Chain:
@@ -34,7 +35,7 @@ class Chain:
     *Note*: Several actions cannot be Chained, and will raise an exception.
     """
 
-    @beat("{} performs a complicated series of actions!")
+    @beat("{} performs a thrilling chain of actions!")
     def perform_as(self, the_actor: Actor) -> None:
         """Choreograph the actions and direct the actor to perform the chain."""
         browser = the_actor.ability_to(BrowseTheWeb).browser

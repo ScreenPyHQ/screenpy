@@ -4,13 +4,14 @@ An action to wait for a specified element to fulfill a given condition.
 
 from typing import Any, Callable, Optional
 
+from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.support import expected_conditions as EC
+
 from screenpy.abilities.browse_the_web import BrowseTheWeb
 from screenpy.actor import Actor
 from screenpy.exceptions import DeliveryError, UnableToAct
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class Wait:
@@ -118,4 +119,4 @@ class Wait:
         self.target = target
         self.timeout = seconds
         self.condition = EC.visibility_of_element_located
-        self.log_detail = ""
+        self.log_detail = "..."

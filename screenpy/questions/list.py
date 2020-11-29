@@ -4,10 +4,11 @@ A question to find a list of many elements.
 
 from typing import List as ListType
 
+from selenium.webdriver.remote.webdriver import WebElement
+
 from screenpy.actor import Actor
 from screenpy.pacing import beat
 from screenpy.target import Target
-from selenium.webdriver.remote.webdriver import WebElement
 
 
 class List:

@@ -31,7 +31,7 @@ class IsVisibleElement(BaseMatcher[Optional[object]]):
     ) -> None:
         """Describe the failing case."""
         if item is None:
-            mismatch_description.append_text("was None")
+            mismatch_description.append_text("was not even present.")
             return
         mismatch_description.append_text("was not visible.")
 

@@ -5,11 +5,12 @@ An action to release the left mouse button or a held modifier key.
 import platform
 from typing import Optional
 
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+
 from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 
 from .hold_down import KEY_NAMES
 
@@ -48,7 +49,7 @@ class Release:
         """Release the left mouse button."""
         return Release(lmb=True)
 
-    @beat("  Release the {kraken}!")
+    @beat("  Release {the_kraken}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """Add the Release action to an in-progress |Chain| of actions."""
         if self.lmb:
@@ -62,4 +63,4 @@ class Release:
         self.key = key
         self.lmb = lmb
         self.description = "LEFT MOUSE BUTTON" if lmb else KEY_NAMES[key]
-        self.kraken = self.description  # i can't help myself
+        self.the_kraken = self.description  # i can't help myself
