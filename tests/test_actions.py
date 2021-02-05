@@ -5,6 +5,7 @@ from unittest import mock
 from screenpy.actions import (
     AcceptAlert,
     AddHeader,
+    AddHeaders,
     Click,
     Debug,
     DismissAlert,
@@ -49,9 +50,21 @@ class TestAcceptAlert:
 
 class TestAddHeader:
     def test_can_be_instantiated(self):
-        ah = AddHeader()
+        ah1 = AddHeader(a="a")
+        ah2 = AddHeaders(a="a")
 
-        assert isinstance(ah, AddHeader)
+        assert isinstance(ah1, AddHeader)
+        assert isinstance(ah2, AddHeader)
+
+    def test_can_be_secret(self):
+        ah = AddHeader(a="a").secretly()
+
+        assert ah.secret
+
+    def test_remembers_headers(self):
+        ah = AddHeader(a="a")
+
+        assert ah.headers == {"a": "a"}
 
 
 class TestClick:
@@ -339,39 +352,25 @@ class TestSelect:
         assert isinstance(by_value3, SelectByValue)
 
 
-class TestSetHeaders:
+class TestSendAPIRequest:
     def test_can_be_instantiated(self):
-        sh1 = SetHeaders(a="a")
-        sh2 = SetHeaders(b="b")
+        sar1 = SendAPIRequest("GET", "test")
+        sar2 = SendAPIRequest("GET", "test").with_(some="kwarg")
 
-        assert isinstance(sh1, SetHeaders)
-        assert isinstance(sh2, SetHeaders)
+        assert isinstance(sar1, SendAPIRequest)
+        assert isinstance(sar2, SendAPIRequest)
+
+    def test_stores_kwargs(self):
+        """kwargs are stored to send in the request later"""
+        test_kwargs = {"test": "kwarg"}
+        sar = SendAPIRequest("GET", "test").with_(**test_kwargs)
+
+        assert sar.kwargs == test_kwargs
 
     def test_can_be_secret(self):
-        sh = SetHeaders(a=1).secretly()
+        sar = SendAPIRequest("GET", "test").with_(test="kwarg").secretly()
 
-        assert sh.secret
-
-    def test_remembers_headers(self):
-        sh = SetHeaders(a="a")
-
-        assert sh.headers == {"a": "a"}
-
-
-class TestSwitchTo:
-    def test_can_be_instantiated(self):
-        st1 = SwitchTo.the(None)
-        st2 = SwitchTo.default()
-
-        assert isinstance(st1, SwitchTo)
-        assert isinstance(st2, SwitchTo)
-
-
-class TestSwitchToTab:
-    def test_can_be_instantiated(self):
-        stt = SwitchToTab(1)
-
-        assert isinstance(stt, SwitchToTab)
+        assert sar.secret
 
 
 def test_generate_send_method_class_docstring():
@@ -405,17 +404,36 @@ def test_can_be_instantiated(request_class):
     assert isinstance(sr2, SendAPIRequest)
 
 
-class TestSendAPIRequest:
+class TestSetHeaders:
     def test_can_be_instantiated(self):
-        sar1 = SendAPIRequest("GET", "test")
-        sar2 = SendAPIRequest("GET", "test").with_(some="kwarg")
+        sh1 = SetHeaders(a="a")
+        sh2 = SetHeaders.to(b="b")
 
-        assert isinstance(sar1, SendAPIRequest)
-        assert isinstance(sar2, SendAPIRequest)
+        assert isinstance(sh1, SetHeaders)
+        assert isinstance(sh2, SetHeaders)
 
-    def test_stores_kwargs(self):
-        """kwargs are stored to send in the request later"""
-        test_kwargs = {"test": "kwarg"}
-        sar = SendAPIRequest("GET", "test").with_(**test_kwargs)
+    def test_can_be_secret(self):
+        sh = SetHeaders(a=1).secretly()
 
-        assert sar.kwargs == test_kwargs
+        assert sh.secret
+
+    def test_remembers_headers(self):
+        sh = SetHeaders(a="a")
+
+        assert sh.headers == {"a": "a"}
+
+
+class TestSwitchTo:
+    def test_can_be_instantiated(self):
+        st1 = SwitchTo.the(None)
+        st2 = SwitchTo.default()
+
+        assert isinstance(st1, SwitchTo)
+        assert isinstance(st2, SwitchTo)
+
+
+class TestSwitchToTab:
+    def test_can_be_instantiated(self):
+        stt = SwitchToTab(1)
+
+        assert isinstance(stt, SwitchToTab)

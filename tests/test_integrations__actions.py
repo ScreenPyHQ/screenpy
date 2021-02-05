@@ -1,3 +1,4 @@
+import logging
 from unittest import mock
 
 import pytest
@@ -44,14 +45,31 @@ def test_accept_alert_calls_accept(Tester):
     mocked_btw.browser.switch_to.alert.accept.assert_called_once()
 
 
-def test_add_headers_adds_headers(APITester):
-    test_headers = {"test": "header", "another": "one"}
-    session = APITester.ability_to(MakeAPIRequests).session
-    session.headers = {}
+class TestAddHeaders:
+    def test_adds_headers(self, APITester):
+        test_headers = {"test": "header", "another": "one"}
+        session = APITester.ability_to(MakeAPIRequests).session
+        session.headers = {}
 
-    APITester.attempts_to(AddHeaders(**test_headers))
+        APITester.attempts_to(AddHeaders(**test_headers))
 
-    assert session.headers == test_headers
+        assert session.headers == test_headers
+
+    def test_logs_headers(self, APITester, caplog):
+        test_headers = {"foo": "bar"}
+
+        with caplog.at_level(logging.INFO):
+            APITester.attempts_to(AddHeaders(**test_headers))
+
+        assert str(test_headers) in caplog.text
+
+    def test_hides_secret_headers(self, APITester, caplog):
+        test_headers = {"foo": "bar"}
+
+        with caplog.at_level(logging.INFO):
+            APITester.attempts_to(AddHeaders(**test_headers).secretly())
+
+        assert str(test_headers) not in caplog.text
 
 
 def test_clear_calls_clear(Tester):
@@ -439,14 +457,31 @@ class TestSelectByValue:
             Tester.attempts_to(Select.the_option_with_value("value"))
 
 
-def test_set_headers_sets_headers(APITester):
-    test_headers = {"test": "header", "another": "one"}
-    session = APITester.ability_to(MakeAPIRequests).session
-    session.headers = {"foo": "bar"}
+class TestSetHeaders:
+    def test_sets_headers(self, APITester):
+        test_headers = {"test": "header", "another": "one"}
+        session = APITester.ability_to(MakeAPIRequests).session
+        session.headers = {"foo": "bar"}
 
-    APITester.attempts_to(SetHeaders(**test_headers))
+        APITester.attempts_to(SetHeaders(**test_headers))
 
-    assert session.headers == test_headers
+        assert session.headers == test_headers
+
+    def test_logs_headers(self, APITester, caplog):
+        test_headers = {"foo": "bar"}
+
+        with caplog.at_level(logging.INFO):
+            APITester.attempts_to(SetHeaders(**test_headers))
+
+        assert str(test_headers) in caplog.text
+
+    def test_hides_secret_headers(self, APITester, caplog):
+        test_headers = {"foo": "bar"}
+
+        with caplog.at_level(logging.INFO):
+            APITester.attempts_to(SetHeaders(**test_headers).secretly())
+
+        assert str(test_headers) not in caplog.text
 
 
 class TestSwitchTo:
@@ -489,13 +524,32 @@ def test_wait_calls_to_wait_for(Tester):
     )
 
 
-def test_send_api_request_parameters_passed_along(APITester):
-    """Args and kwargs given to SendAPIRequest are passed to ``to_send``"""
-    method = "GET"
-    url = "TEST_URL"
-    kwargs = {"test": "kwargs"}
+class TestSendAPIRequest:
+    def test_parameters_passed_along(self, APITester):
+        """Args and kwargs given to SendAPIRequest are passed to ``to_send``"""
+        method = "GET"
+        url = "TEST_URL"
+        kwargs = {"test": "kwargs"}
 
-    APITester.attempts_to(SendAPIRequest(method, url).with_(**kwargs))
+        APITester.attempts_to(SendAPIRequest(method, url).with_(**kwargs))
 
-    mocked_mar = APITester.ability_to(MakeAPIRequests)
-    mocked_mar.to_send.assert_called_once_with(method, url, **kwargs)
+        mocked_mar = APITester.ability_to(MakeAPIRequests)
+        mocked_mar.to_send.assert_called_once_with(method, url, **kwargs)
+
+    def test_parameters_logged(self, APITester, caplog):
+        kwargs = {"test": "kwargs", "data": "foo"}
+
+        with caplog.at_level(logging.INFO):
+            APITester.attempts_to(SendAPIRequest("GET", "TEST_URL").with_(**kwargs))
+
+        assert str(kwargs) in caplog.text
+
+    def test_parameters_not_logged_if_secret(self, APITester, caplog):
+        kwargs = {"test": "kwargs", "data": "foo"}
+
+        with caplog.at_level(logging.INFO):
+            APITester.attempts_to(
+                SendAPIRequest("GET", "TEST_URL").with_(**kwargs).secretly()
+            )
+
+        assert str(kwargs) not in caplog.text
