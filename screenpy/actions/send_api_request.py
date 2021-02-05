@@ -38,10 +38,17 @@ class SendAPIRequest:
         self.kwargs = kwargs
         return self
 
+    def which_should_be_kept_secret(self) -> "SendAPIRequest":
+        """Indicate the extra data should not be written to the log."""
+        self.secret = True
+        return self
+
+    secretly = which_should_be_kept_secret
+
     @beat("{} sends a {method} request to {url}")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to send an API request to the stored URL."""
-        if self.kwargs:
+        if self.kwargs and not self.secret:
             aside(f"... along with the following: {self.kwargs}")
 
         the_actor.uses_ability_to(MakeAPIRequests).to_send(
@@ -52,3 +59,4 @@ class SendAPIRequest:
         self.method = method.upper()
         self.url = url
         self.kwargs = {}
+        self.secret = False
