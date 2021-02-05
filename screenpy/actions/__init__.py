@@ -4,7 +4,6 @@ Ask your actors to perform actions by passing the actions into their
 |Actor.was_able_to| or |Actor.attempts_to| method.
 """
 
-
 from .accept_alert import AcceptAlert
 from .add_header import AddHeader
 from .chain import Chain
@@ -44,7 +43,7 @@ SwitchToWindow = SwitchToTab
 Visit = Open
 
 
-def generate_send_method_class(method):
+def generate_send_method_class(method: str) -> object:
     """
     Generates a class for a specific HTTP method call.
     """

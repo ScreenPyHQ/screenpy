@@ -124,7 +124,7 @@ class IsObjectWithCallableProducingValue(BaseMatcher[object]):
 
         self.value_matcher.describe_mismatch(self.retval, mismatch_description)
 
-    def __str__(self):
+    def __str__(self) -> str:
         d = StringDescription()
         self.describe_to(d)
         return str(d)

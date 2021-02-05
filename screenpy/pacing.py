@@ -41,7 +41,7 @@ def act(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]:
         @allure.epic(title)
         @allure.severity(gravitas)
         @wraps(func)
-        def wrapper(*args, **kwargs) -> Any:
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             logger.info(f"ACT {title.upper()}")
             return func(*args, **kwargs)
 
@@ -67,7 +67,7 @@ def scene(title: str, gravitas: Enum = NORMAL) -> Callable[[Function], Function]
         @allure.feature(title)
         @allure.severity(gravitas)
         @wraps(func)
-        def wrapper(*args, **kwargs) -> Any:
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             logger.info(f"Scene: {title.title()}")
             return func(*args, **kwargs)
 
@@ -92,7 +92,7 @@ def beat(line: str) -> Callable[[Function], Function]:
 
     def decorator(func: Function) -> Function:
         @wraps(func)
-        def wrapper(*args, **kwargs) -> Any:
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             actor = args[1] if len(args) > 1 else ""
 
             markers = re.findall(r"\{([^0-9\}]+)}", line)

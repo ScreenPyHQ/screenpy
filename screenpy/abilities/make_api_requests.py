@@ -3,7 +3,7 @@ An ability that will allow the actor to make API requests and store the
 responses.
 """
 
-from typing import Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from requests import Response, Session
 
@@ -27,7 +27,7 @@ class MakeAPIRequests:
         """Provide a |Requests| session for the ability to use."""
         return MakeAPIRequests(session=session)
 
-    def to_send(self, method, url, **kwargs) -> None:
+    def to_send(self, method: str, url: str, **kwargs: Any) -> None:
         """
         Send a request. This is a pass-through to the session's ``request``
         method and has the same signature. The response is stored in the
@@ -56,7 +56,7 @@ class MakeAPIRequests:
 
     send = to_send
 
-    def forget(self):
+    def forget(self) -> None:
         """Clean up the Session instance stored in this ability."""
         self.session.close()
 
@@ -65,7 +65,7 @@ class MakeAPIRequests:
 
     __str__ = __repr__
 
-    def __init__(self, session: Optional[Session] = None):
+    def __init__(self, session: Optional[Session] = None) -> None:
         if session is None:
             session = Session()
         self.session = session

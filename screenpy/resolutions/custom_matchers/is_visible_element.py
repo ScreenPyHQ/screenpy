@@ -36,6 +36,6 @@ class IsVisibleElement(BaseMatcher[Optional[object]]):
         mismatch_description.append_text("was not visible.")
 
 
-def is_visible_element():
+def is_visible_element() -> IsVisibleElement:
     """This matcher matches any element that is visible."""
     return IsVisibleElement()

@@ -2,6 +2,8 @@
 An action to send an API request.
 """
 
+from typing import Any
+
 from screenpy.abilities import MakeAPIRequests
 from screenpy.actor import Actor
 from screenpy.pacing import aside, beat
@@ -27,7 +29,7 @@ class SendAPIRequest:
         )
     """
 
-    def with_(self, **kwargs) -> "SendAPIRequest":
+    def with_(self, **kwargs: Any) -> "SendAPIRequest":
         """Set additional kwargs to send through to the session's request.
 
         Args:
