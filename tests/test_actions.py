@@ -32,6 +32,7 @@ from screenpy.actions import (
     SendPATCHRequest,
     SendPOSTRequest,
     SendPUTRequest,
+    SetHeaders,
     SwitchTo,
     SwitchToTab,
 )
@@ -336,6 +337,25 @@ class TestSelect:
         assert isinstance(by_value1, SelectByValue)
         assert isinstance(by_value2, SelectByValue)
         assert isinstance(by_value3, SelectByValue)
+
+
+class TestSetHeaders:
+    def test_can_be_instantiated(self):
+        sh1 = SetHeaders(a="a")
+        sh2 = SetHeaders(b="b")
+
+        assert isinstance(sh1, SetHeaders)
+        assert isinstance(sh2, SetHeaders)
+
+    def test_can_be_secret(self):
+        sh = SetHeaders(a=1).secretly()
+
+        assert sh.secret
+
+    def test_remembers_headers(self):
+        sh = SetHeaders(a="a")
+
+        assert sh.headers == {"a": "a"}
 
 
 class TestSwitchTo:

@@ -27,6 +27,7 @@ from .respond_to_the_prompt import RespondToThePrompt
 from .right_click import RightClick
 from .select import Select, SelectByIndex, SelectByText, SelectByValue
 from .send_api_request import SendAPIRequest
+from .set_headers import SetHeaders
 from .switch_to import SwitchTo
 from .switch_to_tab import SwitchToTab
 from .wait import Wait
@@ -213,6 +214,7 @@ __all__ = [
     "SendPATCHRequest",
     "SendPOSTRequest",
     "SendPUTRequest",
+    "SetHeaders",
     "Sleep",
     "SwitchTo",
     "SwitchToTab",

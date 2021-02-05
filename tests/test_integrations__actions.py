@@ -29,6 +29,7 @@ from screenpy.actions import (
     RightClick,
     SendAPIRequest,
     Select,
+    SetHeaders,
     SwitchTo,
     SwitchToTab,
     Wait,
@@ -43,6 +44,16 @@ def test_accept_alert_calls_accept(Tester):
     mocked_btw.browser.switch_to.alert.accept.assert_called_once()
 
 
+def test_add_headers_adds_headers(APITester):
+    test_headers = {"test": "header", "another": "one"}
+    session = APITester.ability_to(MakeAPIRequests).session
+    session.headers = {}
+
+    APITester.attempts_to(AddHeaders(**test_headers))
+
+    assert session.headers == test_headers
+
+
 def test_clear_calls_clear(Tester):
     fake_xpath = "//xpath"
     fake_target = Target.the("fake").located_by(fake_xpath)
@@ -52,16 +63,6 @@ def test_clear_calls_clear(Tester):
     mocked_btw = Tester.ability_to(BrowseTheWeb)
     mocked_btw.to_find.assert_called_once_with(fake_target)
     mocked_btw.to_find.return_value.clear.assert_called_once()
-
-
-def test_add_headers_adds_headers(APITester):
-    test_headers = {"test": "header", "another": "one"}
-    session = APITester.ability_to(MakeAPIRequests).session
-    session.headers = {}
-
-    APITester.attempts_to(AddHeaders(**test_headers))
-
-    assert session.headers == test_headers
 
 
 class TestClick:
@@ -436,6 +437,16 @@ class TestSelectByValue:
     def test_complains_for_no_target(self, Tester):
         with pytest.raises(UnableToAct):
             Tester.attempts_to(Select.the_option_with_value("value"))
+
+
+def test_set_headers_sets_headers(APITester):
+    test_headers = {"test": "header", "another": "one"}
+    session = APITester.ability_to(MakeAPIRequests).session
+    session.headers = {"foo": "bar"}
+
+    APITester.attempts_to(SetHeaders(**test_headers))
+
+    assert session.headers == test_headers
 
 
 class TestSwitchTo:

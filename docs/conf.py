@@ -16,9 +16,8 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath("../"))
-sys.path.insert(0, os.path.abspath("../env/lib/python3.7/site-packages/"))
 
-autodoc_mock_imports = ["hamcrest", "allure"]
+autodoc_mock_imports = ["hamcrest", "allure", "pyotp", "typing_extensions"]
 
 # -- Project information -----------------------------------------------------
 

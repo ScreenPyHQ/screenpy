@@ -78,7 +78,7 @@ or you may want a more approachable name
 to describe a bunch of ``Click`` and ``Wait`` actions.
 Any grouping of actions
 can be abstracted into a task
-in your :ref:`tasks-dir`.
+in your :ref:`tasks directory <tasks-dir>`.
 You can even call other tasks in a task!
 
 A common task for Screenplay Pattern suites
@@ -89,6 +89,7 @@ is logging in to your application under test::
 
     from screenpy import AnActor
     from screenpy.actions import Click, Enter
+    from screenpy.pacing import beat
 
     from ..user_interface.homepage import (
         SIGN_ON_LINK,
@@ -103,6 +104,7 @@ is logging in to your application under test::
         def using(username: str, password: str) -> "LogInSuccessfully":
             return LogInSuccessfully(username, password)
 
+        @beat("{} logs in to the application.")
         def perform_as(self, the_actor: AnActor) -> None:
             the_actor.attempts_to(
                 Wait.for_the(SIGN_ON_LINK),
@@ -311,6 +313,12 @@ SendPOSTRequest
 ^^^^^^^^^^^^^^^
 
 .. autoclass:: SendPOSTRequest
+    :members:
+
+SetHeaders
+^^^^^^^^^^
+
+.. autoclass:: SetHeaders
     :members:
 
 SwitchTo
