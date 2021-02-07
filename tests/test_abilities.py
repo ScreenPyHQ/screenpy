@@ -1,14 +1,16 @@
 from unittest import mock
 
 import pytest
+from selenium.common.exceptions import TimeoutException, WebDriverException
 
+from screenpy import Target
 from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequests
 from screenpy.abilities.browse_the_web import (
     DEFAULT_ANDROID_CAPABILITIES,
     DEFAULT_APPIUM_HUB_URL,
     DEFAULT_IOS_CAPABILITIES,
 )
-from screenpy.exceptions import RequestError
+from screenpy.exceptions import BrowsingError, RequestError
 
 
 class TestBrowseTheWeb:
@@ -55,6 +57,68 @@ class TestBrowseTheWeb:
         mocked_android.assert_called_once_with(
             DEFAULT_APPIUM_HUB_URL, DEFAULT_ANDROID_CAPABILITIES
         )
+
+    @mock.patch("screenpy.abilities.browse_the_web.Firefox")
+    def test_to_find(self, mocked_ff):
+        """Find is called with the locator tuple."""
+        btw = BrowseTheWeb.using_firefox()
+        test_locator = (1, 2)
+        test_target = Target.the("test").located_by(test_locator)
+
+        btw.to_find(test_target)
+
+        btw.browser.find_element.assert_called_once_with(*test_locator)
+
+    @mock.patch("screenpy.abilities.browse_the_web.Firefox")
+    def test_to_find_exception(self, mocked_ff):
+        """Find throws a browsing error if something goes wrong."""
+        btw = BrowseTheWeb.using_firefox()
+        btw.browser.find_element.side_effect = WebDriverException("test")
+
+        with pytest.raises(BrowsingError):
+            btw.to_find(Target.the("test").located_by((1, 2)))
+
+    @mock.patch("screenpy.abilities.browse_the_web.Firefox")
+    def test_to_find_all(self, mocked_ff):
+        """Find all is called with the locator tuple."""
+        btw = BrowseTheWeb.using_firefox()
+        test_locator = (1, 2)
+        test_target = Target.the("test").located_by(test_locator)
+
+        btw.to_find_all(test_target)
+
+        btw.browser.find_elements.assert_called_once_with(*test_locator)
+
+    @mock.patch("screenpy.abilities.browse_the_web.Firefox")
+    def test_to_find_all_exception(self, mocked_ff):
+        """Find all throws a browsing error if something goes wrong."""
+        btw = BrowseTheWeb.using_firefox()
+        btw.browser.find_elements.side_effect = WebDriverException("test")
+
+        with pytest.raises(BrowsingError):
+            btw.to_find_all(Target.the("test").located_by((1, 2)))
+
+    @mock.patch("screenpy.abilities.browse_the_web.WebDriverWait")
+    @mock.patch("screenpy.abilities.browse_the_web.Firefox")
+    def test_to_wait_for(self, mocked_ff, mocked_wdw):
+        """Wait for returns what WebDriverWait returns."""
+        btw = BrowseTheWeb.using_firefox()
+        test_value = "foo"
+        mocked_wdw.return_value.until.return_value = test_value
+
+        actual_value = btw.to_wait_for((None, None))
+
+        assert actual_value == test_value
+
+    @mock.patch("screenpy.abilities.browse_the_web.WebDriverWait")
+    @mock.patch("screenpy.abilities.browse_the_web.Firefox")
+    def test_to_wait_for_exception(self, mocked_ff, mocked_wdw):
+        """Wait for throws a browsing error if something goes wrong."""
+        btw = BrowseTheWeb.using_firefox()
+        mocked_wdw.return_value.until.side_effect = TimeoutException("test")
+
+        with pytest.raises(BrowsingError):
+            btw.to_wait_for(Target.the("test").located_by((1, 2)))
 
 
 class TestAuthenticateWith2FA:

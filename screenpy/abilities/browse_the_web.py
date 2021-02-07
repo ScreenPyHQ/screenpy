@@ -161,7 +161,7 @@ class BrowseTheWeb:
         target: Union["Target", Tuple[By, str]],
         timeout: int = 20,
         cond: Callable = EC.visibility_of_element_located,
-    ) -> None:
+    ) -> WebElement:
         """Wait for an element to fulfill the given condition.
 
         Args:
@@ -177,7 +177,7 @@ class BrowseTheWeb:
         locator = self._resolve_locator(target)
 
         try:
-            WebDriverWait(self.browser, timeout).until(cond(locator))
+            return WebDriverWait(self.browser, timeout).until(cond(locator))
         except TimeoutException as e:
             msg = "Waiting {time} seconds for {element} to satisfy {cond} timed out."
             msg = msg.format(time=timeout, element=target, cond=cond.__name__)
