@@ -21,7 +21,7 @@ class NumberOfSearchResults:
         the_actor.should_see_the((NumberOfSearchResults(), Equals(4)))
     """
 
-    @beat("{0} checks the number of results...")
+    @beat("{} checks the number of results...")
     def answered_by(self, the_actor: Actor) -> float:
         """Direct the actor to count the number of search results."""
         return Number.of(SEARCH_RESULTS).answered_by(the_actor)

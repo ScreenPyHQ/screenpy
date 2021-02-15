@@ -54,7 +54,7 @@ class Selected:
 
     options_from = options_from_the
 
-    @beat("{0} checks the selected option(s) from {target}.")
+    @beat("{} checks the selected option(s) from {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """Direct the actor to name the selected option(s)."""
         select = SeleniumSelect(self.target.found_by(the_actor))

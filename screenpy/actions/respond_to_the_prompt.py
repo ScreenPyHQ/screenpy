@@ -27,7 +27,7 @@ class RespondToThePrompt:
         """Provide the text to enter into the prompt."""
         return RespondToThePrompt(text)
 
-    @beat('{0} responds to the prompt with "{text}".')
+    @beat('{} responds to the prompt with "{text}".')
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to respond to the prompt using the given text."""
         browser = the_actor.uses_ability_to(BrowseTheWeb).browser

@@ -28,7 +28,7 @@ class SearchGitHub:
         """Supply the text to search GitHub for."""
         return SearchGitHub(search_query)
 
-    @beat("{0} searches GitHub for '{search_query}'")
+    @beat('{} searches GitHub for "{search_query}"')
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to search github for the given term."""
         the_actor.attempts_to(

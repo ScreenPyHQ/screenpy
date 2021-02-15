@@ -23,7 +23,7 @@ class SearchResultsMessage:
         )
     """
 
-    @beat("{0} checks the results message...")
+    @beat("{} checks the results message...")
     def answered_by(self, the_actor: Actor) -> str:
         """Direct the actor to read off the text of the results message."""
         return Text.of(RESULTS_MESSAGE).answered_by(the_actor)

@@ -49,7 +49,7 @@ class Wait:
         self.target = target
         return self
 
-    seconds_for = seconds_for_the
+    second_for = seconds_for = second_for_the = seconds_for_the
 
     def using(
         self,
