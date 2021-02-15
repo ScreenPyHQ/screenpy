@@ -5,8 +5,10 @@ Exceptions
 
 There are several exceptions
 thrown about in ScreenPy.
-Mostly they are used to provide extra context
-when other exceptions are raised.
+In general,
+they provide extra context
+after catching other,
+less descriptive exceptions.
 
 .. module:: screenpy.exceptions
 

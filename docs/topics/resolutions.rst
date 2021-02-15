@@ -11,24 +11,24 @@ of test assertions in ScreenPy.
 Using Resolutions
 -----------------
 
-Like questions,
-you probably will not use a resolution directly.
-You will typically pass a resolution
-along with a question
-into your actor's |Actor.should_see_the| method::
+You will use resolutions
+by pairing them with a :ref:`question <questions>`.
+Your actor's |Actor.should_see_the| method
+accepts that pair to make an assertion::
 
     from screenpy.questions import Text
     from screenpy.resolutions import ReadsExactly
 
     from ..user_interface.homepage import WELCOME_MESSAGE
 
-                                                      # ⇩ here is the resolution
+    #                                                   ⇩ here is the resolution
     Perry.should_see_the((Text.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")))
 
-If the expected value
-passed in to |ReadsExactly| (``"Welcome!"``)
-matches the actual value
-retrieved by our |Text| question,
+
+The actor will then compare
+the value returned by |Text|
+to the value passed in to |ReadsExactly|.
+If the two values match,
 bravo!
 Our test passes.
 If they do not match,
@@ -38,20 +38,26 @@ Our test fails.
 Writing New Resolutions
 -----------------------
 
-Resolutions are really just an abstraction barrier
-for the truly excellent |PyHamcrest| library.
-To add your own resolutions,
-create your resolution class
-by inheriting from the |BaseResolution| class.
-All you need to provide in your resolution
-is a ``line`` class property,
-which is just a human readable string for the log,
-and then to define the ``__init__`` method.
+Resolutions are an abstraction barrier
+for the excellent |PyHamcrest| library.
+To add a custom resolutions,
+you will need to inherit
+from the |BaseResolution| class.
+All you need to provide
+in your custom resolution
+is a ``line`` class property
+and an ``__init__`` method.
 
-The custom Resolution's ``__init__`` method
-will need to set the expected value,
-and instantiate the PyHamcrest matcher
-that your resolution is masking.
+
+The ``line`` is a string
+that explains what the resolution expects.
+This line appears in the log.
+You can use ``{expectation}`` here
+to reference the value passed in.
+
+The ``__init__`` method
+sets the ``expected`` value
+and instantiates a PyHamcrest matcher.
 
 For several examples,
 see the source code
@@ -64,10 +70,10 @@ The guided tour... concludes here!
 You should know everything you need
 to get started with your first test.
 
-There are some other pages
-which should be very helpful to you,
-such as :ref:`cookbook` or :ref:`waiting`,
-but from here on out the tour is self-guided.
+There are more pages
+which are very good reads,
+such as :ref:`cookbook` or :ref:`waiting`.
+But from here on out the tour is self-guided.
 
 Thanks for using ScreenPy!
 

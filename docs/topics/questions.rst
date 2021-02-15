@@ -3,8 +3,10 @@
 Questions
 =========
 
-Questions are asked by an actor
-about the current state of the page or application.
+Actors ask Questions
+about the current state of the application.
+Questions also leverage
+the :ref:`abilities` an actor has.
 They are the first half
 (the "actual value")
 of ScreenPy's test assertions.
@@ -12,7 +14,7 @@ of ScreenPy's test assertions.
 Asking Questions
 ----------------
 
-Typically,
+In the assertion step,
 you will not be asking a question
 without an expected answer.
 This is how you do test assertions in ScreenPy::
@@ -22,19 +24,19 @@ This is how you do test assertions in ScreenPy::
 
     from ..user_interface.homepage import WELCOME_MESSAGE
 
-                        # ⇩ here is the question
-    Perry.should_see_the((Text.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")), )
+    #                     ⇩ here is the question
+    Perry.should_see_the((Text.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")))
+
 
 That call to |Actor.should_see_the|
 is taking in our question
 along with a resolution.
 We'll talk about :ref:`resolutions` next.
-Behind the curtain,
-our actor is investigating
-the current state of the application
-(using their ability to |BrowseTheWeb|)
-to find out what the text actually says
-at the element targeted by ``WELCOME_MESSAGE``.
+For the question half,
+the actor is using their ability to |BrowseTheWeb|.
+They examine the current state of the application
+to find the text
+of the welcome message.
 
 The actor takes that answer
 and compares it to the expected answer
@@ -50,8 +52,8 @@ Writing New Questions
 ---------------------
 
 It is very likely
-that you will want to write additional questions,
-and you are encouraged to do so!
+that you will want to write
+some custom questions.
 Questions must be ``Answerable``,
 which means they have an ``answered_by`` method.
 For more information,
@@ -59,19 +61,53 @@ refer to the :ref:`protocols` page.
 
 Let's take a look
 at what an extremely contrived custom question,
-``TheClassOf``,
+``MisspelledWords``,
 might look like::
 
-    from screenpy import AnActor, Target
+    # questions/misspelled_words.py
+    from screenpy import Actor, Target
+
+    from ..abilities import CheckSpelling
 
 
-    class TheClassOf:
-        def answered_by(self, the_actor: AnActor) -> str:
-            element = self.target.found_by(the_actor)
-            return element.get_attribute("class")
+    class MisspelledWords:
+        """Ask about any misspelled words in a given target.
+
+        Examples:
+            the_actor.should_see_the((MisspelledWords.in_(WELCOME_MESSAGE), IsEmpty()))
+        """
+
+        @staticmethod
+        def in_(target: Target) -> "MisspelledWords":
+            """Set the target to examine."""
+            return MisspelledWords(target)
+
+        def answered_by(self, the_actor: Actor) -> str:
+            """Ask about the misspelled words contained in the given target."""
+            text = self.target.found_by(the_actor).text
+            misspelled_words = []
+            for word in text.split(" "):
+                correct = the_actor.uses_ability_to(CheckSpelling).to_check(word)
+                if not correct:
+                    misspelled_words.append(word)
+            return misspelled_words
 
         def __init__(self, target: Target) -> None:
             self.target = target
+
+
+You may notice
+the similarities between
+this question
+and the :ref:`CheckTheSpelling <checkthespelling>` Action.
+I did tell you
+these are extremely contrived.
+
+Anyway,
+the magic all happens
+in the ``answered_by`` method.
+It leverages the actor's ability
+and returns the answer it finds.
 
 Up Next
 -------

@@ -3,15 +3,18 @@
 Actions
 =======
 
-Actions are the things that an |Actor| can do,
+Actions are the things that :ref:`actors` can do,
 using their :ref:`abilities`.
+They are the mechanism
+through which your actors
+interact with your application.
 
 Using Actions
 -------------
 
-Actions can be used pretty much anywhere.
-They will typically be used to create :ref:`tasks`
-or move around in your :ref:`features`.
+Your actors will use actions
+during the `Arrange and Act parts <https://docs.microsoft.com/en-us/visualstudio/test/unit-test-basics?view=vs-2019#write-your-tests>`_
+of your tests.
 Here is an example of using the |Click| action::
 
     from screenpy.actions import Click
@@ -27,91 +30,142 @@ to perform an action.
 They may not actually have the correct :ref:`abilities`,
 after all.
 If an actor is unable to perform an action or task,
-they will raise an |UnableToPerform|.
+they will raise an |UnableToPerform| exception.
 
 Writing New Actions
 -------------------
 
-Occasionally,
-you might find that the base actions
+You may find that the base actions
 don't quite cover all
 that you need your actors to do.
-Since ScreenPy is built to be extensible,
-it is easy and encouraged
-to create your own custom actions
-to achieve what you need!
+Since ScreenPy is extensible,
+it is easy—and encouraged!—
+to create your own custom actions.
 
 Actions must be ``Performable``,
-which means they have a ``perform_as`` method
-which gives direction to the actor.
-See the :ref:`protocols` page for more information.
+which means they have a ``perform_as`` method.
+This method tells the actor
+how to use their abilities
+to perform the action.
+See the :ref:`protocols` page
+for more information.
+
+.. _checkthespelling:
 
 Let's take a look
-at what an extremely contrived custom action,
-``CheckTheSpelling``,
-might look like::
+at what a custom action
+might look like.
+Here is the source
+for the extremely contrived
+``CheckTheSpelling``::
 
     # actions/check_the_spelling.py
     from screenpy import AnActor, Target
 
+    from ..abilities import CheckSpelling
+
 
     class CheckTheSpelling:
+        """Check the spelling of words in a given target.
+
+        Examples:
+            the_actor.attempts_to(CheckTheSpelling.of_words_in_the("WELCOME_BANNER")
+        """
+
         @staticmethod
         def of_words_in_the(target: Target) -> "CheckTheSpelling":
+            """Set the target to check."""
             return CheckTheSpelling(target)
 
+        @beat("{} checks the spelling of words in {target}")
         def perform_as(self, the_actor: AnActor) -> None:
-            the_actor.uses_ability_to(CheckSpelling).to_check(self.target)
+            """Direct the actor to check the target's spelling."""
+            text = self.target.found_by(the_actor).text
+            misspelled = []
+            for word in text.split(" "):
+                correct = the_actor.uses_ability_to(CheckSpelling).to_check(word)
+                if not correct:
+                    misspelled.append(word)
+            if misspelled:
+                aside(f"... finding the following misspellings: {', '.join(misspelled)}"
 
         def __init__(self, target: Target) -> None:
             self.target = target
+
+
+This action directs the actor
+to use their ability
+to :ref:`CheckSpelling <checkspelling>`.
+Using that ability,
+the actor checks the spelling
+of words in an element.
+If they find any misspelled,
+they log the misspellings.
 
 .. _tasks:
 
 Tasks
 -----
 
-Sometimes,
+As you build your test suite,
 your actors might repeat
-the same series of actions several times,
-or you may want a more approachable name
-to describe a bunch of ``Click`` and ``Wait`` actions.
-Any grouping of actions
-can be abstracted into a task
-in your :ref:`tasks directory <tasks-dir>`.
-You can even call other tasks in a task!
+the same series of actions
+several times.
+Or you may have
+a series of actions
+that could use a more approachable name.
+Luckily,
+there is a solution
+to both of these issues!
 
+You can abstract any group of actions
+into a task
+in your :ref:`tasks directory <tasks-dir>`.
+Tasks can even call other tasks!
+
+.. _logintask:
+
+Let's look at an example of a task.
 A common task for Screenplay Pattern suites
 is logging in to your application under test::
 
     # tasks/login.py
     import os
 
-    from screenpy import AnActor
-    from screenpy.actions import Click, Enter
+    from screenpy import Actor
+    from screenpy.actions import Click, Enter, Visit
     from screenpy.pacing import beat
 
     from ..user_interface.homepage import (
-        SIGN_ON_LINK,
-        THE_USERNAME_FIELD,
-        THE_PASSWORD_FIELD,
         LOGIN_BUTTON,
+        PASSWORD_FIELD,
+        SIGN_ON_LINK,
+        URL,
+        USERNAME_FIELD,
     )
 
 
-    class LogInSuccessfully:
+    class LogIn:
+        """Log in to the application.
+
+        Examples:
+            the_actor.attempts_to(LogIn.using(USERNAME, PASSWORD))
+        """
+
         @staticmethod
-        def using(username: str, password: str) -> "LogInSuccessfully":
-            return LogInSuccessfully(username, password)
+        def using(username: str, password: str) -> "LogIn":
+            """Set the username and password to use."""
+            return LogIn(username, password)
 
         @beat("{} logs in to the application.")
-        def perform_as(self, the_actor: AnActor) -> None:
+        def perform_as(self, the_actor: Actor) -> None:
             the_actor.attempts_to(
+                Visit(URL),
                 Wait.for_the(SIGN_ON_LINK),
-                Click.on(SIGN_ON_LINK),
-                Wait.for_the(THE_USERNAME_FIELD).to_appear(),
-                Enter.the_text(self.username).into(THE_USERNAME_FIELD),
-                Enter.the_text(self.password).into(THE_PASSWORD_FIELD),
+                Click.on_the(SIGN_ON_LINK),
+                Wait.for_the(USERNAME_FIELD).to_appear(),
+                Enter.the_text(self.username).into_the(USERNAME_FIELD),
+                Enter.the_text(self.password).into_the(PASSWORD_FIELD),
                 Click.on_the(LOGIN_BUTTON)
             )
 
@@ -119,13 +173,21 @@ is logging in to your application under test::
             self.username = username
             self.password = password
 
-And there you have it!
-Now all you have to do is ask your actor
-to attempt to ``LogInSuccessfully``,
-and you've got the same set of actions everywhere.
+
+Now,
+the series of actions
+needed to log in
+are all described
+by the ``LogIn`` task.
+Logging will also use
+the ``beat`` description
+instead of a long list of ``Wait``,
+``Click``,
+and ``Enter`` actions.
+
 
 Note that tasks,
-just like actions,
+like actions,
 must be ``Performable``.
 See the :ref:`protocols` page for more information.
 

@@ -155,7 +155,7 @@ rst_prolog = """.. Internal references
 .. |Wait.for_| replace:: :meth:`~screenpy.actions.wait.Wait.for_`
 .. |Wait.for_the| replace:: :meth:`~screenpy.actions.wait.Wait.for_the`
 .. |Wait.seconds_for| replace:: :meth:`~screenpy.actions.wait.Wait.seconds_for`
-.. |wait.to_appear| replace:: :meth:`~screenpy.actions.wait.Wait.to_appear`
+.. |Wait.to_appear| replace:: :meth:`~screenpy.actions.wait.Wait.to_appear`
 .. |Wait| replace:: :class:`~screenpy.actions.wait.Wait`
 
 .. .. Questions

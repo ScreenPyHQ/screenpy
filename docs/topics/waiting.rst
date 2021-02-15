@@ -4,10 +4,10 @@ Wait Strategies
 ===============
 
 Automated test scripts are *fast*.
-When a test runs quickly,
+When a test runs too fast,
 sometimes it can try to act on an element
 that isn't quite ready
-or hasn't even been drawn yet.
+or doesn't even exist yet.
 ScreenPy allows you to use
 each of the prominent waiting strategies.
 
@@ -19,19 +19,17 @@ Explicit Waits
 --------------
 
 ScreenPy provides a |Wait| action
-to wait for a targeted element
-to appear,
-to be clickable,
-to contain text,
-or to disappear.
-These methods are included as a convenience
-because they are the most common strategies required.
+to wait for the application
+to meet a certain condition.
+Wait provides direct methods
+for many common conditions,
+such as |Wait.to_appear|.
 You are also able to pass in any other condition,
 including custom ones,
 if those don't suit your needs.
 
 Here are some examples
-of how this action can be used::
+of how to use this action::
 
     from screenpy.actions import Wait
 
@@ -45,15 +43,17 @@ of how this action can be used::
     # waits 20 seconds for a custom expected condition
     Perry.attempts_to(Wait.for_the(PROFILE_ICON).to(appear_in_greyscale))
 
+
 Implicit Waits
 --------------
 
-Implicit waiting is handled
-at the driver level.
+The driver handles implicit waiting.
+You will set your implicit wait timeout
+after you instantiate your driver.
 This method of waiting is less preferable,
 but it can be useful in some situations.
-Before you pass the driver in,
-you can set the implicit wait timeout like so::
+Here is an example
+of setting an implicit wait timeout::
 
     from selenium.webdriver import Firefox
 
@@ -63,25 +63,25 @@ you can set the implicit wait timeout like so::
 
     Perry = AnActor.who_can(BrowseTheWeb.using(driver))
 
-**Do not** use both the implicit wait setting
-along with explicit waits.
-This will cause some strange behavior
-as both waits attempt to execute their strategies,
-and can lead to tests taking
+
+**Do not** use both
+the implicit wait setting
+and explicit waits.
+Both strategies will interfere with each other,
+which can lead to tests taking
 a *very* long time
 to error out.
 
 Hard Waits
 ----------
 
-This method of waiting is discouraged
-and should be avoided if possible.
-However,
-sometimes you just **need**
+This method of waiting is not ideal
+and is a last resort.
+And yet,
+sometimes you **need**
 to pause for a few moments.
 
 In these situations,
-as a last resort,
 ScreenPy offers the |Pause| action.
 Here are some ways to use it::
 

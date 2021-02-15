@@ -3,29 +3,23 @@
 Actors
 ======
 
+
 Actors are the do-ers in the screenplay.
 Actors set the scene,
 perform their hearts out,
-and then make dramatic assertions
-that will either see
-a happy ending or a tragic failure.
+and then make dramatic assertions.
 
-More seriously,
-the actors represent the users of your application,
-doing the things you'd expect them to do on it
-(or things you might not expect them to do).
-Screenplay Pattern focuses entirely
-on what your users hope to do on your site,
-so your test cases will focus on what the actors do,
-which includes using :ref:`abilities`
-to perform :ref:`actions`
-and ask :ref:`questions`.
+Taking my tongue out of my cheek,
+actors represent the users of your application.
+Screenplay Pattern places the focus
+on what your users want to do,
+so actors are the drivers of your test cases.
 
 Using Actors
 ------------
 
 To instantiate a new actor,
-just give it a name::
+give it a name::
 
     from screenpy.actor import Actor, AnActor
 
@@ -35,7 +29,7 @@ just give it a name::
 Without any abilities,
 your actor will be woefully unprepared
 to begin their performance.
-Actors can be granted abilities like so::
+Grant abilities to your actors like so::
 
     from selenium.webdriver import Firefox
 
@@ -44,12 +38,12 @@ Actors can be granted abilities like so::
 
     Perry.can(BrowseTheWeb.using(Firefox()))
 
-    # For convenience, you can also do the same like this
+    # For convenience, you can also do the same during instantiation
     Perry = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
 
 Now,
 Perry is able to attempt any actions
-that require the ability to BrowseTheWeb.
+which need the ability to |BrowseTheWeb|.
 Here's Perry attempting to click a link::
 
     from screenpy import Target
@@ -60,21 +54,21 @@ Here's Perry attempting to click a link::
     LOGIN_LINK = Target.the('"Log In" link').located_by("//a")
     Perry.attempts_to(Click.the(LOGIN_LINK))
 
-You'll notice we had to make a quick |Target| there.
-We'll get to :ref:`targets` later,
-they're basically how you direct the actors
+You'll notice we had to make a quick ``LOGIN_LINK`` |Target| there.
+We'll get to :ref:`targets` later;
+they're how you direct the actors
 where to perform the action.
 
-In the above example,
-the action knows what ability it requires,
-and it will ask the actor
-to use that ability to perform the action.
-If the actor does not have that ability,
-the actor will raise an |UnableToPerform| exception.
+All actions know what ability they need,
+and the actor must use that ability
+to perform them.
+If the actor is lacking,
+they will raise an |UnableToPerform| exception.
 
-After our actor has performed a few actions,
-they are probably ready to ask :ref:`questions`.
-Questions and resolutions are how assertions are done in ScreenPy,
+After our actor has set the stage,
+they are ready to ask :ref:`questions`.
+Questions and resolutions
+are how to make assertions in ScreenPy,
 like so::
 
     from screenpy.questions import Text
@@ -85,7 +79,8 @@ like so::
     Perry.should_see_the((Text.of(THE_WELCOME_MESSAGE), ReadsExactly("Welcome!"))
 
 That's the whole flow!
-Your actor is now ready to exit::
+Our Actor has successfully performed their screenplay.
+Perry is now ready to exit::
 
     Perry.exits_stage_right()
 

@@ -3,9 +3,18 @@
 Abilities
 =========
 
-Abilities allow your |Actor| to **do** things.
+Abilities allow your :ref:`actors` to **do** things.
 Actors will leverage their abilities
 to perform their role in your test scripts.
+
+Abilities provide an interface for your actor
+to use other libraries.
+They store state and configuration.
+They enable your actor
+to perform actions
+and ask questions
+which use the ability.
+
 
 Granting Abilities
 ------------------
@@ -25,24 +34,73 @@ pass it in using the Actor's
     Perry = AnActor.named("Perry")
     Perry.can(BrowseTheWeb.using_safari())
 
-Granting an ability to an actor
-allows them to perform any :ref:`actions`
-or ask any :ref:`questions`
-that require that ability.
-If an action or a question require an ability
+Now Perry can
+perform actions
+and ask questions
+using his ability to |BrowseTheWeb|.
+If an action or question uses an ability
 which the actor does not have,
 the actor will raise an |UnableToPerform| exception.
 
 Writing New Abilities
 ---------------------
 
-There may be other abilities your actors need to possess
-in order to test your application.
-You are encouraged to write your own!
+There may be other abilities
+your actors need to have
+in order to test your application,
+besides the ones
+contained herein.
+ScreenPy encourages you to write your own!
+
 Abilities must be ``Forgettable``,
-which means they must have a ``forget`` method
-which cleans up after them.
+which means they must have a ``forget`` method.
+This method performs any necessary cleanup,
+such as closing connections
+or deleting objects.
 See the :ref:`protocols` page for more information.
+
+.. _checkspelling:
+
+Let's take a look
+at what a custom ability
+might look like.
+Here is the source
+for the extremely contrived
+``CheckSpelling``::
+
+    # abilities/check_spelling.py
+    import enchant
+
+    class CheckSpelling:
+
+        @staticmethod
+        def in_english() -> "CheckSpelling":
+            """Set the language to English."""
+            return CheckSpelling.in_("en_US")
+
+        @staticmethod
+        def in_(language: str) -> "CheckSpelling":
+            """Specify what language to use"""
+            return CheckSpelling(language)
+
+        def to_check(self, word: str) -> bool:
+            """Check the spelling of the given word."""
+            return self.dictionary.check(word)
+
+        def forget(self) -> None:
+            """Clean up the dictionary."""
+            del self.dictionary  # I told you this was contrived
+
+        def __init__(self, language: str) -> None:
+            self.dictionary = enchant.Dict(language)
+
+
+``CheckSpelling`` provides an interface
+to the `enchant <https://pyenchant.github.io/pyenchant/>`_ library.
+The required ``forget`` method
+cleans up the ability
+when the actor exits.
+
 
 Up Next
 -------

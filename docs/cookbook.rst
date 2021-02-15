@@ -4,8 +4,7 @@ ScreenPy Recipes
 ================
 
 This collection contains
-some examples of common use-cases
-you may run into while using ScreenPy.
+examples of common ScreenPy use-cases.
 
 .. _actor_setup:
 
@@ -33,7 +32,7 @@ Retrieving Initial Answers
 Some tests may need to ensure something has changed.
 You are able to retrieve
 the answers to questions
-outside of the ``should_see`` assertion step::
+anywhere you may need to::
 
     empty_todo_list_text = Text.of_the(TODO_LIST).answered_by(Perry)
 
@@ -57,7 +56,9 @@ and a different condition::
     Perry.attempts_to(Wait(42).seconds_for(THE_WELCOME_BANNER).to_disappear())
 
 Using a custom condition,
-wait 20 seconds for that condition to be met::
+wait 20 seconds
+for the application
+to meet the condition::
 
     class appear_in_greyscale:
         def __init__(self, locator):
@@ -75,12 +76,14 @@ Debugging
 The Debug Class
 ^^^^^^^^^^^^^^^
 
-The |Debug| class can be used
-to drop a debugger in a series of actions.
+You can use
+the |Debug| class
+to drop a debugger
+in a series of actions.
 
 You will need to go up a few frames
-to get to the actor's |Actor.attempts_to| method,
-but then you will be able to
+to get to the actor's |Actor.attempts_to| method.
+From there, you will be able to
 step through each action one at a time.
 
 .. code-block:: python
@@ -97,9 +100,9 @@ step through each action one at a time.
 The Pause Class
 ^^^^^^^^^^^^^^^
 
-|Pause| can also be used
+You can also use |Pause|
 to stop the test for a few moments,
-if you just need to see
+if you only need to see
 what the state of the page is.
 
 .. code-block:: python

@@ -4,8 +4,8 @@ Installation
 ============
 
 To install ScreenPy,
-run the following command,
-preferably in a virtual environment:
+run the following command
+in a `virtual environment <https://docs.python.org/3/library/venv.html>`_:
 
 ``pip3 install screenpy``
 
