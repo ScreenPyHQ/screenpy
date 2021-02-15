@@ -15,7 +15,7 @@ features/
 tasks/
  - __init__.py
  - start.py
-user_interface/
+ui/
  - __init__.py
  - home_page.py
 """
@@ -65,7 +65,7 @@ Path("__init__.py").touch()
 
 
 create_module(
-    "user_interface",
+    "ui",
     "home_page.py",
     '''"""
 Locators and the URL for ScreenPy's ReadTheDocs homepage.
@@ -98,7 +98,7 @@ performs this task like so:
 from screenpy import AnActor
 from screenpy.actions import Open
 
-from ..user_interface import home_page
+from ..ui import home_page
 
 
 class Start:
@@ -149,7 +149,7 @@ from screenpy.questions import Text
 from screenpy.resolutions import ContainsTheText
 
 from ..tasks.start import Start
-from ..user_interface.home_page import WELCOME_MESSAGE
+from ..ui.home_page import WELCOME_MESSAGE
 
 
 # Example using unittest.TestCase
