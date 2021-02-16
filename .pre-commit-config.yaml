@@ -1,4 +1,4 @@
-files: '(screenpy|examples)/*'
+files: '(screenpy|examples)/.*'
 fail_fast: false
 repos:
 - repo: https://github.com/psf/black
