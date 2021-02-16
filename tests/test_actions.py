@@ -66,6 +66,26 @@ class TestAddHeader:
 
         assert ah.headers == {"a": "a"}
 
+    def test_possible_arguments(self):
+        """can handle dict, pairs, and kwargs"""
+        ah1 = AddHeader({"a": 1})
+        ah2 = AddHeader("a", 1)
+        ah3 = AddHeader(a=1)
+        ah4 = AddHeader({"a": 1}, b=2)
+
+        assert ah1.headers == {"a": 1}
+        assert ah2.headers == {"a": 1}
+        assert ah3.headers == {"a": 1}
+        assert ah4.headers == {"a": 1, "b": 2}
+
+    def test_raises_on_odd_arguments(self):
+        with pytest.raises(ValueError):
+            AddHeader("a", 1, "b")
+
+    def test_raises_on_non_iterable_arguments(self):
+        with pytest.raises(ValueError):
+            AddHeader("a")
+
 
 class TestClick:
     def test_can_be_instantiated(self):
@@ -421,6 +441,26 @@ class TestSetHeaders:
         sh = SetHeaders(a="a")
 
         assert sh.headers == {"a": "a"}
+
+    def test_possible_arguments(self):
+        """can handle dict, pairs, and kwargs"""
+        sh1 = SetHeaders({"a": 1})
+        sh2 = SetHeaders("a", 1)
+        sh3 = SetHeaders(a=1)
+        sh4 = SetHeaders({"a": 1}, b=2)
+
+        assert sh1.headers == {"a": 1}
+        assert sh2.headers == {"a": 1}
+        assert sh3.headers == {"a": 1}
+        assert sh4.headers == {"a": 1, "b": 2}
+
+    def test_raises_on_odd_arguments(self):
+        with pytest.raises(ValueError):
+            SetHeaders("a", 1, "b")
+
+    def test_raises_on_non_iterable_arguments(self):
+        with pytest.raises(ValueError):
+            SetHeaders("a")
 
 
 class TestSwitchTo:

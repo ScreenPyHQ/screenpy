@@ -2,6 +2,8 @@
 Add headers to an actor's API session.
 """
 
+from typing import Iterable, Union
+
 from screenpy import Actor
 from screenpy.abilities import MakeAPIRequests
 from screenpy.pacing import aside, beat
@@ -16,6 +18,14 @@ class AddHeader:
     Examples::
 
         the_actor.attempts_to(AddHeader(Authorization=TOKEN_AUTH_STRING))
+
+        the_actor.attempts_to(
+            AddHeader(Authorization=TOKEN_AUTH_STRING).which_should_be_kept_secret()
+        )
+
+        the_actor.attempts_to(AddHeader({"Authorization": TOKEN_AUTH_STRING}))
+
+        the_actor.attempts_to(AddHeader("Authorization", TOKEN_AUTH_STRING))
     """
 
     def which_should_be_kept_secret(self) -> "AddHeader":
@@ -34,7 +44,19 @@ class AddHeader:
         session = the_actor.ability_to(MakeAPIRequests).session
         session.headers.update(self.headers)
 
-    def __init__(self, **headers: str) -> None:
-        self.headers = headers
+    def __init__(
+        self, *header_pairs: Union[str, Iterable], **header_kwargs: str
+    ) -> None:
+        self.headers = dict()
+        if len(header_pairs) == 1:
+            self.headers = dict(header_pairs[0])  # type: ignore
+        elif header_pairs and len(header_pairs) % 2 == 0:
+            self.headers = dict(zip(header_pairs[0::2], header_pairs[1::2]))
+        elif header_pairs:
+            raise ValueError("AddHeader received an odd-number of key-value pairs.")
+
+        if header_kwargs:
+            self.headers.update(header_kwargs)
+
         self.secret = False
         self.secret_log = ""
