@@ -94,7 +94,6 @@ performs this task like so:
     the_actor.attempts_to(Start.on_the_homepage())
 """
 
-
 from screenpy import AnActor
 from screenpy.actions import Open
 
@@ -141,7 +140,6 @@ following the unittest.TestCase style and an example using pytest fixtures.
 You will probably want to only follow one style.
 """
 
-
 from selenium.webdriver import Firefox
 from screenpy import AnActor, given, when, then
 from screenpy.abilities import BrowseTheWeb
@@ -154,6 +152,7 @@ from ..ui.home_page import WELCOME_MESSAGE
 
 # Example using unittest.TestCase
 from unittest import TestCase
+
 
 class TestExample(TestCase):
     """
@@ -181,6 +180,7 @@ class TestExample(TestCase):
 
 # Example using pytest
 import pytest
+
 
 @pytest.fixture(scope="function")
 def TheActor():
