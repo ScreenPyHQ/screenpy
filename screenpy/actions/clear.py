@@ -40,7 +40,7 @@ class Clear:
                 "Encountered an issue while attempting to clear "
                 f"{self.target}: {e.__class__.__name__}"
             )
-            raise DeliveryError(msg).with_traceback(e.__traceback__)
+            raise DeliveryError(msg) from e
 
     def __init__(self, target: Target) -> None:
         self.target = target

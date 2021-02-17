@@ -89,7 +89,7 @@ class Enter:
                 "Encountered an issue while attempting to enter text into "
                 f"{self.target}: {e.__class__.__name__}"
             )
-            raise DeliveryError(msg).with_traceback(e.__traceback__)
+            raise DeliveryError(msg) from e
 
     @beat('  Enter "{text_to_log}" into the {target}!')
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:

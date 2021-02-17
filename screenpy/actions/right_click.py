@@ -22,9 +22,7 @@ class RightClick:
 
         the_actor.attempts_to(RightClick.on_the(HERO_IMAGE))
 
-        the_actor.attempts_to(
-            Chain(MoveMouse.by_offset(7, 101), RightClick())
-        )
+        the_actor.attempts_to(Chain(RightClick()))
 
     *Note*: Most of the time, the context menu that appears after a user
     right-clicks is not interactable through Selenium, because it is an

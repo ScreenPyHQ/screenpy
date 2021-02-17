@@ -130,7 +130,7 @@ class BrowseTheWeb:
                 "Encountered an issue while attempting to find "
                 f"{target}: {e.__class__.__name__}"
             )
-            raise BrowsingError(msg).with_traceback(e.__traceback__)
+            raise BrowsingError(msg) from e
 
     find = to_find
 
@@ -152,7 +152,7 @@ class BrowseTheWeb:
                 "Encountered an issue while attempting to find all "
                 f"{target}: {e.__class__.__name__}"
             )
-            raise BrowsingError(msg).with_traceback(e.__traceback__)
+            raise BrowsingError(msg) from e
 
     find_all = to_find_all
 
@@ -181,7 +181,7 @@ class BrowseTheWeb:
         except TimeoutException as e:
             msg = "Waiting {time} seconds for {element} to satisfy {cond} timed out."
             msg = msg.format(time=timeout, element=target, cond=cond.__name__)
-            raise BrowsingError(msg).with_traceback(e.__traceback__)
+            raise BrowsingError(msg) from e
 
     wait_for = to_wait_for
 

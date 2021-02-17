@@ -113,7 +113,7 @@ class Wait:
                 "Encountered an issue while attempting to wait for the "
                 f"{self.target}: {e.__class__.__name__}"
             )
-            raise DeliveryError(msg).with_traceback(e.__traceback__)
+            raise DeliveryError(msg) from e
 
     def __init__(self, seconds: int = 20, target: Optional[Target] = None) -> None:
         self.target = target
