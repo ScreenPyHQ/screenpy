@@ -98,7 +98,19 @@ class TestClick:
 
         Tester.attempts_to(Chain(Click.on_the(mock_target)))
 
-        MockedActionChains().click.assert_called_once_with(mock_element)
+        MockedActionChains().click.assert_called_once_with(on_element=mock_element)
+
+    @mock.patch("screenpy.actions.chain.ActionChains")
+    def test_target_is_only_optional_for_chaining(self, MockedActionChains, Tester):
+        mock_target = mock.Mock()
+        mock_element = "element"
+        mock_target.found_by.return_value = mock_element
+
+        Tester.attempts_to(Chain(Click()))
+        Tester.attempts_to(Chain(Click.on_the(mock_target)))
+
+        with pytest.raises(UnableToAct):
+            Tester.attempts_to(Click())
 
 
 class TestDebug:

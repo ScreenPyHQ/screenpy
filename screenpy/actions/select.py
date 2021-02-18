@@ -95,7 +95,7 @@ class SelectByText:
                 "Encountered an issue while attempting to select the option with text "
                 f"'{self.text}' from {self.target}: {e.__class__.__name__}"
             )
-            raise DeliveryError(msg).with_traceback(e.__traceback__)
+            raise DeliveryError(msg) from e
 
     def __init__(self, text: str, target: Optional[Target] = None) -> None:
         self.target = target
@@ -144,7 +144,7 @@ class SelectByIndex:
                 "Encountered an issue while attempting to select the option at index "
                 f"{self.index} from {self.target}: {e.__class__.__name__}"
             )
-            raise DeliveryError(msg).with_traceback(e.__traceback__)
+            raise DeliveryError(msg) from e
 
     def __init__(self, index: Union[int, str], target: Optional[Target] = None) -> None:
         self.target = target
@@ -193,7 +193,7 @@ class SelectByValue:
                 "Encountered an issue while attempting to select the option with value "
                 f"{self.value} from {self.target}: {e.__class__.__name__}"
             )
-            raise DeliveryError(msg).with_traceback(e.__traceback__)
+            raise DeliveryError(msg) from e
 
     def __init__(self, value: Union[int, str], target: Optional[Target] = None) -> None:
         self.target = target
