@@ -50,10 +50,12 @@ waits 20 seconds for the login modal to appear::
 
     Perry.attempts_to(Wait.for_the(LOGIN_MODAL))
 
+
 Wait for a non-default timeout
 and a different condition::
 
     Perry.attempts_to(Wait(42).seconds_for(THE_WELCOME_BANNER).to_disappear())
+
 
 Using a custom condition,
 wait 20 seconds
@@ -69,6 +71,20 @@ to meet the condition::
             return element.value_of_css_property(filter) == "grayscale(100%)"
 
     Perry.attempts_to(Wait.for_the(PROFILE_ICON).to(appear_in_greyscale))
+
+
+Using a custom condition
+which does not use a Target::
+
+    def url_to_contain_text_and_be_at_least_this_long(text, length):
+        def _predicate(driver):
+            return text in driver.url and len(driver.url) >= length
+
+        return _predicate
+
+    #                     ⇩ note the parens here
+    Perry.attempts_to(Wait().using(url_to_contain_text).with_("hello", 20)
+
 
 Debugging
 ---------

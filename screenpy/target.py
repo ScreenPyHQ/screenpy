@@ -6,6 +6,7 @@ will be used by actors to find elements.
 
 from typing import List, Tuple, Union
 
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebElement
 
@@ -72,11 +73,19 @@ class Target:
 
     def found_by(self, the_actor: Actor) -> WebElement:
         """Retrieve the |WebElement| as viewed by the actor."""
-        return the_actor.uses_ability_to(BrowseTheWeb).to_find(self)
+        browser = the_actor.ability_to(BrowseTheWeb).browser
+        try:
+            return browser.find_element(*self.get_locator())
+        except WebDriverException as e:
+            raise TargetingError(f"{e} raised while trying to find {self}.") from e
 
     def all_found_by(self, the_actor: Actor) -> List[WebElement]:
         """Retrieve a list of |WebElement| objects as viewed by the actor."""
-        return the_actor.uses_ability_to(BrowseTheWeb).to_find_all(self)
+        browser = the_actor.ability_to(BrowseTheWeb).browser
+        try:
+            return browser.find_elements(*self.get_locator())
+        except WebDriverException as e:
+            raise TargetingError(f"{e} raised while trying to find {self}.") from e
 
     def __repr__(self) -> str:
         return self.target_name

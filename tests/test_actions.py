@@ -36,6 +36,7 @@ from screenpy.actions import (
     SetHeaders,
     SwitchTo,
     SwitchToTab,
+    Wait,
 )
 from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
 from screenpy import Target
@@ -477,3 +478,19 @@ class TestSwitchToTab:
         stt = SwitchToTab(1)
 
         assert isinstance(stt, SwitchToTab)
+
+
+class TestWait:
+    def test_can_be_instantiated(self):
+        def foo():
+            pass
+
+        w1 = Wait.for_the(mock.Mock())
+        w2 = Wait(0).seconds_for_the(mock.Mock())
+        w3 = Wait().using(foo)
+        w4 = Wait().using(foo).with_(mock.Mock())
+
+        assert isinstance(w1, Wait)
+        assert isinstance(w2, Wait)
+        assert isinstance(w3, Wait)
+        assert isinstance(w4, Wait)

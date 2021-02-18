@@ -7,9 +7,9 @@ Abilities allow your :ref:`actors` to **do** things.
 Actors will leverage their abilities
 to perform their role in your test scripts.
 
-Abilities provide an interface for your actor
-to use other libraries.
-They store state and configuration.
+Abilities store the state and configuration
+for other libraries
+so your actors can use them.
 They enable your actor
 to perform actions
 and ask questions

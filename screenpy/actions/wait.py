@@ -2,20 +2,21 @@
 An action to wait for a specified element to fulfill a given condition.
 """
 
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Iterable, Optional
 
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from screenpy.abilities.browse_the_web import BrowseTheWeb
 from screenpy.actor import Actor
-from screenpy.exceptions import DeliveryError, UnableToAct
+from screenpy.exceptions import DeliveryError
 from screenpy.pacing import beat
 from screenpy.target import Target
 
 
 class Wait:
-    """Wait for an element to fulfill a certain condition.
+    """Wait for the application to fulfill a certain condition.
 
     Abilities Required:
         |BrowseTheWeb|
@@ -31,92 +32,83 @@ class Wait:
         the_actor.attempts_to(Wait.for(CONFETTI).to_disappear())
 
         the_actor.attempts_to(
-            Wait(10).seconds_for_the(PARADE_FLOATS).to_appear()
+            Wait(10).seconds_for_the(PARADE_FLOATS).to(float_on_by)
         )
     """
 
-    target: Optional[Target]
+    args: Iterable[Any]
 
     @staticmethod
     def for_the(target: Target) -> "Wait":
-        """Target the element to wait for."""
-        return Wait(target=target)
+        """Set the target to wait for."""
+        return Wait(20, [target])
 
     for_ = for_the
 
     def seconds_for_the(self, target: Target) -> "Wait":
-        """Target the element to wait for, after changing the default timeout."""
-        self.target = target
+        """Set the target to wait for, after changing the default timeout."""
+        self.args = [target]
         return self
 
-    second_for = seconds_for = second_for_the = seconds_for_the
+    second_for = second_for_the = seconds_for = seconds_for_the
 
-    def using(
-        self,
-        strategy: Callable[..., Any],
-        log_detail: str = " to fulfill a custom expectation...",
-    ) -> "Wait":
+    def using(self, strategy: Callable[..., Any]) -> "Wait":
         """Use the given strategy to wait for the target.
 
         Args:
             strategy: the condition to use to wait. This can be one of
-                Selenium's Expected Conditions, or it can be a custom
-                Callable that accepts a Tuple[|By|, str] locator.
-            log_detail: an optional message to describe the strategy,
-                beginning with "to" (e.g. "to be clickable...").
-
-        Returns:
-            |Wait|
+                Selenium's Expected Conditions, or any custom Callable
+                that returns a boolean.
         """
         self.condition = strategy
-        if not log_detail.startswith(" "):
-            log_detail = " " + log_detail
-        self.log_detail = log_detail
+        self.strategy_name = strategy.__name__
         return self
 
-    to = using
+    to = seconds_using = using
 
     def to_appear(self) -> "Wait":
         """Use Selenium's "visibility of element located" strategy."""
-        return self.using(EC.visibility_of_element_located, " to be visible...")
+        return self.using(EC.visibility_of_element_located)
 
     def to_be_clickable(self) -> "Wait":
         """Use Selenium's "to be clickable" strategy."""
-        return self.using(EC.element_to_be_clickable, " to be clickable...")
+        return self.using(EC.element_to_be_clickable)
 
     def to_disappear(self) -> "Wait":
         """Use Selenium's "invisibility of element located" strategy."""
-        return self.using(EC.invisibility_of_element_located, " to disappear...")
+        return self.using(EC.invisibility_of_element_located)
 
     def to_contain_text(self, text: str) -> "Wait":
         """Use Selenium's "text to be present in element" strategy."""
-        return self.using(
-            lambda locator: EC.text_to_be_present_in_element(locator, text),
-            f' to contain the text "{text}"...',
-        )
+        return self.using(EC.text_to_be_present_in_element).with_(*self.args, text)
 
-    @beat("{0} waits for the {target}{log_detail}")
+    def with_(self, *args: Any) -> "Wait":
+        """Set the arguments to pass in to the wait condition."""
+        self.args = args
+        return self
+
+    @beat("{} waits using {strategy_name} with {args}...")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to wait for the condition to be satisfied."""
-        if self.target is None:
-            raise UnableToAct(
-                "Target was not supplied for Wait. Provide a target by using either "
-                ".for_(), .for_the(), .seconds_for(), or .seconds_for_the() method."
-            )
+        browser = the_actor.ability_to(BrowseTheWeb).browser
+
+        # we need to get the locators for any targets passed in, but also keep
+        # them as targets for logging.
+        args = map(
+            lambda arg: arg.get_locator() if isinstance(arg, Target) else arg, self.args
+        )
 
         try:
-            the_actor.uses_ability_to(BrowseTheWeb).to_wait_for(
-                self.target, timeout=self.timeout, cond=self.condition
-            )
+            WebDriverWait(browser, self.timeout).until(self.condition(*args))
         except WebDriverException as e:
             msg = (
-                "Encountered an issue while attempting to wait for the "
-                f"{self.target}: {e.__class__.__name__}"
+                f"Encountered an exception using {self.strategy_name} with "
+                f"[{', '.join(self.args)}]: {e.__class__.__name__}"
             )
-            raise DeliveryError(msg).with_traceback(e.__traceback__)
+            raise DeliveryError(msg) from e
 
-    def __init__(self, seconds: int = 20, target: Optional[Target] = None) -> None:
-        self.target = target
+    def __init__(self, seconds: int = 20, args: Optional[Iterable[Any]] = None) -> None:
+        self.args = args if args is not None else []
         self.timeout = seconds
         self.condition = EC.visibility_of_element_located
-        self.log_detail = "..."
+        self.strategy_name = self.condition.__name__

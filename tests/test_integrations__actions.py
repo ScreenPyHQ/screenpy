@@ -41,8 +41,8 @@ from screenpy.exceptions import UnableToAct
 def test_accept_alert_calls_accept(Tester):
     Tester.attempts_to(AcceptAlert())
 
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.browser.switch_to.alert.accept.assert_called_once()
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.switch_to.alert.accept.assert_called_once()
 
 
 class TestAddHeaders:
@@ -73,26 +73,22 @@ class TestAddHeaders:
 
 
 def test_clear_calls_clear(Tester):
-    fake_xpath = "//xpath"
-    fake_target = Target.the("fake").located_by(fake_xpath)
+    fake_target = Target.the("fake").located_by("//xpath")
 
     Tester.attempts_to(Clear.the_text_from(fake_target))
 
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.to_find.assert_called_once_with(fake_target)
-    mocked_btw.to_find.return_value.clear.assert_called_once()
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.find_element.return_value.clear.assert_called_once()
 
 
 class TestClick:
     def test_calls_click(self, Tester):
-        fake_xpath = "//xpath"
-        fake_target = Target.the("fake").located_by(fake_xpath)
+        fake_target = Target.the("fake").located_by("//xpath")
 
         Tester.attempts_to(Click.on_the(fake_target))
 
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.to_find.assert_called_once_with(fake_target)
-        mocked_btw.to_find.return_value.click.assert_called_once()
+        mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+        mocked_browser.find_element.return_value.click.assert_called_once()
 
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_can_be_chained(self, MockedActionChains, Tester):
@@ -125,8 +121,8 @@ class TestDebug:
 def test_dismiss_alert_calls_dismiss(Tester):
     Tester.attempts_to(DismissAlert())
 
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.browser.switch_to.alert.dismiss.assert_called_once()
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.switch_to.alert.dismiss.assert_called_once()
 
 
 class TestDoubleClick:
@@ -158,27 +154,23 @@ class TestDoubleClick:
 class TestEnter:
     def test_calls_send_keys(self, Tester):
         text = "test"
-        fake_xpath = "//xpath"
-        fake_target = Target.the("fake").located_by(fake_xpath)
+        fake_target = Target.the("fake").located_by("//xpath")
 
         Tester.attempts_to(Enter.the_text(text).into_the(fake_target))
 
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.to_find.assert_called_once_with(fake_target)
-        mocked_btw.to_find.return_value.send_keys.assert_called_once_with(text)
+        mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+        mocked_browser.find_element.return_value.send_keys.assert_called_once_with(text)
 
     def test_following_keys(self, Tester):
         text = "test"
-        fake_xpath = "//xpath"
-        fake_target = Target.the("fake").located_by(fake_xpath)
+        fake_target = Target.the("fake").located_by("//xpath")
 
         Tester.attempts_to(
             Enter.the_text(text).into_the(fake_target).then_hit(Keys.ENTER)
         )
 
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.to_find.assert_called_once_with(fake_target)
-        mocked_element = mocked_btw.to_find.return_value
+        mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+        mocked_element = mocked_browser.find_element.return_value
         assert mocked_element.send_keys.call_count == 2
         called_args, _ = mocked_element.send_keys.call_args_list[1]
         assert Keys.ENTER in called_args
@@ -211,18 +203,15 @@ class TestEnter:
 
 class TestEnter2FAToken:
     def test_calls_relevant_methods(self, Tester):
-        """Enter2FAToken calls .to_get_token(), .to_find(), and .send_keys()"""
         text = "test"
         mocked_2fa = Tester.ability_to(AuthenticateWith2FA)
         mocked_2fa.to_get_token.return_value = text
-        fake_xpath = "//xpath"
-        fake_target = Target.the("fake").located_by(fake_xpath)
+        fake_target = Target.the("fake").located_by("//xpath")
 
         Tester.attempts_to(Enter2FAToken.into_the(fake_target))
         mocked_2fa.to_get_token.assert_called_once()
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.to_find.assert_called_once_with(fake_target)
-        mocked_btw.to_find.return_value.send_keys.assert_called_once_with(text)
+        mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+        mocked_browser.find_element.return_value.send_keys.assert_called_once_with(text)
 
     @mock.patch("screenpy.actions.chain.ActionChains")
     def test_can_be_chained(self, MockedActionChains, Tester):
@@ -243,15 +232,15 @@ class TestEnter2FAToken:
 def test_go_back_uses_back(Tester):
     Tester.attempts_to(GoBack())
 
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.browser.back.assert_called_once()
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.back.assert_called_once()
 
 
 def test_go_forward_uses_forward(Tester):
     Tester.attempts_to(GoForward())
 
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.browser.forward.assert_called_once()
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.forward.assert_called_once()
 
 
 class TestHoldDown:
@@ -402,13 +391,10 @@ class TestSelectByIndex:
     @mock.patch("screenpy.actions.select.SeleniumSelect")
     def test_calls_select_by_index(self, mocked_selenium_select, Tester):
         index = 1
-        fake_xpath = "//xpath"
-        fake_target = Target.the("fake").located_by(fake_xpath)
+        fake_target = Target.the("fake").located_by("//xpath")
 
         Tester.attempts_to(Select.the_option_at_index(index).from_the(fake_target))
 
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.to_find.assert_called_once_with(fake_target)
         mocked_selenium_select.return_value.select_by_index.assert_called_once_with(
             str(index)
         )
@@ -422,13 +408,10 @@ class TestSelectByText:
     @mock.patch("screenpy.actions.select.SeleniumSelect")
     def test_calls_select_by_visible_text(self, mocked_selenium_select, Tester):
         text = "test"
-        fake_xpath = "//xpath"
-        fake_target = Target.the("fake").located_by(fake_xpath)
+        fake_target = Target.the("fake").located_by("//xpath")
 
         Tester.attempts_to(Select.the_option_named(text).from_the(fake_target))
 
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.to_find.assert_called_once_with(fake_target)
         mocked_select = mocked_selenium_select.return_value
         mocked_select.select_by_visible_text.assert_called_once_with(text)
 
@@ -441,13 +424,10 @@ class TestSelectByValue:
     @mock.patch("screenpy.actions.select.SeleniumSelect")
     def test_calls_select_by_value(self, mocked_selenium_select, Tester):
         value = 1337
-        fake_xpath = "//xpath"
-        fake_target = Target.the("fake").located_by(fake_xpath)
+        fake_target = Target.the("fake").located_by("//xpath")
 
         Tester.attempts_to(Select.the_option_with_value(value).from_the(fake_target))
 
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.to_find.assert_called_once_with(fake_target)
         mocked_selenium_select.return_value.select_by_value.assert_called_once_with(
             str(value)
         )
@@ -492,36 +472,24 @@ class TestSwitchTo:
 
         Tester.attempts_to(SwitchTo.the(mock_target))
 
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.browser.switch_to.frame.assert_called_once_with(mock_element)
+        mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+        mocked_browser.switch_to.frame.assert_called_once_with(mock_element)
 
     def test_switch_to_default_calls_default_content(self, Tester):
         Tester.attempts_to(SwitchTo.default())
 
-        mocked_btw = Tester.ability_to(BrowseTheWeb)
-        mocked_btw.browser.switch_to.default_content.assert_called_once()
+        mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+        mocked_browser.switch_to.default_content.assert_called_once()
 
 
 def test_switch_to_tab_calls_window(Tester):
     number = 3
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.browser.window_handles = range(number + 1)
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.window_handles = range(number + 1)
 
     Tester.attempts_to(SwitchToTab(number))
 
-    mocked_btw.browser.switch_to.window.assert_called_once_with(number - 1)
-
-
-def test_wait_calls_to_wait_for(Tester):
-    fake_xpath = "//xpath"
-    fake_target = Target.the("fake").located_by(fake_xpath)
-
-    Tester.attempts_to(Wait.for_the(fake_target).to_appear())
-
-    mocked_btw = Tester.ability_to(BrowseTheWeb)
-    mocked_btw.to_wait_for.assert_called_once_with(
-        fake_target, timeout=20, cond=EC.visibility_of_element_located
-    )
+    mocked_browser.switch_to.window.assert_called_once_with(number - 1)
 
 
 class TestSendAPIRequest:
@@ -553,3 +521,33 @@ class TestSendAPIRequest:
             )
 
         assert str(kwargs) not in caplog.text
+
+
+class TestWait:
+    @mock.patch("screenpy.actions.wait.EC")
+    @mock.patch("screenpy.actions.wait.WebDriverWait")
+    def test_defaults(self, mocked_webdriverwait, mocked_ec, Tester):
+        test_target = Target.the("foo").located_by("//bar")
+        mocked_ec.visibility_of_element_located.__name__ = "foo"
+
+        Tester.attempts_to(Wait.for_the(test_target))
+
+        mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+        mocked_webdriverwait.assert_called_once_with(mocked_browser, 20)
+        mocked_ec.visibility_of_element_located.assert_called_once_with(
+            test_target.get_locator()
+        )
+        mocked_webdriverwait.return_value.until.assert_called_once_with(
+            mocked_ec.visibility_of_element_located.return_value
+        )
+
+    @mock.patch("screenpy.actions.wait.WebDriverWait")
+    def test_custom(self, mocked_webdriverwait, Tester):
+        test_func = mock.Mock()
+        test_func.__name__ = "foo"
+
+        Tester.attempts_to(Wait().using(test_func))
+
+        mocked_webdriverwait.return_value.until.assert_called_once_with(
+            test_func.return_value
+        )

@@ -1,6 +1,8 @@
 import pytest
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 
+from screenpy.abilities import BrowseTheWeb
 from screenpy.target import Target, TargetingError
 
 
@@ -37,3 +39,41 @@ def test_located():
     target = Target.the("test").located(locator)
 
     assert target.get_locator() == locator
+
+
+def test_found_by(Tester):
+    test_locator = (By.ID, "eggs")
+    Target.the("test").located(test_locator).found_by(Tester)
+
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.find_element.assert_called_once_with(*test_locator)
+
+
+def test_found_by_raises(Tester):
+    test_name = "frobnosticator"
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.find_element.side_effect = WebDriverException
+
+    with pytest.raises(TargetingError) as excinfo:
+        Target.the(test_name).located_by("*").found_by(Tester)
+
+    assert test_name in str(excinfo.value)
+
+
+def test_all_found_by(Tester):
+    test_locator = (By.ID, "baked beans")
+    Target.the("test").located(test_locator).all_found_by(Tester)
+
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.find_elements.assert_called_once_with(*test_locator)
+
+
+def test_all_found_by_raises(Tester):
+    test_name = "transmogrifier"
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_browser.find_elements.side_effect = WebDriverException
+
+    with pytest.raises(TargetingError) as excinfo:
+        Target.the(test_name).located_by("*").all_found_by(Tester)
+
+    assert test_name in str(excinfo.value)
