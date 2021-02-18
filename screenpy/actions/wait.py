@@ -34,6 +34,10 @@ class Wait:
         the_actor.attempts_to(
             Wait(10).seconds_for_the(PARADE_FLOATS).to(float_on_by)
         )
+
+        the_actor.attempts_to(
+            Wait().using(cookies_to_contain).with_("delicious=true")
+        )
     """
 
     args: Iterable[Any]
