@@ -1,6 +1,18 @@
 Release History
 ===============
 
+3.0.1 (2020-02-18)
+
+### Improvements
+
+- **Wait** can do custom log messages again, to make the reports look nicer.
+
+### Bug Fixes
+
+- **Element** now catches the correct exception type, now that **Target**'s the one doing the finding.
+- **Wait** now formats its custom exception correctly.
+- What's a release without some same-day bug fixes, right?
+
 3.0.0 (2020-02-18)
 
 ### Breaking Changes
