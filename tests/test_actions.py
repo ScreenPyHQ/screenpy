@@ -494,3 +494,17 @@ class TestWait:
         assert isinstance(w2, Wait)
         assert isinstance(w3, Wait)
         assert isinstance(w4, Wait)
+
+    def test_default_log_message(self):
+        target_name = "spam"
+        w = Wait.for_the(Target.the(target_name).located_by("//eggs"))
+
+        assert "visibility_of_element_located" in w.log_message
+        assert target_name in w.log_message
+
+    def test_custom_log_message(self):
+        target_name = "baked"
+        args = [1, Target.the(target_name).located_by("//beans"), "and spam"]
+        w = Wait().using(mock.Mock(), "{0}, {1}, {2}").with_(*args)
+
+        assert all([str(arg) in w.log_message for arg in args])

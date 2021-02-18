@@ -7,7 +7,7 @@ from typing import Optional
 from selenium.webdriver.remote.webelement import WebElement
 
 from screenpy.actor import Actor
-from screenpy.exceptions import BrowsingError
+from screenpy.exceptions import TargetingError
 from screenpy.pacing import beat
 from screenpy.target import Target
 
@@ -28,7 +28,7 @@ class Element:
         """Direct the actor to find the element."""
         try:
             return self.target.found_by(the_actor)
-        except BrowsingError:
+        except TargetingError:
             return None
 
     def __init__(self, target: Target) -> None:

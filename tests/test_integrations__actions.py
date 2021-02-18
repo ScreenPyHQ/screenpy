@@ -3,7 +3,7 @@ from unittest import mock
 
 import pytest
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import WebDriverException
 
 from screenpy import Target
 from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequests
@@ -35,7 +35,7 @@ from screenpy.actions import (
     SwitchToTab,
     Wait,
 )
-from screenpy.exceptions import UnableToAct
+from screenpy.exceptions import DeliveryError, UnableToAct
 
 
 def test_accept_alert_calls_accept(Tester):
@@ -563,3 +563,15 @@ class TestWait:
         mocked_webdriverwait.return_value.until.assert_called_once_with(
             test_func.return_value
         )
+
+    @mock.patch("screenpy.actions.wait.EC")
+    @mock.patch("screenpy.actions.wait.WebDriverWait")
+    def test_exception(self, mocked_webdriverwait, mocked_ec, Tester):
+        test_target = Target.the("foo").located_by("//bar")
+        mocked_ec.visibility_of_element_located.__name__ = "foo"
+        mocked_webdriverwait.return_value.until.side_effect = WebDriverException
+
+        with pytest.raises(DeliveryError) as excinfo:
+            Tester.attempts_to(Wait.for_the(test_target))
+
+        assert str(test_target) in str(excinfo.value)

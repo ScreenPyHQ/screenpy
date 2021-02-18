@@ -38,6 +38,12 @@ class Wait:
         the_actor.attempts_to(
             Wait().using(cookies_to_contain).with_("delicious=true")
         )
+
+        the_actor.attempts_to(
+            Wait().using(
+                cookies_to_contain, "for a cookie that has {0}"
+            ).with_("delicious=true")
+        )
     """
 
     args: Iterable[Any]
@@ -56,42 +62,61 @@ class Wait:
 
     second_for = second_for_the = seconds_for = seconds_for_the
 
-    def using(self, strategy: Callable[..., Any]) -> "Wait":
+    def using(
+        self, strategy: Callable[..., Any], log_detail: Optional[str] = None
+    ) -> "Wait":
         """Use the given strategy to wait for the target.
 
         Args:
             strategy: the condition to use to wait. This can be one of
                 Selenium's Expected Conditions, or any custom Callable
                 that returns a boolean.
+            log_detail: a nicer-looking message to log than the default.
+                You can use {0}, {1}, etc. to reference specific arguments
+                passed into .with_() or .for_the().
         """
         self.condition = strategy
-        self.strategy_name = strategy.__name__
+        self.log_detail = log_detail
         return self
 
     to = seconds_using = using
-
-    def to_appear(self) -> "Wait":
-        """Use Selenium's "visibility of element located" strategy."""
-        return self.using(EC.visibility_of_element_located)
-
-    def to_be_clickable(self) -> "Wait":
-        """Use Selenium's "to be clickable" strategy."""
-        return self.using(EC.element_to_be_clickable)
-
-    def to_disappear(self) -> "Wait":
-        """Use Selenium's "invisibility of element located" strategy."""
-        return self.using(EC.invisibility_of_element_located)
-
-    def to_contain_text(self, text: str) -> "Wait":
-        """Use Selenium's "text to be present in element" strategy."""
-        return self.using(EC.text_to_be_present_in_element).with_(*self.args, text)
 
     def with_(self, *args: Any) -> "Wait":
         """Set the arguments to pass in to the wait condition."""
         self.args = args
         return self
 
-    @beat("{} waits using {strategy_name} with {args}...")
+    def to_appear(self) -> "Wait":
+        """Use Selenium's "visibility of element located" strategy."""
+        return self.using(
+            EC.visibility_of_element_located, "for the {0} to be visible..."
+        )
+
+    def to_be_clickable(self) -> "Wait":
+        """Use Selenium's "to be clickable" strategy."""
+        return self.using(EC.element_to_be_clickable, "for the {0} to be clickable...")
+
+    def to_disappear(self) -> "Wait":
+        """Use Selenium's "invisibility of element located" strategy."""
+        return self.using(
+            EC.invisibility_of_element_located, "for the {0} to disappear..."
+        )
+
+    def to_contain_text(self, text: str) -> "Wait":
+        """Use Selenium's "text to be present in element" strategy."""
+        return self.using(
+            EC.text_to_be_present_in_element, 'for "{1}" to appear in the {0}...'
+        ).with_(*self.args, text)
+
+    @property
+    def log_message(self) -> str:
+        """Format the nice log message, or give back the default."""
+        if self.log_detail is None:
+            return f"using {self.condition.__name__} with {self.args}"
+
+        return self.log_detail.format(*self.args)
+
+    @beat("{} waits {log_message}...")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to wait for the condition to be satisfied."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
@@ -106,8 +131,8 @@ class Wait:
             WebDriverWait(browser, self.timeout).until(self.condition(*args))
         except WebDriverException as e:
             msg = (
-                f"Encountered an exception using {self.strategy_name} with "
-                f"[{', '.join(self.args)}]: {e.__class__.__name__}"
+                f"Encountered an exception using {self.condition.__name__} with "
+                f"[{', '.join(map(str, self.args))}]: {e.__class__.__name__}"
             )
             raise DeliveryError(msg) from e
 
@@ -115,4 +140,4 @@ class Wait:
         self.args = args if args is not None else []
         self.timeout = seconds
         self.condition = EC.visibility_of_element_located
-        self.strategy_name = self.condition.__name__
+        self.log_detail = None

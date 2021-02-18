@@ -2,10 +2,11 @@ from json.decoder import JSONDecodeError
 from unittest import mock
 
 import pytest
+from selenium.common.exceptions import WebDriverException
 
 from screenpy import AnActor, Target
 from screenpy.abilities import MakeAPIRequests
-from screenpy.abilities.browse_the_web import BrowsingError
+from screenpy.abilities.browse_the_web import BrowseTheWeb
 from screenpy.exceptions import UnableToAnswer
 from screenpy.questions import (
     BodyOfTheLastResponse,
@@ -117,10 +118,10 @@ class TestElement:
         assert isinstance(e, Element)
 
     def test_question_returns_none_if_no_element_found(self, Tester):
-        mock_target = mock.Mock(spec=Target)
-        mock_target.found_by.side_effect = BrowsingError()
+        mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+        mocked_browser.find_element.side_effect = WebDriverException
 
-        element = Element(mock_target).answered_by(Tester)
+        element = Element(Target.the("foo").located_by("//bar")).answered_by(Tester)
 
         assert element is None
 
