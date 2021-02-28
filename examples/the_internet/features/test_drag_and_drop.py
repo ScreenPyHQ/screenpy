@@ -3,7 +3,6 @@ An example of a test module that follows the typical unittest.TestCase test
 structure. These tests exercise the actions to perform drag and drop.
 """
 
-
 import unittest
 
 from screenpy import AnActor, given, then, when
@@ -25,7 +24,7 @@ class TestDragAndDrop(unittest.TestCase):
     Shows how to do a drag-and-drop action.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
 
     @act("Chain")
@@ -33,7 +32,7 @@ class TestDragAndDrop(unittest.TestCase):
     @scene("MoveMouse")
     @scene("Release")
     @unittest.expectedFailure
-    def test_drag_and_drop(self):
+    def test_drag_and_drop(self) -> None:
         """
         User is able to drag and drop.
 
@@ -54,5 +53,5 @@ class TestDragAndDrop(unittest.TestCase):
             (Text.of_the(FIRST_DRAGGABLE_BOX), ReadsExactly("B"))
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.actor.exit()

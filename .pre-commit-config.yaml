@@ -22,7 +22,6 @@ repos:
   - id: mypy
     language_version: python3.9
     additional_dependencies: ["PyHamcrest>=2.0.0,<2.1", "pytest>=5.4.0,<5.5", "allure-pytest>=2.8.0,<2.9", "selenium>=3.141.0,<3.142", "pyotp>=2.3.0,<2.4.0"]
-    files: ^screenpy/
 - repo: local
   hooks:
   - id: pylint

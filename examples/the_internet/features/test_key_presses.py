@@ -3,10 +3,11 @@ An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the Wait and Enter actions.
 """
 
-
 import unittest
+from typing import Callable, Tuple
 
-from selenium.webdriver import Firefox
+from selenium.webdriver import Firefox, Remote
+from selenium.webdriver.common.by import By
 
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
@@ -23,12 +24,12 @@ class TestKeyPresses(unittest.TestCase):
     Flexes Waiting with various strategies.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
 
     @act("Perform")
     @scene("Wait for text")
-    def test_wait_for_text(self):
+    def test_wait_for_text(self) -> None:
         """Can select an option from a dropdown by text."""
         test_text = "H"
         Perry = self.actor
@@ -44,15 +45,17 @@ class TestKeyPresses(unittest.TestCase):
 
     @act("Perform")
     @scene("Wait with custom")
-    def test_wait_with_custom(self):
+    def test_wait_with_custom(self) -> None:
         """Can wait using a contrived custom wait function."""
         test_text = "H"
         Perry = self.actor
 
-        def text_to_have_all(locator, preamble, body, suffix):
-            """Very contrived custom condition."""
+        def text_to_have_all(
+            locator: Tuple[By, str], preamble: str, body: str, suffix: str
+        ) -> Callable:
+            """A very contrived custom condition."""
 
-            def _predicate(driver):
+            def _predicate(driver: Remote) -> bool:
                 element = driver.find_element(*locator)
                 return f"{preamble} {body} {suffix}" in element.text
 
@@ -69,5 +72,5 @@ class TestKeyPresses(unittest.TestCase):
             (Text.of_the(RESULT_TEXT), ReadsExactly(f"You entered: {test_text}"))
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.actor.exit_stage_right()

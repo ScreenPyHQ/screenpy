@@ -3,7 +3,6 @@ An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the alert checking actions.
 """
 
-
 import unittest
 
 from screenpy import AnActor, given, then, when
@@ -28,12 +27,12 @@ class TestAlerts(unittest.TestCase):
     well as the TextOfTheAlert question.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
 
     @act("Perform")
     @scene("TextOfTheAlert")
-    def test_inspect_alert(self):
+    def test_inspect_alert(self) -> None:
         """User can read the text of the alert."""
         Perry = self.actor
 
@@ -43,7 +42,7 @@ class TestAlerts(unittest.TestCase):
 
     @act("Perform")
     @scene("AcceptAlert")
-    def test_accept_alert(self):
+    def test_accept_alert(self) -> None:
         """User can accept an alert."""
         Perry = self.actor
 
@@ -57,7 +56,7 @@ class TestAlerts(unittest.TestCase):
 
     @act("Perform")
     @scene("DismissAlert")
-    def test_dismiss_alert(self):
+    def test_dismiss_alert(self) -> None:
         """User can dismiss an alert."""
         Perry = self.actor
 
@@ -71,7 +70,7 @@ class TestAlerts(unittest.TestCase):
 
     @act("Perform")
     @scene("RespondToPrompt")
-    def test_respond_to_prompt(self):
+    def test_respond_to_prompt(self) -> None:
         """User can enter text into a prompt."""
         Perry = self.actor
         test_text = "Hello! I am responding to this prompt."
@@ -84,5 +83,5 @@ class TestAlerts(unittest.TestCase):
             (Text.of_the(RESULT_MESSAGE), ReadsExactly(f"You entered: {test_text}"))
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.actor.exit()

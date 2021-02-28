@@ -36,5 +36,5 @@ class SearchGitHub:
             Wait.for_the(RESULTS_MESSAGE),
         )
 
-    def __init__(self, search_query):
+    def __init__(self, search_query: str) -> None:
         self.search_query = search_query

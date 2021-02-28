@@ -3,7 +3,6 @@ An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the SwitchToTab action.
 """
 
-
 import unittest
 
 from screenpy import AnActor, given, then, when
@@ -21,12 +20,12 @@ class TestTabs(unittest.TestCase):
     Flexes the SwitchToTab action.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
 
     @act("Perform")
     @scene("SwitchToTab")
-    def test_switch_to_new_tab(self):
+    def test_switch_to_new_tab(self) -> None:
         """User is able to switch to a new tab."""
         Perry = self.actor
 
@@ -41,5 +40,5 @@ class TestTabs(unittest.TestCase):
             (Text.of_the(HEADER_MESSAGE), ReadsExactly("New Window")),
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.actor.exit()

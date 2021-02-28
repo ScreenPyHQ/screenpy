@@ -3,7 +3,6 @@ An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the selecting actions.
 """
 
-
 import unittest
 
 from selenium.webdriver import Firefox
@@ -23,12 +22,12 @@ class TestDropdowns(unittest.TestCase):
     Flexes each selection strategy to select an option from a dropdown.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
 
     @act("Perform")
     @scene("Select by text")
-    def test_select_by_text(self):
+    def test_select_by_text(self) -> None:
         """Can select an option from a dropdown by text."""
         Perry = self.actor
 
@@ -40,7 +39,7 @@ class TestDropdowns(unittest.TestCase):
 
     @act("Perform")
     @scene("Select by index")
-    def test_select_by_index(self):
+    def test_select_by_index(self) -> None:
         """Can select an option from a dropdown by index."""
         Perry = self.actor
 
@@ -52,15 +51,15 @@ class TestDropdowns(unittest.TestCase):
 
     @act("Perform")
     @scene("Select by value")
-    def test_select_by_value(self):
+    def test_select_by_value(self) -> None:
         """Can select an option from a dropdown by value."""
         Perry = self.actor
 
         given(Perry).was_able_to(Open.their_browser_on(URL))
-        when(Perry).attempts_to(Select.the_option_with_value(2).from_(THE_DROPDOWN))
+        when(Perry).attempts_to(Select.the_option_with_value("2").from_(THE_DROPDOWN))
         then(Perry).should_see_the(
             (Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 2"))
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.actor.exit_stage_right()

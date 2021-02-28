@@ -3,7 +3,6 @@ An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the clicking and waiting actions.
 """
 
-
 import random
 import unittest
 
@@ -24,12 +23,12 @@ class TestAddRemoveElements(unittest.TestCase):
     Flexes the Add and Remove Elements page of http://the-internet.herokuapp.com/
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.actor = AnActor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
 
     @act("Perform")
     @scene("Click")
-    def test_add_one_element(self):
+    def test_add_one_element(self) -> None:
         """User is able to add one element."""
         Perry = self.actor
 
@@ -39,7 +38,7 @@ class TestAddRemoveElements(unittest.TestCase):
 
     @act("Perform")
     @scene("Click")
-    def test_add_many_elements(self):
+    def test_add_many_elements(self) -> None:
         """
         User is able to add many elements. This test chooses a random
         number of elements to add, just to show off how to do that, if you
@@ -58,7 +57,7 @@ class TestAddRemoveElements(unittest.TestCase):
 
     @act("Perform")
     @scene("Click")
-    def test_remove_element(self):
+    def test_remove_element(self) -> None:
         """User is able to remove an element that was added."""
         Perry = self.actor
 
@@ -70,5 +69,5 @@ class TestAddRemoveElements(unittest.TestCase):
         when(Perry).attempts_to(Click.on_the(ADDED_ELEMENTS))
         then(Perry).should_see_the((Number.of(ADDED_ELEMENTS), IsEqualTo(0)))
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.actor.exit_stage_left()

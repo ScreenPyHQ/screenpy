@@ -2,7 +2,7 @@
 API test example that tests cookies.
 """
 
-from screenpy import then, when
+from screenpy import Actor, then, when
 from screenpy.actions import SendGETRequest
 from screenpy.questions import Cookies, StatusCodeOfTheLastResponse
 from screenpy.resolutions import ContainTheEntry, IsEqualTo
@@ -10,7 +10,7 @@ from screenpy.resolutions import ContainTheEntry, IsEqualTo
 from ..urls import SET_COOKIES_URL
 
 
-def test_set_cookies(Perry):
+def test_set_cookies(Perry: Actor) -> None:
     """Cookies set by the set cookies endpoint appear on the session."""
     test_cookie = {"type": "macaroon"}
 

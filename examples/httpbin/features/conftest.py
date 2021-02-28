@@ -2,6 +2,7 @@
 Fixtures for API testing.
 """
 
+from typing import Generator
 
 import pytest
 
@@ -10,7 +11,7 @@ from screenpy.abilities import MakeAPIRequests
 
 
 @pytest.fixture
-def Perry():
+def Perry() -> Generator:
     """An actor who can make API requests."""
     the_actor = AnActor.named("Perry").who_can(MakeAPIRequests())
     yield the_actor
