@@ -8,10 +8,9 @@ implements ``answered_by`` is a Question, etc. For more information, see
 https://mypy.readthedocs.io/en/stable/protocols.html
 """
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Protocol
 
 from selenium.webdriver.common.action_chains import ActionChains
-from typing_extensions import Protocol
 
 if TYPE_CHECKING:
     from .actor import Actor

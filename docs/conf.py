@@ -17,7 +17,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath("../"))
 
-autodoc_mock_imports = ["hamcrest", "allure", "pyotp", "typing_extensions"]
+autodoc_mock_imports = ["hamcrest", "allure", "pyotp"]
 
 # -- Project information -----------------------------------------------------
 
