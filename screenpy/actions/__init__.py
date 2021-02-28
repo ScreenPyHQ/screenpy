@@ -4,6 +4,8 @@ Ask your actors to perform actions by passing the actions into their
 |Actor.was_able_to| or |Actor.attempts_to| method.
 """
 
+from typing import Protocol, Type
+
 from .accept_alert import AcceptAlert
 from .add_header import AddHeader
 from .chain import Chain
@@ -43,7 +45,16 @@ SwitchToWindow = SwitchToTab
 Visit = Open
 
 
-def generate_send_method_class(method: str) -> object:
+class APIMethodAction(Protocol):
+    """Describes the available methods for a SendMETHODRequest action."""
+
+    @staticmethod
+    def to(url: str) -> SendAPIRequest:
+        """Set the URL this request will be sent to."""
+        ...
+
+
+def generate_send_method_class(method: str) -> Type[APIMethodAction]:
     """
     Generates a class for a specific HTTP method call.
     """
@@ -52,7 +63,7 @@ def generate_send_method_class(method: str) -> object:
         "Will be programmatically replaced."
 
         @staticmethod
-        def to(url: str) -> "SendAPIRequest":
+        def to(url: str) -> SendAPIRequest:
             "Will be programmatically replaced."
             return SendAPIRequest(method, url)
 
