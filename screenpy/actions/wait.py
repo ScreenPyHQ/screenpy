@@ -88,9 +88,7 @@ class Wait:
 
     def to_appear(self) -> "Wait":
         """Use Selenium's "visibility of element located" strategy."""
-        return self.using(
-            EC.visibility_of_element_located, "for the {0} to be visible..."
-        )
+        return self.using(EC.visibility_of_element_located, "for the {0} to appear...")
 
     def to_be_clickable(self) -> "Wait":
         """Use Selenium's "to be clickable" strategy."""
@@ -116,7 +114,7 @@ class Wait:
 
         return self.log_detail.format(*self.args)
 
-    @beat("{} waits {log_message}...")
+    @beat("{} waits {timeout} seconds {log_message}")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to wait for the condition to be satisfied."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
