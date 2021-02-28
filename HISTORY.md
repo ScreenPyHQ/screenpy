@@ -1,7 +1,20 @@
 Release History
 ===============
 
+3.0.2 (2020-02-28)
+------------------
+
+### Improvements
+
+- **Wait** now only puts *one* "..." at the end of its messages. :eye_roll:
+- `mypy` will now be looking at the `examples/` directory as well, so it can catch errors like...
+
+### Bugfixes
+
+- `mypy` should no longer complain whenever you use any of the **SendMETHODRequest** API request actions (e.g. **SendGETRequest**, **SendPOSTRequest**, etc.).
+
 3.0.1 (2020-02-18)
+------------------
 
 ### Improvements
 
@@ -14,6 +27,7 @@ Release History
 - What's a release without some same-day bug fixes, right?
 
 3.0.0 (2020-02-18)
+------------------
 
 ### Breaking Changes
 
