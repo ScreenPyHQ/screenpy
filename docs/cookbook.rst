@@ -82,8 +82,12 @@ which does not use a Target::
 
         return _predicate
 
-    #                     ⇩ note the parens here
-    Perry.attempts_to(Wait().using(url_to_contain_text).with_("hello", 20)
+    Perry.attempts_to(
+        #   ⇩ note the parentheses here
+        Wait().using(
+            url_to_contain_text_and_be_at_least_this_long
+        ).with_("hello", 20)
+    )
 
 
 Debugging

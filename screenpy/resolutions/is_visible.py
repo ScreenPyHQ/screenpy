@@ -1,5 +1,5 @@
 """
-A resolution that matches against the a visible element.
+A resolution that matches against a visible WebElement.
 """
 
 from typing import Optional
