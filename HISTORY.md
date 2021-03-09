@@ -1,6 +1,13 @@
 Release History
 ===============
 
+3.0.4 (2020-03-09)
+------------------
+
+### Bug Fixes
+
+- Missed a `from typing import Protocol`, that's fixed now. Woops!
+
 3.0.3 (2020-03-09)
 ------------------
 
