@@ -1,6 +1,18 @@
 Release History
 ===============
 
+3.0.3 (2020-03-09)
+------------------
+
+### Improvements
+
+- (h/t @bandophahita) CLI logging now has indentation levels to help show which statements are encapsulated by questions, tasks, actions, etc.!
+- Reverted the `Protocol` import from `typing` back to `typing_extensions` for better compatibility. This will be revisited when Python 4 is released, probably.
+
+### New Features
+
+- (h/t @bandophahita) New **IsClickable** resolution to check if an element is clickable!
+
 3.0.2 (2020-02-28)
 ------------------
 
