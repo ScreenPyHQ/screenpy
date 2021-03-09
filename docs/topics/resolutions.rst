@@ -116,6 +116,11 @@ HasLength
 
 .. autoclass:: HasLength
 
+IsClickable
+^^^^^^^^^^^
+
+.. autoclass:: IsClickable
+
 IsEmpty
 ^^^^^^^
 

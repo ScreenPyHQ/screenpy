@@ -12,6 +12,7 @@ from screenpy.resolutions import (
     Empty,
     Equal,
     HasLength,
+    IsClickable,
     IsEqualTo,
     IsNot,
     IsVisible,
@@ -137,6 +138,32 @@ class TestHasLength:
 
         assert hl.matches([1, 2, 3, 4, 5])
         assert not hl.matches([1])
+
+
+class TestIsClickable:
+    def test_can_be_instantiated(self):
+        ic = IsClickable()
+
+        assert isinstance(ic, IsClickable)
+
+    def test_the_test(self):
+        """Matches elements which are visible"""
+        mock_clickable_element = mock.Mock()
+        mock_clickable_element.is_displayed.return_value = True
+        mock_clickable_element.is_enabled.return_value = True
+
+        mock_unclickable_element = mock.Mock()
+        mock_unclickable_element.is_displayed.return_value = True
+        mock_unclickable_element.is_enabled.return_value = False
+
+        mock_invisible_element = mock.Mock()
+        mock_invisible_element.is_displayed.return_value = False
+        mock_invisible_element.is_enabled.return_value = True
+        ic = IsClickable()
+
+        assert ic.matches(mock_clickable_element)
+        assert not ic.matches(mock_unclickable_element)
+        assert not ic.matches(mock_invisible_element)
 
 
 class TestIsEqualTo:

@@ -15,6 +15,7 @@ from .contains_the_key import ContainsTheKey
 from .contains_the_text import ContainsTheText
 from .contains_the_value import ContainsTheValue
 from .has_length import HasLength
+from .is_clickable import IsClickable
 from .is_empty import IsEmpty
 from .is_equal_to import IsEqualTo
 from .is_not import IsNot
@@ -29,6 +30,7 @@ ContainTheText = ContainsTheText
 ContainTheValue = ContainsTheValue
 DoesNot = DoNot = IsNot
 Empty = IsEmpty
+IsEnabled = Enabled = Clickable = IsClickable
 IsDisplayed = Displayed = Visible = IsVisible
 IsEqual = Equals = Equal = EqualTo = IsEqualTo
 ReadExactly = ReadsExactly
@@ -36,6 +38,7 @@ ReadExactly = ReadsExactly
 
 __all__ = [
     "BaseResolution",
+    "Clickable",
     "ContainsTheEntries",
     "ContainsTheEntry",
     "ContainsTheItem",
@@ -52,12 +55,15 @@ __all__ = [
     "DoesNot",
     "DoNot",
     "Empty",
+    "Enabled",
     "Equal",
     "Equals",
     "EqualTo",
     "HasLength",
+    "IsClickable",
     "IsDisplayed",
     "IsEmpty",
+    "IsEnabled",
     "IsEqual",
     "IsEqualTo",
     "IsNot",
