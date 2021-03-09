@@ -4,7 +4,9 @@ Ask your actors to perform actions by passing the actions into their
 |Actor.was_able_to| or |Actor.attempts_to| method.
 """
 
-from typing import Protocol, Type
+from typing import Type
+
+from typing_extensions import Protocol
 
 from .accept_alert import AcceptAlert
 from .add_header import AddHeader
