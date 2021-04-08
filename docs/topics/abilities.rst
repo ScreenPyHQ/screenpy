@@ -52,12 +52,11 @@ besides the ones
 contained herein.
 ScreenPy encourages you to write your own!
 
-Abilities must be ``Forgettable``,
-which means they must have a ``forget`` method.
+Abilities must be :class:`~screenpy.protocols.Forgettable`,
+which means they must have a :meth:`~screenpy.protocols.Forgettable.forget` method.
 This method performs any necessary cleanup,
 such as closing connections
 or deleting objects.
-See the :ref:`protocols` page for more information.
 
 .. _checkspelling:
 

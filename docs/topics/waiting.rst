@@ -18,12 +18,12 @@ for more information.
 Explicit Waits
 --------------
 
-ScreenPy provides a |Wait| action
+ScreenPy provides a :class:`~screenpy.actions.Wait` action
 to wait for the application
 to meet a certain condition.
 Wait provides direct methods
 for many common conditions,
-such as |Wait.to_appear|.
+such as :meth:`~screenpy.actions.Wait.to_appear`.
 You are also able to pass in any other condition,
 including custom ones,
 if those don't suit your needs.

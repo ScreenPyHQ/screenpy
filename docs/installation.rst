@@ -13,11 +13,11 @@ This will also install
 the ``screenpy-quickstart`` script
 and the following dependencies:
 
-1. |Selenium|
+1. `Selenium <https://selenium-python.readthedocs.io/>`__
 2. |PyHamcrest|
-3. |Allure|'s pytest plugin
-4. |pytest|
-5. |PyOTP|
+3. `Allure <https://docs.qameta.io/allure/>`__'s pytest plugin
+4. `pytest <https://docs.pytest.org/en/latest/>`__
+5. `PyOTP <https://pyotp.readthedocs.io/en/latest/>`__
 
 You will also need a |WebDriver|
 to connect your code to the browser.

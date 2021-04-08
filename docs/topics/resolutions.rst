@@ -26,8 +26,8 @@ accepts that pair to make an assertion::
 
 
 The actor will then compare
-the value returned by |Text|
-to the value passed in to |ReadsExactly|.
+the value returned by :class:`~screenpy.questions.Text`
+to the value passed in to :class:`~screenpy.resolutions.ReadsExactly`.
 If the two values match,
 bravo!
 Our test passes.
@@ -42,7 +42,7 @@ Resolutions are an abstraction barrier
 for the excellent |PyHamcrest| library.
 To add a custom resolutions,
 you will need to inherit
-from the |BaseResolution| class.
+from the :class:`~screenpy.resolutions.base_resolution.BaseResolution` class.
 All you need to provide
 in your custom resolution
 is a ``line`` class property

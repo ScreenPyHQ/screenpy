@@ -54,10 +54,8 @@ Writing New Questions
 It is very likely
 that you will want to write
 some custom questions.
-Questions must be ``Answerable``,
-which means they have an ``answered_by`` method.
-For more information,
-refer to the :ref:`protocols` page.
+Questions must be :class:`~screenpy.protocols.Answerable`,
+which means they have an :meth:`~screenpy.protocols.Answerable.answered_by` method.
 
 Let's take a look
 at what an extremely contrived custom question,
