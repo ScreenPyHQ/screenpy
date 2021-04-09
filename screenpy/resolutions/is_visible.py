@@ -2,10 +2,6 @@
 A resolution that matches against a visible WebElement.
 """
 
-from typing import Optional
-
-from hamcrest.core.base_matcher import Matcher
-
 from .base_resolution import BaseResolution
 from .custom_matchers import is_visible_element
 
@@ -18,10 +14,8 @@ class IsVisible(BaseResolution):
         the_actor.should_see_the((Element(WELCOME_BANNER), IsVisible()))
     """
 
-    expected: object
-    matcher: Matcher[Optional[object]]
-
     line = "visible"
+    matcher_function = is_visible_element
 
     def __init__(self) -> None:
         self.expected = True

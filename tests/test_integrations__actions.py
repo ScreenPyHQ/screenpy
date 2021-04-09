@@ -5,7 +5,7 @@ import pytest
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
 
-from screenpy import Target
+from screenpy import Director, Target
 from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequests
 from screenpy.actions import (
     AcceptAlert,
@@ -21,6 +21,7 @@ from screenpy.actions import (
     GoBack,
     GoForward,
     HoldDown,
+    MakeNote,
     MoveMouse,
     Open,
     Pause,
@@ -267,6 +268,29 @@ class TestHoldDown:
         Tester.attempts_to(Chain(HoldDown.left_mouse_button()))
 
         MockedActionChains().click_and_hold.assert_called_once()
+
+
+class TestMakeNote:
+    def test_answers_question(self, Tester):
+        MockQuestion = mock.Mock()
+
+        Tester.attempts_to(MakeNote.of_the(MockQuestion).as_("test"))
+
+        assert MockQuestion.answered_by.called_once_with(Tester)
+
+    def test_raises_without_key(self, Tester):
+        with pytest.raises(UnableToAct):
+            Tester.attempts_to(MakeNote.of_the(None))
+
+    def test_adds_note_to_director(self, Tester):
+        key = "key"
+        value = "note"
+        MockQuestion = mock.Mock()
+        MockQuestion.answered_by.return_value = value
+
+        Tester.attempts_to(MakeNote.of_the(MockQuestion).as_(key))
+
+        assert Director().looks_up(key) == value
 
 
 class TestMoveMouse:

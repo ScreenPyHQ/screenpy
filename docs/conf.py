@@ -60,6 +60,7 @@ source_suffix = ".rst"
 rst_prolog = """.. Internal references
 .. .. Docs Pages
 .. |wait strategies| replace:: :ref:`waiting`
+.. |direction| replace:: :ref:`direction<directions>`
 
 .. .. Exceptions
 .. |DeliveryError| replace:: :class:`~screenpy.exceptions.DeliveryError`
@@ -167,9 +168,9 @@ rst_prolog = """.. Internal references
 .. |Number.of| replace:: :meth:`~screenpy.questions.number.Number.of`
 .. |Number| replace:: :class:`~screenpy.questions.number.Number`
 .. |Question| replace:: :ref:`questions`
-.. |Selected.answered_by| replace:: :class:`~screenpy.questions.selected.Selected.answered_by`
-.. |Selected.option_from| replace:: :class:`~screenpy.questions.selected.Selected.option_from`
-.. |Selected.options_from| replace:: :class:`~screenpy.questions.selected.Selected.option_from`
+.. |Selected.answered_by| replace:: :meth:`~screenpy.questions.selected.Selected.answered_by`
+.. |Selected.option_from| replace:: :meth:`~screenpy.questions.selected.Selected.option_from`
+.. |Selected.options_from| replace:: :meth:`~screenpy.questions.selected.Selected.option_from`
 .. |Selected| replace:: :class:`~screenpy.questions.selected.Selected`
 .. |Text.answered_by| replace:: :meth:`~screenpy.questions.text.Text.answered_by`
 .. |Text.of_all| replace:: :meth:`~screenpy.questions.text.Text.of_all`
@@ -340,5 +341,5 @@ epub_exclude_files = ["search.html"]
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/", None),
+    "python": ("https://docs.python.org/3/", None),
 }

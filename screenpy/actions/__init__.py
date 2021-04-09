@@ -21,6 +21,7 @@ from .enter_2fa_token import Enter2FAToken
 from .go_back import GoBack
 from .go_forward import GoForward
 from .hold_down import HoldDown
+from .make_note import MakeNote
 from .move_mouse import MoveMouse
 from .open import Open
 from .pause import Pause
@@ -44,6 +45,7 @@ Refresh = Reload = ReloadPage = RefreshPage
 RespondToPrompt = RespondToThePrompt
 Sleep = Pause
 SwitchToWindow = SwitchToTab
+TakeNote = MakeNote
 Visit = Open
 
 

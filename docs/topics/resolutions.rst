@@ -46,7 +46,7 @@ from the |BaseResolution| class.
 All you need to provide
 in your custom resolution
 is a ``line`` class property
-and an ``__init__`` method.
+and a set ``matcher_function``.
 
 
 The ``line`` is a string
@@ -55,9 +55,15 @@ This line appears in the log.
 You can use ``{expectation}`` here
 to reference the value passed in.
 
-The ``__init__`` method
-sets the ``expected`` value
-and instantiates a PyHamcrest matcher.
+The ``matcher_function``
+is either one of |PyHamcrest|'s matchers
+or a custom one
+that you have written.
+
+It may be necessary
+to overwrite the ``__init__`` function
+to properly apply the expected arguments
+to the matcher.
 
 For several examples,
 see the source code

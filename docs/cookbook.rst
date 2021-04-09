@@ -42,6 +42,25 @@ anywhere you may need to::
         (Text.of_the(TODO_LIST), DoesNot(ReadExactly(empty_todo_list_text))
     )
 
+Using MakeNote
+^^^^^^^^^^^^^^
+
+You can also retrieve initial answers
+with the :class:`~screenpy.actions.MakeNote` class,
+and retrieve the value
+with a |direction|::
+
+    when(Perry).attempts_to(
+        Visit(URL),
+        MakeNote.of(TheText.of_the(TODO_LIST)).as_("empty todo list"),
+        AddTodoListItem("Wash the fish"),
+    )
+
+    then(Perry).should_see_the(
+        (Text.of_the(TODO_LIST), DoesNot(ReadExactly(the_noted("empty todo list")))
+    )
+
+
 Waiting
 -------
 

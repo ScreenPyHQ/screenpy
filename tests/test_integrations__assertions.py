@@ -3,8 +3,9 @@ from unittest import mock
 import pytest
 from requests.cookies import RequestsCookieJar
 
-from screenpy import Target
+from screenpy import Director, Target
 from screenpy.abilities import BrowseTheWeb, MakeAPIRequests
+from screenpy.directions import the_noted
 from screenpy.questions import (
     BodyOfTheLastResponse,
     BrowserTitle,
@@ -295,3 +296,18 @@ def test_should_see_any_of_none_are_true(Tester):
             (Text.of_the(fake_target), ReadsExactly("egg, bacon, sausage, and spam")),
             (Text.of_the(fake_target), ReadsExactly("spam, bacon, sausage, and spam")),
         )
+
+
+def test_noted_value(Tester):
+    key = "menu"
+    value = "spam and eggs"
+    fake_target = Target.the("fake").located_by("//xpath")
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_element = mock.Mock()
+    mocked_element.text = value
+    mocked_browser.find_element.return_value = mocked_element
+    Director().notes(key, value)
+
+    Tester.should_see_the(
+        (Text.of_the(fake_target), ReadsExactly(the_noted(key)))
+    )

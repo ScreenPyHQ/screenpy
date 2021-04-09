@@ -20,5 +20,6 @@ to make curtain call!
    topics/chaining
    topics/questions
    topics/resolutions
+   topics/director
    topics/waiting
    topics/protocols

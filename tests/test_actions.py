@@ -16,6 +16,7 @@ from screenpy.actions import (
     GoBack,
     GoForward,
     HoldDown,
+    MakeNote,
     MoveMouse,
     Open,
     Pause,
@@ -212,6 +213,26 @@ class TestHoldDown:
         assert hd1.description == "LEFT MOUSE BUTTON"
         assert hd2.description == "ALT"
         assert hd3.description == "SHIFT"
+
+
+class TestMakeNote:
+    def test_can_be_instantiated(self):
+        mn1 = MakeNote(None)
+        mn2 = MakeNote.of_the(None)
+        mn3 = MakeNote.of_the(None).as_("")
+
+        assert isinstance(mn1, MakeNote)
+        assert isinstance(mn2, MakeNote)
+        assert isinstance(mn3, MakeNote)
+
+    def test_key_value_set(self):
+        test_question = "Do I feel lucky?"
+        test_key = "Well, do you, punk?"
+
+        mn = MakeNote.of_the(test_question).as_(test_key)
+
+        assert mn.question == test_question
+        assert mn.key == test_key
 
 
 class TestMoveMouse:

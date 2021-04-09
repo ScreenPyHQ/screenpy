@@ -40,7 +40,7 @@ class AddHeader:
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to add the given headers to their session."""
         if not self.secret:
-            aside(f"... the headers are:\n{self.headers}")
+            aside(f"... the headers are: {self.headers}")
         session = the_actor.ability_to(MakeAPIRequests).session
         session.headers.update(self.headers)
 

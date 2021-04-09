@@ -12,7 +12,7 @@ with a question to get the actual value. An assertion might look like:
     )
 """
 
-from typing import TypeVar
+from typing import Any, Callable, TypeVar
 
 from hamcrest.core.base_matcher import BaseMatcher, Matcher
 from hamcrest.core.description import Description
@@ -34,7 +34,8 @@ class BaseResolution(BaseMatcher[T]):
     """
 
     matcher: Matcher
-    expected: object
+    matcher_function: Callable
+    expected: Any
     line = (
         "-- I'm sorry, this resolution did not provide a line. Please define a more "
         "descriptive line for this custom resolution such that it completes the "
@@ -58,18 +59,27 @@ class BaseResolution(BaseMatcher[T]):
 
     def get_line(self) -> str:
         """Get the line that describes this resolution."""
-        return self.line.format(expectation=self.expected)
+        return self.line.format(expectation=str(self.expected))
 
     @property
     def motivation(self) -> str:
         """Used to provide fancy logging for the allure report."""
         return self.get_line()
 
-    def __init__(self) -> None:
-        raise NotImplementedError(
-            "Resolutions must implement their own __init__ method. Please implement "
-            f"this method for the custom '{self.__class__.__name__}' Resolution."
-        )
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        cls = self.__class__
+        if args and kwargs:
+            self.expected = (args, kwargs)
+            self.matcher = cls.matcher_function(*args, **kwargs)
+        elif args:
+            self.expected = args if len(args) > 1 else args[0]
+            self.matcher = cls.matcher_function(*args)
+        elif kwargs:
+            self.expected = kwargs
+            self.matcher = cls.matcher_function(**kwargs)
+        else:
+            self.expected = None
+            self.matcher = cls.matcher_function()
 
     def __repr__(self) -> str:
         return self.get_line()

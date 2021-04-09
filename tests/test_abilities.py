@@ -3,7 +3,11 @@ from unittest import mock
 
 import pytest
 
-from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequests
+from screenpy.abilities import (
+    AuthenticateWith2FA,
+    BrowseTheWeb,
+    MakeAPIRequests,
+)
 from screenpy.exceptions import BrowsingError, RequestError
 
 

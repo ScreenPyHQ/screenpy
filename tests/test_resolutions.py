@@ -20,15 +20,28 @@ from screenpy.resolutions import (
 )
 
 
-class TestBaseAbility:
-    def test___init___must_be_overridden(self):
-        """__init__ must be overridden by subclasses."""
+class MockResolution(BaseResolution):
+    matcher_function = mock.Mock()
 
-        class SubclassedResolution(BaseResolution):
-            pass
 
-        with pytest.raises(NotImplementedError):
-            SubclassedResolution()
+class TestBaseResolution:
+
+    @pytest.mark.parametrize(
+        "args,kwargs,expected",
+        [
+            [[], {}, None],
+            [[1], {}, 1],
+            [[1, 2], {}, (1, 2)],
+            [[], {"a": 1}, {"a": 1}],
+            [[1], {"a": 1}, ((1,), {"a": 1})],
+        ]
+    )
+    def test_matcher_instantiation(self, args, kwargs, expected):
+        """matcher function is properly called."""
+        resolution = MockResolution(*args, **kwargs)
+
+        assert resolution.expected == expected
+        assert resolution.matcher.called_once_with(*args, **kwargs)
 
 
 class TestContainsTheEntry:

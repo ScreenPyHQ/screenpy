@@ -281,6 +281,12 @@ HoldDown
 .. autoclass:: HoldDown
     :members:
 
+MakeNote
+^^^^^^^^
+
+.. autoclass:: MakeNote
+    :members:
+
 MoveMouse
 ^^^^^^^^^
 
