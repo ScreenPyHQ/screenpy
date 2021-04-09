@@ -56,8 +56,8 @@ class Select:
 class SelectByText:
     """Select an option in a dropdown or multi-select field by its text.
 
-    This action will probably not be used directly, rather it will be used by
-    calling |Select.the_option_named|.
+    This action will probably not be used directly, rather it will be returned
+    by calling |Select.the_option_named|.
 
     Abilities Required:
         |BrowseTheWeb|
@@ -105,8 +105,8 @@ class SelectByText:
 class SelectByIndex:
     """Select an option in a dropdown or multi-select field by its index.
 
-    This action will probably not be used directly, rather it will be used by
-    calling |Select.the_option_at_index|.
+    This action will probably not be used directly, rather it will be returned
+    by calling |Select.the_option_at_index|.
 
     Abilities Required:
         |BrowseTheWeb|
@@ -154,8 +154,8 @@ class SelectByIndex:
 class SelectByValue:
     """Select an option in a dropdown or multi-select field by its value.
 
-    This action will probably not be used directly, rather it will be used by
-    calling |Select.the_option_with_value|.
+    This action will probably not be used directly, rather it will be returned
+    by calling |Select.the_option_with_value|.
 
     Abilities Required:
         |BrowseTheWeb|

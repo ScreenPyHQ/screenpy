@@ -15,7 +15,8 @@ Using Actions
 Your actors will use actions
 during the `Arrange and Act parts <https://docs.microsoft.com/en-us/visualstudio/test/unit-test-basics?view=vs-2019#write-your-tests>`_
 of your tests.
-Here is an example of using the |Click| action::
+Here is an example
+using the :class:`~screenpy.actions.Click` action::
 
     from screenpy.actions import Click
 
@@ -42,13 +43,11 @@ Since ScreenPy is extensible,
 it is easy—and encouraged!—
 to create your own custom actions.
 
-Actions must be ``Performable``,
-which means they have a ``perform_as`` method.
+Actions must be :class:`~screenpy.protocols.Performable`,
+which means they have a :meth:`~screenpy.protocols.Performable.perform_as` method.
 This method tells the actor
 how to use their abilities
 to perform the action.
-See the :ref:`protocols` page
-for more information.
 
 .. _checkthespelling:
 
@@ -188,8 +187,7 @@ and ``Enter`` actions.
 
 Note that tasks,
 like actions,
-must be ``Performable``.
-See the :ref:`protocols` page for more information.
+must be :class:`~screenpy.protocols.Performable`.
 
 Up Next
 -------

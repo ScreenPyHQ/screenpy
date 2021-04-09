@@ -25,11 +25,11 @@ showing how to create targets::
 Let's break that down a little bit,
 beginning with ``WELCOME_MESSAGE``.
 
-Target's |Target.the| method
+Target's :meth:`~screenpy.target.Target.the` method
 expects a human-readable string
 to give the element a log-friendly name.
 Then we use
-Target's |Target.located_by| method
+Target's :meth:`~screenpy.target.Target.located_by` method
 to assign the actual locator
 for the element.
 Target is smart enough
@@ -38,7 +38,7 @@ which strategy this locator uses—
 `XPath <https://developer.mozilla.org/en-US/docs/Web/XPath>`_ or `CSS Selector <https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors>`_.
 
 You can also pass a locator tuple
-into Target's |Target.located| method,
+into Target's :meth:`~screenpy.target.Target.located` method,
 if you need a different strategy.
 See the ``LOG_IN_LINK`` example above.
 

@@ -21,7 +21,7 @@ Granting Abilities
 
 To grant an Actor an ability,
 pass it in using the Actor's
-|Actor.who_can| or |Actor.can| methods::
+:meth:`~screenpy.actor.Actor.who_can` method::
 
     from screenpy import Actor, AnActor
     from screenpy.abilities import BrowseTheWeb
@@ -52,12 +52,11 @@ besides the ones
 contained herein.
 ScreenPy encourages you to write your own!
 
-Abilities must be ``Forgettable``,
-which means they must have a ``forget`` method.
+Abilities must be :class:`~screenpy.protocols.Forgettable`,
+which means they must have a :meth:`~screenpy.protocols.Forgettable.forget` method.
 This method performs any necessary cleanup,
 such as closing connections
 or deleting objects.
-See the :ref:`protocols` page for more information.
 
 .. _checkspelling:
 

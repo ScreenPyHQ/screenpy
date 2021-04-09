@@ -10,7 +10,7 @@ clicking-and-dragging or hovering.
 
 You are able to chain
 many of the included :ref:`actions`,
-but some are not ``Chainable``.
+but some are not :class:`~screenpy.protocols.Chainable`.
 These will cause your actor
 to raise an |UnableToAct| exception.
 Chainable actions

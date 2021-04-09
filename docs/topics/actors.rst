@@ -60,7 +60,8 @@ Here's Perry attempting to click a link::
     LOGIN_LINK = Target.the('"Log In" link').located_by("//a")
     Perry.attempts_to(Click.the(LOGIN_LINK))
 
-You'll notice we had to make a quick ``LOGIN_LINK`` |Target| there.
+You'll notice we had to make a quick
+``LOGIN_LINK`` :class:`~screenpy.target.Target` there.
 We'll get to :ref:`targets` later;
 they're how you direct the actors
 where to perform the action.

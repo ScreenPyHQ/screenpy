@@ -116,7 +116,7 @@ The Debug Class
 ^^^^^^^^^^^^^^^
 
 You can use
-the |Debug| class
+the :class:`~screenpy.actions.Debug` class
 to drop a debugger
 in a series of actions.
 

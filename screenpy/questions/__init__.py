@@ -1,8 +1,6 @@
 """
 Questions are asked by Actors to determine the current state of the
-application under test. Ask your actors to ask questions by passing the
-questions into their |Actor.should_see_the| or |Actor.should_see_that|
-methods, with the resolutions that will assert the correct answer.
+application under test.
 
 These form the first half of test assertions in Screenplay Pattern; the
 second half is handled by Resolutions.
