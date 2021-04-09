@@ -30,6 +30,7 @@ Release History
 
 ### Bugfixes
 
+-  (h/t @bandophahita) Removed the **BaseAction**, **BaseAbility**, and **BaseQuestion** classes, for *sure* this time.
 - `mypy` should no longer complain whenever you use any of the **SendMETHODRequest** API request actions (e.g. **SendGETRequest**, **SendPOSTRequest**, etc.).
 
 3.0.1 (2020-02-18)
