@@ -44,6 +44,7 @@ class Actor:
     """
 
     abilities: List[Forgettable]
+    cleanup_tasks: List[Performable]
 
     @staticmethod
     def named(name: Text) -> "Actor":
@@ -57,6 +58,13 @@ class Actor:
         return self
 
     can = who_can
+
+    def has_cleanup_tasks(self, *tasks: Performable) -> "Actor":
+        """Assign one or more tasks to the actor to perform when exiting."""
+        self.cleanup_tasks.extend(tasks)
+        return self
+
+    with_cleanup_tasks = with_cleanup_task = has_cleanup_task = has_cleanup_tasks
 
     def uses_ability_to(self, ability: Type[T]) -> T:
         """Find the ability referenced and return it, if the actor is capable.
@@ -120,8 +128,15 @@ class Actor:
         if none_passed:
             raise AssertionError(f"{self} did not find any expected answers!")
 
+    def cleans_up(self) -> None:
+        """Perform any scheduled clean-up tasks."""
+        for task in self.cleanup_tasks:
+            self.perform(task)
+            self.cleanup_tasks.remove(task)
+
     def exit(self) -> None:
         """Direct the actor to forget all their abilities."""
+        self.cleans_up()
         for ability in self.abilities:
             ability.forget()
             self.abilities.remove(ability)
@@ -134,3 +149,4 @@ class Actor:
     def __init__(self, name: str) -> None:
         self.name = name
         self.abilities = []
+        self.cleanup_tasks = []

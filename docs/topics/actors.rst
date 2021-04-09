@@ -15,6 +15,12 @@ Screenplay Pattern places the focus
 on what your users want to do,
 so actors are the drivers of your test cases.
 
+In ScreenPy specifically,
+Actors are custodians for their abilities.
+They hold on to instantiated abilities,
+use them to perform actions,
+and clean up when they're done.
+
 Using Actors
 ------------
 

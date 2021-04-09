@@ -135,3 +135,38 @@ what the state of the page is.
         Click.on_the(SIGN_IN_BUTTON),
         Wait(60).seconds_for_the(WELCOME_BANNER),
     )
+
+
+Cleaning Up
+-----------
+
+Sometimes,
+your Actors may need
+one or more of their abilities
+to do some cleanup.
+You can assign cleanup tasks
+to your Actor
+using their :meth:`~screenpy.actor.Actor.has_cleanup_tasks` method::
+
+    Perry = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
+    Perry.has_cleanup_task(CompleteAllTodoItems())
+
+    # ... test code here
+
+    Perry.cleans_up()  # you can call the cleanup method directly
+    Perry.exit()  # or it is called here automatically
+
+These tasks can be assigned
+at any point
+before the Actor exits.
+Some opportune moments are
+when the Actor is created,
+or during a test
+or task
+which creates things
+that need to be cleaned up.
+
+Once the cleanup tasks are performed,
+they are removed
+from the Actor's cleanup list.
+They will only be performed once.
