@@ -1,14 +1,36 @@
 Release History
 ===============
 
-3.0.4 (2020-03-09)
+3.1.0 (2021-04-11)
+------------------
+
+### New Features
+
+- (h/t @langgaibo and @sramdas-dod) Actors can now clean up after themselves! Give 'em a task with `.has_cleanup_task(CleanUp())` and they'll do the `CleanUp()` task as they exit. Or sooner, if you call `Actor.clean_up()` yourself!
+- (h/t @langgaibo) Actors can now take notes and use them... anywhere. The new **MakeNote** action allows you to save the answer to a question under a handy key, which can then be recalled later using a `direction`, which brings me to...
+- The Director! The Director is omnipresent and singular. They are always watching, waiting to give a needed note. Ask for one by using a `the_noted(key)` or `noted_under(key)` direction, wherever you need the information they hold. 🔺👁🔺
+- Added the **See**, **SeeAllOf**, and **SeeAnyOf** actions, to relieve Actors of the burden of asserting. Take a look at the new [Deprecations](https://screenpy-docs.readthedocs.io/en/latest/deprecations.html#id3) docs page to learn more.
+- Added the **Attribute** question, to ask about an element's attributes. Like "value", which is the one i'll be asking about.
+
+### Improvements
+
+- (h/t @WandyYing and @bandophahita) SOLIDified Actors a little bit more by deprecating their asserting responsibility. This was part of adding the new **See** etc. Actions mentioned above. Actors now have a `should` method, which is really just an alias for `was_able_to` and `attempts_to`, but is meant to be used with that **See** action. Or not, it's really up to you.
+- Targets can now be used as if they themselves were locator tuples. You can do `target[0]` and pass in `*target`s. It's wild! And cleans up a really gross list comprehension from the **Wait** source code.
+- As ever, another huge documentation update. Things should be more consistent now. Maybe. (I'll probably find more things to smooth out as soon as i commit this.)
+
+### Deprecations
+
+- Deprecated `Actor.should_see_the` and `Actor.should_see_any_of` in favor of using `Actor.should` with the new **See**, **SeeAllOf**, and **SeeAnyOf** Actions. These methods will be removed in 4.0.0. Instructions for modifying your tests can be found in the [3.1.0 Deprecations documentation](https://screenpy-docs.readthedocs.io/en/latest/deprecations.html#id3)
+
+
+3.0.4 (2021-03-09)
 ------------------
 
 ### Bug Fixes
 
 - Missed a `from typing import Protocol`, that's fixed now. Woops!
 
-3.0.3 (2020-03-09)
+3.0.3 (2021-03-09)
 ------------------
 
 ### Improvements
@@ -20,7 +42,7 @@ Release History
 
 - (h/t @bandophahita) New **IsClickable** Resolution to check if an element is clickable!
 
-3.0.2 (2020-02-28)
+3.0.2 (2021-02-28)
 ------------------
 
 ### Improvements
@@ -33,7 +55,7 @@ Release History
 -  (h/t @bandophahita) Removed the **BaseAction**, **BaseAbility**, and **BaseQuestion** classes, for *sure* this time.
 - `mypy` should no longer complain whenever you use any of the **SendMETHODRequest** API request Actions (e.g. **SendGETRequest**, **SendPOSTRequest**, etc.).
 
-3.0.1 (2020-02-18)
+3.0.1 (2021-02-18)
 ------------------
 
 ### Improvements
@@ -46,7 +68,7 @@ Release History
 - **Wait** now formats its custom exception correctly.
 - What's a release without some same-day bug fixes, right?
 
-3.0.0 (2020-02-18)
+3.0.0 (2021-02-18)
 ------------------
 
 ### Breaking Changes
@@ -194,7 +216,7 @@ Release History
 
 ### Deprecations
 
-- Deprecated the `then_wait_for` methods on **Click** and **Enter** now that we have a **Wait** Action. These methods will be removed in 2.0.0.
+- Deprecated the `then_wait_for` methods on **Click** and **Enter** now that we have a **Wait** Action. These methods will be removed in 2.0.0. Instructions for modifying your tests can be found in the [1.0.0 Deprecations documentation](https://screenpy-docs.readthedocs.io/en/latest/deprecations.html#id2)
 
 
 0.4.0 (2019-11-04)
