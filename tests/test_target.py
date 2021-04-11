@@ -41,6 +41,14 @@ def test_located():
     assert target.get_locator() == locator
 
 
+def test_can_be_indexed():
+    locator = (By.ID, "eggs")
+    target = Target.the("test").located(locator)
+
+    assert target[0] == locator[0]
+    assert target[1] == locator[1]
+
+
 def test_found_by(Tester):
     test_locator = (By.ID, "eggs")
     Target.the("test").located(test_locator).found_by(Tester)

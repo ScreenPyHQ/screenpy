@@ -75,7 +75,7 @@ class Target:
         """Retrieve the |WebElement| as viewed by the Actor."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         try:
-            return browser.find_element(*self.get_locator())
+            return browser.find_element(*self)
         except WebDriverException as e:
             raise TargetingError(f"{e} raised while trying to find {self}.") from e
 
@@ -83,7 +83,7 @@ class Target:
         """Retrieve a list of |WebElement| objects as viewed by the Actor."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         try:
-            return browser.find_elements(*self.get_locator())
+            return browser.find_elements(*self)
         except WebDriverException as e:
             raise TargetingError(f"{e} raised while trying to find {self}.") from e
 
@@ -91,6 +91,9 @@ class Target:
         return self.target_name
 
     __str__ = __repr__
+
+    def __getitem__(self, index: int) -> str:
+        return self.get_locator()[index]
 
     def __init__(self, desc: str) -> None:
         self.target_name = desc

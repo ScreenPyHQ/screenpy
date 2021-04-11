@@ -119,14 +119,8 @@ class Wait:
         """Direct the Actor to wait for the condition to be satisfied."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
 
-        # we need to get the locators for any Targets passed in, but also keep
-        # them as Targets for logging.
-        args = map(
-            lambda arg: arg.get_locator() if isinstance(arg, Target) else arg, self.args
-        )
-
         try:
-            WebDriverWait(browser, self.timeout).until(self.condition(*args))
+            WebDriverWait(browser, self.timeout).until(self.condition(*self.args))
         except WebDriverException as e:
             msg = (
                 f"Encountered an exception using {self.condition.__name__} with "

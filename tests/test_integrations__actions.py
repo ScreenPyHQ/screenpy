@@ -620,9 +620,7 @@ class TestWait:
 
         mocked_browser = Tester.ability_to(BrowseTheWeb).browser
         mocked_webdriverwait.assert_called_once_with(mocked_browser, 20)
-        mocked_ec.visibility_of_element_located.assert_called_once_with(
-            test_target.get_locator()
-        )
+        mocked_ec.visibility_of_element_located.assert_called_once_with(test_target)
         mocked_webdriverwait.return_value.until.assert_called_once_with(
             mocked_ec.visibility_of_element_located.return_value
         )

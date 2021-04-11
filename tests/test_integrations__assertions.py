@@ -51,7 +51,7 @@ def test_ask_for_attribute(Tester):
         See.the(Attribute(test_attr).of_the(fake_target), ReadsExactly(test_text)),
     )
 
-    mocked_browser.find_element.assert_called_once_with(*fake_target.get_locator())
+    mocked_browser.find_element.assert_called_once_with(*fake_target)
     mocked_element.get_attribute.assert_called_once_with(test_attr)
 
 
@@ -63,7 +63,7 @@ def test_ask_for_list(Tester):
 
     Tester.should(See.the(List.of(fake_target), IsEmpty()))
 
-    mocked_browser.find_elements.assert_called_once_with(*fake_target.get_locator())
+    mocked_browser.find_elements.assert_called_once_with(*fake_target)
 
 
 def test_is_empty_nonempty_list(Tester):
@@ -87,7 +87,7 @@ def test_ask_for_number(Tester):
         See.the(Number.of(fake_target), IsEqualTo(len(return_value))),
     )
 
-    mocked_browser.find_elements.assert_called_once_with(*fake_target.get_locator())
+    mocked_browser.find_elements.assert_called_once_with(*fake_target)
 
 
 def test_is_equal_to_unequal_value(Tester):
@@ -115,7 +115,7 @@ def test_ask_for_selected(mocked_selenium_select, Tester):
     )
 
     mocked_browser = Tester.ability_to(BrowseTheWeb).browser
-    mocked_browser.find_element.assert_called_once_with(*fake_target.get_locator())
+    mocked_browser.find_element.assert_called_once_with(*fake_target)
 
 
 @mock.patch("screenpy.questions.selected.SeleniumSelect")
@@ -141,7 +141,7 @@ def test_ask_for_text(Tester):
 
     Tester.should(See.the(Text.of_the(fake_target), ContainsTheText(text)))
 
-    mocked_browser.find_element.assert_called_once_with(*fake_target.get_locator())
+    mocked_browser.find_element.assert_called_once_with(*fake_target)
 
 
 def test_ask_for_text_of_the_alert(Tester):
@@ -205,7 +205,7 @@ def test_ask_for_element(Tester):
 
     Tester.should(See.the(Element(fake_target), IsNot(EqualTo(None))))
 
-    mocked_browser.find_element.assert_called_once_with(*fake_target.get_locator())
+    mocked_browser.find_element.assert_called_once_with(*fake_target)
 
 
 def test_visible_element(Tester):
