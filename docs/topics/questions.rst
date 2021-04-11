@@ -6,7 +6,7 @@ Questions
 Actors ask Questions
 about the current state of the application.
 Questions also leverage
-the :ref:`abilities` an actor has.
+the :ref:`abilities` an Actor has.
 They are the first half
 (the "actual value")
 of ScreenPy's test assertions.
@@ -15,32 +15,33 @@ Asking Questions
 ----------------
 
 In the assertion step,
-you will not be asking a question
+you will not be asking a Question
 without an expected answer.
 This is how you do test assertions in ScreenPy::
 
+    from screenpy.actions import See
     from screenpy.questions import Text
     from screenpy.resolutions import ReadsExactly
 
     from ..user_interface.homepage import WELCOME_MESSAGE
 
-    #                     ⇩ here is the question
-    Perry.should_see_the((Text.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")))
+    #                    ⇩ here is the Question
+    Perry.should(See.the(Text.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")))
 
 
-That call to |Actor.should_see_the|
-is taking in our question
-along with a resolution.
+That |See| Action
+is taking in our Question
+along with a Resolution.
 We'll talk about :ref:`resolutions` next.
-For the question half,
-the actor is using their ability to |BrowseTheWeb|.
+For the Question half,
+the Actor is using their Ability to |BrowseTheWeb|.
 They examine the current state of the application
 to find the text
 of the welcome message.
 
-The actor takes that answer
+|See| takes that answer
 and compares it to the expected answer
-passed in with the resolution.
+passed in with the Resolution.
 If they match,
 a comedy!
 Our test passes.
@@ -53,12 +54,12 @@ Writing New Questions
 
 It is very likely
 that you will want to write
-some custom questions.
+some custom Questions.
 Questions must be :class:`~screenpy.protocols.Answerable`,
 which means they have an :meth:`~screenpy.protocols.Answerable.answered_by` method.
 
 Let's take a look
-at what an extremely contrived custom question,
+at what an extremely contrived custom Question,
 ``MisspelledWords``,
 might look like::
 
@@ -69,19 +70,20 @@ might look like::
 
 
     class MisspelledWords:
-        """Ask about any misspelled words in a given target.
+        """Ask about any misspelled words in a given Target.
 
-        Examples:
-            the_actor.should_see_the((MisspelledWords.in_(WELCOME_MESSAGE), IsEmpty()))
+        Examples::
+
+            the_actor.should(See.the(MisspelledWords.in_(WELCOME_MESSAGE), IsEmpty()))
         """
 
         @staticmethod
         def in_(target: Target) -> "MisspelledWords":
-            """Set the target to examine."""
+            """Set the Target to examine."""
             return MisspelledWords(target)
 
         def answered_by(self, the_actor: Actor) -> str:
-            """Ask about the misspelled words contained in the given target."""
+            """Ask about the misspelled words contained in the given Target."""
             text = self.target.found_by(the_actor).text
             misspelled_words = []
             for word in text.split(" "):
@@ -94,17 +96,17 @@ might look like::
             self.target = target
 
 
-You may notice
-the similarities between
-this question
-and the :ref:`CheckTheSpelling <checkthespelling>` Action.
-I did tell you
+You may notice the similarities
+between this Question
+and the :ref:`CheckTheSpelling <checkthespelling>` Action...
+well,
+i did tell you
 these are extremely contrived.
 
 Anyway,
 the magic all happens
-in the ``answered_by`` method.
-It leverages the actor's ability
+in the :meth:`~screenpy.protocols.Answerable.answered_by` method.
+It leverages the Actor's Ability
 and returns the answer it finds.
 
 Up Next
@@ -116,7 +118,7 @@ on the :ref:`resolutions` page!
 Provided Questions
 ------------------
 
-These are the questions included in ScreenPy.
+These are the Questions included in ScreenPy.
 
 .. module:: screenpy.questions
 

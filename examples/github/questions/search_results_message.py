@@ -1,6 +1,5 @@
 """
-A question for finding out the displayed search results message. It is a
-little contrived, but it shows how to write your own question.
+A Question for finding out the displayed search results message.
 """
 
 
@@ -17,13 +16,14 @@ class SearchResultsMessage:
     Abilities Required:
         BrowseTheWeb
 
-    Examples:
-        the_actor.should_see_the(
-            (SearchResultsMessage(), ReadsExactly("1 repository result"))
+    Examples::
+
+        the_actor.should(
+            See.the(SearchResultsMessage(), ReadsExactly("1 repository result")),
         )
     """
 
     @beat("{} checks the results message...")
     def answered_by(self, the_actor: Actor) -> str:
-        """Direct the actor to read off the text of the results message."""
+        """Direct the Actor to read off the text of the results message."""
         return Text.of(RESULTS_MESSAGE).answered_by(the_actor)

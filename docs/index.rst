@@ -19,16 +19,16 @@ For a step-by-step tutorial
 to guide you through the basics,
 begin on the :ref:`actors` page!
 
-The tour will take you through actors,
-abilities,
-targets,
-actions,
-questions,
-and resolutions.
+The tour will take you through
+the major concepts
+used by ScreenPy.
 At the end of it,
 you should be ready to start
 writing your first test!
 
+.. raw:: html
+
+   <hr>
 
 .. toctree::
    :maxdepth: 2
@@ -40,4 +40,5 @@ writing your first test!
    cookbook
    filehierarchy
    exceptions
+   deprecations
    context

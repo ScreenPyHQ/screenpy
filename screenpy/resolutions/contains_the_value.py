@@ -1,5 +1,5 @@
 """
-A resolution that matches against a dictionary that contains a specific value.
+Matches a dictionary that contains a specific value.
 """
 
 from hamcrest import has_value
@@ -12,8 +12,8 @@ class ContainsTheValue(BaseResolution):
 
     Examples::
 
-        the_actor.should_see_the(
-            (Cookies(), ContainTheValue("pumpernickle"))
+        the_actor.should(
+            See.the(Cookies(), ContainTheValue("pumpernickle"))
         )
     """
 

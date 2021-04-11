@@ -1,5 +1,5 @@
 """
-An action to accept an alert.
+Accept a javascript alert.
 """
 
 from screenpy.abilities import BrowseTheWeb
@@ -20,7 +20,7 @@ class AcceptAlert:
 
     @beat("{} accepts the alert.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to accept the alert."""
+        """Direct the Actor to accept the alert."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         alert = browser.switch_to.alert
         aside(f'... the alert says "{alert.text}"')

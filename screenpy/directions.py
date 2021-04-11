@@ -10,8 +10,10 @@ def noted_under(key: str) -> object:
 
     Examples::
 
-        the_actor.should_see_the(
-            (Text.of_the(WELCOME_MESSAGE), ContainsTheText(noted_under("first name"))),
+        the_actor.should(
+            See.the(
+                Text.of_the(WELCOME_MESSAGE), ContainsTheText(noted_under("first name"))
+            ),
         )
     """
     return Director().looks_up(key)

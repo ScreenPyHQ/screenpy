@@ -1,5 +1,5 @@
 """
-An action to switch the driver's frame of reference.
+Switch the driver's frame of reference.
 """
 
 from typing import Optional
@@ -37,7 +37,7 @@ class SwitchTo:
 
     @beat("{} switches to the {frame_to_log}.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to switch to an element or back to default."""
+        """Direct the Actor to switch to an element or back to default."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         if self.target is None:
             browser.switch_to.default_content()

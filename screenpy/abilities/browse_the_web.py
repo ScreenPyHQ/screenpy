@@ -1,6 +1,5 @@
 """
-An ability which provides an API for Selenium to enable actors to perform
-actions related to web browsing.
+Enable the actor to browse the web.
 """
 
 import os
@@ -14,7 +13,7 @@ DEFAULT_APPIUM_HUB_URL = "http://localhost:4723/wd/hub"
 
 
 class BrowseTheWeb:
-    """The ability to browse the web with a web browser.
+    """Use Selenium to enable browsing the web with a web browser.
 
     Examples::
 

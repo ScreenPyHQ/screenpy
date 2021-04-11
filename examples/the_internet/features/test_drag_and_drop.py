@@ -1,13 +1,13 @@
 """
 An example of a test module that follows the typical unittest.TestCase test
-structure. These tests exercise the actions to perform drag and drop.
+structure. These tests exercise the Actions to perform drag and drop.
 """
 
 import unittest
 
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Chain, HoldDown, MoveMouse, Open, Release, Wait
+from screenpy.actions import Chain, HoldDown, MoveMouse, Open, Release, See, Wait
 from screenpy.pacing import act, scene
 from screenpy.questions import Text
 from screenpy.resolutions import ReadsExactly
@@ -21,7 +21,7 @@ from ..user_interface.drag_and_drop import (
 
 class TestDragAndDrop(unittest.TestCase):
     """
-    Shows how to do a drag-and-drop action.
+    Shows how to do a drag-and-drop Action.
     """
 
     def setUp(self) -> None:
@@ -49,9 +49,7 @@ class TestDragAndDrop(unittest.TestCase):
                 Release.left_mouse_button(),
             ),
         )
-        then(Perry).should_see_the(
-            (Text.of_the(FIRST_DRAGGABLE_BOX), ReadsExactly("B"))
-        )
+        then(Perry).should(See.the(Text.of_the(FIRST_DRAGGABLE_BOX), ReadsExactly("B")))
 
     def tearDown(self) -> None:
         self.actor.exit()

@@ -3,16 +3,25 @@
 Targets
 =======
 
+Targets are the stage blocking
+of ScreenPy.
+They tell the Actors
+where to perform,
+and tell us
+what that locator
+actually represents.
+
+In other words,
 Targets encapsulate
 a human-readable string
 along with a machine-readable locator.
 This will help document
-exactly what each locator
-means to target,
+exactly what element
+each locator means to represent,
 and allows the logs to use a nice name.
 
 Here are two examples
-showing how to create targets::
+showing how to create Targets::
 
     from selenium.webdriver.common.by import By
 
@@ -20,7 +29,7 @@ showing how to create targets::
 
 
     WELCOME_MESSAGE = Target.the('"Welcome" message').located_by("//h1")
-    LOG_IN_LINK = Target.the('"Log In" link').located((By.ID, "#login"))
+    LOG_IN_LINK = Target.the('"Log In" link').located((By.LINK_TEXT, "Log In"))
 
 Let's break that down a little bit,
 beginning with ``WELCOME_MESSAGE``.

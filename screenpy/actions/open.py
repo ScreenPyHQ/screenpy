@@ -1,5 +1,5 @@
 """
-An action to open a browser on a URL.
+Open a browser on a URL.
 """
 
 import os
@@ -13,14 +13,14 @@ from screenpy.pacing import beat
 class Open:
     """Go to a specific URL!
 
-    This action supports using the BASE_URL environment variable to
+    This Action supports using the BASE_URL environment variable to
     set a base URL. If you set BASE_URL, the url passed in to this
-    function will be appended to the end of it. For example, if you
-    have ``BASE_URL=http://localhost``, then ``to_get("/home")`` will send
+    Action will be appended to the end of it. For example, if you
+    have ``BASE_URL=http://localhost``, then ``Open("/home")`` will send
     your browser to "http://localhost/home".
 
     If you pass in an object, make sure the object has a ``url`` property
-    that can be referenced by this action.
+    that can be referenced by this Action.
 
     Abilities Required:
         |BrowseTheWeb|
@@ -45,7 +45,7 @@ class Open:
 
     @beat("{} visits {url}")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to visit the specified URL."""
+        """Direct the Actor to visit the specified URL."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         browser.get(self.url)
 

@@ -1,5 +1,5 @@
 """
-Add headers to an actor's API session.
+Add headers to an Actor's API session.
 """
 
 from typing import Iterable, Union
@@ -10,7 +10,7 @@ from screenpy.pacing import aside, beat
 
 
 class AddHeader:
-    """Add one or more headers to the actor's API session.
+    """Add one or more headers to the Actor's API session.
 
     Abilities Required:
         |MakeAPIRequests|
@@ -38,7 +38,7 @@ class AddHeader:
 
     @beat("{} adds some{secret_log} headers to their session.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to add the given headers to their session."""
+        """Direct the Actor to add the given headers to their session."""
         if not self.secret:
             aside(f"... the headers are: {self.headers}")
         session = the_actor.ability_to(MakeAPIRequests).session

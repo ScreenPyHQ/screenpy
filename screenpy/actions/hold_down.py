@@ -1,6 +1,5 @@
 """
-An action to hold down the left mouse button, optionally on an element, or a
-specific modifier key.
+Hold down a specific key or the left mouse button, optionally on an element.
 """
 
 import platform
@@ -24,8 +23,8 @@ KEY_NAMES = {
 class HoldDown:
     """Hold down the specified key or left mouse button.
 
-    This action can only be used with the |Chain| meta-action, and it is
-    expected that a corresponding |Release| action will be called later to
+    This Action can only be used with the |Chain| meta-Action, and it is
+    expected that a corresponding |Release| Action will be called later to
     release the held key or button.
 
     Abilities Required:
@@ -47,8 +46,8 @@ class HoldDown:
     @staticmethod
     def command_or_control_key() -> "HoldDown":
         """
-        A convenience method that figures out what operating system the actor
-        is using and directs the actor which execution key to hold down.
+        A convenience method that figures out what operating system the Actor
+        is using and directs the Actor which execution key to hold down.
         """
         if platform.system() == "Darwin":
             return HoldDown(Keys.COMMAND)
@@ -68,7 +67,7 @@ class HoldDown:
 
     @beat("  Hold down {description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """Add the HoldDown action to an in-progress |Chain| of actions."""
+        """Add the HoldDown Action to an in-progress |Chain| of Actions."""
         if self.lmb:
             element = self.target.found_by(the_actor) if self.target else None
             the_chain.click_and_hold(on_element=element)

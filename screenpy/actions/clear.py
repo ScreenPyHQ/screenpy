@@ -1,5 +1,5 @@
 """
-An action to clear text from an input.
+Clear text from an input.
 """
 
 from selenium.common.exceptions import WebDriverException
@@ -23,14 +23,14 @@ class Clear:
 
     @staticmethod
     def the_text_from_the(target: Target) -> "Clear":
-        """Specify which target from which to clear the text."""
+        """Specify the Target from which to clear the text."""
         return Clear(target)
 
     the_text_from = the_text_from_the
 
     @beat("{} clears text from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to clear the text from the targeted input field."""
+        """Direct the Actor to clear the text from the input field."""
         element = self.target.found_by(the_actor)
 
         try:

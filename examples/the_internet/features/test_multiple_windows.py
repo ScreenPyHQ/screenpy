@@ -1,13 +1,13 @@
 """
 An example of a test module that follows the typical unittest.TestCase
-test structure. These tests exercise the SwitchToTab action.
+test structure. These tests exercise the SwitchToTab Action.
 """
 
 import unittest
 
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Click, Open, Pause, SwitchToTab
+from screenpy.actions import Click, Open, Pause, See, SwitchToTab
 from screenpy.pacing import act, scene
 from screenpy.questions import BrowserURL, Text
 from screenpy.resolutions import ContainsTheText, ReadsExactly
@@ -17,7 +17,7 @@ from ..user_interface.multiple_windows import CLICK_HERE_LINK, HEADER_MESSAGE, U
 
 class TestTabs(unittest.TestCase):
     """
-    Flexes the SwitchToTab action.
+    Flexes the SwitchToTab Action.
     """
 
     def setUp(self) -> None:
@@ -35,9 +35,9 @@ class TestTabs(unittest.TestCase):
             Pause.for_(1).second_because("Selenium needs to catch up"),
             SwitchToTab(2),
         )
-        then(Perry).should_see_the(
-            (BrowserURL(), ContainsTheText("windows/new")),
-            (Text.of_the(HEADER_MESSAGE), ReadsExactly("New Window")),
+        then(Perry).should(
+            See.the(BrowserURL(), ContainsTheText("windows/new")),
+            See.the(Text.of_the(HEADER_MESSAGE), ReadsExactly("New Window")),
         )
 
     def tearDown(self) -> None:

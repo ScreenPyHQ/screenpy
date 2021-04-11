@@ -1,5 +1,5 @@
 """
-An action to press the browser forward button.
+Press the browser forward button.
 """
 
 from screenpy.abilities import BrowseTheWeb
@@ -20,6 +20,6 @@ class GoForward:
 
     @beat("{} goes forward.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to press their browser's forward button."""
+        """Direct the Actor to press their browser's forward button."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         browser.forward()

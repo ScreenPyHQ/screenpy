@@ -1,6 +1,6 @@
 """
-Questions are asked by Actors to determine the current state of the
-application under test.
+Questions are asked by Actors to determine the actual value from the
+current state of the application under test.
 
 These form the first half of test assertions in Screenplay Pattern; the
 second half is handled by Resolutions.

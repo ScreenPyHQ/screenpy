@@ -1,7 +1,7 @@
 """
 Provides an object to store a locator with a human-readable string. The
 human-readable string will be used in logging and reporting; the locator
-will be used by actors to find elements.
+will be used by Actors to find elements.
 """
 
 from typing import List, Tuple, Union
@@ -30,14 +30,14 @@ class Target:
 
     @staticmethod
     def the(desc: str) -> "Target":
-        """Name this target.
+        """Name this Target.
 
         Beginning with a lower-case letter makes the logs look the nicest.
         """
         return Target(desc)
 
     def located_by(self, locator: Union[Tuple[By, str], str]) -> "Target":
-        """Set the locator for this target.
+        """Set the locator for this Target.
 
         Possible values for locator:
             * A tuple of a |By| classifier and a string
@@ -72,7 +72,7 @@ class Target:
         return self.locator
 
     def found_by(self, the_actor: Actor) -> WebElement:
-        """Retrieve the |WebElement| as viewed by the actor."""
+        """Retrieve the |WebElement| as viewed by the Actor."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         try:
             return browser.find_element(*self.get_locator())
@@ -80,7 +80,7 @@ class Target:
             raise TargetingError(f"{e} raised while trying to find {self}.") from e
 
     def all_found_by(self, the_actor: Actor) -> List[WebElement]:
-        """Retrieve a list of |WebElement| objects as viewed by the actor."""
+        """Retrieve a list of |WebElement| objects as viewed by the Actor."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         try:
             return browser.find_elements(*self.get_locator())

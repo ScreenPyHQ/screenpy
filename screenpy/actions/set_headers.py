@@ -1,5 +1,5 @@
 """
-An action to set the headers on an API request.
+Set the headers on the Actor's API session.
 """
 
 from typing import Iterable, Union
@@ -10,9 +10,9 @@ from screenpy.pacing import aside, beat
 
 
 class SetHeaders:
-    """Set the headers of your API requests to this specific set.
+    """Set the headers of the Actor's API session to this specific set.
 
-    Note this will remove all other headers on your requests.
+    Note this will remove all other headers on your session.
 
     Abilities Required:
         |MakeAPIRequests|
@@ -47,7 +47,7 @@ class SetHeaders:
 
     @beat("{} sets the{secret_log} headers of their session.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to set the headers for their requests."""
+        """Direct the Actor to set the headers for their API session."""
         if not self.secret:
             aside(f"... the headers are:\n{self.headers}")
         session = the_actor.ability_to(MakeAPIRequests).session

@@ -1,6 +1,5 @@
 """
-A question to facilitate API testing by asking about the body of the last
-response received by the actor.
+Investigate the body of the last API response received by the Actor.
 """
 
 from json.decoder import JSONDecodeError
@@ -13,25 +12,25 @@ from screenpy.pacing import beat
 
 
 class BodyOfTheLastResponse:
-    """Ask about the body of the last response received by the actor.
+    """Ask about the body of the last API response received by the Actor.
 
     Abilities Required:
         |MakeAPIRequests|
 
     Examples::
 
-        the_actor.should_see_the(
-            (BodyOfTheLastResponse(), ContainsTheEntry(play="Hamlet"))
+        the_actor.should(
+            See.the(BodyOfTheLastResponse(), ContainsTheEntry(play="Hamlet"))
         )
 
-        the_actor.should_see_the(
-            (BodyOfTheLastResponse(), ReadsExactly("To be, or not to be"))
+        the_actor.should(
+            See.the(BodyOfTheLastResponse(), ReadsExactly("To be, or not to be"))
         )
     """
 
     @beat("{} examines the body of the last response they received.")
     def answered_by(self, the_actor: Actor) -> Union[dict, str]:
-        """Direct the actor to investigate the body of the last response."""
+        """Direct the Actor to investigate the body of the last response."""
         responses = the_actor.ability_to(MakeAPIRequests).responses
         if len(responses) < 1:
             raise UnableToAnswer(f"{the_actor} has not yet received any API responses.")

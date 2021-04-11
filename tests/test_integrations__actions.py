@@ -1,4 +1,5 @@
 import logging
+import sys
 from unittest import mock
 
 import pytest
@@ -29,6 +30,9 @@ from screenpy.actions import (
     Release,
     RespondToThePrompt,
     RightClick,
+    See,
+    SeeAllOf,
+    SeeAnyOf,
     SendAPIRequest,
     Select,
     SetHeaders,
@@ -421,6 +425,52 @@ class TestRightClick:
         Tester.attempts_to(RightClick())
 
         MockedActionChains().context_click.assert_called_once_with(on_element=None)
+
+
+class TestSee:
+    @mock.patch("screenpy.actions.see.assert_that")
+    def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
+        mock_question = mock.Mock()
+        mock_resolution = mock.Mock()
+
+        Tester.should(See.the(mock_question, mock_resolution))
+
+        mock_question.answered_by.assert_called_once_with(Tester)
+        mocked_assert_that.assert_called_once_with(
+            mock_question.answered_by.return_value, mock_resolution
+        )
+
+
+class TestSeeAllOf:
+    @mock.patch("screenpy.actions.see_all_of.See")
+    def test_calls_see_for_each_test(self, MockedSee, Tester):
+        num_tests = 3
+        tests = ((mock.Mock(), mock.Mock()),) * num_tests
+
+        Tester.should(SeeAllOf.the(*tests))
+
+        assert MockedSee.the.call_count == num_tests
+        # In 3.7 and earlier, you can't get the .args of a method call from
+        # the mocked instance. We can't do the full test there.
+        if sys.version_info >= (3, 8):
+            for num, test in enumerate(tests):
+                assert MockedSee.method_calls[num].args == test
+
+
+class TestSeeAnyOf:
+    @mock.patch("screenpy.actions.see_any_of.See")
+    def test_calls_see_for_each_test(self, MockedSee, Tester):
+        num_tests = 3
+        tests = ((mock.Mock(), mock.Mock()),) * num_tests
+
+        Tester.should(SeeAnyOf.the(*tests))
+
+        assert MockedSee.the.call_count == num_tests
+        # In 3.7 and earlier, you can't get the .args of a method call from
+        # the mocked instance. We can't do the full test there.
+        if sys.version_info >= (3, 8):
+            for num, test in enumerate(tests):
+                assert MockedSee.method_calls[num].args == test
 
 
 class TestSelectByIndex:

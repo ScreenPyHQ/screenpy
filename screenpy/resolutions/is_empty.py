@@ -1,5 +1,5 @@
 """
-A resolution that matches an empty collection.
+Matches an empty collection.
 """
 
 from hamcrest import empty
@@ -12,7 +12,7 @@ class IsEmpty(BaseResolution):
 
     Examples::
 
-        the_actor.should_see_the((List.of_all(VIDEO_FRAMES), IsEmpty()))
+        the_actor.should(See.the(List.of_all(VIDEO_FRAMES), IsEmpty()))
     """
 
     line = "an empty collection"

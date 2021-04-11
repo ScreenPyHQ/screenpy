@@ -1,5 +1,5 @@
 """
-An action to switch to a specific tab or window.
+Switch to a specific tab or window.
 """
 
 from screenpy.abilities import BrowseTheWeb
@@ -20,7 +20,7 @@ class SwitchToTab:
 
     @beat("{} switches to tab #{number}.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to switch to the specified tab."""
+        """Direct the Actor to switch to the specified tab."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         browser.switch_to.window(browser.window_handles[self.number - 1])
 

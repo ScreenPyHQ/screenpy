@@ -8,15 +8,15 @@ class ScreenPyError(Exception):
 
 
 class UnableToPerform(ScreenPyError):
-    """Raised when an actor lacks the ability to perform an action."""
+    """Raised when an Actor lacks the Ability to perform an Action."""
 
 
 class TargetingError(ScreenPyError):
-    """Raised when there is an issue preventing target acquisition."""
+    """Raised when there is an issue preventing Target acquisition."""
 
 
 class AbilityError(ScreenPyError):
-    """These errors are raised when an ability fails in some way."""
+    """These errors are raised when an Ability fails in some way."""
 
 
 class BrowsingError(AbilityError):
@@ -28,20 +28,20 @@ class RequestError(AbilityError):
 
 
 class ActionError(ScreenPyError):
-    """These errors are raised when an action fails."""
+    """These errors are raised when an Action fails."""
 
 
 class DeliveryError(ActionError):
-    """Raised when an action encounters an error while being performed."""
+    """Raised when an Action encounters an error while being performed."""
 
 
 class UnableToAct(ActionError):
-    """Raised when an action is missing direction."""
+    """Raised when an Action is missing direction."""
 
 
 class QuestionError(ScreenPyError):
-    """These errors are raised when a question fails."""
+    """These errors are raised when a Question fails."""
 
 
 class UnableToAnswer(QuestionError):
-    """The actor cannot answer the question."""
+    """The Actor cannot answer the Question."""

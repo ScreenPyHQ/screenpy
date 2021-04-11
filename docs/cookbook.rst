@@ -11,11 +11,11 @@ examples of common ScreenPy use-cases.
 Setting Up Actors
 -----------------
 
-Set up an actor to browse the web::
+Set up an Actor to browse the web::
 
     Perry = AnActor.who_can(BrowseTheWeb.using_firefox())
 
-Set up an actor to browse the web with a specific driver::
+Set up an Actor to browse the web with a specific driver::
 
     options = webdriver.ChromeOptions()
     options.set_headless()
@@ -31,15 +31,15 @@ Retrieving Initial Answers
 
 Some tests may need to ensure something has changed.
 You are able to retrieve
-the answers to questions
+the answers to Questions
 anywhere you may need to::
 
     empty_todo_list_text = Text.of_the(TODO_LIST).answered_by(Perry)
 
     when(Perry).attempts_to(AddTodoListItem("Wash the fish"))
 
-    then(Perry).should_see_the(
-        (Text.of_the(TODO_LIST), DoesNot(ReadExactly(empty_todo_list_text))
+    then(Perry).should(
+        See.the(Text.of_the(TODO_LIST), DoesNot(ReadExactly(empty_todo_list_text))
     )
 
 Using MakeNote
@@ -56,8 +56,8 @@ with a |direction|::
         AddTodoListItem("Wash the fish"),
     )
 
-    then(Perry).should_see_the(
-        (Text.of_the(TODO_LIST), DoesNot(ReadExactly(the_noted("empty todo list")))
+    then(Perry).should(
+        See.the(Text.of_the(TODO_LIST), DoesNot(ReadExactly(the_noted("empty todo list")))
     )
 
 
@@ -116,14 +116,14 @@ The Debug Class
 ^^^^^^^^^^^^^^^
 
 You can use
-the :class:`~screenpy.actions.Debug` class
+the :class:`~screenpy.actions.Debug` Action
 to drop a debugger
-in a series of actions.
+in a series of Actions.
 
 You will need to go up a few frames
-to get to the actor's |Actor.attempts_to| method.
+to get to the Actor's |Actor.attempts_to| method.
 From there, you will be able to
-step through each action one at a time.
+step through each Action one at a time.
 
 .. code-block:: python
 
@@ -161,7 +161,7 @@ Cleaning Up
 
 Sometimes,
 your Actors may need
-one or more of their abilities
+one or more of their Abilities
 to do some cleanup.
 You can assign cleanup tasks
 to your Actor

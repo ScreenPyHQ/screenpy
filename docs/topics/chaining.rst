@@ -3,25 +3,25 @@
 Chaining
 ========
 
-The |Chain| action is a sort of meta-action
-that can group many other actions into a series.
+The |Chain| Action is a sort of meta-Action
+that can group many other Actions into a series.
 This is useful for testing features which include things like
 clicking-and-dragging or hovering.
 
 You are able to chain
 many of the included :ref:`actions`,
 but some are not :class:`~screenpy.protocols.Chainable`.
-These will cause your actor
+These will cause your Actor
 to raise an |UnableToAct| exception.
-Chainable actions
+Chainable Actions
 correspond to the methods
 of Selenium's |ActionChains| class.
 
 To be Chainable,
-an action must implement
+an Action must implement
 an ``add_to_chain`` method.
 Keep this in mind
-when you write custom actions.
+when you write custom Actions.
 See the :ref:`protocols` page for more information.
 
 Adding Actions to a Chain looks like this::

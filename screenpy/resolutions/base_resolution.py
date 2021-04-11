@@ -4,11 +4,11 @@ are given the expected value when instantiated. For example:
 
     ReadsExactly("the expected text")
 
-The Resolution will then be passed in to an actor's test method, along
-with a question to get the actual value. An assertion might look like:
+The Resolution will then be passed in to an Actor's test method, along
+with a Question to get the actual value. An assertion might look like:
 
-    Perry.should_see_the(
-        (Text.of(THE_WELCOME_MESSAGE), ReadsExactly("Welcome!")),
+    Perry.should(
+        See.the(Text.of(THE_WELCOME_MESSAGE), ReadsExactly("Welcome!")),
     )
 """
 
@@ -37,8 +37,8 @@ class BaseResolution(BaseMatcher[T]):
     matcher_function: Callable
     expected: Any
     line = (
-        "-- I'm sorry, this resolution did not provide a line. Please define a more "
-        "descriptive line for this custom resolution such that it completes the "
+        "-- I'm sorry, this Resolution did not provide a line. Please define a more "
+        "descriptive line for this custom Resolution such that it completes the "
         'phrase: "hoping it\'s...".'
     )
 
@@ -58,7 +58,7 @@ class BaseResolution(BaseMatcher[T]):
         self.matcher.describe_mismatch(item, mismatch_description)
 
     def get_line(self) -> str:
-        """Get the line that describes this resolution."""
+        """Get the line that describes this Resolution."""
         return self.line.format(expectation=str(self.expected))
 
     @property
@@ -78,7 +78,7 @@ class BaseResolution(BaseMatcher[T]):
             self.expected = kwargs
             self.matcher = cls.matcher_function(**kwargs)
         else:
-            self.expected = None
+            self.expected = True
             self.matcher = cls.matcher_function()
 
     def __repr__(self) -> str:

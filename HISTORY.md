@@ -13,12 +13,12 @@ Release History
 
 ### Improvements
 
-- (h/t @bandophahita) CLI logging now has indentation levels to help show which statements are encapsulated by questions, tasks, actions, etc.!
+- (h/t @bandophahita) CLI logging now has indentation levels to help show which statements are encapsulated by Questions, tasks, Actions, etc.!
 - Reverted the `Protocol` import from `typing` back to `typing_extensions` for better compatibility. This will be revisited when Python 4 is released, probably.
 
 ### New Features
 
-- (h/t @bandophahita) New **IsClickable** resolution to check if an element is clickable!
+- (h/t @bandophahita) New **IsClickable** Resolution to check if an element is clickable!
 
 3.0.2 (2020-02-28)
 ------------------
@@ -31,7 +31,7 @@ Release History
 ### Bugfixes
 
 -  (h/t @bandophahita) Removed the **BaseAction**, **BaseAbility**, and **BaseQuestion** classes, for *sure* this time.
-- `mypy` should no longer complain whenever you use any of the **SendMETHODRequest** API request actions (e.g. **SendGETRequest**, **SendPOSTRequest**, etc.).
+- `mypy` should no longer complain whenever you use any of the **SendMETHODRequest** API request Actions (e.g. **SendGETRequest**, **SendPOSTRequest**, etc.).
 
 3.0.1 (2020-02-18)
 ------------------
@@ -42,7 +42,7 @@ Release History
 
 ### Bug Fixes
 
-- **Element** now catches the correct exception type, now that **Target**'s the one doing the finding.
+- **Element** now catches the correct exception type, now that Target's the one doing the finding.
 - **Wait** now formats its custom exception correctly.
 - What's a release without some same-day bug fixes, right?
 
@@ -55,15 +55,15 @@ Release History
 
 ### Improvements
 
-- **Wait** can now use strategies that don't use a target, or have multiple arguments. You can now use any of Selenium's URL-monitoring expected conditions or any other custom strategies through `Wait().using(strategy).with_("any", "number", "of", "args")`!
+- **Wait** can now use strategies that don't use a Target, or have multiple arguments. You can now use any of Selenium's URL-monitoring expected conditions or any other custom strategies through `Wait().using(strategy).with_("any", "number", "of", "args")`!
 - **AddHeader** can now accept new forms of header-setting arguments, like a dict or just alternating pairs. Now `AddHeader(Cookie="yes=please")` == `AddHeader({"Cookie": "yes=please"})` == `AddHeader("Cookie", "yes=please")`!
-- Added **SetHeaders** action, if you want to set the headers *exactly* (and remove all unmentioned headers).
-- **AddHeader**, **SetHeaders**, and **Send\[METHOD\]Request** actions now all have a way to mark their contents as secret, so they won't be logged. Add a `.which_should_be_kept_secret()` or `.secretly()` to the end and the log won't mention the unmentionables.
+- Added **SetHeaders** Action, if you want to set the headers *exactly* (and remove all unmentioned headers).
+- **AddHeader**, **SetHeaders**, and **Send\[METHOD\]Request** Actions now all have a way to mark their contents as secret, so they won't be logged. Add a `.which_should_be_kept_secret()` or `.secretly()` to the end and the log won't mention the unmentionables.
 - I did another docs overhaul, this time making them read in a way that might please [Hemingway](http://www.hemingwayapp.com/).
 
 ### Bug Fixes
 
-- **Click** is now able to be chained without a target to click. This was preventing clicking at an offset, which annoyed *me* at least.
+- **Click** is now able to be chained without a Target to click. This was preventing clicking at an offset, which annoyed *me* at least.
 
 
 2.2.0 (2020-11-29)
@@ -72,7 +72,7 @@ Release History
 ### Improvements
 
 - Updated all the dependencies to support Python 3.9! Kind of a boring update.
-- Made the reported actions more consistently worded.
+- Made the reported Actions more consistently worded.
 
 2.1.0 (2020-09-03)
 ------------------
@@ -85,23 +85,23 @@ Release History
 ### New Features
 
 - Added API testing support!
-  - Added **MakeAPIRequests** ability.
-  - Added **SendGETRequest**, **SendPOSTRequest**, **SendPATCHRequest**, **SendPUTRequest**, **SendOPTIONSRequest**, **SendHEADRequest**, **SendDELETERequest**, and **SendAPIRequest** actions.
-  - Added **AddHeader**/**AddHeaders** action.
-  - Added **Cookies**, **CookiesOnTheWebSession**, **CookiesOnTheAPISession** questions.
-  - Added **StatusCodeOfTheLastResponse** question.
-  - Added **BodyOfTheLastResponse** question.
-  - Added **HeadersOfTheLastResponse** question.
-  - Added **ContainsTheKey**, **ContainsTheValue**, **ContainsTheEntry** resolutions.
+  - Added **MakeAPIRequests** Ability.
+  - Added **SendGETRequest**, **SendPOSTRequest**, **SendPATCHRequest**, **SendPUTRequest**, **SendOPTIONSRequest**, **SendHEADRequest**, **SendDELETERequest**, and **SendAPIRequest** Actions.
+  - Added **AddHeader**/**AddHeaders** Action.
+  - Added **Cookies**, **CookiesOnTheWebSession**, **CookiesOnTheAPISession** Questions.
+  - Added **StatusCodeOfTheLastResponse** Question.
+  - Added **BodyOfTheLastResponse** Question.
+  - Added **HeadersOfTheLastResponse** Question.
+  - Added **ContainsTheKey**, **ContainsTheValue**, **ContainsTheEntry** Resolutions.
 - Added `should_see_any_of` assertion method to Actors, which is similar to `should_see_the` but passes if *at least* one of its tests are true, instead of all of them.
-- Added **HasLength** resolution, for fun.
+- Added **HasLength** Resolution, for fun.
 - Added a "cookbook" section to the docs to give examples of common use-cases.
 
 ### Improvements:
 
 - *Huge* docs overhaul, aimed at reducing word count and increasing word value.
 - Switched to using Protocols for type hinting instead of base classes.
-- **IsVisible** resolution now has a nicer mismatch message.
+- **IsVisible** Resolution now has a nicer mismatch message.
 
 ### Bugfixes:
 
@@ -115,7 +115,7 @@ Release History
 
 ### Improvements:
 
-- Added try/except to the **Element** question so it will return `None` if the element doesn't exist, which enables `IsNot(Visible())` or `IsNot(EqualTo(None))` to test for non-visibility/presence of an element.
+- Added try/except to the **Element** Question so it will return `None` if the element doesn't exist, which enables `IsNot(Visible())` or `IsNot(EqualTo(None))` to test for non-visibility/presence of an element.
 - Moved **BrowsingError** to `screenpy.exceptions` too, missed that one!
 
 
@@ -132,25 +132,25 @@ Release History
 
 ### New Features
 
-- Added *so many* new actions!
-  - Added **RefreshPage** action.
-  - Added **GoBack** action.
-  - Added **GoForward** action.
-  - Added **SwitchToTab** action. (It turns out **SwitchTo** didn't quite switch to all the things you needed to switch to.)
-  - Added **Chain** action, to do chained actions! Such as these:
-    - Added **DoubleClick** action.
-    - Added **RightClick** action.
-    - Added **MoveMouse**/**Hover** action.
-    - Added **HoldDown** action.
-    - Added **Release** action.
-- Enabled several existing actions to be chained with the new Chain action:
+- Added *so many* new Actions!
+  - Added **RefreshPage** Action.
+  - Added **GoBack** Action.
+  - Added **GoForward** Action.
+  - Added **SwitchToTab** Action. (It turns out **SwitchTo** didn't quite switch to all the things you needed to switch to.)
+  - Added **Chain** Action, to do chained Actions! Such as these:
+    - Added **DoubleClick** Action.
+    - Added **RightClick** Action.
+    - Added **MoveMouse**/**Hover** Action.
+    - Added **HoldDown** Action.
+    - Added **Release** Action.
+- Enabled several existing Actions to be chained with the new **Chain** Action:
   - **Click**
   - **Enter**
   - **Enter2FAToken**
   - **Pause**
-- Added **Element** question, to test things about a specific element, such as...
-- Added **IsVisible** resolution, to test if an element is visible!
-- You can now see the same detailed logs without the Allure report if you wish! All the action is now logged at INFO level. Try adding `--log-cli-level=INFO` to your `pytest` run, for example!
+- Added **Element** Question, to test things about a specific element, such as...
+- Added **IsVisible** Resolution, to test if an element is visible!
+- You can now see the same detailed logs without the Allure report if you wish! All the Action is now logged at INFO level. Try adding `--log-cli-level=INFO` to your `pytest` run, for example!
 
 ### Improvements
 
@@ -174,15 +174,15 @@ Release History
 ### New Features
 
 - Added IOS and Android browser support! 🎉 (Will add full Appium support later!)
-- Added **Pause** action, for those times you *really* need it.
-- Added **Debug** action, to drop a debugger in the middle of a chain of actions/tasks.
-- Added **SwitchTo** action, to switch to iframes, back to the default frame, and whatever else you need to switch to.
-- Added **AcceptAlert**/**DismissAlert**/**RespondToPrompt** to support any javascript alert actions you could want.
+- Added **Pause** Action, for those times you *really* need it.
+- Added **Debug** Action, to drop a debugger in the middle of a chain of Actions/tasks.
+- Added **SwitchTo** Action, to switch to iframes, back to the default frame, and whatever else you need to switch to.
+- Added **AcceptAlert**/**DismissAlert**/**RespondToPrompt** to support any javascript alert Actions you could want.
 
 ### Improvements
 
 - Added a bunch of new syntactic sugar and default options.
-- Added a new method to **Target** that will allow you to pass in your own locator tuple, like `Target.located((By.LINK_TEXT, "click me"))`
+- Added a new method to Target that will allow you to pass in your own locator tuple, like `Target.located((By.LINK_TEXT, "click me"))`
 - Added additional logging to improve debugging experience.
 - Added custom exceptions with exception chaining to provide more context when tests break.
 - HUGE documentation improvement.
@@ -190,11 +190,11 @@ Release History
 
 ### Fixes
 
-- Fixed strange grammar in logged resolution lines.
+- Fixed strange grammar in logged Resolution lines.
 
 ### Deprecations
 
-- Deprecated the `then_wait_for` methods on **Click** and **Enter** now that we have a **Wait** class. These methods will be removed in 2.0.0.
+- Deprecated the `then_wait_for` methods on **Click** and **Enter** now that we have a **Wait** Action. These methods will be removed in 2.0.0.
 
 
 0.4.0 (2019-11-04)
@@ -202,8 +202,8 @@ Release History
 
 ### New Features
 
-- Added the **Wait** action, which enables the actor to wait for a target to be visible, invisible, or contain expected text.
-- Added the **Clear** action, which enables the actor to clear text from an input field.
+- Added the **Wait** Action, which enables the Actor to wait for a Target to be visible, invisible, or contain expected text.
+- Added the **Clear** Action, which enables the Actor to clear text from an input field.
 
 
 0.3.0 (2019-08-18)
@@ -211,9 +211,9 @@ Release History
 
 ### Improvements
 
-- Added import magic to make importing actions, resolutions, targets, ... everything! easier.
-- Added some natural-language-enabling syntactic sugar to resolutions.
-- Added some extra flavor to actors being created because i can't help myself.
+- Added import magic to make importing Actions, Resolutions, Targets, ... everything! easier.
+- Added some natural-language-enabling syntactic sugar to Resolutions.
+- Added some extra flavor to Actors being created because i can't help myself.
 
 
 0.2.0 (2019-04-13)
@@ -222,16 +222,16 @@ Release History
 ### New Features
 
 - Added "the-internet" example
-- Added `Selected` question
+- Added **Selected** Question
 
 ### Improvements
 
-- Adjusted strategy for multi-target Text question
+- Adjusted strategy for multi-Target **Text** Question
 - Added more consistency in coding style
 
 ### Bugfix
 
-- Fixed issues with Select actions
+- Fixed issues with **Select** Actions
 
 
 0.1.4 (2019-03-28)
@@ -256,7 +256,7 @@ Release History
 ### New Features
 
 - Added more Resolutions.
-- Added **List** question.
+- Added **List** Question.
 
 ### Improvements
 

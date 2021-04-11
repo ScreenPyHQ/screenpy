@@ -1,5 +1,5 @@
 """
-A resolution that matches an exact string.
+Matches an exact string.
 """
 
 from hamcrest import has_string
@@ -12,8 +12,8 @@ class ReadsExactly(BaseResolution):
 
     Examples::
 
-        the_actor.should_see_the(
-            (Text.of_the(LOGIN_MESSAGE), ReadsExactly("Log in below."))
+        the_actor.should(
+            See.the(Text.of_the(LOGIN_MESSAGE), ReadsExactly("Log in below."))
         )
     """
 

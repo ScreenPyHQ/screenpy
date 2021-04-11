@@ -1,5 +1,5 @@
 """
-A question to find a list of many elements.
+Investigate one or more elements.
 """
 
 from typing import List as ListType
@@ -19,7 +19,7 @@ class List:
 
     Examples::
 
-        the_actor.should_see_the((List.of(CONFETTI), IsEmpty()))
+        the_actor.should(See.the(List.of(CONFETTI), IsEmpty()))
     """
 
     @staticmethod
@@ -31,7 +31,7 @@ class List:
 
     @beat("{} lists off the {target}.")
     def answered_by(self, the_actor: Actor) -> ListType[WebElement]:
-        """Direct the actor to rattle off the specified elements."""
+        """Direct the Actor to rattle off the specified elements."""
         return self.target.all_found_by(the_actor)
 
     def __init__(self, target: Target) -> None:

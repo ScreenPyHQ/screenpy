@@ -1,5 +1,5 @@
 """
-An action to send an API request.
+Send an API request.
 """
 
 from typing import Any
@@ -12,7 +12,7 @@ from screenpy.pacing import aside, beat
 class SendAPIRequest:
     """Send an API request.
 
-    You can use this action class directly if you wish, but the
+    You can use this Action class directly if you wish, but the
     Send{METHOD}Request classes are easier to read.
 
     Abilities Required:
@@ -47,7 +47,7 @@ class SendAPIRequest:
 
     @beat("{} sends a {method} request to {url}")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to send an API request to the stored URL."""
+        """Direct the Actor to send an API request to the stored URL."""
         if self.kwargs and not self.secret:
             aside(f"... along with the following: {self.kwargs}")
 

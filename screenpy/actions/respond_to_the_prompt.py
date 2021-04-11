@@ -1,5 +1,5 @@
 """
-An action to respond to a prompt.
+Respond to a prompt.
 """
 
 from screenpy.abilities import BrowseTheWeb
@@ -8,9 +8,7 @@ from screenpy.pacing import aside, beat
 
 
 class RespondToThePrompt:
-    """
-    Respond to a javascript prompt by entering the specified text and
-    accepting the prompt.
+    """Enter text into and accept a javascript prompt.
 
     Abilities Required:
         |BrowseTheWeb|
@@ -29,7 +27,7 @@ class RespondToThePrompt:
 
     @beat('{} responds to the prompt with "{text}".')
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to respond to the prompt using the given text."""
+        """Direct the Actor to respond to the prompt using the given text."""
         browser = the_actor.uses_ability_to(BrowseTheWeb).browser
         alert = browser.switch_to.alert
         aside(f"... the alert says {alert.text}")

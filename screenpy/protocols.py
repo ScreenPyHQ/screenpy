@@ -22,14 +22,14 @@ class Answerable(Protocol):
 
     def answered_by(self, the_actor: "Actor") -> Any:
         """
-        Pose the question to the actor, who will investigate and provide the
+        Pose the Question to the Actor, who will investigate and provide the
         answer to their best knowledge.
 
         Args:
-            the_actor: the |Actor| who will answer the question.
+            the_actor: the |Actor| who will answer the |Question|.
 
         Returns:
-            The answer, based on the sleuthing the actor has done.
+            The answer, based on the sleuthing the Actor has done.
         """
         ...
 
@@ -39,10 +39,10 @@ class Chainable(Protocol):
 
     def add_to_chain(self, the_actor: "Actor", the_chain: ActionChains) -> None:
         """
-        Add this chainable action to an in-progress chain.
+        Add this chainable Action to an in-progress chain.
 
         Args:
-            the_actor: the |Actor| who will be performing the action chain.
+            the_actor: the |Actor| who will be performing the |Action| chain.
             the_chain: the |ActionChains| instance that is being built.
         """
         ...
@@ -53,7 +53,7 @@ class Forgettable(Protocol):
 
     def forget(self) -> None:
         """
-        Forget this ability by doing any necessary cleanup (quitting browsers,
+        Forget this Ability by doing any necessary cleanup (quitting browsers,
         closing connections, etc.)
         """
         ...
@@ -64,9 +64,9 @@ class Performable(Protocol):
 
     def perform_as(self, the_actor: "Actor") -> None:
         """
-        Direct the actor to perform this action.
+        Direct the Actor to perform this Action.
 
         Args:
-            the_actor: the |Actor| who will perform this action.
+            the_actor: the |Actor| who will perform this |Action|.
         """
         ...

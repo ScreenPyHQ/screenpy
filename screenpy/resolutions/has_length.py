@@ -1,5 +1,5 @@
 """
-A resolution that matches against the length of a collection.
+Matches the length of a collection.
 """
 
 from hamcrest import has_length
@@ -12,8 +12,8 @@ class HasLength(BaseResolution):
 
     Examples::
 
-        the_actor.should_see_the(
-            (Selected.options_from(INDUSTRIES), HasLength(5))
+        the_actor.should(
+            See.the(Selected.options_from(INDUSTRIES), HasLength(5))
         )
     """
 

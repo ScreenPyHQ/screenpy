@@ -1,5 +1,5 @@
 """
-An action to click on an element.
+Click on an element.
 """
 
 from typing import Optional
@@ -37,10 +37,10 @@ class Click:
 
     @beat("{} clicks on the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to click on the targeted element."""
+        """Direct the Actor to click on the element."""
         if self.target is None:
             raise UnableToAct(
-                "Target was not supplied for Click. Provide a target by using the "
+                "Target was not supplied for Click. Provide a Target by using the "
                 ".on() or .on_the() method."
             )
 
@@ -57,7 +57,7 @@ class Click:
 
     @beat("  Click{description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """Add the Click action to an in-progress |Chain| of actions."""
+        """Add the Click Action to an in-progress |Chain| of Actions."""
         if self.target is not None:
             the_element = self.target.found_by(the_actor)
         else:

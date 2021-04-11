@@ -1,5 +1,5 @@
 """
-An action to refresh the browser page.
+Refresh the browser page.
 """
 
 from screenpy.abilities import BrowseTheWeb
@@ -20,6 +20,6 @@ class RefreshPage:
 
     @beat("{} refreshes the page.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to refresh the page."""
+        """Direct the Actor to refresh the page."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         browser.refresh()

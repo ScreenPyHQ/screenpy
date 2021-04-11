@@ -1,5 +1,5 @@
 """
-A question to discover the text of an element or many elements.
+Investigate the text of an element or many elements.
 """
 
 from typing import List, Union
@@ -17,12 +17,12 @@ class Text:
 
     Examples::
 
-        the_actor.should_see_the(
-            (Text.of(THE_WELCOME_HEADER), ReadsExactly("Welcome!"))
+        the_actor.should(
+            See.the(Text.of(THE_WELCOME_HEADER), ReadsExactly("Welcome!"))
         )
 
-        the_actor.should_see_the(
-            (Text.of_all(SEARCH_RESULTS), ContainsTheItem("Rear Window"))
+        the_actor.should(
+            See.the(Text.of_all(SEARCH_RESULTS), ContainsTheItem("Rear Window"))
         )
     """
 
@@ -40,7 +40,7 @@ class Text:
 
     @beat("{} reads the text from the {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
-        """Direct the actor to read off the text of the targeted element(s)."""
+        """Direct the Actor to read off the text of the element(s)."""
         if self.multi:
             return [e.text for e in self.target.all_found_by(the_actor)]
         return self.target.found_by(the_actor).text

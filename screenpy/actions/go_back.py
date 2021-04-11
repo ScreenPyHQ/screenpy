@@ -1,5 +1,5 @@
 """
-An action to press the browser back button.
+Press the browser back button.
 """
 
 from screenpy.abilities import BrowseTheWeb
@@ -20,6 +20,6 @@ class GoBack:
 
     @beat("{} goes back.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to press their browser's back button."""
+        """Direct the Actor to press their browser's back button."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         browser.back()

@@ -1,5 +1,5 @@
 """
-An action to right-click on an element, or wherever the cursor currently is.
+Right-click on an element, or wherever the cursor currently is.
 """
 
 from typing import Optional
@@ -40,7 +40,7 @@ class RightClick:
     on = on_the
 
     def _add_action_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """Private method to add the action to the chain."""
+        """Private method to add this Action to the chain."""
         if self.target is not None:
             the_element = self.target.found_by(the_actor)
         else:
@@ -50,7 +50,7 @@ class RightClick:
 
     @beat("{} right-clicks{description}.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to right-click on the targeted element."""
+        """Direct the Actor to right-click on the element."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         the_chain = ActionChains(browser)
         self._add_action_to_chain(the_actor, the_chain)
@@ -58,7 +58,7 @@ class RightClick:
 
     @beat("  Right-click{description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """Add the RightClick action to an in-progress |Chain| of actions."""
+        """Add the RightClick Action to an in-progress |Chain| of Actions."""
         self._add_action_to_chain(the_actor, the_chain)
 
     def __init__(self, target: Optional[Target] = None) -> None:

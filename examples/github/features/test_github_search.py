@@ -1,6 +1,6 @@
 """
 An example of a test module that follows the typical pytest test
-structure. These tests show off how to use custom tasks and questions,
+structure. These tests show off how to use custom tasks and Questions,
 though they are a little bit contrived.
 """
 
@@ -11,7 +11,7 @@ from selenium.webdriver import Firefox
 
 from screenpy import Actor, given, then, when
 from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Open
+from screenpy.actions import Open, See
 from screenpy.pacing import act, scene
 from screenpy.resolutions import (
     ContainsTheText,
@@ -29,7 +29,7 @@ from ..user_interface.github_home_page import URL
 
 @pytest.fixture(scope="function", name="Perry")
 def fixture_actor() -> Generator:
-    """Create the actor for our example tests!"""
+    """Create the Actor for our example tests!"""
     the_actor = Actor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
     yield the_actor
     the_actor.exit_stage_left()
@@ -41,10 +41,10 @@ def test_search_for_screenpy(Perry: Actor) -> None:
     """GitHub search finds the screenpy repository."""
     given(Perry).was_able_to(Open.their_browser_on(URL))
     when(Perry).attempts_to(SearchGitHub.for_text("perrygoy/screenpy"))
-    then(Perry).should_see_that(
-        (SearchResultsMessage(), DoesNot(ContainTheText("couldn’t"))),
-        (SearchResultsMessage(), ReadsExactly("1 repository result")),
-        (NumberOfSearchResults(), IsEqualTo(1)),
+    then(Perry).should(
+        See.the(SearchResultsMessage(), DoesNot(ContainTheText("couldn’t"))),
+        See.the(SearchResultsMessage(), ReadsExactly("1 repository result")),
+        See.the(NumberOfSearchResults(), IsEqualTo(1)),
     )
 
 
@@ -56,8 +56,8 @@ def test_search_for_nonexistent_repo(Perry: Actor) -> None:
 
     given(Perry).was_able_to(Open.their_browser_on(URL))
     when(Perry).attempts_to(SearchGitHub.for_text(nonexistant_repository))
-    then(Perry).should_see_that(
-        (SearchResultsMessage(), ContainsTheText("We couldn’t find any")),
-        (SearchResultsMessage(), ContainsTheText(nonexistant_repository)),
-        (NumberOfSearchResults(), IsEqualTo(0)),
+    then(Perry).should(
+        See.the(SearchResultsMessage(), ContainsTheText("We couldn’t find any")),
+        See.the(SearchResultsMessage(), ContainsTheText(nonexistant_repository)),
+        See.the(NumberOfSearchResults(), IsEqualTo(0)),
     )

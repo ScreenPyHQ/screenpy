@@ -5,7 +5,7 @@ Director
 
 Every screenplay has a director,
 and ScreenPy is no different.
-ScreenPy has exactly one director
+ScreenPy has exactly one Director
 who is in charge of taking notes.
 
 Using the Director
@@ -14,37 +14,40 @@ Using the Director
 The Director will not be used directly,
 usually.
 The Director is used
-in the :class:`~screenpy.actions.MakeNote` action,
+in the :class:`~screenpy.actions.MakeNote` Action,
 and may be used
-in custom actions
-or future actions
+in custom Actions
+or future Actions
 as well.
 If you do find yourself
 needing to talk to the Director,
 See :ref:`call_director` below.
 
-Whenever your actors make a note,
-it is the director
+Whenever your Actors make a note,
+it is the Director
 who keeps track of it.
 
 To look up a note,
-use the :func:`~screenpy.directions.noted_under` direction.
+use the :func:`~screenpy.directions.noted_under` Direction.
 You can use it *anywhere*::
 
     Perry.attempts_to(
         MakeNote.of_the(Text.of_the(GENERATED_KEYCODE)).as_("keycode"),
         GoToLockedGate(),
-        Enter.the_text(noted_under("keycode")).into_the(KEYCODE_INPUT),
+        Enter.the_text(noted_under("keycode")).into_the(KEYCODE_INPUT),  # <- with Actions!
         Wait.for_the(GENERATE_NEW_KEYCODE_BUTTON).to_appear(),
         Click.on_the(GENERATE_NEW_KEYCODE_BUTTON),
     )
 
-    Perry.should_see_the(
-        (Text.of_the(GENERATED_KEYCODE), DoesNot(ContainTheText(noted_under("keycode"))),
+    Perry.should(
+        See.the(
+            Text.of_the(GENERATED_KEYCODE),
+            DoesNot(ContainTheText(noted_under("keycode")),  # <- with Resolutions!
+        ),
     )
 
 As you can see,
-the director never appears in our screenplay,
+the Director never appears in our screenplay,
 but is always behind the scenes.
 
 .. _call_director:
@@ -62,7 +65,7 @@ like ``Director()``.
 
 For example,
 this is from the source
-of the :class:`~screenpy.actions.MakeNote` action::
+of the :class:`~screenpy.actions.MakeNote` Action::
 
     Director().notes(self.key, value)
 

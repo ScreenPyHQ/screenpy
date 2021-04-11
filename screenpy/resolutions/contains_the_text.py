@@ -1,5 +1,5 @@
 """
-A resolution that matches against a substring.
+Matches a substring.
 """
 
 from hamcrest import contains_string
@@ -12,8 +12,8 @@ class ContainsTheText(BaseResolution):
 
     Examples::
 
-        the_actor.should_see_the(
-            (Text.of_the(WELCOME_MESSAGE), ContainsTheText("Hello,"))
+        the_actor.should(
+            See.the(Text.of_the(WELCOME_MESSAGE), ContainsTheText("Hello,"))
         )
     """
 

@@ -1,5 +1,5 @@
 """
-An action to move the mouse to a specific element, or by an offset.
+Move the mouse to a specific element, or by an offset.
 """
 
 from typing import Optional, Tuple
@@ -62,7 +62,7 @@ class MoveMouse:
         return self
 
     def _add_action_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """Private method to add the action to the chain."""
+        """Private method to add this Action to the chain."""
         if self.target is not None and self.offset is not None:
             the_chain.move_to_element_with_offset(
                 self.target.found_by(the_actor), *self.offset
@@ -73,13 +73,13 @@ class MoveMouse:
             the_chain.move_by_offset(*self.offset)
         else:
             raise UnableToAct(
-                "MoveMouse was given neither coordinates nor a target. Supply "
+                "MoveMouse was given neither coordinates nor a Target. Supply "
                 "one of these using MoveMouse.by_offset or MoveMouse.to_the."
             )
 
     @beat("{} moves the mouse {description}.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to move the mouse."""
+        """Direct the Actor to move the mouse."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         the_chain = ActionChains(browser)
         self._add_action_to_chain(the_actor, the_chain)
@@ -87,7 +87,7 @@ class MoveMouse:
 
     @beat("  Move the mouse {description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """Add the MoveMouse action to an in-progress |Chain| of actions."""
+        """Add the MoveMouse Action to an in-progress |Chain| of Actions."""
         self._add_action_to_chain(the_actor, the_chain)
 
     def __init__(

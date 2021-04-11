@@ -11,21 +11,22 @@ of test assertions in ScreenPy.
 Using Resolutions
 -----------------
 
-You will use resolutions
-by pairing them with a :ref:`question <questions>`.
-Your actor's |Actor.should_see_the| method
+You will use Resolutions
+by pairing them with a :ref:`Question <questions>`.
+The |See| Action
 accepts that pair to make an assertion::
 
+    from screenpy.actions import See
     from screenpy.questions import Text
     from screenpy.resolutions import ReadsExactly
 
     from ..user_interface.homepage import WELCOME_MESSAGE
 
-    #                                                   ⇩ here is the resolution
-    Perry.should_see_the((Text.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")))
+    #                                                  ⇩ here is the Resolution
+    Perry.should(See.the(Text.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")))
 
 
-The actor will then compare
+|See| will then compare
 the value returned by :class:`~screenpy.questions.Text`
 to the value passed in to :class:`~screenpy.resolutions.ReadsExactly`.
 If the two values match,
@@ -40,17 +41,17 @@ Writing New Resolutions
 
 Resolutions are an abstraction barrier
 for the excellent |PyHamcrest| library.
-To add a custom resolutions,
+To add a custom Resolutions,
 you will need to inherit
 from the :class:`~screenpy.resolutions.base_resolution.BaseResolution` class.
 All you need to provide
-in your custom resolution
+in your custom Resolution
 is a ``line`` class property
 and a set ``matcher_function``.
 
 
 The ``line`` is a string
-that explains what the resolution expects.
+that explains what the Resolution expects.
 This line appears in the log.
 You can use ``{expectation}`` here
 to reference the value passed in.
@@ -88,7 +89,7 @@ Thanks for using ScreenPy!
 Provided Resolutions
 --------------------
 
-These are the resolutions included in ScreenPy.
+These are the Resolutions included in ScreenPy.
 
 .. module:: screenpy.resolutions
 

@@ -1,5 +1,5 @@
 """
-A resolution that matches using equality.
+Matches using equality.
 """
 
 from hamcrest import equal_to
@@ -12,8 +12,8 @@ class IsEqualTo(BaseResolution):
 
     Examples::
 
-        the_actor.should_see_the(
-            (Number.of(ADVERTISEMENT_BANNERS), IsEqualTo(0)),
+        the_actor.should(
+            See.the(Number.of(ADVERTISEMENT_BANNERS), IsEqualTo(0))
         )
     """
 

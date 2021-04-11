@@ -1,6 +1,6 @@
 """
 An example of a test module that follows the typical unittest.TestCase
-test structure. These tests exercise the Wait and Enter actions.
+test structure. These tests exercise the Wait and Enter Actions.
 """
 
 import unittest
@@ -11,7 +11,7 @@ from selenium.webdriver.common.by import By
 
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Enter, Open, Wait
+from screenpy.actions import Enter, Open, See, Wait
 from screenpy.pacing import act, scene
 from screenpy.questions import Text
 from screenpy.resolutions import ReadsExactly
@@ -39,8 +39,8 @@ class TestKeyPresses(unittest.TestCase):
             Enter.the_text(test_text).into_the(ENTRY_INPUT),
             Wait.for_the(RESULT_TEXT).to_contain_text(test_text),
         )
-        then(Perry).should_see_the(
-            (Text.of_the(RESULT_TEXT), ReadsExactly(f"You entered: {test_text}"))
+        then(Perry).should(
+            See.the(Text.of_the(RESULT_TEXT), ReadsExactly(f"You entered: {test_text}"))
         )
 
     @act("Perform")
@@ -68,8 +68,8 @@ class TestKeyPresses(unittest.TestCase):
             .using(text_to_have_all)
             .with_(RESULT_TEXT, "You", "entered:", test_text),
         )
-        then(Perry).should_see_the(
-            (Text.of_the(RESULT_TEXT), ReadsExactly(f"You entered: {test_text}"))
+        then(Perry).should(
+            See.the(Text.of_the(RESULT_TEXT), ReadsExactly(f"You entered: {test_text}"))
         )
 
     def tearDown(self) -> None:

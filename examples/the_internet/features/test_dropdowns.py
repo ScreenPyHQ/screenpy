@@ -1,6 +1,6 @@
 """
 An example of a test module that follows the typical unittest.TestCase
-test structure. These tests exercise the selecting actions.
+test structure. These tests exercise the selecting Actions.
 """
 
 import unittest
@@ -9,7 +9,7 @@ from selenium.webdriver import Firefox
 
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Open, Select
+from screenpy.actions import Open, See, Select
 from screenpy.pacing import act, scene
 from screenpy.questions import Selected
 from screenpy.resolutions import ReadsExactly
@@ -33,8 +33,8 @@ class TestDropdowns(unittest.TestCase):
 
         given(Perry).was_able_to(Open.their_browser_on(URL))
         when(Perry).attempts_to(Select.the_option_named("Option 1").from_(THE_DROPDOWN))
-        then(Perry).should_see_the(
-            (Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 1"))
+        then(Perry).should(
+            See.the(Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 1"))
         )
 
     @act("Perform")
@@ -45,8 +45,8 @@ class TestDropdowns(unittest.TestCase):
 
         given(Perry).was_able_to(Open.their_browser_on(URL))
         when(Perry).attempts_to(Select.the_option_at_index(1).from_(THE_DROPDOWN))
-        then(Perry).should_see_the(
-            (Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 1"))
+        then(Perry).should(
+            See.the(Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 1"))
         )
 
     @act("Perform")
@@ -57,8 +57,8 @@ class TestDropdowns(unittest.TestCase):
 
         given(Perry).was_able_to(Open.their_browser_on(URL))
         when(Perry).attempts_to(Select.the_option_with_value("2").from_(THE_DROPDOWN))
-        then(Perry).should_see_the(
-            (Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 2"))
+        then(Perry).should(
+            See.the(Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 2"))
         )
 
     def tearDown(self) -> None:

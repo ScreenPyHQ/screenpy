@@ -1,7 +1,6 @@
 """
-A question to find out the number of search results on the GitHub search
-page. It is a little contrived, but it shows how to write your own
-question.
+A Question to find out the number of search results on the GitHub search
+page.
 """
 
 from screenpy import Actor
@@ -17,11 +16,12 @@ class NumberOfSearchResults:
     Abilities Required:
         BrowseTheWeb
 
-    Examples:
-        the_actor.should_see_the((NumberOfSearchResults(), Equals(4)))
+    Examples::
+
+        the_actor.should(See.the(NumberOfSearchResults(), Equals(4)))
     """
 
     @beat("{} checks the number of results...")
     def answered_by(self, the_actor: Actor) -> float:
-        """Direct the actor to count the number of search results."""
+        """Direct the Actor to count the number of search results."""
         return Number.of(SEARCH_RESULTS).answered_by(the_actor)

@@ -1,5 +1,5 @@
 """
-A question to discover the current url of an Actor's browser.
+Investigate the current url of an Actor's browser.
 """
 
 from screenpy.abilities import BrowseTheWeb
@@ -15,11 +15,11 @@ class BrowserURL:
 
     Examples::
 
-        the_actor.should_see_the((BrowserURL(), ContainsTheText("/screenplays")))
+        the_actor.should(See.the(BrowserURL(), ContainsTheText("/screenplays")))
     """
 
     @beat("{} reads the URL from their browser.")
     def answered_by(self, the_actor: Actor) -> str:
-        """Direct the actor to investigate the browser's current URL."""
+        """Direct the Actor to investigate the browser's current URL."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
         return browser.current_url

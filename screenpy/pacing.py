@@ -121,8 +121,8 @@ def beat(line: str) -> Callable[[Function], Function]:
     will be figured out from the properties of a decorated method's class.
 
     For example, if the beat line is "{} clicks on the {target}", then "{}"
-    will be replaced by the actor's name, and "{target}" will be replaced
-    using the action class's target property (e.g. Click.target).
+    will be replaced by the Actor's name, and "{target}" will be replaced
+    using the Click's ``target`` property (e.g. ``Click.target``).
 
     Args:
         line: the line spoken during this "beat" (the step description).

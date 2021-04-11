@@ -1,5 +1,5 @@
 """
-A resolution that matches the negation of another resolution.
+Matches the negation of another Resolution.
 """
 
 from hamcrest import is_not
@@ -12,12 +12,12 @@ class IsNot(BaseResolution):
 
     Examples::
 
-        the_actor.should_see_the((Element(WELCOME_BANNER), IsNot(Visible())))
+        the_actor.should(See.the(Element(WELCOME_BANNER), IsNot(Visible())))
     """
 
     line = "not {expectation}"
     matcher_function = is_not
 
     def get_line(self) -> str:
-        """Override base get_line because of the unique circumstance."""
+        """Override base get_line to formulate this unique line."""
         return self.line.format(expectation=self.expected.get_line())

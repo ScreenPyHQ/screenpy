@@ -1,5 +1,5 @@
 """
-A question to retrieve an element from the page.
+Investigate an element on the browser page.
 """
 
 from typing import Optional
@@ -20,12 +20,12 @@ class Element:
 
     Examples::
 
-        the_actor.should_see_the((Element(WELCOME_BANNER), IsVisible()))
+        the_actor.should(See.the(Element(WELCOME_BANNER), IsVisible()))
     """
 
     @beat("{} inspects the {target}.")
     def answered_by(self, the_actor: Actor) -> Optional[WebElement]:
-        """Direct the actor to find the element."""
+        """Direct the Actor to find the element."""
         try:
             return self.target.found_by(the_actor)
         except TargetingError:

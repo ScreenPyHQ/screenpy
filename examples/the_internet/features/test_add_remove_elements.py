@@ -1,6 +1,6 @@
 """
 An example of a test module that follows the typical unittest.TestCase
-test structure. These tests exercise the clicking and waiting actions.
+test structure. These tests exercise the clicking and waiting Actions.
 """
 
 import random
@@ -10,7 +10,7 @@ from selenium.webdriver import Firefox
 
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Click, Open, Wait
+from screenpy.actions import Click, Open, See, Wait
 from screenpy.pacing import act, scene
 from screenpy.questions import Element, Number
 from screenpy.resolutions import IsEqualTo, IsVisible
@@ -34,7 +34,7 @@ class TestAddRemoveElements(unittest.TestCase):
 
         given(Perry).was_able_to(Open.their_browser_on(URL))
         when(Perry).attempts_to(Click.on_the(ADD_BUTTON), Wait.for_the(ADDED_ELEMENTS))
-        then(Perry).should_see_the((Element(ADDED_ELEMENTS), IsVisible()))
+        then(Perry).should(See.the(Element(ADDED_ELEMENTS), IsVisible()))
 
     @act("Perform")
     @scene("Click")
@@ -51,8 +51,8 @@ class TestAddRemoveElements(unittest.TestCase):
         when(Perry).attempts_to(
             *(Click.on_the(ADD_BUTTON) for each_time in range(number_of_times))
         )
-        then(Perry).should_see_the(
-            (Number.of(ADDED_ELEMENTS), IsEqualTo(number_of_times))
+        then(Perry).should(
+            See.the(Number.of(ADDED_ELEMENTS), IsEqualTo(number_of_times))
         )
 
     @act("Perform")
@@ -67,7 +67,7 @@ class TestAddRemoveElements(unittest.TestCase):
             Wait.for_the(ADDED_ELEMENTS),
         )
         when(Perry).attempts_to(Click.on_the(ADDED_ELEMENTS))
-        then(Perry).should_see_the((Number.of(ADDED_ELEMENTS), IsEqualTo(0)))
+        then(Perry).should(See.the(Number.of(ADDED_ELEMENTS), IsEqualTo(0)))
 
     def tearDown(self) -> None:
         self.actor.exit_stage_left()

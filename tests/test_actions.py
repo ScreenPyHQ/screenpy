@@ -25,6 +25,9 @@ from screenpy.actions import (
     Release,
     RespondToThePrompt,
     RightClick,
+    See,
+    SeeAllOf,
+    SeeAnyOf,
     Select,
     SendAPIRequest,
     SendDELETERequest,
@@ -369,6 +372,33 @@ class TestRightClick:
 
         assert isinstance(rc1, RightClick)
         assert isinstance(rc2, RightClick)
+
+
+class TestSee:
+    def test_can_be_instantiated(self):
+        s1 = See(None, None)
+        s2 = See.the(None, None)
+
+        assert isinstance(s1, See)
+        assert isinstance(s2, See)
+
+
+class TestSeeAllOf:
+    def test_can_be_instantiated(self):
+        sao1 = SeeAllOf(None, None)
+        sao2 = SeeAllOf.the(None, None)
+
+        assert isinstance(sao1, SeeAllOf)
+        assert isinstance(sao2, SeeAllOf)
+
+
+class TestSeeAnyOf:
+    def test_can_be_instantiated(self):
+        sao1 = SeeAnyOf(None, None)
+        sao2 = SeeAnyOf.the(None, None)
+
+        assert isinstance(sao1, SeeAnyOf)
+        assert isinstance(sao2, SeeAnyOf)
 
 
 class TestSelect:

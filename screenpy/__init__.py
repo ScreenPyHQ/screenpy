@@ -10,14 +10,14 @@
 
 
 """
-                                  Screenpy
+                                  ScreenPy
                                                                       FADE IN:
 INT. SITEPACKAGES DIRECTORY
 
-Screenpy is a composition-based test framework. It is inspired by the
+ScreenPy is a composition-based test framework. It is inspired by the
 SerenityBDD library for Java.
 
-:copyright: (c) 2019–2020 by Perry Goy.
+:copyright: (c) 2019–2021 by Perry Goy.
 :license: MIT, see LICENSE for more details.
 """
 

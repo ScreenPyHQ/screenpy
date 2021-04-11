@@ -1,6 +1,5 @@
 """
-An ability that will allow the actor to get a generated code for two-factor
-authentication.
+Enable the Actor to get a generated code for two-factor authentication.
 """
 
 from datetime import datetime
@@ -10,9 +9,7 @@ import pyotp
 
 
 class AuthenticateWith2FA:
-    """
-    The ability to retrieve a one-time password from a two-factor
-    authenticator.
+    """Use PyOTP to enable retrieval of tokens from a two-factor authenticator.
 
     Examples::
 
@@ -49,7 +46,7 @@ class AuthenticateWith2FA:
         return self.otp.now()
 
     def forget(self) -> None:
-        """Clean up the pyotp instance stored in this ability."""
+        """Clean up the pyotp instance stored in this Ability."""
         del self.otp
 
     def __repr__(self) -> str:

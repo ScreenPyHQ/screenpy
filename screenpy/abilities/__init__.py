@@ -1,6 +1,5 @@
 """
-Abilities provide an API for actors to use other libraries to perform
-actions.
+Abilities allow Actors to perform Actions and ask Questions.
 """
 
 

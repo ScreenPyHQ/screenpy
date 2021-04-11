@@ -6,17 +6,17 @@ Actions
 Actions are the things that :ref:`actors` can do,
 using their :ref:`abilities`.
 They are the mechanism
-through which your actors
+through which your Actors
 interact with your application.
 
 Using Actions
 -------------
 
-Your actors will use actions
+Your Actors will use Actions
 during the `Arrange and Act parts <https://docs.microsoft.com/en-us/visualstudio/test/unit-test-basics?view=vs-2019#write-your-tests>`_
 of your tests.
 Here is an example
-using the :class:`~screenpy.actions.Click` action::
+using the :class:`~screenpy.actions.Click` Action::
 
     from screenpy.actions import Click
 
@@ -27,32 +27,32 @@ using the :class:`~screenpy.actions.Click` action::
 
 
 Actors will always only *attempt*
-to perform an action.
+to perform an Action.
 They may not actually have the correct :ref:`abilities`,
 after all.
-If an actor is unable to perform an action or task,
+If an Actor is unable to perform an Action or task,
 they will raise an |UnableToPerform| exception.
 
 Writing New Actions
 -------------------
 
-You may find that the base actions
+You may find that the base Actions
 don't quite cover all
-that you need your actors to do.
+that you need your Actors to do.
 Since ScreenPy is extensible,
 it is easy—and encouraged!—
-to create your own custom actions.
+to create your own custom Actions.
 
 Actions must be :class:`~screenpy.protocols.Performable`,
 which means they have a :meth:`~screenpy.protocols.Performable.perform_as` method.
-This method tells the actor
-how to use their abilities
-to perform the action.
+This method tells the Actor
+how to use their Abilities
+to perform the Action.
 
 .. _checkthespelling:
 
 Let's take a look
-at what a custom action
+at what a custom Action
 might look like.
 Here is the source
 for the extremely contrived
@@ -65,7 +65,7 @@ for the extremely contrived
 
 
     class CheckTheSpelling:
-        """Check the spelling of words in a given target.
+        """Check the spelling of words in a given Target.
 
         Examples:
             the_actor.attempts_to(CheckTheSpelling.of_words_in_the("WELCOME_BANNER")
@@ -73,12 +73,12 @@ for the extremely contrived
 
         @staticmethod
         def of_words_in_the(target: Target) -> "CheckTheSpelling":
-            """Set the target to check."""
+            """Set the Target to check."""
             return CheckTheSpelling(target)
 
         @beat("{} checks the spelling of words in {target}")
         def perform_as(self, the_actor: AnActor) -> None:
-            """Direct the actor to check the target's spelling."""
+            """Direct the Actor to check the Target's spelling."""
             text = self.target.found_by(the_actor).text
             misspelled = []
             for word in text.split(" "):
@@ -92,11 +92,11 @@ for the extremely contrived
             self.target = target
 
 
-This action directs the actor
-to use their ability
+This Action directs the Actor
+to use their Ability
 to :ref:`CheckSpelling <checkspelling>`.
-Using that ability,
-the actor checks the spelling
+Using that Ability,
+the Actor checks the spelling
 of words in an element.
 If they find any misspelled,
 they log the misspellings.
@@ -107,17 +107,17 @@ Tasks
 -----
 
 As you build your test suite,
-your actors might repeat
-the same series of actions
+your Actors might repeat
+the same series of Actions
 several times.
 Or you may have
-a series of actions
+a series of Actions
 that could use a more approachable name.
 Luckily,
 there is a solution
 to both of these issues!
 
-You can abstract any group of actions
+You can abstract any group of Actions
 into a task
 in your :ref:`tasks directory <tasks-dir>`.
 Tasks can even call other tasks!
@@ -174,7 +174,7 @@ is logging in to your application under test::
 
 
 Now,
-the series of actions
+the series of Actions
 needed to log in
 are all described
 by the ``LogIn`` task.
@@ -182,11 +182,11 @@ Logging will also use
 the ``beat`` description
 instead of a long list of ``Wait``,
 ``Click``,
-and ``Enter`` actions.
+and ``Enter`` Actions.
 
 
-Note that tasks,
-like actions,
+Note thats,
+like Actions,
 must be :class:`~screenpy.protocols.Performable`.
 
 Up Next
@@ -198,7 +198,7 @@ on the :ref:`questions` page!
 Provided Actions
 ----------------
 
-These are the actions included in ScreenPy.
+These are the Actions included in ScreenPy.
 
 .. module:: screenpy.actions
 
@@ -325,6 +325,24 @@ RightClick
 ^^^^^^^^^^
 
 .. autoclass:: RightClick
+    :members:
+
+See
+^^^
+
+.. autoclass:: See
+    :members:
+
+SeeAllOf
+^^^^^^^^
+
+.. autoclass:: SeeAllOf
+    :members:
+
+SeeAnyOf
+^^^^^^^^
+
+.. autoclass:: SeeAnyOf
     :members:
 
 Select

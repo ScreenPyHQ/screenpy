@@ -1,5 +1,5 @@
 """
-An action to wait for a specified element to fulfill a given condition.
+Wait for the application to fulfill a given condition.
 """
 
 from typing import Any, Callable, Iterable, Optional
@@ -16,7 +16,7 @@ from screenpy.target import Target
 
 
 class Wait:
-    """Wait for the application to fulfill a certain condition.
+    """Wait for the application to fulfill a given condition.
 
     Abilities Required:
         |BrowseTheWeb|
@@ -50,13 +50,13 @@ class Wait:
 
     @staticmethod
     def for_the(target: Target) -> "Wait":
-        """Set the target to wait for."""
+        """Set the Target to wait for."""
         return Wait(20, [target])
 
     for_ = for_the
 
     def seconds_for_the(self, target: Target) -> "Wait":
-        """Set the target to wait for, after changing the default timeout."""
+        """Set the Target to wait for, after changing the default timeout."""
         self.args = [target]
         return self
 
@@ -65,7 +65,7 @@ class Wait:
     def using(
         self, strategy: Callable[..., Any], log_detail: Optional[str] = None
     ) -> "Wait":
-        """Use the given strategy to wait for the target.
+        """Use the given strategy to wait for the Target.
 
         Args:
             strategy: the condition to use to wait. This can be one of
@@ -116,11 +116,11 @@ class Wait:
 
     @beat("{} waits {timeout} seconds {log_message}")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to wait for the condition to be satisfied."""
+        """Direct the Actor to wait for the condition to be satisfied."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
 
-        # we need to get the locators for any targets passed in, but also keep
-        # them as targets for logging.
+        # we need to get the locators for any Targets passed in, but also keep
+        # them as Targets for logging.
         args = map(
             lambda arg: arg.get_locator() if isinstance(arg, Target) else arg, self.args
         )

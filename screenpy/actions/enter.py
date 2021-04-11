@@ -1,5 +1,5 @@
 """
-An action to enter text into an input field.
+Enter text into an input field, or press keys.
 """
 
 from functools import partial
@@ -17,7 +17,7 @@ from .hold_down import KEY_NAMES
 
 
 class Enter:
-    """Enter text into an input field.
+    """Enter text into an input field, or press specific keys.
 
     Abilities Required:
         |BrowseTheWeb|
@@ -70,10 +70,10 @@ class Enter:
 
     @beat('{} enters "{text_to_log}" into the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to enter the text into the targeted element."""
+        """Direct the Actor to enter the text into the element."""
         if self.target is None:
             raise UnableToAct(
-                "Target was not supplied for Enter. Provide a target by using either "
+                "Target was not supplied for Enter. Provide a Target by using either "
                 "the .into(), .into_the(), or .on() method."
             )
 
@@ -93,7 +93,7 @@ class Enter:
 
     @beat('  Enter "{text_to_log}" into the {target}!')
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """Add the Enter action to an in-progress |Chain| of actions."""
+        """Add the Enter Action to an in-progress |Chain| of Actions."""
         if self.target is None:
             send_keys = the_chain.send_keys
         else:

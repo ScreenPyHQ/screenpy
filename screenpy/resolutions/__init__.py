@@ -1,6 +1,6 @@
 """
-Resolutions are asserted by actors to ensure the answer to their Questions
-are as they expect.
+Resolutions are expected results asserted by Actors, compared against the
+answers to their Questions.
 
 These form the second half of test assertions in Screenplay Pattern; the
 first half is handled by Questions.

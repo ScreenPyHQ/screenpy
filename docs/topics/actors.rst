@@ -7,24 +7,24 @@ Actors
 Actors are the do-ers in the screenplay.
 Actors set the scene,
 perform their hearts out,
-and then make dramatic assertions.
+and then make their exit.
 
 Taking my tongue out of my cheek,
-actors represent the users of your application.
+Actors represent the users of your application.
 Screenplay Pattern places the focus
 on what your users want to do,
-so actors are the drivers of your test cases.
+so Actors are the drivers of your test cases.
 
 In ScreenPy specifically,
-Actors are custodians for their abilities.
-They hold on to instantiated abilities,
-use them to perform actions,
+Actors are custodians for their Abilities.
+They hold on to instantiated Abilities,
+use them to perform Actions,
 and clean up when they're done.
 
 Using Actors
 ------------
 
-To instantiate a new actor,
+To instantiate a new Actor,
 give it a name::
 
     from screenpy.actor import Actor, AnActor
@@ -32,10 +32,10 @@ give it a name::
 
     Perry = AnActor.named("Perry")
 
-Without any abilities,
-your actor will be woefully unprepared
+Without any Abilities,
+your Actor will be woefully unprepared
 to begin their performance.
-Grant abilities to your actors like so::
+Grant Abilities to your Actors like so::
 
     from selenium.webdriver import Firefox
 
@@ -48,8 +48,8 @@ Grant abilities to your actors like so::
     Perry = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
 
 Now,
-Perry is able to attempt any actions
-which need the ability to |BrowseTheWeb|.
+Perry is able to attempt any Actions
+which need the Ability to |BrowseTheWeb|.
 Here's Perry attempting to click a link::
 
     from screenpy import Target
@@ -61,29 +61,31 @@ Here's Perry attempting to click a link::
     Perry.attempts_to(Click.the(LOGIN_LINK))
 
 You'll notice we had to make a quick
-``LOGIN_LINK`` :class:`~screenpy.target.Target` there.
+``LOGIN_LINK`` Target there.
 We'll get to :ref:`targets` later;
-they're how you direct the actors
-where to perform the action.
+they're like stage blocking.
+They're how to tell your Actor
+where to perform the Action.
 
-All actions know what ability they need,
-and the actor must use that ability
+All Actions know what Ability they need,
+and the Actor must use that Ability
 to perform them.
-If the actor is lacking,
+If the Actor is lacking,
 they will raise an |UnableToPerform| exception.
 
-After our actor has set the stage,
+After our Actor has set the stage,
 they are ready to ask :ref:`questions`.
-Questions and resolutions
+Questions and Resolutions
 are how to make assertions in ScreenPy,
 like so::
 
+    from screenpy.actions import See
     from screenpy.questions import Text
     from screenpy.resolutions import ReadsExactly
 
 
     THE_WELCOME_MESSAGE = Target.the("welcome_message").located_by("span.welcome")
-    Perry.should_see_the((Text.of(THE_WELCOME_MESSAGE), ReadsExactly("Welcome!"))
+    Perry.should(See.the(Text.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!"))
 
 That's the whole flow!
 Our Actor has successfully performed their screenplay.

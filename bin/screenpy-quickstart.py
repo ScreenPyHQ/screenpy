@@ -87,8 +87,8 @@ create_module(
     "tasks",
     "start.py",
     '''"""
-A very simple Task to give you an idea of what a Task might be or do. An actor
-must possess the ability to BrowseTheWeb to perform this task. An actor
+A very simple Task to give you an idea of what a task might be or do. An Actor
+must possess the Ability to BrowseTheWeb to perform this task. An Actor
 performs this task like so:
 
     the_actor.attempts_to(Start.on_the_homepage())
@@ -112,14 +112,14 @@ class Start:
 
     def perform_as(self, the_actor: AnActor) -> None:
         """
-        Asks the actor to visit the specified URL in their browser.
+        Asks the Actor to visit the specified URL in their browser.
 
         Args:
-            the_actor: the actor who will perform this task.
+            the_actor: the Actor who will perform this task.
 
         Raises:
-            UnableToPerformException: if the actor does not possess the
-                ability to BrowseTheWeb.
+            UnableToPerformException: if the Actor does not possess the
+                Ability to BrowseTheWeb.
         """
         the_actor.attempts_to(Open.their_browser_on(self.location))
 
@@ -143,6 +143,7 @@ You will probably want to only follow one style.
 from selenium.webdriver import Firefox
 from screenpy import AnActor, given, when, then
 from screenpy.abilities import BrowseTheWeb
+from screenpy.actions import See
 from screenpy.questions import Text
 from screenpy.resolutions import ContainsTheText
 
@@ -170,8 +171,8 @@ class TestExample(TestCase):
 
         given(Actor).was_able_to(Start.on_the_homepage())
         # ... fill in your test steps here!
-        then(Actor).should_see_the(
-            (Text.of_the(WELCOME_MESSAGE), ContainsTheText("ScreenPy"))
+        then(Actor).should(
+            See.the(Text.of_the(WELCOME_MESSAGE), ContainsTheText("ScreenPy"))
         )
 
     def tearDown(self):
@@ -194,8 +195,8 @@ def test_open_homepage_pytest(TheActor):
     """A simple example to show a test using pytest fixtures"""
     given(TheActor).was_able_to(Start.on_the_homepage())
     # ... fill in your test steps here!
-    then(TheActor).should_see_the(
-        (Text.of_the(WELCOME_MESSAGE), ContainsTheText("ScreenPy"))
+    then(TheActor).should(
+        See.the(Text.of_the(WELCOME_MESSAGE), ContainsTheText("ScreenPy"))
     )
 
 ''',

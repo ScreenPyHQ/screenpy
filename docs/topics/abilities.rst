@@ -4,22 +4,20 @@ Abilities
 =========
 
 Abilities allow your :ref:`actors` to **do** things.
-Actors will leverage their abilities
+Actors will leverage their Abilities
 to perform their role in your test scripts.
 
-Abilities store the state and configuration
-for other libraries
-so your actors can use them.
-They enable your actor
-to perform actions
-and ask questions
-which use the ability.
+Abilities store state and configuration.
+They enable your Actor
+to perform Actions
+and ask Questions
+which use the Ability.
 
 
 Granting Abilities
 ------------------
 
-To grant an Actor an ability,
+To grant an Actor an Ability,
 pass it in using the Actor's
 :meth:`~screenpy.actor.Actor.who_can` method::
 
@@ -35,18 +33,18 @@ pass it in using the Actor's
     Perry.can(BrowseTheWeb.using_safari())
 
 Now Perry can
-perform actions
-and ask questions
-using his ability to |BrowseTheWeb|.
-If an action or question uses an ability
-which the actor does not have,
-the actor will raise an |UnableToPerform| exception.
+perform Actions
+and ask Questions
+using his Ability to |BrowseTheWeb|.
+If an Action or Question uses an Ability
+which the Actor does not have,
+the Actor will raise an |UnableToPerform| exception.
 
 Writing New Abilities
 ---------------------
 
-There may be other abilities
-your actors need to have
+There may be other Abilities
+your Actors need to have
 in order to test your application,
 besides the ones
 contained herein.
@@ -61,7 +59,7 @@ or deleting objects.
 .. _checkspelling:
 
 Let's take a look
-at what a custom ability
+at what a custom Ability
 might look like.
 Here is the source
 for the extremely contrived
@@ -96,9 +94,9 @@ for the extremely contrived
 
 ``CheckSpelling`` provides an interface
 to the `enchant <https://pyenchant.github.io/pyenchant/>`_ library.
-The required ``forget`` method
-cleans up the ability
-when the actor exits.
+The required :meth:`~screenpy.protocols.Forgettable.forget` method
+cleans up the Ability
+when the Actor exits.
 
 
 Up Next
@@ -110,7 +108,7 @@ on the :ref:`targets` page!
 Included Abilities
 ------------------
 
-These are the abilities included in ScreenPy.
+These are the Abilities included in ScreenPy.
 
 .. module:: screenpy.abilities
 

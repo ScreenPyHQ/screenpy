@@ -1,5 +1,5 @@
 """
-A question to investigate the headers of the last API response received.
+Investigate the headers of the last API response received.
 """
 
 from typing import MutableMapping
@@ -18,14 +18,14 @@ class HeadersOfTheLastResponse:
 
     Examples::
 
-        the_actor.should_see_the(
-            (HeadersOfTheLastResponse(), ContainKey("Content-Type"))
+        the_actor.should(
+            See.the(HeadersOfTheLastResponse(), ContainKey("Content-Type"))
         )
     """
 
     @beat("{} examines the headers of the last response they received.")
     def answered_by(self, the_actor: Actor) -> MutableMapping[str, str]:
-        """Direct the actor to investigate the headers of the last response."""
+        """Direct the Actor to investigate the headers of the last response."""
         responses = the_actor.ability_to(MakeAPIRequests).responses
         if len(responses) < 1:
             raise UnableToAnswer(f"{the_actor} has not yet received any API responses.")

@@ -22,19 +22,19 @@ with extra explanation below:
 
     - feature1.py
 
-    - ...
+    - etc...
 
   - tasks
 
     - task1.py
 
-    - ...
+    - etc...
 
   - ui
 
     - page1.py
 
-    - ...
+    - etc...
 
 .. _features-dir:
 
@@ -54,11 +54,11 @@ Tasks
 -----
 
 Tasks are descriptive ways
-to group one or more actions
-that your actors will do.
+to group one or more Actions
+that your Actors will do.
 A common task is a :ref:`LogIn <logintask>` task,
-which will contain the actions necessary to log in.
-There may be many tasks your actors will need to perform.
+which will contain the Actions necessary to log in.
+There may be many tasks your Actors will need to perform.
 
 For more information,
 see the :ref:`tasks` section!
@@ -69,7 +69,7 @@ User Interface (ui)
 -------------------
 
 These files collect
-all the locators
+all the Targets
 and URLs
 for the pages of your application.
 These will not be

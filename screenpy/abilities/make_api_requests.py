@@ -1,6 +1,5 @@
 """
-An ability that will allow the actor to make API requests and store the
-responses.
+Enable the Actor to make API requests and store the responses.
 """
 
 from typing import Any, Callable, Dict, List, Optional
@@ -11,7 +10,7 @@ from ..exceptions import RequestError
 
 
 class MakeAPIRequests:
-    """The ability to send API requests.
+    """Use Requests to enable sending API requests.
 
     Examples::
 
@@ -24,14 +23,14 @@ class MakeAPIRequests:
 
     @staticmethod
     def using(session: Session) -> "MakeAPIRequests":
-        """Provide a |Requests| session for the ability to use."""
+        """Provide a |Requests| session for the Ability to use."""
         return MakeAPIRequests(session=session)
 
     def to_send(self, method: str, url: str, **kwargs: Any) -> None:
-        """
-        Send a request. This is a pass-through to the session's ``request``
-        method and has the same signature. The response is stored in the
-        responses list in this ability.
+        """Send a request.
+
+        This is a pass-through to the session's ``request`` method and has the
+        same parameter signature. The response is stored in this Ability.
 
         Args:
             method: the HTTP method of the request - GET, POST, etc.
@@ -57,7 +56,7 @@ class MakeAPIRequests:
     send = to_send
 
     def forget(self) -> None:
-        """Clean up the Session instance stored in this ability."""
+        """Clean up the Session instance stored in this Ability."""
         self.session.close()
 
     def __repr__(self) -> str:

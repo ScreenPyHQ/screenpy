@@ -1,6 +1,6 @@
 """
-A question to discover the text of the selected option or options from a
-dropdown or multi-select field.
+Investigate the text of the selected option or options from a dropdown or
+multi-select field.
 """
 
 from typing import List, Union
@@ -20,11 +20,11 @@ class Selected:
 
     Examples::
 
-        the_actor.should_see_the(
-            (Selected.option_from(THE_STATE_DROPDOWN), ReadsExactly("Minnesota")),
+        the_actor.should(
+            See.the(Selected.option_from(THE_STATE_DROPDOWN), ReadsExactly("Minnesota"))
         )
 
-        the_actor.should_see_the((Selected.options_from(INDUSTRIES), HasLength(5)))
+        the_actor.should(See.the(Selected.options_from(INDUSTRIES), HasLength(5)))
     """
 
     @staticmethod
@@ -48,7 +48,7 @@ class Selected:
 
         Note that this method should not be used for single-select dropdowns,
         that will cause a NotImplemented error to be raised from Selenium when
-        answering this question.
+        answering this Question.
         """
         return Selected(multiselect_target, multi=True)
 
@@ -56,7 +56,7 @@ class Selected:
 
     @beat("{} checks the selected option(s) from {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
-        """Direct the actor to name the selected option(s)."""
+        """Direct the Actor to name the selected option(s)."""
         select = SeleniumSelect(self.target.found_by(the_actor))
 
         if self.multi:

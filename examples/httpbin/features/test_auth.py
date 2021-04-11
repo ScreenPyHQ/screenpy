@@ -3,7 +3,7 @@ API test example that tests various auths.
 """
 
 from screenpy import Actor, given, then, when
-from screenpy.actions import AddHeader, SendGETRequest
+from screenpy.actions import AddHeader, See, SendGETRequest
 from screenpy.questions import StatusCodeOfTheLastResponse
 from screenpy.resolutions import IsEqualTo
 
@@ -21,7 +21,7 @@ def test_basic_auth(Perry: Actor) -> None:
         )
     )
 
-    then(Perry).should_see_the((StatusCodeOfTheLastResponse(), IsEqualTo(200)))
+    then(Perry).should(See.the(StatusCodeOfTheLastResponse(), IsEqualTo(200)))
 
 
 def test_bearer_auth(Perry: Actor) -> None:
@@ -30,4 +30,4 @@ def test_bearer_auth(Perry: Actor) -> None:
 
     when(Perry).attempts_to(SendGETRequest.to(BEARER_AUTH_URL))
 
-    then(Perry).should_see_the((StatusCodeOfTheLastResponse(), IsEqualTo(200)))
+    then(Perry).should(See.the(StatusCodeOfTheLastResponse(), IsEqualTo(200)))

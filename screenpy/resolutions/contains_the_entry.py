@@ -1,6 +1,5 @@
 """
-A resolution that matches against a dictionary that contains the specified
-key/value pair(s).
+Matches a dictionary that contains the specified key/value pair(s).
 """
 
 from hamcrest import has_entries
@@ -13,8 +12,10 @@ class ContainsTheEntry(BaseResolution):
 
     Examples::
 
-        the_actor.should_see_the(
-            (HeadersOfTheLastResponse(), ContainTheEntry(Authorization="Bearer 1"))
+        the_actor.should(
+            See.the(
+                HeadersOfTheLastResponse(), ContainTheEntry(Authorization="Bearer 1")
+            )
         )
     """
 

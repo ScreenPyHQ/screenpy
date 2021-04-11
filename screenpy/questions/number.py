@@ -1,5 +1,5 @@
 """
-A question to discover how many of an element are present on the page.
+Investigate how many of an element are present on the page.
 """
 
 from screenpy.actor import Actor
@@ -15,7 +15,7 @@ class Number:
 
     Examples::
 
-        the_actor.should_see_the((Number.of(SEARCH_RESULTS), IsEqualTo(4)))
+        the_actor.should(See.the(Number.of(SEARCH_RESULTS), IsEqualTo(4)))
     """
 
     @staticmethod
@@ -25,7 +25,7 @@ class Number:
 
     @beat("{} counts the number of {target}.")
     def answered_by(self, the_actor: Actor) -> int:
-        """Direct the actor to count the elements."""
+        """Direct the Actor to count the elements."""
         return len(self.target.all_found_by(the_actor))
 
     def __init__(self, target: Target) -> None:

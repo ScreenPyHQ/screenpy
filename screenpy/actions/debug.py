@@ -1,7 +1,7 @@
 """
-An action to launch a debugger either using the debugger set in the
-PYTHONBREAKPOINT environment variable (see more information in PEP-553
-https://www.python.org/dev/peps/pep-0553/) or falling back to pdb.
+Launch a debugger either using the debugger set in the PYTHONBREAKPOINT
+environment variable or pdb. (See more information in PEP-553
+https://www.python.org/dev/peps/pep-0553/)
 """
 
 import pdb
@@ -11,11 +11,11 @@ from screenpy.pacing import beat
 
 
 class Debug:
-    """Activate a debugger to step through actions.
+    """Activate a debugger to step through Actions.
 
-    In long series of actions, it can be difficult to drop a debugger in
-    the right place. This action can be placed anywhere in the chain to
-    give you a debugger in the middle of the action chain. This action
+    In long series of Actions, it can be difficult to drop a debugger in
+    the right place. This Action can be placed anywhere in the list to
+    give you a debugger in the middle of the Action list. This Action
     uses Python 3.7+'s breakpoint() call if it can, otherwise it will
     default to pdb.set_trace().
 
@@ -32,14 +32,12 @@ class Debug:
 
     @beat("{} assumes direct control...")
     def perform_as(self, _: Actor) -> None:
-        """Direct the actor to activate a debugger."""
-
-        # Hello! You will probably need to 'return' from this function a
-        # few times to reach the action chain you're currently in. It
-        # will look like a for-loop inside the actor's `perform` method.
-        # Once you are there, you can step through the actions one by one.
+        """Direct the Actor to activate a debugger."""
 
         try:
+            # Hello! To get to the perform loop and step through the remaining
+            # Actions, you will need to go "up" about 3 times. If you go "up"
+            # one more time, you'll be in the list of Actions. Either works!
             breakpoint()
         except NameError:
             pdb.set_trace()

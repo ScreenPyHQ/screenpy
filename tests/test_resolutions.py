@@ -25,16 +25,15 @@ class MockResolution(BaseResolution):
 
 
 class TestBaseResolution:
-
     @pytest.mark.parametrize(
         "args,kwargs,expected",
         [
-            [[], {}, None],
+            [[], {}, True],
             [[1], {}, 1],
             [[1, 2], {}, (1, 2)],
             [[], {"a": 1}, {"a": 1}],
             [[1], {"a": 1}, ((1,), {"a": 1})],
-        ]
+        ],
     )
     def test_matcher_instantiation(self, args, kwargs, expected):
         """matcher function is properly called."""

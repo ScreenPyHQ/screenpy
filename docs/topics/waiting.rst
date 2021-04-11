@@ -18,7 +18,7 @@ for more information.
 Explicit Waits
 --------------
 
-ScreenPy provides a :class:`~screenpy.actions.Wait` action
+ScreenPy provides a :class:`~screenpy.actions.Wait` Action
 to wait for the application
 to meet a certain condition.
 Wait provides direct methods
@@ -29,7 +29,7 @@ including custom ones,
 if those don't suit your needs.
 
 Here are some examples
-of how to use this action::
+of how to use this Action::
 
     from screenpy.actions import Wait
 
@@ -82,7 +82,7 @@ sometimes you **need**
 to pause for a few moments.
 
 In these situations,
-ScreenPy offers the |Pause| action.
+ScreenPy offers the |Pause| Action.
 Here are some ways to use it::
 
     from screenpy.actions import Pause

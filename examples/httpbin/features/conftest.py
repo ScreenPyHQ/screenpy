@@ -12,7 +12,7 @@ from screenpy.abilities import MakeAPIRequests
 
 @pytest.fixture
 def Perry() -> Generator:
-    """An actor who can make API requests."""
+    """An Actor who can make API requests."""
     the_actor = AnActor.named("Perry").who_can(MakeAPIRequests())
     yield the_actor
     the_actor.exit_stage_left()

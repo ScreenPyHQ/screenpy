@@ -1,5 +1,5 @@
 """
-A resolution that matches against a list that contains the desired item.
+Matches a list that contains the desired item.
 """
 
 from hamcrest import has_item
@@ -12,8 +12,8 @@ class ContainsTheItem(BaseResolution):
 
     Examples::
 
-        the_actor.should_see_the(
-            (Text.of_all(SEARCH_RESULTS), ContainsTheItem("The Droids"))
+        the_actor.should(
+            See.the(Text.of_all(SEARCH_RESULTS), ContainsTheItem("The Droids"))
         )
     """
 

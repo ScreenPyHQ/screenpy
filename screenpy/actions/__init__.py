@@ -1,6 +1,6 @@
 """
-Actions are what the actors do, possibly requiring use of their abilities.
-Ask your actors to perform actions by passing the actions into their
+Actions are what the Actors do, possibly requiring use of their Abilities.
+Ask your Actors to perform Actions by passing the Actions into their
 |Actor.was_able_to| or |Actor.attempts_to| method.
 """
 
@@ -29,6 +29,9 @@ from .refresh_page import RefreshPage
 from .release import Release
 from .respond_to_the_prompt import RespondToThePrompt
 from .right_click import RightClick
+from .see import See
+from .see_all_of import SeeAllOf
+from .see_any_of import SeeAnyOf
 from .select import Select, SelectByIndex, SelectByText, SelectByValue
 from .send_api_request import SendAPIRequest
 from .set_headers import SetHeaders
@@ -43,6 +46,9 @@ Hover = MoveMouse
 Press = Enter
 Refresh = Reload = ReloadPage = RefreshPage
 RespondToPrompt = RespondToThePrompt
+Observe = Verify = Confirm = Assert = See
+ObserveAllOf = VerifyAllOf = ConfirmAllOf = AssertAllOf = SeeAllOf
+ObserveAnyOf = VerifyAnyOf = ConfirmAnyOf = AssertAnyOf = SeeAnyOf
 Sleep = Pause
 SwitchToWindow = SwitchToTab
 TakeNote = MakeNote
@@ -50,7 +56,7 @@ Visit = Open
 
 
 class APIMethodAction(Protocol):
-    """Describes the available methods for a SendMETHODRequest action."""
+    """Describes the available methods for a SendMETHODRequest Action."""
 
     @staticmethod
     def to(url: str) -> SendAPIRequest:
@@ -192,9 +198,15 @@ __all__ = [
     "AcceptAlert",
     "AddHeader",
     "AddHeaders",
+    "Assert",
+    "AssertAllOf",
+    "AssertAnyOf",
     "Chain",
     "Clear",
     "Click",
+    "Confirm",
+    "ConfirmAllOf",
+    "ConfirmAnyOf",
     "ContextClick",
     "Debug",
     "DismissAlert",
@@ -206,6 +218,9 @@ __all__ = [
     "HoldDown",
     "Hover",
     "MoveMouse",
+    "Observe",
+    "ObserveAllOf",
+    "ObserveAnyOf",
     "Open",
     "Pause",
     "Press",
@@ -217,6 +232,9 @@ __all__ = [
     "RespondToPrompt",
     "RespondToThePrompt",
     "RightClick",
+    "See",
+    "SeeAllOf",
+    "SeeAnyOf",
     "Select",
     "SelectByIndex",
     "SelectByText",
@@ -233,6 +251,9 @@ __all__ = [
     "SwitchTo",
     "SwitchToTab",
     "SwitchToWindow",
+    "Verify",
+    "VerifyAllOf",
+    "VerifyAnyOf",
     "Visit",
     "Wait",
 ]

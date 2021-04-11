@@ -60,16 +60,15 @@ source_suffix = ".rst"
 rst_prolog = """.. Internal references
 .. .. Docs Pages
 .. |wait strategies| replace:: :ref:`waiting`
-.. |direction| replace:: :ref:`direction<directions>`
+.. |direction| replace:: :ref:`Direction<directions>`
 
 .. .. Exceptions
 .. |UnableToAct| replace:: :class:`~screenpy.exceptions.UnableToAct`
-.. |UnableToPerform| replace:: :class:`~screenpy.actor.UnableToPerform`
+.. |UnableToPerform| replace:: :class:`~screenpy.exceptions.UnableToPerform`
 
 .. .. Actors
 .. |Actor.attempts_to| replace:: :meth:`~screenpy.actor.Actor.attempts_to`
 .. |Actor.can| replace:: :meth:`~screenpy.actor.Actor.can`
-.. |Actor.should_see_the| replace:: :meth:`~screenpy.actor.Actor.should_see_the`
 .. |Actor| replace:: :class:`~screenpy.actor.Actor`
 
 .. .. Abilities
@@ -78,10 +77,12 @@ rst_prolog = """.. Internal references
 .. |MakeAPIRequests| replace:: :class:`~screenpy.abilities.MakeAPIRequests`
 
 .. .. Actions
+.. |Action| replace:: :ref:`Action<actions>`
 .. |Chain| replace:: :class:`~screenpy.actions.Chain`
 .. |HoldDown| replace:: :class:`~screenpy.actions.HoldDown`
 .. |Pause| replace:: :class:`~screenpy.actions.Pause`
 .. |Release| replace:: :class:`~screenpy.actions.Release`
+.. |See| replace:: :class:`~screenpy.actions.See`
 .. |Select.the_option_at_index| replace:: :meth:`~screenpy.actions.Select.the_option_at_index`
 .. |Select.the_option_named| replace:: :meth:`~screenpy.actions.Select.the_option_named`
 .. |Select.the_option_with_value| replace:: :meth:`~screenpy.actions.Select.the_option_with_value`
@@ -89,10 +90,10 @@ rst_prolog = """.. Internal references
 .. .. Questions
 .. |CookiesOnTheAPISession| replace:: :class:`~screenpy.questions.CookiesOnTheAPISession`
 .. |CookiesOnTheWebSession| replace:: :class:`~screenpy.questions.CookiesOnTheWebSession`
-.. |Question| replace:: :ref:`questions`
+.. |Question| replace:: :ref:`Question<questions>`
 
 .. .. Resolutions
-.. |Resolution| replace:: :ref:`resolutions`
+.. |Resolution| replace:: :ref:`Resolution<resolutions>`
 
 .. External references
 .. .. Selenium

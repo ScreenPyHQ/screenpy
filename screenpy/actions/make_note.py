@@ -1,5 +1,5 @@
 """
-An action to make a quick note about the answer to a question.
+Make a quick note about the answer to a Question.
 """
 
 from typing import Optional
@@ -11,7 +11,7 @@ from screenpy.protocols import Answerable
 
 
 class MakeNote:
-    """Make a note, using a question and arguments.
+    """Make a note, using a Question and arguments.
 
     You can access noted values with a |direction| at any point during a test.
 
@@ -26,7 +26,7 @@ class MakeNote:
 
     @staticmethod
     def of(question: Answerable) -> "MakeNote":
-        """Supply the question to answer and its arguments."""
+        """Supply the Question to answer and its arguments."""
         return MakeNote(question)
 
     of_the = of
@@ -38,7 +38,7 @@ class MakeNote:
 
     @beat("{} jots something down.")
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to take a note."""
+        """Direct the Actor to take a note."""
         if self.key is None:
             raise UnableToAct("No key was provided to name this note.")
 

@@ -1,5 +1,5 @@
 """
-An action to release the left mouse button or a held modifier key.
+Release the left mouse button or a held modifier key.
 """
 
 import platform
@@ -18,9 +18,8 @@ from .hold_down import KEY_NAMES
 class Release:
     """Release the specified key or left mouse button.
 
-    This action can only be used with the |Chain| meta-action, and it is
-    expected that a corresponding |HoldDown| action was called earlier in the
-    Chain.
+    This Action can only be used with the |Chain| meta-Action, and it expects
+    that a corresponding |HoldDown| Action was called earlier in the Chain.
 
     Abilities Required:
         |BrowseTheWeb|
@@ -37,8 +36,8 @@ class Release:
     @staticmethod
     def command_or_control_key() -> "Release":
         """
-        A convenience method that figures out what operating system the actor
-        is using and tells the actor which execution key to release.
+        A convenience method that figures out what operating system the Actor
+        is using and tells the Actor which execution key to release.
         """
         if platform.system() == "Darwin":
             return Release(Keys.COMMAND)
@@ -50,8 +49,8 @@ class Release:
         return Release(lmb=True)
 
     @beat("  Release {the_kraken}!")
-    def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
-        """Add the Release action to an in-progress |Chain| of actions."""
+    def add_to_chain(self, _: Actor, the_chain: ActionChains) -> None:
+        """Add the Release Action to an in-progress |Chain| of Actions."""
         if self.lmb:
             the_chain.release()
         elif self.key is not None:

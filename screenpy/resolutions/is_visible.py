@@ -1,5 +1,5 @@
 """
-A resolution that matches against a visible WebElement.
+Matches against a visible WebElement.
 """
 
 from .base_resolution import BaseResolution
@@ -11,12 +11,8 @@ class IsVisible(BaseResolution):
 
     Examples::
 
-        the_actor.should_see_the((Element(WELCOME_BANNER), IsVisible()))
+        the_actor.should(See.the(Element(WELCOME_BANNER), IsVisible()))
     """
 
     line = "visible"
     matcher_function = is_visible_element
-
-    def __init__(self) -> None:
-        self.expected = True
-        self.matcher = is_visible_element()

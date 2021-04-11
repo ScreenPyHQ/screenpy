@@ -7,7 +7,7 @@ is only one of them, so you'll always have access to the same information.
 class Director:
     """The single Director of the screenplay.
 
-    The Director keeps track of information for the actors. This information
+    The Director keeps track of information for the Actors. This information
     can be retrieved using a |direction|.
     """
 

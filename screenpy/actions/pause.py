@@ -1,5 +1,5 @@
 """
-An action to pause test execution for a specific time frame.
+Pause test execution for a specific time frame.
 """
 
 from time import sleep
@@ -12,7 +12,7 @@ from screenpy.pacing import beat
 
 
 class Pause:
-    """Pause the actor's actions for a set amount of time.
+    """Pause the Actor's Actions for a set amount of time.
 
     This class should only be used when absolutely necessary. Hard waits are
     the worst of all |wait strategies|; providing a reason will help explain
@@ -60,8 +60,8 @@ class Pause:
         return self
 
     @beat("{} pauses for {number} {unit} {reason}.")
-    def perform_as(self, the_actor: Actor) -> None:
-        """Direct the actor to take their union-mandated break."""
+    def perform_as(self, _: Actor) -> None:
+        """Direct the Actor to take their union-mandated break."""
         if not self.reason:
             raise UnableToAct(
                 "Cannot Pause without a reason. Use one of "
@@ -72,7 +72,7 @@ class Pause:
 
     @beat("  Pause for {number} {unit} ({reason})!")
     def add_to_chain(self, _: Actor, the_chain: ActionChains) -> None:
-        """Add the Pause action to an in-progress |Chain| of actions."""
+        """Add the Pause Action to an in-progress |Chain| of Actions."""
         the_chain.pause(self.time)
 
     def __init__(self, number: float) -> None:
