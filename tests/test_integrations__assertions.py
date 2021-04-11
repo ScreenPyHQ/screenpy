@@ -8,6 +8,7 @@ from screenpy.abilities import BrowseTheWeb, MakeAPIRequests
 from screenpy.actions import See, SeeAllOf, SeeAnyOf
 from screenpy.directions import the_noted
 from screenpy.questions import (
+    Attribute,
     BodyOfTheLastResponse,
     BrowserTitle,
     BrowserURL,
@@ -34,6 +35,24 @@ from screenpy.resolutions import (
     IsVisible,
     ReadsExactly,
 )
+
+
+def test_ask_for_attribute(Tester):
+    """Attribute finds its target and gets the attribute."""
+    fake_target = Target.the("fake").located_by("//html")
+    test_text = "spam"
+    test_attr = "value"
+    mocked_browser = Tester.ability_to(BrowseTheWeb).browser
+    mocked_element = mock.Mock()
+    mocked_element.get_attribute.return_value = test_text
+    mocked_browser.find_element.return_value = mocked_element
+
+    Tester.should(
+        See.the(Attribute(test_attr).of_the(fake_target), ReadsExactly(test_text)),
+    )
+
+    mocked_browser.find_element.assert_called_once_with(*fake_target.get_locator())
+    mocked_element.get_attribute.assert_called_once_with(test_attr)
 
 
 def test_ask_for_list(Tester):

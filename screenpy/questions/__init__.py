@@ -7,6 +7,7 @@ second half is handled by Resolutions.
 """
 
 
+from .attribute import Attribute
 from .body_of_the_last_response import BodyOfTheLastResponse
 from .browser_title import BrowserTitle
 from .browser_url import BrowserURL
@@ -21,12 +22,13 @@ from .text import Text
 from .text_of_the_alert import TextOfTheAlert
 
 # Natural-language-enabling syntactic sugar
+TheAttribute = Attribute
 TheBodyOfTheLastResponse = BodyOfTheLastResponse
 TheBrowserTitle = BrowserTitle
+TheBrowserURL = BrowserURL
 TheCookies = Cookies
 TheCookiesOnTheAPISession = CookiesOnTheAPISession
 TheCookiesOnTheWebSession = CookiesOnTheWebSession
-TheBrowserURL = BrowserURL
 TheElement = Element
 TheHeadersOfTheLastResponse = HeadersOfTheLastResponse
 TheList = List
@@ -38,6 +40,7 @@ TheTextOfTheAlert = TextOfTheAlert
 
 
 __all__ = [
+    "Attribute",
     "BodyOfTheLastResponse",
     "BrowserTitle",
     "BrowserURL",
@@ -52,6 +55,7 @@ __all__ = [
     "StatusCodeOfTheLastResponse",
     "Text",
     "TextOfTheAlert",
+    "TheAttribute",
     "TheBodyOfTheLastResponse",
     "TheBrowserTitle",
     "TheBrowserURL",

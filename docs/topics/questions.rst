@@ -122,30 +122,16 @@ These are the Questions included in ScreenPy.
 
 .. module:: screenpy.questions
 
-List
-^^^^
+Attribute
+^^^^^^^^^
 
-.. autoclass:: List
+.. autoclass:: Attribute
+    :members:
 
-Number
-^^^^^^
+BodyOfTheLastResponse
+^^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: Number
-
-Text
-^^^^
-
-.. autoclass:: Text
-
-Selected
-^^^^^^^^
-
-.. autoclass:: Selected
-
-Element
-^^^^^^^
-
-.. autoclass:: Element
+.. autoclass:: BodyOfTheLastResponse
 
 BrowserTitle
 ^^^^^^^^^^^^
@@ -162,12 +148,36 @@ Cookies
 
 .. autoclass:: Cookies
 
-BodyOfTheLastResponse
-^^^^^^^^^^^^^^^^^^^^^
+Element
+^^^^^^^
 
-.. autoclass:: BodyOfTheLastResponse
+.. autoclass:: Element
+
+List
+^^^^
+
+.. autoclass:: List
+    :members:
+
+Number
+^^^^^^
+
+.. autoclass:: Number
+    :members:
+
+Selected
+^^^^^^^^
+
+.. autoclass:: Selected
+    :members:
 
 StatusCodeOfTheLastResponse
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: StatusCodeOfTheLastResponse
+
+Text
+^^^^
+
+.. autoclass:: Text
+    :members:

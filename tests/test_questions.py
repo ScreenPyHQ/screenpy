@@ -9,6 +9,7 @@ from screenpy.abilities import MakeAPIRequests
 from screenpy.abilities.browse_the_web import BrowseTheWeb
 from screenpy.exceptions import UnableToAnswer
 from screenpy.questions import (
+    Attribute,
     BodyOfTheLastResponse,
     BrowserTitle,
     BrowserURL,
@@ -23,6 +24,21 @@ from screenpy.questions import (
     StatusCodeOfTheLastResponse,
     Text,
 )
+
+
+class TestAttribute:
+    def test_can_be_instantiated(self):
+        a1 = Attribute("")
+        a2 = Attribute("").of_the(None)
+
+        assert isinstance(a1, Attribute)
+        assert isinstance(a2, Attribute)
+
+    def test_raises_error_if_no_target(self, Tester):
+        a = Attribute("")
+
+        with pytest.raises(UnableToAnswer):
+            a.answered_by(Tester)
 
 
 class TestBodyOfTheLastResponse:
