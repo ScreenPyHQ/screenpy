@@ -6,17 +6,17 @@ Release History
 
 ### New Features
 
-- (h/t @langgaibo and @sramdas-dod) Actors can now clean up after themselves! Give 'em a task with `.has_cleanup_task(CleanUp())` and they'll do the `CleanUp()` task as they exit. Or sooner, if you call `Actor.cleans_up()` yourself!
-- (h/t @langgaibo) Actors can now take notes and use them... anywhere. The new **MakeNote** action allows you to save the answer to a question under a handy key, which can then be recalled later using a `direction`, which brings me to...
-- The Director! The Director is omnipresent and singular. They are always watching, waiting to give a needed note. Ask for one by using a `the_noted(key)` or `noted_under(key)` direction, wherever you need the information they hold. 🔺👁🔺
-- Added the **See**, **SeeAllOf**, and **SeeAnyOf** actions, to relieve Actors of the burden of asserting. Take a look at the new [Deprecations](https://screenpy-docs.readthedocs.io/en/latest/deprecations.html#id3) docs page to learn more.
-- Added the **Attribute** question, to ask about an element's attributes. Like "value", which is the one i'll be asking about.
+- (h/t @langgaibo and @sramdas-dod) Actors can now clean up after themselves! Give 'em a task with `.has_cleanup_task(CleanUpTask())` and they'll do the `CleanUpTask()` task as they exit. Or sooner, if you call `Actor.cleans_up()` yourself! (`CleanUpTask` not included.)
+- (h/t @langgaibo) Actors can now take notes and use them... anywhere. The new **MakeNote** Action allows you to save the answer to a Question under a handy key, which can then be recalled later using the `noted_under` direction, which brings me to...
+- The Director! The Director is omnipresent and singular. They are always watching, waiting to take or give a needed note. Ask for one by using a `the_noted(key)` or `noted_under(key)` direction, wherever you need the information they hold. 🔺👁🔺
+- Added the **See**, **SeeAllOf**, and **SeeAnyOf** Actions, to relieve Actors of the burden of asserting. Take a look at the new [Deprecations](https://screenpy-docs.readthedocs.io/en/latest/deprecations.html#id3) docs page to learn more.
+- Added the **Attribute** Question, to ask about an element's attributes. Like "value", which is the one i'll be asking about.
 
 ### Improvements
 
-- (h/t @WandyYing and @bandophahita) SOLIDified Actors a little bit more by deprecating their asserting responsibility. This was part of adding the new **See** etc. Actions mentioned above. Actors now have a `should` method, which is really just an alias for `was_able_to` and `attempts_to`, but is meant to be used with that **See** action. Or not, it's really up to you.
+- (h/t @WandyYing and @bandophahita) SOLIDified Actors a little bit more by deprecating their asserting responsibility. This was part of adding the new **See** etc. Actions mentioned above. Actors now have a `should` method, which is really just an alias for `was_able_to` and `attempts_to`, but is meant to be used with that **See** Action. Or not, it's really up to you.
 - Targets can now be used as if they themselves were locator tuples. You can do `target[0]` and pass in `*target`s. It's wild! And cleans up a really gross list comprehension from the **Wait** source code.
-- As ever, another huge documentation update. Things should be more consistent now. Maybe. (I'll probably find more things to smooth out as soon as i commit this.)
+- As ever, another huge documentation update. Things should be more consistent now. Maybe. (I'll probably find more things to smooth out as soon as i commit this.) (*Edit*: i did.)
 
 ### Deprecations
 
