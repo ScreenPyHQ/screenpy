@@ -6,7 +6,7 @@ Release History
 
 ### New Features
 
-- (h/t @langgaibo and @sramdas-dod) Actors can now clean up after themselves! Give 'em a task with `.has_cleanup_task(CleanUp())` and they'll do the `CleanUp()` task as they exit. Or sooner, if you call `Actor.clean_up()` yourself!
+- (h/t @langgaibo and @sramdas-dod) Actors can now clean up after themselves! Give 'em a task with `.has_cleanup_task(CleanUp())` and they'll do the `CleanUp()` task as they exit. Or sooner, if you call `Actor.cleans_up()` yourself!
 - (h/t @langgaibo) Actors can now take notes and use them... anywhere. The new **MakeNote** action allows you to save the answer to a question under a handy key, which can then be recalled later using a `direction`, which brings me to...
 - The Director! The Director is omnipresent and singular. They are always watching, waiting to give a needed note. Ask for one by using a `the_noted(key)` or `noted_under(key)` direction, wherever you need the information they hold. 🔺👁🔺
 - Added the **See**, **SeeAllOf**, and **SeeAnyOf** actions, to relieve Actors of the burden of asserting. Take a look at the new [Deprecations](https://screenpy-docs.readthedocs.io/en/latest/deprecations.html#id3) docs page to learn more.
