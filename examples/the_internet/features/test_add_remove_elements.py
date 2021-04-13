@@ -12,8 +12,8 @@ from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
 from screenpy.actions import Click, Open, See, Wait
 from screenpy.pacing import act, scene
-from screenpy.questions import Element, Number
-from screenpy.resolutions import IsEqualTo, IsVisible
+from screenpy.questions import Attribute, Element, Number
+from screenpy.resolutions import ContainsTheText, IsEqualTo, IsVisible
 
 from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS, URL
 
@@ -68,6 +68,43 @@ class TestAddRemoveElements(unittest.TestCase):
         )
         when(Perry).attempts_to(Click.on_the(ADDED_ELEMENTS))
         then(Perry).should(See.the(Number.of(ADDED_ELEMENTS), IsEqualTo(0)))
+
+    @act("Perform")
+    @scene("Attribute")
+    def test_class_name(self) -> None:
+        """Class name is correctly set."""
+        Perry = self.actor
+
+        given(Perry).was_able_to(
+            Open.their_browser_on(URL),
+            Click.on_the(ADD_BUTTON),
+            Wait.for_the(ADDED_ELEMENTS),
+        )
+        then(Perry).should(
+            See.the(
+                Attribute("class").of_the(ADDED_ELEMENTS),
+                ContainsTheText("added-manually"),
+            ),
+        )
+
+    @act("Perform")
+    @scene("Attribute")
+    def test_many_class_names(self) -> None:
+        """Class name is correctly set."""
+        Perry = self.actor
+        number_of_times = random.choice(range(2, 10))
+
+        given(Perry).was_able_to(
+            Open.their_browser_on(URL),
+            *(Click.on_the(ADD_BUTTON) for each_time in range(number_of_times)),
+            Wait.for_the(ADDED_ELEMENTS),
+        )
+        then(Perry).should(
+            See.the(
+                Attribute("class").of_all(ADDED_ELEMENTS),
+                IsEqualTo(["added-manually"] * number_of_times),
+            ),
+        )
 
     def tearDown(self) -> None:
         self.actor.exit_stage_left()

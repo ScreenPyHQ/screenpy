@@ -40,6 +40,11 @@ class TestAttribute:
         with pytest.raises(UnableToAnswer):
             a.answered_by(Tester)
 
+    def test_of_all_sets_multi(self):
+        a = Attribute("").of_all(None)
+
+        assert a.multi
+
 
 class TestBodyOfTheLastResponse:
     def test_can_be_instantiated(self):
