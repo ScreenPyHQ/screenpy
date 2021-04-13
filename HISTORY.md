@@ -1,6 +1,13 @@
 Release History
 ===============
 
+3.1.1 (2021-04-12)
+------------------
+
+### Improvements
+
+- Added `.of_all` method to the **Attribute** Question because that is, incidentally, the way i needed to be able to use it. Woops!
+
 3.1.0 (2021-04-11)
 ------------------
 
