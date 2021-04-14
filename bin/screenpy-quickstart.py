@@ -17,7 +17,7 @@ tasks/
  - start.py
 ui/
  - __init__.py
- - home_page.py
+ - docs_page.py
 """
 
 import os
@@ -34,14 +34,18 @@ def create_module(name: str, filename: str, contents: str) -> None:
         filename: the name of the file to create in the module.
         contents: what to write in the file.
     """
-    print(f"Creating {name} directory and files...")
-    try:
+    if not os.path.exists(name):
+        print(f"Creating {name} module...")
         os.mkdir(name)
-        Path(f"{name}/__init__.py").touch()
-        with open(f"{name}/{filename}", "w") as modulefile:
+
+    Path(f"{name}/__init__.py").touch()
+    filepath = f"{name}/{filename}"
+    if os.path.exists(filepath):
+        print(f">     File {filepath} already exists! Skipping.")
+    else:
+        print(f"      Creating {filepath} file...")
+        with open(filepath, "w") as modulefile:
             modulefile.write(contents)
-    except FileExistsError:
-        print(f"> Directory {name} already exists! Skipping.")
 
 
 print(
@@ -66,7 +70,7 @@ Path("__init__.py").touch()
 
 create_module(
     "ui",
-    "home_page.py",
+    "docs_page.py",
     '''"""
 Locators and the URL for ScreenPy's ReadTheDocs homepage.
 """
@@ -78,10 +82,120 @@ URL = "https://screenpy-docs.readthedocs.io/en/latest/"
 WELCOME_MESSAGE = Target.the("welcome message").located_by(
     "#welcome-to-screenpy-s-documentation>h1"
 )
+GUIDED_TOUR_LINK = Target.the('homepage "Guided Tour" link').located_by(
+    '#guided-tour a[href*="actors.html"]'
+)
 
 ''',
 )
 
+create_module(
+    "ui",
+    "actors_page.py",
+    '''"""
+Locators and the URL for ScreenPy's Actors docs page.
+"""
+
+from screenpy import Target
+
+URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/actors.html"
+
+UP_NEXT_LINK = Target.the('Actors "Up Next" link').located_by(
+    "#up-next a.reference"
+)
+
+''',
+)
+
+create_module(
+    "ui",
+    "abilities_page.py",
+    '''"""
+Locators and the URL for ScreenPy's Abilities docs page.
+"""
+
+from screenpy import Target
+
+URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/abilities.html"
+
+UP_NEXT_LINK = Target.the('Abilities "Up Next" link').located_by(
+    "#up-next a.reference"
+)
+
+''',
+)
+
+create_module(
+    "ui",
+    "targets_page.py",
+    '''"""
+Locators and the URL for ScreenPy's Targets docs page.
+"""
+
+from screenpy import Target
+
+URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/targets.html"
+
+UP_NEXT_LINK = Target.the('Targets "Up Next" link').located_by(
+    "#up-next a.reference"
+)
+
+''',
+)
+
+create_module(
+    "ui",
+    "actions_page.py",
+    '''"""
+Locators and the URL for ScreenPy's Actions docs page.
+"""
+
+from screenpy import Target
+
+URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/actions.html"
+
+UP_NEXT_LINK = Target.the('Actions "Up Next" link').located_by(
+    "#up-next a.reference"
+)
+
+''',
+)
+
+create_module(
+    "ui",
+    "questions_page.py",
+    '''"""
+Locators and the URL for ScreenPy's Questions docs page.
+"""
+
+from screenpy import Target
+
+URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/questions.html"
+
+UP_NEXT_LINK = Target.the('Questions "Up Next" link').located_by(
+    "#up-next a.reference"
+)
+
+''',
+)
+
+create_module(
+    "ui",
+    "resolutions_page.py",
+    '''"""
+Locators and the URL for ScreenPy's Resolutions docs page.
+"""
+
+from screenpy import Target
+
+URL = "https://screenpy-docs.readthedocs.io/en/latest/topics/resolutions.html"
+
+UP_NEXT_SECTION = Target.the('"Up Next" section').located_by(
+    "#up-next"
+)
+
+''',
+)
 
 create_module(
     "tasks",
@@ -91,13 +205,13 @@ A very simple Task to give you an idea of what a task might be or do. An Actor
 must possess the Ability to BrowseTheWeb to perform this task. An Actor
 performs this task like so:
 
-    the_actor.attempts_to(Start.on_the_homepage())
+    the_actor.attempts_to(Start.on_the_docs_page())
 """
 
 from screenpy import AnActor
 from screenpy.actions import Open
 
-from ..ui import home_page
+from ..ui import docs_page
 
 
 class Start:
@@ -106,9 +220,9 @@ class Start:
     """
 
     @staticmethod
-    def on_the_homepage() -> "Start":
+    def on_the_docs_page() -> "Start":
         """Sets the URL to be the homepage."""
-        return Start(home_page.URL)
+        return Start(docs_page.URL)
 
     def perform_as(self, the_actor: AnActor) -> None:
         """
@@ -132,7 +246,7 @@ class Start:
 
 create_module(
     "features",
-    "test_example.py",
+    "test_docs_page.py",
     '''"""
 Two very simple example tests that assert the welcome message on ScreenPy's
 ReadTheDocs homepage contains "ScreenPy". This test module includes an example
@@ -143,19 +257,27 @@ You will probably want to only follow one style.
 from selenium.webdriver import Firefox
 from screenpy import AnActor, given, when, then
 from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import See
+from screenpy.actions import Click, See, Wait
 from screenpy.questions import Text
 from screenpy.resolutions import ContainsTheText
 
 from ..tasks.start import Start
-from ..ui.home_page import WELCOME_MESSAGE
+from ..ui import  (
+    abilities_page,
+    actions_page,
+    actors_page,
+    docs_page,
+    questions_page,
+    resolutions_page,
+    targets_page,
+)
 
 
 # Example using unittest.TestCase
 from unittest import TestCase
 
 
-class TestExample(TestCase):
+class TestDocsPage(TestCase):
     """
     A simple example to show a test using unittest.TestCase.
     """
@@ -165,14 +287,48 @@ class TestExample(TestCase):
             BrowseTheWeb.using(Firefox())
         )
 
-    def test_open_homepage(self):
-        """Tests that the user can visit the homepage. Extend me!"""
+    def test_open_docspage_unittest(self):
+        """The user can visit the docs homepage. Quick and easy!"""
         Actor = self.actor
 
-        given(Actor).was_able_to(Start.on_the_homepage())
-        # ... fill in your test steps here!
+        given(Actor).was_able_to(Start.on_the_docs_page())
+
         then(Actor).should(
-            See.the(Text.of_the(WELCOME_MESSAGE), ContainsTheText("ScreenPy"))
+            See.the(
+                Text.of_the(docs_page.WELCOME_MESSAGE), ContainsTheText("ScreenPy")
+            )
+        )
+
+    def test_guided_tour_unittest(self):
+        """The user can take the guided tour. A little more steps involved."""
+        Actor = self.actor
+
+        given(Actor).was_able_to(Start.on_the_docs_page())
+
+        when(Actor).attempts_to(
+            Click.on_the(docs_page.GUIDED_TOUR_LINK),
+            Wait.for_the(actors_page.UP_NEXT_LINK).to_appear(),
+            Click.on_the(actors_page.UP_NEXT_LINK),
+            Wait.for_the(abilities_page.UP_NEXT_LINK).to_appear(),
+            Click.on_the(abilities_page.UP_NEXT_LINK),
+            Wait.for_the(targets_page.UP_NEXT_LINK).to_appear(),
+            Click.on_the(targets_page.UP_NEXT_LINK),
+            Wait.for_the(actions_page.UP_NEXT_LINK).to_appear(),
+            Click.on_the(actions_page.UP_NEXT_LINK),
+            Wait.for_the(questions_page.UP_NEXT_LINK).to_appear(),
+            Click.on_the(questions_page.UP_NEXT_LINK),
+            Wait.for_the(resolutions_page.UP_NEXT_SECTION).to_appear(),
+        )
+
+        then(Actor).should(
+            See.the(
+                Text.of_the(resolutions_page.UP_NEXT_SECTION),
+                ContainsTheText("concludes here!"),
+            ),
+            See.the(
+                Text.of_the(resolutions_page.UP_NEXT_SECTION),
+                ContainsTheText("Thanks for using ScreenPy!"),
+            ),
         )
 
     def tearDown(self):
@@ -186,17 +342,47 @@ import pytest
 @pytest.fixture(scope="function")
 def TheActor():
     """A simple Actor fixture for the pytest example"""
-    the_actor = AnActor.named("Tester").who_can(BrowseTheWeb.using(Firefox()))
+    the_actor = AnActor.named("Tester").who_can(BrowseTheWeb.using_firefox())
     yield the_actor
     the_actor.exit_stage_left()
 
 
-def test_open_homepage_pytest(TheActor):
+def test_open_docspage_pytest(TheActor):
     """A simple example to show a test using pytest fixtures"""
-    given(TheActor).was_able_to(Start.on_the_homepage())
-    # ... fill in your test steps here!
+    given(TheActor).was_able_to(Start.on_the_docs_page())
+
     then(TheActor).should(
-        See.the(Text.of_the(WELCOME_MESSAGE), ContainsTheText("ScreenPy"))
+        See.the(Text.of_the(docs_page.WELCOME_MESSAGE), ContainsTheText("ScreenPy"))
+    )
+
+def test_take_guided_tour_pytest(TheActor):
+    """A more involved example using pytest fixtures."""
+    given(TheActor).was_able_to(Start.on_the_docs_page())
+
+    when(TheActor).attempts_to(
+        Click.on_the(docs_page.GUIDED_TOUR_LINK),
+        Wait.for_the(actors_page.UP_NEXT_LINK).to_appear(),
+        Click.on_the(actors_page.UP_NEXT_LINK),
+        Wait.for_the(abilities_page.UP_NEXT_LINK).to_appear(),
+        Click.on_the(abilities_page.UP_NEXT_LINK),
+        Wait.for_the(targets_page.UP_NEXT_LINK).to_appear(),
+        Click.on_the(targets_page.UP_NEXT_LINK),
+        Wait.for_the(actions_page.UP_NEXT_LINK).to_appear(),
+        Click.on_the(actions_page.UP_NEXT_LINK),
+        Wait.for_the(questions_page.UP_NEXT_LINK).to_appear(),
+        Click.on_the(questions_page.UP_NEXT_LINK),
+        Wait.for_the(resolutions_page.UP_NEXT_SECTION).to_appear(),
+    )
+
+    then(TheActor).should(
+        See.the(
+            Text.of_the(resolutions_page.UP_NEXT_SECTION),
+            ContainsTheText("concludes here!"),
+        ),
+        See.the(
+            Text.of_the(resolutions_page.UP_NEXT_SECTION),
+            ContainsTheText("Thanks for using ScreenPy!"),
+        ),
     )
 
 ''',
