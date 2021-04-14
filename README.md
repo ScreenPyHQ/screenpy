@@ -54,7 +54,9 @@ Once installed, to set up a Screenplay Pattern scaffolding in your project, `cd`
 
     screenpy-quickstart
 
-This will set up `user_interface`, `questions`, `tasks`, and `features` directories and fill them with a simple test. For explanations on what these directories are for, see the [File Hierarchy documentation](https://screenpy-docs.readthedocs.io/en/latest/filehierarchy.html)
+Note that the Python script directory will need to be on your path to find `screenpy-quickstart`.
+
+This will set up `user_interface`, `tasks`, and `features` directories and fill them with a simple test. For explanations on what these directories are for, see the [File Hierarchy documentation](https://screenpy-docs.readthedocs.io/en/latest/filehierarchy.html)
 
 
 Allure Integration
