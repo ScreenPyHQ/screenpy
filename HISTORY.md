@@ -1,6 +1,15 @@
 Release History
 ===============
 
+3.1.2 (2021-04-13)
+------------------
+
+### Improvements
+
+- I'm on a tear, eh?
+- Added a more useful test in `screenpy-quickstart` that shows off more actions.
+- Adjusted the return type of the `noted_under` direction from `object` to `Any`. I think it could be something more specific, but `Any` is the best i've got for now.
+
 3.1.1 (2021-04-12)
 ------------------
 
