@@ -15,7 +15,10 @@
 import os
 import sys
 
+
 sys.path.insert(0, os.path.abspath("../"))
+
+from screenpy.__version__ import __version__  # noqa: need the path first
 
 autodoc_mock_imports = ["hamcrest", "allure", "pyotp", "typing_extensions"]
 
@@ -28,7 +31,7 @@ author = "Perry Goy"
 # The short X.Y version
 version = ""
 # The full version, including alpha/beta/rc tags
-release = "3.1.1"
+release = __version__
 
 
 # -- General configuration ---------------------------------------------------
