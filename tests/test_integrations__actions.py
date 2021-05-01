@@ -40,7 +40,8 @@ from screenpy.actions import (
     SwitchToTab,
     Wait,
 )
-from screenpy.exceptions import DeliveryError, UnableToAct
+from screenpy.directions import noted_under
+from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
 
 
 def test_accept_alert_calls_accept(Tester):
@@ -295,6 +296,20 @@ class TestMakeNote:
         Tester.attempts_to(MakeNote.of_the(MockQuestion).as_(key))
 
         assert Director().looks_up(key) == value
+
+    def test_using_note_immediately_raises_with_docs(self, Tester):
+        """Raised exception points to docs"""
+        MockQuestion = mock.Mock()
+        MockElement = mock.Mock()
+        key = "spam, spam, spam, spam, baked beans, and spam"
+
+        with pytest.raises(UnableToDirect) as exc:
+            Tester.attempts_to(
+                MakeNote.of_the(MockQuestion).as_(key),
+                Enter.the_text(noted_under(key).into_the(MockElement)),
+            )
+
+        assert "screenpy-docs.readthedocs.io" in str(exc.value)
 
 
 class TestMoveMouse:

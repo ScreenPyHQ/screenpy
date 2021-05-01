@@ -60,6 +60,44 @@ with a |direction|::
         See.the(Text.of_the(TODO_LIST), DoesNot(ReadExactly(the_noted("empty todo list")))
     )
 
+There is one limitation
+to using :class:`~screenpy.actions.MakeNote`:
+it is not possible
+to make a note
+and retrieve it
+in the same Actions list::
+
+    # CAN NOT do this:
+    when(Perry).attempts_to(
+        ...
+        MakeNote.of_the(Text.of_the(NOTABLE_ITEM)).as_("potent notable"),
+        Enter.the_text(noted_under("potent notable")).into_the(INPUT_FIELD),
+        ...
+    )
+
+    # Workaround:
+    when(Perry).attempts_to(
+        ...
+        MakeNote.of_the(Text.of_the(NOTABLE_ITEM)).as_("potent notable"),
+    )
+    and_(Perry).attempts_to(
+        Enter.the_text(noted_under("potent notable")).into_the(INPUT_FIELD),
+        ...
+    )
+
+This limitation exists
+because the note
+isn't written down
+until the action is *performed*.
+:func:`~screenpy.directions.noted_under` will attempt
+to retrieve the note
+as the actions list
+is being passed in to :func:`~screenpy.actor.Actor.attempts_to`,
+which is too quick!
+
+See `issue #51 <https://github.com/perrygoy/screenpy/issues/51>`__
+for more details.
+
 
 Waiting
 -------

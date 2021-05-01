@@ -7,12 +7,16 @@ class ScreenPyError(Exception):
     """The base exception for all of ScreenPy."""
 
 
+class UnableToDirect(ScreenPyError):
+    """The Director cannot direct."""
+
+
 class UnableToPerform(ScreenPyError):
-    """Raised when an Actor lacks the Ability to perform an Action."""
+    """The Actor lacks the Ability to perform an Action."""
 
 
 class TargetingError(ScreenPyError):
-    """Raised when there is an issue preventing Target acquisition."""
+    """There is an issue preventing Target acquisition."""
 
 
 class AbilityError(ScreenPyError):
@@ -20,11 +24,11 @@ class AbilityError(ScreenPyError):
 
 
 class BrowsingError(AbilityError):
-    """Raised when BrowseTheWeb encounters an error."""
+    """BrowseTheWeb encountered an error."""
 
 
 class RequestError(AbilityError):
-    """Raised when MakeAPIRequests encounters an error."""
+    """MakeAPIRequests encountered an error."""
 
 
 class ActionError(ScreenPyError):
@@ -32,11 +36,11 @@ class ActionError(ScreenPyError):
 
 
 class DeliveryError(ActionError):
-    """Raised when an Action encounters an error while being performed."""
+    """The Action encountered an error while being performed."""
 
 
 class UnableToAct(ActionError):
-    """Raised when an Action is missing direction."""
+    """The Action is missing key information."""
 
 
 class QuestionError(ScreenPyError):
@@ -44,4 +48,4 @@ class QuestionError(ScreenPyError):
 
 
 class UnableToAnswer(QuestionError):
-    """The Actor cannot answer the Question."""
+    """The Question is not answerable."""
