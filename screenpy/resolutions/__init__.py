@@ -14,6 +14,7 @@ from .contains_the_text import ContainsTheText
 from .contains_the_value import ContainsTheValue
 from .has_length import HasLength
 from .is_clickable import IsClickable
+from .is_close_to import IsCloseTo
 from .is_empty import IsEmpty
 from .is_equal_to import IsEqualTo
 from .is_not import IsNot
@@ -59,6 +60,7 @@ __all__ = [
     "EqualTo",
     "HasLength",
     "IsClickable",
+    "IsCloseTo",
     "IsDisplayed",
     "IsEmpty",
     "IsEnabled",

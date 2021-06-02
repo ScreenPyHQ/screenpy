@@ -13,6 +13,7 @@ from screenpy.resolutions import (
     Equal,
     HasLength,
     IsClickable,
+    IsCloseTo,
     IsEqualTo,
     IsNot,
     IsVisible,
@@ -176,6 +177,21 @@ class TestIsClickable:
         assert ic.matches(mock_clickable_element)
         assert not ic.matches(mock_unclickable_element)
         assert not ic.matches(mock_invisible_element)
+
+
+class TestIsCloseTo:
+    def test_can_be_instantiated(self):
+        ict = IsCloseTo(1, delta=3)
+
+        assert isinstance(ict, IsCloseTo)
+
+    def test_the_test(self):
+        ict = IsCloseTo(1, delta=3)
+
+        assert ict.matches(1)
+        assert ict.matches(4)
+        assert not ict.matches(5)
+        assert not ict.matches(-5)
 
 
 class TestIsEqualTo:

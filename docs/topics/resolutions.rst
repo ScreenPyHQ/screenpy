@@ -128,6 +128,11 @@ IsClickable
 
 .. autoclass:: IsClickable
 
+IsCloseTo
+^^^^^^^^^
+
+.. autoclass:: IsCloseTo
+
 IsEmpty
 ^^^^^^^
 
