@@ -36,7 +36,7 @@ class MakeNote:
         self.key = key
         return self
 
-    @beat("{} jots something down.")
+    @beat('{} jots something down under "{key}".')
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to take a note."""
         if self.key is None:
