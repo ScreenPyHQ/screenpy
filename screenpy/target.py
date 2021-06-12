@@ -26,7 +26,7 @@ class Target:
     """
 
     target_name: str
-    locator: Union[None, Tuple[By, str]]
+    locator: Union[None, Tuple[str, str]]
 
     @staticmethod
     def the(desc: str) -> "Target":
@@ -36,7 +36,7 @@ class Target:
         """
         return Target(desc)
 
-    def located_by(self, locator: Union[Tuple[By, str], str]) -> "Target":
+    def located_by(self, locator: Union[Tuple[str, str], str]) -> "Target":
         """Set the locator for this Target.
 
         Possible values for locator:
@@ -58,7 +58,7 @@ class Target:
 
     located = located_by
 
-    def get_locator(self) -> Tuple[By, str]:
+    def get_locator(self) -> Tuple[str, str]:
         """Return the stored locator.
 
         Raises:

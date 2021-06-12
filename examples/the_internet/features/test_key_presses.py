@@ -7,7 +7,6 @@ import unittest
 from typing import Callable, Tuple
 
 from selenium.webdriver import Firefox, Remote
-from selenium.webdriver.common.by import By
 
 from screenpy import AnActor, given, then, when
 from screenpy.abilities import BrowseTheWeb
@@ -51,7 +50,7 @@ class TestKeyPresses(unittest.TestCase):
         Perry = self.actor
 
         def text_to_have_all(
-            locator: Tuple[By, str], preamble: str, body: str, suffix: str
+            locator: Tuple[str, str], preamble: str, body: str, suffix: str
         ) -> Callable:
             """A very contrived custom condition."""
 
