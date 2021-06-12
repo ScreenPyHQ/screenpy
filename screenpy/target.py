@@ -49,7 +49,7 @@ class Target:
         """
         if isinstance(locator, tuple):
             self.locator = locator
-        elif locator.startswith("/"):
+        elif locator[0] in ("(", "/"):
             self.locator = (By.XPATH, locator)
         else:
             self.locator = (By.CSS_SELECTOR, locator)

@@ -26,11 +26,14 @@ def test_get_locator():
     """Returns the locator tuple when asked for it"""
     css_selector = "#id"
     xpath_locator = '//div[@id="id"]'
+    xpath_locator_2 = "(//a)[5]"
     css_target = Target.the("css element").located_by(css_selector)
     xpath_target = Target.the("xpath element").located_by(xpath_locator)
+    xpath_target_2 = Target.the("xpath element 2").located_by(xpath_locator_2)
 
     assert css_target.get_locator() == (By.CSS_SELECTOR, css_selector)
     assert xpath_target.get_locator() == (By.XPATH, xpath_locator)
+    assert xpath_target_2.get_locator() == (By.XPATH, xpath_locator_2)
 
 
 def test_located():
