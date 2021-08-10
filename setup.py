@@ -4,11 +4,11 @@ from setuptools import find_packages, setup
 
 requires = [
     "PyHamcrest>=2.0.0,<2.1",
-    "allure-pytest>=2.8.0,<2.9",
+    "allure-pytest>=2.9.0,<2.10",
     "selenium>=3.141.0,<4.1.0",
     "pyotp>=2.6.0,<2.7.0",
     "requests>=2.25.0,<2.26.0",
-    "typing-extensions>=3.7.4,<3.8",
+    "typing-extensions>=3.10.0,<3.11",
 ]
 
 repo_dir = path.abspath(path.dirname(__file__))

@@ -1,7 +1,9 @@
-import pytest
-from selenium.webdriver.common.keys import Keys
 from unittest import mock
 
+import pytest
+from selenium.webdriver.common.keys import Keys
+
+from screenpy import Target
 from screenpy.actions import (
     AcceptAlert,
     AddHeader,
@@ -12,7 +14,6 @@ from screenpy.actions import (
     DoubleClick,
     Enter,
     Enter2FAToken,
-    generate_send_method_class,
     GoBack,
     GoForward,
     HoldDown,
@@ -41,9 +42,9 @@ from screenpy.actions import (
     SwitchTo,
     SwitchToTab,
     Wait,
+    generate_send_method_class,
 )
 from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
-from screenpy import Target
 
 
 class TestAcceptAlert:

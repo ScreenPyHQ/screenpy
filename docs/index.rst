@@ -37,6 +37,8 @@ writing your first test!
    installation
    quickstart
    toolkit
+   settings
+   narrator
    cookbook
    filehierarchy
    exceptions

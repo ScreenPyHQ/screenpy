@@ -3,8 +3,8 @@ import sys
 from unittest import mock
 
 import pytest
-from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.keys import Keys
 
 from screenpy import Director, Target
 from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequests
@@ -33,8 +33,8 @@ from screenpy.actions import (
     See,
     SeeAllOf,
     SeeAnyOf,
-    SendAPIRequest,
     Select,
+    SendAPIRequest,
     SetHeaders,
     SwitchTo,
     SwitchToTab,

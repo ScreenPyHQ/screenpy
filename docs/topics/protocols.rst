@@ -45,3 +45,8 @@ Questions
 .. autoclass:: Answerable
     :members:
 
+Narration
+---------
+
+.. autoclass:: Adapter
+    :members:
