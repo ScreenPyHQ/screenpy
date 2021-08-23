@@ -1,12 +1,13 @@
 import logging
 import sys
+import time
 from unittest import mock
 
 import pytest
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 
-from screenpy import Director, Target
+from screenpy import Director, Target, Actor, settings
 from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequests
 from screenpy.actions import (
     AcceptAlert,
@@ -19,6 +20,7 @@ from screenpy.actions import (
     DoubleClick,
     Enter,
     Enter2FAToken,
+    Eventually,
     GoBack,
     GoForward,
     HoldDown,
@@ -42,6 +44,7 @@ from screenpy.actions import (
 )
 from screenpy.directions import noted_under
 from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
+from screenpy.protocols import Performable
 
 
 def test_accept_alert_calls_accept(Tester):
@@ -634,7 +637,7 @@ class TestWait:
         Tester.attempts_to(Wait.for_the(test_target))
 
         mocked_browser = Tester.ability_to(BrowseTheWeb).browser
-        mocked_webdriverwait.assert_called_once_with(mocked_browser, 20)
+        mocked_webdriverwait.assert_called_once_with(mocked_browser, settings.TIMEOUT)
         mocked_ec.visibility_of_element_located.assert_called_once_with(test_target)
         mocked_webdriverwait.return_value.until.assert_called_once_with(
             mocked_ec.visibility_of_element_located.return_value
@@ -662,3 +665,91 @@ class TestWait:
             Tester.attempts_to(Wait.for_the(test_target))
 
         assert str(test_target) in str(excinfo.value)
+
+
+RUNTIME_ERROR_MSG = "This is supposed to fail"
+
+
+class ExceptionPerformable:
+    """A performable which raises an exception.
+
+    For testing Eventually.
+    """
+    def perform_as(self, the_actor: Actor) -> None:
+        raise RuntimeError(RUNTIME_ERROR_MSG)
+
+
+class EventualPerformable:
+    """A performable which keeps track of how often it's been called.
+
+    For testing Eventually.
+    """
+    def perform_as(self, the_actor: Actor) -> None:
+        if self.start is None:
+            self.start = time.time()
+            self.end = self.start + self.duration
+
+        if time.time() > self.end:
+            return
+        self.loops += 1
+        raise RuntimeError("Supposed to fail until duration met")
+
+    def __init__(self, duration):
+        self.start = None
+        self.end = None
+        self.duration = duration
+        self.loops = 0
+
+
+class TestEventually:
+    def do_timeout(self, ev: Performable, Tester: Actor):
+        start = time.time()
+        try:
+            ev.perform_as(Tester)
+        except TimeoutError:
+            pass
+        elapsed = time.time() - start
+        return elapsed
+
+    def test_timeout_occurs(self, Tester: Actor):
+        timeout = 1
+        ev = Eventually(ExceptionPerformable()).for_(timeout).seconds()
+
+        elapsed = self.do_timeout(ev, Tester)
+
+        assert int(elapsed) == timeout
+
+    @pytest.mark.parametrize("poll,expected_loops", [[0.1, 10], [0.5, 2]])
+    def test_does_looping(self, poll, expected_loops, Tester: Actor):
+        expected_elapsed = 1
+        ev = Eventually(
+            EventualPerformable(expected_elapsed)
+        ).trying_every(poll).seconds().for_(5).seconds()
+
+        elapsed = self.do_timeout(ev, Tester)
+
+        assert int(elapsed) == expected_elapsed
+        assert ev.performable.loops == expected_loops
+
+    def test_catches_exceptions(self, Tester: Actor):
+        ev = Eventually(ExceptionPerformable()).for_(1).second()
+
+        with pytest.raises(TimeoutError) as exexc:
+            ev.perform_as(Tester)
+
+        assert RUNTIME_ERROR_MSG in str(exexc)
+
+    def test__timeframebuilder_is_performable(self, Tester: Actor):
+        ev = Eventually(EventualPerformable(0)).for_(1)
+
+        # test passes if no exception is raised
+        ev.perform_as(Tester)
+
+    def test_valueerror_when_poll_is_larger_than_timeout(self, Tester: Actor):
+        ev = Eventually(ExceptionPerformable()).polling(.2).seconds().for_(.1).seconds()
+
+        with pytest.raises(ValueError) as exexc:
+            ev.perform_as(Tester)
+
+        assert "poll must be less than or equal to timeout" in str(exexc)
+

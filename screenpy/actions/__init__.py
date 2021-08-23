@@ -18,6 +18,7 @@ from .dismiss_alert import DismissAlert
 from .double_click import DoubleClick
 from .enter import Enter
 from .enter_2fa_token import Enter2FAToken
+from .eventually import Eventually
 from .go_back import GoBack
 from .go_forward import GoForward
 from .hold_down import HoldDown
@@ -213,6 +214,7 @@ __all__ = [
     "DoubleClick",
     "Enter",
     "Enter2FAToken",
+    "Eventually",
     "GoBack",
     "GoForward",
     "HoldDown",

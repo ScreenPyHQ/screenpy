@@ -14,6 +14,7 @@ from screenpy.actions import (
     DoubleClick,
     Enter,
     Enter2FAToken,
+    Eventually,
     GoBack,
     GoForward,
     HoldDown,
@@ -45,6 +46,8 @@ from screenpy.actions import (
     generate_send_method_class,
 )
 from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
+
+from tests.conftest import mock_settings
 
 
 class TestAcceptAlert:
@@ -555,8 +558,67 @@ class TestWait:
         assert target_name in w.log_message
 
     def test_custom_log_message(self):
-        target_name = "baked"
-        args = [1, Target.the(target_name).located_by("//beans"), "and spam"]
+        args = [1, Target.the("baked").located_by("//beans"), "and spam"]
         w = Wait().using(mock.Mock(), "{0}, {1}, {2}").with_(*args)
 
         assert all([str(arg) in w.log_message for arg in args])
+
+    def test_set_timeout(self):
+        timeout = 1000
+
+        w = Wait(timeout).seconds_for_the(None)
+
+        assert w.timeout == timeout
+
+    @mock_settings(TIMEOUT=8)
+    def test_adjusting_settings_timeout(self):
+        w1 = Wait.for_the(mock.Mock())
+        w2 = Wait()
+
+        assert w1.timeout == 8
+        assert w2.timeout == 8
+
+
+class TestEventually:
+    def test_can_be_instantiated(self):
+        e1 = Eventually(None)
+        e2 = Eventually(None).trying_for(0).seconds()
+        e3 = Eventually(None).trying_for(0).milliseconds()
+        e4 = Eventually(None).polling(0).seconds()
+
+        assert isinstance(e1, Eventually)
+        assert isinstance(e2, Eventually)
+        assert isinstance(e3, Eventually)
+        assert isinstance(e4, Eventually)
+
+    def test_can_adjust_timeout(self):
+        ev = Eventually(None).trying_for(12)
+
+        # is still _TimeframeBuilder, so get the stored Eventually
+        assert ev.eventually.timeout == 12
+
+    def test_can_adjust_timeout_seconds(self):
+        ev = Eventually(None).trying_for(15).seconds()
+
+        assert ev.timeout == 15
+
+    def test_can_adjust_timeout_milliseconds(self):
+        ev = Eventually(None).trying_for(1200).milliseconds()
+
+        assert ev.timeout == 1.2
+
+    def test_waiting_method(self):
+        ev = Eventually(None).trying_for(1)
+
+        assert isinstance(ev, Eventually._TimeframeBuilder)
+
+    def test_can_adjust_poll(self):
+        ev = Eventually(None).polling(1).second()
+
+        assert ev.poll == 1
+
+    @mock_settings(TIMEOUT=100)
+    def test_adjusting_settings_timeout(self):
+        ev = Eventually(None)
+
+        assert ev.timeout == 100

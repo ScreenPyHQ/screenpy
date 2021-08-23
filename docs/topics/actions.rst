@@ -261,6 +261,12 @@ Enter2FAToken
 .. autoclass:: Enter2FAToken
     :members:
 
+Eventually
+^^^^^^^^^^
+
+.. autoclass:: Eventually
+    :members:
+
 GoBack
 ^^^^^^
 

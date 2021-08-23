@@ -146,6 +146,35 @@ which does not use a Target::
         ).with_("hello", 20)
     )
 
+The Eventually Class
+^^^^^^^^^^^^^^^^^^^^
+
+If you know an Action or Task
+will *eventually* complete,
+but may need a few tries,
+you can use the :class:`~screenpy.actions.Eventually` Action!
+
+This Action takes a performable
+and performs it,
+repeatedly,
+until either it succeeds
+or the timeout expires.
+Here's what that looks like::
+
+    Marcel.attempts_to(
+        Eventually(
+            See.the(Text.of_the(CALL_STATUS), ReadsExactly("Completed!"))
+        )
+    )
+
+The above will repeatedly attempt the assertion
+that the Call Status section reads "Completed!"
+until either it does,
+or 20 seconds (by default) have elapsed.
+If the timeout expires,
+a `TimeoutError` will be raised
+from the caught error.
+
 
 Debugging
 ---------

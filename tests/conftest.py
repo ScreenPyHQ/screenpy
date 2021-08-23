@@ -1,9 +1,9 @@
-from typing import Generator
+from typing import Callable, Generator, Any
 from unittest import mock
 
 import pytest
 
-from screenpy import AnActor, pacing
+from screenpy import AnActor, pacing, settings
 from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequests
 from screenpy.narration.narrator import Narrator
 
@@ -31,7 +31,7 @@ def APITester() -> AnActor:
 
 
 @pytest.fixture(scope="function")
-def mocked_narrator() -> Generator:
+def mocked_narrator() -> Generator[mock.MagicMock, Any, None]:
     """Mock out the Narrator for a test, replacing the old one afterwards."""
     MockNarrator = mock.MagicMock(spec=Narrator)
     old_narrator = pacing.the_narrator
@@ -40,3 +40,25 @@ def mocked_narrator() -> Generator:
     yield MockNarrator
 
     pacing.the_narrator = old_narrator
+
+
+def mock_settings(**new_settings) -> Callable:
+    """Mock one or more settings for the duration of a test."""
+    def decorator(func: Callable) -> Callable:
+        def wrapper(*args, **kwargs) -> Callable:
+            old_settings = {
+                key: getattr(settings, key)
+                for key in new_settings.keys()
+            }
+            for key, value in new_settings.items():
+                setattr(settings, key, value)
+
+            try:
+                func(*args, **kwargs)
+            finally:
+                for key, value in old_settings.items():
+                    setattr(settings, key, value)
+
+        return wrapper
+
+    return decorator

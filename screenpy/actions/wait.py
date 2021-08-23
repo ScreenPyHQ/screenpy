@@ -8,6 +8,7 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from screenpy import settings
 from screenpy.abilities.browse_the_web import BrowseTheWeb
 from screenpy.actor import Actor
 from screenpy.exceptions import DeliveryError
@@ -51,7 +52,7 @@ class Wait:
     @staticmethod
     def for_the(target: Target) -> "Wait":
         """Set the Target to wait for."""
-        return Wait(20, [target])
+        return Wait(settings.TIMEOUT, [target])
 
     for_ = for_the
 
@@ -128,8 +129,10 @@ class Wait:
             )
             raise DeliveryError(msg) from e
 
-    def __init__(self, seconds: int = 20, args: Optional[Iterable[Any]] = None) -> None:
+    def __init__(
+        self, seconds: Optional[int] = None, args: Optional[Iterable[Any]] = None
+    ) -> None:
         self.args = args if args is not None else []
-        self.timeout = seconds
+        self.timeout = seconds if seconds is not None else settings.TIMEOUT
         self.condition = EC.visibility_of_element_located
         self.log_detail = None
