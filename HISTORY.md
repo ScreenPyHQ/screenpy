@@ -1,6 +1,26 @@
 Release History
 ===============
 
+3.2.0 (2021-08-23)
+------------------
+
+### New Features
+
+- Added a `Narrator` class, who handles all the reporting! The Narrator's microphone can be outfitted with different adapters to report to whatever reporting service you want. Included are the new `AllureAdapter` and `StdOutAdapter`, which will maintain existing behavior.
+- (h/t @langgaibo) Added an `IsCloseTo` resolution!
+- (h/t @bandophahita) Added an `Eventually` action!
+
+### Improvements
+
+- Part of the above `Narrator` addition is that there is now a way for you to manually control logging, either by putting the narrator `off_the_air` or by making their `microphone_cable_kinked`. It was immediately handy for `Eventually`, maybe you'll find it useful, too!
+- Better typehints for `Target`!
+- Better `beat` for `MakeNote`!
+- `See` and `MakeNote` can now both accept values *and* Questions!
+
+### Bugfixes
+
+- XPATH locators which begin with a parenthesis are now correctly recognized as XPATH locators.
+
 3.1.2 (2021-04-13)
 ------------------
 
