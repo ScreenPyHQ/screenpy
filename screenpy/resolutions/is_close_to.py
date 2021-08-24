@@ -17,5 +17,9 @@ class IsCloseTo(BaseResolution):
         )
     """
 
-    line = "a value close to {expectation}."
     matcher_function = close_to
+
+    def get_line(self) -> str:
+        """Get the line that describes this Resolution."""
+        args, kwargs = self.expected
+        return f"a value at most {kwargs['delta']} away from {args[0]}."

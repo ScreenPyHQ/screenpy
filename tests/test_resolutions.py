@@ -194,6 +194,14 @@ class TestIsCloseTo:
         assert not ict.matches(5)
         assert not ict.matches(-5)
 
+    def test_get_line(self):
+        num = 1
+        delta = 3
+
+        ict = IsCloseTo(num, delta=delta)
+
+        assert ict.get_line() == f"a value at most {delta} away from {num}."
+
 
 class TestIsEqualTo:
     def test_can_be_instantiated(self):
