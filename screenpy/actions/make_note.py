@@ -11,7 +11,7 @@ from screenpy.protocols import Answerable
 
 
 class MakeNote:
-    """Make a note, using a Question and arguments.
+    """Make a note of a value or the answer to a Question.
 
     You can access noted values with a |direction| at any point during a test.
 
@@ -19,6 +19,7 @@ class MakeNote:
 
         the_actor.attempts_to(
             MakeNote.of_the(Text.of_the(WELCOME_BANNER)).as_("welcome message"),
+            MakeNote.of_the(list_of_items).as_("items list"),
         )
     """
 
@@ -42,7 +43,12 @@ class MakeNote:
         if self.key is None:
             raise UnableToAct("No key was provided to name this note.")
 
-        value = self.question.answered_by(the_actor)
+        try:
+            value = self.question.answered_by(the_actor)
+        except AttributeError:
+            # must be a value instead of a question!
+            value = self.question
+
         Director().notes(self.key, value)
 
     def __init__(self, question: Answerable, key: Optional[str] = None) -> None:

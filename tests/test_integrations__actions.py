@@ -314,6 +314,14 @@ class TestMakeNote:
 
         assert "screenpy-docs.readthedocs.io" in str(exc.value)
 
+    def test_can_use_value_instead_of_question(self, Tester):
+        key = "key"
+        test_note = "note"
+
+        Tester.attempts_to(MakeNote.of_the(test_note).as_(key))
+
+        assert Director().looks_up(key) == test_note
+
 
 class TestMoveMouse:
     @mock.patch("screenpy.actions.move_mouse.ActionChains")
