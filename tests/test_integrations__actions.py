@@ -466,6 +466,15 @@ class TestSee:
             mock_question.answered_by.return_value, mock_resolution
         )
 
+    @mock.patch("screenpy.actions.see.assert_that")
+    def test_calls_assert_that_with_value(self, mocked_assert_that, Tester):
+        test_value = "test value"
+        mock_resolution = mock.Mock()
+
+        Tester.should(See.the(test_value, mock_resolution))
+
+        mocked_assert_that.assert_called_once_with(test_value, mock_resolution)
+
 
 class TestSeeAllOf:
     @mock.patch("screenpy.actions.see_all_of.See")
