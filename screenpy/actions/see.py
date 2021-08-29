@@ -2,6 +2,8 @@
 Make an assertion using a Question and a Resolution.
 """
 
+from typing import Any, Union
+
 from hamcrest import assert_that
 
 from screenpy import Actor
@@ -10,7 +12,7 @@ from screenpy.resolutions import BaseResolution
 
 
 class See:
-    """See if the answer to a Question or value matches the expected answer.
+    """See if a value or the answer to a Question matches the expected answer.
 
     This is a very important Action in ScreenPy. It is the way to perform
     test assertions. See the |Question| and |Resolution| documentation.
@@ -25,7 +27,7 @@ class See:
     """
 
     @staticmethod
-    def the(question: Answerable, resolution: BaseResolution) -> "See":
+    def the(question: Union[Answerable, Any], resolution: BaseResolution) -> "See":
         """Supply the |Question| and |Resolution| to assert."""
         return See(question, resolution)
 
@@ -39,6 +41,8 @@ class See:
 
         assert_that(value, self.resolution)
 
-    def __init__(self, question: Answerable, resolution: BaseResolution) -> None:
+    def __init__(
+        self, question: Union[Answerable, Any], resolution: BaseResolution
+    ) -> None:
         self.question = question
         self.resolution = resolution

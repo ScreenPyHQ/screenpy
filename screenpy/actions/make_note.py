@@ -2,7 +2,7 @@
 Make a quick note about the answer to a Question.
 """
 
-from typing import Optional
+from typing import Any, Optional, Union
 
 from screenpy import Actor, Director
 from screenpy.exceptions import UnableToAct
@@ -26,7 +26,7 @@ class MakeNote:
     key: Optional[str]
 
     @staticmethod
-    def of(question: Answerable) -> "MakeNote":
+    def of(question: Union[Answerable, Any]) -> "MakeNote":
         """Supply the Question to answer and its arguments."""
         return MakeNote(question)
 
@@ -51,6 +51,8 @@ class MakeNote:
 
         Director().notes(self.key, value)
 
-    def __init__(self, question: Answerable, key: Optional[str] = None) -> None:
+    def __init__(
+        self, question: Union[Answerable, Any], key: Optional[str] = None
+    ) -> None:
         self.question = question
         self.key = key
