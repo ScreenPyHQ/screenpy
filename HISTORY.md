@@ -1,6 +1,13 @@
 Release History
 ===============
 
+3.2.1 (2021-08-29)
+------------------
+
+### Bugfixes
+
+- Updated `See` and `MakeNote` typehints now that they allow for bare values *and* Questions.
+
 3.2.0 (2021-08-23)
 ------------------
 
