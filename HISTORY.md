@@ -4,6 +4,10 @@ Release History
 3.2.0 (2021-08-23)
 ------------------
 
+### Breaking Changes
+
+- The gravitas levels have moved from `screenpy.pacing` to `screenpy.narration.narrator`, and they've also changed terminology. The updated terminology is more generic, describing how serious the gravitas is. The gravitas level is passed along to the adapters to be used or ignored as needed.
+
 ### New Features
 
 - Added a `Narrator` class, who handles all the reporting! The Narrator's microphone can be outfitted with different adapters to report to whatever reporting service you want. Included are the new `AllureAdapter` and `StdOutAdapter`, which will maintain existing behavior.
