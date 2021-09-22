@@ -36,10 +36,6 @@ NORMAL = "normal"
 HEAVY = "heavy"
 EXTREME = "extreme"
 
-# Chaining directions
-FORWARD = "forward"
-BACKWARD = "backward"
-
 
 def _chainify(narrations: List[BackedUpNarration]) -> ChainedNarrations:
     """Organize backed-up narrations into an encapsulation chain.

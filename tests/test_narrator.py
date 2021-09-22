@@ -2,7 +2,7 @@ from unittest import mock
 
 import pytest
 
-from screenpy.narration.narrator import FORWARD, NORMAL, Narrator, _chainify
+from screenpy.narration.narrator import NORMAL, Narrator, _chainify
 
 
 def _():
@@ -217,7 +217,6 @@ class TestNarrator:
 
     def test__entangle_chain(self):
         MockAdapter = mock.MagicMock()
-        MockAdapter.chain_direction = FORWARD
         narrator = Narrator(adapters=[MockAdapter])
         chain = [("act", KW, [("scene", KW, [("beat", KW, [])])]), ("aside", KW, [])]
 
