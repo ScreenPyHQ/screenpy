@@ -108,3 +108,7 @@ class Adapter(Protocol):
     def aside(self, func: Callable, line: str) -> Generator:
         """Handle narrating an Aside, which can happen any time."""
         ...
+
+    def attach(self, filepath: str, **kwargs: Any) -> None:
+        """Handle attaching a file."""
+        ...

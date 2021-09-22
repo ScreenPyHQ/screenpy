@@ -36,21 +36,20 @@ class StdOutManager:
         if self.depth:
             self.depth.pop()
 
+    def log(self, line: str) -> None:
+        """Log a line!"""
+        indent = len(self.depth) * self.whitespace if self.enabled else ""
+        self.logger.info(f"{indent}{line}")
+
     @contextmanager
-    def log(self, line: str) -> Generator:
+    def log_context(self, line: str) -> Generator:
         """Log a line, increasing the indent depth for nested logs."""
-        self.logger.info(f"{self}{line}")
+        self.log(line)
         try:
             with self._indent():
                 yield
         finally:
             self._outdent()
-
-    def __str__(self) -> str:
-        """Allow this manager to be used directly for string formatting."""
-        if self.enabled:
-            return f"{len(self.depth) * self.whitespace}"
-        return ""
 
 
 class StdOutAdapter:
@@ -69,7 +68,7 @@ class StdOutAdapter:
         @wraps(func)
         def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
             """Wrap the func, so we log at the correct time."""
-            self.manager.logger.info(f"ACT {line.upper()}")
+            self.manager.log(f"ACT {line.upper()}")
             return func(*args, **kwargs)
 
         yield func_wrapper
@@ -82,17 +81,21 @@ class StdOutAdapter:
         @wraps(func)
         def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
             """Wrap the func, so we log at the correct time."""
-            self.manager.logger.info(f"Scene: {line.title()}")
+            self.manager.log(f"Scene: {line.title()}")
             return func(*args, **kwargs)
 
         yield func_wrapper
 
     def beat(self, func: Callable, line: str) -> Generator:
         """Encapsulate the beat within the manager's log context."""
-        with self.manager.log(line):
+        with self.manager.log_context(line):
             yield func
 
     def aside(self, func: Callable, line: str) -> Generator:
         """Encapsulate the aside within the manager's log context."""
-        with self.manager.log(line):
+        with self.manager.log_context(line):
             yield func
+
+    def attach(self, filepath: str, **kwargs: Any) -> None:
+        """Log a mention of an attached file."""
+        self.manager.log(f"See reference file: {filepath}")

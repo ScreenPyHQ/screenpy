@@ -2,10 +2,11 @@
 Applies Allure's decorators and contexts to the Narrator's narration.
 """
 
-from typing import Callable, Generator, Optional
+from typing import Any, Callable, Generator, Optional
 
 import allure
 
+from screenpy.exceptions import UnableToNarrate
 from screenpy.narration import narrator
 
 
@@ -47,3 +48,15 @@ class AllureAdapter:
         """Encapsulate the aside within Allure's step context."""
         with allure.step(line):
             yield func
+
+    def attach(self, filepath: str, **kwargs: Any) -> None:
+        """Attach a file to the Allure report."""
+        attachment_type = kwargs.get("attachment_type")
+        name = kwargs.get("name")
+        extension = kwargs.get("extension")
+        if attachment_type is None:
+            raise UnableToNarrate(
+                "AllureAdapter requires an attachment type to attach."
+                " See https://docs.qameta.io/allure/#_attachments_5"
+            )
+        allure.attach(filepath, name, attachment_type, extension)

@@ -1,4 +1,5 @@
 import logging
+from screenpy.exceptions import UnableToNarrate
 from unittest import mock
 
 import pytest
@@ -81,6 +82,30 @@ class TestAllureAdapter:
 
         mocked_allure.step.assert_called_once_with(aside_message)
 
+    def test_attach(self, mocked_allure):
+        adapter = AllureAdapter()
+        test_path = "ddouglas/documents/freak_out.png"
+        test_name = "Dexter Douglas"
+        test_attachment_type = ("nerd", "computer ace")
+        test_extension = "cyberspace"
+
+        adapter.attach(
+            test_path,
+            name=test_name,
+            attachment_type=test_attachment_type,
+            extension=test_extension,
+        )
+
+        mocked_allure.attach.assert_called_once_with(
+            test_path, test_name, test_attachment_type, test_extension
+        )
+
+    def test_attach_raises_if_no_attachment_type(self, mocked_allure):
+        adapter = AllureAdapter()
+
+        with pytest.raises(UnableToNarrate):
+            adapter.attach("foo")
+
 
 class TestStdOutManager:
     def test__outdent(self):
@@ -106,7 +131,7 @@ class TestStdOutManager:
         test_message = "Wow. I’m Mr. Manager."
 
         with caplog.at_level(logging.INFO):
-            with manager.log(test_message):
+            with manager.log_context(test_message):
                 assert len(caplog.records) == 1
                 assert caplog.records[0].message == test_message
 
@@ -189,3 +214,13 @@ class TestStdOutAdapter:
         assert len(caplog.records) == 2
         assert caplog.records[0].message == "beat"
         assert caplog.records[1].message == "    aside"
+
+    def test_attach(self, caplog):
+        test_filepath = "freakazoid/documents/freak_in.png"
+        adapter = StdOutAdapter()
+
+        with caplog.at_level(logging.INFO):
+            adapter.attach(test_filepath)
+
+        assert len(caplog.records) == 1
+        assert test_filepath in caplog.records[0].message

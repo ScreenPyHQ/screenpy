@@ -8,6 +8,7 @@ screenpy.protocols.
 from contextlib import contextmanager
 from copy import deepcopy
 from typing import (
+    Any,
     Callable,
     ContextManager,
     Dict,
@@ -236,3 +237,8 @@ class Narrator:
         if not self.on_air:
             return self._dummy_entangle(lambda: "<static>")
         return self.narrate("aside", func=lambda: "ssh", line=line)
+
+    def attaches_a_file(self, filepath: str, **kwargs: Any) -> None:
+        """Attach a file for the various adapters."""
+        for adapter in self.adapters:
+            adapter.attach(filepath, **kwargs)

@@ -262,3 +262,14 @@ class TestNarrator:
         narrator.narrate.assert_called_once()
         assert narrator.narrate.call_args_list[0][0][0] == channel
         assert list(narrator.narrate.call_args_list[0][1].keys()) == kwds
+
+    def test_attach(self):
+        test_adapters = [mock.Mock() for _ in range(3)]
+        narrator = Narrator(adapters=test_adapters)
+        test_path = "lskywalker/documents/father.png"
+        test_kwargs = {"no": "that's not true!", "that": "is impossible!"}
+
+        narrator.attaches_a_file(test_path, **test_kwargs)
+
+        for mocked_adapter in test_adapters:
+            mocked_adapter.attach.assert_called_once_with(test_path, **test_kwargs)

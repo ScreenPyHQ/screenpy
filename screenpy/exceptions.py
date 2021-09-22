@@ -11,6 +11,10 @@ class UnableToDirect(ScreenPyError):
     """The Director cannot direct."""
 
 
+class UnableToNarrate(ScreenPyError):
+    """The Narrator cannot narrate."""
+
+
 class UnableToPerform(ScreenPyError):
     """The Actor lacks the Ability to perform an Action."""
 
