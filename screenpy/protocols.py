@@ -110,5 +110,8 @@ class Adapter(Protocol):
         ...
 
     def attach(self, filepath: str, **kwargs: Any) -> None:
-        """Handle attaching a file."""
+        """Handle attaching a file.
+
+        Pass keyword arguments for specific adapters' needs.
+        """
         ...
