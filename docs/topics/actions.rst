@@ -189,6 +189,32 @@ Note thats,
 like Actions,
 must be :class:`~screenpy.protocols.Performable`.
 
+Describing Performables
+-----------------------
+
+ScreenPy will do its best to describe
+the tasks you create.
+However,
+if you need more fluent descriptions,
+you can provide a ``describe`` method
+which will describe your task.
+
+Let's add this method
+to the ``ChecksTheSpelling`` task above::
+
+    def describe(self) -> str:
+        return f"Check the spelling of words in the {self.target}"
+
+\... well that was easy.
+This method will give
+a more descriptive statement
+for the Narrator to log
+when the Actor is using :class:`~screenpy.actions.Eventually`.
+It will turn the logged message from
+"Actor tries to check the spelling, eventually."
+to
+"Actor tries to check the spelling of words in the Welcome Banner, eventually."
+
 Up Next
 -------
 

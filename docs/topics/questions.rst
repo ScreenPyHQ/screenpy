@@ -82,6 +82,7 @@ might look like::
             """Set the Target to examine."""
             return MisspelledWords(target)
 
+        @beat("{} looks for misspelled words in the {target}...")
         def answered_by(self, the_actor: Actor) -> str:
             """Ask about the misspelled words contained in the given Target."""
             text = self.target.found_by(the_actor).text
@@ -108,6 +109,31 @@ the magic all happens
 in the :meth:`~screenpy.protocols.Answerable.answered_by` method.
 It leverages the Actor's Ability
 and returns the answer it finds.
+
+Describing Answerables
+----------------------
+
+ScreenPy will do its best to describe
+the custom Questions you create.
+However,
+if you need more fluent descriptions,
+you can provide a ``describe`` method
+which will describe your Question.
+
+Let's add this method
+to the ``MisspelledWords`` Question above::
+
+    def describe(self) -> str:
+        return f"The list of misspelled words in the {self.target}."
+
+This method will give
+a more descriptive statement
+for the Narrator to log
+when the Actor is using :class:`~screenpy.actions.See`.
+It will turn the logged message from
+"Actor sees if misspelled words is empty."
+to
+"Actor sees if the list of misspelled words in the Welcome Banner is empty."
 
 Up Next
 -------
