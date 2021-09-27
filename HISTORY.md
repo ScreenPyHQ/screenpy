@@ -1,6 +1,19 @@
 Release History
 ===============
 
+3.2.2 (2021-09-26)
+------------------
+
+### New Features
+
+- `Eventually` and `See` now have beats! They try their best to make a natural-sounding English statement about what your Actor is doing, but if you need to tweak the message...
+- Performables and Answerables may now have a `describe` function, which `Eventually` and `See` both directly use.
+- Narrators can now `attach` files! Calling Narrator's `attach` method will broadcast the filepath to all the adapters plugged into their microphone. Adapters can look for specific keywords, if needed—all other adapters will ignore those keywords.
+
+### Known Issues
+
+- I was not able to figure out how to fix the problem with the Allure reporting, [#74](https://github.com/perrygoy/screenpy/issues/74). :(
+
 3.2.1 (2021-08-29)
 ------------------
 
