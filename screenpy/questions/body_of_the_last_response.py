@@ -28,6 +28,10 @@ class BodyOfTheLastResponse:
         )
     """
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return "The body of the last response."
+
     @beat("{} examines the body of the last response they received.")
     def answered_by(self, the_actor: Actor) -> Union[dict, str]:
         """Direct the Actor to investigate the body of the last response."""

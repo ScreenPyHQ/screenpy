@@ -42,6 +42,10 @@ class Attribute:
         self.multi = True
         return self
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return f'The "{self.attribute}" attribute of the {self.target}.'
+
     @beat('{} examines the "{attribute}" attribute of the {target}...')
     def answered_by(self, the_actor: Actor) -> Union[str, List[Union[str, None]], None]:
         """Direct the actor to investigate the attribute on the element."""

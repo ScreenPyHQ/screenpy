@@ -35,6 +35,10 @@ class SwitchTo:
         """Switch back to the default frame, the browser window."""
         return SwitchTo(None, "default frame")
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Switch to the {self.frame_to_log}."
+
     @beat("{} switches to the {frame_to_log}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to switch to an element or back to default."""

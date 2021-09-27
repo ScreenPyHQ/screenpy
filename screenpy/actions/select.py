@@ -74,6 +74,10 @@ class SelectByText:
 
     from_ = from_the
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f'Select the option "{self.text}" from the {self.target}.'
+
     @beat('{} selects the option "{text}" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to select the option by its text."""
@@ -120,6 +124,10 @@ class SelectByIndex:
 
     from_ = from_the
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Select the option at index {self.index} from the {self.target}."
+
     @beat("{} selects the option at index {index} from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to select the option using its index."""
@@ -165,6 +173,10 @@ class SelectByValue:
         return self
 
     from_ = from_the
+
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f'Select the option with value "{self.value}" from the {self.target}.'
 
     @beat('{} selects the option with value "{value}" from the {target}.')
     def perform_as(self, the_actor: Actor) -> None:

@@ -23,6 +23,10 @@ class HeadersOfTheLastResponse:
         )
     """
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return "The headers of the last response."
+
     @beat("{} examines the headers of the last response they received.")
     def answered_by(self, the_actor: Actor) -> MutableMapping[str, str]:
         """Direct the Actor to investigate the headers of the last response."""

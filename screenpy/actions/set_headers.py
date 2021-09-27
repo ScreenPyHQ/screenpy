@@ -45,6 +45,10 @@ class SetHeaders:
 
     secretly = which_should_be_kept_secret
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Set the{self.secret_log} headers of a session."
+
     @beat("{} sets the{secret_log} headers of their session.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to set the headers for their API session."""

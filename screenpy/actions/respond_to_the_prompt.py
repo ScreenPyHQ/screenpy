@@ -25,6 +25,10 @@ class RespondToThePrompt:
         """Provide the text to enter into the prompt."""
         return RespondToThePrompt(text)
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f'Respond to the prompt with "{self.text}".'
+
     @beat('{} responds to the prompt with "{text}".')
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to respond to the prompt using the given text."""

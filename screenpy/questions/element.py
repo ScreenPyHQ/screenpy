@@ -23,6 +23,10 @@ class Element:
         the_actor.should(See.the(Element(WELCOME_BANNER), IsVisible()))
     """
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return f"The {self.target}."
+
     @beat("{} inspects the {target}.")
     def answered_by(self, the_actor: Actor) -> Optional[WebElement]:
         """Direct the Actor to find the element."""

@@ -135,14 +135,6 @@ class TestStdOutManager:
                 assert len(caplog.records) == 1
                 assert caplog.records[0].message == test_message
 
-    def test___str__(self):
-        manager = StdOutManager()
-        manager.enabled = True
-        manager.depth = [1, 1, 1]
-        manager.whitespace = "???"
-
-        assert str(manager) == "?????????"
-
 
 class TestStdOutAdapter:
     def test_act(self, caplog):

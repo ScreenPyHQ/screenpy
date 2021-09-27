@@ -18,6 +18,10 @@ class GoBack:
         the_actor.attempts_to(GoBack())
     """
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return "Go back."
+
     @beat("{} goes back.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to press their browser's back button."""

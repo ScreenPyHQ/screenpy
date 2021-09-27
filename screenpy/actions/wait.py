@@ -115,6 +115,10 @@ class Wait:
 
         return self.log_detail.format(*self.args)
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Wait {self.timeout} seconds {self.log_message}."
+
     @beat("{} waits {timeout} seconds {log_message}")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to wait for the condition to be satisfied."""

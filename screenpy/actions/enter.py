@@ -68,6 +68,10 @@ class Enter:
 
     then_press = then_hit
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f'Enter "{self.text_to_log}" into the {self.target}.'
+
     @beat('{} enters "{text_to_log}" into the {target}.')
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to enter the text into the element."""

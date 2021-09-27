@@ -46,6 +46,7 @@ from screenpy.actions import (
     generate_send_method_class,
 )
 from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
+from screenpy.exceptions import UnableToAct
 
 from tests.conftest import mock_settings
 
@@ -380,8 +381,8 @@ class TestRightClick:
 
 class TestSee:
     def test_can_be_instantiated(self):
-        s1 = See(None, None)
-        s2 = See.the(None, None)
+        s1 = See(None, mock.Mock())
+        s2 = See.the(None, mock.Mock())
 
         assert isinstance(s1, See)
         assert isinstance(s2, See)
@@ -395,6 +396,10 @@ class TestSeeAllOf:
         assert isinstance(sao1, SeeAllOf)
         assert isinstance(sao2, SeeAllOf)
 
+    def test_raises_exception_for_too_few_tests(self):
+        with pytest.raises(UnableToAct):
+            SeeAllOf(None)
+
 
 class TestSeeAnyOf:
     def test_can_be_instantiated(self):
@@ -403,6 +408,10 @@ class TestSeeAnyOf:
 
         assert isinstance(sao1, SeeAnyOf)
         assert isinstance(sao2, SeeAnyOf)
+
+    def test_raises_exception_for_too_few_tests(self):
+        with pytest.raises(UnableToAct):
+            SeeAnyOf(None)
 
 
 class TestSelect:

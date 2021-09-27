@@ -13,7 +13,7 @@ from screenpy import settings
 
 
 class StdOutManager:
-    """Handle the indentation for CLI logging."""
+    """Handle the indentation, formatting, and log action for CLI logging."""
 
     def __init__(self, logger: Optional[logging.Logger] = None) -> None:
         self.logger = logger or logging.getLogger("screenpy")

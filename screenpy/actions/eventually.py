@@ -3,14 +3,12 @@ Eventually perform a Task or Action, trying until a set timeout.
 """
 
 import time
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
-from screenpy import settings
-from screenpy.pacing import the_narrator
+from screenpy import Actor, settings
+from screenpy.pacing import beat, the_narrator
 from screenpy.protocols import Performable
-
-if TYPE_CHECKING:
-    from screenpy import Actor
+from screenpy.speech_tools import get_additive_description
 
 
 class Eventually:
@@ -87,7 +85,12 @@ class Eventually:
 
     trying_every = polling_every = polling
 
-    def perform_as(self, the_actor: "Actor") -> None:
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Eventually {self.performable_to_log}."
+
+    @beat("{} tries to {performable_to_log}, eventually.")
+    def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to just keep trying."""
         if self.poll > self.timeout:
             raise ValueError("poll must be less than or equal to timeout")
@@ -100,7 +103,7 @@ class Eventually:
                 try:
                     the_actor.attempts_to(self.performable)
                     return
-                except Exception as exc:  # pylint: disable=W0703
+                except Exception as exc:  # pylint: disable=broad-except
                     self.caught_error = exc
 
                 time.sleep(self.poll)
@@ -115,6 +118,7 @@ class Eventually:
 
     def __init__(self, performable: Performable):
         self.performable = performable
+        self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
         self.timeout = settings.TIMEOUT
         self.poll = 0.5

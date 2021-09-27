@@ -17,5 +17,5 @@ class ContainsTheValue(BaseResolution):
         )
     """
 
-    line = 'dict containing the value "{expectation}"'
+    line = 'a dict containing the value "{expectation}"'
     matcher_function = has_value

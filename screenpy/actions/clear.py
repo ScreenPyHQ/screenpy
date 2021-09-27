@@ -28,6 +28,10 @@ class Clear:
 
     the_text_from = the_text_from_the
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Clear the text from the {self.target}."
+
     @beat("{} clears text from the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to clear the text from the input field."""

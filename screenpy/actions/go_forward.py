@@ -18,6 +18,10 @@ class GoForward:
         the_actor.attempts_to(GoForward())
     """
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return "Go forward."
+
     @beat("{} goes forward.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to press their browser's forward button."""

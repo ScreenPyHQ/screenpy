@@ -2,6 +2,7 @@
 Pause test execution for a specific time frame.
 """
 
+import re
 from time import sleep
 
 from selenium.webdriver.common.action_chains import ActionChains
@@ -39,8 +40,7 @@ class Pause:
         if not reason.startswith("because"):
             reason = f"because {reason}"
 
-        if reason[-1] in [".", ".", "!"]:
-            reason = reason[:-1]
+        reason = re.sub(r"\W*$", "", reason)
 
         return reason
 
@@ -58,6 +58,10 @@ class Pause:
         self.time = self.time / 1000.0
         self.reason = self._massage_reason(reason)
         return self
+
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Pause for {self.number} {self.unit} {self.reason}."
 
     @beat("{} pauses for {number} {unit} {reason}.")
     def perform_as(self, _: Actor) -> None:

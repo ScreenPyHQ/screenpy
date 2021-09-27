@@ -36,6 +36,10 @@ class AddHeader:
 
     secretly = which_should_be_kept_secret
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Add some{self.secret_log} headers."
+
     @beat("{} adds some{secret_log} headers to their session.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to add the given headers to their session."""

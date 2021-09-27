@@ -18,6 +18,10 @@ class SwitchToTab:
         the_actor.attempts_to(SwitchToTab(4))
     """
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Switch to tab #{self.number}."
+
     @beat("{} switches to tab #{number}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to switch to the specified tab."""

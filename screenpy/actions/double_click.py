@@ -43,6 +43,10 @@ class DoubleClick:
 
         the_chain.double_click(on_element=the_element)
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Double-click{self.description}."
+
     @beat("{} double-clicks{description}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to double-click on the element."""

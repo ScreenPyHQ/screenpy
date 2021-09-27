@@ -31,6 +31,10 @@ class Enter2FAToken:
 
     into = into_the
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Enter a 2FA token into the {self.target}."
+
     @beat("{} enters their 2FA token into the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to enter their 2FA token into the element."""

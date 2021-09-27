@@ -7,8 +7,10 @@ from typing import Any, Union
 from hamcrest import assert_that
 
 from screenpy import Actor
+from screenpy.pacing import beat
 from screenpy.protocols import Answerable
 from screenpy.resolutions import BaseResolution
+from screenpy.speech_tools import get_additive_description
 
 
 class See:
@@ -31,6 +33,11 @@ class See:
         """Supply the |Question| and |Resolution| to assert."""
         return See(question, resolution)
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"See if {self.question_to_log} is {self.resolution_to_log}."
+
+    @beat("{} sees if {question_to_log} is {resolution_to_log}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to make an observation."""
         try:
@@ -45,4 +52,6 @@ class See:
         self, question: Union[Answerable, Any], resolution: BaseResolution
     ) -> None:
         self.question = question
+        self.question_to_log = get_additive_description(question)
         self.resolution = resolution
+        self.resolution_to_log = resolution.get_line()

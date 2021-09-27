@@ -29,6 +29,10 @@ class Chain:
     *Note*: Several Actions cannot be Chained, and will raise an exception.
     """
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return "Perform a thrilling chain of actions."
+
     @beat("{} performs a thrilling chain of Actions!")
     def perform_as(self, the_actor: Actor) -> None:
         """Choreograph the Actions and direct the Actor to perform the chain."""

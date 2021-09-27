@@ -19,5 +19,5 @@ class ContainsTheEntry(BaseResolution):
         )
     """
 
-    line = "dict containing {expectation}"
+    line = "a dict containing {expectation}"
     matcher_function = has_entries

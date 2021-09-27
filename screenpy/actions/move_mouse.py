@@ -77,6 +77,10 @@ class MoveMouse:
                 "one of these using MoveMouse.by_offset or MoveMouse.to_the."
             )
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Move the mouse {self.description}."
+
     @beat("{} moves the mouse {description}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to move the mouse."""

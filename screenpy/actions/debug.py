@@ -30,6 +30,10 @@ class Debug:
         )
     """
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return "Assume direct control."
+
     @beat("{} assumes direct control...")
     def perform_as(self, _: Actor) -> None:
         """Direct the Actor to activate a debugger."""

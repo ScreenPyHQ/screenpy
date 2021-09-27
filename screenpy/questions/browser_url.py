@@ -18,6 +18,10 @@ class BrowserURL:
         the_actor.should(See.the(BrowserURL(), ContainsTheText("/screenplays")))
     """
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return "The browser URL."
+
     @beat("{} reads the URL from their browser.")
     def answered_by(self, the_actor: Actor) -> str:
         """Direct the Actor to investigate the browser's current URL."""

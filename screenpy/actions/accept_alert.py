@@ -18,6 +18,10 @@ class AcceptAlert:
         the_actor.attempts_to(AcceptAlert())
     """
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return "Accept the alert."
+
     @beat("{} accepts the alert.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to accept the alert."""

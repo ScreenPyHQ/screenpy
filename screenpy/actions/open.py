@@ -43,6 +43,10 @@ class Open:
 
     browser_on = their_browser_on
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Visit {self.url}."
+
     @beat("{} visits {url}")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to visit the specified URL."""

@@ -21,6 +21,10 @@ class StatusCodeOfTheLastResponse:
         )
     """
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return "The HTTP status code of the last response."
+
     @beat("{} examines the status code of the last response they received.")
     def answered_by(self, the_actor: Actor) -> float:
         """Direct the Actor to investigate the status code of the last response."""

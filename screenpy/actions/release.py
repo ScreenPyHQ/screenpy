@@ -48,6 +48,11 @@ class Release:
         """Release the left mouse button."""
         return Release(lmb=True)
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        # darn, it doesn't work quite as well here. :P
+        return f"Release {self.the_kraken}."
+
     @beat("  Release {the_kraken}!")
     def add_to_chain(self, _: Actor, the_chain: ActionChains) -> None:
         """Add the Release Action to an in-progress |Chain| of Actions."""

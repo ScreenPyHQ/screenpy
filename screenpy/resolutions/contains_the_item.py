@@ -17,5 +17,5 @@ class ContainsTheItem(BaseResolution):
         )
     """
 
-    line = 'list containing the item "{expectation}"'
+    line = 'a list containing the item "{expectation}"'
     matcher_function = has_item

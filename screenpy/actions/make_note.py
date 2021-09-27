@@ -37,6 +37,10 @@ class MakeNote:
         self.key = key
         return self
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Make a note under {self.key}."
+
     @beat('{} jots something down under "{key}".')
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to take a note."""

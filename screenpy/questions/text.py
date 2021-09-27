@@ -38,6 +38,10 @@ class Text:
         """Target the elements, plural, to extract the text from."""
         return Text(target=multi_target, multi=True)
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return f"The text from the {self.target}."
+
     @beat("{} reads the text from the {target}.")
     def answered_by(self, the_actor: Actor) -> Union[str, List[str]]:
         """Direct the Actor to read off the text of the element(s)."""

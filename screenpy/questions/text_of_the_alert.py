@@ -20,6 +20,10 @@ class TextOfTheAlert:
         )
     """
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return "The text of the alert."
+
     @beat("{} reads the text from the alert.")
     def answered_by(self, the_actor: Actor) -> str:
         """Direct the Actor to read off the alert's text."""

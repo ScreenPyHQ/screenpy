@@ -17,5 +17,5 @@ class ReadsExactly(BaseResolution):
         )
     """
 
-    line = '"{expectation}", verbatim.'
+    line = '"{expectation}", verbatim'
     matcher_function = has_string

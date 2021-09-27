@@ -29,6 +29,10 @@ class List:
 
     of_all_the = of_all = of = of_the
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return f"The list of {self.target}."
+
     @beat("{} lists off the {target}.")
     def answered_by(self, the_actor: Actor) -> ListType[WebElement]:
         """Direct the Actor to rattle off the specified elements."""

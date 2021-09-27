@@ -457,7 +457,9 @@ class TestSee:
     @mock.patch("screenpy.actions.see.assert_that")
     def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
         mock_question = mock.Mock()
+        mock_question.describe.return_value = "What was your mother?"
         mock_resolution = mock.Mock()
+        mock_resolution.describe.return_value = "A hamster!"
 
         Tester.should(See.the(mock_question, mock_resolution))
 
@@ -468,8 +470,9 @@ class TestSee:
 
     @mock.patch("screenpy.actions.see.assert_that")
     def test_calls_assert_that_with_value(self, mocked_assert_that, Tester):
-        test_value = "test value"
+        test_value = "Your father smelt of"
         mock_resolution = mock.Mock()
+        mock_resolution.describe.return_value = "Elderberries!"
 
         Tester.should(See.the(test_value, mock_resolution))
 

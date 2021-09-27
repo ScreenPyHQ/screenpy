@@ -48,6 +48,10 @@ class RightClick:
 
         the_chain.context_click(on_element=the_element)
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Right-click{self.description}."
+
     @beat("{} right-clicks{description}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to right-click on the element."""

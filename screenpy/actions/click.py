@@ -35,6 +35,10 @@ class Click:
 
     on = on_the
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Click on the {self.target}."
+
     @beat("{} clicks on the {target}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to click on the element."""

@@ -23,6 +23,10 @@ class Number:
         """Target the element to be counted."""
         return Number(target=target)
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return f"The number of {self.target}."
+
     @beat("{} counts the number of {target}.")
     def answered_by(self, the_actor: Actor) -> int:
         """Direct the Actor to count the elements."""

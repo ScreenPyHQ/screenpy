@@ -18,6 +18,10 @@ class BrowserTitle:
         the_actor.should(See.the(BrowserTitle(), ReadsExactly("Welcome!")))
     """
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return "The current page's title."
+
     @beat("{} reads the title of the page from their browser.")
     def answered_by(self, the_actor: Actor) -> str:
         """Direct the Actor to investigate the browser's title."""

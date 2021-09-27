@@ -15,5 +15,5 @@ class ContainsTheKey(BaseResolution):
         the_actor.should(See.the(LastResponseBody(), ContainsTheKey("skeleton")))
     """
 
-    line = 'dict containing the key "{expectation}"'
+    line = 'a dict containing the key "{expectation}"'
     matcher_function = has_key

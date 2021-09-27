@@ -18,6 +18,10 @@ class RefreshPage:
         the_actor.attempts_to(RefreshPage())
     """
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return "Refresh the page."
+
     @beat("{} refreshes the page.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to refresh the page."""

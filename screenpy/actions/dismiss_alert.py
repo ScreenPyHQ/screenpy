@@ -18,6 +18,10 @@ class DismissAlert:
         the_actor.attempts_to(DismissAlert())
     """
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return "Dismiss the alert."
+
     @beat("{} dismisses the alert.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to dismiss the alert."""

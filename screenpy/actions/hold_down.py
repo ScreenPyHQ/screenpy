@@ -65,6 +65,10 @@ class HoldDown:
 
     on = on_the
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Hold down {self.description}."
+
     @beat("  Hold down {description}!")
     def add_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """Add the HoldDown Action to an in-progress |Chain| of Actions."""

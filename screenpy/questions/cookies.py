@@ -25,6 +25,10 @@ class Cookies:
         )
     """
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return "The cookies."
+
     def answered_by(self, the_actor: Actor) -> dict:
         """Direct the Actor to investigate their cookies."""
         if the_actor.has_ability_to(BrowseTheWeb):
@@ -48,6 +52,10 @@ class CookiesOnTheWebSession:
         )
     """
 
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return "The browser's cookies."
+
     @beat("{} inspects their web browser's cookies...")
     def answered_by(self, the_actor: Actor) -> dict:
         """Direct the Actor to investigate their web browser's cookies."""
@@ -67,6 +75,10 @@ class CookiesOnTheAPISession:
             See.the(CookiesOnTheAPISession(), ContainTheEntry(type="snickerdoodle"))
         )
     """
+
+    def describe(self) -> str:
+        """Describe the Question.."""
+        return "The session's cookies."
 
     @beat("{} inspects their API session's cookies.")
     def answered_by(self, the_actor: Actor) -> dict:
