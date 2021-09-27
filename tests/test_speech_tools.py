@@ -3,23 +3,38 @@ import pytest
 from screenpy.speech_tools import get_additive_description
 
 
-class ThisIsAPerformableWithADescribe:
+class ThisIsADescribableWithADescribe:
     def perform_as(self):
         pass
 
     def describe(self):
-        return "This is a performable."
+        return "This is a describable."
 
 
-class ThisIsAPerformable:
+class ThisIsADescribable:
     def perform_as(self):
         pass
 
 
-@pytest.mark.parametrize(
-    "performable", [ThisIsAPerformable(), ThisIsAPerformableWithADescribe()]
-)
-def test_get_additive_description(performable):
-    description = get_additive_description(performable)
+class DescribableWithQuote:
+    def perform_as(self):
+        pass
 
-    assert description == "this is a performable"
+    def describe(self):
+        return 'This Describable ends with a "quote".'
+
+
+class TestGetAdditiveDescription:
+
+    @pytest.mark.parametrize(
+        "describable", [ThisIsADescribable(), ThisIsADescribableWithADescribe()]
+    )
+    def test_get_additive_description(self, describable):
+        description = get_additive_description(describable)
+
+        assert description == "this is a describable"
+
+    def test_ending_with_quotes(self):
+        description = get_additive_description(DescribableWithQuote())
+
+        assert description == 'this Describable ends with a "quote"'

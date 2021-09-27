@@ -59,4 +59,4 @@ class AllureAdapter:
                 "AllureAdapter requires an attachment type to attach."
                 " See https://docs.qameta.io/allure/#_attachments_5"
             )
-        allure.attach(filepath, name, attachment_type, extension)
+        allure.attach.file(filepath, name, attachment_type, extension)

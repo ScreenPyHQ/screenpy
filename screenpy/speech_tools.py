@@ -23,7 +23,7 @@ def get_additive_description(describable: Union[Performable, Answerable]) -> str
     try:
         description = describable.describe()  # type: ignore # see PEP 544
         description = description[0].lower() + description[1:]
-        description = re.sub(r"\W*$", "", description)
+        description = re.sub(r"[.,?!;:]*$", r"", description)
     except AttributeError:
         # No describe method, so fabricate a description from the class name.
         description = describable.__class__.__name__

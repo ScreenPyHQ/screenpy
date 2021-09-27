@@ -96,7 +96,7 @@ class TestAllureAdapter:
             extension=test_extension,
         )
 
-        mocked_allure.attach.assert_called_once_with(
+        mocked_allure.attach.file.assert_called_once_with(
             test_path, test_name, test_attachment_type, test_extension
         )
 
