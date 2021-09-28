@@ -10,6 +10,7 @@ from typing_extensions import Protocol
 
 from .accept_alert import AcceptAlert
 from .add_header import AddHeader
+from .attach_the_file import AttachTheFile
 from .chain import Chain
 from .clear import Clear
 from .click import Click
@@ -30,6 +31,8 @@ from .refresh_page import RefreshPage
 from .release import Release
 from .respond_to_the_prompt import RespondToThePrompt
 from .right_click import RightClick
+from .save_console_log import SaveConsoleLog
+from .save_screenshot import SaveScreenshot
 from .see import See
 from .see_all_of import SeeAllOf
 from .see_any_of import SeeAnyOf
@@ -42,6 +45,7 @@ from .wait import Wait
 
 # Natural-language-enabling syntactic sugar
 AddHeaders = AddHeader
+AttachFile = AttachAFile = AttachTheFile
 ContextClick = RightClick
 Hover = MoveMouse
 Press = Enter
@@ -53,6 +57,7 @@ ObserveAnyOf = VerifyAnyOf = ConfirmAnyOf = AssertAnyOf = SeeAnyOf
 Sleep = Pause
 SwitchToWindow = SwitchToTab
 TakeNote = MakeNote
+TakeScreenshot = SaveScreenshot
 Visit = Open
 
 
@@ -202,6 +207,9 @@ __all__ = [
     "Assert",
     "AssertAllOf",
     "AssertAnyOf",
+    "AttachAFile",
+    "AttachFile",
+    "AttachTheFile",
     "Chain",
     "Clear",
     "Click",
@@ -234,6 +242,8 @@ __all__ = [
     "RespondToPrompt",
     "RespondToThePrompt",
     "RightClick",
+    "SaveConsoleLog",
+    "SaveScreenshot",
     "See",
     "SeeAllOf",
     "SeeAnyOf",
@@ -253,6 +263,7 @@ __all__ = [
     "SwitchTo",
     "SwitchToTab",
     "SwitchToWindow",
+    "TakeScreenshot",
     "Verify",
     "VerifyAllOf",
     "VerifyAnyOf",

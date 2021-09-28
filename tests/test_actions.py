@@ -1,3 +1,5 @@
+from screenpy.actions.save_console_log import SaveConsoleLog
+from screenpy.actions.attach_the_file import AttachTheFile
 from unittest import mock
 
 import pytest
@@ -27,6 +29,7 @@ from screenpy.actions import (
     Release,
     RespondToThePrompt,
     RightClick,
+    SaveScreenshot,
     See,
     SeeAllOf,
     SeeAnyOf,
@@ -95,6 +98,13 @@ class TestAddHeader:
     def test_raises_on_non_iterable_arguments(self):
         with pytest.raises(ValueError):
             AddHeader("a")
+
+
+class TestAttachTheFile:
+    def test_can_be_instantiated(self):
+        atf = AttachTheFile("")
+
+        assert isinstance(atf, AttachTheFile)
 
 
 class TestClick:
@@ -377,6 +387,32 @@ class TestRightClick:
 
         assert isinstance(rc1, RightClick)
         assert isinstance(rc2, RightClick)
+
+
+class TestSaveConsoleLog:
+    def test_can_be_instantiated(self):
+        scl1 = SaveConsoleLog("")
+        scl2 = SaveConsoleLog.as_("")
+        scl3 = SaveConsoleLog.as_("").and_attach_it()
+        scl4 = SaveConsoleLog.as_("").and_attach_it(witch_weight="duck_weight")
+
+        assert isinstance(scl1, SaveConsoleLog)
+        assert isinstance(scl2, SaveConsoleLog)
+        assert isinstance(scl3, SaveConsoleLog)
+        assert isinstance(scl4, SaveConsoleLog)
+
+
+class TestSaveScreenshot:
+    def test_can_be_instantiated(self):
+        ss1 = SaveScreenshot("")
+        ss2 = SaveScreenshot.as_("")
+        ss3 = SaveScreenshot.as_("").and_attach_it()
+        ss4 = SaveScreenshot.as_("").and_attach_it(me="newt")
+
+        assert isinstance(ss1, SaveScreenshot)
+        assert isinstance(ss2, SaveScreenshot)
+        assert isinstance(ss3, SaveScreenshot)
+        assert isinstance(ss4, SaveScreenshot)
 
 
 class TestSee:
