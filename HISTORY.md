@@ -1,6 +1,18 @@
 Release History
 ===============
 
+3.2.2 (2021-09-27)
+------------------
+
+### Bugfixes
+
+- Toned down the aggressive pruning by `get_additive_description`. It was cutting off closing quotes!
+- Fixed the incorrect method being called when attaching in the `AllureAdapter`.
+
+### New Features
+
+- Added some nice new Actions for reporting: `AttachTheFile`, `SaveScreenshot`, and `SaveConsoleLog`!
+
 3.2.2 (2021-09-26)
 ------------------
 
