@@ -12,6 +12,7 @@ from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequest
 from screenpy.actions import (
     AcceptAlert,
     AddHeaders,
+    AttachTheFile,
     Chain,
     Clear,
     Click,
@@ -32,6 +33,8 @@ from screenpy.actions import (
     Release,
     RespondToThePrompt,
     RightClick,
+    SaveConsoleLog,
+    SaveScreenshot,
     See,
     SeeAllOf,
     SeeAnyOf,
@@ -79,6 +82,19 @@ class TestAddHeaders:
             APITester.attempts_to(AddHeaders(**test_headers).secretly())
 
         assert str(test_headers) not in caplog.text
+
+
+class TestAttachTheFile:
+    @mock.patch("screenpy.actions.attach_the_file.the_narrator")
+    def test_save_screenshot_sends_kwargs_to_attach(self, mocked_narrator, Tester):
+        test_path = "souiiie.png"
+        test_kwargs = {"color": "Red", "weather": "Tornado"}
+
+        Tester.attempts_to(AttachTheFile(test_path, **test_kwargs))
+
+        mocked_narrator.attaches_a_file.assert_called_once_with(
+            test_path, **test_kwargs
+        )
 
 
 def test_clear_calls_clear(Tester):
@@ -453,6 +469,66 @@ class TestRightClick:
         MockedActionChains().context_click.assert_called_once_with(on_element=None)
 
 
+class TestSaveConsoleLog:
+    @mock.patch("builtins.open", new_callable=mock.mock_open)
+    def test_calls_open_with_path(self, mocked_open, Tester):
+        test_path = "jhowlett/images/a_wolverine.py"
+        browser = Tester.ability_to(BrowseTheWeb).browser
+        browser.get_log.return_value = ["logan"]
+
+        Tester.attempts_to(SaveConsoleLog(test_path))
+
+        mocked_open.assert_called_once_with(test_path, "w+", encoding="utf-8")
+
+    @mock.patch("builtins.open", new_callable=mock.mock_open)
+    def test_writes_log(self, mocked_open, Tester):
+        test_path = "ssummers/images/a_cyclops.py"
+        test_log = ["shot a beam", "shot a second beam", "closed my eyes"]
+        browser = Tester.ability_to(BrowseTheWeb).browser
+        browser.get_log.return_value = test_log
+
+        Tester.attempts_to(SaveConsoleLog(test_path))
+
+        file_descriptor = mocked_open()
+        file_descriptor.write.assert_called_once_with("\n".join(test_log))
+
+    @mock.patch("builtins.open", new_callable=mock.mock_open)
+    @mock.patch("screenpy.actions.save_console_log.AttachTheFile")
+    def test_sends_kwargs_to_attach(
+        self, mocked_atf, mocked_open, Tester
+    ):
+        test_path = "doppelganger.png"
+        test_kwargs = {"name": "Mystique"}
+        browser = Tester.ability_to(BrowseTheWeb).browser
+        browser.get_log.return_value = [1, 2, 3]
+
+        Tester.attempts_to(SaveConsoleLog(test_path).and_attach_it(**test_kwargs))
+
+        mocked_atf.assert_called_once_with(test_path, **test_kwargs)
+
+
+class TestSaveScreenshot:
+    @mock.patch("builtins.open", new_callable=mock.mock_open)
+    def test_calls_open_with_path(self, mocked_open, Tester):
+        test_path = "bwayne/images/a_bat.py"
+
+        Tester.attempts_to(SaveScreenshot(test_path))
+
+        mocked_open.assert_called_once_with(test_path, "wb+")
+
+    @mock.patch("builtins.open", new_callable=mock.mock_open)
+    @mock.patch("screenpy.actions.save_screenshot.AttachTheFile")
+    def test_sends_kwargs_to_attach(
+        self, mocked_atf, mocked_open, Tester
+    ):
+        test_path = "souiiie.png"
+        test_kwargs = {"color": "Red", "weather": "Tornado"}
+
+        Tester.attempts_to(SaveScreenshot(test_path).and_attach_it(**test_kwargs))
+
+        mocked_atf.assert_called_once_with(test_path, **test_kwargs)
+
+
 class TestSee:
     @mock.patch("screenpy.actions.see.assert_that")
     def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
@@ -772,4 +848,3 @@ class TestEventually:
             ev.perform_as(Tester)
 
         assert "poll must be less than or equal to timeout" in str(exexc)
-

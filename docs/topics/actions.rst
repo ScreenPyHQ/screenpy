@@ -239,6 +239,11 @@ AddHeader
 
 .. autoclass:: AddHeader
 
+AttachTheFile
+^^^^^^^^^^^^^
+
+.. autoclass:: AttachTheFile
+
 Chain
 ^^^^^
 
@@ -357,6 +362,18 @@ RightClick
 ^^^^^^^^^^
 
 .. autoclass:: RightClick
+    :members:
+
+SaveConsoleLog
+^^^^^^^^^^^^^^
+
+.. autoclass:: SaveConsoleLog
+    :members:
+
+SaveScreenshot
+^^^^^^^^^^^^^^
+
+.. autoclass:: SaveScreenshot
     :members:
 
 See

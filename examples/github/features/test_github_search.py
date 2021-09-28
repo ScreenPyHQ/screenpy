@@ -7,11 +7,11 @@ though they are a little bit contrived.
 from typing import Generator
 
 import pytest
-from selenium.webdriver import Firefox
+from allure_commons.types import AttachmentType
 
 from screenpy import Actor, given, then, when
 from screenpy.abilities import BrowseTheWeb
-from screenpy.actions import Open, See
+from screenpy.actions import Open, SaveConsoleLog, SaveScreenshot, See
 from screenpy.pacing import act, scene
 from screenpy.resolutions import (
     ContainsTheText,
@@ -30,8 +30,17 @@ from ..user_interface.github_home_page import URL
 @pytest.fixture(scope="function", name="Perry")
 def fixture_actor() -> Generator:
     """Create the Actor for our example tests!"""
-    the_actor = Actor.named("Perry").who_can(BrowseTheWeb.using(Firefox()))
+    the_actor = Actor.named("Perry").who_can(BrowseTheWeb.using_chrome())
     yield the_actor
+    the_actor.attempts_to(
+        SaveScreenshot.as_("test.png").and_attach_it(
+            name="End of Test Screenshot", attachment_type=AttachmentType.PNG
+        ),
+        SaveConsoleLog.as_("console_log.txt").and_attach_it(
+            name="Test Console Log",
+            attachment_type=AttachmentType.TEXT,
+        ),
+    )
     the_actor.exit_stage_left()
 
 
