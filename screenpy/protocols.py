@@ -109,6 +109,10 @@ class Adapter(Protocol):
         """Handle narrating an Aside, which can happen any time."""
         ...
 
+    def error(self, exc: Exception) -> None:
+        """React to an exception being thrown, probably during a beat."""
+        ...
+
     def attach(self, filepath: str, **kwargs: Any) -> None:
         """Handle attaching a file.
 

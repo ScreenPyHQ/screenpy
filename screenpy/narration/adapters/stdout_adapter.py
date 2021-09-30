@@ -55,10 +55,13 @@ class StdOutManager:
 class StdOutAdapter:
     """Adapt the Narrator's microphone to allow narration to stdout."""
 
+    handled_exception: Optional[Exception]
+
     def __init__(self, stdout_manager: Optional["StdOutManager"] = None) -> None:
         if stdout_manager is None:
             stdout_manager = StdOutManager()
         self.manager = stdout_manager
+        self.handled_exception = None
 
     def act(
         self, func: Callable, line: str, gravitas: Optional[str] = None
@@ -95,6 +98,12 @@ class StdOutAdapter:
         """Encapsulate the aside within the manager's log context."""
         with self.manager.log_context(line):
             yield func
+
+    def error(self, exc: Exception) -> None:
+        """Log information about the error."""
+        if exc is not self.handled_exception:
+            self.manager.log(f"***ERROR***\n\n{exc.__class__.__name__}: {exc}")
+            self.handled_exception = exc
 
     def attach(self, filepath: str, **kwargs: Any) -> None:
         """Log a mention of an attached file."""

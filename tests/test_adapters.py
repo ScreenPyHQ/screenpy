@@ -1,4 +1,5 @@
 import logging
+
 from screenpy.exceptions import UnableToNarrate
 from unittest import mock
 
@@ -81,6 +82,15 @@ class TestAllureAdapter:
         next(test_func)()
 
         mocked_allure.step.assert_called_once_with(aside_message)
+
+    def test_error(self, mocked_manager, mock_allure_trappings):
+        adapter = AllureAdapter()
+        mocked_logger = mock_allure_trappings.logger
+
+        for _ in adapter.beat(prop, "We named the dog Indiana."):
+            adapter.error(ValueError("It belongs in a museum!"))
+
+        mocked_logger.stop_step.assert_called_once()
 
     def test_attach(self, mocked_allure):
         adapter = AllureAdapter()
@@ -206,6 +216,17 @@ class TestStdOutAdapter:
         assert len(caplog.records) == 2
         assert caplog.records[0].message == "beat"
         assert caplog.records[1].message == "    aside"
+
+    def test_error(self, caplog):
+        adapter = StdOutAdapter()
+        expected_exception = ValueError("Snakes. Why is it always snakes?")
+
+        with caplog.at_level(logging.INFO):
+            adapter.error(expected_exception)
+
+        assert len(caplog.records) == 1
+        assert expected_exception.__class__.__name__ in caplog.records[0].message
+        assert str(expected_exception) in caplog.records[0].message
 
     def test_attach(self, caplog):
         test_filepath = "freakazoid/documents/freak_in.png"

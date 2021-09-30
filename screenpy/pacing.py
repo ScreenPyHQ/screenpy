@@ -84,9 +84,13 @@ def beat(line: str) -> Callable[[Function], Function]:
 
             completed_line = f"{line.format(actor, **cues)}"
             with the_narrator.stating_a_beat(func, completed_line) as enclosed_func:
-                retval = enclosed_func(*args, **kwargs)
-                if retval is not None:
-                    aside(f"=> {retval}")
+                try:
+                    retval = enclosed_func(*args, **kwargs)
+                    if retval is not None:
+                        aside(f"=> {retval}")
+                except Exception as exc:
+                    the_narrator.explains_the_error(exc)
+                    raise
 
             return retval
 

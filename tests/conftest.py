@@ -1,7 +1,9 @@
+from collections import namedtuple
 from typing import Callable, Generator, Any
 from unittest import mock
 
 import pytest
+from allure_pytest.listener import AllureListener
 
 from screenpy import AnActor, pacing, settings
 from screenpy.abilities import AuthenticateWith2FA, BrowseTheWeb, MakeAPIRequests
@@ -44,12 +46,10 @@ def mocked_narrator() -> Generator[mock.MagicMock, Any, None]:
 
 def mock_settings(**new_settings) -> Callable:
     """Mock one or more settings for the duration of a test."""
+
     def decorator(func: Callable) -> Callable:
         def wrapper(*args, **kwargs) -> Callable:
-            old_settings = {
-                key: getattr(settings, key)
-                for key in new_settings.keys()
-            }
+            old_settings = {key: getattr(settings, key) for key in new_settings.keys()}
             for key, value in new_settings.items():
                 setattr(settings, key, value)
 
@@ -62,3 +62,19 @@ def mock_settings(**new_settings) -> Callable:
         return wrapper
 
     return decorator
+
+
+AllureTrappings = namedtuple("AllureTrappings", "manager listener logger")
+
+
+@pytest.fixture(autouse=True, scope="function")
+def mock_allure_trappings() -> Generator:
+    """Mock the Allure magic we're doing in the ALlureAdapter."""
+    plugin_manager_path = "screenpy.narration.adapters.allure_adapter.plugin_manager"
+    with mock.patch(plugin_manager_path) as mocked_manager:
+        mocked_listener = mock.Mock(spec=AllureListener)
+        mocked_logger = mock.Mock()
+        mocked_listener.allure_logger = mocked_logger
+        mocked_manager.get_plugins.return_value = [mocked_listener]
+
+        yield AllureTrappings(mocked_manager, mocked_listener, mocked_logger)

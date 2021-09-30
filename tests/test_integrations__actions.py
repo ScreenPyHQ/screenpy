@@ -494,9 +494,7 @@ class TestSaveConsoleLog:
 
     @mock.patch("builtins.open", new_callable=mock.mock_open)
     @mock.patch("screenpy.actions.save_console_log.AttachTheFile")
-    def test_sends_kwargs_to_attach(
-        self, mocked_atf, mocked_open, Tester
-    ):
+    def test_sends_kwargs_to_attach(self, mocked_atf, mocked_open, Tester):
         test_path = "doppelganger.png"
         test_kwargs = {"name": "Mystique"}
         browser = Tester.ability_to(BrowseTheWeb).browser
@@ -518,9 +516,7 @@ class TestSaveScreenshot:
 
     @mock.patch("builtins.open", new_callable=mock.mock_open)
     @mock.patch("screenpy.actions.save_screenshot.AttachTheFile")
-    def test_sends_kwargs_to_attach(
-        self, mocked_atf, mocked_open, Tester
-    ):
+    def test_sends_kwargs_to_attach(self, mocked_atf, mocked_open, Tester):
         test_path = "souiiie.png"
         test_kwargs = {"color": "Red", "weather": "Tornado"}
 
@@ -771,6 +767,7 @@ class ExceptionPerformable:
 
     For testing Eventually.
     """
+
     def perform_as(self, the_actor: Actor) -> None:
         raise RuntimeError(RUNTIME_ERROR_MSG)
 
@@ -780,6 +777,7 @@ class EventualPerformable:
 
     For testing Eventually.
     """
+
     def perform_as(self, the_actor: Actor) -> None:
         if self.start is None:
             self.start = time.time()
@@ -818,9 +816,13 @@ class TestEventually:
     @pytest.mark.parametrize("poll,expected_loops", [[0.1, 10], [0.5, 2]])
     def test_does_looping(self, poll, expected_loops, Tester: Actor):
         expected_elapsed = 1
-        ev = Eventually(
-            EventualPerformable(expected_elapsed)
-        ).trying_every(poll).seconds().for_(5).seconds()
+        ev = (
+            Eventually(EventualPerformable(expected_elapsed))
+            .trying_every(poll)
+            .seconds()
+            .for_(5)
+            .seconds()
+        )
 
         elapsed = self.do_timeout(ev, Tester)
 
@@ -842,7 +844,13 @@ class TestEventually:
         ev.perform_as(Tester)
 
     def test_valueerror_when_poll_is_larger_than_timeout(self, Tester: Actor):
-        ev = Eventually(ExceptionPerformable()).polling(.2).seconds().for_(.1).seconds()
+        ev = (
+            Eventually(ExceptionPerformable())
+            .polling(0.2)
+            .seconds()
+            .for_(0.1)
+            .seconds()
+        )
 
         with pytest.raises(ValueError) as exexc:
             ev.perform_as(Tester)

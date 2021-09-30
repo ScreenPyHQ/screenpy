@@ -83,6 +83,7 @@ class Narrator:
         self.backed_up_narrations: List[BackedUpNarration] = []
         self.exit_level = 1
         self.kink_exit_level = 0
+        self.handled_exception = None
 
     @contextmanager
     def off_the_air(self) -> Generator:
@@ -237,6 +238,11 @@ class Narrator:
         if not self.on_air:
             return self._dummy_entangle(lambda: "<static>")
         return self.narrate("aside", func=lambda: "ssh", line=line)
+
+    def explains_the_error(self, exc: Exception) -> None:
+        """Explain the exception to all the adapters."""
+        for adapter in self.adapters:
+            adapter.error(exc)
 
     def attaches_a_file(self, filepath: str, **kwargs: Any) -> None:
         """Attach a file for the various adapters."""

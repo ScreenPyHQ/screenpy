@@ -25,7 +25,6 @@ class DescribableWithQuote:
 
 
 class TestGetAdditiveDescription:
-
     @pytest.mark.parametrize(
         "describable", [ThisIsADescribable(), ThisIsADescribableWithADescribe()]
     )
