@@ -1,7 +1,19 @@
 Release History
 ===============
 
-3.2.2 (2021-09-27)
+3.2.4 (2021-09-30)
+------------------
+
+### Bugfixes
+
+- `MakeNote` and `See` both relied on catching an `AttributeError` to figure out if they had been passed a value or a Question. But if the Question itself encountered an `AttributeError` while being answered, a very confusing situation would arise that was very annoying to debug. Now these two Actions use `hasattr` instead!
+- The `AllureAdapter` is no longer falsely marking steps which failed as having passed! Bringin' back them reds and yellows.
+
+### New Features
+
+- The `Adapter` protocol now supports an `error` method, which allows adapters to report exceptions in their own way.
+
+3.2.3 (2021-09-27)
 ------------------
 
 ### Bugfixes
@@ -24,7 +36,7 @@ Release History
 
 ### Known Issues
 
-- I was not able to figure out how to fix the problem with the Allure reporting, [#74](https://github.com/perrygoy/screenpy/issues/74). :(
+- I was not able to figure out how to fix the problem with the Allure reporting, [#74](https://github.com/perrygoy/screenpy/issues/74). :( (_**Edit**: This is Perry from the Future! I figured it out!_)
 
 3.2.1 (2021-08-29)
 ------------------
