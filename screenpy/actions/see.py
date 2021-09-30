@@ -40,9 +40,9 @@ class See:
     @beat("{} sees if {question_to_log} is {resolution_to_log}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to make an observation."""
-        try:
+        if hasattr(self.question, "answered_by"):
             value = self.question.answered_by(the_actor)
-        except AttributeError:
+        else:
             # must be a value instead of a question!
             value = self.question
 

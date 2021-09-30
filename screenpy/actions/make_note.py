@@ -47,9 +47,9 @@ class MakeNote:
         if self.key is None:
             raise UnableToAct("No key was provided to name this note.")
 
-        try:
+        if hasattr(self.question, "answered_by"):
             value = self.question.answered_by(the_actor)
-        except AttributeError:
+        else:
             # must be a value instead of a question!
             value = self.question
 
