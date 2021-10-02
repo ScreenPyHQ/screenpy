@@ -74,5 +74,5 @@ class SaveConsoleLog:
 
     def __init__(self, path: str) -> None:
         self.path = path
-        self.filename = path.split(os.path.pathsep)[-1]
+        self.filename = path.split(os.path.sep)[-1]
         self.attach_kwargs = None

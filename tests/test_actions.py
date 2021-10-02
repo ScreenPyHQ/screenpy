@@ -401,6 +401,15 @@ class TestSaveConsoleLog:
         assert isinstance(scl3, SaveConsoleLog)
         assert isinstance(scl4, SaveConsoleLog)
 
+    def test_filepath_vs_filename(self):
+        test_name = "cmcmanus.png"
+        test_path = f"boondock/saints/{test_name}"
+
+        scl = SaveConsoleLog.as_(test_path)
+
+        assert scl.path == test_path
+        assert scl.filename == test_name
+
 
 class TestSaveScreenshot:
     def test_can_be_instantiated(self):
@@ -413,6 +422,15 @@ class TestSaveScreenshot:
         assert isinstance(ss2, SaveScreenshot)
         assert isinstance(ss3, SaveScreenshot)
         assert isinstance(ss4, SaveScreenshot)
+
+    def test_filepath_vs_filename(self):
+        test_name = "mmcmanus.png"
+        test_path = f"boondock/saints/{test_name}"
+
+        ss = SaveScreenshot.as_(test_path)
+
+        assert ss.path == test_path
+        assert ss.filename == test_name
 
 
 class TestSee:
