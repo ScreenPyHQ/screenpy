@@ -6,6 +6,7 @@ import time
 from typing import Optional, Set, Tuple
 
 from screenpy import Actor, settings
+from screenpy.exceptions import DeliveryError
 from screenpy.pacing import beat, the_narrator
 from screenpy.protocols import Performable
 from screenpy.speech_tools import get_additive_description
@@ -118,7 +119,7 @@ class Eventually:
             f"{the_actor} used Eventually for {self.timeout} seconds,"
             f" but got:\n    {unique_errors_message}"
         )
-        raise TimeoutError(msg) from self.caught_error
+        raise DeliveryError(msg) from self.caught_error
 
     def __init__(self, performable: Performable):
         self.performable = performable
