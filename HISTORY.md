@@ -1,6 +1,14 @@
 Release History
 ===============
 
+3.2.5 (2021-10-15)
+------------------
+
+### Bugfixes
+
+- Kind of critical bugfix for the Narrator's new ability to report errors -- the Narrator now only reports errors if their mic cable is not kinked and they are on air. This was causing some pretty unfortunate interactions with `Eventually`...
+
+
 3.2.5 (2021-10-14)
 ------------------
 
