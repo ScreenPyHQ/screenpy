@@ -150,14 +150,14 @@ class Actor:
         """Perform any scheduled clean-up tasks."""
         for task in self.cleanup_tasks:
             self.perform(task)
-            self.cleanup_tasks.remove(task)
+        self.cleanup_tasks = []
 
     def exit(self) -> None:
         """Direct the Actor to forget all their Abilities."""
         self.cleans_up()
         for ability in self.abilities:
             ability.forget()
-            self.abilities.remove(ability)
+        self.abilities = []
 
     exit_stage_left = exit_stage_right = exit_through_vomitorium = exit
 
