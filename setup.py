@@ -7,7 +7,7 @@ requires = [
     "allure-pytest>=2.9.0,<2.10",
     "selenium>=3.141.0,<4.1.0",
     "pyotp>=2.6.0,<2.7.0",
-    "requests>=2.25.0,<2.26.0",
+    "requests>=2.25.0,<2.27.0",
     "typing-extensions>=3.10.0,<3.11",
 ]
 
