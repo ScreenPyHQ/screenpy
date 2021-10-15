@@ -119,7 +119,7 @@ class Wait:
         """Describe the Action in present tense."""
         return f"Wait {self.timeout} seconds {self.log_message}."
 
-    @beat("{} waits {timeout} seconds {log_message}")
+    @beat("{} waits up to {timeout} seconds {log_message}")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to wait for the condition to be satisfied."""
         browser = the_actor.ability_to(BrowseTheWeb).browser
