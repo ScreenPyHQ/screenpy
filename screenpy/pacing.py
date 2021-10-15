@@ -89,7 +89,8 @@ def beat(line: str) -> Callable[[Function], Function]:
                     if retval is not None:
                         aside(f"=> {retval}")
                 except Exception as exc:
-                    the_narrator.explains_the_error(exc)
+                    if not the_narrator.cable_kinked and the_narrator.on_air:
+                        the_narrator.explains_the_error(exc)
                     raise
 
             return retval
