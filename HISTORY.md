@@ -1,6 +1,19 @@
 Release History
 ===============
 
+3.2.5 (2021-10-14)
+------------------
+
+### Bugfixes
+
+- The `clean_up` method that all Actors use to clean up after themselves was mutating the cleanup task list as it was iterating through it. This was not good! Actors have been reminded of proper looping etiquette.
+
+### Improvements
+
+- `Eventually` now raises a `DeliveryError` to bring it in line with `Wait` and all other Actions which raise errors.
+- `Eventually` now mentions all of the exceptions it encountered when it raises `DeliveryError`.
+- Several Actions have less-awkwardly-worded `beat`s!
+
 3.2.4 (2021-09-30)
 ------------------
 
