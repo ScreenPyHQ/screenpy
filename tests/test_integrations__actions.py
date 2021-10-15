@@ -1,6 +1,7 @@
 import logging
 import sys
 import time
+from typing import List
 from unittest import mock
 
 import pytest
@@ -772,6 +773,23 @@ class ExceptionPerformable:
         raise RuntimeError(RUNTIME_ERROR_MSG)
 
 
+class LoopExceptionPerformable:
+    """A performable which raises many exceptions, in a loop.
+
+    For testing Eventually.
+    """
+
+    def perform_as(self, the_actor: Actor) -> None:
+        self.cur_ind = (self.cur_ind + 1) % len(self.errorlist)
+        raise self.errorlist[self.cur_ind]
+
+    def __init__(self, errorlist: List[Exception] = None) -> None:
+        if errorlist is None:
+            errorlist = [RuntimeError(RUNTIME_ERROR_MSG)]
+        self.errorlist = errorlist
+        self.cur_ind = -1
+
+
 class EventualPerformable:
     """A performable which keeps track of how often it's been called.
 
@@ -846,7 +864,7 @@ class TestEventually:
     def test_valueerror_when_poll_is_larger_than_timeout(self, Tester: Actor):
         ev = (
             Eventually(ExceptionPerformable())
-            .polling(0.2)
+            .polling_every(0.2)
             .seconds()
             .for_(0.1)
             .seconds()
@@ -856,3 +874,22 @@ class TestEventually:
             ev.perform_as(Tester)
 
         assert "poll must be less than or equal to timeout" in str(exexc)
+
+    def test_mentions_all_errors(self, Tester: Actor):
+        exc1 = ValueError("These tracts of land aren't that huge!")
+        exc2 = TypeError("This witch does not weigh as much as a duck!")
+        ev = (
+            Eventually(LoopExceptionPerformable([exc1, exc2]))
+            .polling_every(0.1)
+            .seconds()
+            .for_(0.2)
+            .seconds()
+        )
+
+        with pytest.raises(TimeoutError) as exexc:
+            ev.perform_as(Tester)
+
+        assert exc1.__class__.__name__ in str(exexc.value)
+        assert str(exc1) in str(exexc.value)
+        assert exc2.__class__.__name__ in str(exexc.value)
+        assert str(exc2) in str(exexc.value)

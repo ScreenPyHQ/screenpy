@@ -3,7 +3,7 @@ Eventually perform a Task or Action, trying until a set timeout.
 """
 
 import time
-from typing import Optional
+from typing import Optional, Set, Tuple
 
 from screenpy import Actor, settings
 from screenpy.pacing import beat, the_narrator
@@ -105,14 +105,18 @@ class Eventually:
                     return
                 except Exception as exc:  # pylint: disable=broad-except
                     self.caught_error = exc
+                    self.unique_errors.add((exc.__class__.__name__, str(exc)))
 
                 time.sleep(self.poll)
                 if time.time() > end_time:
                     break
 
+        unique_errors_message = "\n    ".join(
+            f"{e[0]}: {e[1]}" for e in self.unique_errors
+        )
         msg = (
             f"{the_actor} used Eventually for {self.timeout} seconds,"
-            f" but got: {self.caught_error}"
+            f" but got:\n    {unique_errors_message}"
         )
         raise TimeoutError(msg) from self.caught_error
 
@@ -120,5 +124,6 @@ class Eventually:
         self.performable = performable
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
+        self.unique_errors: Set[Tuple[str, str]] = set()
         self.timeout = settings.TIMEOUT
         self.poll = 0.5
