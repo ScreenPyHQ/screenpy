@@ -818,7 +818,7 @@ class TestEventually:
         start = time.time()
         try:
             ev.perform_as(Tester)
-        except TimeoutError:
+        except DeliveryError:
             pass
         elapsed = time.time() - start
         return elapsed
@@ -850,7 +850,7 @@ class TestEventually:
     def test_catches_exceptions(self, Tester: Actor):
         ev = Eventually(ExceptionPerformable()).for_(1).second()
 
-        with pytest.raises(TimeoutError) as exexc:
+        with pytest.raises(DeliveryError) as exexc:
             ev.perform_as(Tester)
 
         assert RUNTIME_ERROR_MSG in str(exexc)
@@ -886,7 +886,7 @@ class TestEventually:
             .seconds()
         )
 
-        with pytest.raises(TimeoutError) as exexc:
+        with pytest.raises(DeliveryError) as exexc:
             ev.perform_as(Tester)
 
         assert exc1.__class__.__name__ in str(exexc.value)
