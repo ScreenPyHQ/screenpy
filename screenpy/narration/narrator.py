@@ -197,6 +197,9 @@ class Narrator:
             exits.append(closure)
         try:
             yield enclosed_func
+        except Exception as exc:
+            self.explains_the_error(exc)
+            raise
         finally:
             for exit_ in exits:
                 # close the closures
