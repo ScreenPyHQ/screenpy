@@ -273,3 +273,27 @@ class TestNarrator:
 
         for mocked_adapter in test_adapters:
             mocked_adapter.attach.assert_called_once_with(test_path, **test_kwargs)
+
+    def test_off_the_air_goes_back_on_after_error(self):
+        narrator = Narrator(adapters=[mock.MagicMock()])
+
+        try:
+            with narrator.off_the_air():
+                with narrator.stating_a_beat(lambda: "Hello", "Clarise"):
+                    raise ValueError()
+        except ValueError:
+            pass
+
+        assert narrator.on_air
+
+    def test_mic_cable_kinked_unkinks_cable_after_error(self):
+        narrator = Narrator(adapters=[mock.MagicMock()])
+
+        try:
+            with narrator.mic_cable_kinked():
+                with narrator.stating_a_beat(lambda: "Hello", "Anthony"):
+                    raise ValueError()
+        except ValueError:
+            pass
+
+        assert not narrator.cable_kinked

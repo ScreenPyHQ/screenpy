@@ -89,8 +89,10 @@ class Narrator:
     def off_the_air(self) -> Generator:
         """Turns off narration completely during this context."""
         self.on_air = False
-        yield
-        self.on_air = True
+        try:
+            yield
+        finally:
+            self.on_air = True
 
     @contextmanager
     def mic_cable_kinked(self) -> Generator:
@@ -103,10 +105,12 @@ class Narrator:
         previous_kink_level = self.kink_exit_level
         self.cable_kinked = True
         self.kink_exit_level = self.exit_level
-        yield
-        self.flush_backup()
-        self.kink_exit_level = previous_kink_level
-        self.cable_kinked = self.kink_exit_level == 1
+        try:
+            yield
+        finally:
+            self.flush_backup()
+            self.kink_exit_level = previous_kink_level
+            self.cable_kinked = self.kink_exit_level >= 1
 
     def clear_backup(self) -> None:
         """Clear the backed-up narrations from a kinked cable."""
@@ -116,8 +120,10 @@ class Narrator:
     def _increase_exit_level(self) -> Generator:
         """Increase the exit level for kinked narrations."""
         self.exit_level += 1
-        yield
-        self.exit_level -= 1
+        try:
+            yield
+        finally:
+            self.exit_level -= 1
 
     def _pop_backups_from_exit_level(self, level: int) -> List[BackedUpNarration]:
         """Pop all backed-up narrations starting at the given level."""
