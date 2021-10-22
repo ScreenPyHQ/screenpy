@@ -1,7 +1,19 @@
 Release History
 ===============
 
-3.2.5 (2021-10-15)
+3.2.7 (2021-10-21)
+------------------
+
+### Bugfixes
+
+- Another bugfix for the Narrator when reporting errors -- if the user isn't using Allure, an error in the script would cause a `StopIteration` error to be raised aftewards. Pretty annoying when debugging!
+- Speaking of errors being raised, if an error were raised while the Narrator's mic cable was kinked or while the Narrator was off the air, the Narrator would *never narrate again* (until the next script ran anyway). That's fixed!
+
+### Improvements
+
+- Fixed up the quick hackjob for narrating errors to put it in a much more elegant spot.
+
+3.2.6 (2021-10-15)
 ------------------
 
 ### Bugfixes
