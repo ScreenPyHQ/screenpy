@@ -31,6 +31,17 @@ class AllureAdapter:
     def __init__(self) -> None:
         self.step_stack = []
 
+    def _get_allure_plugin(self) -> AllureListener:
+        """Retrieve the AllureListener plugin, probably to log an error."""
+        try:
+            plugin = next(
+                p for p in plugin_manager.get_plugins() if isinstance(p, AllureListener)
+            )
+        except StopIteration:
+            plugin = None
+
+        return plugin
+
     def act(
         self, func: Callable, line: str, gravitas: Optional[str] = None
     ) -> Generator:
@@ -75,9 +86,11 @@ class AllureAdapter:
         current step ourselves, attaching the exception information. This will
         cause a KeyError down the line, which we handle in ``beat`` above.
         """
-        plugin = next(
-            p for p in plugin_manager.get_plugins() if isinstance(p, AllureListener)
-        )
+        plugin = self._get_allure_plugin()
+        if plugin is None:
+            # not using Allure this run, that's OK.
+            return
+
         plugin.allure_logger.stop_step(
             self.step_stack[-1].uuid,
             stop=now(),
