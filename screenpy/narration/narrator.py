@@ -54,21 +54,18 @@ def _chainify(narrations: List[BackedUpNarration]) -> ChainedNarrations:
     """
     result: ChainedNarrations = []
     stack = [result]
-    # the first narration will have the relative base exit level
-    normalizer = (narrations[0][-1] - 1) if narrations else 0
     for channel, channel_kwargs, exit_level in narrations:
-        normalized_exit_level = exit_level - normalizer
-        if normalized_exit_level == len(stack):
+        if exit_level == len(stack):
             # this function is a sibling of the previous one
             stack[-1].append((channel, channel_kwargs, []))
-        elif normalized_exit_level > len(stack):
+        elif exit_level > len(stack):
             # surface the latest function's child list and append to that
             child_list = stack[-1][-1][-1]
             stack.append(child_list)
             stack[-1].append((channel, channel_kwargs, []))
         else:
             # we've dropped down one or more levels, go back
-            stack = stack[: -(len(stack) - normalized_exit_level)]
+            stack = stack[: -(len(stack) - exit_level)]
             stack[-1].append((channel, channel_kwargs, []))
     return result
 
@@ -79,11 +76,14 @@ class Narrator:
     def __init__(self, adapters: Optional[List[Adapter]] = None) -> None:
         self.adapters: List[Adapter] = adapters or []
         self.on_air = True
-        self.cable_kinked = False
-        self.backed_up_narrations: List[BackedUpNarration] = []
+        self.backed_up_narrations: List[List[BackedUpNarration]] = []
         self.exit_level = 1
-        self.kink_exit_level = 0
         self.handled_exception = None
+
+    @property
+    def cable_kinked(self) -> bool:
+        """Whether or not the Narrator's microphone cable is kinked."""
+        return len(self.backed_up_narrations) != 0
 
     @contextmanager
     def off_the_air(self) -> Generator:
@@ -102,19 +102,17 @@ class Narrator:
         can call clear_backup to drop all stored narrations, or flush_backup
         to log them all (and clear them afterward).
         """
-        previous_kink_level = self.kink_exit_level
-        self.cable_kinked = True
-        self.kink_exit_level = self.exit_level
+        self.backed_up_narrations.append([])
         try:
             yield
         finally:
             self.flush_backup()
-            self.kink_exit_level = previous_kink_level
-            self.cable_kinked = self.kink_exit_level >= 1
+            self.backed_up_narrations.pop()
 
     def clear_backup(self) -> None:
         """Clear the backed-up narrations from a kinked cable."""
-        self._pop_backups_from_exit_level(self.kink_exit_level)
+        if self.cable_kinked:
+            self.backed_up_narrations[-1].clear()
 
     @contextmanager
     def _increase_exit_level(self) -> Generator:
@@ -125,27 +123,19 @@ class Narrator:
         finally:
             self.exit_level -= 1
 
-    def _pop_backups_from_exit_level(self, level: int) -> List[BackedUpNarration]:
-        """Pop all backed-up narrations starting at the given level."""
-        keep_narrations = []
-        remove_narrations = []
-
-        for narration in self.backed_up_narrations:
-            if narration[-1] >= level:
-                remove_narrations.append(narration)
-            else:
-                keep_narrations.append(narration)
-
-        self.backed_up_narrations = keep_narrations
-        return remove_narrations
-
     def flush_backup(self) -> None:
         """Let all the backed-up narration flow through the kink."""
-        kinked_narrations = self._pop_backups_from_exit_level(self.kink_exit_level)
-        narrations = _chainify(kinked_narrations)
-        for adapter in self.adapters:
-            full_narration_func = self._entangle_chain(adapter, deepcopy(narrations))
-            full_narration_func()
+        if not self.cable_kinked:
+            return
+
+        kinked_narrations = self.backed_up_narrations[-1]
+        if len(self.backed_up_narrations) > 1:
+            self.backed_up_narrations[-2].extend(kinked_narrations)
+        else:
+            narrations = _chainify(kinked_narrations)
+            for adapter in self.adapters:
+                narration_func = self._entangle_chain(adapter, deepcopy(narrations))
+                narration_func()
         self.clear_backup()
 
     @contextmanager
@@ -214,7 +204,9 @@ class Narrator:
         if self.cable_kinked:
             enclosed_func = self._dummy_entangle(channel_kws["func"])
             channel_kws["func"] = lambda: "overflow"
-            self.backed_up_narrations.append((channel, channel_kws, self.exit_level))
+            self.backed_up_narrations[-1].append(
+                (channel, channel_kws, self.exit_level)
+            )
         else:
             enclosed_func = self._entangle_func(channel, **channel_kws)  # type: ignore
 

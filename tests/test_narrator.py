@@ -30,10 +30,6 @@ class TestChainify:
                 [("ch", KW, 1), ("ch", KW, 2), ("ch", KW, 3), ("ch", KW, 1)],
                 [("ch", KW, [("ch", KW, [("ch", KW, [])])]), ("ch", KW, [])],
             ),
-            (
-                [("ch", KW, 3), ("ch", KW, 4), ("ch", KW, 5), ("ch", KW, 3)],
-                [("ch", KW, [("ch", KW, [("ch", KW, [])])]), ("ch", KW, [])],
-            ),
         ],
     )
     def test_flat_narration(self, test_narrations, expected):
@@ -70,15 +66,15 @@ class TestNarrator:
             narrator.whispering_an_aside("")
 
             # assert these before leaving the context
-            assert narrator.kink_exit_level == 1
-            assert len(narrator.backed_up_narrations) == 4
-            assert narrator.backed_up_narrations[0][0] == "act"
-            assert narrator.backed_up_narrations[1][0] == "scene"
-            assert narrator.backed_up_narrations[2][0] == "beat"
-            assert narrator.backed_up_narrations[3][0] == "aside"
+            assert len(narrator.backed_up_narrations) == 1
+            assert len(narrator.backed_up_narrations[0]) == 4
+            assert narrator.backed_up_narrations[0][0][0] == "act"
+            assert narrator.backed_up_narrations[0][1][0] == "scene"
+            assert narrator.backed_up_narrations[0][2][0] == "beat"
+            assert narrator.backed_up_narrations[0][3][0] == "aside"
             assert all(
                 level == 1
-                for level in map(lambda n: n[-1], narrator.backed_up_narrations)
+                for level in map(lambda n: n[-1], narrator.backed_up_narrations[0])
             )
             MockAdapter.act.assert_not_called()
             MockAdapter.scene.assert_not_called()
@@ -92,6 +88,16 @@ class TestNarrator:
         MockAdapter.beat.assert_called_once()
         MockAdapter.act.assert_called_once()
 
+    def test_deep_kink(self):
+        MockAdapter = mock.MagicMock()
+        narrator = Narrator(adapters=[MockAdapter])
+        with narrator.mic_cable_kinked():
+            with narrator.announcing_the_act(_, ""):
+                with narrator.mic_cable_kinked():
+                    with narrator.stating_a_beat(_, ""):
+                        assert len(narrator.backed_up_narrations) == 2
+                        assert narrator.backed_up_narrations[-1][0][0] == "beat"
+
     def test_clear_backup(self):
         MockAdapter = mock.MagicMock()
         narrator = Narrator(adapters=[MockAdapter])
@@ -103,7 +109,7 @@ class TestNarrator:
 
             narrator.clear_backup()
 
-            assert len(narrator.backed_up_narrations) == 0
+            assert narrator.backed_up_narrations == [[]]
 
         assert narrator.backed_up_narrations == []
         MockAdapter.act.assert_not_called()
@@ -119,7 +125,9 @@ class TestNarrator:
                 with narrator.mic_cable_kinked():
                     with narrator.stating_a_beat(_, ""):
                         narrator.clear_backup()
-                    assert len(narrator.backed_up_narrations) == 1
+                    assert len(narrator.backed_up_narrations) == 2
+                    assert narrator.backed_up_narrations[0][0][0] == "act"
+                    assert narrator.backed_up_narrations[1] == []
 
         MockAdapter.act.assert_called_once()
 
@@ -136,59 +144,44 @@ class TestNarrator:
                 with narrator.whispering_an_aside("aside, too"):
                     pass
 
-            assert narrator.backed_up_narrations[0][0] == "act"
-            assert narrator.backed_up_narrations[0][-1] == 1
-            assert narrator.backed_up_narrations[1][0] == "scene"
-            assert narrator.backed_up_narrations[1][-1] == 2
-            assert narrator.backed_up_narrations[2][0] == "beat"
-            assert narrator.backed_up_narrations[2][-1] == 3
-            assert narrator.backed_up_narrations[3][0] == "aside"
-            assert narrator.backed_up_narrations[3][-1] == 4
-            assert narrator.backed_up_narrations[4][0] == "aside"
-            assert narrator.backed_up_narrations[4][-1] == 2
+            assert narrator.backed_up_narrations[0][0][0] == "act"
+            assert narrator.backed_up_narrations[0][0][-1] == 1
+            assert narrator.backed_up_narrations[0][1][0] == "scene"
+            assert narrator.backed_up_narrations[0][1][-1] == 2
+            assert narrator.backed_up_narrations[0][2][0] == "beat"
+            assert narrator.backed_up_narrations[0][2][-1] == 3
+            assert narrator.backed_up_narrations[0][3][0] == "aside"
+            assert narrator.backed_up_narrations[0][3][-1] == 4
+            assert narrator.backed_up_narrations[0][4][0] == "aside"
+            assert narrator.backed_up_narrations[0][4][-1] == 2
 
-    def test_multi_kink_exit_level(self):
+    def test_multi_kink(self):
         MockAdapter = mock.MagicMock()
         narrator = Narrator(adapters=[MockAdapter])
 
-        assert narrator.kink_exit_level == 0
+        assert len(narrator.backed_up_narrations) == 0
         with narrator.mic_cable_kinked():
-            assert narrator.kink_exit_level == 1
+            assert len(narrator.backed_up_narrations) == 1
+            assert narrator.backed_up_narrations[0] == []
             with narrator.announcing_the_act(_, "act"):
+                assert narrator.backed_up_narrations[0][0][0] == "act"
                 with narrator.mic_cable_kinked():
-                    assert narrator.kink_exit_level == 2
+                    assert len(narrator.backed_up_narrations) == 2
+                    assert narrator.backed_up_narrations[1] == []
                     with narrator.setting_the_scene(_, "scene"):
+                        assert narrator.backed_up_narrations[1][0][0] == "scene"
                         with narrator.mic_cable_kinked():
-                            assert narrator.kink_exit_level == 3
+                            assert len(narrator.backed_up_narrations) == 3
+                            assert narrator.backed_up_narrations[2] == []
                             with narrator.stating_a_beat(_, "beat"):
+                                assert narrator.backed_up_narrations[2][0][0] == "beat"
                                 with narrator.mic_cable_kinked():
-                                    assert narrator.kink_exit_level == 4
-                                assert narrator.kink_exit_level == 3
-                        assert narrator.kink_exit_level == 2
-                assert narrator.kink_exit_level == 1
-        assert narrator.kink_exit_level == 0
-
-    def test__pop_backups_from_exit_level(self):
-        MockAdapter = mock.MagicMock()
-        narrator = Narrator(adapters=[MockAdapter])
-        remaining = [
-            ("beat", {}, 1),
-            ("beat", {}, 2),
-            ("aside", {}, 2),
-            ("beat", {}, 1),
-            ("aside", {}, 1),
-        ]
-        popped = [
-            ("beat", {}, 3),
-            ("beat", {}, 4),
-            ("beat", {}, 3),
-        ]
-        narrator.backed_up_narrations = remaining[:2] + popped + remaining[2:]
-
-        actual_popped = narrator._pop_backups_from_exit_level(3)
-
-        assert actual_popped == popped
-        assert narrator.backed_up_narrations == remaining
+                                    assert len(narrator.backed_up_narrations) == 4
+                                    assert narrator.backed_up_narrations[3] == []
+                                assert len(narrator.backed_up_narrations) == 3
+                        assert len(narrator.backed_up_narrations) == 2
+                assert len(narrator.backed_up_narrations) == 1
+        assert len(narrator.backed_up_narrations) == 0
 
     def test_flush_backup(self):
         MockAdapter = mock.MagicMock()
@@ -201,7 +194,7 @@ class TestNarrator:
 
             narrator.flush_backup()
 
-            assert narrator.backed_up_narrations == []
+            assert narrator.backed_up_narrations == [[]]
             MockAdapter.act.assert_called_once()
             MockAdapter.scene.assert_called_once()
             MockAdapter.beat.assert_called_once()
