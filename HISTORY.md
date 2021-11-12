@@ -1,6 +1,14 @@
 Release History
 ===============
 
+3.2.8 (2021-11-11)
+------------------
+
+### Bugfixes
+
+- Fixes the Narrator skipping narrations if they occurred within a double-kinked cable. In fact, completely rewrote how the Narrator handles multiple cable kinks in a much more understandable way (h/t @bandophahita).
+
+
 3.2.7 (2021-10-21)
 ------------------
 
