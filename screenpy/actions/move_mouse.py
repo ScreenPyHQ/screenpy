@@ -45,7 +45,7 @@ class MoveMouse:
         """Target an element to move the mouse to."""
         return MoveMouse(target=target, description=f"to the {target}")
 
-    on_the = over_the = to_the
+    on_the = over_the = over_the_first_of_the = to_the_first_of_the = to_the
 
     @staticmethod
     def by_offset(x_offset: int, y_offset: int) -> "MoveMouse":

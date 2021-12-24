@@ -31,7 +31,7 @@ class Text:
         """Target the element to extract the text from."""
         return Text(target=target)
 
-    of = of_the
+    of = of_the_first_of_the = of_the
 
     @staticmethod
     def of_all(multi_target: Target) -> "Text":

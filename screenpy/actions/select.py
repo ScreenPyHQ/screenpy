@@ -72,7 +72,7 @@ class SelectByText:
         self.target = target
         return self
 
-    from_ = from_the
+    from_ = from_the_first_of_the = from_the
 
     def describe(self) -> str:
         """Describe the Action in present tense."""
@@ -122,7 +122,7 @@ class SelectByIndex:
         self.target = target
         return self
 
-    from_ = from_the
+    from_ = from_the_first_of_the = from_the
 
     def describe(self) -> str:
         """Describe the Action in present tense."""
@@ -172,7 +172,7 @@ class SelectByValue:
         self.target = target
         return self
 
-    from_ = from_the
+    from_ = from_the_first_of_the = from_the
 
     def describe(self) -> str:
         """Describe the Action in present tense."""

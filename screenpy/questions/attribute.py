@@ -29,12 +29,12 @@ class Attribute:
 
     target: Optional[Target]
 
-    def of(self, target: Target) -> "Attribute":
+    def of_the(self, target: Target) -> "Attribute":
         """Target the element to get the attribute from."""
         self.target = target
         return self
 
-    of_the = of
+    of = of_the_first_of_the = of_the
 
     def of_all(self, target: Target) -> "Attribute":
         """Target the elements, plural, to get the attribute from."""

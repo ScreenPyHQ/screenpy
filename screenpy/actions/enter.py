@@ -54,7 +54,7 @@ class Enter:
         self.target = target
         return self
 
-    on = into = into_the
+    on = into = into_the_first_of_the = into_the
 
     def then_hit(self, *keys: str) -> "Enter":
         """Supply additional keys to hit after entering the text.

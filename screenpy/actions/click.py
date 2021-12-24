@@ -33,7 +33,7 @@ class Click:
         """Target the element to click on."""
         return Click(target)
 
-    on = on_the
+    on = on_the_first_of_the = on_the
 
     def describe(self) -> str:
         """Describe the Action in present tense."""

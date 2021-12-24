@@ -26,7 +26,7 @@ class Clear:
         """Specify the Target from which to clear the text."""
         return Clear(target)
 
-    the_text_from = the_text_from_the
+    the_text_from = the_text_from_the_first_of_the = the_text_from_the
 
     def describe(self) -> str:
         """Describe the Action in present tense."""

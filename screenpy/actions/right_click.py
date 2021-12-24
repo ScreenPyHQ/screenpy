@@ -37,7 +37,7 @@ class RightClick:
         """Target an element to right-click on."""
         return RightClick(target=target)
 
-    on = on_the
+    on = on_the_first_of_the = on_the
 
     def _add_action_to_chain(self, the_actor: Actor, the_chain: ActionChains) -> None:
         """Private method to add this Action to the chain."""
