@@ -1,6 +1,15 @@
 Release History
 ===============
 
+3.2.9 (2021-12-23)
+------------------
+
+### Improvements
+
+- Added `.of_the_first_of_the` aliases to several Actions and Questions, to allow for clearer readings of tests.
+- Added an `aside` of the actual value when `See` is about to compare a pre-baked value instead of asking a Question.
+- Fixed `IsNot`'s descriptions, especially when they were describing when the negative (... of the negative).
+
 3.2.8 (2021-11-11)
 ------------------
 
