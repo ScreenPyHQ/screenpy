@@ -7,7 +7,7 @@ from typing import Any, Union
 from hamcrest import assert_that
 
 from screenpy import Actor
-from screenpy.pacing import beat
+from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable
 from screenpy.resolutions import BaseResolution
 from screenpy.speech_tools import get_additive_description
@@ -45,6 +45,7 @@ class See:
         else:
             # must be a value instead of a question!
             value = self.question
+            aside("the value is: {value}")
 
         assert_that(value, self.resolution)
 
