@@ -24,16 +24,21 @@ class IsVisibleElement(BaseMatcher[Optional[object]]):
 
     def describe_to(self, description: Description) -> None:
         """Describe the passing case."""
-        description.append_text("the element is visible.")
+        description.append_text("the element is visible")
+
+    def describe_match(
+        self, item: Optional[WebElement], match_description: Description
+    ) -> None:
+        match_description.append_text("it was visible")
 
     def describe_mismatch(
-        self, item: WebElement, mismatch_description: Description
+        self, item: Optional[WebElement], mismatch_description: Description
     ) -> None:
         """Describe the failing case."""
         if item is None:
-            mismatch_description.append_text("was not even present.")
+            mismatch_description.append_text("was not even present")
             return
-        mismatch_description.append_text("was not visible.")
+        mismatch_description.append_text("was not visible")
 
 
 def is_visible_element() -> IsVisibleElement:

@@ -51,6 +51,10 @@ class BaseResolution(BaseMatcher[T]):
         """passthrough to the matcher's method."""
         return self.matcher.describe_to(description)
 
+    def describe_match(self, item: object, match_description: Description) -> None:
+        """passthrough to the matcher's method."""
+        self.matcher.describe_match(item, match_description)
+
     def describe_mismatch(
         self, item: object, mismatch_description: Description
     ) -> None:
