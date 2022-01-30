@@ -13,36 +13,69 @@ from screenpy.resolutions import (
     Empty,
     Equal,
     HasLength,
-    IsClickable,
     IsCloseTo,
     IsEqualTo,
     IsNot,
-    IsVisible,
     ReadsExactly,
 )
-
-
-class MockResolution(BaseResolution):
-    matcher_function = mock.Mock()
 
 
 class TestBaseResolution:
     @pytest.mark.parametrize(
         "args,kwargs,expected",
         [
-            [[], {}, True],
-            [[1], {}, 1],
-            [[1, 2], {}, (1, 2)],
-            [[], {"a": 1}, {"a": 1}],
-            [[1], {"a": 1}, ((1,), {"a": 1})],
+            ([], {}, True),
+            ([1], {}, 1),
+            ([1, 2], {}, (1, 2)),
+            ([], {"a": 1}, {"a": 1}),
+            ([1], {"a": 1}, ((1,), {"a": 1})),
         ],
     )
     def test_matcher_instantiation(self, args, kwargs, expected):
         """matcher function is properly called."""
+
+        class MockResolution(BaseResolution):
+            """Must be defined here for new mock matchers."""
+            matcher_function = mock.Mock()
+
         resolution = MockResolution(*args, **kwargs)
 
         assert resolution.expected == expected
-        assert resolution.matcher.called_once_with(*args, **kwargs)
+        resolution.matcher_function.assert_called_once_with(*args, **kwargs)
+
+    @pytest.mark.parametrize(
+        "method,args,expected_method",
+        [
+            ("_matches", [mock.Mock()], "matches"),
+            ("describe_to", [mock.Mock()], "describe_to"),
+            ("describe_match", [mock.Mock(), mock.Mock()], "describe_match"),
+            ("describe_mismatch", [mock.Mock(), mock.Mock()], "describe_mismatch"),
+        ]
+    )
+    def test_passthroughs(self, method, args, expected_method):
+
+        class MockResolution(BaseResolution):
+            """Must be defined here for new mock matchers."""
+            matcher_function = mock.Mock()
+
+        resolution = MockResolution()
+
+        getattr(resolution, method)(*args)
+
+        getattr(resolution.matcher, expected_method).assert_called_once_with(*args)
+
+    def test___repr__(self):
+
+        class MockResolution(BaseResolution):
+            """Must be defined here for new mock matchers."""
+            matcher_function = mock.Mock()
+            get_line = mock.Mock(return_value="")
+
+        resolution = MockResolution()
+
+        repr(resolution)
+
+        resolution.get_line.assert_called_once()
 
 
 class TestContainsTheEntry:
@@ -154,32 +187,6 @@ class TestHasLength:
         assert not hl.matches([1])
 
 
-class TestIsClickable:
-    def test_can_be_instantiated(self):
-        ic = IsClickable()
-
-        assert isinstance(ic, IsClickable)
-
-    def test_the_test(self):
-        """Matches elements which are visible"""
-        mock_clickable_element = mock.Mock()
-        mock_clickable_element.is_displayed.return_value = True
-        mock_clickable_element.is_enabled.return_value = True
-
-        mock_unclickable_element = mock.Mock()
-        mock_unclickable_element.is_displayed.return_value = True
-        mock_unclickable_element.is_enabled.return_value = False
-
-        mock_invisible_element = mock.Mock()
-        mock_invisible_element.is_displayed.return_value = False
-        mock_invisible_element.is_enabled.return_value = True
-        ic = IsClickable()
-
-        assert ic.matches(mock_clickable_element)
-        assert not ic.matches(mock_unclickable_element)
-        assert not ic.matches(mock_invisible_element)
-
-
 class TestIsCloseTo:
     def test_can_be_instantiated(self):
         ict = IsCloseTo(1, delta=3)
@@ -229,24 +236,6 @@ class TestIsNot:
 
         assert in_.matches(2)
         assert not in_.matches(1)
-
-
-class TestIsVisible:
-    def test_can_be_instantiated(self):
-        iv = IsVisible()
-
-        assert isinstance(iv, IsVisible)
-
-    def test_the_test(self):
-        """Matches elements which are visible"""
-        mock_visible_element = mock.Mock()
-        mock_visible_element.is_displayed.return_value = True
-        mock_invisible_element = mock.Mock()
-        mock_invisible_element.is_displayed.return_value = False
-        iv = IsVisible()
-
-        assert iv.matches(mock_visible_element)
-        assert not iv.matches(mock_invisible_element)
 
 
 class TestReadsExactly:

@@ -5,8 +5,6 @@ Pause test execution for a specific time frame.
 import re
 from time import sleep
 
-from selenium.webdriver.common.action_chains import ActionChains
-
 from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
@@ -73,11 +71,6 @@ class Pause:
             )
 
         sleep(self.time)
-
-    @beat("  Pause for {number} {unit} ({reason})!")
-    def add_to_chain(self, _: Actor, the_chain: ActionChains) -> None:
-        """Add the Pause Action to an in-progress |Chain| of Actions."""
-        the_chain.pause(self.time)
 
     def __init__(self, number: float) -> None:
         self.number = number

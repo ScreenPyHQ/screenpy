@@ -17,7 +17,7 @@ class Eventually:
 
     ``Eventually`` ignores all errors for the duration of its attempt. If the
     Actor is not able to complete the given Action or Task within the timeout
-    period, a TimeoutError and the last caught exception are raised.
+    period, a DeliveryError is raised (from the last caught exception).
 
     Examples::
 
@@ -28,12 +28,15 @@ class Eventually:
         )
 
         the_actor.attempts_to(
-            Eventually(Click.on_the(BUTTON)).trying_every(100).milliseconds())
+            Eventually(Click.on_the(BUTTON)).trying_every(100).milliseconds()
+        )
 
         the_actor.was_able_to(
-            Eventually(
-                DismissAlert()
-            ).trying_for(5).seconds().polling_every(500).milliseconds(),
+            Eventually(DismissAlert())
+            .trying_for(5)
+            .seconds()
+            .polling_every(500)
+            .milliseconds(),
         )
     """
 

@@ -4,16 +4,12 @@ about the state of the application, and assert Resolutions, all in the
 service of perfoming their roles.
 """
 
-import warnings
 from random import choice
-from typing import List, Text, Tuple, Type, TypeVar
-
-from hamcrest import assert_that
+from typing import List, Text, Type, TypeVar
 
 from .exceptions import UnableToPerform
 from .pacing import aside
-from .protocols import Answerable, Forgettable, Performable
-from .resolutions.base_resolution import BaseResolution
+from .protocols import Forgettable, Performable
 
 ENTRANCE_DIRECTIONS = [
     "{actor} appears from behind the backdrop!",
@@ -102,49 +98,6 @@ class Actor:
     def perform(self, action: Performable) -> None:
         """Perform an Action."""
         action.perform_as(self)
-
-    def should_see_the(self, *tests: Tuple[Answerable, BaseResolution]) -> None:
-        """Ask a series of Questions, asserting their Resolutions.
-
-        Raises:
-            AssertionError: if any of the |Question| + |Resolution| pairs do
-                not match.
-        """
-        warnings.warn(
-            "Actor.should_see_the and its aliases are deprecated and will be removed in"
-            " ScreenPy version 4.0.0. Please use Actor.should with the new See Action."
-            " https://screenpy-docs.readthedocs.io/en/latest/topics/"
-            "deprecations.html#id3",
-            DeprecationWarning,
-        )
-        for question, resolution in tests:
-            assert_that(question.answered_by(self), resolution)
-
-    should_see = should_see_that = should_see_the
-
-    def should_see_any_of(self, *tests: Tuple[Answerable, BaseResolution]) -> None:
-        """Ask a series of Questions, at least one of which should be true.
-
-        Raises:
-            AssertionError: if none of the |Question| + |Resolution| pairs match.
-        """
-        warnings.warn(
-            "Actor.should_see_any_of is deprecated and will be removed in ScreenPy"
-            " version 4.0.0. Please use Actor.should with the new SeeAnyOf Action."
-            " https://screenpy-docs.readthedocs.io/en/latest/topics/"
-            "deprecations.html#id3",
-            DeprecationWarning,
-        )
-        none_passed = True
-        for question, resolution in tests:
-            try:
-                assert_that(question.answered_by(self), resolution)
-                none_passed = False
-            except AssertionError:
-                pass
-
-        if none_passed:
-            raise AssertionError(f"{self} did not find any expected answers!")
 
     def cleans_up(self) -> None:
         """Perform any scheduled clean-up tasks."""

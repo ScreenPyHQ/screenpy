@@ -9,17 +9,11 @@ import re
 from functools import wraps
 from typing import Any, Callable, Optional
 
-from screenpy.narration.adapters.allure_adapter import AllureAdapter
 from screenpy.narration.adapters.stdout_adapter import StdOutAdapter
 from screenpy.narration.narrator import Narrator
 
 Function = Callable[..., Any]
-the_narrator: Narrator = Narrator(
-    adapters=[
-        AllureAdapter(),
-        StdOutAdapter(),
-    ]
-)
+the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
 
 
 def act(title: str, gravitas: Optional[str] = None) -> Callable[[Function], Function]:

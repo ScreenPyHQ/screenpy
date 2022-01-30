@@ -4,10 +4,6 @@ from setuptools import find_packages, setup
 
 requires = [
     "PyHamcrest>=2.0.0,<2.1",
-    "allure-pytest>=2.9.0,<2.10",
-    "selenium>=3.141.0,<4.1.0",
-    "pyotp>=2.6.0,<2.7.0",
-    "requests>=2.25.0,<2.27.0",
     "typing-extensions>=3.10.0,<3.11",
 ]
 
@@ -31,7 +27,6 @@ setup(
     package_data={"screenpy": ["py.typed"]},
     packages=find_packages(),
     install_requires=requires,
-    scripts=["bin/screenpy-quickstart.py"],
     classifiers=[
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",

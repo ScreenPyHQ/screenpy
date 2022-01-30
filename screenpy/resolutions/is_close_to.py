@@ -23,3 +23,6 @@ class IsCloseTo(BaseResolution):
         """Get the line that describes this Resolution."""
         args, kwargs = self.expected
         return f"a value at most {kwargs['delta']} away from {args[0]}."
+
+    def __init__(self, num: int, delta: int = 1) -> None:
+        super().__init__(num, delta=delta)

@@ -1,103 +1,24 @@
-from screenpy.actions.save_console_log import SaveConsoleLog
-from screenpy.actions.attach_the_file import AttachTheFile
 from unittest import mock
+import sys
 
 import pytest
-from selenium.webdriver.common.keys import Keys
 
-from screenpy import Target
 from screenpy.actions import (
-    AcceptAlert,
-    AddHeader,
-    AddHeaders,
-    Click,
+    AttachTheFile,
     Debug,
-    DismissAlert,
-    DoubleClick,
-    Enter,
-    Enter2FAToken,
     Eventually,
-    GoBack,
-    GoForward,
-    HoldDown,
     MakeNote,
-    MoveMouse,
-    Open,
     Pause,
-    Press,
-    RefreshPage,
-    Release,
-    RespondToThePrompt,
-    RightClick,
-    SaveScreenshot,
     See,
     SeeAllOf,
     SeeAnyOf,
-    Select,
-    SendAPIRequest,
-    SendDELETERequest,
-    SendGETRequest,
-    SendHEADRequest,
-    SendOPTIONSRequest,
-    SendPATCHRequest,
-    SendPOSTRequest,
-    SendPUTRequest,
-    SetHeaders,
-    SwitchTo,
-    SwitchToTab,
-    Wait,
-    generate_send_method_class,
 )
-from screenpy.actions.select import SelectByIndex, SelectByText, SelectByValue
-from screenpy.exceptions import UnableToAct
+from screenpy.directions import noted_under
+from screenpy.director import Director
+from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
+from screenpy.resolutions import IsEqualTo
 
 from tests.conftest import mock_settings
-
-
-class TestAcceptAlert:
-    def test_can_be_instantiated(self):
-        aa = AcceptAlert()
-
-        assert isinstance(aa, AcceptAlert)
-
-
-class TestAddHeader:
-    def test_can_be_instantiated(self):
-        ah1 = AddHeader(a="a")
-        ah2 = AddHeaders(a="a")
-
-        assert isinstance(ah1, AddHeader)
-        assert isinstance(ah2, AddHeader)
-
-    def test_can_be_secret(self):
-        ah = AddHeader(a="a").secretly()
-
-        assert ah.secret
-
-    def test_remembers_headers(self):
-        ah = AddHeader(a="a")
-
-        assert ah.headers == {"a": "a"}
-
-    def test_possible_arguments(self):
-        """can handle dict, pairs, and kwargs"""
-        ah1 = AddHeader({"a": 1})
-        ah2 = AddHeader("a", 1)
-        ah3 = AddHeader(a=1)
-        ah4 = AddHeader({"a": 1}, b=2)
-
-        assert ah1.headers == {"a": 1}
-        assert ah2.headers == {"a": 1}
-        assert ah3.headers == {"a": 1}
-        assert ah4.headers == {"a": 1, "b": 2}
-
-    def test_raises_on_odd_arguments(self):
-        with pytest.raises(ValueError):
-            AddHeader("a", 1, "b")
-
-    def test_raises_on_non_iterable_arguments(self):
-        with pytest.raises(ValueError):
-            AddHeader("a")
 
 
 class TestAttachTheFile:
@@ -106,14 +27,16 @@ class TestAttachTheFile:
 
         assert isinstance(atf, AttachTheFile)
 
+    @mock.patch("screenpy.actions.attach_the_file.the_narrator")
+    def test_perform_attach_the_file_sends_kwargs(self, mocked_narrator, Tester):
+        test_path = "souiiie.png"
+        test_kwargs = {"color": "Red", "weather": "Tornado"}
 
-class TestClick:
-    def test_can_be_instantiated(self):
-        c1 = Click.on(None)
-        c2 = Click.on_the(None)
+        AttachTheFile(test_path, **test_kwargs).perform_as(Tester)
 
-        assert isinstance(c1, Click)
-        assert isinstance(c2, Click)
+        mocked_narrator.attaches_a_file.assert_called_once_with(
+            test_path, **test_kwargs
+        )
 
 
 class TestDebug:
@@ -122,115 +45,130 @@ class TestDebug:
 
         assert isinstance(d, Debug)
 
+    @mock.patch("screenpy.actions.debug.breakpoint")
+    def test_calls_breakpoint(self, mocked_breakpoint, Tester):
+        Debug().perform_as(Tester)
 
-class TestDismissAlert:
+        mocked_breakpoint.assert_called_once()
+
+    @mock.patch("screenpy.actions.debug.breakpoint")
+    @mock.patch("screenpy.actions.debug.pdb")
+    def test_falls_back_to_pdb(self, mocked_pdb, mocked_breakpoint, Tester):
+        mocked_breakpoint.side_effect = NameError("name 'breakpoint' is not defined")
+
+        Debug().perform_as(Tester)
+
+        mocked_pdb.set_trace.assert_called_once()
+
+
+class TestEventually:
+
+    def get_mock_action(self, **kwargs):
+        mock_action = mock.Mock()
+        mock_action.perform_as = mock.Mock(**kwargs)
+        mock_action.describe.return_value = "An African or a European swallow?"
+        return mock_action
+
     def test_can_be_instantiated(self):
-        da = DismissAlert()
+        e1 = Eventually(None)
+        e2 = Eventually(None).trying_for(0).seconds()
+        e3 = Eventually(None).trying_for(0).milliseconds()
+        e4 = Eventually(None).polling(0).seconds()
 
-        assert isinstance(da, DismissAlert)
+        assert isinstance(e1, Eventually)
+        assert isinstance(e2, Eventually)
+        assert isinstance(e3, Eventually)
+        assert isinstance(e4, Eventually)
 
+    def test_uses_timeframe_builder(self):
+        ev = Eventually(None).trying_for(1)
 
-class TestDoubleClick:
-    def test_can_be_instantiated(self):
-        dc1 = DoubleClick()
-        dc2 = DoubleClick.on_the(None)
+        assert isinstance(ev, Eventually._TimeframeBuilder)
 
-        assert isinstance(dc1, DoubleClick)
-        assert isinstance(dc2, DoubleClick)
+    def test_can_adjust_timeout(self):
+        ev = Eventually(None).trying_for(12)
 
+        # is still _TimeframeBuilder, so get the stored Eventually
+        assert ev.eventually.timeout == 12
 
-class TestEnter:
-    def test_can_be_instantiated(self):
-        e1 = Enter.the_text("test")
-        e2 = Enter.the_text("test").into(None)
-        e3 = Enter.the_keys("test").into(None)
-        e4 = Enter.the_text("test").into_the(None)
-        e5 = Enter.the_text("test").on(None)
-        e6 = Enter.the_keys("test").on(None)
-        e7 = Enter.the_text("test").into(None).then_press(None)
-        e9 = Enter.the_secret("test")
-        e8 = Press.the_keys("test")
+    def test_can_adjust_timeout_seconds(self):
+        ev = Eventually(None).trying_for(15).seconds()
 
-        assert isinstance(e1, Enter)
-        assert isinstance(e2, Enter)
-        assert isinstance(e3, Enter)
-        assert isinstance(e4, Enter)
-        assert isinstance(e5, Enter)
-        assert isinstance(e6, Enter)
-        assert isinstance(e7, Enter)
-        assert isinstance(e8, Enter)
-        assert isinstance(e9, Enter)
+        assert ev.timeout == 15
 
-    def test_secret_masks_text(self):
-        """the_secret sets text_to_log to [CENSORED]"""
-        text = "Keep it a secret to everybody"
-        e = Enter.the_secret(text)
+    def test_can_adjust_timeout_milliseconds(self):
+        ev = Eventually(None).trying_for(1200).milliseconds()
 
-        assert e.text == text
-        assert e.text_to_log == "[CENSORED]"
+        assert ev.timeout == 1.2
 
-    def test_text_to_log_humanizes_keys(self):
-        """unicode key values are turned into human-readable text"""
-        e = Enter.the_text(Keys.ENTER)
+    def test_can_adjust_polling_frequency(self):
+        ev = Eventually(None).polling(1).second()
 
-        assert "ENTER" in e.text_to_log
+        assert ev.poll == 1
 
+    @mock_settings(TIMEOUT=100)
+    def test_adjusting_settings_timeout(self):
+        ev = Eventually(None)
 
-class TestEnter2FAToken:
-    def test_can_be_instantiated(self):
-        e1 = Enter2FAToken.into(None)
-        e2 = Enter2FAToken.into_the(None)
+        assert ev.timeout == 100
 
-        assert isinstance(e1, Enter2FAToken)
-        assert isinstance(e2, Enter2FAToken)
+    def test__timeframebuilder_is_performable(self, Tester):
+        MockAction = self.get_mock_action()
 
+        # test passes if no exception is raised
+        Eventually(MockAction).for_(1).perform_as(Tester)
 
-class TestGoBack:
-    def test_can_be_instantiated(self):
-        gb = GoBack()
+    def test_valueerror_when_poll_is_larger_than_timeout(self, Tester):
+        MockAction = self.get_mock_action()
+        ev = (
+            Eventually(MockAction)
+            .polling_every(200).milliseconds()
+            .for_(100).milliseconds()
+        )
 
-        assert isinstance(gb, GoBack)
+        with pytest.raises(ValueError) as actual_exception:
+            ev.perform_as(Tester)
 
+        assert "poll must be less than or equal to timeout" in str(actual_exception)
 
-class TestGoForward:
-    def test_can_be_instantiated(self):
-        gf = GoForward()
+    @mock.patch("screenpy.actions.eventually.time")
+    def test_perform_eventually_times_out(self, mocked_time, Tester):
+        num_calls = 5
+        mocked_time.time = mock.Mock(side_effect=[1] * num_calls + [100])
+        MockAction = self.get_mock_action(
+            side_effect=ValueError("'Tis but a flesh wound!")
+        )
 
-        assert isinstance(gf, GoForward)
+        with pytest.raises(DeliveryError):
+            Eventually(MockAction).perform_as(Tester)
 
+        assert mocked_time.time.call_count == num_calls + 1
 
-class TestHoldDown:
-    def test_can_be_instantiated(self):
-        hd1 = HoldDown.left_mouse_button()
-        hd2 = HoldDown.left_mouse_button().on_the(None)
-        hd3 = HoldDown(Keys.ALT)
-        hd4 = HoldDown.command_or_control_key()
+    @mock.patch("screenpy.actions.eventually.time")
+    def test_catches_exceptions(self, mocked_time, Tester):
+        mocked_time.time = mock.Mock(side_effect=[1, 1, 100])
+        msg = "I got better."
+        MockAction = self.get_mock_action(side_effect=ValueError(msg))
 
-        assert isinstance(hd1, HoldDown)
-        assert isinstance(hd2, HoldDown)
-        assert isinstance(hd3, HoldDown)
-        assert isinstance(hd4, HoldDown)
+        with pytest.raises(DeliveryError) as actual_exception:
+            Eventually(MockAction).perform_as(Tester)
 
-    @pytest.mark.parametrize(
-        "platform,expected_key", [["Windows", Keys.CONTROL], ["Darwin", Keys.COMMAND]]
-    )
-    def test_command_or_control_key(self, platform, expected_key):
-        """HoldDown figures out which key to use based on platform"""
-        system_path = "screenpy.actions.hold_down.platform.system"
-        with mock.patch(system_path, return_value=platform):
-            hd = HoldDown.command_or_control_key()
+        assert msg in str(actual_exception)
 
-        assert hd.key == expected_key
+    @mock.patch("screenpy.actions.eventually.time")
+    def test_mentions_all_errors(self, mocked_time, Tester):
+        mocked_time.time = mock.Mock(side_effect=[1, 1, 100])
+        exc1 = ValueError("These tracts of land aren't that huge!")
+        exc2 = TypeError("This witch does not weigh as much as a duck!")
+        MockAction = self.get_mock_action(side_effect=[exc1, exc2])
 
-    def test_description_is_correct(self):
-        """description is set based on the button or key"""
-        hd1 = HoldDown.left_mouse_button()
-        hd2 = HoldDown(Keys.LEFT_ALT)
-        hd3 = HoldDown(Keys.SHIFT)
+        with pytest.raises(DeliveryError) as actual_exception:
+            Eventually(MockAction).perform_as(Tester)
 
-        assert hd1.description == "LEFT MOUSE BUTTON"
-        assert hd2.description == "ALT"
-        assert hd3.description == "SHIFT"
+        assert exc1.__class__.__name__ in str(actual_exception.value)
+        assert str(exc1) in str(actual_exception.value)
+        assert exc2.__class__.__name__ in str(actual_exception.value)
+        assert str(exc2) in str(actual_exception.value)
 
 
 class TestMakeNote:
@@ -252,40 +190,46 @@ class TestMakeNote:
         assert mn.question == test_question
         assert mn.key == test_key
 
+    def test_answers_question(self, Tester):
+        MockQuestion = mock.Mock()
 
-class TestMoveMouse:
-    def test_can_be_instantiated(self):
-        mm1 = MoveMouse.to_the(None)
-        mm2 = MoveMouse.on_the(None)
-        mm3 = MoveMouse.by_offset(1, 1)
-        mm4 = MoveMouse.to_the(None).with_offset(1, 1)
+        MakeNote.of_the(MockQuestion).as_("test").perform_as(Tester)
 
-        assert isinstance(mm1, MoveMouse)
-        assert isinstance(mm2, MoveMouse)
-        assert isinstance(mm3, MoveMouse)
-        assert isinstance(mm4, MoveMouse)
+        assert MockQuestion.answered_by.called_once_with(Tester)
 
-    def test_description_is_set_by_method(self):
-        """Description is built by what is included"""
-        element_name = "test_element"
-        coords = (1, 2)
-        target = Target.the(element_name).located_by("*")
-        mm1 = MoveMouse.to_the(target)
-        mm2 = MoveMouse.by_offset(*coords)
-        mm3 = MoveMouse.to_the(target).with_offset(*coords)
+    def test_raises_without_key(self, Tester):
+        with pytest.raises(UnableToAct):
+            MakeNote.of_the(None).perform_as(Tester)
 
-        assert element_name in mm1.description
-        assert str(coords) in mm2.description
-        assert element_name in mm3.description and str(coords) in mm3.description
+    def test_adds_note_to_director(self, Tester):
+        key = "key"
+        value = "note"
+        MockQuestion = mock.Mock()
+        MockQuestion.answered_by.return_value = value
 
+        MakeNote.of_the(MockQuestion).as_(key).perform_as(Tester)
 
-class TestOpen:
-    def test_can_be_instantiated(self):
-        o1 = Open.browser_on(None)
-        o2 = Open.their_browser_on(None)
+        assert Director().looks_up(key) == value
 
-        assert isinstance(o1, Open)
-        assert isinstance(o2, Open)
+    def test_can_use_value_instead_of_question(self, Tester):
+        key = "key"
+        test_note = "note"
+
+        MakeNote.of_the(test_note).as_(key).perform_as(Tester)
+
+        assert Director().looks_up(key) == test_note
+
+    def test_using_note_immediately_raises_with_docs(self, Tester):
+        MockQuestion = mock.Mock()
+        key = "spam, spam, spam, spam, baked beans, and spam"
+
+        with pytest.raises(UnableToDirect) as exc:
+            Tester.attempts_to(
+                MakeNote.of_the(MockQuestion).as_(key),
+                noted_under(key),
+            )
+
+        assert "screenpy-docs.readthedocs.io" in str(exc.value)
 
 
 class TestPause:
@@ -333,104 +277,17 @@ class TestPause:
         assert p1.reason == p2.reason == "because reasons"
         assert p3.reason == p4.reason == "because reasons"
 
+    @mock.patch("screenpy.actions.pause.sleep")
+    def test_calls_sleep(self, mocked_sleep, Tester):
+        duration = 20
 
-class TestRelease:
-    def test_can_be_instantiated(self):
-        r1 = Release.left_mouse_button()
-        r2 = Release(Keys.ALT)
-        r3 = Release.command_or_control_key()
+        Pause.for_(duration).seconds_because("").perform_as(Tester)
 
-        assert isinstance(r1, Release)
-        assert isinstance(r2, Release)
-        assert isinstance(r3, Release)
+        mocked_sleep.assert_called_once_with(duration)
 
-    @pytest.mark.parametrize(
-        "platform,expected_key", [["Windows", Keys.CONTROL], ["Darwin", Keys.COMMAND]]
-    )
-    def test_command_or_control_key(self, platform, expected_key):
-        """Release figures out which key to use based on platform"""
-        system_path = "screenpy.actions.hold_down.platform.system"
-        with mock.patch(system_path, return_value=platform):
-            r = Release.command_or_control_key()
-
-        assert r.key == expected_key
-
-    def test_description_is_correct(self):
-        """description is set based on the button or key"""
-        r1 = Release.left_mouse_button()
-        r2 = Release(Keys.LEFT_ALT)
-        r3 = Release(Keys.SHIFT)
-
-        assert r1.description == "LEFT MOUSE BUTTON"
-        assert r2.description == "ALT"
-        assert r3.description == "SHIFT"
-
-
-class TestRefreshPage:
-    def test_can_be_instantiated(self):
-        r = RefreshPage()
-
-        assert isinstance(r, RefreshPage)
-
-
-class TestRespondToThePrompt:
-    def test_can_be_instantiated(self):
-        rttp = RespondToThePrompt.with_("test")
-
-        assert isinstance(rttp, RespondToThePrompt)
-
-
-class TestRightClick:
-    def test_can_be_instantiated(self):
-        rc1 = RightClick()
-        rc2 = RightClick.on_the(None)
-
-        assert isinstance(rc1, RightClick)
-        assert isinstance(rc2, RightClick)
-
-
-class TestSaveConsoleLog:
-    def test_can_be_instantiated(self):
-        scl1 = SaveConsoleLog("")
-        scl2 = SaveConsoleLog.as_("")
-        scl3 = SaveConsoleLog.as_("").and_attach_it()
-        scl4 = SaveConsoleLog.as_("").and_attach_it(witch_weight="duck_weight")
-
-        assert isinstance(scl1, SaveConsoleLog)
-        assert isinstance(scl2, SaveConsoleLog)
-        assert isinstance(scl3, SaveConsoleLog)
-        assert isinstance(scl4, SaveConsoleLog)
-
-    def test_filepath_vs_filename(self):
-        test_name = "cmcmanus.png"
-        test_path = f"boondock/saints/{test_name}"
-
-        scl = SaveConsoleLog.as_(test_path)
-
-        assert scl.path == test_path
-        assert scl.filename == test_name
-
-
-class TestSaveScreenshot:
-    def test_can_be_instantiated(self):
-        ss1 = SaveScreenshot("")
-        ss2 = SaveScreenshot.as_("")
-        ss3 = SaveScreenshot.as_("").and_attach_it()
-        ss4 = SaveScreenshot.as_("").and_attach_it(me="newt")
-
-        assert isinstance(ss1, SaveScreenshot)
-        assert isinstance(ss2, SaveScreenshot)
-        assert isinstance(ss3, SaveScreenshot)
-        assert isinstance(ss4, SaveScreenshot)
-
-    def test_filepath_vs_filename(self):
-        test_name = "mmcmanus.png"
-        test_path = f"boondock/saints/{test_name}"
-
-        ss = SaveScreenshot.as_(test_path)
-
-        assert ss.path == test_path
-        assert ss.filename == test_name
+    def test_complains_for_missing_reason(self, Tester):
+        with pytest.raises(UnableToAct):
+            Pause.for_(20).perform_as(Tester)
 
 
 class TestSee:
@@ -440,6 +297,30 @@ class TestSee:
 
         assert isinstance(s1, See)
         assert isinstance(s2, See)
+
+    @mock.patch("screenpy.actions.see.assert_that")
+    def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
+        mock_question = mock.Mock()
+        mock_question.describe.return_value = "What was your mother?"
+        mock_resolution = mock.Mock()
+        mock_resolution.describe.return_value = "A hamster!"
+
+        See.the(mock_question, mock_resolution).perform_as(Tester)
+
+        mock_question.answered_by.assert_called_once_with(Tester)
+        mocked_assert_that.assert_called_once_with(
+            mock_question.answered_by.return_value, mock_resolution
+        )
+
+    @mock.patch("screenpy.actions.see.assert_that")
+    def test_calls_assert_that_with_value(self, mocked_assert_that, Tester):
+        test_value = "Your father smelt of"
+        mock_resolution = mock.Mock()
+        mock_resolution.describe.return_value = "Elderberries!"
+
+        See.the(test_value, mock_resolution).perform_as(Tester)
+
+        mocked_assert_that.assert_called_once_with(test_value, mock_resolution)
 
 
 class TestSeeAllOf:
@@ -454,6 +335,38 @@ class TestSeeAllOf:
         with pytest.raises(UnableToAct):
             SeeAllOf(None)
 
+    @mock.patch("screenpy.actions.see_all_of.See")
+    def test_calls_see_for_each_test(self, MockedSee, Tester):
+        num_tests = 3
+        tests = ((mock.Mock(), mock.Mock()),) * num_tests
+
+        SeeAllOf.the(*tests).perform_as(Tester)
+
+        assert MockedSee.the.call_count == num_tests
+        # In 3.7 and earlier, you can't get the .args of a method call from
+        # the mocked instance. We can't do the full test there.
+        if sys.version_info >= (3, 8):
+            for num, test in enumerate(tests):
+                assert MockedSee.method_calls[num].args == test
+
+    def test_raises_assertionerror_if_one_fails(self, Tester):
+        with pytest.raises(AssertionError):
+            SeeAllOf(
+                (True, IsEqualTo(True)),
+                (True, IsEqualTo(False)),  # <--
+                (True, IsEqualTo(True)),
+                (True, IsEqualTo(True)),
+            ).perform_as(Tester)
+
+    def test_passes_if_all_pass(self, Tester):
+        # test passes if no exception is raised
+        SeeAllOf(
+            (True, IsEqualTo(True)),
+            (True, IsEqualTo(True)),
+            (True, IsEqualTo(True)),
+            (True, IsEqualTo(True)),
+        ).perform_as(Tester)
+
 
 class TestSeeAnyOf:
     def test_can_be_instantiated(self):
@@ -467,221 +380,34 @@ class TestSeeAnyOf:
         with pytest.raises(UnableToAct):
             SeeAnyOf(None)
 
+    @mock.patch("screenpy.actions.see_any_of.See")
+    def test_calls_see_for_each_test(self, MockedSee, Tester):
+        num_tests = 3
+        tests = ((mock.Mock(), mock.Mock()),) * num_tests
 
-class TestSelect:
-    def test_specifics_can_be_instantiated(self):
-        by_index1 = Select.the_option_at_index(0)
-        by_index2 = Select.the_option_at_index(0).from_(None)
-        by_index3 = Select.the_option_at_index(0).from_the(None)
-        by_text1 = Select.the_option_named("Option")
-        by_text2 = Select.the_option_named("Option").from_(None)
-        by_text3 = Select.the_option_named("Option").from_the(None)
-        by_value1 = Select.the_option_with_value(1)
-        by_value2 = Select.the_option_with_value(1).from_(None)
-        by_value3 = Select.the_option_with_value(1).from_the(None)
+        SeeAnyOf.the(*tests).perform_as(Tester)
 
-        assert isinstance(by_index1, SelectByIndex)
-        assert isinstance(by_index2, SelectByIndex)
-        assert isinstance(by_index3, SelectByIndex)
-        assert isinstance(by_text1, SelectByText)
-        assert isinstance(by_text2, SelectByText)
-        assert isinstance(by_text3, SelectByText)
-        assert isinstance(by_value1, SelectByValue)
-        assert isinstance(by_value2, SelectByValue)
-        assert isinstance(by_value3, SelectByValue)
+        assert MockedSee.the.call_count == num_tests
+        # In 3.7 and earlier, you can't get the .args of a method call from
+        # the mocked instance. We can't do the full test there.
+        if sys.version_info >= (3, 8):
+            for num, test in enumerate(tests):
+                assert MockedSee.method_calls[num].args == test
 
+    def test_raises_assertionerror_if_none_pass(self, Tester):
+        with pytest.raises(AssertionError) as actual_exception:
+            SeeAnyOf(
+                (True, IsEqualTo(False)),
+                (True, IsEqualTo(False)),
+            ).perform_as(Tester)
 
-class TestSendAPIRequest:
-    def test_can_be_instantiated(self):
-        sar1 = SendAPIRequest("GET", "test")
-        sar2 = SendAPIRequest("GET", "test").with_(some="kwarg")
+        assert "did not find any expected answers" in str(actual_exception)
 
-        assert isinstance(sar1, SendAPIRequest)
-        assert isinstance(sar2, SendAPIRequest)
-
-    def test_stores_kwargs(self):
-        """kwargs are stored to send in the request later"""
-        test_kwargs = {"test": "kwarg"}
-        sar = SendAPIRequest("GET", "test").with_(**test_kwargs)
-
-        assert sar.kwargs == test_kwargs
-
-    def test_can_be_secret(self):
-        sar = SendAPIRequest("GET", "test").with_(test="kwarg").secretly()
-
-        assert sar.secret
-
-
-def test_generate_send_method_class_docstring():
-    """Generated class and method's docstring both contain method name."""
-    test_method = "TEST"
-
-    SendTESTMethod = generate_send_method_class(test_method)
-
-    assert test_method in SendTESTMethod.__doc__
-    assert test_method in SendTESTMethod.to.__doc__
-
-
-@pytest.mark.parametrize(
-    "request_class",
-    [
-        SendDELETERequest,
-        SendGETRequest,
-        SendHEADRequest,
-        SendOPTIONSRequest,
-        SendPATCHRequest,
-        SendPOSTRequest,
-        SendPUTRequest,
-    ],
-)
-def test_can_be_instantiated(request_class):
-    """Send{METHOD}Request instantiation gives back SendAPIRequest"""
-    sr1 = request_class.to("url")
-    sr2 = request_class.to("url").with_(some="kwarg")
-
-    assert isinstance(sr1, SendAPIRequest)
-    assert isinstance(sr2, SendAPIRequest)
-
-
-class TestSetHeaders:
-    def test_can_be_instantiated(self):
-        sh1 = SetHeaders(a="a")
-        sh2 = SetHeaders.to(b="b")
-
-        assert isinstance(sh1, SetHeaders)
-        assert isinstance(sh2, SetHeaders)
-
-    def test_can_be_secret(self):
-        sh = SetHeaders(a=1).secretly()
-
-        assert sh.secret
-
-    def test_remembers_headers(self):
-        sh = SetHeaders(a="a")
-
-        assert sh.headers == {"a": "a"}
-
-    def test_possible_arguments(self):
-        """can handle dict, pairs, and kwargs"""
-        sh1 = SetHeaders({"a": 1})
-        sh2 = SetHeaders("a", 1)
-        sh3 = SetHeaders(a=1)
-        sh4 = SetHeaders({"a": 1}, b=2)
-
-        assert sh1.headers == {"a": 1}
-        assert sh2.headers == {"a": 1}
-        assert sh3.headers == {"a": 1}
-        assert sh4.headers == {"a": 1, "b": 2}
-
-    def test_raises_on_odd_arguments(self):
-        with pytest.raises(ValueError):
-            SetHeaders("a", 1, "b")
-
-    def test_raises_on_non_iterable_arguments(self):
-        with pytest.raises(ValueError):
-            SetHeaders("a")
-
-
-class TestSwitchTo:
-    def test_can_be_instantiated(self):
-        st1 = SwitchTo.the(None)
-        st2 = SwitchTo.default()
-
-        assert isinstance(st1, SwitchTo)
-        assert isinstance(st2, SwitchTo)
-
-
-class TestSwitchToTab:
-    def test_can_be_instantiated(self):
-        stt = SwitchToTab(1)
-
-        assert isinstance(stt, SwitchToTab)
-
-
-class TestWait:
-    def test_can_be_instantiated(self):
-        def foo():
-            pass
-
-        w1 = Wait.for_the(mock.Mock())
-        w2 = Wait(0).seconds_for_the(mock.Mock())
-        w3 = Wait().using(foo)
-        w4 = Wait().using(foo).with_(mock.Mock())
-
-        assert isinstance(w1, Wait)
-        assert isinstance(w2, Wait)
-        assert isinstance(w3, Wait)
-        assert isinstance(w4, Wait)
-
-    def test_default_log_message(self):
-        target_name = "spam"
-        w = Wait.for_the(Target.the(target_name).located_by("//eggs"))
-
-        assert "visibility_of_element_located" in w.log_message
-        assert target_name in w.log_message
-
-    def test_custom_log_message(self):
-        args = [1, Target.the("baked").located_by("//beans"), "and spam"]
-        w = Wait().using(mock.Mock(), "{0}, {1}, {2}").with_(*args)
-
-        assert all([str(arg) in w.log_message for arg in args])
-
-    def test_set_timeout(self):
-        timeout = 1000
-
-        w = Wait(timeout).seconds_for_the(None)
-
-        assert w.timeout == timeout
-
-    @mock_settings(TIMEOUT=8)
-    def test_adjusting_settings_timeout(self):
-        w1 = Wait.for_the(mock.Mock())
-        w2 = Wait()
-
-        assert w1.timeout == 8
-        assert w2.timeout == 8
-
-
-class TestEventually:
-    def test_can_be_instantiated(self):
-        e1 = Eventually(None)
-        e2 = Eventually(None).trying_for(0).seconds()
-        e3 = Eventually(None).trying_for(0).milliseconds()
-        e4 = Eventually(None).polling(0).seconds()
-
-        assert isinstance(e1, Eventually)
-        assert isinstance(e2, Eventually)
-        assert isinstance(e3, Eventually)
-        assert isinstance(e4, Eventually)
-
-    def test_can_adjust_timeout(self):
-        ev = Eventually(None).trying_for(12)
-
-        # is still _TimeframeBuilder, so get the stored Eventually
-        assert ev.eventually.timeout == 12
-
-    def test_can_adjust_timeout_seconds(self):
-        ev = Eventually(None).trying_for(15).seconds()
-
-        assert ev.timeout == 15
-
-    def test_can_adjust_timeout_milliseconds(self):
-        ev = Eventually(None).trying_for(1200).milliseconds()
-
-        assert ev.timeout == 1.2
-
-    def test_waiting_method(self):
-        ev = Eventually(None).trying_for(1)
-
-        assert isinstance(ev, Eventually._TimeframeBuilder)
-
-    def test_can_adjust_poll(self):
-        ev = Eventually(None).polling(1).second()
-
-        assert ev.poll == 1
-
-    @mock_settings(TIMEOUT=100)
-    def test_adjusting_settings_timeout(self):
-        ev = Eventually(None)
-
-        assert ev.timeout == 100
+    def test_passes_with_one_pass(self, Tester):
+        # test passes if no exception is raised
+        SeeAnyOf(
+            (True, IsEqualTo(False)),
+            (True, IsEqualTo(False)),
+            (True, IsEqualTo(True)),  # <--
+            (True, IsEqualTo(False)),
+        ).perform_as(Tester)

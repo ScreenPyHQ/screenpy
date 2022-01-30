@@ -10,7 +10,6 @@ https://mypy.readthedocs.io/en/stable/protocols.html
 
 from typing import TYPE_CHECKING, Any, Callable, Generator, Optional
 
-from selenium.webdriver.common.action_chains import ActionChains
 from typing_extensions import Protocol
 
 if TYPE_CHECKING:
@@ -30,20 +29,6 @@ class Answerable(Protocol):
 
         Returns:
             The answer, based on the sleuthing the Actor has done.
-        """
-        ...
-
-
-class Chainable(Protocol):
-    """Actions that can be added to a chain are Chainable"""
-
-    def add_to_chain(self, the_actor: "Actor", the_chain: ActionChains) -> None:
-        """
-        Add this chainable Action to an in-progress chain.
-
-        Args:
-            the_actor: the |Actor| who will be performing the |Action| chain.
-            the_chain: the |ActionChains| instance that is being built.
         """
         ...
 
