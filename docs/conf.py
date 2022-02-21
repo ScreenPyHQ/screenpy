@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 from screenpy.__version__ import __version__  # noqa: need the path first
 
-autodoc_mock_imports = ["hamcrest", "allure", "pyotp", "typing_extensions"]
+autodoc_mock_imports = ["hamcrest", "typing_extensions"]
 
 # -- Project information -----------------------------------------------------
 
@@ -60,59 +60,7 @@ templates_path = ["_templates"]
 # source_suffix = ['.rst', '.md']
 source_suffix = ".rst"
 
-rst_prolog = """.. Internal references
-.. .. Docs Pages
-.. |wait strategies| replace:: :ref:`waiting`
-.. |direction| replace:: :ref:`Direction<directions>`
-
-.. .. Exceptions
-.. |UnableToAct| replace:: :class:`~screenpy.exceptions.UnableToAct`
-.. |UnableToPerform| replace:: :class:`~screenpy.exceptions.UnableToPerform`
-
-.. .. Actors
-.. |Actor.attempts_to| replace:: :meth:`~screenpy.actor.Actor.attempts_to`
-.. |Actor.can| replace:: :meth:`~screenpy.actor.Actor.can`
-.. |Actor| replace:: :class:`~screenpy.actor.Actor`
-
-.. .. Abilities
-.. |AuthenticateWith2FA| replace:: :class:`~screenpy.abilities.AuthenticateWith2FA`
-.. |BrowseTheWeb| replace:: :class:`~screenpy.abilities.BrowseTheWeb`
-.. |MakeAPIRequests| replace:: :class:`~screenpy.abilities.MakeAPIRequests`
-
-.. .. Actions
-.. |Action| replace:: :ref:`Action<actions>`
-.. |Chain| replace:: :class:`~screenpy.actions.Chain`
-.. |HoldDown| replace:: :class:`~screenpy.actions.HoldDown`
-.. |Pause| replace:: :class:`~screenpy.actions.Pause`
-.. |Release| replace:: :class:`~screenpy.actions.Release`
-.. |See| replace:: :class:`~screenpy.actions.See`
-.. |Select.the_option_at_index| replace:: :meth:`~screenpy.actions.Select.the_option_at_index`
-.. |Select.the_option_named| replace:: :meth:`~screenpy.actions.Select.the_option_named`
-.. |Select.the_option_with_value| replace:: :meth:`~screenpy.actions.Select.the_option_with_value`
-
-.. .. Questions
-.. |CookiesOnTheAPISession| replace:: :class:`~screenpy.questions.CookiesOnTheAPISession`
-.. |CookiesOnTheWebSession| replace:: :class:`~screenpy.questions.CookiesOnTheWebSession`
-.. |Question| replace:: :ref:`Question<questions>`
-
-.. .. Resolutions
-.. |Resolution| replace:: :ref:`Resolution<resolutions>`
-
-.. External references
-.. .. Selenium
-.. |ActionChains| replace:: `ActionChains <https://selenium-python.readthedocs.io/api.html#module-selenium.webdriver.common.action_chains>`__
-.. |By| replace:: `By <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.by.html>`__
-.. |Keys| replace:: `Keys <https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys>`__
-.. |WebDriver| replace:: `WebDriver <https://seleniumhq.github.io/selenium/docs/api/py/api.html>`__
-.. |WebElement| replace:: `WebElement <https://seleniumhq.github.io/selenium/docs/api/py/webdriver_remote/selenium.webdriver.remote.webelement.html#module-selenium.webdriver.remote.webelement>`__
-
-.. .. PyHamcrest
-.. |PyHamcrest| replace:: `PyHamcrest <https://pyhamcrest.readthedocs.io/en/latest/>`__
-
-.. .. Requests
-.. |request| replace:: `Session.request <https://requests.readthedocs.io/en/master/api/#requests.Session.request>`__
-.. |Requests| replace:: `requests <https://requests.readthedocs.io/en/master/>`__
-"""
+rst_prolog = """"""
 
 # The master toctree document.
 master_doc = "index"
@@ -216,8 +164,8 @@ texinfo_documents = [
         "ScreenPy Documentation",
         author,
         "ScreenPy",
-        "One line description of project.",
-        "Miscellaneous",
+        "A solid, SOLID base for automated testing using Screenplay Pattern in Python.",
+        "Automated Testing",
     ),
 ]
 

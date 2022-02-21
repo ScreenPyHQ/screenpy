@@ -9,6 +9,9 @@ import pdb
 from screenpy.actor import Actor
 from screenpy.pacing import beat
 
+# pylint: disable=forgotten-debug-statement
+# haha, thanks pylint.
+
 
 class Debug:
     """Activate a debugger to step through Actions.
@@ -40,8 +43,7 @@ class Debug:
 
         try:
             # Hello! To get to the perform loop and step through the remaining
-            # Actions, you will need to go "up" about 3 times. If you go "up"
-            # one more time, you'll be in the list of Actions. Either works!
+            # Actions, you will need to go "up" about 3 times.
             breakpoint()
         except NameError:
             pdb.set_trace()

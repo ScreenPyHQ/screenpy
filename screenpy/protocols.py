@@ -15,6 +15,8 @@ from typing_extensions import Protocol
 if TYPE_CHECKING:
     from .actor import Actor
 
+# pylint: disable=unused-argument
+
 
 class Answerable(Protocol):
     """Questions are Answerable"""
@@ -25,7 +27,7 @@ class Answerable(Protocol):
         answer to their best knowledge.
 
         Args:
-            the_actor: the |Actor| who will answer the |Question|.
+            the_actor: the Actor who will answer the Question.
 
         Returns:
             The answer, based on the sleuthing the Actor has done.
@@ -52,19 +54,19 @@ class Performable(Protocol):
         Direct the Actor to perform this Action.
 
         Args:
-            the_actor: the |Actor| who will perform this |Action|.
+            the_actor: the Actor who will perform this Action.
         """
         ...
 
 
 class Adapter(Protocol):
-    """Required functions for an Adapter to the Narrator's microphone.
+    """Required functions for an adapter to the Narrator's microphone.
 
-    Adapters allow the Narrator's microphone to broadcast to multiple logging
-    sources, such as stdout or Allure.
+    Adapters allow the :ref:`Narrator`'s microphone to broadcast to multiple
+    logging sources, such as stdout or Allure.
 
     Each of the methods described below correspond to the ``screenpy.pacing``
-    decorators of the same name. The narrator expects each of these methods to
+    decorators of the same name. The Narrator expects each of these methods to
     yield the function back. This allows each adapter to modify the function
     in whatever ways it needs to while allowing the adapters before and after
     to do the same.

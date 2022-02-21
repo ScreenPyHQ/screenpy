@@ -23,10 +23,10 @@ T = TypeVar("T")
 
 
 class BaseResolution(BaseMatcher[T]):
-    """
-    An abstraction barrier for |PyHamcrest|'s matchers. Allows for
-    more natural language possibilities as well as nice logging for the
-    allure reports.
+    """Base class for Resolutions, ScreenPy's "expected value".
+
+    An abstraction barrier for PyHamcrest's matchers. Allows for natural
+    language assertions and hooks into ScreenPy's logging framework.
 
     You probably shouldn't expect to call any of the defined methods on
     this class or any inherited classes. Just pass an instantiated

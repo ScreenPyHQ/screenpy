@@ -14,23 +14,26 @@ from screenpy.speech_tools import get_additive_description
 
 
 class See:
-    """See if a value or the answer to a Question matches the expected answer.
+    """See if a value or the answer to a Question matches the Resolution.
 
     This is a very important Action in ScreenPy. It is the way to perform
-    test assertions. See the |Question| and |Resolution| documentation.
+    test assertions. For more information, see the documentation for
+    :ref:`Questions` and :ref:`Resolutions`.
 
     Examples::
 
         the_actor.should(
             See(TheText.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")),
-            See.the(Number.of(BALLOONS), IsEqualTo(3)),
+        )
+
+        the_actor.should(
             See.the(list_of_items, ContainsTheItem("juice extractor")),
         )
     """
 
     @staticmethod
     def the(question: Union[Answerable, Any], resolution: BaseResolution) -> "See":
-        """Supply the |Question| and |Resolution| to assert."""
+        """Supply the Question (or value) and Resolution to test."""
         return See(question, resolution)
 
     def describe(self) -> str:
@@ -45,7 +48,7 @@ class See:
         else:
             # must be a value instead of a question!
             value = self.question
-            aside("the value is: {value}")
+            aside(f"the actual value is: {value}")
 
         assert_that(value, self.resolution)
 

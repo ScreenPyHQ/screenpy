@@ -17,7 +17,7 @@ class Eventually:
 
     ``Eventually`` ignores all errors for the duration of its attempt. If the
     Actor is not able to complete the given Action or Task within the timeout
-    period, a DeliveryError is raised (from the last caught exception).
+    period, a ``DeliveryError`` is raised (from the last caught exception).
 
     Examples::
 

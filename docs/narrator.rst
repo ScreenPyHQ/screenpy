@@ -1,5 +1,6 @@
 .. _narrator:
 
+========
 Narrator
 ========
 
@@ -79,12 +80,9 @@ Narrator
 Adapters
 ========
 
-AllureAdapter
--------------
-
-.. autoclass:: screenpy.narration.adapters.allure_adapter.AllureAdapter
-    :members:
-
+There is one adapter included in ScreenPy,
+which allows the Narrator
+to reach ``stdout``.
 
 StdOutAdapter
 -------------

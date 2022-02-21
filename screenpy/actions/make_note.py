@@ -13,14 +13,17 @@ from screenpy.protocols import Answerable
 class MakeNote:
     """Make a note of a value or the answer to a Question.
 
-    You can access noted values with a |direction| at any point during a test.
+    You can access noted values with :ref:`directions` at any point during a
+    test, except immediately after making the note. See
+    https://screenpy-docs.readthedocs.io/en/latest/cookbook.html#using-makenote.
 
     Examples::
 
         the_actor.attempts_to(
-            MakeNote.of_the(Text.of_the(WELCOME_BANNER)).as_("welcome message"),
-            MakeNote.of_the(list_of_items).as_("items list"),
+            MakeNote.of_the(Number.of(BALLOONS)).as_("excitement gauge"),
         )
+
+        the_actor.attempts_to(MakeNote.of_the(items).as_("items list"))
     """
 
     key: Optional[str]

@@ -80,6 +80,10 @@ class Narrator:
         self.exit_level = 1
         self.handled_exception = None
 
+    def attach_adapter(self, adapter: Adapter) -> None:
+        """Attach a new adapter to the Narrator's microphone."""
+        self.adapters.append(adapter)
+
     @property
     def cable_kinked(self) -> bool:
         """Whether or not the Narrator's microphone cable is kinked."""

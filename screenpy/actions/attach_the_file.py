@@ -9,7 +9,7 @@ from screenpy.pacing import the_narrator
 
 
 class AttachTheFile:
-    """Attach a file to the Narrator's reports.
+    """Attach a file to the :ref:`Narrator`'s reports.
 
     Supports passing arbitrary keyword arguments along to the adapters hooked
     up to the Narrator's microphone.

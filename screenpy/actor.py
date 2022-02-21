@@ -35,7 +35,7 @@ T = TypeVar("T")
 class Actor:
     """Represents an Actor, holding their name and Abilities.
 
-    Actors are the performers of your screenplay, they represent your users as
+    Actors are the performers of your screenplay. They represent your users as
     they go about their business using your product.
 
     Examples::
@@ -70,7 +70,7 @@ class Actor:
         """Find the Ability referenced and return it, if the Actor is capable.
 
         Raises:
-            |UnableToPerform|: the Actor doesn't possess the Ability.
+            UnableToPerform: the Actor doesn't possess the Ability.
         """
         for a in self.abilities:
             if isinstance(a, ability):

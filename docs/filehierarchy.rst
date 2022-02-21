@@ -1,5 +1,6 @@
 .. _filehierarchy:
 
+==============
 File Hierarchy
 ==============
 
@@ -30,16 +31,10 @@ with extra explanation below:
 
     - etc...
 
-  - ui
-
-    - page1.py
-
-    - etc...
-
 .. _features-dir:
 
 Features
---------
+========
 
 The feature films!
 The story arcs!
@@ -51,35 +46,19 @@ this is where all the actual test files go.
 .. _tasks-dir:
 
 Tasks
------
+=====
 
 Tasks are descriptive ways
 to group one or more Actions
 that your Actors will do.
-A common task is a :ref:`LogIn <logintask>` task,
-which will contain the Actions necessary to log in.
-There may be many tasks your Actors will need to perform.
+There may be many tasks
+your Actors will need to perform.
 
 For more information,
 see the :ref:`tasks` section!
 
-.. _userinterface-dir:
-
-User Interface (ui)
--------------------
-
-These files collect
-all the Targets
-and URLs
-for the pages of your application.
-These will not be
-super interesting files;
-they're kind of like
-the blocking notes
-for the screenplay.
-
 Directories for Custom Elements
--------------------------------
+===============================
 
 You may have need of directories
 to hold custom :ref:`actions`,

@@ -8,7 +8,7 @@ class Director:
     """The single Director of the screenplay.
 
     The Director keeps track of information for the Actors. This information
-    can be retrieved using a |direction|.
+    can be retrieved using one of the :ref:`directions`.
     """
 
     notebook: dict

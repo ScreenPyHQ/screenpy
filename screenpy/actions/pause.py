@@ -14,15 +14,19 @@ class Pause:
     """Pause the Actor's Actions for a set amount of time.
 
     This class should only be used when absolutely necessary. Hard waits are
-    the worst of all |wait strategies|; providing a reason will help explain
+    the worst of all wait strategies; providing a reason will help explain
     why pausing is necessary. You must call one of the "..._because" methods
-    to pass in the reason for your pause; an |UnableToAct| will be raised if
-    no reason was given.
+    to pass a reason for pausing. An :class:`~screenpy.exceptions.UnableToAct`
+    exception will be raised if no reason was given.
 
     Examples::
 
         the_actor.attempts_to(
-            Pause.for_(10).seconds_because("the alert banner needs to hide.")
+            Pause.for_(10).seconds_because("they're being dramatic.")
+        )
+
+        the_actor.attempts_to(
+            Pause.for_(500).milliseconds_because("of a moment's hesitation.")
         )
     """
 
@@ -32,15 +36,6 @@ class Pause:
     def for_(number: int) -> "Pause":
         """Specify how many seconds or milliseconds to wait for."""
         return Pause(number)
-
-    def _massage_reason(self, reason: str) -> str:
-        """Apply some gentle massaging to the reason string."""
-        if not reason.startswith("because"):
-            reason = f"because {reason}"
-
-        reason = re.sub(r"\W*$", "", reason)
-
-        return reason
 
     def seconds_because(self, reason: str) -> "Pause":
         """Use seconds and provide a reason for the pause."""
@@ -71,6 +66,15 @@ class Pause:
             )
 
         sleep(self.time)
+
+    def _massage_reason(self, reason: str) -> str:
+        """Apply some gentle massaging to the reason string."""
+        if not reason.startswith("because"):
+            reason = f"because {reason}"
+
+        reason = re.sub(r"\W*$", "", reason)
+
+        return reason
 
     def __init__(self, number: float) -> None:
         self.number = number

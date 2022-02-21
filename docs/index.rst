@@ -1,30 +1,17 @@
 .. ScreenPy documentation master file, created by
    sphinx-quickstart on Fri Mar  8 21:09:28 2019.
 
-Welcome to ScreenPy's documentation!
-====================================
+ScreenPy: Screenplay Pattern for Python!
+========================================
 
-ScreenPy provides tools for writing
-automated test suites
-which follow the Screenplay Pattern.
+ScreenPy provides tools
+for writing automated test suites
+which follow the
+`Screenplay Pattern <https://www.youtube.com/watch?v=8f8tdZBvAbI>`__.
 It encourages user-focused tests
 which are easy to read,
 understand,
 and maintain.
-
-Guided Tour
------------
-
-For a step-by-step tutorial
-to guide you through the basics,
-begin on the :ref:`actors` page!
-
-The tour will take you through
-the major concepts
-used by ScreenPy.
-At the end of it,
-you should be ready to start
-writing your first test!
 
 .. raw:: html
 
@@ -35,12 +22,11 @@ writing your first test!
    :caption: Topics:
 
    installation
-   quickstart
-   toolkit
+   example
+   api
    settings
    narrator
-   cookbook
+   director
    filehierarchy
-   exceptions
    deprecations
    context

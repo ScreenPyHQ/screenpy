@@ -15,26 +15,32 @@ from .see import See
 
 
 class SeeAnyOf:
-    """See if at least one |Question| gives its expected answer.
+    """See if at least one value or Question matches its Resolution.
+
+    Uses :class:`~screenpy.actions.See` to assert at least one of the
+    values or the answers to the :ref:`Questions` match their paired
+    :ref:`Resolutions`:.
 
     Examples::
 
         the_actor.should(
             SeeAnyOf(
                 (TheText.of_the(WELCOME_MESSAGE), ReadsExactly("Welcome!")),
-                (TheText.of_the(SPEECH_BUBBLE), ContainsTheText("Howdy!")),
-            ),
+                (the_character_speech_bubble, ContainsTheText("Howdy!")),
+            )
+        )
+
+        the_actor.should(
             SeeAnyOf.the(
-                (Number.of(BALLOONS), IsEqualTo(3)),
                 (Number.of(BALLOONS), IsEqualTo(4)),
                 (Number.of(BALLOONS), IsEqualTo(5)),
-            ),
+            )
         )
     """
 
     @staticmethod
     def the(*tests: Tuple[Answerable, BaseResolution]) -> "SeeAnyOf":
-        """Supply the |Question| and |Resolution| tuples to assert."""
+        """Supply any number of Question/value + Resolution tuples to test."""
         return SeeAnyOf(*tests)
 
     def describe(self) -> str:
