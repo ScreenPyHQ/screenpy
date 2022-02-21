@@ -4,8 +4,15 @@ from setuptools import find_packages, setup
 
 requires = [
     "PyHamcrest>=2.0.0,<2.1",
-    "typing-extensions>=3.10.0,<3.11",
+    "typing-extensions>=4.1.1,<4.2",
 ]
+
+extras_require = {
+    "selenium": ["screenpy_selenium"],
+    "requests": ["screenpy_requests"],
+    "pyotp": ["screenpy_pyotp"],
+    "allure": ["screenpy_adapter_allure"],
+}
 
 repo_dir = path.abspath(path.dirname(__file__))
 about = {}
@@ -27,6 +34,7 @@ setup(
     package_data={"screenpy": ["py.typed"]},
     packages=find_packages(),
     install_requires=requires,
+    extras_require=extras_require,
     classifiers=[
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
