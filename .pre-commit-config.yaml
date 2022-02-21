@@ -2,26 +2,26 @@ files: '(screenpy|examples)/.*'
 fail_fast: false
 repos:
 - repo: https://github.com/psf/black
-  rev: 21.12b0
+  rev: 22.1.0
   hooks:
   - id: black
-    language_version: python3.9
+    language_version: python3.10
 - repo: https://github.com/timothycrosley/isort
   rev: 5.10.1
   hooks:
   - id: isort
-    language_version: python3.9
+    language_version: python3.10
 - repo: https://github.com/PyCQA/flake8
   rev: 4.0.1
   hooks:
   - id: flake8
-    language_version: python3.9
+    language_version: python3.10
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v0.930
+  rev: v0.931
   hooks:
   - id: mypy
-    language_version: python3.9
-    additional_dependencies: ["PyHamcrest>=2.0.0,<2.1", "pytest>=5.4.0,<5.5", "allure-pytest>=2.9.0,<2.10", "selenium>=3.141.0,<3.142", "pyotp>=2.3.0,<2.4.0", "types-requests==2.25.0"]
+    language_version: python3.10
+    additional_dependencies: ["PyHamcrest>=2.0.0,<2.1", "pytest>=7.0.0,<7.1"]
 - repo: local
   hooks:
   - id: pylint
