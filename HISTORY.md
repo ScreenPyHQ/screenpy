@@ -1,6 +1,29 @@
 Release History
 ===============
 
+4.0.0 (2022-02-22)
+------------------
+
+2day is 2sday, by the way.
+
+### Breaking Changes
+
+- ScreenPy is now broken up in2 its core (this repository), `screenpy_selenium`, `screenpy_requests`, `screenpy_pyotp`, and `screenpy_adapter_allure`. This will cause some big, big breakages in your suites, and i'm very sorry about it. To help get you back up and running, see the changes at https://screenpy-docs.readthedocs.io/en/latest/deprecations.html#breaking-changes
+- Those deprecated methods mentioned above on that same page are also finally removed.
+
+### Documentation
+
+- Yet another rewrite of the documentation! This time it's much more focused, since the documentation is only for the base module.
+- The rewrite includes a new Complete Example section, which shows a fictional example of a ScreenPy test file and breaks down each part of it.
+
+### Improvements
+
+- Eventually now also tells you how many times it attempted its performable, which could be useful for debugging in certain situations.
+
+### Bugfixes
+
+- If `See` was given a value to compare against a Resolution, the value is now properly printed to the log instead of just the string "{value}". :facepalm:
+
 3.2.9 (2021-12-23)
 ------------------
 
