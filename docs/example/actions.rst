@@ -8,8 +8,8 @@ During a test,
 your Actors will perform
 several Actions.
 Actors perform Actions
-in order to set up a test
-and also to reach the test state.
+in order to set up
+and perform the test.
 
 In our :ref:`Complete Example`,
 Cameron used several Actions.
@@ -19,6 +19,7 @@ might be coded::
 
     from cam_py import Camera
     from screenpy import Actor
+    from screenpy.exceptions import UnableToAct
     from screenpy.pacing import beat
 
     from ..abilities import ControlCameras
@@ -39,19 +40,19 @@ might be coded::
             the_actor.attempts_to(StartRecording.on(camera1).and_(camera2))
         """
 
-        @staticmethod
-        def on(camera: Camera) -> "StartRecording":
+        def on(self, camera: Camera) -> "StartRecording":
             """Record on an already-created camera."""
-            return StartRecording(camera)
-
-        def and_(self, camera: Camera) -> "StartRecording":
-            """Add more cameras to record on."""
             self.cameras.append(camera)
             return self
+
+        and_ = on
 
         @beat("{} starts recording on {cameras_to_log}.")
         def perform_as(self, the_actor: Actor) -> None:
             """Direct the actor to start recording on their cameras."""
+            if not self.cameras:
+                raise UnableToAct("No cameras were provided!")
+
             control_cameras = the_actor.ability_to(ControlCameras)
             for camera in self.cameras:
                 campy_session.add_camera(camera)
@@ -61,25 +62,23 @@ might be coded::
             """Get a nice list of all the cameras for the logged beat."""
             return ", ".join(self.cameras)
 
-        def __init__(self, camera: Optional[Camera] = None) -> None:
-            if camera is None:
-                camera = Camera("Camera 1")
-            self.cameras = [camera]
+        def __init__(self, script: cam_py.Script) -> None:
+            self.script = script
+            self.cameras = []
 
 
 There are a few things to note here.
 The first and most important
-is that all Actions are ``Performable``.
+is that all Actions are :class:`~screenpy.protocols.Performable`.
 This means that all Actions
 have a ``perform_as`` method.
 That method is what
-the Actor actually does.
+the Actor actually *does*.
 
 The second noteworthy piece
-is that ``beat`` decoration
+is that :func:`~screenpy.pacing.beat` decoration
 above ``perform_as``.
-That string
-is what will be logged
+That string is what will be logged
 by the Narrator.
 The ``{}`` will be replaced
 by the name of the Actor
@@ -89,42 +88,43 @@ inside of curly braces
 will be fished out
 of the Action itself.
 In the above example,
-``{cameras_to_log}`` was used.
+``{cameras_to_log}`` was used;
 The Narrator will access
 the ``cameras_to_log`` property
 to fill in that spot.
 
 You may also notice
-that each of the support methods,
-``on`` and ``and_``,
+that the ``on``/``and_`` method
 returned the instance of the Action.
 This is because
-Actions are performed
-in a series
-by the Actor.
-First we give the Actor
+we first give the Actor
 the full list of Actions,
 *then* they will perform them.
+
+.. note:: I keep performing the same Actions...
+
+    Sometimes,
+    we perform several Actions repeatedly.
+    Some other times,
+    we want to give an higher-level name
+    to a group of Actions.
+    Tasks are the way
+    to group many Actions
+    into a repeatable,
+    describable routine!
+
+    We'll discuss that further
+    in the Tasks section,
+    linked below.
 
 Well now we've
 performed the Actions,
 how do we make an assertion?
 What a great Question!
 
-Tangential Bonus
-================
-
-Sometimes,
-we perform several Actions repeatedly.
-Some other times,
-we want to give an easier name
-to a group of Actions.
-Tasks are the way to solve
-both of these desires!
-
 Next
 ====
 
 * :ref:`tasks`
-* :ref:`questions`
 * :ref:`narrator`
+* :ref:`questions`

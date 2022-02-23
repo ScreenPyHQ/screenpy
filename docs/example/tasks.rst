@@ -4,28 +4,27 @@
 Tasks
 =====
 
-Tasks are
-a grouping of Actions.
-They are ``Performable``,
+Tasks are a grouping of Actions.
+They are :class:`~screenpy.protocols.Performable`,
 just like Actions,
 which means they have
 a ``perform_as`` method.
-Those are the only requirements.
+That is the only requirement.
 
 You can create Tasks
 for a repeated group of Actions,
 like ``LogIn``.
 You can also create Tasks
 to describe a group of Actions
-with a more readable name,
+you only perform once
+with a more descriptive name,
 like ``ChangeProfilePicture``.
 
 There were two Tasks used
 in our :ref:`Complete Example`:
 ``CutToCloseUp`` and ``DollyZoom``.
-Let's look at how
-that latter Task
-might look::
+Let's look at how ``DollyZoom``
+might be implemented::
 
     from screenpy import Actor
     from screenpy.pacing import beat
@@ -51,33 +50,36 @@ might look::
         @beat("{} executes a thrilling dolly zoom{detail}!")
         def perform_as(self, the_actor: Actor) -> None:
             """Direct the actor to dolly zoom on their camera."""
+            if self.character:
+                zoom = Zoom.in_().on(self.character)
+            else:
+                zoom = Zoom.in_()
+
             the_actor.attempts_to(
                 Simultaneously(
-                    Zoom.in().on(self.character),
                     Dolly.backwards(),
-                )
+                    zoom,
+                ),
             )
 
         def __init__(self, character: Optional[str] = None) -> None:
             self.character = character
             self.detail = f" on {character}" if character else ""
 
+
 As you can see,
-this Task
-simply performs
+this Task simply performs
 three other Actions.
 ``Simultaneously``,
 a ``cam_py`` Action
-which performs all given Actions
-at once;
+which performs all given Actions at once;
 ``Dolly``,
 which moves the camera
 in the direction specified;
 and ``Zoom``,
-which zooms the camera
-in or out.
+which zooms the camera in or out.
 
-The ``beat`` lines
+The :func:`~screenpy.pacing.beat` lines
 for each action
 will be read out
 by the Narrator.
@@ -88,8 +90,8 @@ something like this:
 
     Cameron executes a thrilling dolly zoom on Frieda!
         Cameron performs a complicated feat of simultaneous actions:
-            Cameron zooms in on Frieda.
             Cameron dollies the camera backwards.
+            Cameron zooms in on Frieda.
 
 Next
 ====

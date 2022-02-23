@@ -30,20 +30,23 @@ produces the expected results::
     from cam_py import Camera
     from screenpy import AnActor, given, then, when
     from screenpy.actions import See
-    from screenpy.resolutions import ReadsExactly
+    from screenpy.resolutions import Equals
 
     from ..abilities import ControlCameras, PollTheAudience
     from ..actions import (
         JumpToCamera,
         Dolly,
         Pan,
+        SkipToScene,
         StartRecording,
         StopRecording,
         Zoom,
     )
+    from ..constants import LAUGHING
     from ..tasks import CutToCloseUp, DollyZoom
     from ..questions import AudienceTension, TopAudienceReaction
     from ..resolutions import IsPalpable
+    from ..scripts import GOOD_WILL_HUNTING, SHAUN_OF_THE_DEAD
 
 
     @pytest.fixture
@@ -66,12 +69,15 @@ produces the expected results::
         """We can use the camera to create dramatic tension."""
         Cameron.has_cleanup_tasks(StopRecording())
 
-        given(Cameron).was_able_to(StartRecording())
+        given(Cameron).was_able_to(
+            StartRecording(GOOD_WILL_HUNTING).on(Camera()),
+            SkipToScene(35),
+        )
 
         when(Cameron).attempts_to(
             Dolly.left().for_(5).seconds(),
-            CutToCloseup.on("Ackerman"),
-            DollyZoom.on("Frieda")
+            CutToCloseup.on("Will"),
+            DollyZoom.on("Sean"),
         )
 
         then(Polly).should(See.the(AudienceTension(), IsPalpable()))
@@ -83,10 +89,13 @@ produces the expected results::
         one = Camera("Shaun")
         two = Camera("Ed")
 
-        given(Cameron).was_able_to(StartRecording.on(one).and_(two))
+        given(Cameron).was_able_to(
+            StartRecording(SHAUN_OF_THE_DEAD).on(one).and_(two),
+            SkipToScene(20),
+        )
 
         when(Cameron).attempts_to(
-            Zoom.in().on_camera(one),
+            Zoom.in_().on_camera(one),
             JumpToCamera(two),
             Zoom.out().on_camera(two),
             JumpToCamera(one),
@@ -95,7 +104,7 @@ produces the expected results::
             JumpToCamera(one),
         )
 
-        then(Polly).should(See.the(TopAudienceReaction(), ReadsExactly("Laughing")))
+        then(Polly).should(See.the(TopAudienceReaction(), Equals(LAUGHING)))
 
 As you can see,
 a ScreenPy test

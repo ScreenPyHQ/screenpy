@@ -14,10 +14,8 @@ The Director will not be used directly,
 usually.
 The Director is used
 in the :class:`~screenpy.actions.MakeNote` Action,
-and may be used
-in custom Actions
-or future Actions
-as well.
+and may be used in custom Actions
+or future Actions as well.
 If you do find yourself
 needing to talk to the Director,
 See :ref:`calling the director` below.
@@ -28,17 +26,20 @@ who keeps track of it.
 
 To look up a note,
 use the :func:`~screenpy.directions.noted_under` Direction.
-You can use it *anywhere*::
+You can use it *anywhere*
+(with only one :ref:`limitation <makenote gotcha>`)::
 
-    Perry.attempts_to(
+    given(Perry).was_able_to(
         MakeNote.of_the(Text.of_the(GENERATED_KEYCODE)).as_("keycode"),
         GoToLockedGate(),
+    )
+    when(Perry).attempts_to(
         Enter.the_text(noted_under("keycode")).into_the(KEYCODE_INPUT),  # <- with Actions!
         Wait.for_the(GENERATE_NEW_KEYCODE_BUTTON).to_appear(),
         Click.on_the(GENERATE_NEW_KEYCODE_BUTTON),
     )
 
-    Perry.should(
+    then(Perry).should(
         See.the(
             Text.of_the(GENERATED_KEYCODE),
             DoesNot(ContainTheText(noted_under("keycode")),  # <- with Resolutions!

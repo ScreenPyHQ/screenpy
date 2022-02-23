@@ -27,7 +27,7 @@ your Actor will need
 some Abilities::
 
     # grant abilities on instantiation
-    Cameron = AnActor.named("Cameron").who_can(ControlTheCamera())
+    Cameron = AnActor.named("Cameron").who_can(ControlCameras())
 
     # or later, if you want
     Polly.can(PollTheAudience())

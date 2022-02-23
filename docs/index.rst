@@ -24,6 +24,7 @@ and maintain.
    installation
    example
    api
+   cookbook
    settings
    narrator
    director

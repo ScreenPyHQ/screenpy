@@ -7,34 +7,38 @@ Narrator
 Telling the story
 of your actors' screenplay
 falls to the Narrator.
+The Narrator is responsible
+for describing the scene,
+marking the tests,
+and attaching files.
 
-You can fit the Narrator's microphone
-with adapters
+You can fit the Narrator's microphone with adapters
 to send the thrilling account
 to different reporting tools.
-Currently,
-ScreenPy includes adapters for
-`Allure <https://docs.qameta.io/allure/>`__
-and stdout.
+The default Adapter
+provided with ScreenPy
+logs to ``stdout``.
+There may be more Adapters available
+in the :ref:`extensions` section.
 
 Using Adapters
 ==================
 
-To include adapters
+To include Adapters
 on the Narrator's microphone,
 do this::
 
     from screenpy.narration.adapters.stdout_adapter import StdOutAdapter
     from screenpy.pacing import the_narrator
 
-    the_narrator.adapters = [StdOutAdapter()]
+    the_narrator.attach_adapter(StdOutAdapter())
 
 Do the above in ``conftest.py``
 or a similar setup file
-to set the adapters
+to set the Adapters
 for your test suite.
 You are able to
-add any number of adapters
+add any number of Adapters
 in any order.
 
 Creating New Adapters

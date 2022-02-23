@@ -29,7 +29,7 @@ Using MakeNote
 You can also retrieve initial answers
 with the :class:`~screenpy.actions.MakeNote` class,
 and retrieve the value
-with a :ref:`direction`::
+with a :ref:`direction <directions>`::
 
     when(Cameron).attempts_to(
         StartRecording(),
@@ -40,6 +40,11 @@ with a :ref:`direction`::
     then(Dirk).should(
         See.the(JumpCutLine(), ReadsExactly(the_noted("camera 2 cue"))),
     )
+
+.. _makenote gotcha:
+
+Gotchas
+^^^^^^^
 
 There is one limitation
 to using :class:`~screenpy.actions.MakeNote`:
@@ -122,7 +127,7 @@ to drop a debugger
 in a series of Actions.
 
 You will need to go up a few frames
-to get to the Actor's |Actor.attempts_to| method.
+to get to the Actor's :meth:`~screenpy.Actor.attempts_to` method.
 From there, you will be able to
 step through each Action one at a time.
 

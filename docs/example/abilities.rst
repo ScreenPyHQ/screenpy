@@ -19,8 +19,7 @@ This Ability
 uses a made-up library,
 ``cam_py``,
 to control cameras.
-This fictional Ability
-might look like this::
+This Ability might look like this::
 
     import cam_py
 
@@ -39,7 +38,7 @@ might look like this::
         def forget(self) -> None:
             for camera in self.cameras:
                 camera.stop()
-            self.campy_session.terminate()
+            self.campy_session.wrap()
 
 It is surprisingly lightweight!
 Abilities should be
@@ -48,11 +47,10 @@ holding sessions,
 instantiated macguffins,
 and the like.
 
-The only required method
-for an Ability
-is ``forget``.
-This method handles
-cleaning up
+Abilities are :class:`~screenpy.protocols.Forgettable`,
+which means an Ability
+must have a ``forget`` method.
+This method handles cleaning up
 any dangling loose ends.
 
 Actions and Questions
