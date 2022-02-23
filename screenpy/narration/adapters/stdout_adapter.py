@@ -53,7 +53,12 @@ class StdOutManager:
 
 
 class StdOutAdapter:
-    """Adapt the Narrator's microphone to allow narration to stdout."""
+    """Adapt the Narrator's microphone to allow narration to stdout.
+
+    Examples::
+
+        the_narrator.attach_adapter(StdOutAdapter())
+    """
 
     handled_exception: Optional[Exception]
 

@@ -15,7 +15,7 @@
 import os
 import sys
 
-
+sys.path.insert(0, os.path.abspath("./ext"))
 sys.path.insert(0, os.path.abspath("../"))
 
 from screenpy.__version__ import __version__  # noqa: need the path first
@@ -49,6 +49,7 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.ifconfig",
     "sphinx.ext.napoleon",
+    "autodoc_skip_protocols",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
