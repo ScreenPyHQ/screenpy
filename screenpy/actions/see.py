@@ -31,10 +31,10 @@ class See:
         )
     """
 
-    @staticmethod
-    def the(question: Union[Answerable, Any], resolution: BaseResolution) -> "See":
+    @classmethod
+    def the(cls, question: Union[Answerable, Any], resolution: BaseResolution) -> "See":
         """Supply the Question (or value) and Resolution to test."""
-        return See(question, resolution)
+        return cls(question, resolution)
 
     def describe(self) -> str:
         """Describe the Action in present tense."""

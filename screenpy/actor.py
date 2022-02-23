@@ -46,11 +46,11 @@ class Actor:
     abilities: List[Forgettable]
     cleanup_tasks: List[Performable]
 
-    @staticmethod
-    def named(name: Text) -> "Actor":
+    @classmethod
+    def named(cls, name: Text) -> "Actor":
         """Give a name to this Actor."""
         aside(choice(ENTRANCE_DIRECTIONS).format(actor=name))
-        return Actor(name)
+        return cls(name)
 
     def who_can(self, *abilities: Forgettable) -> "Actor":
         """Add one or more Abilities to this Actor."""

@@ -28,10 +28,10 @@ class MakeNote:
 
     key: Optional[str]
 
-    @staticmethod
-    def of(question: Union[Answerable, Any]) -> "MakeNote":
+    @classmethod
+    def of(cls, question: Union[Answerable, Any]) -> "MakeNote":
         """Supply the Question to answer and its arguments."""
-        return MakeNote(question)
+        return cls(question)
 
     of_the = of
 

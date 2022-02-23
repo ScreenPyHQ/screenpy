@@ -1,3 +1,5 @@
+.. _resolutions api:
+
 ===========
 Resolutions
 ===========

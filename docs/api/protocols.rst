@@ -1,3 +1,5 @@
+.. _protocols api:
+
 =========
 Protocols
 =========

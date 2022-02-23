@@ -80,7 +80,7 @@ for more details
 (and frustration).
 
 The Eventually Class
---------------------
+====================
 
 If you know an Action or Task
 will *eventually* complete,

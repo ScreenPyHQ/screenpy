@@ -32,10 +32,10 @@ class Pause:
 
     time: float
 
-    @staticmethod
-    def for_(number: int) -> "Pause":
+    @classmethod
+    def for_(cls, number: int) -> "Pause":
         """Specify how many seconds or milliseconds to wait for."""
-        return Pause(number)
+        return cls(number)
 
     def seconds_because(self, reason: str) -> "Pause":
         """Use seconds and provide a reason for the pause."""

@@ -37,10 +37,10 @@ class SeeAllOf:
         )
     """
 
-    @staticmethod
-    def the(*tests: Tuple[Answerable, BaseResolution]) -> "SeeAllOf":
+    @classmethod
+    def the(cls, *tests: Tuple[Answerable, BaseResolution]) -> "SeeAllOf":
         """Supply any number of Question/value + Resolution tuples to test."""
-        return SeeAllOf(*tests)
+        return cls(*tests)
 
     def describe(self) -> str:
         """Describe the Action in present tense."""
