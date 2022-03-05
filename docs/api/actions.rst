@@ -9,6 +9,9 @@ These are the Actions included in ScreenPy.
 AttachTheFile
 -------------
 
+**Aliases**: ``AttachAFile``,
+``AttachFile``
+
 .. autoclass:: AttachTheFile
     :members:
 
@@ -27,11 +30,15 @@ Eventually
 MakeNote
 --------
 
+**Aliases**: ``TakeNote``
+
 .. autoclass:: MakeNote
     :members:
 
 Pause
 -----
+
+**Aliases**: ``Sleep``
 
 .. autoclass:: Pause
     :members:
@@ -39,17 +46,32 @@ Pause
 See
 ---
 
+**Aliases**: ``Assert``,
+``Confirm``,
+``Observe``,
+``Verify``
+
 .. autoclass:: See
     :members:
 
 SeeAllOf
 --------
 
+**Aliases**: ``AssertAllOf``,
+``ConfirmAllOf``,
+``ObserveAllOf``,
+``VerifyAllOf``
+
 .. autoclass:: SeeAllOf
     :members:
 
 SeeAnyOf
 --------
+
+**Aliases**: ``AssertAnyOf``,
+``ConfirmAnyOf``,
+``ObserveAnyOf``,
+``VerifyAnyOf``
 
 .. autoclass:: SeeAnyOf
     :members:
