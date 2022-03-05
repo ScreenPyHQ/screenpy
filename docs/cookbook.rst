@@ -1,5 +1,3 @@
-.. _cookbook:
-
 ================
 ScreenPy Recipes
 ================
@@ -112,8 +110,6 @@ or 20 seconds (by default) have elapsed.
 If the timeout expires,
 a ``TimeoutError`` will be raised
 from the caught error.
-
-.. _debugging:
 
 Debugging
 =========

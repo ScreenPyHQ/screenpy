@@ -1,8 +1,6 @@
-.. _actor api:
-
-=====
-Actor
-=====
+=========
+Actor API
+=========
 
 .. autoclass:: screenpy.actor.Actor
     :members:

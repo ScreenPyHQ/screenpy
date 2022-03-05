@@ -1,5 +1,3 @@
-.. _example toc:
-
 ==============
 Guided Example
 ==============

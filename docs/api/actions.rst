@@ -1,8 +1,6 @@
-.. _actions api:
-
-=======
-Actions
-=======
+===========
+Actions API
+===========
 
 These are the Actions included in ScreenPy.
 

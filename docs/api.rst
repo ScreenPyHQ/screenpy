@@ -15,6 +15,7 @@ to make curtain call!
    api/actors
    api/actions
    api/resolutions
+   api/narrator
    api/pacing
    api/protocols
    api/exceptions

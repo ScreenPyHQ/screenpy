@@ -1,5 +1,3 @@
-.. _actors:
-
 ======
 Actors
 ======
@@ -41,8 +39,8 @@ These Abilities
 enabled our Actors
 to perform several Actions.
 
-Next
-====
+Where to Go from Actors
+=======================
 
 * :ref:`abilities`
 * :ref:`actions`

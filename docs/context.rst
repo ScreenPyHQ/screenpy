@@ -1,5 +1,3 @@
-.. _context:
-
 ==================
 Additional Context
 ==================

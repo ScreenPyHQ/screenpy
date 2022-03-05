@@ -1,5 +1,3 @@
-.. _tasks:
-
 =====
 Tasks
 =====
@@ -93,7 +91,7 @@ something like this:
             Cameron dollies the camera backwards.
             Cameron zooms in on Frieda.
 
-Next
-====
+Where to Go from Tasks
+======================
 
 * :ref:`narrator`

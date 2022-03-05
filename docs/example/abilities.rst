@@ -1,5 +1,3 @@
-.. _abilities:
-
 =========
 Abilities
 =========
@@ -56,8 +54,8 @@ any dangling loose ends.
 Actions and Questions
 may both use an Actor's Abilities.
 
-Next
-====
+Where to Go from Abilities
+==========================
 
 * :ref:`actions`
 * :ref:`questions`

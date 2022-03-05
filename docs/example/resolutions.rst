@@ -1,5 +1,3 @@
-.. _resolutions:
-
 ===========
 Resolutions
 ===========
@@ -88,4 +86,4 @@ The End!
 This is the final step
 of the guided example.
 If you want to revisit any section,
-you can visit the :ref:`example toc` page.
+you can visit the :ref:`guided example` page.

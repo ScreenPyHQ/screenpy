@@ -1,5 +1,3 @@
-.. _deprecations:
-
 ============
 Deprecations
 ============
@@ -10,41 +8,72 @@ in ScreenPy's life,
 and how to adjust your tests
 to keep them up to date.
 
-1.0.0 Deprecations
-==================
+4.0.0 Breaking Changes
+======================
 
-1.0.0 deprecated
-the ``.then_wait_for()`` and ``.then_wait_for_the()`` methods
-of both the Click and Enter Actions
-in favor of
-the new Wait Action.
-These deprecated methods are removed
-in 2.0.0.
+Hoo boy.
+This was the big one.
+This version split ScreenPy
+into one "core" module
+and several extension modules.
+The extensions were divided
+based on :ref:`Abilities`.
 
-To adjust your tests,
-remove the call to ``then_wait_for_the``
-or ``then_wait_for``.
-Take the Target
-that was previously passed in to that method
-and give it to Wait.
-Here's an example::
+This change was necessary
+because ScreenPy is growing.
+As ScreenPy supports more and more tools,
+collisions are starting to happen,
+and the package is getting bigger.
+Plus,
+this approach makes it clear
+how extensible ScreenPy is,
+and how to go about extending it!
+
+Upgrading to this version
+will see you first install ScreenPy
+slightly differently.
+To get the same features,
+your install will change like this:
+
+``pip install screenpy``
+
+⇩ to
+
+``pip install screenpy[selenium,requests,allure]``
+
+Then,
+your ``import`` statements
+will also need to be updated::
 
     # ⇩ before
 
-    Perry.attempts_to(
-        # ...
-        Click.on_the(LOGIN_LINK).then_wait_for_the(USERNAME_FIELD),
-        # ...
-    )
+    from screenpy.abilities import BrowseTheWeb, MakeAPIRequests
+    from screenpy.actions import Click, See, SendGETRequest
+    from screenpy.questions import BodyOfTheLastResponse, Text
 
     # ⇩ after
 
-    Perry.attempts_to(
-        # ...
-        Click.on_the(LOGIN_LINK),
-        Wait.for_the(USERNAME_FIELD).to_appear(),
-        # ...
-    )
+    from screenpy_requests.abilities import MakeAPIRequests
+    from screenpy_selenium.abilities import BrowseTheWeb
+    from screenpy.actions import See
+    from screenpy_requests.actions import SendGETRequest
+    from screenpy_selenium.actions import Click
+    from screenpy_requests.questions import BodyOfTheLastResponse
+    from screenpy_selenium.questions import Text
+
+Finally,
+you'll need to add
+the new ``AllureAdapter``
+to the :ref:`Narrator`
+somewhere near the beginning of the tests.
+In ``pytest``,
+you can do this
+in the feature-level ``conftest.py`` file::
+
+    from screenpy.pacing import the_narrator
+    from screenpy_adapter_allure import AllureAdapter
+
+    the_narrator.attach_adapter(AllureAdapter())
 
 3.1.0 Deprecations
 ==================
@@ -116,69 +145,38 @@ of Question and Resolution tuples::
         ),
     )
 
-4.0.0 Breaking Changes
-======================
+1.0.0 Deprecations
+==================
 
-Hoo boy.
-This was the big one.
-This version split ScreenPy
-into one "core" module
-and several extension modules.
-The extensions were divided
-based on :ref:`Abilities`.
+1.0.0 deprecated
+the ``.then_wait_for()`` and ``.then_wait_for_the()`` methods
+of both the Click and Enter Actions
+in favor of
+the new Wait Action.
+These deprecated methods are removed
+in 2.0.0.
 
-This change was necessary
-because ScreenPy is growing.
-As ScreenPy supports more and more tools,
-collisions are starting to happen,
-and the package is getting bigger.
-Plus,
-this approach makes it clear
-how extensible ScreenPy is,
-and how to go about extending it!
-
-Upgrading to this version
-will see you first install ScreenPy
-slightly differently.
-To get the same features,
-your install will change like this:
-
-``pip install screenpy``
-
-⇩ to
-
-``pip install screenpy[selenium,requests,allure]``
-
-Then,
-your ``import`` statements
-will also need to be updated::
+To adjust your tests,
+remove the call to ``then_wait_for_the``
+or ``then_wait_for``.
+Take the Target
+that was previously passed in to that method
+and give it to Wait.
+Here's an example::
 
     # ⇩ before
 
-    from screenpy.abilities import BrowseTheWeb, MakeAPIRequests
-    from screenpy.actions import Click, See, SendGETRequest
-    from screenpy.questions import BodyOfTheLastResponse, Text
+    Perry.attempts_to(
+        # ...
+        Click.on_the(LOGIN_LINK).then_wait_for_the(USERNAME_FIELD),
+        # ...
+    )
 
     # ⇩ after
 
-    from screenpy_requests.abilities import MakeAPIRequests
-    from screenpy_selenium.abilities import BrowseTheWeb
-    from screenpy.actions import See
-    from screenpy_requests.actions import SendGETRequest
-    from screenpy_selenium.actions import Click
-    from screenpy_requests.questions import BodyOfTheLastResponse
-    from screenpy_selenium.questions import Text
-
-Finally,
-you'll need to add
-the new ``AllureAdapter``
-to the :ref:`Narrator`
-somewhere near the beginning of the tests.
-In ``pytest``,
-you can do this
-in the feature-level ``conftest.py`` file::
-
-    from screenpy.pacing import the_narrator
-    from screenpy_adapter_allure import AllureAdapter
-
-    the_narrator.attach_adapter(AllureAdapter())
+    Perry.attempts_to(
+        # ...
+        Click.on_the(LOGIN_LINK),
+        Wait.for_the(USERNAME_FIELD).to_appear(),
+        # ...
+    )

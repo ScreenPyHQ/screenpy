@@ -1,5 +1,3 @@
-.. _filehierarchy:
-
 ==============
 File Hierarchy
 ==============
@@ -31,10 +29,8 @@ with extra explanation below:
 
     - etc...
 
-.. _features-dir:
-
-Features
-========
+Features Directory
+==================
 
 The feature films!
 The story arcs!
@@ -43,10 +39,8 @@ These are the features of your application
 that you are testing;
 this is where all the actual test files go.
 
-.. _tasks-dir:
-
-Tasks
-=====
+Tasks Directory
+===============
 
 Tasks are descriptive ways
 to group one or more Actions

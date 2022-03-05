@@ -1,5 +1,3 @@
-.. _questions:
-
 =========
 Questions
 =========
@@ -48,7 +46,7 @@ is how to make assertions in ScreenPy.
 The Question provides the actual value
 while the Resolution provides the expected value.
 
-Next
-====
+Where to Go from Questions
+==========================
 
 * :ref:`resolutions`

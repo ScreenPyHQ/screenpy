@@ -1,8 +1,6 @@
-.. _resolutions api:
-
-===========
-Resolutions
-===========
+===============
+Resolutions API
+===============
 
 These are the Resolutions included in ScreenPy.
 

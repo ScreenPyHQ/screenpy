@@ -1,5 +1,3 @@
-.. _actions:
-
 =======
 Actions
 =======
@@ -122,8 +120,8 @@ performed the Actions,
 how do we make an assertion?
 What a great Question!
 
-Next
-====
+Where to Go from Actions
+========================
 
 * :ref:`tasks`
 * :ref:`narrator`

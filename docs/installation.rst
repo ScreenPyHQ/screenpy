@@ -1,5 +1,3 @@
-.. _installation:
-
 Installation
 ============
 
@@ -8,8 +6,6 @@ run the following command
 in a `virtual environment <https://docs.python.org/3/library/venv.html>`_:
 
 ``pip install screenpy``
-
-.. _extensions:
 
 Official Extensions
 -------------------

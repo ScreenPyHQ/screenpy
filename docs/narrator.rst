@@ -1,5 +1,3 @@
-.. _narrator:
-
 ========
 Narrator
 ========
@@ -19,10 +17,10 @@ The default Adapter
 provided with ScreenPy
 logs to ``stdout``.
 There may be more Adapters available
-in the :ref:`extensions` section.
+in the :ref:`official extensions` section.
 
 Using Adapters
-==================
+==============
 
 To include Adapters
 on the Narrator's microphone,
@@ -74,22 +72,3 @@ Pass any other required arguments
 as keyword arguments,
 so the other adapters
 can ignore them.
-
-Narrator
-========
-
-.. autoclass:: screenpy.narration.narrator.Narrator
-    :members:
-
-Adapters
-========
-
-There is one adapter included in ScreenPy,
-which allows the Narrator
-to reach ``stdout``.
-
-StdOutAdapter
--------------
-
-.. autoclass:: screenpy.narration.adapters.stdout_adapter.StdOutAdapter
-    :members:

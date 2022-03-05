@@ -50,8 +50,6 @@ As you can see,
 the Director never appears in our screenplay,
 but is always behind the scenes.
 
-.. _calling the director:
-
 Calling the Director
 ====================
 

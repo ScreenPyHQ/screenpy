@@ -1,5 +1,3 @@
-.. _exceptions api:
-
 ==========
 Exceptions
 ==========
@@ -14,28 +12,28 @@ less descriptive exceptions.
 .. module:: screenpy.exceptions
 
 Base
-====
+----
 
 .. autoclass:: ScreenPyError
 
 Ability Exceptions
-==================
+------------------
 
 .. autoclass:: AbilityError
 
 Action Exceptions
-=================
+-----------------
 
 .. autoclass:: ActionError
 .. autoclass:: DeliveryError
 .. autoclass:: UnableToAct
 
 Actor Exceptions
-================
+----------------
 
 .. autoclass:: UnableToPerform
 
 Question Exceptions
-===================
+-------------------
 
 .. autoclass:: UnableToAnswer

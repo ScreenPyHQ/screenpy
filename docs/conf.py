@@ -45,10 +45,8 @@ release = __version__
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosectionlabel",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.coverage",
-    "sphinx.ext.ifconfig",
-    "sphinx.ext.napoleon",
     "autodoc_skip_protocols",
 ]
 
