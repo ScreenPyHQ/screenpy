@@ -87,3 +87,7 @@ This is the final step
 of the guided example.
 If you want to revisit any section,
 you can visit the :ref:`guided example` page.
+
+You can also see
+the included Resolutions
+at the :ref:`resolutions api` page.

@@ -126,3 +126,4 @@ Where to Go from Actions
 * :ref:`tasks`
 * :ref:`narrator`
 * :ref:`questions`
+* :ref:`actions api`

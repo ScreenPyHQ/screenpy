@@ -44,3 +44,4 @@ Where to Go from Actors
 
 * :ref:`abilities`
 * :ref:`actions`
+* :ref:`actor api`
