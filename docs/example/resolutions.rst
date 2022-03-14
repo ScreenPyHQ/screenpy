@@ -38,33 +38,54 @@ written by you.
 
 Anyway,
 ``IsPalpable`` uses the custom matcher
-``has_at_least_tension_level``.
+``HasSaturationGreaterThan``.
 Here's how those might be assembled::
 
     # resolutions/matchers/has_at_least_tension_level.py
-    from hamcrest import BaseMatcher
+    from typing import Any
+
+    from hamcrest.core.base_matcher import BaseMatcher
+    from hamcrest.core.description import Description
 
 
-    class HasAtLeastTensionLevel(BaseMatcher):
-        """Assert that a tension object has at least a specific tension level."""
+    class HasSaturationGreaterThan(BaseMatcher):
+        """Assert that a mood object has at least a specific saturation level."""
 
         def _matches(self, item: Any) -> bool:
             """Whether the assertion passes."""
-            return self.tension_level <= item.tension
+            return self.saturation_level <= item.saturation
 
-        def __init__(self, tension_level: int) -> None:
-            self.tension_level = tension_level
+        def describe_to(self, description: Description) -> None:
+            """Describe the passing case."""
+            description.append_text(
+                f"the mood has a saturation level of at least {self.saturation_level}"
+            )
+
+        def describe_mismatch(self, item: Any, mismatch_description: Description) -> None:
+            """Description used when a match fails."""
+            mismatch_description.append_text(
+                f"the saturation level was less than {self.saturation_level}"
+            )
+
+        def describe_match(self, item: Any, match_description: Description) -> None:
+            """Description used when a negated match fails."""
+            match_description.append_text(
+                f"the saturation level was at least {self.saturation_level}"
+            )
+
+        def __init__(self, saturation_level: int) -> None:
+            self.saturation_level = saturation_level
 
 
-    def has_at_least_tension_level(tension_level: int) -> HasAtLeastTensionLevel:
-        return HasAtLeastTensionLevel(tension_level)
+    def is_palpable() -> HasSaturationGreaterThan:
+        return HasSaturationGreaterThan(85)
 
 .. code-block:: python
 
     # resolutions/is_palpable.py
     from screenpy.resolutions import BaseResolution
 
-    from ..matchers.has_tension_level import has_at_least_tension_level
+    from .matchers.has_saturation_greater_than import is_palpable
 
 
     class IsPalpable(BaseResolution):
@@ -75,7 +96,8 @@ Here's how those might be assembled::
             the_actor.should(See.the(AudienceTension(), IsPalpable()))
         """
         line = "a palpable tension!"
-        matcher_function = has_at_least_tension_level(85)
+        matcher_function = is_palpable
+
 
 That's really all there is
 to creating a Resolution!
@@ -91,3 +113,9 @@ you can visit the :ref:`guided example` page.
 You can also see
 the included Resolutions
 at the :ref:`resolutions api` page.
+
+Finally,
+you may be interested to see
+more examples of ScreenPy suites.
+There are several in the
+`ScreenPy Examples repo! <https://github.com/ScreenPyHQ/screenpy_examples>`__

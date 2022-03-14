@@ -15,25 +15,25 @@ Our :ref:`Complete Example` used two Questions:
 ``AudienceTension`` and ``TopAudienceReaction``.
 Let's see how the latter might look::
 
+    # questions/top_audience_reaction.py
     from screenpy import Actor
-    from screenpy.pacing import beat
 
     from ..abilities import PollTheAudience
 
 
     class TopAudienceReaction:
-        """Ask the audience for their top reaction to a moment.
+        """Ask about the audience's most popular reaction.
 
         Examples::
 
-            the_actor.should(See.the(TopAudienceReaction(), ReadsExactly("Cry")))
+            the_actor.should(See.the(TopAudienceReaction(), Equals(LAUGHING))
         """
 
-        @beat("{} asks the audience for their top reaction.")
         def answered_by(self, the_actor: Actor) -> str:
-            """Direct the actor to poll the audience for their top reaction."""
-            poll = the_actor.ability_to(PollTheAudience)
-            return sorted(poll.for_reactions(), key=keygetter("percent"))[-1]["reaction"]
+            """Direct the actor to ask about the audience's top mood."""
+            pollster = the_actor.ability_to(PollTheAudience).poll_connection
+            return pollster.poll_mood().top_mood
+
 
 A Question is :class:`~screenpy.protocols.Answerable`,
 which is to say

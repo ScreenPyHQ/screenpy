@@ -15,9 +15,9 @@ One of them was ``StartRecording``.
 Here is how that Action
 might be coded::
 
-    from cam_py import Camera
+    # actions/start_recording.py
+    import cam_py
     from screenpy import Actor
-    from screenpy.exceptions import UnableToAct
     from screenpy.pacing import beat
 
     from ..abilities import ControlCameras
@@ -38,7 +38,7 @@ might be coded::
             the_actor.attempts_to(StartRecording.on(camera1).and_(camera2))
         """
 
-        def on(self, camera: Camera) -> "StartRecording":
+        def on(self, camera: cam_py.Camera) -> "StartRecording":
             """Record on an already-created camera."""
             self.cameras.append(camera)
             return self
@@ -49,18 +49,19 @@ might be coded::
         def perform_as(self, the_actor: Actor) -> None:
             """Direct the actor to start recording on their cameras."""
             if not self.cameras:
-                raise UnableToAct("No cameras were provided!")
+                self.cameras = [cam_py.Camera("Main")]
 
-            control_cameras = the_actor.ability_to(ControlCameras)
+            campy_session = the_actor.ability_to(ControlCameras).campy_session
             for camera in self.cameras:
+                camera.record(self.script)
                 campy_session.add_camera(camera)
 
         @property
         def cameras_to_log(self) -> str:
             """Get a nice list of all the cameras for the logged beat."""
-            return ", ".join(self.cameras)
+            return ", ".join(camera.character for camera in self.cameras)
 
-        def __init__(self, script: cam_py.Script) -> None:
+        def __init__(self, script: str) -> None:
             self.script = script
             self.cameras = []
 

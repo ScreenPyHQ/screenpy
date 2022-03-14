@@ -21,6 +21,7 @@ This Ability might look like this::
 
     import cam_py
 
+
     class ControlCameras:
         """Enable an Actor to control cameras through cam_py.
 
@@ -37,6 +38,7 @@ This Ability might look like this::
             for camera in self.cameras:
                 camera.stop()
             self.campy_session.wrap()
+
 
 It is surprisingly lightweight!
 Abilities should be

@@ -22,15 +22,37 @@ a few test cases
 to ensure our control of the camera
 produces the expected results::
 
+    # features/conftest.py
     from typing import Generator
 
     import pytest
+
+    from ..abilities import ControlCameras, PollTheAudience
+
+
+    @pytest.fixture
+    def Cameron() -> Generator:
+        """Generate our cameraman, Cameron."""
+        the_actor = AnActor.named("Cameron").who_can(ControlCameras())
+        yield the_actor
+        the_actor.exit()
+
+
+    @pytest.fixture
+    def Polly() -> Generator:
+        """Generate our audience-polling stats wizard, Polly."""
+        the_actor = AnActor.named("Polly").who_can(PollTheAudience())
+        yield the_actor
+        the_actor.exit()
+
+.. code-block:: python
+
+    # features/test_mood.py
     from cam_py import Camera
     from screenpy import AnActor, given, then, when
     from screenpy.actions import See
     from screenpy.resolutions import Equals
 
-    from ..abilities import ControlCameras, PollTheAudience
     from ..actions import (
         JumpToCamera,
         Dolly,
@@ -47,35 +69,19 @@ produces the expected results::
     from ..scripts import GOOD_WILL_HUNTING, SHAUN_OF_THE_DEAD
 
 
-    @pytest.fixture
-    def Cameron() -> Generator:
-        """Generate our cameraman, Cameron."""
-        the_actor = AnActor.named("Cameron").who_can(ControlCameras())
-        yield the_actor
-        the_actor.exits()
-
-
-    @pytest.fixture
-    def Polly() -> Generator:
-        """Generate our audience-polling stats wizard, Polly."""
-        the_actor = AnActor.named("Polly").who_can(PollTheAudience())
-        yield the_actor
-        the_actor.exits()
-
-
     def test_dramatic_moment(Cameron: AnActor, Polly: AnActor) -> None:
         """We can use the camera to create dramatic tension."""
         Cameron.has_cleanup_tasks(StopRecording())
 
         given(Cameron).was_able_to(
-            StartRecording(GOOD_WILL_HUNTING).on(Camera()),
+            StartRecording(GOOD_WILL_HUNTING).on(Camera("Will")),
             SkipToScene(35),
         )
 
         when(Cameron).attempts_to(
-            Dolly.left().for_(5).seconds(),
+            Dolly().left(),
             CutToCloseup.on("Will"),
-            DollyZoom.on("Sean"),
+            DollyZoom(),
         )
 
         then(Polly).should(See.the(AudienceTension(), IsPalpable()))
@@ -110,6 +116,11 @@ begins with an Actor.
 So,
 too,
 will our discussion!
+
+If you'd like,
+you may follow along with this example
+with the actual test suite:
+`ScreenPy Base Example. <https://github.com/ScreenPyHQ/screenpy_examples/tree/trunk/screenpy/readthedocs>`__
 
 Start
 =====
