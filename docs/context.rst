@@ -12,8 +12,8 @@ Antony Marcano and colleagues
 first popularized it
 under the name `the Journey pattern <https://www.softwire.com/blog/2014/03/25/the-journey-pattern/index.html>`_.
 
-You can watch
-`Antony's talk about Screenplay Pattern at SeleniumConf2016 <https://www.youtube.com/watch?v=8f8tdZBvAbI>`_.
+You can see the slides
+from `Antony's talk about Screenplay Pattern at SeleniumConf2016 <https://www.slideshare.net/RiverGlide/refactoring-page-objects-the-screenplay-pattern>`_.
 This is the same talk
 that got me interested in this pattern!
 
