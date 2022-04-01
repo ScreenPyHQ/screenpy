@@ -43,7 +43,7 @@ class BaseResolution(BaseMatcher[T]):
     )
 
     @beat("... hoping it's {motivation}")
-    def _matches(self, item: object) -> bool:
+    def _matches(self, item: T) -> bool:
         """passthrough to the matcher's method."""
         return self.matcher.matches(item)
 
@@ -51,13 +51,11 @@ class BaseResolution(BaseMatcher[T]):
         """passthrough to the matcher's method."""
         return self.matcher.describe_to(description)
 
-    def describe_match(self, item: object, match_description: Description) -> None:
+    def describe_match(self, item: T, match_description: Description) -> None:
         """passthrough to the matcher's method."""
         self.matcher.describe_match(item, match_description)
 
-    def describe_mismatch(
-        self, item: object, mismatch_description: Description
-    ) -> None:
+    def describe_mismatch(self, item: T, mismatch_description: Description) -> None:
         """passthrough to the matcher's method."""
         self.matcher.describe_mismatch(item, mismatch_description)
 
