@@ -3,8 +3,9 @@ Matches a substring.
 """
 
 from hamcrest import contains_string
+from hamcrest.library.text.stringcontains import StringContains
 
-from .base_resolution import BaseResolution
+from screenpy.resolutions.base_resolution import BaseResolution
 
 
 class ContainsTheText(BaseResolution):
@@ -17,5 +18,6 @@ class ContainsTheText(BaseResolution):
         )
     """
 
+    matcher: StringContains
     line = 'text containing "{expectation}"'
     matcher_function = contains_string

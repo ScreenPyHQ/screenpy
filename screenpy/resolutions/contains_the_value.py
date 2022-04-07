@@ -3,6 +3,7 @@ Matches a dictionary that contains a specific value.
 """
 
 from hamcrest import has_value
+from hamcrest.library.collection.isdict_containingvalue import IsDictContainingValue
 
 from .base_resolution import BaseResolution
 
@@ -17,5 +18,6 @@ class ContainsTheValue(BaseResolution):
         )
     """
 
+    matcher: IsDictContainingValue
     line = 'a dict containing the value "{expectation}"'
     matcher_function = has_value

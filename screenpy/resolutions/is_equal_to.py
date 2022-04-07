@@ -3,6 +3,7 @@ Matches using equality.
 """
 
 from hamcrest import equal_to
+from hamcrest.core.core.isequal import IsEqual
 
 from .base_resolution import BaseResolution
 
@@ -17,5 +18,6 @@ class IsEqualTo(BaseResolution):
         )
     """
 
+    matcher: IsEqual
     line = "equal to {expectation}"
     matcher_function = equal_to

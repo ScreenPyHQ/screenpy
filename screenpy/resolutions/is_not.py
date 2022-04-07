@@ -3,6 +3,7 @@ Matches the negation of another Resolution.
 """
 
 from hamcrest import is_not
+from hamcrest.core.core.isnot import IsNot as _IsNot
 
 from .base_resolution import BaseResolution
 
@@ -15,6 +16,7 @@ class IsNot(BaseResolution):
         the_actor.should(See.the(Element(WELCOME_BANNER), IsNot(Visible())))
     """
 
+    matcher: _IsNot
     line = "not {expectation}"
     matcher_function = is_not
 

@@ -3,6 +3,7 @@ Matches the length of a collection.
 """
 
 from hamcrest import has_length
+from hamcrest.library.object.haslength import HasLength as _HasLength
 
 from .base_resolution import BaseResolution
 
@@ -17,5 +18,6 @@ class HasLength(BaseResolution):
         )
     """
 
+    matcher: _HasLength
     line = "a collection with {expectation} items in it"
     matcher_function = has_length

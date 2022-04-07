@@ -3,6 +3,7 @@ Matches a list that contains the desired item.
 """
 
 from hamcrest import has_item
+from hamcrest.library.collection.issequence_containing import IsSequenceContaining
 
 from .base_resolution import BaseResolution
 
@@ -17,5 +18,6 @@ class ContainsTheItem(BaseResolution):
         )
     """
 
+    matcher: IsSequenceContaining
     line = 'a list containing the item "{expectation}"'
     matcher_function = has_item

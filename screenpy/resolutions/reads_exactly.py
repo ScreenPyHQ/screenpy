@@ -3,6 +3,7 @@ Matches an exact string.
 """
 
 from hamcrest import has_string
+from hamcrest.library.object.hasstring import HasString
 
 from .base_resolution import BaseResolution
 
@@ -17,5 +18,6 @@ class ReadsExactly(BaseResolution):
         )
     """
 
+    matcher: HasString
     line = '"{expectation}", verbatim'
     matcher_function = has_string
