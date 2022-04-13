@@ -94,7 +94,11 @@ class TestContainsTheEntry:
         """Matches dictionaries containing the entry(/ies)"""
         cte_single = ContainsTheEntry(key="value")
         cte_multiple = ContainsTheEntry(key1="value1", key2="value2")
+        cte_alt2 = ContainsTheEntry({"key2": "something2"})
+        cte_alt3 = ContainsTheEntry("key3", "something3")
 
+        assert cte_alt2.matches({"key2": "something2"})
+        assert cte_alt3.matches({"key3": "something3"})
         assert cte_single.matches({"key": "value"})
         assert cte_single.matches({"key": "value", "play": "Hamlet"})
         assert not cte_single.matches({"play": "Hamlet"})
@@ -209,7 +213,7 @@ class TestHasLength:
         assert not hl.matches([1])
 
     def test_type_hint(self):
-        assert_matcher_annotation(HasLength([1]))
+        assert_matcher_annotation(HasLength(1))
 
 
 class TestIsCloseTo:
