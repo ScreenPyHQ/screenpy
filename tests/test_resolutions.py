@@ -10,7 +10,7 @@ from screenpy.resolutions import (
     ContainsTheText,
     ContainsTheValue,
     DoesNot,
-    Empty,
+    IsEmpty,
     Equal,
     HasLength,
     IsCloseTo,
@@ -180,19 +180,19 @@ class TestContainsTheValue:
 
 class TestEmpty:
     def test_can_be_instantiated(self):
-        e = Empty()
+        e = IsEmpty()
 
-        assert isinstance(e, Empty)
+        assert isinstance(e, IsEmpty)
 
     def test_the_test(self):
         """Matches against empty collections"""
-        e = Empty()
+        e = IsEmpty()
 
         assert e.matches([])
         assert not e.matches(["not", "empty"])
 
     def test_type_hint(self):
-        assert_matcher_annotation(Empty())
+        assert_matcher_annotation(IsEmpty())
 
 
 class TestHasLength:
