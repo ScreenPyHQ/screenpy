@@ -21,3 +21,6 @@ class ContainsTheValue(BaseResolution):
     matcher: IsDictContainingValue
     line = 'a dict containing the value "{expectation}"'
     matcher_function = has_value
+
+    def __init__(self, value: object) -> None:
+        super().__init__(value)

@@ -2,6 +2,8 @@
 Matches a dictionary that contains the desired key.
 """
 
+from typing import Hashable
+
 from hamcrest import has_key
 from hamcrest.library.collection.isdict_containingkey import IsDictContainingKey
 
@@ -19,3 +21,6 @@ class ContainsTheKey(BaseResolution):
     matcher: IsDictContainingKey
     line = 'a dict containing the key "{expectation}"'
     matcher_function = has_key
+
+    def __init__(self, key_match: Hashable) -> None:
+        super().__init__(key_match)

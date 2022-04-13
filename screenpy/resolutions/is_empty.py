@@ -19,3 +19,6 @@ class IsEmpty(BaseResolution):
     matcher: _IsEmpty
     line = "an empty collection"
     matcher_function = empty
+
+    def __init__(self) -> None:
+        super().__init__()

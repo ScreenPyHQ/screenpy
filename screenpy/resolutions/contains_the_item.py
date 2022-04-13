@@ -21,3 +21,6 @@ class ContainsTheItem(BaseResolution):
     matcher: IsSequenceContaining
     line = 'a list containing the item "{expectation}"'
     matcher_function = has_item
+
+    def __init__(self, match: object) -> None:
+        super().__init__(match)

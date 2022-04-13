@@ -21,3 +21,6 @@ class ContainsTheText(BaseResolution):
     matcher: StringContains
     line = 'text containing "{expectation}"'
     matcher_function = contains_string
+
+    def __init__(self, match: str) -> None:
+        super().__init__(match)

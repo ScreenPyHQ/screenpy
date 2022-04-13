@@ -21,3 +21,6 @@ class ReadsExactly(BaseResolution):
     matcher: HasString
     line = '"{expectation}", verbatim'
     matcher_function = has_string
+
+    def __init__(self, match: str) -> None:
+        super().__init__(match)

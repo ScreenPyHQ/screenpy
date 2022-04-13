@@ -21,3 +21,6 @@ class HasLength(BaseResolution):
     matcher: _HasLength
     line = "a collection with {expectation} items in it"
     matcher_function = has_length
+
+    def __init__(self, match: int) -> None:
+        super().__init__(match)

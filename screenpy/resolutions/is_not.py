@@ -23,3 +23,6 @@ class IsNot(BaseResolution):
     def get_line(self) -> str:
         """Override base get_line to formulate this unique line."""
         return self.line.format(expectation=self.expected.get_line())
+
+    def __init__(self, match: object) -> None:
+        super().__init__(match)
