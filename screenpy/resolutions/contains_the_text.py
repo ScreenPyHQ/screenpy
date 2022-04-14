@@ -5,7 +5,7 @@ Matches a substring.
 from hamcrest import contains_string
 from hamcrest.library.text.stringcontains import StringContains
 
-from screenpy.resolutions.base_resolution import BaseResolution
+from .base_resolution import BaseResolution
 
 
 class ContainsTheText(BaseResolution):
