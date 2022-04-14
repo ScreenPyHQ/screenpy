@@ -29,14 +29,17 @@ class ContainsTheEntry(BaseResolution):
     line = "a dict containing {expectation}"
     matcher_function = has_entries
 
+    # Keyword argument form
     @overload
     def __init__(self, **keys_valuematchers: V) -> None:
         ...
 
+    # Key to matcher dict form
     @overload
     def __init__(self, keys_valuematchers: Mapping[K, V]) -> None:
         ...
 
+    # Alternating key/matcher form
     @overload
     def __init__(self, *keys_valuematchers: Any) -> None:
         ...
