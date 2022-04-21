@@ -101,9 +101,11 @@ class Actor:
 
     def cleans_up(self) -> None:
         """Perform any scheduled clean-up tasks."""
-        for task in self.cleanup_tasks:
-            self.perform(task)
-        self.cleanup_tasks = []
+        try:
+            for task in self.cleanup_tasks:
+                self.perform(task)
+        finally:
+            self.cleanup_tasks = []
 
     def exit(self) -> None:
         """Direct the Actor to forget all their Abilities."""

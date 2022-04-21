@@ -58,6 +58,23 @@ def test_performs_cleanup_tasks_when_exiting():
     assert len(actor.cleanup_tasks) == 0
 
 
+def test_clears_cleanup_tasks():
+    mocked_task = mock.Mock()
+    mocked_task_with_exception = mock.Mock()
+    mocked_task_with_exception.perform_as.side_effect = ValueError(
+        "I will not buy this record, it is scratched."
+    )
+    actor1 = Actor.named("Tester").with_cleanup_task(mocked_task)
+    actor2 = Actor.named("Tester").with_cleanup_task(mocked_task_with_exception)
+
+    actor1.cleans_up()
+    with pytest.raises(ValueError):
+        actor2.cleans_up()
+
+    assert len(actor1.cleanup_tasks) == 0
+    assert len(actor2.cleanup_tasks) == 0
+
+
 def test_forgets_abilities_when_exiting():
     mocked_ability = mock.Mock()
     actor = Actor.named("Tester").who_can(mocked_ability)
