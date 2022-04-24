@@ -64,7 +64,7 @@ will also need to be updated::
 Finally,
 you'll need to add
 the new ``AllureAdapter``
-to the :ref:`Narrator`
+to the :ref:`Narrator <narrator api>`
 somewhere near the beginning of the tests.
 In ``pytest``,
 you can do this

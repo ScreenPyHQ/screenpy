@@ -64,7 +64,7 @@ Allure
 ++++++
 
 This extension adds an Adapter
-for the :ref:`Narrator`
+for the :ref:`Narrator <narrator api>`
 which enables logging through
 `Allure <https://docs.qameta.io/allure-report/>`__.
 

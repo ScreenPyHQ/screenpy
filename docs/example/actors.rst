@@ -18,7 +18,7 @@ To instantiate an Actor is simple::
 The name you give your Actors
 will be used
 to log the Actions they perform.
-(See the :ref:`narrator` page for more details.)
+(See the :ref:`narration` page for more details.)
 In order to perform
 more interesting Actions,
 your Actor will need
@@ -45,3 +45,4 @@ Where to Go from Actors
 * :ref:`abilities`
 * :ref:`actions`
 * :ref:`actor api`
+* :ref:`narration`
