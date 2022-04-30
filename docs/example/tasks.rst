@@ -89,15 +89,18 @@ will be read out
 by the Narrator.
 The ``DollyZoom`` Task's line
 will appear to encapsulate
-the other Actions' lines,
-something like this:
+the other Actions' lines.
+This is what that looks like
+from the built-in :ref:`StdOutAdapter`::
 
-    Cameron executes a dramatic dolly zoom!
-        Cameron performs some thrilling camerawork simultaneously!
-            Cameron dollies the active camera backward.
-            Cameron zooms in.
+    INFO     screenpy:stdout_adapter.py:42 Cameron executes a dramatic dolly zoom!
+    INFO     screenpy:stdout_adapter.py:42     Cameron performs some thrilling camerawork simultaneously!
+    INFO     screenpy:stdout_adapter.py:42         Cameron dollies the active camera backward.
+    INFO     screenpy:stdout_adapter.py:42         Cameron zooms in.
+
 
 Where to Go from Tasks
 ======================
 
-* :ref:`narrator`
+* :ref:`narrator api`
+* :ref:`narration`

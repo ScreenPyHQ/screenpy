@@ -3,7 +3,7 @@ Pacing
 ======
 
 These decorators provide ways
-to interact with the :ref:`Narrator`.
+to mark certain things for :ref:`Narration`.
 :func:`~screenpy.pacing.act` and :func:`~screenpy.pacing.scene`
 tell the Narrator
 to mark your tests with annotations,

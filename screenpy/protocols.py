@@ -62,8 +62,8 @@ class Performable(Protocol):
 class Adapter(Protocol):
     """Required functions for an adapter to the Narrator's microphone.
 
-    Adapters allow the :ref:`Narrator`'s microphone to broadcast to multiple
-    logging sources, such as stdout or Allure.
+    Adapters allow the :ref:`Narrator <narrator api>`'s microphone to
+    broadcast to multiple reporting tools, such as stdout or Allure.
 
     Each of the methods described below correspond to the ``screenpy.pacing``
     decorators of the same name. The Narrator expects each of these methods to
