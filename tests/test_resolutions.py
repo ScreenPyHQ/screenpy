@@ -10,7 +10,7 @@ from screenpy.resolutions import (
     ContainsTheText,
     ContainsTheValue,
     DoesNot,
-    Empty,
+    IsEmpty,
     Equal,
     HasLength,
     IsCloseTo,
@@ -18,6 +18,10 @@ from screenpy.resolutions import (
     IsNot,
     ReadsExactly,
 )
+
+
+def assert_matcher_annotation(obj: BaseResolution):
+    assert type(obj.matcher) is obj.__annotations__['matcher']
 
 
 class TestBaseResolution:
@@ -79,7 +83,7 @@ class TestBaseResolution:
 
 
 class TestContainsTheEntry:
-    def test_can_be_instantiated(self):
+    def test_can_be_instantiated(self) -> None:
         cte_single = ContainsTheEntry(key="value")
         cte_multiple = ContainsTheEntry(key1="value1", key2="value2")
 
@@ -90,7 +94,11 @@ class TestContainsTheEntry:
         """Matches dictionaries containing the entry(/ies)"""
         cte_single = ContainsTheEntry(key="value")
         cte_multiple = ContainsTheEntry(key1="value1", key2="value2")
+        cte_alt2 = ContainsTheEntry({"key2": "something2"})
+        cte_alt3 = ContainsTheEntry("key3", "something3")
 
+        assert cte_alt2.matches({"key2": "something2"})
+        assert cte_alt3.matches({"key3": "something3"})
         assert cte_single.matches({"key": "value"})
         assert cte_single.matches({"key": "value", "play": "Hamlet"})
         assert not cte_single.matches({"play": "Hamlet"})
@@ -99,6 +107,9 @@ class TestContainsTheEntry:
             {"key1": "value1", "key2": "value2", "play": "Hamlet"}
         )
         assert not cte_multiple.matches({"key1": "value1"})
+
+    def test_type_hint(self):
+        assert_matcher_annotation(ContainsTheEntry(key2="hi"))
 
 
 class TestContainsTheItem:
@@ -113,6 +124,9 @@ class TestContainsTheItem:
 
         assert cti.matches(range(0, 10))
         assert not cti.matches({0, 3, 5})
+
+    def test_type_hint(self):
+        assert_matcher_annotation(ContainsTheItem(1))
 
 
 class TestContainsTheKey:
@@ -129,6 +143,9 @@ class TestContainsTheKey:
         assert ctk.matches({"key": "value", "play": "Hamlet"})
         assert not ctk.matches({"play": "Hamlet"})
 
+    def test_type_hint(self):
+        assert_matcher_annotation(ContainsTheKey(1))
+
 
 class TestContainsTheText:
     def test_can_be_instantiated(self):
@@ -142,6 +159,9 @@ class TestContainsTheText:
 
         assert ctt.matches("hello world!")
         assert not ctt.matches("goodbye universe.")
+
+    def test_type_hint(self):
+        assert_matcher_annotation(ContainsTheText("hello"))
 
 
 class TestContainsTheValue:
@@ -158,19 +178,25 @@ class TestContainsTheValue:
         assert ctv.matches({"key": "value", "play": "Hamlet"})
         assert not ctv.matches({"play": "Hamlet"})
 
+    def test_type_hint(self):
+        assert_matcher_annotation(ContainsTheValue(1))
+
 
 class TestEmpty:
     def test_can_be_instantiated(self):
-        e = Empty()
+        e = IsEmpty()
 
-        assert isinstance(e, Empty)
+        assert isinstance(e, IsEmpty)
 
     def test_the_test(self):
         """Matches against empty collections"""
-        e = Empty()
+        e = IsEmpty()
 
         assert e.matches([])
         assert not e.matches(["not", "empty"])
+
+    def test_type_hint(self):
+        assert_matcher_annotation(IsEmpty())
 
 
 class TestHasLength:
@@ -185,6 +211,9 @@ class TestHasLength:
 
         assert hl.matches([1, 2, 3, 4, 5])
         assert not hl.matches([1])
+
+    def test_type_hint(self):
+        assert_matcher_annotation(HasLength(1))
 
 
 class TestIsCloseTo:
@@ -209,6 +238,9 @@ class TestIsCloseTo:
 
         assert ict.get_line() == f"a value at most {delta} away from {num}."
 
+    def test_type_hint(self):
+        assert_matcher_annotation(IsCloseTo(2))
+
 
 class TestIsEqualTo:
     def test_can_be_instantiated(self):
@@ -222,6 +254,9 @@ class TestIsEqualTo:
 
         assert ie.matches(1)
         assert not ie.matches(2)
+
+    def test_type_hint(self):
+        assert_matcher_annotation(IsEqualTo(1))
 
 
 class TestIsNot:
@@ -237,6 +272,9 @@ class TestIsNot:
         assert in_.matches(2)
         assert not in_.matches(1)
 
+    def test_type_hint(self):
+        assert_matcher_annotation(IsNot(1))
+
 
 class TestReadsExactly:
     def test_can_be_instantiated(self):
@@ -250,3 +288,6 @@ class TestReadsExactly:
 
         assert re_.matches("Blah")
         assert not re_.matches("blah")
+
+    def test_type_hint(self):
+        assert_matcher_annotation(ReadsExactly("hi"))

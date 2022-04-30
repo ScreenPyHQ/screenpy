@@ -3,6 +3,7 @@ Matches a value that falls within the range specified by the given delta.
 """
 
 from hamcrest import close_to
+from hamcrest.library.number.iscloseto import IsCloseTo as _IsCloseTo
 
 from .base_resolution import BaseResolution
 
@@ -17,6 +18,7 @@ class IsCloseTo(BaseResolution):
         )
     """
 
+    matcher: _IsCloseTo
     matcher_function = close_to
 
     def get_line(self) -> str:
