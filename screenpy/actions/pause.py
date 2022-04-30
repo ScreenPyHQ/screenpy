@@ -33,7 +33,7 @@ class Pause:
     time: float
 
     @classmethod
-    def for_(cls, number: int) -> "Pause":
+    def for_(cls, number: float) -> "Pause":
         """Specify how many seconds or milliseconds to wait for."""
         return cls(number)
 
