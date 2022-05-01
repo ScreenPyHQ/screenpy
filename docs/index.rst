@@ -26,7 +26,7 @@ and maintain.
    api
    cookbook
    settings
-   narrator
+   narration
    director
    filehierarchy
    deprecations

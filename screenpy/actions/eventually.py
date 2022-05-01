@@ -101,6 +101,7 @@ class Eventually:
 
         end_time = time.time() + self.timeout
 
+        count = 0
         with the_narrator.mic_cable_kinked():
             while True:
                 the_narrator.clear_backup()
@@ -111,6 +112,7 @@ class Eventually:
                     self.caught_error = exc
                     self.unique_errors.add((exc.__class__.__name__, str(exc)))
 
+                count += 1
                 time.sleep(self.poll)
                 if time.time() > end_time:
                     break
@@ -119,8 +121,8 @@ class Eventually:
             f"{e[0]}: {e[1]}" for e in self.unique_errors
         )
         msg = (
-            f"{the_actor} used Eventually for {self.timeout} seconds,"
-            f" but got:\n    {unique_errors_message}"
+            f"{the_actor} tried to Eventually {self.performable_to_log} {count} times"
+            f" over {self.timeout} seconds, but got:\n    {unique_errors_message}"
         )
         raise DeliveryError(msg) from self.caught_error
 

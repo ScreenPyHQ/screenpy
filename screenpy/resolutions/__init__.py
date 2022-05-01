@@ -20,6 +20,7 @@ from .is_not import IsNot
 from .reads_exactly import ReadsExactly
 
 # Natural-language-enabling syntactic sugar
+CloseTo = IsCloseTo
 ContainTheEntry = ContainTheEntries = ContainsTheEntries = ContainsTheEntry
 ContainTheItem = ContainsTheItem
 ContainTheKey = ContainsTheKey
@@ -27,6 +28,7 @@ ContainTheText = ContainsTheText
 ContainTheValue = ContainsTheValue
 DoesNot = DoNot = IsNot
 Empty = IsEmpty
+HaveLength = HasLength
 IsEqual = Equals = Equal = EqualTo = IsEqualTo
 ReadExactly = ReadsExactly
 

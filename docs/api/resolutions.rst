@@ -46,10 +46,14 @@ ContainsTheValue
 HasLength
 ---------
 
+**Aliases**: ``HaveLength``
+
 .. autoclass:: HasLength
 
 IsCloseTo
 ---------
+
+**Aliases**: ``CloseTo``
 
 .. autoclass:: IsCloseTo
 

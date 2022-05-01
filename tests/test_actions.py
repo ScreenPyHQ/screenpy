@@ -62,7 +62,6 @@ class TestDebug:
 
 
 class TestEventually:
-
     def get_mock_action(self, **kwargs):
         mock_action = mock.Mock()
         mock_action.perform_as = mock.Mock(**kwargs)
@@ -143,6 +142,19 @@ class TestEventually:
             Eventually(MockAction).perform_as(Tester)
 
         assert mocked_time.time.call_count == num_calls + 1
+
+    @mock.patch("screenpy.actions.eventually.time")
+    def test_timeout_mentions_num_executions(self, mocked_time, Tester):
+        num_calls = 5
+        mocked_time.time = mock.Mock(side_effect=[1] * num_calls + [100])
+        MockAction = self.get_mock_action(
+            side_effect=ValueError("He's pining for the fjords!")
+        )
+
+        with pytest.raises(DeliveryError) as e:
+            Eventually(MockAction).perform_as(Tester)
+
+        assert f"{num_calls} times" in str(e)
 
     @mock.patch("screenpy.actions.eventually.time")
     def test_catches_exceptions(self, mocked_time, Tester):

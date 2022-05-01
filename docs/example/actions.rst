@@ -79,18 +79,9 @@ is that :func:`~screenpy.pacing.beat` decoration
 above ``perform_as``.
 That string is what will be logged
 by the Narrator.
-The ``{}`` will be replaced
-by the name of the Actor
-who performs the Action.
-Any other words
-inside of curly braces
-will be fished out
-of the Action itself.
-In the above example,
-``{cameras_to_log}`` was used;
-The Narrator will access
-the ``cameras_to_log`` property
-to fill in that spot.
+For more details
+on how this decorator works,
+take a look at the :ref:`Describing Your Tests and Tasks` section.
 
 You may also notice
 that the ``on``/``and_`` method
@@ -125,6 +116,6 @@ Where to Go from Actions
 ========================
 
 * :ref:`tasks`
-* :ref:`narrator`
+* :ref:`narration`
 * :ref:`questions`
 * :ref:`actions api`
