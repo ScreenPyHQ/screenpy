@@ -70,7 +70,7 @@ def test_performs_cleanup_tasks_when_exiting():
     assert len(actor.independent_cleanup_tasks) == 0
 
 
-def assert_has_cleanup_tasks_is_deprecated():
+def test_assert_has_cleanup_tasks_is_deprecated():
     actor = Actor.named("Tester")
 
     with warnings.catch_warnings(record=True) as w:
