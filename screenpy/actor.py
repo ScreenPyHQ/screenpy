@@ -4,12 +4,14 @@ about the state of the application, and assert Resolutions, all in the
 service of perfoming their roles.
 """
 
+import warnings
 from random import choice
 from typing import List, Text, Type, TypeVar
 
 from .exceptions import UnableToPerform
 from .pacing import aside
 from .protocols import Forgettable, Performable
+from .speech_tools import get_additive_description
 
 ENTRANCE_DIRECTIONS = [
     "{actor} appears from behind the backdrop!",
@@ -44,7 +46,8 @@ class Actor:
     """
 
     abilities: List[Forgettable]
-    cleanup_tasks: List[Performable]
+    ordered_cleanup_tasks: List[Performable]
+    independent_cleanup_tasks: List[Performable]
 
     @classmethod
     def named(cls, name: Text) -> "Actor":
@@ -61,10 +64,38 @@ class Actor:
 
     def has_cleanup_tasks(self, *tasks: Performable) -> "Actor":
         """Assign one or more tasks to the Actor to perform when exiting."""
-        self.cleanup_tasks.extend(tasks)
+        warnings.warn(
+            "This method is deprecated."
+            " Please use either `has_ordered_cleanup_tasks`"
+            " or `has_independent_cleanup_tasks` instead.",
+            DeprecationWarning,
+        )
+        return self.has_ordered_cleanup_tasks(*tasks)
+
+    def has_ordered_cleanup_tasks(self, *tasks: Performable) -> "Actor":
+        """Assign one or more tasks for the Actor to perform when exiting.
+
+        The tasks given to this method must be performed successfully in
+        order. If any task fails, any subsequent tasks will not be attempted
+        and will be discarded.
+        """
+        self.ordered_cleanup_tasks.extend(tasks)
         return self
 
-    with_cleanup_tasks = with_cleanup_task = has_cleanup_task = has_cleanup_tasks
+    has_cleanup_task = has_ordered_cleanup_tasks
+    with_cleanup_task = with_ordered_cleanup_tasks = has_ordered_cleanup_tasks
+
+    def has_independent_cleanup_tasks(self, *tasks: Performable) -> "Actor":
+        """Assign one or more tasks for the Actor to perform when exiting.
+
+        The tasks included through this method are assumed to be independent;
+        that is to say, all of them will be executed regardless of whether
+        previous ones were successful.
+        """
+        self.independent_cleanup_tasks.extend(tasks)
+        return self
+
+    with_independent_cleanup_tasks = has_independent_cleanup_tasks
 
     def uses_ability_to(self, ability: Type[T]) -> T:
         """Find the Ability referenced and return it, if the Actor is capable.
@@ -99,11 +130,33 @@ class Actor:
         """Perform an Action."""
         action.perform_as(self)
 
+    def cleans_up_ordered_tasks(self) -> None:
+        """Perform ordered clean-up tasks."""
+        try:
+            for task in self.ordered_cleanup_tasks:
+                self.perform(task)
+        finally:
+            self.ordered_cleanup_tasks = []
+
+    def cleans_up_independent_tasks(self) -> None:
+        """Perform independent clean-up tasks."""
+        for task in self.independent_cleanup_tasks:
+            try:
+                self.perform(task)
+            except Exception as e:  # pylint: disable=broad-except
+                action = get_additive_description(task)
+                msg = (
+                    f"{self} encountered an error while attempting to {action}:"
+                    f"\n    {e}"
+                )
+                aside(msg)
+
+        self.independent_cleanup_tasks = []
+
     def cleans_up(self) -> None:
         """Perform any scheduled clean-up tasks."""
-        for task in self.cleanup_tasks:
-            self.perform(task)
-        self.cleanup_tasks = []
+        self.cleans_up_independent_tasks()
+        self.cleans_up_ordered_tasks()
 
     def exit(self) -> None:
         """Direct the Actor to forget all their Abilities."""
@@ -120,4 +173,5 @@ class Actor:
     def __init__(self, name: str) -> None:
         self.name = name
         self.abilities = []
-        self.cleanup_tasks = []
+        self.ordered_cleanup_tasks = []
+        self.independent_cleanup_tasks = []
