@@ -18,7 +18,6 @@ from screenpy.directions import noted_under
 from screenpy.director import Director
 from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
 from screenpy.resolutions import IsEqualTo
-
 from tests.conftest import mock_settings
 
 
@@ -131,8 +130,10 @@ class TestEventually:
         MockAction = self.get_mock_action()
         ev = (
             Eventually(MockAction)
-            .polling_every(200).milliseconds()
-            .for_(100).milliseconds()
+            .polling_every(200)
+            .milliseconds()
+            .for_(100)
+            .milliseconds()
         )
 
         with pytest.raises(ValueError) as actual_exception:
