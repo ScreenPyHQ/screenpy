@@ -2,6 +2,7 @@
 Attach a file.
 """
 
+import os
 from typing import Any
 
 from screenpy import Actor
@@ -23,11 +24,16 @@ class AttachTheFile:
         )
     """
 
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        return f"Attach a file named {self.filename}."
+
     # no beat, to make reading reports easier.
     def perform_as(self, _: Actor) -> None:
         """Direct the Narrator to attach a file."""
-        the_narrator.attaches_a_file(self.path, **self.attach_kwargs)
+        the_narrator.attaches_a_file(self.filepath, **self.attach_kwargs)
 
-    def __init__(self, path: str, **kwargs: Any) -> None:
-        self.path = path
+    def __init__(self, filepath: str, **kwargs: Any) -> None:
+        self.filepath = filepath
+        self.filename = os.path.basename(filepath)
         self.attach_kwargs = kwargs

@@ -1,5 +1,6 @@
-from unittest import mock
+import os
 import sys
+from unittest import mock
 
 import pytest
 
@@ -26,6 +27,15 @@ class TestAttachTheFile:
         atf = AttachTheFile("")
 
         assert isinstance(atf, AttachTheFile)
+
+    def test_divines_filename(self):
+        filename = "thisisonlyatest.png"
+        filepath = os.sep.join(["this", "is", "a", "test", filename])
+        atf_without_path = AttachTheFile(filename)
+        atf_with_path = AttachTheFile(filepath)
+
+        assert atf_without_path.filename == filename
+        assert atf_with_path.filename == filename
 
     @mock.patch("screenpy.actions.attach_the_file.the_narrator")
     def test_perform_attach_the_file_sends_kwargs(self, mocked_narrator, Tester):
