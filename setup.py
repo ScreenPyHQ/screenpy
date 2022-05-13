@@ -8,10 +8,11 @@ requires = [
 ]
 
 extras_require = {
-    "selenium": ["screenpy_selenium"],
-    "requests": ["screenpy_requests"],
-    "pyotp": ["screenpy_pyotp"],
     "allure": ["screenpy_adapter_allure"],
+    "appium": ["screenpy_appium"],
+    "pyotp": ["screenpy_pyotp"],
+    "requests": ["screenpy_requests"],
+    "selenium": ["screenpy_selenium"],
 }
 
 repo_dir = path.abspath(path.dirname(__file__))
