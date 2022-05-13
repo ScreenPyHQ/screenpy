@@ -1,6 +1,19 @@
 Release History
 ===============
 
+4.0.1 (2022-05-13)
+
+### New Features
+
+- Added new aliases for `IsCloseTo` and `HasLength` to use in their negated cases: `CloseTo` and `HaveLength`.
+- Added official "extras" support for `screenpy_appium`, install with `pip install screenpy[appium]`!
+
+### Improvements
+
+- Tons of typing improvements thanks to @bandophahita, especially with Resolutions! Things should be a lot nicer in your IDEs.
+- Added a count to `Eventually` that mentions how many times `Eventually` looped before failing. This should be helpful in the case where the performable that should eventually complete takes longer than the timeout set for `Eventually`.
+
+
 4.0.0 (2022-02-22)
 ------------------
 
