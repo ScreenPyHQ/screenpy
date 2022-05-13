@@ -1,4 +1,4 @@
-from typing import Callable, Generator, Any
+from typing import Any, Callable, Generator
 from unittest import mock
 
 import pytest

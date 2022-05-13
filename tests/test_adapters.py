@@ -1,6 +1,6 @@
 import logging
 
-from screenpy.narration.adapters.stdout_adapter import StdOutManager, StdOutAdapter
+from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
 
 
 def prop():

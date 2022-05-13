@@ -1,5 +1,6 @@
-from unittest import mock
+import os
 import sys
+from unittest import mock
 
 import pytest
 
@@ -17,7 +18,6 @@ from screenpy.directions import noted_under
 from screenpy.director import Director
 from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
 from screenpy.resolutions import IsEqualTo
-
 from tests.conftest import mock_settings
 
 
@@ -26,6 +26,15 @@ class TestAttachTheFile:
         atf = AttachTheFile("")
 
         assert isinstance(atf, AttachTheFile)
+
+    def test_divines_filename(self):
+        filename = "thisisonlyatest.png"
+        filepath = os.sep.join(["this", "is", "a", "test", filename])
+        atf_without_path = AttachTheFile(filename)
+        atf_with_path = AttachTheFile(filepath)
+
+        assert atf_without_path.filename == filename
+        assert atf_with_path.filename == filename
 
     @mock.patch("screenpy.actions.attach_the_file.the_narrator")
     def test_perform_attach_the_file_sends_kwargs(self, mocked_narrator, Tester):
@@ -70,14 +79,22 @@ class TestEventually:
 
     def test_can_be_instantiated(self):
         e1 = Eventually(None)
-        e2 = Eventually(None).trying_for(0).seconds()
+        e2 = Eventually(None).trying_for_no_longer_than(0).seconds()
         e3 = Eventually(None).trying_for(0).milliseconds()
-        e4 = Eventually(None).polling(0).seconds()
+        e4 = Eventually(None).for_(0).seconds()
+        e5 = Eventually(None).waiting_for(0).seconds()
+        e6 = Eventually(None).polling(0).seconds()
+        e7 = Eventually(None).polling_every(0).milliseconds()
+        e8 = Eventually(None).trying_every(0).seconds()
 
         assert isinstance(e1, Eventually)
         assert isinstance(e2, Eventually)
         assert isinstance(e3, Eventually)
         assert isinstance(e4, Eventually)
+        assert isinstance(e5, Eventually)
+        assert isinstance(e6, Eventually)
+        assert isinstance(e7, Eventually)
+        assert isinstance(e8, Eventually)
 
     def test_uses_timeframe_builder(self):
         ev = Eventually(None).trying_for(1)
@@ -121,8 +138,10 @@ class TestEventually:
         MockAction = self.get_mock_action()
         ev = (
             Eventually(MockAction)
-            .polling_every(200).milliseconds()
-            .for_(100).milliseconds()
+            .polling_every(200)
+            .milliseconds()
+            .for_(100)
+            .milliseconds()
         )
 
         with pytest.raises(ValueError) as actual_exception:
@@ -186,7 +205,7 @@ class TestEventually:
 class TestMakeNote:
     def test_can_be_instantiated(self):
         mn1 = MakeNote(None)
-        mn2 = MakeNote.of_the(None)
+        mn2 = MakeNote.of(None)
         mn3 = MakeNote.of_the(None).as_("")
 
         assert isinstance(mn1, MakeNote)

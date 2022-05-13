@@ -10,10 +10,10 @@ from screenpy.resolutions import (
     ContainsTheText,
     ContainsTheValue,
     DoesNot,
-    IsEmpty,
     Equal,
     HasLength,
     IsCloseTo,
+    IsEmpty,
     IsEqualTo,
     IsNot,
     ReadsExactly,
@@ -21,7 +21,7 @@ from screenpy.resolutions import (
 
 
 def assert_matcher_annotation(obj: BaseResolution):
-    assert type(obj.matcher) is obj.__annotations__['matcher']
+    assert type(obj.matcher) is obj.__annotations__["matcher"]
 
 
 class TestBaseResolution:
@@ -40,6 +40,7 @@ class TestBaseResolution:
 
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
+
             matcher_function = mock.Mock()
 
         resolution = MockResolution(*args, **kwargs)
@@ -54,12 +55,12 @@ class TestBaseResolution:
             ("describe_to", [mock.Mock()], "describe_to"),
             ("describe_match", [mock.Mock(), mock.Mock()], "describe_match"),
             ("describe_mismatch", [mock.Mock(), mock.Mock()], "describe_mismatch"),
-        ]
+        ],
     )
     def test_passthroughs(self, method, args, expected_method):
-
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
+
             matcher_function = mock.Mock()
 
         resolution = MockResolution()
@@ -69,9 +70,9 @@ class TestBaseResolution:
         getattr(resolution.matcher, expected_method).assert_called_once_with(*args)
 
     def test___repr__(self):
-
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
+
             matcher_function = mock.Mock()
             get_line = mock.Mock(return_value="")
 
