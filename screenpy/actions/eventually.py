@@ -77,17 +77,44 @@ class Eventually:
             the_actor.attempts_to(self.eventually)
 
     def for_(self, amount: float) -> _TimeframeBuilder:
-        """Set for how long the actor should continue trying."""
+        """Set for how long the actor should continue trying.
+
+        Aliases:
+            * :meth:`~screenpy.actions.Eventually.trying_for_no_longer_than`
+            * :meth:`~screenpy.actions.Eventually.trying_for`
+            * :meth:`~screenpy.actions.Eventually.waiting_for`
+        """
         return self._TimeframeBuilder(self, amount, "timeout")
 
-    trying_for_no_longer_than = trying_for = waiting_for = for_
+    def trying_for_no_longer_than(self, amount: float) -> _TimeframeBuilder:
+        """Alias for :meth:`~screenpy.actions.Eventually.for_`."""
+        return self.for_(amount)
+
+    def trying_for(self, amount: float) -> _TimeframeBuilder:
+        """Alias for :meth:`~screenpy.actions.Eventually.for_`."""
+        return self.for_(amount)
+
+    def waiting_for(self, amount: float) -> _TimeframeBuilder:
+        """Alias for :meth:`~screenpy.actions.Eventually.for_`."""
+        return self.for_(amount)
 
     def polling(self, amount: float) -> _TimeframeBuilder:
-        """Adjust the polling frequency."""
+        """Adjust the polling frequency.
+
+        Aliases:
+            * :meth:`~screenpy.actions.Eventually.polling_every`
+            * :meth:`~screenpy.actions.Eventually.trying_every`
+        """
         self.poll = amount
         return self._TimeframeBuilder(self, amount, "poll")
 
-    trying_every = polling_every = polling
+    def polling_every(self, amount: float) -> _TimeframeBuilder:
+        """Alias for :meth:`~screenpy.actions.Eventually.polling`."""
+        return self.for_(amount)
+
+    def trying_every(self, amount: float) -> _TimeframeBuilder:
+        """Alias for :meth:`~screenpy.actions.Eventually.polling`."""
+        return self.for_(amount)
 
     def describe(self) -> str:
         """Describe the Action in present tense."""

@@ -30,10 +30,17 @@ class MakeNote:
 
     @classmethod
     def of(cls, question: Union[Answerable, Any]) -> "MakeNote":
-        """Supply the Question to answer and its arguments."""
+        """Supply the Question to answer and its arguments.
+
+        Aliases:
+            * :meth:`~screenpy.actions.MakeNote.of_the`
+        """
         return cls(question)
 
-    of_the = of
+    @classmethod
+    def of_the(cls, question: Union[Answerable, Any]) -> "MakeNote":
+        """Alias for :meth:`~screenpy.actions.MakeNote.of`."""
+        return cls.of(question)
 
     def as_(self, key: str) -> "MakeNote":
         """Set the key to use to recall this noted value."""
