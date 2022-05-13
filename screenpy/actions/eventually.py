@@ -110,11 +110,11 @@ class Eventually:
 
     def polling_every(self, amount: float) -> _TimeframeBuilder:
         """Alias for :meth:`~screenpy.actions.Eventually.polling`."""
-        return self.for_(amount)
+        return self.polling(amount)
 
     def trying_every(self, amount: float) -> _TimeframeBuilder:
         """Alias for :meth:`~screenpy.actions.Eventually.polling`."""
-        return self.for_(amount)
+        return self.polling(amount)
 
     def describe(self) -> str:
         """Describe the Action in present tense."""
