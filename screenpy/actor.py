@@ -73,7 +73,7 @@ class Actor:
     def has_cleanup_tasks(self, *tasks: Performable) -> "Actor":
         """Assign one or more tasks to the Actor to perform when exiting."""
         warnings.warn(
-            "This method is deprecated."
+            "This method is deprecated and will be removed in ScreenPy 4.2.0."
             " Please use either `has_ordered_cleanup_tasks`"
             " or `has_independent_cleanup_tasks` instead.",
             DeprecationWarning,
@@ -88,20 +88,10 @@ class Actor:
         and will be discarded.
 
         Aliases:
-            * :meth:`~screenpy.actor.Actor.has_cleanup_task`
-            * :meth:`~screenpy.actor.Actor.with_cleanup_task`
             * :meth:`~screenpy.actor.Actor.with_ordered_cleanup_tasks`
         """
         self.ordered_cleanup_tasks.extend(tasks)
         return self
-
-    def has_cleanup_task(self, *tasks: Performable) -> "Actor":
-        """Alias for :meth:`~screenpy.actor.Actor.has_ordered_cleanup_tasks`."""
-        return self.has_ordered_cleanup_tasks(*tasks)
-
-    def with_cleanup_task(self, *tasks: Performable) -> "Actor":
-        """Alias for :meth:`~screenpy.actor.Actor.has_ordered_cleanup_tasks`."""
-        return self.has_ordered_cleanup_tasks(*tasks)
 
     def with_ordered_cleanup_tasks(self, *tasks: Performable) -> "Actor":
         """Alias for :meth:`~screenpy.actor.Actor.has_ordered_cleanup_tasks`."""

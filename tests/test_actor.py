@@ -18,7 +18,7 @@ def test_can_be_instantiated():
     a1 = Actor.named("Tester")
     a2 = Actor.named("Tester").can(None)
     a3 = Actor.named("Tester").who_can(None)
-    a4 = Actor.named("Tester").who_can(None).with_cleanup_task(None)
+    a4 = Actor.named("Tester").who_can(None).with_ordered_cleanup_tasks(None)
 
     assert isinstance(a1, Actor)
     assert isinstance(a2, Actor)
@@ -59,7 +59,7 @@ def test_find_abilities():
 def test_performs_cleanup_tasks_when_exiting():
     mocked_ordered_task = get_mock_task()
     mocked_independent_task = get_mock_task()
-    actor = Actor.named("Tester").with_cleanup_task(mocked_ordered_task)
+    actor = Actor.named("Tester").with_ordered_cleanup_tasks(mocked_ordered_task)
     actor.has_independent_cleanup_tasks(mocked_independent_task)
 
     actor.exit()
@@ -87,9 +87,11 @@ def test_clears_cleanup_tasks():
     mocked_task_with_exception.perform_as.side_effect = ValueError(
         "I will not buy this record, it is scratched."
     )
-    actor1 = Actor.named("Tester").with_cleanup_task(mocked_task)
+    actor1 = Actor.named("Tester").with_ordered_cleanup_tasks(mocked_task)
     actor1.has_independent_cleanup_tasks(mocked_task)
-    actor2 = Actor.named("Tester").with_cleanup_task(mocked_task_with_exception)
+    actor2 = Actor.named("Tester").with_ordered_cleanup_tasks(
+        mocked_task_with_exception
+    )
     actor2.has_independent_cleanup_tasks(mocked_task_with_exception)
 
     actor1.cleans_up()
