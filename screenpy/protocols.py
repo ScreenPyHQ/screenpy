@@ -21,6 +21,8 @@ if TYPE_CHECKING:
 class Answerable(Protocol):
     """Questions are Answerable"""
 
+    caught_exception: Any
+
     def answered_by(self, the_actor: "Actor") -> Any:
         """
         Pose the Question to the Actor, who will investigate and provide the

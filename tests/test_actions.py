@@ -333,6 +333,7 @@ class TestSee:
     def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
         mock_question = mock.Mock()
         mock_question.describe.return_value = "What was your mother?"
+        mock_question.caught_exception = ""
         mock_resolution = mock.Mock()
         mock_resolution.describe.return_value = "A hamster!"
 
@@ -340,7 +341,7 @@ class TestSee:
 
         mock_question.answered_by.assert_called_once_with(Tester)
         mocked_assert_that.assert_called_once_with(
-            mock_question.answered_by.return_value, mock_resolution
+            mock_question.answered_by.return_value, mock_resolution, mock_question.caught_exception
         )
 
     @mock.patch("screenpy.actions.see.assert_that")
@@ -351,7 +352,7 @@ class TestSee:
 
         See.the(test_value, mock_resolution).perform_as(Tester)
 
-        mocked_assert_that.assert_called_once_with(test_value, mock_resolution)
+        mocked_assert_that.assert_called_once_with(test_value, mock_resolution, "")
 
 
 class TestSeeAllOf:

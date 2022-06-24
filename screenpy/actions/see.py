@@ -50,7 +50,11 @@ class See:
             value = self.question
             aside(f"the actual value is: {value}")
 
-        assert_that(value, self.resolution)
+        reason = ""
+        if hasattr(self.question, "caught_exception"):
+            reason = self.question.caught_exception
+
+        assert_that(value, self.resolution, reason)
 
     def __init__(
         self, question: Union[Answerable, Any], resolution: BaseResolution
