@@ -6,7 +6,7 @@ from typing import Any, Optional, Union
 
 from screenpy import Actor, Director
 from screenpy.exceptions import UnableToAct
-from screenpy.pacing import beat
+from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable
 
 
@@ -62,6 +62,9 @@ class MakeNote:
         else:
             # must be a value instead of a question!
             value = self.question
+
+        if hasattr(self.question, "caught_exception"):
+            aside(f"{self.question.caught_exception}")
 
         Director().notes(self.key, value)
 

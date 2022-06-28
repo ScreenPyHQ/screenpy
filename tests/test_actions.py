@@ -262,6 +262,18 @@ class TestMakeNote:
 
         assert "screenpy-docs.readthedocs.io" in str(exc.value)
 
+    @mock.patch("screenpy.actions.make_note.aside")
+    def test_caught_exception_noted(self, mock_aside: mock.Mock, Tester):
+        key = "key"
+        value = "note"
+        MockQuestion = mock.Mock()
+        MockQuestion.answered_by.return_value = value
+        MockQuestion.caught_exception = ValueError("Failure msg")
+
+        MakeNote.of_the(MockQuestion).as_(key).perform_as(Tester)
+        mock_aside.assert_called_with(f"{MockQuestion.caught_exception}")
+        return
+
 
 class TestPause:
     def test_can_be_instantiated(self):
@@ -333,7 +345,7 @@ class TestSee:
     def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
         mock_question = mock.Mock()
         mock_question.describe.return_value = "What was your mother?"
-        mock_question.caught_exception = ""
+        mock_question.caught_exception = ValueError("Failure msg")
         mock_resolution = mock.Mock()
         mock_resolution.describe.return_value = "A hamster!"
 
