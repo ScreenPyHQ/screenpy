@@ -3,12 +3,14 @@ A grab-bag of useful language-massaging functions with broad applicability.
 """
 
 import re
-from typing import Union
+from typing import Any, Union
 
-from screenpy.protocols import Answerable, Any, Performable
+from screenpy.protocols import Answerable, Describable, Performable
 
 
-def get_additive_description(describable: Union[Performable, Answerable, Any]) -> str:
+def get_additive_description(
+    describable: Union[Performable, Answerable, Describable, Any]
+) -> str:
     """Extract a description that can be placed within a sentence.
 
     The ``describe`` method of Performables and Answerables will provide a
@@ -24,11 +26,11 @@ def get_additive_description(describable: Union[Performable, Answerable, Any]) -
     stick a "the" in front of the class name. This should make it read like
     "the list" or "the str".
     """
-    if hasattr(describable, "describe"):
+    if isinstance(describable, Describable):
         description = describable.describe()  # type: ignore # see PEP 544
         description = description[0].lower() + description[1:]
         description = re.sub(r"[.,?!;:]*$", r"", description)
-    elif hasattr(describable, "perform_as") or hasattr(describable, "answered_by"):
+    elif isinstance(describable, (Answerable, Performable)):
         # No describe method, so fabricate a description from the class name.
         description = describable.__class__.__name__
         description = re.sub(r"(?<!^)([A-Z])", r" \1", description).lower()

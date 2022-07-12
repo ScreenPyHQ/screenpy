@@ -7,7 +7,7 @@ from typing import Any, Optional, Union
 from screenpy import Actor, Director
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import aside, beat
-from screenpy.protocols import Answerable
+from screenpy.protocols import Answerable, ErrorWise
 
 
 class MakeNote:
@@ -57,13 +57,13 @@ class MakeNote:
         if self.key is None:
             raise UnableToAct("No key was provided to name this note.")
 
-        if hasattr(self.question, "answered_by"):
-            value = self.question.answered_by(the_actor)
+        if isinstance(self.question, Answerable):
+            value: object = self.question.answered_by(the_actor)
         else:
             # must be a value instead of a question!
             value = self.question
 
-        if hasattr(self.question, "caught_exception"):
+        if isinstance(self.question, ErrorWise):
             aside(f"{self.question.caught_exception}")
 
         Director().notes(self.key, value)

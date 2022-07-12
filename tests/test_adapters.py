@@ -1,5 +1,6 @@
 import logging
 
+from screenpy.protocols import Adapter
 from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
 
 
@@ -9,6 +10,10 @@ def prop():
 
 
 class TestStdOutManager:
+    def test_instantiate(self):
+        m = StdOutManager()
+        assert isinstance(m, StdOutManager)
+
     def test__outdent(self):
         manager = StdOutManager()
         manager.depth = []
@@ -38,6 +43,14 @@ class TestStdOutManager:
 
 
 class TestStdOutAdapter:
+    def test_instantiate(self):
+        a = StdOutAdapter()
+        assert isinstance(a, StdOutAdapter)
+
+    def test_implements_protocol(self):
+        a = StdOutAdapter()
+        assert isinstance(a, Adapter)
+
     def test_act(self, caplog):
         adapter = StdOutAdapter()
         act_name = "test act"
