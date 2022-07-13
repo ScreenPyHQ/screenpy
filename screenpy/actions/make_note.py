@@ -7,7 +7,7 @@ from typing import Any, Optional, Union
 from screenpy import Actor, Director
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import aside, beat
-from screenpy.protocols import Answerable, ErrorWise
+from screenpy.protocols import Answerable, ErrorKeeper
 
 
 class MakeNote:
@@ -63,7 +63,7 @@ class MakeNote:
             # must be a value instead of a question!
             value = self.question
 
-        if isinstance(self.question, ErrorWise):
+        if isinstance(self.question, ErrorKeeper):
             aside(f"Caught Exception: {self.question.caught_exception}")
 
         Director().notes(self.key, value)

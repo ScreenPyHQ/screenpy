@@ -63,8 +63,8 @@ class Performable(Protocol):
 
 
 @runtime_checkable
-class ErrorWise(Protocol):
-    """Classes that save exceptions for later are ErrorWise"""
+class ErrorKeeper(Protocol):
+    """Classes that save exceptions for later are ErrorKeeper(s)"""
 
     caught_exception: Optional[Exception]
 

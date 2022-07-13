@@ -8,7 +8,7 @@ from hamcrest import assert_that
 
 from screenpy import Actor
 from screenpy.pacing import aside, beat
-from screenpy.protocols import Answerable, ErrorWise
+from screenpy.protocols import Answerable, ErrorKeeper
 from screenpy.resolutions import BaseResolution
 from screenpy.speech_tools import get_additive_description
 
@@ -51,7 +51,7 @@ class See:
             aside(f"the actual value is: {value}")
 
         reason = ""
-        if isinstance(self.question, ErrorWise):
+        if isinstance(self.question, ErrorKeeper):
             reason = f"{self.question.caught_exception}"
 
         assert_that(value, self.resolution, reason)
