@@ -295,7 +295,10 @@ class TestMakeNote:
         MockQuestion.caught_exception = ValueError("Failure msg")
 
         MakeNote.of_the(MockQuestion).as_(key).perform_as(Tester)
-        mock_aside.assert_called_with(f"Caught Exception: {MockQuestion.caught_exception}")
+        mock_aside.assert_has_calls((
+            mock.call(f"Making note of {MockQuestion}..."),
+            mock.call(f"Caught Exception: {MockQuestion.caught_exception}"))
+        )
         return
 
 

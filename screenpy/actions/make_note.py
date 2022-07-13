@@ -64,6 +64,7 @@ class MakeNote:
             value = self.question
 
         if isinstance(self.question, ErrorKeeper):
+            aside(f"Making note of {self.question}...")
             aside(f"Caught Exception: {self.question.caught_exception}")
 
         Director().notes(self.key, value)
