@@ -8,7 +8,7 @@ from hamcrest import assert_that
 
 from screenpy import Actor
 from screenpy.pacing import aside, beat
-from screenpy.protocols import Answerable
+from screenpy.protocols import Answerable, ErrorKeeper
 from screenpy.resolutions import BaseResolution
 from screenpy.speech_tools import get_additive_description
 
@@ -43,14 +43,18 @@ class See:
     @beat("{} sees if {question_to_log} is {resolution_to_log}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to make an observation."""
-        if hasattr(self.question, "answered_by"):
-            value = self.question.answered_by(the_actor)
+        if isinstance(self.question, Answerable):
+            value: object = self.question.answered_by(the_actor)
         else:
             # must be a value instead of a question!
             value = self.question
             aside(f"the actual value is: {value}")
 
-        assert_that(value, self.resolution)
+        reason = ""
+        if isinstance(self.question, ErrorKeeper):
+            reason = f"{self.question.caught_exception}"
+
+        assert_that(value, self.resolution, reason)
 
     def __init__(
         self, question: Union[Answerable, Any], resolution: BaseResolution

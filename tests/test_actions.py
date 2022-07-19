@@ -17,6 +17,10 @@ from screenpy.actions import (
 from screenpy.directions import noted_under
 from screenpy.director import Director
 from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
+from screenpy.protocols import (
+    Describable,
+    Performable,
+)
 from screenpy.resolutions import IsEqualTo
 from tests.conftest import mock_settings
 
@@ -26,6 +30,11 @@ class TestAttachTheFile:
         atf = AttachTheFile("")
 
         assert isinstance(atf, AttachTheFile)
+
+    def test_implements_protocol(self):
+        atf = AttachTheFile("")
+        assert isinstance(atf, Performable)
+        assert isinstance(atf, Describable)
 
     def test_divines_filename(self):
         filename = "thisisonlyatest.png"
@@ -53,6 +62,11 @@ class TestDebug:
         d = Debug()
 
         assert isinstance(d, Debug)
+
+    def test_implements_protocol(self):
+        d = Debug()
+        assert isinstance(d, Performable)
+        assert isinstance(d, Describable)
 
     @mock.patch("screenpy.actions.debug.breakpoint")
     def test_calls_breakpoint(self, mocked_breakpoint, Tester):
@@ -95,6 +109,11 @@ class TestEventually:
         assert isinstance(e6, Eventually)
         assert isinstance(e7, Eventually)
         assert isinstance(e8, Eventually)
+
+    def test_implements_protocol(self):
+        t = Eventually(None)
+        assert isinstance(t, Performable)
+        assert isinstance(t, Describable)
 
     def test_uses_timeframe_builder(self):
         ev = Eventually(None).trying_for(1)
@@ -212,6 +231,11 @@ class TestMakeNote:
         assert isinstance(mn2, MakeNote)
         assert isinstance(mn3, MakeNote)
 
+    def test_implements_protocol(self):
+        m = MakeNote("")
+        assert isinstance(m, Performable)
+        assert isinstance(m, Describable)
+
     def test_key_value_set(self):
         test_question = "Do I feel lucky?"
         test_key = "Well, do you, punk?"
@@ -262,6 +286,21 @@ class TestMakeNote:
 
         assert "screenpy-docs.readthedocs.io" in str(exc.value)
 
+    @mock.patch("screenpy.actions.make_note.aside")
+    def test_caught_exception_noted(self, mock_aside: mock.Mock, Tester):
+        key = "key"
+        value = "note"
+        MockQuestion = mock.Mock()
+        MockQuestion.answered_by.return_value = value
+        MockQuestion.caught_exception = ValueError("Failure msg")
+
+        MakeNote.of_the(MockQuestion).as_(key).perform_as(Tester)
+        mock_aside.assert_has_calls((
+            mock.call(f"Making note of {MockQuestion}..."),
+            mock.call(f"Caught Exception: {MockQuestion.caught_exception}"))
+        )
+        return
+
 
 class TestPause:
     def test_can_be_instantiated(self):
@@ -272,6 +311,11 @@ class TestPause:
         assert isinstance(p1, Pause)
         assert isinstance(p2, Pause)
         assert isinstance(p3, Pause)
+
+    def test_implements_protocol(self):
+        p = Pause(1)
+        assert isinstance(p, Performable)
+        assert isinstance(p, Describable)
 
     def test_seconds(self):
         """Choosing seconds stores the correct time"""
@@ -329,10 +373,16 @@ class TestSee:
         assert isinstance(s1, See)
         assert isinstance(s2, See)
 
+    def test_implements_protocol(self):
+        s = See(None, mock.Mock())
+        assert isinstance(s, Performable)
+        assert isinstance(s, Describable)
+
     @mock.patch("screenpy.actions.see.assert_that")
     def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
         mock_question = mock.Mock()
         mock_question.describe.return_value = "What was your mother?"
+        mock_question.caught_exception = ValueError("Failure msg")
         mock_resolution = mock.Mock()
         mock_resolution.describe.return_value = "A hamster!"
 
@@ -340,7 +390,7 @@ class TestSee:
 
         mock_question.answered_by.assert_called_once_with(Tester)
         mocked_assert_that.assert_called_once_with(
-            mock_question.answered_by.return_value, mock_resolution
+            mock_question.answered_by.return_value, mock_resolution, str(mock_question.caught_exception)
         )
 
     @mock.patch("screenpy.actions.see.assert_that")
@@ -351,7 +401,7 @@ class TestSee:
 
         See.the(test_value, mock_resolution).perform_as(Tester)
 
-        mocked_assert_that.assert_called_once_with(test_value, mock_resolution)
+        mocked_assert_that.assert_called_once_with(test_value, mock_resolution, "")
 
 
 class TestSeeAllOf:
@@ -361,6 +411,11 @@ class TestSeeAllOf:
 
         assert isinstance(sao1, SeeAllOf)
         assert isinstance(sao2, SeeAllOf)
+
+    def test_implements_protocol(self):
+        s = SeeAllOf(None, None)
+        assert isinstance(s, Performable)
+        assert isinstance(s, Describable)
 
     def test_raises_exception_for_too_few_tests(self):
         with pytest.raises(UnableToAct):
@@ -406,6 +461,11 @@ class TestSeeAnyOf:
 
         assert isinstance(sao1, SeeAnyOf)
         assert isinstance(sao2, SeeAnyOf)
+
+    def test_implements_protocol(self):
+        s = SeeAnyOf(None, None)
+        assert isinstance(s, Performable)
+        assert isinstance(s, Describable)
 
     def test_raises_exception_for_too_few_tests(self):
         with pytest.raises(UnableToAct):

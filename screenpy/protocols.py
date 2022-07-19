@@ -10,7 +10,7 @@ https://mypy.readthedocs.io/en/stable/protocols.html
 
 from typing import TYPE_CHECKING, Any, Callable, Generator, Optional
 
-from typing_extensions import Protocol
+from typing_extensions import Protocol, runtime_checkable
 
 if TYPE_CHECKING:
     from .actor import Actor
@@ -18,6 +18,7 @@ if TYPE_CHECKING:
 # pylint: disable=unused-argument
 
 
+@runtime_checkable
 class Answerable(Protocol):
     """Questions are Answerable"""
 
@@ -35,6 +36,7 @@ class Answerable(Protocol):
         ...
 
 
+@runtime_checkable
 class Forgettable(Protocol):
     """Abilities are Forgettable"""
 
@@ -46,6 +48,7 @@ class Forgettable(Protocol):
         ...
 
 
+@runtime_checkable
 class Performable(Protocol):
     """Actions that can be performed are Performable"""
 
@@ -59,6 +62,22 @@ class Performable(Protocol):
         ...
 
 
+@runtime_checkable
+class ErrorKeeper(Protocol):
+    """Classes that save exceptions for later are ErrorKeeper(s)"""
+
+    caught_exception: Optional[Exception]
+
+
+@runtime_checkable
+class Describable(Protocol):
+    """Classes that describe themselves are Describable"""
+
+    def describe(self) -> str:
+        ...
+
+
+@runtime_checkable
 class Adapter(Protocol):
     """Required functions for an adapter to the Narrator's microphone.
 
