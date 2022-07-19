@@ -10,7 +10,7 @@ def _():
     pass
 
 
-KW = {"func": _, "line": ""}
+KW: dict = {"func": _, "line": ""}
 KW_G = {**KW, "gravitas": NORMAL}
 
 
