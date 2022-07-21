@@ -18,6 +18,7 @@ from screenpy.resolutions import (
     IsNot,
     ReadsExactly,
 )
+from screenpy.resolutions.base_resolution import BaseMatcher
 
 
 def assert_matcher_annotation(obj: BaseResolution):
@@ -41,7 +42,7 @@ class TestBaseResolution:
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
 
-            matcher_function = mock.Mock()
+            matcher_function = mock.create_autospec(BaseMatcher)
 
         resolution = MockResolution(*args, **kwargs)
 
@@ -51,17 +52,29 @@ class TestBaseResolution:
     @pytest.mark.parametrize(
         "method,args,expected_method",
         [
-            ("_matches", [mock.Mock()], "matches"),
-            ("describe_to", [mock.Mock()], "describe_to"),
-            ("describe_match", [mock.Mock(), mock.Mock()], "describe_match"),
-            ("describe_mismatch", [mock.Mock(), mock.Mock()], "describe_mismatch"),
+            ("_matches", [mock.create_autospec(BaseResolution._matches)], "matches"),
+            (
+                "describe_to",
+                [mock.create_autospec(BaseResolution.describe_to)],
+                "describe_to",
+            ),
+            (
+                "describe_match",
+                [mock.create_autospec(BaseResolution.describe_match), mock.Mock()],
+                "describe_match",
+            ),
+            (
+                "describe_mismatch",
+                [mock.create_autospec(BaseResolution.describe_mismatch), mock.Mock()],
+                "describe_mismatch",
+            ),
         ],
     )
     def test_passthroughs(self, method, args, expected_method):
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
 
-            matcher_function = mock.Mock()
+            matcher_function = mock.create_autospec(BaseMatcher)
 
         resolution = MockResolution()
 
@@ -73,8 +86,8 @@ class TestBaseResolution:
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
 
-            matcher_function = mock.Mock()
-            get_line = mock.Mock(return_value="")
+            matcher_function = mock.create_autospec(BaseMatcher)
+            get_line = mock.create_autospec(BaseResolution.get_line, return_value="")
 
         resolution = MockResolution()
 
