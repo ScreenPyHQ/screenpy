@@ -18,7 +18,7 @@ def Tester() -> Generator[AnActor, None, None]:
 @pytest.fixture(scope="function")
 def mocked_narrator() -> Generator[mock.MagicMock, Any, None]:
     """Mock out the Narrator for a test, replacing the old one afterwards."""
-    MockNarrator = mock.MagicMock(spec=Narrator)
+    MockNarrator = mock.create_autospec(Narrator, instance=True)
     old_narrator = pacing.the_narrator
     pacing.the_narrator = MockNarrator
 

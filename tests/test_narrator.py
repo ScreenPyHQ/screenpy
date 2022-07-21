@@ -41,12 +41,12 @@ class TestChainify:
 class TestNarrator:
     def test_add_new_adapter(self):
         narrator = Narrator()
-        test_adapter = mock.Mock(spec_set=Adapter)
+        test_adapter = mock.create_autospec(Adapter, instance=True)
         narrator.attach_adapter(test_adapter)
         assert test_adapter in narrator.adapters
 
     def test_off_air(self):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
 
         with narrator.off_the_air():
@@ -62,7 +62,7 @@ class TestNarrator:
         MockAdapter.act.assert_not_called()
 
     def test_mic_cable_kinked(self):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
 
         with narrator.mic_cable_kinked():
@@ -95,7 +95,7 @@ class TestNarrator:
         MockAdapter.act.assert_called_once()
 
     def test_deep_kink(self):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
         with narrator.mic_cable_kinked():
             with narrator.announcing_the_act(_, ""):
@@ -105,7 +105,7 @@ class TestNarrator:
                         assert narrator.backed_up_narrations[-1][0][0] == "beat"
 
     def test_clear_backup(self):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
         with narrator.mic_cable_kinked():
             narrator.announcing_the_act(_, "")
@@ -124,7 +124,7 @@ class TestNarrator:
         MockAdapter.act.assert_not_called()
 
     def test_clear_backup_deep_kink(self):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
         with narrator.mic_cable_kinked():
             with narrator.announcing_the_act(_, ""):
@@ -138,7 +138,7 @@ class TestNarrator:
         MockAdapter.act.assert_called_once()
 
     def test__increase_exit_level(self):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
 
         with narrator.mic_cable_kinked():
@@ -162,7 +162,7 @@ class TestNarrator:
             assert narrator.backed_up_narrations[0][4][-1] == 2
 
     def test_multi_kink(self):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
 
         assert len(narrator.backed_up_narrations) == 0
@@ -190,7 +190,7 @@ class TestNarrator:
         assert len(narrator.backed_up_narrations) == 0
 
     def test_flush_backup(self):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
         with narrator.mic_cable_kinked():
             narrator.announcing_the_act(_, "")
@@ -215,7 +215,7 @@ class TestNarrator:
         assert narrator.exit_level == 1
 
     def test__entangle_chain(self):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
         chain = [("act", KW, [("scene", KW, [("beat", KW, [])])]), ("aside", KW, [])]
 
@@ -228,7 +228,7 @@ class TestNarrator:
 
     @pytest.mark.parametrize("channel", ["act", "scene", "beat", "aside"])
     def test__entangle_func(self, channel):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
 
         with narrator._entangle_func(channel, **KW):
@@ -251,7 +251,7 @@ class TestNarrator:
     )
     def test_channels(self, channel_func, channel, kwds):
         narrator = Narrator()
-        narrator.narrate = mock.Mock()
+        narrator.narrate = mock.create_autospec(narrator.narrate)
         kwargs = KW_G if "gravitas" in kwds else KW
         if channel == "aside":
             del kwargs["func"]
@@ -263,7 +263,7 @@ class TestNarrator:
         assert list(narrator.narrate.call_args_list[0][1].keys()) == kwds
 
     def test_attach(self):
-        test_adapters = [mock.Mock(spec_set=Adapter) for _ in range(3)]
+        test_adapters = [mock.create_autospec(Adapter, instance=True) for _ in range(3)]
         narrator = Narrator(adapters=test_adapters)
         test_path = "lskywalker/documents/father.png"
         test_kwargs = {"no": "that's not true!", "that": "is impossible!"}
@@ -274,7 +274,7 @@ class TestNarrator:
             mocked_adapter.attach.assert_called_once_with(test_path, **test_kwargs)
 
     def test_off_the_air_goes_back_on_after_error(self):
-        narrator = Narrator(adapters=[mock.MagicMock(spec_set=Adapter)])
+        narrator = Narrator(adapters=[mock.create_autospec(Adapter, instance=True)])
 
         try:
             with narrator.off_the_air():
@@ -286,7 +286,7 @@ class TestNarrator:
         assert narrator.on_air
 
     def test_mic_cable_kinked_unkinks_cable_after_error(self):
-        narrator = Narrator(adapters=[mock.MagicMock(spec_set=Adapter)])
+        narrator = Narrator(adapters=[mock.create_autospec(Adapter, instance=True)])
 
         try:
             with narrator.mic_cable_kinked():
@@ -298,8 +298,8 @@ class TestNarrator:
         assert not narrator.cable_kinked
 
     def test_flush_backup_without_kink(self):
-        MockAdapter = mock.MagicMock(spec_set=Adapter)
+        MockAdapter = mock.create_autospec(Adapter, instance=True)
         narrator = Narrator(adapters=[MockAdapter])
-        narrator.clear_backup = mock.Mock()
+        narrator.clear_backup = mock.create_autospec(narrator.clear_backup)
         narrator.flush_backup()
         narrator.clear_backup.assert_not_called()

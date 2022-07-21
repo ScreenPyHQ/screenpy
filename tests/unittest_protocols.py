@@ -1,5 +1,5 @@
 from typing_extensions import Protocol
-from screenpy.protocols import Answerable, Forgettable, Performable
+from screenpy.protocols import Answerable, Forgettable, Performable, ErrorKeeper
 
 
 class Describable(Protocol):
@@ -7,6 +7,9 @@ class Describable(Protocol):
         ...
 
 class Question(Answerable, Describable):
+    ...
+
+class ErrorQuestion(Answerable, Describable, ErrorKeeper):
     ...
 
 class Action(Performable, Describable):

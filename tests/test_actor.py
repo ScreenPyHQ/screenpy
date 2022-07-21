@@ -10,7 +10,7 @@ from tests.unittest_protocols import Ability, Action
 
 def get_mock_task():
     """Get a describable mock task."""
-    task = mock.Mock(spec_set=Action)
+    task = mock.create_autospec(Action, instance=True)
     task.describe.return_value = "A mocked task."
     return task
 
@@ -28,7 +28,7 @@ def test_can_be_instantiated():
 
 
 def test_calls_perform_as():
-    action = mock.Mock(spec_set=Action)
+    action = mock.create_autospec(Action, instance=True)
     actor = Actor.named("Tester")
 
     actor.attempts_to(action)
@@ -141,7 +141,7 @@ def test_independent_cleanup_continues_through_exceptions():
 
 
 def test_forgets_abilities_when_exiting():
-    mocked_ability = mock.Mock(spec_set=Ability)
+    mocked_ability = mock.create_autospec(Ability, instance=True)
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_stage_left()
@@ -151,7 +151,7 @@ def test_forgets_abilities_when_exiting():
 
 
 def test_exit_stage_right():
-    mocked_ability = mock.Mock(spec_set=Ability)
+    mocked_ability = mock.create_autospec(Ability, instance=True)
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_stage_right()
@@ -160,7 +160,7 @@ def test_exit_stage_right():
 
 
 def test_exit_through_vomitorium():
-    mocked_ability = mock.Mock(spec_set=Ability)
+    mocked_ability = mock.create_autospec(Ability, instance=True)
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_through_vomitorium()

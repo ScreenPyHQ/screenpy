@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 from unittest import mock
 
 import pytest
@@ -21,10 +22,9 @@ from screenpy.protocols import (
     Describable,
     Performable,
 )
-from screenpy.resolutions import IsEqualTo
 from screenpy.resolutions import IsEqualTo, BaseResolution
 from tests.conftest import mock_settings
-from tests.unittest_protocols import Question, Action
+from tests.unittest_protocols import Question, Action, ErrorQuestion
 
 
 class TestAttachTheFile:
@@ -47,7 +47,7 @@ class TestAttachTheFile:
         assert atf_without_path.filename == filename
         assert atf_with_path.filename == filename
 
-    @mock.patch("screenpy.actions.attach_the_file.the_narrator")
+    @mock.patch("screenpy.actions.attach_the_file.the_narrator", autospec=True)
     def test_perform_attach_the_file_sends_kwargs(self, mocked_narrator, Tester):
         test_path = "souiiie.png"
         test_kwargs = {"color": "Red", "weather": "Tornado"}
@@ -95,8 +95,11 @@ class TestDebug:
 
 class TestEventually:
     def get_mock_action(self, **kwargs):
-        mock_action = mock.Mock(spec_set=Action)
-        mock_action.perform_as = mock.Mock(**kwargs)
+        mock_action = mock.create_autospec(Action, _name="fakeaction", instance=True)
+        # TODO: figure out why using create_autospec on the method causes exception to
+        #  occur when calling perform_as()
+        # mock_action.perform_as = mock.create_autospec(Action.perform_as, **kwargs)
+        mock_action.perform_as = mock.Mock(spec=Action.perform_as, **kwargs)
         mock_action.describe.return_value = "An African or a European swallow?"
         return mock_action
 
@@ -177,10 +180,10 @@ class TestEventually:
 
         assert "poll must be less than or equal to timeout" in str(actual_exception)
 
-    @mock.patch("screenpy.actions.eventually.time")
+    @mock.patch("screenpy.actions.eventually.time", autospec=True)
     def test_perform_eventually_times_out(self, mocked_time, Tester):
         num_calls = 5
-        mocked_time.time = mock.Mock(side_effect=[1] * num_calls + [100])
+        mocked_time.time = mock.create_autospec(time.time, side_effect=[1] * num_calls + [100])
         MockAction = self.get_mock_action(
             side_effect=ValueError("'Tis but a flesh wound!")
         )
@@ -190,10 +193,10 @@ class TestEventually:
 
         assert mocked_time.time.call_count == num_calls + 1
 
-    @mock.patch("screenpy.actions.eventually.time")
+    @mock.patch("screenpy.actions.eventually.time", autospec=True)
     def test_timeout_mentions_num_executions(self, mocked_time, Tester):
         num_calls = 5
-        mocked_time.time = mock.Mock(side_effect=[1] * num_calls + [100])
+        mocked_time.time = mock.create_autospec(time.time, side_effect=[1] * num_calls + [100])
         MockAction = self.get_mock_action(
             side_effect=ValueError("He's pining for the fjords!")
         )
@@ -203,9 +206,9 @@ class TestEventually:
 
         assert f"{num_calls} times" in str(e)
 
-    @mock.patch("screenpy.actions.eventually.time")
+    @mock.patch("screenpy.actions.eventually.time", autospec=True)
     def test_catches_exceptions(self, mocked_time, Tester):
-        mocked_time.time = mock.Mock(side_effect=[1, 1, 100])
+        mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         msg = "I got better."
         MockAction = self.get_mock_action(side_effect=ValueError(msg))
 
@@ -214,9 +217,9 @@ class TestEventually:
 
         assert msg in str(actual_exception)
 
-    @mock.patch("screenpy.actions.eventually.time")
+    @mock.patch("screenpy.actions.eventually.time", autospec=True)
     def test_mentions_all_errors(self, mocked_time, Tester):
-        mocked_time.time = mock.Mock(side_effect=[1, 1, 100])
+        mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         exc1 = ValueError("These tracts of land aren't that huge!")
         exc2 = TypeError("This witch does not weigh as much as a duck!")
         MockAction = self.get_mock_action(side_effect=[exc1, exc2])
@@ -259,11 +262,9 @@ class TestMakeNote:
         assert mn.key == test_key
 
     def test_answers_question(self, Tester):
-        MockQuestion = mock.Mock(spec_set=Question)
-
+        MockQuestion = mock.create_autospec(Question)
         MakeNote.of_the(MockQuestion).as_("test").perform_as(Tester)
-
-        assert MockQuestion.answered_by.called_once_with(Tester)
+        MockQuestion.answered_by.assert_called_once_with(Tester)
 
     def test_raises_without_key(self, Tester):
         with pytest.raises(UnableToAct):
@@ -272,7 +273,7 @@ class TestMakeNote:
     def test_adds_note_to_director(self, Tester):
         key = "key"
         value = "note"
-        MockQuestion = mock.Mock(spec_set=Question)
+        MockQuestion = mock.create_autospec(Question, instance=True)
         MockQuestion.answered_by.return_value = value
 
         MakeNote.of_the(MockQuestion).as_(key).perform_as(Tester)
@@ -288,7 +289,7 @@ class TestMakeNote:
         assert Director().looks_up(key) == test_note
 
     def test_using_note_immediately_raises_with_docs(self, Tester):
-        MockQuestion = mock.Mock(spec_set=Question)
+        MockQuestion = mock.create_autospec(Question, instance=True)
         key = "spam, spam, spam, spam, baked beans, and spam"
 
         with pytest.raises(UnableToDirect) as exc:
@@ -302,11 +303,11 @@ class TestMakeNote:
     def test_describe(self):
         assert MakeNote(None).as_("blah").describe() == f"Make a note under blah."
     
-    @mock.patch("screenpy.actions.make_note.aside")
+    @mock.patch("screenpy.actions.make_note.aside", autospec=True)
     def test_caught_exception_noted(self, mock_aside: mock.Mock, Tester):
         key = "key"
         value = "note"
-        MockQuestion = mock.Mock()
+        MockQuestion = mock.create_autospec(ErrorQuestion, instance=True)
         MockQuestion.answered_by.return_value = value
         MockQuestion.caught_exception = ValueError("Failure msg")
 
@@ -368,7 +369,7 @@ class TestPause:
         assert p1.reason == p2.reason == "because reasons"
         assert p3.reason == p4.reason == "because reasons"
 
-    @mock.patch("screenpy.actions.pause.sleep")
+    @mock.patch("screenpy.actions.pause.sleep", autospec=True)
     def test_calls_sleep(self, mocked_sleep, Tester):
         duration = 20
 
@@ -386,23 +387,23 @@ class TestPause:
 
 class TestSee:
     def test_can_be_instantiated(self):
-        s1 = See(None, mock.Mock(spec_set=BaseResolution))
-        s2 = See.the(None, mock.Mock(spec_set=BaseResolution))
+        s1 = See(None, mock.create_autospec(BaseResolution, instance=True))
+        s2 = See.the(None, mock.create_autospec(BaseResolution, instance=True))
 
         assert isinstance(s1, See)
         assert isinstance(s2, See)
 
     def test_implements_protocol(self):
-        s = See(None, mock.Mock())
+        s = See(None, mock.create_autospec(BaseResolution, instance=True))
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
 
     @mock.patch("screenpy.actions.see.assert_that")
     def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
-        mock_question = mock.Mock(spec=Question)
+        mock_question = mock.create_autospec(Question, instance=True)
         mock_question.describe.return_value = "What was your mother?"
         mock_question.caught_exception = ValueError("Failure msg")
-        mock_resolution = mock.Mock(spec_set=BaseResolution)
+        mock_resolution = mock.create_autospec(BaseResolution, instance=True)
         mock_resolution.get_line.return_value = "A hamster!"
 
         See.the(mock_question, mock_resolution).perform_as(Tester)
@@ -415,7 +416,7 @@ class TestSee:
     @mock.patch("screenpy.actions.see.assert_that")
     def test_calls_assert_that_with_value(self, mocked_assert_that, Tester):
         test_value = "Your father smelt of"
-        mock_resolution = mock.Mock(spec_set=BaseResolution)
+        mock_resolution = mock.create_autospec(BaseResolution, instance=True)
         mock_resolution.get_line.return_value = "Elderberries!"
 
         See.the(test_value, mock_resolution).perform_as(Tester)
@@ -423,9 +424,9 @@ class TestSee:
         mocked_assert_that.assert_called_once_with(test_value, mock_resolution, "")
 
     def test_describe(self):
-        mock_question = mock.Mock(spec_set=Question)
+        mock_question = mock.create_autospec(Question, instance=True)
         mock_question.describe.return_value = "Can you speak?"
-        mock_resolution = mock.Mock(spec_set=BaseResolution)
+        mock_resolution = mock.create_autospec(BaseResolution, instance=True)
         mock_resolution.get_line.return_value = "I speak"
         assert See(mock_question, mock_resolution).describe() == f"See if can you speak is I speak."
 
@@ -450,7 +451,8 @@ class TestSeeAllOf:
     @mock.patch("screenpy.actions.see_all_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester):
         num_tests = 3
-        tests = ((mock.Mock(spec_set=Question), mock.Mock(spec_set=BaseResolution)),) * num_tests
+        tests = ((mock.create_autospec(Question, instance=True),
+                  mock.create_autospec(BaseResolution, instance=True)),) * num_tests
 
         SeeAllOf.the(*tests).perform_as(Tester)
 
@@ -506,7 +508,8 @@ class TestSeeAnyOf:
     @mock.patch("screenpy.actions.see_any_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester):
         num_tests = 3
-        tests = ((mock.Mock(spec_set=Question), mock.Mock(spec_set=BaseResolution)),) * num_tests
+        tests = ((mock.create_autospec(Question, instance=True),
+                  mock.create_autospec(BaseResolution, instance=True)),) * num_tests
 
         SeeAnyOf.the(*tests).perform_as(Tester)
 
