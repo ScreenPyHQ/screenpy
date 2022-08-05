@@ -3,14 +3,14 @@ from unittest import mock
 
 import pytest
 
-from screenpy import AnActor, pacing, settings
+from screenpy import Actor, pacing, settings
 from screenpy.narration.narrator import Narrator
 
 
 @pytest.fixture(scope="function")
-def Tester() -> Generator[AnActor, None, None]:
+def Tester() -> Generator[Actor, None, None]:
     """Provide an Actor with mocked web browsing abilities."""
-    the_actor = AnActor.named("Tester")
+    the_actor = Actor.named("Tester")
     yield the_actor
     the_actor.exit()
 
@@ -18,11 +18,11 @@ def Tester() -> Generator[AnActor, None, None]:
 @pytest.fixture(scope="function")
 def mocked_narrator() -> Generator[mock.MagicMock, Any, None]:
     """Mock out the Narrator for a test, replacing the old one afterwards."""
-    MockNarrator = mock.create_autospec(Narrator, instance=True)
+    mock_narrator = mock.create_autospec(Narrator, instance=True)
     old_narrator = pacing.the_narrator
-    pacing.the_narrator = MockNarrator
+    pacing.the_narrator = mock_narrator
 
-    yield MockNarrator
+    yield mock_narrator
 
     pacing.the_narrator = old_narrator
 

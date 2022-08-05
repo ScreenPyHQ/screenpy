@@ -15,6 +15,10 @@ def get_mock_task():
     return task
 
 
+def get_mock_ability():
+    return mock.create_autospec(Ability, instance=True)
+
+
 def test_can_be_instantiated():
     a1 = Actor.named("Tester")
     a2 = Actor.named("Tester").can(None)
@@ -141,7 +145,7 @@ def test_independent_cleanup_continues_through_exceptions():
 
 
 def test_forgets_abilities_when_exiting():
-    mocked_ability = mock.create_autospec(Ability, instance=True)
+    mocked_ability = get_mock_ability()
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_stage_left()
@@ -151,7 +155,7 @@ def test_forgets_abilities_when_exiting():
 
 
 def test_exit_stage_right():
-    mocked_ability = mock.create_autospec(Ability, instance=True)
+    mocked_ability = get_mock_ability()
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_stage_right()
@@ -160,7 +164,7 @@ def test_exit_stage_right():
 
 
 def test_exit_through_vomitorium():
-    mocked_ability = mock.create_autospec(Ability, instance=True)
+    mocked_ability = get_mock_ability()
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_through_vomitorium()

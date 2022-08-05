@@ -27,6 +27,12 @@ from tests.conftest import mock_settings
 from tests.unittest_protocols import Question, Action, ErrorQuestion
 
 
+def get_mock_question():
+    return mock.create_autospec(Question, instance=True)
+
+def get_mock_resolution():
+    return mock.create_autospec(BaseResolution, instance=True)
+
 class TestAttachTheFile:
     def test_can_be_instantiated(self):
         atf = AttachTheFile("")
@@ -262,9 +268,9 @@ class TestMakeNote:
         assert mn.key == test_key
 
     def test_answers_question(self, Tester):
-        MockQuestion = mock.create_autospec(Question)
-        MakeNote.of_the(MockQuestion).as_("test").perform_as(Tester)
-        MockQuestion.answered_by.assert_called_once_with(Tester)
+        mock_question = get_mock_question()
+        MakeNote.of_the(mock_question).as_("test").perform_as(Tester)
+        mock_question.answered_by.assert_called_once_with(Tester)
 
     def test_raises_without_key(self, Tester):
         with pytest.raises(UnableToAct):
@@ -273,10 +279,10 @@ class TestMakeNote:
     def test_adds_note_to_director(self, Tester):
         key = "key"
         value = "note"
-        MockQuestion = mock.create_autospec(Question, instance=True)
-        MockQuestion.answered_by.return_value = value
+        mock_question = get_mock_question()
+        mock_question.answered_by.return_value = value
 
-        MakeNote.of_the(MockQuestion).as_(key).perform_as(Tester)
+        MakeNote.of_the(mock_question).as_(key).perform_as(Tester)
 
         assert Director().looks_up(key) == value
 
@@ -289,12 +295,12 @@ class TestMakeNote:
         assert Director().looks_up(key) == test_note
 
     def test_using_note_immediately_raises_with_docs(self, Tester):
-        MockQuestion = mock.create_autospec(Question, instance=True)
+        mock_question = get_mock_question()
         key = "spam, spam, spam, spam, baked beans, and spam"
 
         with pytest.raises(UnableToDirect) as exc:
             Tester.attempts_to(
-                MakeNote.of_the(MockQuestion).as_(key),
+                MakeNote.of_the(mock_question).as_(key),
                 noted_under(key),
             )
 
@@ -307,14 +313,14 @@ class TestMakeNote:
     def test_caught_exception_noted(self, mock_aside: mock.Mock, Tester):
         key = "key"
         value = "note"
-        MockQuestion = mock.create_autospec(ErrorQuestion, instance=True)
-        MockQuestion.answered_by.return_value = value
-        MockQuestion.caught_exception = ValueError("Failure msg")
+        mock_question = mock.create_autospec(ErrorQuestion, instance=True)
+        mock_question.answered_by.return_value = value
+        mock_question.caught_exception = ValueError("Failure msg")
 
-        MakeNote.of_the(MockQuestion).as_(key).perform_as(Tester)
+        MakeNote.of_the(mock_question).as_(key).perform_as(Tester)
         mock_aside.assert_has_calls((
-            mock.call(f"Making note of {MockQuestion}..."),
-            mock.call(f"Caught Exception: {MockQuestion.caught_exception}"))
+            mock.call(f"Making note of {mock_question}..."),
+            mock.call(f"Caught Exception: {mock_question.caught_exception}"))
         )
         return
 
@@ -387,23 +393,23 @@ class TestPause:
 
 class TestSee:
     def test_can_be_instantiated(self):
-        s1 = See(None, mock.create_autospec(BaseResolution, instance=True))
-        s2 = See.the(None, mock.create_autospec(BaseResolution, instance=True))
+        s1 = See(None, get_mock_resolution())
+        s2 = See.the(None, get_mock_resolution())
 
         assert isinstance(s1, See)
         assert isinstance(s2, See)
 
     def test_implements_protocol(self):
-        s = See(None, mock.create_autospec(BaseResolution, instance=True))
+        s = See(None, get_mock_resolution())
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
 
     @mock.patch("screenpy.actions.see.assert_that")
     def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
-        mock_question = mock.create_autospec(Question, instance=True)
+        mock_question = get_mock_question()
         mock_question.describe.return_value = "What was your mother?"
         mock_question.caught_exception = ValueError("Failure msg")
-        mock_resolution = mock.create_autospec(BaseResolution, instance=True)
+        mock_resolution = get_mock_resolution()
         mock_resolution.get_line.return_value = "A hamster!"
 
         See.the(mock_question, mock_resolution).perform_as(Tester)
@@ -416,7 +422,7 @@ class TestSee:
     @mock.patch("screenpy.actions.see.assert_that")
     def test_calls_assert_that_with_value(self, mocked_assert_that, Tester):
         test_value = "Your father smelt of"
-        mock_resolution = mock.create_autospec(BaseResolution, instance=True)
+        mock_resolution = get_mock_resolution()
         mock_resolution.get_line.return_value = "Elderberries!"
 
         See.the(test_value, mock_resolution).perform_as(Tester)
@@ -424,9 +430,9 @@ class TestSee:
         mocked_assert_that.assert_called_once_with(test_value, mock_resolution, "")
 
     def test_describe(self):
-        mock_question = mock.create_autospec(Question, instance=True)
+        mock_question = get_mock_question()
         mock_question.describe.return_value = "Can you speak?"
-        mock_resolution = mock.create_autospec(BaseResolution, instance=True)
+        mock_resolution = get_mock_resolution()
         mock_resolution.get_line.return_value = "I speak"
         assert See(mock_question, mock_resolution).describe() == f"See if can you speak is I speak."
 
@@ -451,8 +457,7 @@ class TestSeeAllOf:
     @mock.patch("screenpy.actions.see_all_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester):
         num_tests = 3
-        tests = ((mock.create_autospec(Question, instance=True),
-                  mock.create_autospec(BaseResolution, instance=True)),) * num_tests
+        tests = ((get_mock_question(), get_mock_resolution()),) * num_tests
 
         SeeAllOf.the(*tests).perform_as(Tester)
 
@@ -508,8 +513,7 @@ class TestSeeAnyOf:
     @mock.patch("screenpy.actions.see_any_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester):
         num_tests = 3
-        tests = ((mock.create_autospec(Question, instance=True),
-                  mock.create_autospec(BaseResolution, instance=True)),) * num_tests
+        tests = ((get_mock_question(), get_mock_resolution()),) * num_tests
 
         SeeAnyOf.the(*tests).perform_as(Tester)
 
