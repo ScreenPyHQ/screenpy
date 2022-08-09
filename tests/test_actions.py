@@ -24,7 +24,7 @@ from screenpy.protocols import (
 )
 from screenpy.resolutions import IsEqualTo, BaseResolution
 from tests.conftest import mock_settings
-from tests.unittest_protocols import Question, Action, ErrorQuestion
+from tests.unittest_protocols import Question, ErrorQuestion
 
 
 def get_mock_question():
@@ -101,11 +101,8 @@ class TestDebug:
 
 class TestEventually:
     def get_mock_action(self, **kwargs):
-        mock_action = mock.create_autospec(Action, _name="fakeaction", instance=True)
-        # TODO: figure out why using create_autospec on the method causes exception to
-        #  occur when calling perform_as()
-        # mock_action.perform_as = mock.create_autospec(Action.perform_as, **kwargs)
-        mock_action.perform_as = mock.Mock(spec=Action.perform_as, **kwargs)
+        mock_action = mock.create_autospec(Debug(), _name="fakeaction", instance=True)
+        mock_action.perform_as = mock.create_autospec(Debug().perform_as, **kwargs)
         mock_action.describe.return_value = "An African or a European swallow?"
         return mock_action
 
