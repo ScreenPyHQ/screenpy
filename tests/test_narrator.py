@@ -5,6 +5,7 @@ import pytest
 from screenpy.narration.narrator import NORMAL, Narrator, _chainify
 from screenpy.protocols import Adapter
 
+
 def _():
     """Dummy function for simple chaining tests."""
     pass

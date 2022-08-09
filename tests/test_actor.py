@@ -43,6 +43,7 @@ def test_calls_perform_as():
     actor.was_able_to(action)
     assert action.perform_as.call_count == 3
 
+
 def test_complains_for_missing_abilities():
     actor = Actor.named("Tester")
 
