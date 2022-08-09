@@ -3,15 +3,20 @@ from unittest import mock
 
 import pytest
 
-from screenpy import Actor
+from screenpy import Actor, and_, given, given_that, then, when
 from screenpy.exceptions import UnableToPerform
+from tests.unittest_protocols import Ability, Action
 
 
 def get_mock_task():
     """Get a describable mock task."""
-    task = mock.Mock()
+    task = mock.create_autospec(Action, instance=True)
     task.describe.return_value = "A mocked task."
     return task
+
+
+def get_mock_ability():
+    return mock.create_autospec(Ability, instance=True)
 
 
 def test_can_be_instantiated():
@@ -27,12 +32,16 @@ def test_can_be_instantiated():
 
 
 def test_calls_perform_as():
-    action = mock.Mock()
+    action = mock.create_autospec(Action, instance=True)
     actor = Actor.named("Tester")
 
     actor.attempts_to(action)
 
     action.perform_as.assert_called_once_with(actor)
+
+    actor.should(action)
+    actor.was_able_to(action)
+    assert action.perform_as.call_count == 3
 
 
 def test_complains_for_missing_abilities():
@@ -137,10 +146,36 @@ def test_independent_cleanup_continues_through_exceptions():
 
 
 def test_forgets_abilities_when_exiting():
-    mocked_ability = mock.Mock()
+    mocked_ability = get_mock_ability()
     actor = Actor.named("Tester").who_can(mocked_ability)
 
-    actor.exit()
+    actor.exit_stage_left()
 
     mocked_ability.forget.assert_called_once()
     assert len(actor.abilities) == 0
+
+
+def test_exit_stage_right():
+    mocked_ability = get_mock_ability()
+    actor = Actor.named("Tester").who_can(mocked_ability)
+
+    actor.exit_stage_right()
+
+    mocked_ability.forget.assert_called_once()
+
+
+def test_exit_through_vomitorium():
+    mocked_ability = get_mock_ability()
+    actor = Actor.named("Tester").who_can(mocked_ability)
+
+    actor.exit_through_vomitorium()
+
+    mocked_ability.forget.assert_called_once()
+
+
+def test_directives(Tester):
+    assert given(Tester) == Tester
+    assert given_that(Tester) == Tester
+    assert when(Tester) == Tester
+    assert then(Tester) == Tester
+    assert and_(Tester) == Tester
