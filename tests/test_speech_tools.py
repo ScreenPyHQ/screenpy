@@ -28,17 +28,17 @@ class TestGetAdditiveDescription:
     @pytest.mark.parametrize(
         "describable", [ThisIsADescribable(), ThisIsADescribableWithADescribe()]
     )
-    def test_get_description(self, describable):
+    def test_get_description(self, describable) -> None:
         description = get_additive_description(describable)
 
         assert description == "this is a describable"
 
-    def test_ending_with_quotes(self):
+    def test_ending_with_quotes(self) -> None:
         description = get_additive_description(DescribableWithQuote())
 
         assert description == 'this Describable ends with a "quote"'
 
-    def test_describe_value(self):
+    def test_describe_value(self) -> None:
         description = get_additive_description("this is just a string!")
 
         assert description == "the str"

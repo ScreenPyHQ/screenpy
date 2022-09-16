@@ -1,10 +1,11 @@
 import logging
+from typing import Any, Generator
 
 import pytest
 
 from screenpy.narration.adapters.stdout_adapter import StdOutAdapter
 from screenpy.narration.narrator import NORMAL
-from screenpy.pacing import act, aside, beat, scene, the_narrator
+from screenpy.pacing import Narrator, act, aside, beat, scene, the_narrator
 
 TEST_ACT = "Three"
 TEST_SCENE = "The Scene Where He Uses It"
@@ -22,12 +23,12 @@ def prop():
 
 class Prop:
     @beat(TEST_BEAT)
-    def use(self):
+    def use(self) -> str:
         aside(TEST_ASIDE)
         return TEST_RETVAL
 
 
-def _assert_stdout_correct(caplog):
+def _assert_stdout_correct(caplog) -> None:
     """Assert the correctness of logged messages to stdout."""
     assert len(caplog.messages) == 5
     assert caplog.messages[0] == f"ACT {TEST_ACT.upper()}"
@@ -39,20 +40,20 @@ def _assert_stdout_correct(caplog):
 
 class TestNarrateToStdOut:
     @pytest.fixture(autouse=True)
-    def narrator_has_stdout(self):
+    def narrator_has_stdout(self) -> Generator[Narrator, Any, None]:
         old_adapters = the_narrator.adapters
         the_narrator.adapters = [StdOutAdapter()]
         yield the_narrator
         the_narrator.adapters = old_adapters
 
-    def test_narrations(self, caplog):
+    def test_narrations(self, caplog) -> None:
         with caplog.at_level(logging.INFO):
             prop()
             Prop().use()
 
         _assert_stdout_correct(caplog)
 
-    def test_flushed_narrations(self, caplog):
+    def test_flushed_narrations(self, caplog) -> None:
         with caplog.at_level(logging.INFO):
             with the_narrator.mic_cable_kinked():
                 prop()
