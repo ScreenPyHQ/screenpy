@@ -171,7 +171,7 @@ class Narrator:
         self,
         channel: str,
         adapters: Optional[List[Adapter]] = None,
-        **channel_kwargs: Kwargs
+        **channel_kwargs: Kwargs,
     ) -> Generator:
         """Entangle the function in the adapters' contexts, decorations, etc.
 

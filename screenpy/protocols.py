@@ -33,7 +33,6 @@ class Answerable(Protocol):
         Returns:
             The answer, based on the sleuthing the Actor has done.
         """
-        ...
 
 
 @runtime_checkable
@@ -45,7 +44,6 @@ class Forgettable(Protocol):
         Forget this Ability by doing any necessary cleanup (quitting browsers,
         closing connections, etc.)
         """
-        ...
 
 
 @runtime_checkable
@@ -59,7 +57,6 @@ class Performable(Protocol):
         Args:
             the_actor: the Actor who will perform this Action.
         """
-        ...
 
 
 @runtime_checkable
@@ -74,7 +71,7 @@ class Describable(Protocol):
     """Classes that describe themselves are Describable"""
 
     def describe(self) -> str:
-        ...
+        """Describe the Describable in the present tense."""
 
 
 @runtime_checkable
@@ -99,29 +96,23 @@ class Adapter(Protocol):
         self, func: Callable, line: str, gravitas: Optional[str] = None
     ) -> Generator:
         """Handle narrating an Act, which designates a group of tests."""
-        ...
 
     def scene(
         self, func: Callable, line: str, gravitas: Optional[str] = None
     ) -> Generator:
         """Handle narrating a Scene, which designates a subgroup of tests."""
-        ...
 
     def beat(self, func: Callable, line: str) -> Generator:
         """Handle narrating a Beat, which is a step in a test."""
-        ...
 
     def aside(self, func: Callable, line: str) -> Generator:
         """Handle narrating an Aside, which can happen any time."""
-        ...
 
     def error(self, exc: Exception) -> None:
         """React to an exception being thrown, probably during a beat."""
-        ...
 
     def attach(self, filepath: str, **kwargs: Any) -> None:
         """Handle attaching a file.
 
         Pass keyword arguments for specific adapters' needs.
         """
-        ...
