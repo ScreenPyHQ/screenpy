@@ -47,7 +47,9 @@ class TestNarrator:
     def test_add_new_adapter(self):
         narrator = Narrator()
         test_adapter = get_mock_adapter()
+
         narrator.attach_adapter(test_adapter)
+
         assert test_adapter in narrator.adapters
 
     def test_off_air(self):
@@ -102,6 +104,7 @@ class TestNarrator:
     def test_deep_kink(self):
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
+
         with narrator.mic_cable_kinked():
             with narrator.announcing_the_act(_, ""):
                 with narrator.mic_cable_kinked():
@@ -306,5 +309,7 @@ class TestNarrator:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
         narrator.clear_backup = mock.create_autospec(narrator.clear_backup)
+
         narrator.flush_backup()
+
         narrator.clear_backup.assert_not_called()

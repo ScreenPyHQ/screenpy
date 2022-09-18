@@ -1,7 +1,7 @@
 import logging
 
-from screenpy.protocols import Adapter
 from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
+from screenpy.protocols import Adapter
 
 
 def prop():
@@ -10,8 +10,9 @@ def prop():
 
 
 class TestStdOutManager:
-    def test_instantiate(self):
+    def test_can_be_instantiated(self):
         m = StdOutManager()
+
         assert isinstance(m, StdOutManager)
 
     def test__outdent(self):
@@ -29,6 +30,7 @@ class TestStdOutManager:
 
         with manager._indent():
             assert len(manager.depth) == 1
+
         # context persists until manager._outdent is called
         assert len(manager.depth) == 1
 
@@ -45,10 +47,12 @@ class TestStdOutManager:
 class TestStdOutAdapter:
     def test_instantiate(self):
         a = StdOutAdapter()
+
         assert isinstance(a, StdOutAdapter)
 
     def test_implements_protocol(self):
         a = StdOutAdapter()
+
         assert isinstance(a, Adapter)
 
     def test_act(self, caplog):

@@ -5,18 +5,8 @@ import pytest
 
 from screenpy import Actor, and_, given, given_that, then, when
 from screenpy.exceptions import UnableToPerform
-from tests.unittest_protocols import Ability, Action
-
-
-def get_mock_task():
-    """Get a describable mock task."""
-    task = mock.create_autospec(Action, instance=True)
-    task.describe.return_value = "A mocked task."
-    return task
-
-
-def get_mock_ability():
-    return mock.create_autospec(Ability, instance=True)
+from tests.unittest_protocols import Action
+from tests.useful_mocks import get_mock_ability, get_mock_task
 
 
 def test_can_be_instantiated():

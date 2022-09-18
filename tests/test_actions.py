@@ -18,21 +18,11 @@ from screenpy.actions import (
 from screenpy.directions import noted_under
 from screenpy.director import Director
 from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
-from screenpy.protocols import (
-    Describable,
-    Performable,
-)
-from screenpy.resolutions import IsEqualTo, BaseResolution
+from screenpy.protocols import Describable, Performable
+from screenpy.resolutions import IsEqualTo
 from tests.conftest import mock_settings
-from tests.unittest_protocols import Question, ErrorQuestion
-
-
-def get_mock_question():
-    return mock.create_autospec(Question, instance=True)
-
-
-def get_mock_resolution():
-    return mock.create_autospec(BaseResolution, instance=True)
+from tests.unittest_protocols import ErrorQuestion
+from tests.useful_mocks import get_mock_action, get_mock_question, get_mock_resolution
 
 
 class TestAttachTheFile:
@@ -43,6 +33,7 @@ class TestAttachTheFile:
 
     def test_implements_protocol(self):
         atf = AttachTheFile("")
+
         assert isinstance(atf, Performable)
         assert isinstance(atf, Describable)
 
@@ -79,6 +70,7 @@ class TestDebug:
 
     def test_implements_protocol(self):
         d = Debug()
+
         assert isinstance(d, Performable)
         assert isinstance(d, Describable)
 
@@ -102,12 +94,6 @@ class TestDebug:
 
 
 class TestEventually:
-    def get_mock_action(self, **kwargs):
-        mock_action = mock.create_autospec(Debug(), _name="fakeaction", instance=True)
-        mock_action.perform_as = mock.create_autospec(Debug().perform_as, **kwargs)
-        mock_action.describe.return_value = "An African or a European swallow?"
-        return mock_action
-
     def test_can_be_instantiated(self):
         e1 = Eventually(None)
         e2 = Eventually(None).trying_for_no_longer_than(0).seconds()
@@ -129,6 +115,7 @@ class TestEventually:
 
     def test_implements_protocol(self):
         t = Eventually(None)
+
         assert isinstance(t, Performable)
         assert isinstance(t, Describable)
 
@@ -165,13 +152,13 @@ class TestEventually:
         assert ev.timeout == 100
 
     def test__timeframebuilder_is_performable(self, Tester):
-        MockAction = self.get_mock_action()
+        MockAction = get_mock_action()
 
         # test passes if no exception is raised
         Eventually(MockAction).for_(1).perform_as(Tester)
 
     def test_valueerror_when_poll_is_larger_than_timeout(self, Tester):
-        MockAction = self.get_mock_action()
+        MockAction = get_mock_action()
         ev = (
             Eventually(MockAction)
             .polling_every(200)
@@ -191,9 +178,7 @@ class TestEventually:
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
         )
-        MockAction = self.get_mock_action(
-            side_effect=ValueError("'Tis but a flesh wound!")
-        )
+        MockAction = get_mock_action(side_effect=ValueError("'Tis but a flesh wound!"))
 
         with pytest.raises(DeliveryError):
             Eventually(MockAction).perform_as(Tester)
@@ -206,7 +191,7 @@ class TestEventually:
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
         )
-        MockAction = self.get_mock_action(
+        MockAction = get_mock_action(
             side_effect=ValueError("He's pining for the fjords!")
         )
 
@@ -219,7 +204,7 @@ class TestEventually:
     def test_catches_exceptions(self, mocked_time, Tester):
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         msg = "I got better."
-        MockAction = self.get_mock_action(side_effect=ValueError(msg))
+        MockAction = get_mock_action(side_effect=ValueError(msg))
 
         with pytest.raises(DeliveryError) as actual_exception:
             Eventually(MockAction).perform_as(Tester)
@@ -231,7 +216,7 @@ class TestEventually:
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         exc1 = ValueError("These tracts of land aren't that huge!")
         exc2 = TypeError("This witch does not weigh as much as a duck!")
-        MockAction = self.get_mock_action(side_effect=[exc1, exc2])
+        MockAction = get_mock_action(side_effect=[exc1, exc2])
 
         with pytest.raises(DeliveryError) as actual_exception:
             Eventually(MockAction).perform_as(Tester)
@@ -242,7 +227,7 @@ class TestEventually:
         assert str(exc2) in str(actual_exception.value)
 
     def test_describe(self):
-        MockAction = self.get_mock_action()
+        MockAction = get_mock_action()
         assert (
             Eventually(MockAction).describe()
             == "Eventually an African or a European swallow."
@@ -261,6 +246,7 @@ class TestMakeNote:
 
     def test_implements_protocol(self):
         m = MakeNote("")
+
         assert isinstance(m, Performable)
         assert isinstance(m, Describable)
 
@@ -345,6 +331,7 @@ class TestPause:
 
     def test_implements_protocol(self):
         p = Pause(1)
+
         assert isinstance(p, Performable)
         assert isinstance(p, Describable)
 
@@ -412,6 +399,7 @@ class TestSee:
 
     def test_implements_protocol(self):
         s = See(None, get_mock_resolution())
+
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
 
@@ -447,6 +435,7 @@ class TestSee:
         mock_question.describe.return_value = "Can you speak?"
         mock_resolution = get_mock_resolution()
         mock_resolution.get_line.return_value = "I speak"
+
         assert (
             See(mock_question, mock_resolution).describe()
             == "See if can you speak is I speak."
@@ -463,6 +452,7 @@ class TestSeeAllOf:
 
     def test_implements_protocol(self):
         s = SeeAllOf(None, None)
+
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
 
@@ -509,6 +499,7 @@ class TestSeeAllOf:
             (True, IsEqualTo(True)),
             (True, IsEqualTo(True)),
         )
+
         assert SeeAllOf(*tests).describe() == "See if all of 4 tests pass."
 
 
@@ -522,6 +513,7 @@ class TestSeeAnyOf:
 
     def test_implements_protocol(self):
         s = SeeAnyOf(None, None)
+
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
 
@@ -568,4 +560,5 @@ class TestSeeAnyOf:
             (True, IsEqualTo(True)),
             (True, IsEqualTo(True)),
         )
+
         assert SeeAnyOf(*tests).describe() == "See if any of 4 tests pass."
