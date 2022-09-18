@@ -4,12 +4,13 @@ from setuptools import find_packages, setup
 
 requires = [
     "PyHamcrest>=2.0.0,<2.1",
-    "typing-extensions>=4.1.1,<4.2",
+    "typing-extensions>=4.1.1,<4.4",
 ]
 
 extras_require = {
     "allure": ["screenpy_adapter_allure"],
     "appium": ["screenpy_appium"],
+    "playwright": ["screenpy_playwright"],
     "pyotp": ["screenpy_pyotp"],
     "requests": ["screenpy_requests"],
     "selenium": ["screenpy_selenium"],
