@@ -2,7 +2,7 @@ files: '(screenpy|examples)/.*'
 fail_fast: false
 repos:
 - repo: https://github.com/psf/black
-  rev: 22.3.0
+  rev: 22.8.0
   hooks:
   - id: black
     language_version: python3.10
@@ -12,20 +12,20 @@ repos:
   - id: isort
     language_version: python3.10
 - repo: https://github.com/PyCQA/flake8
-  rev: 4.0.1
+  rev: 5.0.4
   hooks:
   - id: flake8
     language_version: python3.10
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v0.950
+  rev: v0.971
   hooks:
   - id: mypy
     language_version: python3.10
-    additional_dependencies: ["PyHamcrest>=2.0.0,<2.1", "pytest>=7.0.0,<7.1"]
+    additional_dependencies: ["PyHamcrest>=2.0.0,<2.1", "pytest>=7.1.3,<7.2"]
 - repo: local
   hooks:
   - id: pylint
     name: pylint
-    entry: pylint --max-line-length=88 --disable=bad-continuation --disable=no-self-use --disable=too-few-public-methods --disable=invalid-name --disable=wrong-import-order --disable=import-error --disable=super-init-not-called --disable=duplicate-code --disable=logging-format-interpolation --disable=logging-fstring-interpolation
+    entry: pylint
     language: system
     types: [python]

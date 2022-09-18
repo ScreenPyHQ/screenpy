@@ -1,0 +1,3 @@
+[MASTER]
+ignore-paths=^.*/tests/.*$
+disable=bad-continuation,no-self-use,too-few-public-methods,invalid-name,wrong-import-order,import-error,super-init-not-called,duplicate-code,logging-format-interpolation,logging-fstring-interpolation,useless-super-delegation
