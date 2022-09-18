@@ -1,6 +1,18 @@
 Release History
 ===============
 
+4.0.2 (2022-09-18)
+------------------
+
+### New Features
+
+- Added an `ErrorKeeper` protocol, currently only for Questions that encounter an error while being answered. This is now used by `MakeNote` to mention the exception, which will help debug some confusing test states. (h/t @bandophahita!)
+- Added official "extras" support for `screenpy_playwright`, install with `pip install screenpy[playwright]`!
+
+### Improvements
+
+- A *significant* improvement on test coverage via unit tests! (h/t @bandophahita!)
+
 4.0.1 (2022-05-13)
 ------------------
 
@@ -23,7 +35,7 @@ Release History
 ### Breaking Changes
 
 - ScreenPy is now broken up in2 its core (this repository), `screenpy_selenium`, `screenpy_requests`, `screenpy_pyotp`, and `screenpy_adapter_allure`. This will cause some big, big breakages in your suites, and i'm very sorry about it. To help get you back up and running, see the changes at https://screenpy-docs.readthedocs.io/en/latest/deprecations.html#breaking-changes
-- Those deprecated methods mentioned above on that same page are also finally removed.
+- Those deprecated methods mentioned on that same deprecations page are also finally removed.
 
 ### Documentation
 
