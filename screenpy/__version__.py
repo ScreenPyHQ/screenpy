@@ -4,12 +4,15 @@
 #                 ___) | (__| | |  __/  __/ | | |  __/| |_| |
 #                |____/ \___|_|  \___|\___|_| |_|_|    \__, |
 #                                                      |___/
+import importlib.metadata
 
-__title__ = "screenpy"
-__description__ = "Screenplay pattern base for Python automated UI test suites."
-__url__ = "https://github.com/ScreenPyHQ/screenpy"
-__version__ = "4.0.2"
-__author__ = "Perry Goy"
-__author_email__ = "perry.goy@gmail.com"
-__license__ = "MIT"
-__copyright__ = "Copyright (c) 2019-2022 Perry Goy"
+metadata = importlib.metadata.metadata("screenpy")
+
+__title__ = metadata["Name"]
+__description__ = metadata["Summary"]
+__url__ = metadata["Home-page"]
+__version__ = metadata["Version"]
+__author__ = metadata["Author"]
+__author_email__ = metadata["Author-email"]
+__license__ = metadata["License"]
+__copyright__ = f"Copyright (c) 2019-2022 {__author__}"
