@@ -24,7 +24,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 PyHamcrest = "~2.0"  # ">=2.0.0,<2.1"
 typing-extensions = ">=4.1.1,<4.4"
 
