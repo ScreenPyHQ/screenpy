@@ -1,0 +1,56 @@
+name: Lint
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          python -m ensurepip --upgrade
+          echo "::set-output name=dir::$(pip cache dir)"
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ matrix.os }}-pip-${{ matrix.python-version }}-v1-${{
+            hashFiles('**/setup.py', '**/requirements*.txt') }}
+          restore-keys: |
+            ${{ matrix.os }}-pip-${{ matrix.python-version }}-v1-
+      - name: Install dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev-all]
+      - name: Lint with black
+        run: |
+          black --check --diff screenpy
+      - name: Lint with isort
+        run: |
+          isort --check-only --diff screenpy
+      - name: Lint with flake8
+        run: |
+          flake8 --exit-zero screenpy
+      - name: Lint with mypy
+        run: |
+          mypy screenpy

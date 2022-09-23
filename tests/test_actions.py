@@ -20,9 +20,9 @@ from screenpy.director import Director
 from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
 from screenpy.protocols import Describable, Performable
 from screenpy.resolutions import IsEqualTo
-from tests.conftest import mock_settings
-from tests.unittest_protocols import ErrorQuestion
-from tests.useful_mocks import get_mock_action, get_mock_question, get_mock_resolution
+from conftest import mock_settings
+from unittest_protocols import ErrorQuestion
+from useful_mocks import get_mock_action, get_mock_question, get_mock_resolution
 
 
 class TestAttachTheFile:
