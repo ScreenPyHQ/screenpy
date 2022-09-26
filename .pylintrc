@@ -5,7 +5,7 @@ disable=
     bad-continuation,
     duplicate-code,
     import-error,
-    invalid-name
+    invalid-name,
     logging-format-interpolation,
     logging-fstring-interpolation,
     no-member,
