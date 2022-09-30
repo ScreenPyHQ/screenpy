@@ -52,8 +52,13 @@ Contributing
 ------------
 You want to contribute? Great! Here are the things you should do before submitting your PR:
 
-1. Install [`pre-commit`](https://pre-commit.com/)
-1. run `pre-commit install` once.
-1. run `tox` to perform tests frequently.
+1. Fork the repo and git clone your fork
+3. `dev` install the project package:
+   1. `pip install -e .[dev]` 
+   2. Optional (poetry users)
+      1. `poetry install --extras dev`
+4. run `pre-commit install` once.
+5. run `tox` to perform tests frequently.
+6. create pull-request from your branch
 
 That's it! :)
