@@ -13,5 +13,5 @@ disable=
     super-init-not-called,
     too-few-public-methods,
     unused-argument,
-    useless-super-delegation
+    useless-super-delegation,
     wrong-import-order,
