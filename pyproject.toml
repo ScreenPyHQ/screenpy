@@ -59,14 +59,20 @@ isort = {version = "^5.10.1", optional = true}
 flake8 = {version = "^5.0.4", optional = true}
 pylint = {version = "^2.12.2", optional = true}
 coverage = {version = "*", optional = true}
+screenpy-adapter_allure = {version = "^4.0.1", optional = true}
+screenpy-appium = {version = "*", optional = true}
+screenpy-playwright = {version = "*", optional = true}
+screenpy-pyotp = {version = "^4.0.1", optional = true}
+screenpy-requests = {version = "^4.0.1", optional = true}
+screenpy-selenium = {version = "^4.0.3", optional = true}
 
 [tool.poetry.extras]
-allure = ["screenpy_adapter_allure"]
-appium = ["screenpy_appium"]
-playwright = ["screenpy_playwright"]
-pyotp = ["screenpy_pyotp"]
-requests = ["screenpy_requests"]
-selenium = ["screenpy_selenium"]
+allure = ["screenpy-adapter-allure"]
+appium = ["screenpy-appium"]
+playwright = ["screenpy-playwright"]
+pyotp = ["screenpy-pyotp"]
+requests = ["screenpy-requests"]
+selenium = ["screenpy-selenium"]
 dev = [
     "pre-commit",
     "pytest",
