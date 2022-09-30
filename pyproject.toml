@@ -40,8 +40,8 @@ classifiers = [
 #   poetry add --optional some_dev_pkg
 # This will set `optional = true` flag in [tool.poetry.dependencies], as seen below
 # But then you need to remember to manually edit the [tool.poetry.extras] dev section 
-# and declare the package. This allows `pip install .[dev]` works as expected
-# poetry users will need to use the `--extras dev` option rather than the `--with dev`
+# and declare the package. This allows `pip install .[dev]` to work as expected
+# Poetry users will need to use the `--extras dev` option rather than the `--with dev`
 # so we dont have two different sets of package versions to update.
 
 [tool.poetry.dependencies]
