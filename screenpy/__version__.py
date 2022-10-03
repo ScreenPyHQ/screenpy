@@ -4,9 +4,15 @@
 #                 ___) | (__| | |  __/  __/ | | |  __/| |_| |
 #                |____/ \___|_|  \___|\___|_| |_|_|    \__, |
 #                                                      |___/
-import importlib.metadata
 
-metadata = importlib.metadata.metadata("screenpy")
+try:
+    # importlib.metadata is present in Python 3.8 and later
+    import importlib.metadata as importlib_metadata
+except ImportError:
+    # use the shim package importlib-metadata pre-3.8
+    import importlib_metadata  # type: ignore
+
+metadata = importlib_metadata.metadata("screenpy")
 
 __title__ = metadata["Name"]
 __description__ = metadata["Summary"]
@@ -14,5 +20,5 @@ __url__ = metadata["Home-page"]
 __version__ = metadata["Version"]
 __author__ = metadata["Author"]
 __author_email__ = metadata["Author-email"]
-__license__ = metadata["License"]
+__license_file__ = metadata["License-File"]
 __copyright__ = f"2019-2022 {__author__}"
