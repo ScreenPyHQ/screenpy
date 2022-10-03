@@ -90,7 +90,7 @@ dev_all = [
     "flake8",
     "coverage",
 ]
-tox_only = [
+test = [
     "pytest",
     "coverage",
 ]
