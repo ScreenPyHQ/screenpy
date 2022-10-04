@@ -7,7 +7,7 @@
 
 try:
     # importlib.metadata is present in Python 3.8 and later
-    import importlib.metadata as importlib_metadata
+    import importlib.metadata as importlib_metadata  # type: ignore
 except ImportError:
     # use the shim package importlib-metadata pre-3.8
     import importlib_metadata  # type: ignore
