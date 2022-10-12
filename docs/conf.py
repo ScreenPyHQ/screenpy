@@ -18,15 +18,15 @@ import sys
 sys.path.insert(0, os.path.abspath("./ext"))
 sys.path.insert(0, os.path.abspath("../"))
 
-from screenpy.__version__ import __version__  # noqa: need the path first
+from screenpy.__version__ import __version__, __author__, __copyright__  # noqa: need the path first
 
 autodoc_mock_imports = ["hamcrest", "typing_extensions"]
 
 # -- Project information -----------------------------------------------------
 
 project = "ScreenPy"
-copyright = "2019, Perry Goy"
-author = "Perry Goy"
+copyright = __copyright__
+author = __author__
 
 # The short X.Y version
 version = ""

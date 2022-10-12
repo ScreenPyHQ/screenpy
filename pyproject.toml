@@ -1,2 +1,101 @@
 [tool.black]
 target-version = ['py310']
+
+# This pyproject.toml is setup so it can be used with or without poetry and also
+# supports editable installs (PEP 660) without breaking IDE and linter inspection.
+
+# DEVELOPER INSTALL INSTRUCTIONS (assuming current directory is at the top of the project) :
+# Poetry:
+#   poetry install --extras dev
+# PIP:
+#   pip install -e .[dev]
+
+[tool.poetry]
+name = "screenpy"
+version = "4.0.2"
+description = "Screenplay pattern base for Python automated UI test suites."
+authors = ["Perry Goy <perry.goy@gmail.com>"]
+maintainers = ["Gabe Langton", "Marcel Wilson"]
+license = "MIT"
+repository = "https://github.com/ScreenPyHQ/screenpy"
+documentation = "https://screenpy-docs.readthedocs.io"
+readme = "README.md"
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Testing :: BDD",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+]
+
+# It's possible to add optional dependencies with the poetry CLI tool using:
+#   poetry add --optional some_dev_pkg
+# This will set `optional = true` flag in [tool.poetry.dependencies], as seen below
+# But then you need to remember to manually edit the [tool.poetry.extras] dev section 
+# and declare the package. This allows `pip install .[dev]` to work as expected
+# Poetry users will need to use the `--extras dev` option rather than the `--with dev`
+# so we dont have two different sets of package versions to update.
+
+[tool.poetry.dependencies]
+python = "^3.7"
+PyHamcrest = ">=2.0.0"
+typing-extensions = ">=4.1.1"
+importlib_metadata = {version = "*", python = "3.7.*"}
+
+# convenience packages for development of screenpy only
+pre-commit = {version = "^2.17.0", optional = true}
+pytest = {version = "^7.1.1", optional = true}
+tox = {version = "^3.26.0", optional = true}
+mypy = {version = "^0.971", optional = true}
+black = {version = "^22.8.0", optional = true}
+isort = {version = "^5.10.1", optional = true}
+flake8 = {version = "^5.0.4", optional = true}
+pylint = {version = "^2.12.2", optional = true}
+coverage = {version = "*", optional = true}
+screenpy-adapter_allure = {version = "^4.0.1", optional = true}
+screenpy-appium = {version = "*", optional = true}
+screenpy-playwright = {version = "*", optional = true}
+screenpy-pyotp = {version = "^4.0.1", optional = true}
+screenpy-requests = {version = "^4.0.1", optional = true}
+screenpy-selenium = {version = "^4.0.3", optional = true}
+
+[tool.poetry.extras]
+allure = ["screenpy-adapter-allure"]
+appium = ["screenpy-appium"]
+playwright = ["screenpy-playwright"]
+pyotp = ["screenpy-pyotp"]
+requests = ["screenpy-requests"]
+selenium = ["screenpy-selenium"]
+dev = [
+    "pre-commit",
+    "pytest",
+    "tox",
+    "pylint",
+]
+dev_all = [
+    "pre-commit",
+    "pytest",
+    "tox",
+    "pylint",
+    "mypy",
+    "black",
+    "isort",
+    "flake8",
+    "coverage",
+]
+test = [
+    "pytest",
+    "coverage",
+]
+
+[build-system]
+requires = ["poetry-core>=1.2.0"]
+build-backend = "poetry.core.masonry.api"
