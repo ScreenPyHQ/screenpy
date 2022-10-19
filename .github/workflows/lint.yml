@@ -41,5 +41,5 @@ jobs:
         run: |
           mypy screenpy
       - name: Lint with pylint
-          run: |
-            pylint screenpy
+        run: |
+          pylint screenpy
