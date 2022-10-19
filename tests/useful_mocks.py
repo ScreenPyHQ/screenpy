@@ -2,7 +2,7 @@ from unittest import mock
 
 from screenpy.actions import Debug
 from screenpy.resolutions import BaseResolution
-from tests.unittest_protocols import Ability, Action, Question
+from unittest_protocols import Ability, Action, Question
 
 
 def get_mock_action(**kwargs):

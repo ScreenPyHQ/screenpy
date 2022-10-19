@@ -5,8 +5,8 @@ import pytest
 
 from screenpy import Actor, and_, given, given_that, then, when
 from screenpy.exceptions import UnableToPerform
-from tests.unittest_protocols import Action
-from tests.useful_mocks import get_mock_ability, get_mock_task
+from unittest_protocols import Action
+from useful_mocks import get_mock_ability, get_mock_task
 
 
 def test_can_be_instantiated():
