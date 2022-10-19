@@ -43,3 +43,6 @@ jobs:
       - name: Lint with pylint
         run: |
           pylint screenpy
+      - name: Lint with flake8
+        run: |
+          flake8 --statistics screenpy
