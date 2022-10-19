@@ -1,7 +1,7 @@
 ScreenPy
 ========
-[![Build Status](../../actions/workflows/tests.yml/badge.svg?branch=trunk)](../../actions/workflows/tests.yml?query=branch%3Atrunk)
-[![Build Status](../../actions/workflows/lint.yml/badge.svg?branch=trunk)](../../actions/workflows/lint.yml?query=branch%3Atrunk)
+[![Build Status](../../actions/workflows/tests.yml/badge.svg)](../../actions/workflows/tests.yml)
+[![Build Status](../../actions/workflows/lint.yml/badge.svg)](../../actions/workflows/lint.yml)
 
 [![Supported Versions](https://img.shields.io/pypi/pyversions/screenpy.svg)](https://pypi.org/project/screenpy)
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
