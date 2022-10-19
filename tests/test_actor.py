@@ -8,7 +8,6 @@ from screenpy.exceptions import UnableToPerform
 from unittest_protocols import Action
 from useful_mocks import get_mock_ability, get_mock_task, get_mock_action, FakeAbility, AnotherFakeAbility
 
-
 ABILITY = get_mock_ability()
 ACTION = get_mock_action()
 
