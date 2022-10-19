@@ -45,7 +45,7 @@ classifiers = [
 # so we dont have two different sets of package versions to update.
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.7.2"
 PyHamcrest = ">=2.0.0"
 typing-extensions = ">=4.1.1"
 importlib_metadata = {version = "*", python = "3.7.*"}
@@ -58,7 +58,7 @@ mypy = {version = "^0.971", optional = true}
 black = {version = "^22.8.0", optional = true}
 isort = {version = "^5.10.1", optional = true}
 flake8 = {version = "^5.0.4", optional = true}
-pylint = {version = "^2.12.2", optional = true}
+pylint = {version = "^2.15.4", optional = true}
 coverage = {version = "*", optional = true}
 screenpy-adapter_allure = {version = "^4.0.1", optional = true}
 screenpy-appium = {version = "*", optional = true}

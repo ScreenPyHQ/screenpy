@@ -40,3 +40,6 @@ jobs:
       - name: Lint with mypy
         run: |
           mypy screenpy
+      - name: Lint with pylint
+          run: |
+            pylint screenpy
