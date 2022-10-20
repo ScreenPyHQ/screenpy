@@ -3,8 +3,8 @@ from os import path
 from setuptools import find_packages, setup
 
 requires = [
-    "PyHamcrest>=2.0.0,<2.1",
-    "typing-extensions>=4.1.1,<4.4",
+    "PyHamcrest>=2.0.0",
+    "typing-extensions>=4.1.1",
 ]
 
 extras_require = {
