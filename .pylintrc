@@ -2,14 +2,12 @@
 ignore-paths=^.*/tests/.*$
 disable=
     arguments-renamed,
-    bad-continuation,
     duplicate-code,
     import-error,
     invalid-name,
     logging-format-interpolation,
     logging-fstring-interpolation,
     no-member,
-    no-self-use,
     super-init-not-called,
     too-few-public-methods,
     unused-argument,

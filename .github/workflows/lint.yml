@@ -20,23 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          python -m ensurepip --upgrade
-          echo "::set-output name=dir::$(pip cache dir)"
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ matrix.os }}-pip-${{ matrix.python-version }}-v1-${{
-            hashFiles('**/setup.py', '**/requirements*.txt') }}
-          restore-keys: |
-            ${{ matrix.os }}-pip-${{ matrix.python-version }}-v1-
       - name: Install dependencies
         shell: bash
         run: |
@@ -54,3 +40,6 @@ jobs:
       - name: Lint with mypy
         run: |
           mypy screenpy
+      - name: Lint with pylint
+        run: |
+          pylint screenpy
