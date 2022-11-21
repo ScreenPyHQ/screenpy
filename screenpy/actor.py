@@ -33,7 +33,7 @@ ENTRANCE_DIRECTIONS = [
     "The spotlight shines on {actor}!",
 ]
 
-T = TypeVar("T")
+T_Ability = TypeVar("T_Ability", bound=Forgettable)
 SelfActor = TypeVar("SelfActor", bound="Actor")
 
 
@@ -58,7 +58,7 @@ class Actor:
         aside(choice(ENTRANCE_DIRECTIONS).format(actor=name))
         return cls(name)
 
-    def who_can(self: SelfActor, *abilities: Forgettable) -> SelfActor:
+    def who_can(self: SelfActor, *abilities: T_Ability) -> SelfActor:
         """Add one or more Abilities to this Actor.
 
         Aliases:
@@ -67,7 +67,7 @@ class Actor:
         self.abilities.extend(abilities)
         return self
 
-    def can(self: SelfActor, *abilities: Forgettable) -> SelfActor:
+    def can(self: SelfActor, *abilities: T_Ability) -> SelfActor:
         """Alias for :meth:`~screenpy.actor.Actor.who_can`."""
         return self.who_can(*abilities)
 
@@ -119,7 +119,7 @@ class Actor:
         """Alias for :meth:`~screenpy.actor.Actor.has_independent_cleanup_tasks`."""
         return self.has_independent_cleanup_tasks(*tasks)
 
-    def uses_ability_to(self: SelfActor, ability: Type[T]) -> T:
+    def uses_ability_to(self: SelfActor, ability: Type[T_Ability]) -> T_Ability:
         """Find the Ability referenced and return it, if the Actor is capable.
 
         Raises:
@@ -134,11 +134,11 @@ class Actor:
 
         raise UnableToPerform(f"{self} does not have the Ability to {ability}")
 
-    def ability_to(self: SelfActor, ability: Type[T]) -> T:
+    def ability_to(self: SelfActor, ability: Type[T_Ability]) -> T_Ability:
         """Alias for :meth:`~screenpy.actor.Actor.uses_ability_to`."""
         return self.uses_ability_to(ability)
 
-    def has_ability_to(self: SelfActor, ability: Type[Forgettable]) -> bool:
+    def has_ability_to(self: SelfActor, ability: Type[T_Ability]) -> bool:
         """Ask whether the Actor has the Ability to do something."""
         try:
             self.ability_to(ability)
