@@ -1,3 +1,4 @@
+from typing import Any
 from unittest import mock
 
 from screenpy.actions import Debug
@@ -30,7 +31,7 @@ def get_mock_task() -> mock.Mock:
     return task
 
 
-def get_mock_ability_class():
+def get_mock_ability_class() -> Any:
     """
     This bit of wizardry creates a subclass of Ability that is auto_specced by mock, but
     still allows for usage in cases where `isinstance` is called without raising exceptions
