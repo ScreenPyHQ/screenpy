@@ -26,13 +26,11 @@ from useful_mocks import (
     get_mock_action,
     get_mock_question,
     get_mock_resolution,
-    FakeQuestion,
 )
 
 
 ACTION = get_mock_action()
-# QUESTION = get_mock_question()
-QUESTION = FakeQuestion()
+QUESTION = get_mock_question()
 RESOLUTION = get_mock_resolution()
 
 
