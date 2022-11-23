@@ -30,23 +30,24 @@ def get_mock_task() -> mock.Mock:
     return task
 
 
-def get_mock_ability() -> mock.Mock:
-    return mock.create_autospec(Ability, instance=True)
+def get_mock_ability_class():
+    """
+    This bit of wizardry creates a subclass of Ability that is auto_specced by mock, but
+    still allows for usage in cases where `isinstance` is called without raising exceptions
 
+        MyFakeAbility = get_mock_ability_class()
+        fa = MyFakeAbility()
+        isinstance(fa, MyFakeAbility)
+        fa.forget()
+        fa.forget.assert_called_once()
 
-class FakeAbility:
-    def forget(self):
-        return
-
-
-class AnotherFakeAbility:
-    def forget(self):
-        return
-
-
-class FakeQuestion:
-    def answered_by(self, the_actor) -> bool:
-        return True
-
-    def describe(self) -> str:
-        return "Fake question"
+        A = get_mock_ability_class()
+        B = get_mock_ability_class()
+        a = A()
+        b = B()
+        a != b
+    """
+    class FakeAbility(Ability):
+        def __new__(cls, *args, **kwargs):
+            return mock.create_autospec(FakeAbility, *args, **kwargs)
+    return FakeAbility

@@ -6,10 +6,11 @@ import pytest
 from screenpy import Actor, and_, given, given_that, then, when
 from screenpy.exceptions import UnableToPerform
 from unittest_protocols import Action
-from useful_mocks import get_mock_ability, get_mock_task, get_mock_action, FakeAbility, AnotherFakeAbility
+from useful_mocks import get_mock_task, get_mock_action, get_mock_ability_class
 
-ABILITY = get_mock_ability()
 ACTION = get_mock_action()
+FakeAbility = get_mock_ability_class()
+AnotherFakeAbility = get_mock_ability_class()
 
 
 def test_can_be_instantiated() -> None:
@@ -139,7 +140,7 @@ def test_independent_cleanup_continues_through_exceptions() -> None:
 
 
 def test_forgets_abilities_when_exiting() -> None:
-    mocked_ability = get_mock_ability()
+    mocked_ability = FakeAbility()
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_stage_left()
@@ -149,7 +150,7 @@ def test_forgets_abilities_when_exiting() -> None:
 
 
 def test_exit_stage_right() -> None:
-    mocked_ability = get_mock_ability()
+    mocked_ability = FakeAbility()
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_stage_right()
@@ -158,7 +159,7 @@ def test_exit_stage_right() -> None:
 
 
 def test_exit_through_vomitorium() -> None:
-    mocked_ability = get_mock_ability()
+    mocked_ability = FakeAbility()
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_through_vomitorium()
