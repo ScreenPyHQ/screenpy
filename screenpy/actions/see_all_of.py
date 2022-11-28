@@ -35,7 +35,6 @@ class SeeAllOf:
         the_actor.should(
             SeeAllOf.the(
                 (Number.of(BALLOONS), IsEqualTo(3)),
-                (Text.of_the(PARADE_FLOAT), ContainsTheText("Congratulations!")),
             )
         )
     """
@@ -61,7 +60,7 @@ class SeeAllOf:
         for tup in tests:
             if isinstance(tup, tuple):
                 if len(tup) != 2:
-                    raise UnableToAct("Tuple must contain two items")
+                    raise UnableToAct("Tuple must contain Question and Resolution")
             else:
                 raise TypeError("Arguments must be tuples")
 

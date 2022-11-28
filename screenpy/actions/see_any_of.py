@@ -36,7 +36,6 @@ class SeeAnyOf:
         the_actor.should(
             SeeAnyOf.the(
                 (Number.of(BALLOONS), IsEqualTo(4)),
-                (Number.of(BALLOONS), IsEqualTo(5)),
             )
         )
     """
@@ -70,7 +69,7 @@ class SeeAnyOf:
         for tup in tests:
             if isinstance(tup, tuple):
                 if len(tup) != 2:
-                    raise UnableToAct("Tuple must contain two items")
+                    raise UnableToAct("Tuple must contain Question and Resolution")
             else:
                 raise TypeError("Arguments must be tuples")
 
