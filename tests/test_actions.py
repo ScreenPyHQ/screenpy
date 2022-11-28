@@ -23,13 +23,12 @@ from screenpy.resolutions import IsEqualTo
 from conftest import mock_settings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
-    get_mock_action,
     get_mock_question,
     get_mock_resolution,
+    get_mock_action_class,
 )
 
-
-ACTION = get_mock_action()
+FakeAction = get_mock_action_class()
 QUESTION = get_mock_question()
 RESOLUTION = get_mock_resolution()
 
@@ -106,14 +105,14 @@ class TestDebug:
 
 class TestEventually:
     def test_can_be_instantiated(self) -> None:
-        e1 = Eventually(ACTION)
-        e2 = Eventually(ACTION).trying_for_no_longer_than(0).seconds()
-        e3 = Eventually(ACTION).trying_for(0).milliseconds()
-        e4 = Eventually(ACTION).for_(0).seconds()
-        e5 = Eventually(ACTION).waiting_for(0).seconds()
-        e6 = Eventually(ACTION).polling(0).seconds()
-        e7 = Eventually(ACTION).polling_every(0).milliseconds()
-        e8 = Eventually(ACTION).trying_every(0).seconds()
+        e1 = Eventually(FakeAction())
+        e2 = Eventually(FakeAction()).trying_for_no_longer_than(0).seconds()
+        e3 = Eventually(FakeAction()).trying_for(0).milliseconds()
+        e4 = Eventually(FakeAction()).for_(0).seconds()
+        e5 = Eventually(FakeAction()).waiting_for(0).seconds()
+        e6 = Eventually(FakeAction()).polling(0).seconds()
+        e7 = Eventually(FakeAction()).polling_every(0).milliseconds()
+        e8 = Eventually(FakeAction()).trying_every(0).seconds()
 
         assert isinstance(e1, Eventually)
         assert isinstance(e2, Eventually)
@@ -125,53 +124,50 @@ class TestEventually:
         assert isinstance(e8, Eventually)
 
     def test_implements_protocol(self) -> None:
-        t = Eventually(ACTION)
+        t = Eventually(FakeAction())
 
         assert isinstance(t, Performable)
         assert isinstance(t, Describable)
 
     def test_uses_timeframe_builder(self) -> None:
-        ev = Eventually(ACTION).trying_for(1)
+        ev = Eventually(FakeAction()).trying_for(1)
 
         assert isinstance(ev, Eventually._TimeframeBuilder)
 
     def test_can_adjust_timeout(self) -> None:
-        ev = Eventually(ACTION).trying_for(12)
+        ev = Eventually(FakeAction()).trying_for(12)
 
         # is still _TimeframeBuilder, so get the stored Eventually
         assert ev.eventually.timeout == 12
 
     def test_can_adjust_timeout_seconds(self) -> None:
-        ev = Eventually(ACTION).trying_for(15).seconds()
+        ev = Eventually(FakeAction()).trying_for(15).seconds()
 
         assert ev.timeout == 15
 
     def test_can_adjust_timeout_milliseconds(self) -> None:
-        ev = Eventually(ACTION).trying_for(1200).milliseconds()
+        ev = Eventually(FakeAction()).trying_for(1200).milliseconds()
 
         assert ev.timeout == 1.2
 
     def test_can_adjust_polling_frequency(self) -> None:
-        ev = Eventually(ACTION).polling(1).second()
+        ev = Eventually(FakeAction()).polling(1).second()
 
         assert ev.poll == 1
 
     @mock_settings(TIMEOUT=100)
     def test_adjusting_settings_timeout(self) -> None:
-        ev = Eventually(ACTION)
+        ev = Eventually(FakeAction())
 
         assert ev.timeout == 100
 
     def test__timeframebuilder_is_performable(self, Tester) -> None:
-        MockAction = get_mock_action()
-
         # test passes if no exception is raised
-        Eventually(MockAction).for_(1).perform_as(Tester)
+        Eventually(FakeAction()).for_(1).perform_as(Tester)
 
     def test_valueerror_when_poll_is_larger_than_timeout(self, Tester) -> None:
-        MockAction = get_mock_action()
         ev = (
-            Eventually(MockAction)
+            Eventually(FakeAction())
             .polling_every(200)
             .milliseconds()
             .for_(100)
@@ -189,10 +185,10 @@ class TestEventually:
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
         )
-        MockAction = get_mock_action(side_effect=ValueError("'Tis but a flesh wound!"))
+        mock_action = FakeAction(side_effect=ValueError("'Tis but a flesh wound!"))
 
         with pytest.raises(DeliveryError):
-            Eventually(MockAction).perform_as(Tester)
+            Eventually(mock_action).perform_as(Tester)
 
         assert mocked_time.time.call_count == num_calls + 1
 
@@ -202,12 +198,10 @@ class TestEventually:
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
         )
-        MockAction = get_mock_action(
-            side_effect=ValueError("He's pining for the fjords!")
-        )
+        mock_action = FakeAction(side_effect=ValueError("He's pining for the fjords!"))
 
         with pytest.raises(DeliveryError) as e:
-            Eventually(MockAction).perform_as(Tester)
+            Eventually(mock_action).perform_as(Tester)
 
         assert f"{num_calls} times" in str(e)
 
@@ -215,10 +209,10 @@ class TestEventually:
     def test_catches_exceptions(self, mocked_time, Tester) -> None:
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         msg = "I got better."
-        MockAction = get_mock_action(side_effect=ValueError(msg))
+        mock_action = FakeAction(side_effect=ValueError(msg))
 
         with pytest.raises(DeliveryError) as actual_exception:
-            Eventually(MockAction).perform_as(Tester)
+            Eventually(mock_action).perform_as(Tester)
 
         assert msg in str(actual_exception)
 
@@ -227,10 +221,10 @@ class TestEventually:
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         exc1 = ValueError("These tracts of land aren't that huge!")
         exc2 = TypeError("This witch does not weigh as much as a duck!")
-        MockAction = get_mock_action(side_effect=[exc1, exc2])
+        mock_action = FakeAction(side_effect=[exc1, exc2])
 
         with pytest.raises(DeliveryError) as actual_exception:
-            Eventually(MockAction).perform_as(Tester)
+            Eventually(mock_action).perform_as(Tester)
 
         assert exc1.__class__.__name__ in str(actual_exception.value)
         assert str(exc1) in str(actual_exception.value)
@@ -238,9 +232,9 @@ class TestEventually:
         assert str(exc2) in str(actual_exception.value)
 
     def test_describe(self) -> None:
-        MockAction = get_mock_action()
+        mock_action = FakeAction()
         assert (
-            Eventually(MockAction).describe()
+            Eventually(mock_action).describe()
             == "Eventually an African or a European swallow."
         )
 

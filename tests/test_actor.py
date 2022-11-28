@@ -1,14 +1,12 @@
 import warnings
-from unittest import mock
 
 import pytest
 
 from screenpy import Actor, and_, given, given_that, then, when
 from screenpy.exceptions import UnableToPerform
-from unittest_protocols import Action
-from useful_mocks import get_mock_task, get_mock_action, get_mock_ability_class
+from useful_mocks import get_mock_task, get_mock_ability_class, get_mock_action_class
 
-ACTION = get_mock_action()
+FakeAction = get_mock_action_class()
 FakeAbility = get_mock_ability_class()
 AnotherFakeAbility = get_mock_ability_class()
 
@@ -17,7 +15,7 @@ def test_can_be_instantiated() -> None:
     a1 = Actor.named("Tester")
     a2 = Actor.named("Tester").can(FakeAbility())
     a3 = Actor.named("Tester").who_can(FakeAbility())
-    a4 = Actor.named("Tester").who_can(FakeAbility()).with_ordered_cleanup_tasks(ACTION)
+    a4 = Actor.named("Tester").who_can(FakeAbility()).with_ordered_cleanup_tasks(FakeAction())
 
     assert isinstance(a1, Actor)
     assert isinstance(a2, Actor)
@@ -26,7 +24,7 @@ def test_can_be_instantiated() -> None:
 
 
 def test_calls_perform_as() -> None:
-    action = mock.create_autospec(Action, instance=True)
+    action = FakeAction()
     actor = Actor.named("Tester")
 
     actor.attempts_to(action)
@@ -77,7 +75,7 @@ def test_assert_has_cleanup_tasks_is_deprecated() -> None:
     actor = Actor.named("Tester")
 
     with warnings.catch_warnings(record=True) as w:
-        actor.has_cleanup_tasks(ACTION)
+        actor.has_cleanup_tasks(FakeAction())
 
     assert issubclass(w[-1].category, DeprecationWarning)
     assert "has_ordered_cleanup_tasks" in str(w[-1])

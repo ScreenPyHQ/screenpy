@@ -13,6 +13,16 @@ def get_mock_action(**kwargs) -> mock.Mock:
     return mock_action
 
 
+def get_mock_action_class() -> Any:
+    class FakeAction(Action):
+        def __new__(cls, *args, **kwargs):
+            rt = mock.create_autospec(FakeAction, instance=True)
+            rt.describe.return_value = "An African or a European swallow?"
+            rt.perform_as = mock.create_autospec(Debug().perform_as, **kwargs)
+            return rt
+    return FakeAction
+
+
 def get_mock_question() -> mock.Mock:
     question = mock.create_autospec(Question, instance=True)
     question.describe.return_value = "Description of Mocked Question"
