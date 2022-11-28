@@ -185,7 +185,8 @@ class TestEventually:
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
         )
-        mock_action = FakeAction(side_effect=ValueError("'Tis but a flesh wound!"))
+        mock_action = FakeAction()
+        mock_action.perform_as.side_effect = ValueError("'Tis but a flesh wound!")
 
         with pytest.raises(DeliveryError):
             Eventually(mock_action).perform_as(Tester)
@@ -198,7 +199,8 @@ class TestEventually:
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
         )
-        mock_action = FakeAction(side_effect=ValueError("He's pining for the fjords!"))
+        mock_action = FakeAction()
+        mock_action.perform_as.side_effect = ValueError("He's pining for the fjords!")
 
         with pytest.raises(DeliveryError) as e:
             Eventually(mock_action).perform_as(Tester)
@@ -209,7 +211,8 @@ class TestEventually:
     def test_catches_exceptions(self, mocked_time, Tester) -> None:
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         msg = "I got better."
-        mock_action = FakeAction(side_effect=ValueError(msg))
+        mock_action = FakeAction()
+        mock_action.perform_as.side_effect = ValueError(msg)
 
         with pytest.raises(DeliveryError) as actual_exception:
             Eventually(mock_action).perform_as(Tester)
@@ -221,7 +224,8 @@ class TestEventually:
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         exc1 = ValueError("These tracts of land aren't that huge!")
         exc2 = TypeError("This witch does not weigh as much as a duck!")
-        mock_action = FakeAction(side_effect=[exc1, exc2])
+        mock_action = FakeAction()
+        mock_action.perform_as.side_effect = [exc1, exc2]
 
         with pytest.raises(DeliveryError) as actual_exception:
             Eventually(mock_action).perform_as(Tester)
