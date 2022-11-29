@@ -24,6 +24,11 @@ class DescribableWithQuote:
         return 'This Describable ends with a "quote".'
 
 
+class Indescribable:
+    def describe(self):
+        return
+
+
 class TestGetAdditiveDescription:
     @pytest.mark.parametrize(
         "describable", [ThisIsADescribable(), ThisIsADescribableWithADescribe()]
@@ -42,3 +47,8 @@ class TestGetAdditiveDescription:
         description = get_additive_description("this is just a string!")
 
         assert description == "the str"
+
+    def test_indescribable(self) -> None:
+        description = get_additive_description(Indescribable())
+
+        assert description == 'something indescribable'

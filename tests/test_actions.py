@@ -237,9 +237,15 @@ class TestEventually:
 
     def test_describe(self) -> None:
         mock_action = FakeAction()
+        mock_action.describe.return_value = "An African or a European swallow?"
         assert (
             Eventually(mock_action).describe()
             == "Eventually an African or a European swallow."
+        )
+
+    def test_describe_none(self) -> None:
+        assert (
+            Eventually(FakeAction()).describe() == "Eventually something indescribable."
         )
 
 

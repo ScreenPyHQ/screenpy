@@ -1,23 +1,15 @@
 from typing import Any
 from unittest import mock
 
-from screenpy.actions import Debug
 from screenpy.resolutions import BaseResolution
 from unittest_protocols import Ability, Action, Question
-
-
-def get_mock_action(**kwargs) -> mock.Mock:
-    mock_action = mock.create_autospec(Debug(), _name="fakeaction", instance=True)
-    mock_action.perform_as = mock.create_autospec(Debug().perform_as, **kwargs)
-    mock_action.describe.return_value = "An African or a European swallow?"
-    return mock_action
 
 
 def get_mock_action_class() -> Any:
     class FakeAction(Action):
         def __new__(cls, *args, **kwargs):
             rt = mock.create_autospec(FakeAction, instance=True)
-            rt.describe.return_value = "An African or a European swallow?"
+            rt.describe.return_value = None
             return rt
     return FakeAction
 
