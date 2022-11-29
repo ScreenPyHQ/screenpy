@@ -4,7 +4,7 @@ import pytest
 
 from screenpy import Actor, and_, given, given_that, then, when
 from screenpy.exceptions import UnableToPerform
-from useful_mocks import get_mock_task, get_mock_ability_class, get_mock_action_class
+from useful_mocks import get_mock_ability_class, get_mock_action_class
 
 FakeAction = get_mock_action_class()
 FakeAbility = get_mock_ability_class()
@@ -58,8 +58,8 @@ def test_find_abilities() -> None:
 
 
 def test_performs_cleanup_tasks_when_exiting() -> None:
-    mocked_ordered_task = get_mock_task()
-    mocked_independent_task = get_mock_task()
+    mocked_ordered_task = FakeAction()
+    mocked_independent_task = FakeAction()
     actor = Actor.named("Tester").with_ordered_cleanup_tasks(mocked_ordered_task)
     actor.has_independent_cleanup_tasks(mocked_independent_task)
 
@@ -83,8 +83,8 @@ def test_assert_has_cleanup_tasks_is_deprecated() -> None:
 
 
 def test_clears_cleanup_tasks() -> None:
-    mocked_task = get_mock_task()
-    mocked_task_with_exception = get_mock_task()
+    mocked_task = FakeAction()
+    mocked_task_with_exception = FakeAction()
     mocked_task_with_exception.perform_as.side_effect = ValueError(
         "I will not buy this record, it is scratched."
     )
@@ -106,8 +106,8 @@ def test_clears_cleanup_tasks() -> None:
 
 
 def test_ordered_cleanup_stops_at_first_exception() -> None:
-    mocked_task = get_mock_task()
-    mocked_task_with_exception = get_mock_task()
+    mocked_task = FakeAction()
+    mocked_task_with_exception = FakeAction()
     mocked_task_with_exception.perform_as.side_effect = ValueError(
         "Good night, a-ding ding ding ding..."
     )
@@ -122,8 +122,8 @@ def test_ordered_cleanup_stops_at_first_exception() -> None:
 
 
 def test_independent_cleanup_continues_through_exceptions() -> None:
-    mocked_task = get_mock_task()
-    mocked_task_with_exception = get_mock_task()
+    mocked_task = FakeAction()
+    mocked_task_with_exception = FakeAction()
     mocked_task_with_exception.perform_as.side_effect = ValueError(
         "Sir Robin ran away."
     )

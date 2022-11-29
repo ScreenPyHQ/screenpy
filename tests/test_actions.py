@@ -23,14 +23,15 @@ from screenpy.resolutions import IsEqualTo
 from conftest import mock_settings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
-    get_mock_question,
     get_mock_resolution,
     get_mock_action_class,
+    get_mock_question_class,
+    get_mock_resolution_class,
 )
 
 FakeAction = get_mock_action_class()
-QUESTION = get_mock_question()
-RESOLUTION = get_mock_resolution()
+FakeQuestion = get_mock_question_class()
+FakeResolution = get_mock_resolution_class()
 
 
 class TestAttachTheFile:
@@ -275,7 +276,7 @@ class TestMakeNote:
         assert mn.key == test_key
 
     def test_answers_question(self, Tester) -> None:
-        mock_question = get_mock_question()
+        mock_question = FakeQuestion()
         MakeNote.of_the(mock_question).as_("test").perform_as(Tester)
         mock_question.answered_by.assert_called_once_with(Tester)
 
@@ -286,7 +287,7 @@ class TestMakeNote:
     def test_adds_note_to_director(self, Tester) -> None:
         key = "key"
         value = "note"
-        mock_question = get_mock_question()
+        mock_question = FakeQuestion()
         mock_question.answered_by.return_value = value
 
         MakeNote.of_the(mock_question).as_(key).perform_as(Tester)
@@ -302,7 +303,7 @@ class TestMakeNote:
         assert Director().looks_up(key) == test_note
 
     def test_using_note_immediately_raises_with_docs(self, Tester) -> None:
-        mock_question = get_mock_question()
+        mock_question = FakeQuestion()
         key = "spam, spam, spam, spam, baked beans, and spam"
 
         with pytest.raises(UnableToDirect) as exc:
@@ -422,7 +423,7 @@ class TestSee:
     def test_calls_assert_that_with_answered_question(
         self, mocked_assert_that, Tester
     ) -> None:
-        mock_question = get_mock_question()
+        mock_question = FakeQuestion()
         mock_question.describe.return_value = "What was your mother?"
         mock_question.caught_exception = ValueError("Failure msg")
         mock_resolution = get_mock_resolution()
@@ -448,7 +449,7 @@ class TestSee:
         mocked_assert_that.assert_called_once_with(test_value, mock_resolution, "")
 
     def test_describe(self) -> None:
-        mock_question = get_mock_question()
+        mock_question = FakeQuestion()
         mock_question.describe.return_value = "Can you speak?"
         mock_resolution = get_mock_resolution()
         mock_resolution.get_line.return_value = "I speak"
@@ -461,32 +462,32 @@ class TestSee:
 
 class TestSeeAllOf:
     def test_can_be_instantiated(self) -> None:
-        sao1 = SeeAllOf(("QUESTION", RESOLUTION))
-        sao2 = SeeAllOf.the((QUESTION, RESOLUTION))
+        sao1 = SeeAllOf(("FakeQuestion()", FakeResolution()))
+        sao2 = SeeAllOf.the((FakeQuestion(), FakeResolution()))
 
         assert isinstance(sao1, SeeAllOf)
         assert isinstance(sao2, SeeAllOf)
 
     def test_implements_protocol(self) -> None:
-        s = SeeAllOf((QUESTION, RESOLUTION))
+        s = SeeAllOf((FakeQuestion(), FakeResolution()))
 
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
 
     def test_raises_exception(self) -> None:
         with pytest.raises(TypeError):
-            SeeAllOf(QUESTION)  # type: ignore
+            SeeAllOf(FakeQuestion())  # type: ignore
 
         with pytest.raises(UnableToAct):
-            SeeAllOf((QUESTION,))  # type: ignore
+            SeeAllOf((FakeQuestion(),))  # type: ignore
 
         with pytest.raises(UnableToAct):
-            SeeAllOf((QUESTION, RESOLUTION, 1))  # type: ignore
+            SeeAllOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
 
     @mock.patch("screenpy.actions.see_all_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
         num_tests = 3
-        tests = ((get_mock_question(), get_mock_resolution()),) * num_tests
+        tests = ((FakeQuestion(), get_mock_resolution()),) * num_tests
 
         SeeAllOf.the(*tests).perform_as(Tester)
 
@@ -500,27 +501,27 @@ class TestSeeAllOf:
     def test_raises_assertionerror_if_one_fails(self, Tester) -> None:
         with pytest.raises(AssertionError):
             SeeAllOf(
-                (QUESTION, IsEqualTo(True)),
-                (QUESTION, IsEqualTo(False)),  # <--
-                (QUESTION, IsEqualTo(True)),
-                (QUESTION, IsEqualTo(True)),
+                (FakeQuestion(), IsEqualTo(True)),
+                (FakeQuestion(), IsEqualTo(False)),  # <--
+                (FakeQuestion(), IsEqualTo(True)),
+                (FakeQuestion(), IsEqualTo(True)),
             ).perform_as(Tester)
 
     def test_passes_if_all_pass(self, Tester) -> None:
         # test passes if no exception is raised
         SeeAllOf(
-            (QUESTION, IsEqualTo(True)),
-            (QUESTION, IsEqualTo(True)),
-            (QUESTION, IsEqualTo(True)),
-            (QUESTION, IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
         ).perform_as(Tester)
 
     def test_describe(self) -> None:
         tests = (
-            (QUESTION, IsEqualTo(True)),
-            (QUESTION, IsEqualTo(True)),
-            (QUESTION, IsEqualTo(True)),
-            (QUESTION, IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
         )
 
         assert SeeAllOf(*tests).describe() == "See if all of 4 tests pass."
@@ -528,32 +529,32 @@ class TestSeeAllOf:
 
 class TestSeeAnyOf:
     def test_can_be_instantiated(self) -> None:
-        sao1 = SeeAnyOf((QUESTION, RESOLUTION))
-        sao2 = SeeAnyOf.the((QUESTION, RESOLUTION))
+        sao1 = SeeAnyOf((FakeQuestion(), FakeResolution()))
+        sao2 = SeeAnyOf.the((FakeQuestion(), FakeResolution()))
 
         assert isinstance(sao1, SeeAnyOf)
         assert isinstance(sao2, SeeAnyOf)
 
     def test_implements_protocol(self) -> None:
-        s = SeeAnyOf((QUESTION, RESOLUTION))
+        s = SeeAnyOf((FakeQuestion(), FakeResolution()))
 
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
 
     def test_raises_exception(self) -> None:
         with pytest.raises(TypeError):
-            SeeAnyOf(QUESTION)  # type: ignore
+            SeeAnyOf(FakeQuestion())  # type: ignore
 
         with pytest.raises(UnableToAct):
-            SeeAnyOf((QUESTION,))  # type: ignore
+            SeeAnyOf((FakeQuestion(),))  # type: ignore
 
         with pytest.raises(UnableToAct):
-            SeeAnyOf((QUESTION, RESOLUTION, 1))  # type: ignore
+            SeeAnyOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
 
     @mock.patch("screenpy.actions.see_any_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
         num_tests = 3
-        tests = ((get_mock_question(), get_mock_resolution()),) * num_tests
+        tests = ((FakeQuestion(), get_mock_resolution()),) * num_tests
 
         SeeAnyOf.the(*tests).perform_as(Tester)
 
@@ -567,8 +568,8 @@ class TestSeeAnyOf:
     def test_raises_assertionerror_if_none_pass(self, Tester) -> None:
         with pytest.raises(AssertionError) as actual_exception:
             SeeAnyOf(
-                (QUESTION, IsEqualTo(False)),
-                (QUESTION, IsEqualTo(False)),
+                (FakeQuestion(), IsEqualTo(False)),
+                (FakeQuestion(), IsEqualTo(False)),
             ).perform_as(Tester)
 
         assert "did not find any expected answers" in str(actual_exception)
@@ -576,18 +577,18 @@ class TestSeeAnyOf:
     def test_passes_with_one_pass(self, Tester) -> None:
         # test passes if no exception is raised
         SeeAnyOf(
-            (QUESTION, IsEqualTo(False)),
-            (QUESTION, IsEqualTo(False)),
-            (QUESTION, IsEqualTo(True)),  # <--
-            (QUESTION, IsEqualTo(False)),
+            (FakeQuestion(), IsEqualTo(False)),
+            (FakeQuestion(), IsEqualTo(False)),
+            (FakeQuestion(), IsEqualTo(True)),  # <--
+            (FakeQuestion(), IsEqualTo(False)),
         ).perform_as(Tester)
 
     def test_describe(self) -> None:
         tests = (
-            (QUESTION, IsEqualTo(True)),
-            (QUESTION, IsEqualTo(True)),
-            (QUESTION, IsEqualTo(True)),
-            (QUESTION, IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
         )
 
         assert SeeAnyOf(*tests).describe() == "See if any of 4 tests pass."

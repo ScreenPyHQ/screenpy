@@ -14,22 +14,22 @@ def get_mock_action_class() -> Any:
     return FakeAction
 
 
-def get_mock_question() -> mock.Mock:
-    question = mock.create_autospec(Question, instance=True)
-    question.describe.return_value = "Description of Mocked Question"
-    question.answered_by.return_value = True
-    return question
+def get_mock_question_class() -> Any:
+    class FakeQuestion(Question):
+        def __new__(cls, *args, **kwargs):
+            rt = mock.create_autospec(Question, instance=True)
+            rt.describe.return_value = None
+            rt.answered_by.return_value = True
+            return rt
+    return FakeQuestion
 
 
-def get_mock_resolution() -> mock.Mock:
-    return mock.create_autospec(BaseResolution, instance=True)
-
-
-def get_mock_task() -> mock.Mock:
-    """Get a describable mock task."""
-    task = mock.create_autospec(Action, instance=True)
-    task.describe.return_value = "A mocked task."
-    return task
+def get_mock_resolution_class() -> Any:
+    class FakeResolution(BaseResolution):
+        def __new__(cls, *args, **kwargs):
+            rt = mock.create_autospec(BaseResolution, instance=True)
+            return rt
+    return FakeResolution
 
 
 def get_mock_ability_class() -> Any:
