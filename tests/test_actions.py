@@ -23,7 +23,6 @@ from screenpy.resolutions import IsEqualTo
 from conftest import mock_settings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
-    get_mock_resolution,
     get_mock_action_class,
     get_mock_question_class,
     get_mock_resolution_class,
@@ -407,14 +406,14 @@ class TestPause:
 
 class TestSee:
     def test_can_be_instantiated(self) -> None:
-        s1 = See(None, get_mock_resolution())
-        s2 = See.the(None, get_mock_resolution())
+        s1 = See(None, FakeResolution())
+        s2 = See.the(None, FakeResolution())
 
         assert isinstance(s1, See)
         assert isinstance(s2, See)
 
     def test_implements_protocol(self) -> None:
-        s = See(None, get_mock_resolution())
+        s = See(None, FakeResolution())
 
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
@@ -426,7 +425,7 @@ class TestSee:
         mock_question = FakeQuestion()
         mock_question.describe.return_value = "What was your mother?"
         mock_question.caught_exception = ValueError("Failure msg")
-        mock_resolution = get_mock_resolution()
+        mock_resolution = FakeResolution()
         mock_resolution.get_line.return_value = "A hamster!"
 
         See.the(mock_question, mock_resolution).perform_as(Tester)
@@ -441,7 +440,7 @@ class TestSee:
     @mock.patch("screenpy.actions.see.assert_that")
     def test_calls_assert_that_with_value(self, mocked_assert_that, Tester) -> None:
         test_value = "Your father smelt of"
-        mock_resolution = get_mock_resolution()
+        mock_resolution = FakeResolution()
         mock_resolution.get_line.return_value = "Elderberries!"
 
         See.the(test_value, mock_resolution).perform_as(Tester)
@@ -451,7 +450,7 @@ class TestSee:
     def test_describe(self) -> None:
         mock_question = FakeQuestion()
         mock_question.describe.return_value = "Can you speak?"
-        mock_resolution = get_mock_resolution()
+        mock_resolution = FakeResolution()
         mock_resolution.get_line.return_value = "I speak"
 
         assert (
@@ -487,7 +486,7 @@ class TestSeeAllOf:
     @mock.patch("screenpy.actions.see_all_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
         num_tests = 3
-        tests = ((FakeQuestion(), get_mock_resolution()),) * num_tests
+        tests = ((FakeQuestion(), FakeResolution()),) * num_tests
 
         SeeAllOf.the(*tests).perform_as(Tester)
 
@@ -554,7 +553,7 @@ class TestSeeAnyOf:
     @mock.patch("screenpy.actions.see_any_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
         num_tests = 3
-        tests = ((FakeQuestion(), get_mock_resolution()),) * num_tests
+        tests = ((FakeQuestion(), FakeResolution()),) * num_tests
 
         SeeAnyOf.the(*tests).perform_as(Tester)
 
