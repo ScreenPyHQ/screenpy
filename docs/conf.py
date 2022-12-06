@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 from screenpy.__version__ import __version__, __author__, __copyright__  # noqa: need the path first
 
-autodoc_mock_imports = ["hamcrest", "typing_extensions"]
+autodoc_mock_imports = ["hamcrest"]
 
 # -- Project information -----------------------------------------------------
 

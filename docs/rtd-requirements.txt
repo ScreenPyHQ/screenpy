@@ -1,1 +1,3 @@
 screenpy
+typing_extensions
+importlib_metadata
