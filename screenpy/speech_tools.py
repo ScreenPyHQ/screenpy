@@ -28,10 +28,11 @@ def get_additive_description(
     """
     if isinstance(describable, Describable):
         description = describable.describe()  # type: ignore # see PEP 544
-        if not description:
+        if description:
+            description = description[0].lower() + description[1:]
+            description = re.sub(r"[.,?!;:]*$", r"", description)
+        else:
             description = "something indescribable"
-        description = description[0].lower() + description[1:]
-        description = re.sub(r"[.,?!;:]*$", r"", description)
     elif isinstance(describable, (Answerable, Performable)):
         # No describe method, so fabricate a description from the class name.
         description = describable.__class__.__name__

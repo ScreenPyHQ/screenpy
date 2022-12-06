@@ -2,6 +2,7 @@
 Directors handle the meta information that it takes to run a screenplay. There
 is only one of them, so you'll always have access to the same information.
 """
+
 from typing import Type, TypeVar
 
 SelfDirector = TypeVar("SelfDirector", bound="Director")
