@@ -22,22 +22,30 @@ from screenpy.protocols import Describable, Performable
 from screenpy.resolutions import IsEqualTo
 from conftest import mock_settings
 from unittest_protocols import ErrorQuestion
-from useful_mocks import get_mock_action, get_mock_question, get_mock_resolution
+from useful_mocks import (
+    get_mock_action_class,
+    get_mock_question_class,
+    get_mock_resolution_class,
+)
+
+FakeAction = get_mock_action_class()
+FakeQuestion = get_mock_question_class()
+FakeResolution = get_mock_resolution_class()
 
 
 class TestAttachTheFile:
-    def test_can_be_instantiated(self):
+    def test_can_be_instantiated(self) -> None:
         atf = AttachTheFile("")
 
         assert isinstance(atf, AttachTheFile)
 
-    def test_implements_protocol(self):
+    def test_implements_protocol(self) -> None:
         atf = AttachTheFile("")
 
         assert isinstance(atf, Performable)
         assert isinstance(atf, Describable)
 
-    def test_divines_filename(self):
+    def test_divines_filename(self) -> None:
         filename = "thisisonlyatest.png"
         filepath = os.sep.join(["this", "is", "a", "test", filename])
         atf_without_path = AttachTheFile(filename)
@@ -47,7 +55,9 @@ class TestAttachTheFile:
         assert atf_with_path.filename == filename
 
     @mock.patch("screenpy.actions.attach_the_file.the_narrator", autospec=True)
-    def test_perform_attach_the_file_sends_kwargs(self, mocked_narrator, Tester):
+    def test_perform_attach_the_file_sends_kwargs(
+        self, mocked_narrator, Tester
+    ) -> None:
         test_path = "souiiie.png"
         test_kwargs = {"color": "Red", "weather": "Tornado"}
 
@@ -57,52 +67,52 @@ class TestAttachTheFile:
             test_path, **test_kwargs
         )
 
-    def test_describe(self):
+    def test_describe(self) -> None:
         file = "somefile.txt"
         assert AttachTheFile(file).describe() == f"Attach a file named {file}."
 
 
 class TestDebug:
-    def test_can_be_instantiated(self):
+    def test_can_be_instantiated(self) -> None:
         d = Debug()
 
         assert isinstance(d, Debug)
 
-    def test_implements_protocol(self):
+    def test_implements_protocol(self) -> None:
         d = Debug()
 
         assert isinstance(d, Performable)
         assert isinstance(d, Describable)
 
     @mock.patch("screenpy.actions.debug.breakpoint")
-    def test_calls_breakpoint(self, mocked_breakpoint, Tester):
+    def test_calls_breakpoint(self, mocked_breakpoint, Tester) -> None:
         Debug().perform_as(Tester)
 
         mocked_breakpoint.assert_called_once()
 
     @mock.patch("screenpy.actions.debug.breakpoint")
     @mock.patch("screenpy.actions.debug.pdb")
-    def test_falls_back_to_pdb(self, mocked_pdb, mocked_breakpoint, Tester):
+    def test_falls_back_to_pdb(self, mocked_pdb, mocked_breakpoint, Tester) -> None:
         mocked_breakpoint.side_effect = NameError("name 'breakpoint' is not defined")
 
         Debug().perform_as(Tester)
 
         mocked_pdb.set_trace.assert_called_once()
 
-    def test_describe(self):
+    def test_describe(self) -> None:
         assert Debug().describe() == "Assume direct control."
 
 
 class TestEventually:
-    def test_can_be_instantiated(self):
-        e1 = Eventually(None)
-        e2 = Eventually(None).trying_for_no_longer_than(0).seconds()
-        e3 = Eventually(None).trying_for(0).milliseconds()
-        e4 = Eventually(None).for_(0).seconds()
-        e5 = Eventually(None).waiting_for(0).seconds()
-        e6 = Eventually(None).polling(0).seconds()
-        e7 = Eventually(None).polling_every(0).milliseconds()
-        e8 = Eventually(None).trying_every(0).seconds()
+    def test_can_be_instantiated(self) -> None:
+        e1 = Eventually(FakeAction())
+        e2 = Eventually(FakeAction()).trying_for_no_longer_than(0).seconds()
+        e3 = Eventually(FakeAction()).trying_for(0).milliseconds()
+        e4 = Eventually(FakeAction()).for_(0).seconds()
+        e5 = Eventually(FakeAction()).waiting_for(0).seconds()
+        e6 = Eventually(FakeAction()).polling(0).seconds()
+        e7 = Eventually(FakeAction()).polling_every(0).milliseconds()
+        e8 = Eventually(FakeAction()).trying_every(0).seconds()
 
         assert isinstance(e1, Eventually)
         assert isinstance(e2, Eventually)
@@ -113,54 +123,51 @@ class TestEventually:
         assert isinstance(e7, Eventually)
         assert isinstance(e8, Eventually)
 
-    def test_implements_protocol(self):
-        t = Eventually(None)
+    def test_implements_protocol(self) -> None:
+        t = Eventually(FakeAction())
 
         assert isinstance(t, Performable)
         assert isinstance(t, Describable)
 
-    def test_uses_timeframe_builder(self):
-        ev = Eventually(None).trying_for(1)
+    def test_uses_timeframe_builder(self) -> None:
+        ev = Eventually(FakeAction()).trying_for(1)
 
         assert isinstance(ev, Eventually._TimeframeBuilder)
 
-    def test_can_adjust_timeout(self):
-        ev = Eventually(None).trying_for(12)
+    def test_can_adjust_timeout(self) -> None:
+        ev = Eventually(FakeAction()).trying_for(12)
 
         # is still _TimeframeBuilder, so get the stored Eventually
         assert ev.eventually.timeout == 12
 
-    def test_can_adjust_timeout_seconds(self):
-        ev = Eventually(None).trying_for(15).seconds()
+    def test_can_adjust_timeout_seconds(self) -> None:
+        ev = Eventually(FakeAction()).trying_for(15).seconds()
 
         assert ev.timeout == 15
 
-    def test_can_adjust_timeout_milliseconds(self):
-        ev = Eventually(None).trying_for(1200).milliseconds()
+    def test_can_adjust_timeout_milliseconds(self) -> None:
+        ev = Eventually(FakeAction()).trying_for(1200).milliseconds()
 
         assert ev.timeout == 1.2
 
-    def test_can_adjust_polling_frequency(self):
-        ev = Eventually(None).polling(1).second()
+    def test_can_adjust_polling_frequency(self) -> None:
+        ev = Eventually(FakeAction()).polling(1).second()
 
         assert ev.poll == 1
 
     @mock_settings(TIMEOUT=100)
-    def test_adjusting_settings_timeout(self):
-        ev = Eventually(None)
+    def test_adjusting_settings_timeout(self) -> None:
+        ev = Eventually(FakeAction())
 
         assert ev.timeout == 100
 
-    def test__timeframebuilder_is_performable(self, Tester):
-        MockAction = get_mock_action()
-
+    def test__timeframebuilder_is_performable(self, Tester) -> None:
         # test passes if no exception is raised
-        Eventually(MockAction).for_(1).perform_as(Tester)
+        Eventually(FakeAction()).for_(1).perform_as(Tester)
 
-    def test_valueerror_when_poll_is_larger_than_timeout(self, Tester):
-        MockAction = get_mock_action()
+    def test_valueerror_when_poll_is_larger_than_timeout(self, Tester) -> None:
         ev = (
-            Eventually(MockAction)
+            Eventually(FakeAction())
             .polling_every(200)
             .milliseconds()
             .for_(100)
@@ -173,69 +180,77 @@ class TestEventually:
         assert "poll must be less than or equal to timeout" in str(actual_exception)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_perform_eventually_times_out(self, mocked_time, Tester):
+    def test_perform_eventually_times_out(self, mocked_time, Tester) -> None:
         num_calls = 5
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
         )
-        MockAction = get_mock_action(side_effect=ValueError("'Tis but a flesh wound!"))
+        mock_action = FakeAction()
+        mock_action.perform_as.side_effect = ValueError("'Tis but a flesh wound!")
 
         with pytest.raises(DeliveryError):
-            Eventually(MockAction).perform_as(Tester)
+            Eventually(mock_action).perform_as(Tester)
 
         assert mocked_time.time.call_count == num_calls + 1
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_timeout_mentions_num_executions(self, mocked_time, Tester):
+    def test_timeout_mentions_num_executions(self, mocked_time, Tester) -> None:
         num_calls = 5
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
         )
-        MockAction = get_mock_action(
-            side_effect=ValueError("He's pining for the fjords!")
-        )
+        mock_action = FakeAction()
+        mock_action.perform_as.side_effect = ValueError("He's pining for the fjords!")
 
         with pytest.raises(DeliveryError) as e:
-            Eventually(MockAction).perform_as(Tester)
+            Eventually(mock_action).perform_as(Tester)
 
         assert f"{num_calls} times" in str(e)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_catches_exceptions(self, mocked_time, Tester):
+    def test_catches_exceptions(self, mocked_time, Tester) -> None:
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         msg = "I got better."
-        MockAction = get_mock_action(side_effect=ValueError(msg))
+        mock_action = FakeAction()
+        mock_action.perform_as.side_effect = ValueError(msg)
 
         with pytest.raises(DeliveryError) as actual_exception:
-            Eventually(MockAction).perform_as(Tester)
+            Eventually(mock_action).perform_as(Tester)
 
         assert msg in str(actual_exception)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_mentions_all_errors(self, mocked_time, Tester):
+    def test_mentions_all_errors(self, mocked_time, Tester) -> None:
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         exc1 = ValueError("These tracts of land aren't that huge!")
         exc2 = TypeError("This witch does not weigh as much as a duck!")
-        MockAction = get_mock_action(side_effect=[exc1, exc2])
+        mock_action = FakeAction()
+        mock_action.perform_as.side_effect = [exc1, exc2]
 
         with pytest.raises(DeliveryError) as actual_exception:
-            Eventually(MockAction).perform_as(Tester)
+            Eventually(mock_action).perform_as(Tester)
 
         assert exc1.__class__.__name__ in str(actual_exception.value)
         assert str(exc1) in str(actual_exception.value)
         assert exc2.__class__.__name__ in str(actual_exception.value)
         assert str(exc2) in str(actual_exception.value)
 
-    def test_describe(self):
-        MockAction = get_mock_action()
+    def test_describe(self) -> None:
+        mock_action = FakeAction()
+        mock_action.describe.return_value = "An African or a European swallow?"
         assert (
-            Eventually(MockAction).describe()
+            Eventually(mock_action).describe()
             == "Eventually an African or a European swallow."
+        )
+
+    def test_describe_none(self) -> None:
+        assert (
+            Eventually(FakeAction()).describe() == "Eventually something indescribable."
         )
 
 
 class TestMakeNote:
-    def test_can_be_instantiated(self):
+    def test_can_be_instantiated(self) -> None:
         mn1 = MakeNote(None)
         mn2 = MakeNote.of(None)
         mn3 = MakeNote.of_the(None).as_("")
@@ -244,13 +259,13 @@ class TestMakeNote:
         assert isinstance(mn2, MakeNote)
         assert isinstance(mn3, MakeNote)
 
-    def test_implements_protocol(self):
+    def test_implements_protocol(self) -> None:
         m = MakeNote("")
 
         assert isinstance(m, Performable)
         assert isinstance(m, Describable)
 
-    def test_key_value_set(self):
+    def test_key_value_set(self) -> None:
         test_question = "Do I feel lucky?"
         test_key = "Well, do you, punk?"
 
@@ -259,26 +274,26 @@ class TestMakeNote:
         assert mn.question == test_question
         assert mn.key == test_key
 
-    def test_answers_question(self, Tester):
-        mock_question = get_mock_question()
+    def test_answers_question(self, Tester) -> None:
+        mock_question = FakeQuestion()
         MakeNote.of_the(mock_question).as_("test").perform_as(Tester)
         mock_question.answered_by.assert_called_once_with(Tester)
 
-    def test_raises_without_key(self, Tester):
+    def test_raises_without_key(self, Tester) -> None:
         with pytest.raises(UnableToAct):
             MakeNote.of_the(None).perform_as(Tester)
 
-    def test_adds_note_to_director(self, Tester):
+    def test_adds_note_to_director(self, Tester) -> None:
         key = "key"
         value = "note"
-        mock_question = get_mock_question()
+        mock_question = FakeQuestion()
         mock_question.answered_by.return_value = value
 
         MakeNote.of_the(mock_question).as_(key).perform_as(Tester)
 
         assert Director().looks_up(key) == value
 
-    def test_can_use_value_instead_of_question(self, Tester):
+    def test_can_use_value_instead_of_question(self, Tester) -> None:
         key = "key"
         test_note = "note"
 
@@ -286,8 +301,8 @@ class TestMakeNote:
 
         assert Director().looks_up(key) == test_note
 
-    def test_using_note_immediately_raises_with_docs(self, Tester):
-        mock_question = get_mock_question()
+    def test_using_note_immediately_raises_with_docs(self, Tester) -> None:
+        mock_question = FakeQuestion()
         key = "spam, spam, spam, spam, baked beans, and spam"
 
         with pytest.raises(UnableToDirect) as exc:
@@ -298,11 +313,11 @@ class TestMakeNote:
 
         assert "screenpy-docs.readthedocs.io" in str(exc.value)
 
-    def test_describe(self):
+    def test_describe(self) -> None:
         assert MakeNote(None).as_("blah").describe() == "Make a note under blah."
 
     @mock.patch("screenpy.actions.make_note.aside", autospec=True)
-    def test_caught_exception_noted(self, mock_aside: mock.Mock, Tester):
+    def test_caught_exception_noted(self, mock_aside: mock.Mock, Tester) -> None:
         key = "key"
         value = "note"
         mock_question = mock.create_autospec(ErrorQuestion, instance=True)
@@ -320,7 +335,7 @@ class TestMakeNote:
 
 
 class TestPause:
-    def test_can_be_instantiated(self):
+    def test_can_be_instantiated(self) -> None:
         p1 = Pause.for_(20)
         p2 = Pause.for_(20).seconds_because("test")
         p3 = Pause.for_(20).milliseconds_because("test")
@@ -329,27 +344,27 @@ class TestPause:
         assert isinstance(p2, Pause)
         assert isinstance(p3, Pause)
 
-    def test_implements_protocol(self):
+    def test_implements_protocol(self) -> None:
         p = Pause(1)
 
         assert isinstance(p, Performable)
         assert isinstance(p, Describable)
 
-    def test_seconds(self):
+    def test_seconds(self) -> None:
         """Choosing seconds stores the correct time"""
         duration = 20
         pause = Pause.for_(duration).seconds_because("test")
 
         assert pause.time == duration
 
-    def test_milliseconds(self):
+    def test_milliseconds(self) -> None:
         """Choosing milliseconds stores the correct time"""
         duration = 20
         pause = Pause.for_(duration).milliseconds_because("Test")
 
         assert pause.time == duration / 1000.0
 
-    def test_units_are_pluralized_correctly(self):
+    def test_units_are_pluralized_correctly(self) -> None:
         """Unit is pluralized if more than 1"""
         p1 = Pause.for_(1).second_because("test")
         p2 = Pause.for_(1).milliseconds_because("test")
@@ -361,7 +376,7 @@ class TestPause:
         assert p3.unit.endswith("s")
         assert p4.unit.endswith("s")
 
-    def test_reason_is_massaged_correctly(self):
+    def test_reason_is_massaged_correctly(self) -> None:
         p1 = Pause.for_(1).second_because("because reasons.")
         p2 = Pause.for_(1).second_because("reasons")
         p3 = Pause.for_(1000).milliseconds_because("because reasons.")
@@ -371,18 +386,18 @@ class TestPause:
         assert p3.reason == p4.reason == "because reasons"
 
     @mock.patch("screenpy.actions.pause.sleep", autospec=True)
-    def test_calls_sleep(self, mocked_sleep, Tester):
+    def test_calls_sleep(self, mocked_sleep, Tester) -> None:
         duration = 20
 
         Pause.for_(duration).seconds_because("").perform_as(Tester)
 
         mocked_sleep.assert_called_once_with(duration)
 
-    def test_complains_for_missing_reason(self, Tester):
+    def test_complains_for_missing_reason(self, Tester) -> None:
         with pytest.raises(UnableToAct):
             Pause.for_(20).perform_as(Tester)
 
-    def test_describe(self):
+    def test_describe(self) -> None:
         assert (
             Pause(1).second_because("moo").describe()
             == "Pause for 1 second because moo."
@@ -390,25 +405,27 @@ class TestPause:
 
 
 class TestSee:
-    def test_can_be_instantiated(self):
-        s1 = See(None, get_mock_resolution())
-        s2 = See.the(None, get_mock_resolution())
+    def test_can_be_instantiated(self) -> None:
+        s1 = See(None, FakeResolution())
+        s2 = See.the(None, FakeResolution())
 
         assert isinstance(s1, See)
         assert isinstance(s2, See)
 
-    def test_implements_protocol(self):
-        s = See(None, get_mock_resolution())
+    def test_implements_protocol(self) -> None:
+        s = See(None, FakeResolution())
 
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
 
     @mock.patch("screenpy.actions.see.assert_that")
-    def test_calls_assert_that_with_answered_question(self, mocked_assert_that, Tester):
-        mock_question = get_mock_question()
+    def test_calls_assert_that_with_answered_question(
+        self, mocked_assert_that, Tester
+    ) -> None:
+        mock_question = FakeQuestion()
         mock_question.describe.return_value = "What was your mother?"
         mock_question.caught_exception = ValueError("Failure msg")
-        mock_resolution = get_mock_resolution()
+        mock_resolution = FakeResolution()
         mock_resolution.get_line.return_value = "A hamster!"
 
         See.the(mock_question, mock_resolution).perform_as(Tester)
@@ -421,19 +438,19 @@ class TestSee:
         )
 
     @mock.patch("screenpy.actions.see.assert_that")
-    def test_calls_assert_that_with_value(self, mocked_assert_that, Tester):
+    def test_calls_assert_that_with_value(self, mocked_assert_that, Tester) -> None:
         test_value = "Your father smelt of"
-        mock_resolution = get_mock_resolution()
+        mock_resolution = FakeResolution()
         mock_resolution.get_line.return_value = "Elderberries!"
 
         See.the(test_value, mock_resolution).perform_as(Tester)
 
         mocked_assert_that.assert_called_once_with(test_value, mock_resolution, "")
 
-    def test_describe(self):
-        mock_question = get_mock_question()
+    def test_describe(self) -> None:
+        mock_question = FakeQuestion()
         mock_question.describe.return_value = "Can you speak?"
-        mock_resolution = get_mock_resolution()
+        mock_resolution = FakeResolution()
         mock_resolution.get_line.return_value = "I speak"
 
         assert (
@@ -443,27 +460,33 @@ class TestSee:
 
 
 class TestSeeAllOf:
-    def test_can_be_instantiated(self):
-        sao1 = SeeAllOf(None, None)
-        sao2 = SeeAllOf.the(None, None)
+    def test_can_be_instantiated(self) -> None:
+        sao1 = SeeAllOf(("FakeQuestion()", FakeResolution()))
+        sao2 = SeeAllOf.the((FakeQuestion(), FakeResolution()))
 
         assert isinstance(sao1, SeeAllOf)
         assert isinstance(sao2, SeeAllOf)
 
-    def test_implements_protocol(self):
-        s = SeeAllOf(None, None)
+    def test_implements_protocol(self) -> None:
+        s = SeeAllOf((FakeQuestion(), FakeResolution()))
 
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
 
-    def test_raises_exception_for_too_few_tests(self):
+    def test_raises_exception(self) -> None:
+        with pytest.raises(TypeError):
+            SeeAllOf(FakeQuestion())  # type: ignore
+
         with pytest.raises(UnableToAct):
-            SeeAllOf(None)
+            SeeAllOf((FakeQuestion(),))  # type: ignore
+
+        with pytest.raises(UnableToAct):
+            SeeAllOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
 
     @mock.patch("screenpy.actions.see_all_of.See")
-    def test_calls_see_for_each_test(self, MockedSee, Tester):
+    def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
         num_tests = 3
-        tests = ((get_mock_question(), get_mock_resolution()),) * num_tests
+        tests = ((FakeQuestion(), FakeResolution()),) * num_tests
 
         SeeAllOf.the(*tests).perform_as(Tester)
 
@@ -474,57 +497,63 @@ class TestSeeAllOf:
             for num, test in enumerate(tests):
                 assert MockedSee.method_calls[num].args == test
 
-    def test_raises_assertionerror_if_one_fails(self, Tester):
+    def test_raises_assertionerror_if_one_fails(self, Tester) -> None:
         with pytest.raises(AssertionError):
             SeeAllOf(
-                (True, IsEqualTo(True)),
-                (True, IsEqualTo(False)),  # <--
-                (True, IsEqualTo(True)),
-                (True, IsEqualTo(True)),
+                (FakeQuestion(), IsEqualTo(True)),
+                (FakeQuestion(), IsEqualTo(False)),  # <--
+                (FakeQuestion(), IsEqualTo(True)),
+                (FakeQuestion(), IsEqualTo(True)),
             ).perform_as(Tester)
 
-    def test_passes_if_all_pass(self, Tester):
+    def test_passes_if_all_pass(self, Tester) -> None:
         # test passes if no exception is raised
         SeeAllOf(
-            (True, IsEqualTo(True)),
-            (True, IsEqualTo(True)),
-            (True, IsEqualTo(True)),
-            (True, IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
         ).perform_as(Tester)
 
-    def test_describe(self):
+    def test_describe(self) -> None:
         tests = (
-            (True, IsEqualTo(True)),
-            (True, IsEqualTo(True)),
-            (True, IsEqualTo(True)),
-            (True, IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
         )
 
         assert SeeAllOf(*tests).describe() == "See if all of 4 tests pass."
 
 
 class TestSeeAnyOf:
-    def test_can_be_instantiated(self):
-        sao1 = SeeAnyOf(None, None)
-        sao2 = SeeAnyOf.the(None, None)
+    def test_can_be_instantiated(self) -> None:
+        sao1 = SeeAnyOf((FakeQuestion(), FakeResolution()))
+        sao2 = SeeAnyOf.the((FakeQuestion(), FakeResolution()))
 
         assert isinstance(sao1, SeeAnyOf)
         assert isinstance(sao2, SeeAnyOf)
 
-    def test_implements_protocol(self):
-        s = SeeAnyOf(None, None)
+    def test_implements_protocol(self) -> None:
+        s = SeeAnyOf((FakeQuestion(), FakeResolution()))
 
         assert isinstance(s, Performable)
         assert isinstance(s, Describable)
 
-    def test_raises_exception_for_too_few_tests(self):
+    def test_raises_exception(self) -> None:
+        with pytest.raises(TypeError):
+            SeeAnyOf(FakeQuestion())  # type: ignore
+
         with pytest.raises(UnableToAct):
-            SeeAnyOf(None)
+            SeeAnyOf((FakeQuestion(),))  # type: ignore
+
+        with pytest.raises(UnableToAct):
+            SeeAnyOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
 
     @mock.patch("screenpy.actions.see_any_of.See")
-    def test_calls_see_for_each_test(self, MockedSee, Tester):
+    def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
         num_tests = 3
-        tests = ((get_mock_question(), get_mock_resolution()),) * num_tests
+        tests = ((FakeQuestion(), FakeResolution()),) * num_tests
 
         SeeAnyOf.the(*tests).perform_as(Tester)
 
@@ -535,30 +564,30 @@ class TestSeeAnyOf:
             for num, test in enumerate(tests):
                 assert MockedSee.method_calls[num].args == test
 
-    def test_raises_assertionerror_if_none_pass(self, Tester):
+    def test_raises_assertionerror_if_none_pass(self, Tester) -> None:
         with pytest.raises(AssertionError) as actual_exception:
             SeeAnyOf(
-                (True, IsEqualTo(False)),
-                (True, IsEqualTo(False)),
+                (FakeQuestion(), IsEqualTo(False)),
+                (FakeQuestion(), IsEqualTo(False)),
             ).perform_as(Tester)
 
         assert "did not find any expected answers" in str(actual_exception)
 
-    def test_passes_with_one_pass(self, Tester):
+    def test_passes_with_one_pass(self, Tester) -> None:
         # test passes if no exception is raised
         SeeAnyOf(
-            (True, IsEqualTo(False)),
-            (True, IsEqualTo(False)),
-            (True, IsEqualTo(True)),  # <--
-            (True, IsEqualTo(False)),
+            (FakeQuestion(), IsEqualTo(False)),
+            (FakeQuestion(), IsEqualTo(False)),
+            (FakeQuestion(), IsEqualTo(True)),  # <--
+            (FakeQuestion(), IsEqualTo(False)),
         ).perform_as(Tester)
 
-    def test_describe(self):
+    def test_describe(self) -> None:
         tests = (
-            (True, IsEqualTo(True)),
-            (True, IsEqualTo(True)),
-            (True, IsEqualTo(True)),
-            (True, IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
+            (FakeQuestion(), IsEqualTo(True)),
         )
 
         assert SeeAnyOf(*tests).describe() == "See if any of 4 tests pass."

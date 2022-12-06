@@ -1,19 +1,21 @@
 import warnings
-from unittest import mock
 
 import pytest
 
 from screenpy import Actor, and_, given, given_that, then, when
 from screenpy.exceptions import UnableToPerform
-from unittest_protocols import Action
-from useful_mocks import get_mock_ability, get_mock_task
+from useful_mocks import get_mock_ability_class, get_mock_action_class
+
+FakeAction = get_mock_action_class()
+FakeAbility = get_mock_ability_class()
+AnotherFakeAbility = get_mock_ability_class()
 
 
-def test_can_be_instantiated():
+def test_can_be_instantiated() -> None:
     a1 = Actor.named("Tester")
-    a2 = Actor.named("Tester").can(None)
-    a3 = Actor.named("Tester").who_can(None)
-    a4 = Actor.named("Tester").who_can(None).with_ordered_cleanup_tasks(None)
+    a2 = Actor.named("Tester").can(FakeAbility())
+    a3 = Actor.named("Tester").who_can(FakeAbility())
+    a4 = Actor.named("Tester").who_can(FakeAbility()).with_ordered_cleanup_tasks(FakeAction())
 
     assert isinstance(a1, Actor)
     assert isinstance(a2, Actor)
@@ -21,8 +23,8 @@ def test_can_be_instantiated():
     assert isinstance(a4, Actor)
 
 
-def test_calls_perform_as():
-    action = mock.create_autospec(Action, instance=True)
+def test_calls_perform_as() -> None:
+    action = FakeAction()
     actor = Actor.named("Tester")
 
     actor.attempts_to(action)
@@ -34,30 +36,30 @@ def test_calls_perform_as():
     assert action.perform_as.call_count == 3
 
 
-def test_complains_for_missing_abilities():
+def test_complains_for_missing_abilities() -> None:
     actor = Actor.named("Tester")
 
     with pytest.raises(UnableToPerform):
-        actor.ability_to(1)
+        actor.ability_to(FakeAbility)
 
 
-def test_has_ability():
-    actor = Actor.named("Tester").who_can(1)
+def test_has_ability() -> None:
+    actor = Actor.named("Tester").who_can(FakeAbility())
 
-    assert actor.has_ability_to(int)
-    assert not actor.has_ability_to(float)
+    assert actor.has_ability_to(FakeAbility)
+    assert not actor.has_ability_to(AnotherFakeAbility)
 
 
-def test_find_abilities():
-    ability = 1
+def test_find_abilities() -> None:
+    ability = FakeAbility()
     actor = Actor.named("Tester").who_can(ability)
 
-    assert actor.ability_to(int) is ability
+    assert actor.ability_to(FakeAbility) is ability
 
 
-def test_performs_cleanup_tasks_when_exiting():
-    mocked_ordered_task = get_mock_task()
-    mocked_independent_task = get_mock_task()
+def test_performs_cleanup_tasks_when_exiting() -> None:
+    mocked_ordered_task = FakeAction()
+    mocked_independent_task = FakeAction()
     actor = Actor.named("Tester").with_ordered_cleanup_tasks(mocked_ordered_task)
     actor.has_independent_cleanup_tasks(mocked_independent_task)
 
@@ -69,20 +71,20 @@ def test_performs_cleanup_tasks_when_exiting():
     assert len(actor.independent_cleanup_tasks) == 0
 
 
-def test_assert_has_cleanup_tasks_is_deprecated():
+def test_assert_has_cleanup_tasks_is_deprecated() -> None:
     actor = Actor.named("Tester")
 
     with warnings.catch_warnings(record=True) as w:
-        actor.has_cleanup_tasks(None)
+        actor.has_cleanup_tasks(FakeAction())
 
     assert issubclass(w[-1].category, DeprecationWarning)
     assert "has_ordered_cleanup_tasks" in str(w[-1])
     assert "has_independent_cleanup_tasks" in str(w[-1])
 
 
-def test_clears_cleanup_tasks():
-    mocked_task = get_mock_task()
-    mocked_task_with_exception = get_mock_task()
+def test_clears_cleanup_tasks() -> None:
+    mocked_task = FakeAction()
+    mocked_task_with_exception = FakeAction()
     mocked_task_with_exception.perform_as.side_effect = ValueError(
         "I will not buy this record, it is scratched."
     )
@@ -103,9 +105,9 @@ def test_clears_cleanup_tasks():
     assert len(actor2.independent_cleanup_tasks) == 0
 
 
-def test_ordered_cleanup_stops_at_first_exception():
-    mocked_task = get_mock_task()
-    mocked_task_with_exception = get_mock_task()
+def test_ordered_cleanup_stops_at_first_exception() -> None:
+    mocked_task = FakeAction()
+    mocked_task_with_exception = FakeAction()
     mocked_task_with_exception.perform_as.side_effect = ValueError(
         "Good night, a-ding ding ding ding..."
     )
@@ -119,9 +121,9 @@ def test_ordered_cleanup_stops_at_first_exception():
     mocked_task.perform_as.assert_not_called()
 
 
-def test_independent_cleanup_continues_through_exceptions():
-    mocked_task = get_mock_task()
-    mocked_task_with_exception = get_mock_task()
+def test_independent_cleanup_continues_through_exceptions() -> None:
+    mocked_task = FakeAction()
+    mocked_task_with_exception = FakeAction()
     mocked_task_with_exception.perform_as.side_effect = ValueError(
         "Sir Robin ran away."
     )
@@ -135,8 +137,8 @@ def test_independent_cleanup_continues_through_exceptions():
     mocked_task.perform_as.assert_called_once()
 
 
-def test_forgets_abilities_when_exiting():
-    mocked_ability = get_mock_ability()
+def test_forgets_abilities_when_exiting() -> None:
+    mocked_ability = FakeAbility()
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_stage_left()
@@ -145,8 +147,8 @@ def test_forgets_abilities_when_exiting():
     assert len(actor.abilities) == 0
 
 
-def test_exit_stage_right():
-    mocked_ability = get_mock_ability()
+def test_exit_stage_right() -> None:
+    mocked_ability = FakeAbility()
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_stage_right()
@@ -154,8 +156,8 @@ def test_exit_stage_right():
     mocked_ability.forget.assert_called_once()
 
 
-def test_exit_through_vomitorium():
-    mocked_ability = get_mock_ability()
+def test_exit_through_vomitorium() -> None:
+    mocked_ability = FakeAbility()
     actor = Actor.named("Tester").who_can(mocked_ability)
 
     actor.exit_through_vomitorium()
@@ -163,7 +165,7 @@ def test_exit_through_vomitorium():
     mocked_ability.forget.assert_called_once()
 
 
-def test_directives(Tester):
+def test_directives(Tester) -> None:
     assert given(Tester) == Tester
     assert given_that(Tester) == Tester
     assert when(Tester) == Tester

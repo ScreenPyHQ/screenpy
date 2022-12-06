@@ -10,12 +10,12 @@ def prop():
 
 
 class TestStdOutManager:
-    def test_can_be_instantiated(self):
+    def test_can_be_instantiated(self) -> None:
         m = StdOutManager()
 
         assert isinstance(m, StdOutManager)
 
-    def test__outdent(self):
+    def test__outdent(self) -> None:
         manager = StdOutManager()
         manager.depth = []
 
@@ -25,7 +25,7 @@ class TestStdOutManager:
 
         assert len(manager.depth) == 0
 
-    def test__indent(self):
+    def test__indent(self) -> None:
         manager = StdOutManager()
 
         with manager._indent():
@@ -34,7 +34,7 @@ class TestStdOutManager:
         # context persists until manager._outdent is called
         assert len(manager.depth) == 1
 
-    def test_step(self, caplog):
+    def test_step(self, caplog) -> None:
         manager = StdOutManager()
         test_message = "Wow. I’m Mr. Manager."
 
@@ -45,17 +45,17 @@ class TestStdOutManager:
 
 
 class TestStdOutAdapter:
-    def test_instantiate(self):
+    def test_instantiate(self) -> None:
         a = StdOutAdapter()
 
         assert isinstance(a, StdOutAdapter)
 
-    def test_implements_protocol(self):
+    def test_implements_protocol(self) -> None:
         a = StdOutAdapter()
 
         assert isinstance(a, Adapter)
 
-    def test_act(self, caplog):
+    def test_act(self, caplog) -> None:
         adapter = StdOutAdapter()
         act_name = "test act"
         test_func = adapter.act(prop, act_name, None)
@@ -66,7 +66,7 @@ class TestStdOutAdapter:
         assert len(caplog.records) == 1
         assert caplog.records[0].message == f"ACT {act_name.upper()}"
 
-    def test_scene(self, caplog):
+    def test_scene(self, caplog) -> None:
         adapter = StdOutAdapter()
         scene_name = "test scene"
         test_func = adapter.scene(prop, scene_name, None)
@@ -77,7 +77,7 @@ class TestStdOutAdapter:
         assert len(caplog.records) == 1
         assert caplog.records[0].message == f"Scene: {scene_name.title()}"
 
-    def test_beat(self, caplog):
+    def test_beat(self, caplog) -> None:
         adapter = StdOutAdapter()
         beat_line = "test beat"
         test_func = adapter.beat(prop, beat_line)
@@ -88,7 +88,7 @@ class TestStdOutAdapter:
         assert len(caplog.records) == 1
         assert caplog.records[0].message == beat_line
 
-    def test_indentation(self, caplog):
+    def test_indentation(self, caplog) -> None:
         adapter = StdOutAdapter()
 
         with caplog.at_level(logging.INFO):
@@ -102,7 +102,7 @@ class TestStdOutAdapter:
         assert caplog.records[1].message == "    2"
         assert caplog.records[2].message == "        3"
 
-    def test_aside(self, caplog):
+    def test_aside(self, caplog) -> None:
         adapter = StdOutAdapter()
         aside_line = "test aside"
         test_func = adapter.aside(prop, aside_line)
@@ -113,7 +113,7 @@ class TestStdOutAdapter:
         assert len(caplog.records) == 1
         assert caplog.records[0].message == aside_line
 
-    def test_aside_in_a_beat(self, caplog):
+    def test_aside_in_a_beat(self, caplog) -> None:
         adapter = StdOutAdapter()
 
         with caplog.at_level(logging.INFO):
@@ -125,7 +125,7 @@ class TestStdOutAdapter:
         assert caplog.records[0].message == "beat"
         assert caplog.records[1].message == "    aside"
 
-    def test_error(self, caplog):
+    def test_error(self, caplog) -> None:
         adapter = StdOutAdapter()
         expected_exception = ValueError("Snakes. Why is it always snakes?")
 
@@ -136,7 +136,7 @@ class TestStdOutAdapter:
         assert expected_exception.__class__.__name__ in caplog.records[0].message
         assert str(expected_exception) in caplog.records[0].message
 
-    def test_attach(self, caplog):
+    def test_attach(self, caplog) -> None:
         test_filepath = "freakazoid/documents/freak_in.png"
         adapter = StdOutAdapter()
 
