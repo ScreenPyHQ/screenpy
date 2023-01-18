@@ -79,6 +79,7 @@ class Pause:
 
         sleep(self.time)
 
+    # pylint: disable=no-self-use
     def _massage_reason(self: SelfPause, reason: str) -> str:
         """Apply some gentle massaging to the reason string."""
         if not reason.startswith("because"):

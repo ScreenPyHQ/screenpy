@@ -33,12 +33,12 @@ class Debug:
         )
     """
 
-    def describe(self) -> str:
+    def describe(self) -> str:  # pylint: disable=no-self-use
         """Describe the Action in present tense."""
         return "Assume direct control."
 
     @beat("{} assumes direct control...")
-    def perform_as(self, _: Actor) -> None:
+    def perform_as(self, _: Actor) -> None:  # pylint: disable=no-self-use
         """Direct the Actor to activate a debugger."""
 
         try:
