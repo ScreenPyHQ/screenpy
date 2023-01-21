@@ -7,6 +7,7 @@ first half is handled by Questions.
 """
 
 from .base_resolution import BaseResolution
+from .contains_item_matching import ContainsItemMatching
 from .contains_the_entry import ContainsTheEntry
 from .contains_the_item import ContainsTheItem
 from .contains_the_key import ContainsTheKey
@@ -21,6 +22,7 @@ from .reads_exactly import ReadsExactly
 
 # Natural-language-enabling syntactic sugar
 CloseTo = IsCloseTo
+ContainItemMatching = ContainsItemMatching
 ContainTheEntry = ContainTheEntries = ContainsTheEntries = ContainsTheEntry
 ContainTheItem = ContainsTheItem
 ContainTheKey = ContainsTheKey
@@ -35,6 +37,8 @@ ReadExactly = ReadsExactly
 
 __all__ = [
     "BaseResolution",
+    "ContainItemMatching",
+    "ContainsItemMatching",
     "ContainsTheEntries",
     "ContainsTheEntry",
     "ContainsTheItem",

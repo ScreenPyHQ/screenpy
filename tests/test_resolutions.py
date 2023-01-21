@@ -4,6 +4,7 @@ import pytest
 
 from screenpy.resolutions import (
     BaseResolution,
+    ContainsItemMatching,
     ContainsTheEntry,
     ContainsTheItem,
     ContainsTheKey,
@@ -94,6 +95,22 @@ class TestBaseResolution:
         repr(resolution)
 
         resolution.get_line.assert_called_once()
+
+
+class TestContainsItemMatching:
+    def test_can_be_instantiated(self) -> None:
+        cim = ContainsItemMatching(r"^$")
+
+        assert isinstance(cim, ContainsItemMatching)
+
+    def test_the_test(self) -> None:
+        cim = ContainsItemMatching(r"([Ss]pam ?)+")
+
+        assert cim.matches(["Spam", "Eggs", "Spam and eggs"])
+        assert not cim.matches(["Porridge"])
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(ContainsItemMatching(r"^$"))
 
 
 class TestContainsTheEntry:
