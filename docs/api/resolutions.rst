@@ -109,3 +109,10 @@ ReadsExactly
 **Aliases**: ``ReadExactly``
 
 .. autoclass:: ReadsExactly
+
+StartsWith
+----------
+
+**Aliases**: ``StartWith``
+
+.. autoclass:: StartsWith

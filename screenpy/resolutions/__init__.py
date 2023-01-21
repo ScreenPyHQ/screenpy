@@ -21,6 +21,7 @@ from .is_equal_to import IsEqualTo
 from .is_not import IsNot
 from .matches import Matches
 from .reads_exactly import ReadsExactly
+from .starts_with import StartsWith
 
 # Natural-language-enabling syntactic sugar
 CloseTo = IsCloseTo
@@ -37,6 +38,7 @@ HaveLength = HasLength
 IsEqual = Equals = Equal = EqualTo = IsEqualTo
 Match = Matches
 ReadExactly = ReadsExactly
+StartWith = StartsWith
 
 
 __all__ = [
@@ -73,4 +75,6 @@ __all__ = [
     "Matches",
     "ReadExactly",
     "ReadsExactly",
+    "StartsWith",
+    "StartWith",
 ]

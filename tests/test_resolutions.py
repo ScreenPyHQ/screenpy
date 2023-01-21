@@ -20,6 +20,7 @@ from screenpy.resolutions import (
     IsNot,
     Matches,
     ReadsExactly,
+    StartsWith,
 )
 from screenpy.resolutions.base_resolution import BaseMatcher
 
@@ -356,3 +357,19 @@ class TestReadsExactly:
 
     def test_type_hint(self) -> None:
         assert_matcher_annotation(ReadsExactly("hi"))
+
+
+class TestStartsWith:
+    def test_can_be_instantiated(self) -> None:
+        sw = StartsWith("")
+
+        assert isinstance(sw, StartsWith)
+
+    def test_the_test(self) -> None:
+        sw = StartsWith("I will not buy this record")
+
+        assert sw.matches("I will not buy this record, it is scratched.")
+        assert not sw.matches("I will not buy this tobacconist, it is scratched.")
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(StartsWith(""))
