@@ -50,6 +50,13 @@ ContainsTheValue
 
 .. autoclass:: ContainsTheValue
 
+EndsWith
+--------
+
+**Aliases**: ``EndWith``
+
+.. autoclass:: EndsWith
+
 HasLength
 ---------
 

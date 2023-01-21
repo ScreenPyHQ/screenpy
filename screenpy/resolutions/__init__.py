@@ -13,6 +13,7 @@ from .contains_the_item import ContainsTheItem
 from .contains_the_key import ContainsTheKey
 from .contains_the_text import ContainsTheText
 from .contains_the_value import ContainsTheValue
+from .ends_with import EndsWith
 from .has_length import HasLength
 from .is_close_to import IsCloseTo
 from .is_empty import IsEmpty
@@ -30,6 +31,7 @@ ContainTheText = ContainsTheText
 ContainTheValue = ContainsTheValue
 DoesNot = DoNot = IsNot
 Empty = IsEmpty
+EndWith = EndsWith
 HaveLength = HasLength
 IsEqual = Equals = Equal = EqualTo = IsEqualTo
 ReadExactly = ReadsExactly
@@ -54,6 +56,8 @@ __all__ = [
     "DoesNot",
     "DoNot",
     "Empty",
+    "EndsWith",
+    "EndWith",
     "Equal",
     "Equals",
     "EqualTo",

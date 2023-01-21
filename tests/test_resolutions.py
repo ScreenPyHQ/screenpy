@@ -11,6 +11,7 @@ from screenpy.resolutions import (
     ContainsTheText,
     ContainsTheValue,
     DoesNot,
+    EndsWith,
     Equal,
     HasLength,
     IsCloseTo,
@@ -228,6 +229,22 @@ class TestEmpty:
 
     def test_type_hint(self) -> None:
         assert_matcher_annotation(IsEmpty())
+
+
+class TestEndsWith:
+    def test_can_be_instantiated(self) -> None:
+        ew = EndsWith("")
+
+        assert isinstance(ew, EndsWith)
+
+    def test_the_test(self) -> None:
+        ew = EndsWith("of life!")
+
+        assert ew.matches("Bereft of life!")
+        assert not ew.matches("He has ceased to be!")
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(EndsWith(""))
 
 
 class TestHasLength:
