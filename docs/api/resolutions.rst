@@ -96,6 +96,13 @@ IsNot
 
 .. autoclass:: IsNot
 
+Matches
+-------
+
+**Aliases**: ``Match``
+
+.. autoclass:: Matches
+
 ReadsExactly
 ------------
 

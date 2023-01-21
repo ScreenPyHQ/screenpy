@@ -19,6 +19,7 @@ from .is_close_to import IsCloseTo
 from .is_empty import IsEmpty
 from .is_equal_to import IsEqualTo
 from .is_not import IsNot
+from .matches import Matches
 from .reads_exactly import ReadsExactly
 
 # Natural-language-enabling syntactic sugar
@@ -34,6 +35,7 @@ Empty = IsEmpty
 EndWith = EndsWith
 HaveLength = HasLength
 IsEqual = Equals = Equal = EqualTo = IsEqualTo
+Match = Matches
 ReadExactly = ReadsExactly
 
 
@@ -67,6 +69,8 @@ __all__ = [
     "IsEqual",
     "IsEqualTo",
     "IsNot",
+    "Match",
+    "Matches",
     "ReadExactly",
     "ReadsExactly",
 ]

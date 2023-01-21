@@ -18,6 +18,7 @@ from screenpy.resolutions import (
     IsEmpty,
     IsEqualTo,
     IsNot,
+    Matches,
     ReadsExactly,
 )
 from screenpy.resolutions.base_resolution import BaseMatcher
@@ -322,6 +323,22 @@ class TestIsNot:
 
     def test_type_hint(self) -> None:
         assert_matcher_annotation(IsNot(1))
+
+
+class TestMatches:
+    def test_can_be_instantiated(self) -> None:
+        m = Matches(r"^$")
+
+        assert isinstance(m, Matches)
+
+    def test_the_test(self) -> None:
+        m = Matches(r"([Ss]pam ?)+")
+
+        assert m.matches("Spam spam spam spam baked beans and spam")
+        assert not m.matches("What do you mean Eugh?!")
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(Matches(r"^$"))
 
 
 class TestReadsExactly:
