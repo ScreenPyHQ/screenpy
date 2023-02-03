@@ -17,7 +17,7 @@ use `pip's extras feature <https://www.python.org/dev/peps/pep-0508/#extras>`__.
 You can install multiple options
 by separating with commas:
 
-``pip install screenpy[selenium,requests,allure]``
+``pip install "screenpy[selenium,requests,allure]"``
 
 Selenium
 ++++++++
@@ -31,7 +31,7 @@ Questions,
 and Resolutions
 to support testing web applications.
 
-``pip install screenpy[selenium]``
+``pip install "screenpy[selenium]"``
 
 Requests
 ++++++++
@@ -43,7 +43,7 @@ It provides Actors
 with several Actions and Questions
 to support API testing.
 
-``pip install screenpy[requests]``
+``pip install "screenpy[requests]"``
 
 PyOTP
 +++++
@@ -58,7 +58,7 @@ But Actors can use their Ability
 to get their 2FA token!
 (It's also used by ``screenpy_selenium`` above.)
 
-``pip install screenpy[pyotp]``
+``pip install "screenpy[pyotp]"``
 
 Allure
 ++++++
@@ -68,4 +68,4 @@ for the :ref:`Narrator <narrator api>`
 which enables logging through
 `Allure <https://docs.qameta.io/allure-report/>`__.
 
-``pip install screenpy[allure]``
+``pip install "screenpy[allure]"``
