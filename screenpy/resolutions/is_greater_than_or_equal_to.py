@@ -2,6 +2,8 @@
 Matches a value greater than the given number.
 """
 
+from typing import Union
+
 from hamcrest import greater_than_or_equal_to
 from hamcrest.library.number.ordering_comparison import OrderingComparison
 
@@ -22,5 +24,5 @@ class IsGreaterThanOrEqualTo(BaseResolution):
     line = "greater than or equal to {expectation}"
     matcher_function = greater_than_or_equal_to
 
-    def __init__(self, number: int | float) -> None:
+    def __init__(self, number: Union[int, float]) -> None:
         super().__init__(number)

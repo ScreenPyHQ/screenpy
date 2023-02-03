@@ -7,12 +7,12 @@ A matcher that matches a number in a range. For example:
 
 import operator
 import re
-from typing import Callable
+from typing import Callable, Union
 
 from hamcrest.core.base_matcher import BaseMatcher
 from hamcrest.core.description import Description
 
-InequalityFunc = Callable[[int | float, int | float], bool]
+InequalityFunc = Callable[[Union[int, float], Union[int, float]], bool]
 
 
 class IsInBounds(BaseMatcher[int]):
@@ -20,17 +20,17 @@ class IsInBounds(BaseMatcher[int]):
 
     def __init__(
         self,
-        minorant: int | float,
+        minorant: Union[int, float],
         lower_comparator: InequalityFunc,
         upper_comparator: InequalityFunc,
-        majorant: int | float,
+        majorant: Union[int, float],
     ) -> None:
         self.minorant = minorant
         self.lower_comparator = lower_comparator
         self.upper_comparator = upper_comparator
         self.majorant = majorant
 
-    def _matches(self, item: int | float) -> bool:
+    def _matches(self, item: Union[int, float]) -> bool:
         matches_lower = self.lower_comparator(self.minorant, item)
         matches_upper = self.upper_comparator(item, self.majorant)
         return matches_lower and matches_upper
@@ -41,13 +41,16 @@ class IsInBounds(BaseMatcher[int]):
             f"the number is within the range of {self.minorant} and {self.majorant}"
         )
 
-    def describe_match(self, item: int | float, match_description: Description) -> None:
+    def describe_match(
+        self, item: Union[int, float], match_description: Description
+    ) -> None:
+        """Describe the match."""
         match_description.append_text(
             f"{item} was within the range of {self.minorant} and {self.majorant}"
         )
 
     def describe_mismatch(
-        self, item: int | float, mismatch_description: Description
+        self, item: Union[int, float], mismatch_description: Description
     ) -> None:
         """Describe the failing case."""
         mismatch_description.append_text(
@@ -56,7 +59,7 @@ class IsInBounds(BaseMatcher[int]):
         )
 
 
-def is_in_bounds(*bounds: int | float | str) -> IsInBounds:
+def is_in_bounds(*bounds: Union[int, float, str]) -> IsInBounds:
     """Matches a number that falls within the bounds."""
     lower_comparator = operator.le
     upper_comparator = operator.le
