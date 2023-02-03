@@ -19,14 +19,11 @@ SerenityBDD library for Java.
 :license: MIT, see LICENSE for more details.
 """
 
-
-from .actions import *  # noqa: import all for ease-of-use
 from .actor import Actor
 from .directions import noted, noted_under, the_noted
 from .director import Director
 from .given_when_then import and_, given, given_that, then, when
 from .pacing import act, aside, beat, scene, the_narrator
-from .resolutions import *  # noqa: import all for ease-of-use
 
 # Natural-language-enabling syntactic sugar
 AnActor = Actor
