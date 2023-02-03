@@ -2,6 +2,8 @@
 Matches a value less than the given number.
 """
 
+from typing import Union
+
 from hamcrest import less_than
 from hamcrest.library.number.ordering_comparison import OrderingComparison
 
@@ -22,5 +24,5 @@ class IsLessThan(BaseResolution):
     line = "less than {expectation}"
     matcher_function = less_than
 
-    def __init__(self, number: int | float) -> None:
+    def __init__(self, number: Union[int, float]) -> None:
         super().__init__(number)

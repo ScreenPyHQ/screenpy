@@ -2,6 +2,8 @@
 Matches a number against a range.
 """
 
+from typing import Union
+
 from .base_resolution import BaseResolution
 from .custom_matchers.is_in_bounds import IsInBounds, is_in_bounds
 
@@ -31,5 +33,5 @@ class IsInRange(BaseResolution):
     line = "in the range {expectation}"
     matcher_function = is_in_bounds
 
-    def __init__(self, *bounds: int | str) -> None:
+    def __init__(self, *bounds: Union[int, str]) -> None:
         super().__init__(*bounds)
