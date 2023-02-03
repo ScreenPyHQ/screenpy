@@ -1,6 +1,30 @@
 Release History
 ===============
 
+4.1.0 (2023-02-02)
+------------------
+
+### Deprecations
+
+- Dropping support for Python 3.7. ScreenPy will probably still work in Python 3.7, but we're no longer making sure it does.
+
+### New Features
+
+- Added a lot of new Resolutions for text and number comparisons:
+  - **StartsWith**
+  - **EndsWith**
+  - **Matches** for you regex-speakers
+  - **ContainsItemMatching** for strings-in-lists regex assertions
+  - **IsLessThan** and **IsLessThanOrEqualTo**
+  - **IsGreaterThan** and **IsGreaterThanOrEqualTo**
+  - **IsInRange**
+
+### Improvements
+
+- Added convenience imports, so you can import everything directly from screenpy (from screenpy import Actor, given, See...)
+- `StdOutAdapter` (now also called `LoggingAdapter` for clarity) can now accept `gravitas`, `AIRY` being equivalent to `logging.DEBUG`.
+- All `staticmethods` on Actor, Action, and Resolution classes (maybe more? All of them!) are now `classmethods` and appropriately typed, which should make it much easier (and possible at all) to subclass, if you need to. Big big thanks to @bandophahita for that huge effort!
+
 4.0.2 (2022-09-18)
 ------------------
 
@@ -235,7 +259,7 @@ Release History
 
 ### Bugfixes
 
--  (h/t @bandophahita) Removed the **BaseAction**, **BaseAbility**, and **BaseQuestion** classes, for *sure* this time.
+- (h/t @bandophahita) Removed the **BaseAction**, **BaseAbility**, and **BaseQuestion** classes, for *sure* this time.
 - `mypy` should no longer complain whenever you use any of the **SendMETHODRequest** API request Actions (e.g. **SendGETRequest**, **SendPOSTRequest**, etc.).
 
 3.0.1 (2021-02-18)
