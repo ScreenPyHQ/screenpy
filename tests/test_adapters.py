@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from screenpy.narration import narrator
+from screenpy.narration import gravitas
 from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
 from screenpy.protocols import Adapter
 
@@ -152,11 +152,11 @@ class TestStdOutAdapter:
     @pytest.mark.parametrize(
         "gravitas,level",
         [
-            (narrator.AIRY, logging.DEBUG),
-            (narrator.LIGHT, logging.INFO),
-            (narrator.NORMAL, logging.WARNING),
-            (narrator.HEAVY, logging.CRITICAL),
-            (narrator.EXTREME, logging.ERROR),
+            (gravitas.AIRY, logging.DEBUG),
+            (gravitas.LIGHT, logging.INFO),
+            (gravitas.NORMAL, logging.WARNING),
+            (gravitas.HEAVY, logging.CRITICAL),
+            (gravitas.EXTREME, logging.ERROR),
         ]
     )
     def test_gravitas(self, gravitas, level, caplog) -> None:

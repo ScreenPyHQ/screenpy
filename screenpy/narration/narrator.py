@@ -30,13 +30,6 @@ BackedUpNarration = Tuple[str, Dict[str, Kwargs], int]
 ChainedNarrations = List[Tuple[str, Dict[str, Kwargs], List]]
 Entangled = Tuple[Callable, List[Generator]]
 
-# Levels for gravitas
-AIRY = "airy"
-LIGHT = "light"
-NORMAL = "normal"
-HEAVY = "heavy"
-EXTREME = "extreme"
-
 
 def _chainify(narrations: List[BackedUpNarration]) -> ChainedNarrations:
     """Organize backed-up narrations into an encapsulation chain.
@@ -232,17 +225,21 @@ class Narrator:
             return self._dummy_entangle(func)
         return self.narrate("scene", func=func, line=line, gravitas=gravitas)
 
-    def stating_a_beat(self, func: Callable, line: str) -> ContextManager:
+    def stating_a_beat(
+        self, func: Callable, line: str, gravitas: Optional[str] = None
+    ) -> ContextManager:
         """Narrate an emotional beat."""
         if not self.on_air:
             return self._dummy_entangle(func)
-        return self.narrate("beat", func=func, line=line)
+        return self.narrate("beat", func=func, line=line, gravitas=gravitas)
 
-    def whispering_an_aside(self, line: str) -> ContextManager:
+    def whispering_an_aside(
+        self, line: str, gravitas: Optional[str] = None
+    ) -> ContextManager:
         """Narrate a conspiratorial aside (as a stage-whisper)."""
         if not self.on_air:
             return self._dummy_entangle(lambda: "<static>")
-        return self.narrate("aside", func=lambda: "ssh", line=line)
+        return self.narrate("aside", func=lambda: "ssh", line=line, gravitas=gravitas)
 
     def explains_the_error(self, exc: Exception) -> None:
         """Explain the exception to all the adapters."""

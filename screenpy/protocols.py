@@ -102,10 +102,14 @@ class Adapter(Protocol):
     ) -> Generator:
         """Handle narrating a Scene, which designates a subgroup of tests."""
 
-    def beat(self, func: Callable, line: str) -> Generator:
+    def beat(
+        self, func: Callable, line: str, gravitas: Optional[str] = None
+    ) -> Generator:
         """Handle narrating a Beat, which is a step in a test."""
 
-    def aside(self, func: Callable, line: str) -> Generator:
+    def aside(
+        self, func: Callable, line: str, gravitas: Optional[str] = None
+    ) -> Generator:
         """Handle narrating an Aside, which can happen any time."""
 
     def error(self, exc: Exception) -> None:

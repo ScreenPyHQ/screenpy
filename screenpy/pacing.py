@@ -1,8 +1,7 @@
 """
 Provides decorators to group your tests into acts (features) and scenes
-(cases), and provide the gravitas (severity) of those groupings. This will
-both use Allure's marking to group the tests together for those reports
-and also set the logging severity for Python's built-in logging library.
+(cases), and provide the gravitas (severity) of those groupings. These will
+run through all of the Narrator's adapters.
 """
 
 import re
@@ -26,11 +25,14 @@ def act(title: str, gravitas: Optional[str] = None) -> Callable[[Function], Func
     Args:
         title: the title of this act (the epic name).
         gravitas: how serious this act is (the severity level).
+
+    Returns:
+        The decorated function, which will be narrated when called.
     """
 
     def decorator(func: Function) -> Function:
-        with the_narrator.announcing_the_act(func, title, gravitas) as enclosed_func:
-            return enclosed_func
+        with the_narrator.announcing_the_act(func, title, gravitas) as n_func:
+            return n_func
 
     return decorator
 
@@ -45,16 +47,19 @@ def scene(title: str, gravitas: Optional[str] = None) -> Callable[[Function], Fu
     Args:
         title: the title of this scene (the feature).
         gravitas: how serious this scene is (the severity level).
+
+    Returns:
+        The decorated function, which will be narrated when called.
     """
 
     def decorator(func: Function) -> Function:
-        with the_narrator.setting_the_scene(func, title, gravitas) as enclosed_func:
-            return enclosed_func
+        with the_narrator.setting_the_scene(func, title, gravitas) as n_func:
+            return n_func
 
     return decorator
 
 
-def beat(line: str) -> Callable[[Function], Function]:
+def beat(line: str, gravitas: Optional[str] = None) -> Callable[[Function], Function]:
     """Decorator to describe a "beat" (a step in a test).
 
     A beat's line can contain markers for replacement via str.format(), which
@@ -66,6 +71,10 @@ def beat(line: str) -> Callable[[Function], Function]:
 
     Args:
         line: the line spoken during this "beat" (the step description).
+        gravitas: the severity for the narration of the line.
+
+    Returns:
+        The decorated function, which will be narrated when called.
     """
 
     def decorator(func: Function) -> Function:
@@ -77,8 +86,8 @@ def beat(line: str) -> Callable[[Function], Function]:
             cues = {mark: getattr(action, mark) for mark in markers}
 
             completed_line = f"{line.format(actor, **cues)}"
-            with the_narrator.stating_a_beat(func, completed_line) as enclosed_func:
-                retval = enclosed_func(*args, **kwargs)
+            with the_narrator.stating_a_beat(func, completed_line, gravitas) as n_func:
+                retval = n_func(*args, **kwargs)
                 if retval is not None:
                     aside(f"=> {retval}")
             return retval
@@ -88,7 +97,12 @@ def beat(line: str) -> Callable[[Function], Function]:
     return decorator
 
 
-def aside(line: str) -> None:
-    """A line spoken in a stage whisper to the audience (log a message)."""
-    with the_narrator.whispering_an_aside(line) as enclosed_func:
-        enclosed_func()
+def aside(line: str, gravitas: Optional[str] = None) -> None:
+    """A line spoken in a stage whisper to the audience (log a message).
+
+    Args:
+        line: the line spoken during this "beat" (the step description).
+        gravitas: the severity for the narration of the line.
+    """
+    with the_narrator.whispering_an_aside(line, gravitas) as n_func:
+        n_func()

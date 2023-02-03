@@ -3,7 +3,8 @@ from unittest import mock
 
 import pytest
 
-from screenpy.narration.narrator import NORMAL, Narrator, _chainify
+from screenpy.narration.gravitas import NORMAL
+from screenpy.narration.narrator import Narrator, _chainify
 from screenpy.protocols import Adapter
 
 
@@ -256,17 +257,18 @@ class TestNarrator:
             narrator.narrate("", func="")
 
     @pytest.mark.parametrize(
-        "channel_func,channel,kwds",
+        "channel_func,channel",
         [
-            ("announcing_the_act", "act", ["func", "line", "gravitas"]),
-            ("setting_the_scene", "scene", ["func", "line", "gravitas"]),
-            ("stating_a_beat", "beat", ["func", "line"]),
-            ("whispering_an_aside", "aside", ["func", "line"]),
+            ("announcing_the_act", "act"),
+            ("setting_the_scene", "scene"),
+            ("stating_a_beat", "beat"),
+            ("whispering_an_aside", "aside"),
         ],
     )
-    def test_channels(self, channel_func, channel, kwds) -> None:
+    def test_channels(self, channel_func, channel) -> None:
         narrator = Narrator()
-        kwargs = KW_G if "gravitas" in kwds else KW
+        kwargs = dict(KW_G)
+        expected_kwargs = ["func", "line", "gravitas"]
         if channel == "aside":
             del kwargs["func"]
 
@@ -275,7 +277,7 @@ class TestNarrator:
 
             narrate.assert_called_once()
             assert narrate.call_args_list[0][0][0] == channel
-            assert list(narrate.call_args_list[0][1].keys()) == kwds
+            assert list(narrate.call_args_list[0][1].keys()) == expected_kwargs
 
     def test_attach(self) -> None:
         test_adapters = [get_mock_adapter() for _ in range(3)]

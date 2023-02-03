@@ -4,7 +4,7 @@ from typing import Any, Generator
 import pytest
 
 from screenpy.narration.adapters.stdout_adapter import StdOutAdapter
-from screenpy.narration.narrator import NORMAL
+from screenpy.narration.gravitas import NORMAL
 from screenpy.pacing import Narrator, act, aside, beat, scene, the_narrator
 
 TEST_ACT = "Three"

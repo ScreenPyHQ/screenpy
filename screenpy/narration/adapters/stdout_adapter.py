@@ -8,7 +8,8 @@ from functools import wraps
 from typing import Any, Callable, Generator, List, Optional
 
 from screenpy import settings
-from screenpy.narration import narrator
+
+from ..gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
 
 # pylint: disable=unused-argument
 
@@ -64,11 +65,11 @@ class StdOutAdapter:
     handled_exception: Optional[Exception]
 
     GRAVITAS = {
-        narrator.AIRY: logging.DEBUG,
-        narrator.LIGHT: logging.INFO,
-        narrator.NORMAL: logging.WARNING,
-        narrator.HEAVY: logging.CRITICAL,
-        narrator.EXTREME: logging.ERROR,
+        AIRY: logging.DEBUG,
+        LIGHT: logging.INFO,
+        NORMAL: logging.WARNING,
+        HEAVY: logging.CRITICAL,
+        EXTREME: logging.ERROR,
     }
 
     def __init__(self, stdout_manager: Optional["StdOutManager"] = None) -> None:
@@ -86,7 +87,7 @@ class StdOutAdapter:
         def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
             """Wrap the func, so we log at the correct time."""
             if gravitas is None:
-                level = self.GRAVITAS[narrator.LIGHT]
+                level = self.GRAVITAS[LIGHT]
             else:
                 level = self.GRAVITAS[gravitas]
             self.manager.log(f"ACT {line.upper()}", level)
@@ -103,7 +104,7 @@ class StdOutAdapter:
         def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
             """Wrap the func, so we log at the correct time."""
             if gravitas is None:
-                level = self.GRAVITAS[narrator.LIGHT]
+                level = self.GRAVITAS[LIGHT]
             else:
                 level = self.GRAVITAS[gravitas]
             self.manager.log(f"Scene: {line.title()}", level)
@@ -116,7 +117,7 @@ class StdOutAdapter:
     ) -> Generator:
         """Encapsulate the beat within the manager's log context."""
         if not gravitas:
-            gravitas = narrator.LIGHT
+            gravitas = LIGHT
         with self.manager.log_context(line, self.GRAVITAS[gravitas]):
             yield func
 
@@ -125,7 +126,7 @@ class StdOutAdapter:
     ) -> Generator:
         """Encapsulate the aside within the manager's log context."""
         if not gravitas:
-            gravitas = narrator.LIGHT
+            gravitas = LIGHT
         with self.manager.log_context(line, self.GRAVITAS[gravitas]):
             yield func
 
@@ -134,7 +135,7 @@ class StdOutAdapter:
         if exc is not self.handled_exception:
             self.manager.log(
                 f"***ERROR***\n\n{exc.__class__.__name__}: {exc}",
-                self.GRAVITAS[narrator.EXTREME],
+                self.GRAVITAS[EXTREME],
             )
             self.handled_exception = exc
 
