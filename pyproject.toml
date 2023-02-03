@@ -12,7 +12,7 @@ target-version = ['py311']
 
 [tool.poetry]
 name = "screenpy"
-version = "4.1.0"
+version = "4.1.1"
 description = "Screenplay pattern base for Python automated UI test suites."
 authors = ["Perry Goy <perry.goy@gmail.com>"]
 maintainers = ["Gabe Langton", "Marcel Wilson"]
@@ -48,7 +48,7 @@ classifiers = [
 python = "^3.8"
 PyHamcrest = ">=2.0.0"
 typing-extensions = ">=4.1.1"
-importlib_metadata = {version = "*", python = "3.7.*"}
+importlib_metadata = {version = "*", python = "3.8.*"}
 
 # convenience packages for development of screenpy only
 pre-commit = {version = "*", optional = true}

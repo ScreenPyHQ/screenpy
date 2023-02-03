@@ -1,6 +1,25 @@
 Release History
 ===============
 
+4.1.2 (2023-02-03)
+------------------
+
+### Improvements
+
+- Gravitas can now be found in its own module, `narration.gravitas`, or imported directly from `screenpy.narration (e.g. `from screenpy.narration import AIRY`). It was a little weird for them to live in the Narrator file.
+
+### Bug Fixes
+
+- Turns out that the `aside` function didn't take `gravitas`, even though the Adapter itself did. That's fixed, and also the Narrator and all the tests are updated to fix that as well, and the Adapter Protocol definition, too.
+
+4.1.1 (2023-02-03)
+------------------
+
+### Bug Fixes
+
+- Er, the convenient imports from the previous build caused some circular imports. `screenpy.actions` and `screenpy.resolutions` still need you to import them through the full path.
+- Python <3.10 don't like the `|` typehint union; switch back to `Union` for those.
+
 4.1.0 (2023-02-02)
 ------------------
 
