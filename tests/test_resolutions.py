@@ -4,19 +4,23 @@ import pytest
 
 from screenpy.resolutions import (
     BaseResolution,
+    ContainsItemMatching,
     ContainsTheEntry,
     ContainsTheItem,
     ContainsTheKey,
     ContainsTheText,
     ContainsTheValue,
     DoesNot,
+    EndsWith,
     Equal,
     HasLength,
     IsCloseTo,
     IsEmpty,
     IsEqualTo,
     IsNot,
+    Matches,
     ReadsExactly,
+    StartsWith,
 )
 from screenpy.resolutions.base_resolution import BaseMatcher
 
@@ -94,6 +98,22 @@ class TestBaseResolution:
         repr(resolution)
 
         resolution.get_line.assert_called_once()
+
+
+class TestContainsItemMatching:
+    def test_can_be_instantiated(self) -> None:
+        cim = ContainsItemMatching(r"^$")
+
+        assert isinstance(cim, ContainsItemMatching)
+
+    def test_the_test(self) -> None:
+        cim = ContainsItemMatching(r"([Ss]pam ?)+")
+
+        assert cim.matches(["Spam", "Eggs", "Spam and eggs"])
+        assert not cim.matches(["Porridge"])
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(ContainsItemMatching(r"^$"))
 
 
 class TestContainsTheEntry:
@@ -213,6 +233,22 @@ class TestEmpty:
         assert_matcher_annotation(IsEmpty())
 
 
+class TestEndsWith:
+    def test_can_be_instantiated(self) -> None:
+        ew = EndsWith("")
+
+        assert isinstance(ew, EndsWith)
+
+    def test_the_test(self) -> None:
+        ew = EndsWith("of life!")
+
+        assert ew.matches("Bereft of life!")
+        assert not ew.matches("He has ceased to be!")
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(EndsWith(""))
+
+
 class TestHasLength:
     def test_can_be_instantiated(self) -> None:
         hl = HasLength(5)
@@ -290,6 +326,22 @@ class TestIsNot:
         assert_matcher_annotation(IsNot(1))
 
 
+class TestMatches:
+    def test_can_be_instantiated(self) -> None:
+        m = Matches(r"^$")
+
+        assert isinstance(m, Matches)
+
+    def test_the_test(self) -> None:
+        m = Matches(r"([Ss]pam ?)+")
+
+        assert m.matches("Spam spam spam spam baked beans and spam")
+        assert not m.matches("What do you mean Eugh?!")
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(Matches(r"^$"))
+
+
 class TestReadsExactly:
     def test_can_be_instantiated(self) -> None:
         re_ = ReadsExactly("Blah")
@@ -305,3 +357,19 @@ class TestReadsExactly:
 
     def test_type_hint(self) -> None:
         assert_matcher_annotation(ReadsExactly("hi"))
+
+
+class TestStartsWith:
+    def test_can_be_instantiated(self) -> None:
+        sw = StartsWith("")
+
+        assert isinstance(sw, StartsWith)
+
+    def test_the_test(self) -> None:
+        sw = StartsWith("I will not buy this record")
+
+        assert sw.matches("I will not buy this record, it is scratched.")
+        assert not sw.matches("I will not buy this tobacconist, it is scratched.")
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(StartsWith(""))

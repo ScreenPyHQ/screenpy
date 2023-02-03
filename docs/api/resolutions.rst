@@ -6,6 +6,13 @@ These are the Resolutions included in ScreenPy.
 
 .. module:: screenpy.resolutions
 
+ContainsItemMatching
+--------------------
+
+**Aliases**: ``ContainItemMatching``
+
+.. autoclass:: ContainsItemMatching
+
 ContainsTheEntry
 ----------------
 
@@ -42,6 +49,13 @@ ContainsTheValue
 **Aliases**: ``ContainTheValue``
 
 .. autoclass:: ContainsTheValue
+
+EndsWith
+--------
+
+**Aliases**: ``EndWith``
+
+.. autoclass:: EndsWith
 
 HasLength
 ---------
@@ -82,9 +96,23 @@ IsNot
 
 .. autoclass:: IsNot
 
+Matches
+-------
+
+**Aliases**: ``Match``
+
+.. autoclass:: Matches
+
 ReadsExactly
 ------------
 
 **Aliases**: ``ReadExactly``
 
 .. autoclass:: ReadsExactly
+
+StartsWith
+----------
+
+**Aliases**: ``StartWith``
+
+.. autoclass:: StartsWith
