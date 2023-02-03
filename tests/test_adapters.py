@@ -1,5 +1,8 @@
 import logging
 
+import pytest
+
+from screenpy.narration import narrator
 from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
 from screenpy.protocols import Adapter
 
@@ -58,7 +61,7 @@ class TestStdOutAdapter:
     def test_act(self, caplog) -> None:
         adapter = StdOutAdapter()
         act_name = "test act"
-        test_func = adapter.act(prop, act_name, None)
+        test_func = adapter.act(prop, act_name)
 
         with caplog.at_level(logging.INFO):
             next(test_func)()
@@ -69,7 +72,7 @@ class TestStdOutAdapter:
     def test_scene(self, caplog) -> None:
         adapter = StdOutAdapter()
         scene_name = "test scene"
-        test_func = adapter.scene(prop, scene_name, None)
+        test_func = adapter.scene(prop, scene_name)
 
         with caplog.at_level(logging.INFO):
             next(test_func)()
@@ -145,3 +148,32 @@ class TestStdOutAdapter:
 
         assert len(caplog.records) == 1
         assert test_filepath in caplog.records[0].message
+
+    @pytest.mark.parametrize(
+        "gravitas,level",
+        [
+            (narrator.AIRY, logging.DEBUG),
+            (narrator.LIGHT, logging.INFO),
+            (narrator.NORMAL, logging.WARNING),
+            (narrator.HEAVY, logging.CRITICAL),
+            (narrator.EXTREME, logging.ERROR),
+        ]
+    )
+    def test_gravitas(self, gravitas, level, caplog) -> None:
+        adapter = StdOutAdapter()
+        line = "testing!"
+        act = adapter.act(prop, line, gravitas)
+        scene = adapter.scene(prop, line, gravitas)
+        beat = adapter.beat(prop, line, gravitas)
+        aside = adapter.aside(prop, line, gravitas)
+
+        with caplog.at_level(level):
+            for test_func in [act, scene, beat, aside]:
+                next(test_func)()
+
+        logs = [record.message for record in caplog.records]
+        assert len(logs) == 4
+        assert f"ACT {line.upper()}" in logs
+        assert f"Scene: {line.capitalize()}" in logs
+        assert line in logs
+        assert f"    {line}" in logs

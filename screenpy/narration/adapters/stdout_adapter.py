@@ -8,6 +8,7 @@ from functools import wraps
 from typing import Any, Callable, Generator, List, Optional
 
 from screenpy import settings
+from screenpy.narration import narrator
 
 # pylint: disable=unused-argument
 
@@ -36,15 +37,15 @@ class StdOutManager:
         if self.depth:
             self.depth.pop()
 
-    def log(self, line: str) -> None:
+    def log(self, line: str, level: int = logging.INFO) -> None:
         """Log a line!"""
         indent = len(self.depth) * self.whitespace if self.enabled else ""
-        self.logger.info(f"{indent}{line}")
+        self.logger.log(level, f"{indent}{line}")
 
     @contextmanager
-    def log_context(self, line: str) -> Generator:
+    def log_context(self, line: str, level: int = logging.INFO) -> Generator:
         """Log a line, increasing the indent depth for nested logs."""
-        self.log(line)
+        self.log(line, level)
         try:
             with self._indent():
                 yield
@@ -62,6 +63,14 @@ class StdOutAdapter:
 
     handled_exception: Optional[Exception]
 
+    GRAVITAS = {
+        narrator.AIRY: logging.DEBUG,
+        narrator.LIGHT: logging.INFO,
+        narrator.NORMAL: logging.WARNING,
+        narrator.HEAVY: logging.CRITICAL,
+        narrator.EXTREME: logging.ERROR,
+    }
+
     def __init__(self, stdout_manager: Optional["StdOutManager"] = None) -> None:
         if stdout_manager is None:
             stdout_manager = StdOutManager()
@@ -76,7 +85,11 @@ class StdOutAdapter:
         @wraps(func)
         def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
             """Wrap the func, so we log at the correct time."""
-            self.manager.log(f"ACT {line.upper()}")
+            if gravitas is None:
+                level = self.GRAVITAS[narrator.LIGHT]
+            else:
+                level = self.GRAVITAS[gravitas]
+            self.manager.log(f"ACT {line.upper()}", level)
             return func(*args, **kwargs)
 
         yield func_wrapper
@@ -89,25 +102,40 @@ class StdOutAdapter:
         @wraps(func)
         def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
             """Wrap the func, so we log at the correct time."""
-            self.manager.log(f"Scene: {line.title()}")
+            if gravitas is None:
+                level = self.GRAVITAS[narrator.LIGHT]
+            else:
+                level = self.GRAVITAS[gravitas]
+            self.manager.log(f"Scene: {line.title()}", level)
             return func(*args, **kwargs)
 
         yield func_wrapper
 
-    def beat(self, func: Callable, line: str) -> Generator:
+    def beat(
+        self, func: Callable, line: str, gravitas: Optional[str] = None
+    ) -> Generator:
         """Encapsulate the beat within the manager's log context."""
-        with self.manager.log_context(line):
+        if not gravitas:
+            gravitas = narrator.LIGHT
+        with self.manager.log_context(line, self.GRAVITAS[gravitas]):
             yield func
 
-    def aside(self, func: Callable, line: str) -> Generator:
+    def aside(
+        self, func: Callable, line: str, gravitas: Optional[str] = None
+    ) -> Generator:
         """Encapsulate the aside within the manager's log context."""
-        with self.manager.log_context(line):
+        if not gravitas:
+            gravitas = narrator.LIGHT
+        with self.manager.log_context(line, self.GRAVITAS[gravitas]):
             yield func
 
     def error(self, exc: Exception) -> None:
         """Log information about the error."""
         if exc is not self.handled_exception:
-            self.manager.log(f"***ERROR***\n\n{exc.__class__.__name__}: {exc}")
+            self.manager.log(
+                f"***ERROR***\n\n{exc.__class__.__name__}: {exc}",
+                self.GRAVITAS[narrator.EXTREME],
+            )
             self.handled_exception = exc
 
     def attach(self, filepath: str, **kwargs: Any) -> None:
