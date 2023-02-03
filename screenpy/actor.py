@@ -6,7 +6,7 @@ service of perfoming their roles.
 
 import warnings
 from random import choice
-from typing import List, Text, Type, TypeVar
+from typing import List, Type, TypeVar
 
 from .exceptions import UnableToPerform
 from .pacing import aside
@@ -53,7 +53,7 @@ class Actor:
     independent_cleanup_tasks: List[Performable]
 
     @classmethod
-    def named(cls: Type[SelfActor], name: Text) -> SelfActor:
+    def named(cls: Type[SelfActor], name: str) -> SelfActor:
         """Give a name to this Actor."""
         aside(choice(ENTRANCE_DIRECTIONS).format(actor=name))
         return cls(name)

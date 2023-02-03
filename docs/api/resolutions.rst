@@ -88,6 +88,41 @@ IsEqualTo
 
 .. autoclass:: IsEqualTo
 
+IsGreaterThan
+-------------
+
+**Aliases**: ``GreaterThan``
+
+.. autoclass:: IsGreaterThan
+
+IsGreaterThanOrEqualTo
+----------------------
+
+**Aliases**: ``GreaterThanOrEqualTo``
+
+.. autoclass:: IsGreaterThanOrEqualTo
+
+IsInRange
+---------
+
+**Aliases**: ``InRange``
+
+.. autoclass:: IsInRange
+
+IsLessThan
+----------
+
+**Aliases**: ``LessThan``
+
+.. autoclass:: IsLessThan
+
+IsLessThanOrEqualTo
+-------------------
+
+**Aliases**: ``LessThanOrEqualTo``
+
+.. autoclass:: IsLessThanOrEqualTo
+
 IsNot
 -----
 

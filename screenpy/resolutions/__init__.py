@@ -18,6 +18,11 @@ from .has_length import HasLength
 from .is_close_to import IsCloseTo
 from .is_empty import IsEmpty
 from .is_equal_to import IsEqualTo
+from .is_greater_than import IsGreaterThan
+from .is_greater_than_or_equal_to import IsGreaterThanOrEqualTo
+from .is_in_range import IsInRange
+from .is_less_than import IsLessThan
+from .is_less_than_or_equal_to import IsLessThanOrEqualTo
 from .is_not import IsNot
 from .matches import Matches
 from .reads_exactly import ReadsExactly
@@ -36,6 +41,11 @@ Empty = IsEmpty
 EndWith = EndsWith
 HaveLength = HasLength
 IsEqual = Equals = Equal = EqualTo = IsEqualTo
+GreaterThan = IsGreaterThan
+GreaterThanOrEqualTo = IsGreaterThanOrEqualTo
+InRange = IsInRange
+LessThan = IsLessThan
+LessThanOrEqualTo = IsLessThanOrEqualTo
 Match = Matches
 ReadExactly = ReadsExactly
 StartWith = StartsWith
@@ -65,12 +75,22 @@ __all__ = [
     "Equal",
     "Equals",
     "EqualTo",
+    "GreaterThan",
+    "GreaterThanOrEqualTo",
     "HasLength",
+    "InRange",
     "IsCloseTo",
     "IsEmpty",
     "IsEqual",
     "IsEqualTo",
+    "IsGreaterThan",
+    "IsGreaterThanOrEqualTo",
+    "IsInRange",
+    "IsLessThan",
+    "IsLessThanOrEqualTo",
     "IsNot",
+    "LessThan",
+    "LessThanOrEqualTo",
     "Match",
     "Matches",
     "ReadExactly",

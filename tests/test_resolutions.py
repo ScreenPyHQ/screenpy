@@ -17,6 +17,11 @@ from screenpy.resolutions import (
     IsCloseTo,
     IsEmpty,
     IsEqualTo,
+    IsGreaterThan,
+    IsGreaterThanOrEqualTo,
+    IsInRange,
+    IsLessThan,
+    IsLessThanOrEqualTo,
     IsNot,
     Matches,
     ReadsExactly,
@@ -307,6 +312,119 @@ class TestIsEqualTo:
 
     def test_type_hint(self) -> None:
         assert_matcher_annotation(IsEqualTo(1))
+
+
+class TestIsGreaterThan:
+    def test_can_be_instantiated(self) -> None:
+        igt = IsGreaterThan(1)
+
+        assert isinstance(igt, IsGreaterThan)
+
+    def test_the_test(self) -> None:
+        test_num = 5
+        igt = IsGreaterThan(test_num)
+
+        assert igt.matches(test_num + 1)
+        assert not igt.matches(test_num)
+        assert not igt.matches(test_num - 1)
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(IsGreaterThan(1))
+
+
+class TestIsGreaterThanOrEqualTo:
+    def test_can_be_instantiated(self) -> None:
+        igtoet = IsGreaterThanOrEqualTo(1)
+
+        assert isinstance(igtoet, IsGreaterThanOrEqualTo)
+
+    def test_the_test(self) -> None:
+        test_num = 5
+        igtoet = IsGreaterThanOrEqualTo(test_num)
+
+        assert igtoet.matches(test_num + 1)
+        assert igtoet.matches(test_num)
+        assert not igtoet.matches(test_num - 1)
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(IsGreaterThanOrEqualTo(1))
+
+
+class TestIsInRange:
+    def test_can_be_instantiated(self) -> None:
+        iir1 = IsInRange(1, 5)
+        iir2 = IsInRange("(1, 5)")
+
+        assert isinstance(iir1, IsInRange)
+        assert isinstance(iir2, IsInRange)
+
+    def test_the_test(self) -> None:
+        test_minorant = 5
+        test_majorant = 10
+        iir1 = IsInRange(test_minorant, test_majorant)
+        iir2 = IsInRange(f"[{test_minorant}, {test_majorant}]")
+        iir3 = IsInRange(f"({test_minorant}, {test_majorant})")
+        iir4 = IsInRange(f"[{test_minorant}, {test_majorant})")
+
+        assert iir1.matches(test_minorant + 1)
+        assert iir2.matches(test_minorant + 1)
+        assert iir3.matches(test_minorant + 1)
+        assert iir4.matches(test_minorant + 1)
+        assert iir1.matches(test_majorant - 1)
+        assert iir2.matches(test_majorant - 1)
+        assert iir3.matches(test_majorant - 1)
+        assert iir4.matches(test_majorant - 1)
+        assert iir1.matches(test_minorant)
+        assert iir2.matches(test_minorant)
+        assert not iir3.matches(test_minorant)
+        assert iir4.matches(test_minorant)
+        assert iir1.matches(test_majorant)
+        assert iir2.matches(test_majorant)
+        assert not iir3.matches(test_majorant)
+        assert not iir4.matches(test_majorant)
+        assert not iir1.matches(test_majorant + 1)
+        assert not iir2.matches(test_majorant + 1)
+        assert not iir3.matches(test_majorant + 1)
+        assert not iir4.matches(test_majorant + 1)
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(IsInRange(1, 5))
+
+
+class TestIsLessThan:
+    def test_can_be_instantiated(self) -> None:
+        ilt = IsLessThan(1)
+
+        assert isinstance(ilt, IsLessThan)
+
+    def test_the_test(self) -> None:
+        test_num = 5
+        ilt = IsLessThan(test_num)
+
+        assert ilt.matches(test_num - 1)
+        assert not ilt.matches(test_num)
+        assert not ilt.matches(test_num + 1)
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(IsLessThan(1))
+
+
+class TestIsLessThanOrEqualTo:
+    def test_can_be_instantiated(self) -> None:
+        iltoet = IsLessThanOrEqualTo(1)
+
+        assert isinstance(iltoet, IsLessThanOrEqualTo)
+
+    def test_the_test(self) -> None:
+        test_num = 5
+        iltoet = IsLessThanOrEqualTo(test_num)
+
+        assert iltoet.matches(test_num - 1)
+        assert iltoet.matches(test_num)
+        assert not iltoet.matches(test_num + 1)
+
+    def test_type_hint(self) -> None:
+        assert_matcher_annotation(IsLessThanOrEqualTo(1))
 
 
 class TestIsNot:
