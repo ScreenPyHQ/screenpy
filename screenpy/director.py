@@ -3,10 +3,9 @@ Directors handle the meta information that it takes to run a screenplay. There
 is only one of them, so you'll always have access to the same information.
 """
 
-from typing import Type, TypeVar
+from typing import Any, Type, TypeVar
 
 SelfDirector = TypeVar("SelfDirector", bound="Director")
-T = TypeVar("T")
 
 
 class Director:
@@ -26,10 +25,10 @@ class Director:
             cls._instance.notebook = {}
         return cls._instance
 
-    def notes(self: SelfDirector, key: str, value: T) -> None:
+    def notes(self: SelfDirector, key: str, value: Any) -> None:
         """Note down a value under the given key."""
         self.notebook[key] = value
 
-    def looks_up(self: SelfDirector, key: str) -> T:
+    def looks_up(self: SelfDirector, key: str) -> Any:
         """Look up a noted value by its key."""
         return self.notebook[key]
