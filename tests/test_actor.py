@@ -31,9 +31,17 @@ def test_calls_perform_as() -> None:
 
     action.perform_as.assert_called_once_with(actor)
 
+    actor.did(action)
+    actor.does(action)
+    actor.will(action)
     actor.should(action)
+    actor.shall(action)
     actor.was_able_to(action)
-    assert action.perform_as.call_count == 3
+    actor.tries_to(action)
+    actor.tried_to(action)
+    actor.tries(action)
+    actor.tried(action)
+    assert action.perform_as.call_count == 11
 
 
 def test_complains_for_missing_abilities() -> None:
