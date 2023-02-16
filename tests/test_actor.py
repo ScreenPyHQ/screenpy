@@ -5,6 +5,7 @@ import pytest
 from screenpy import Actor, and_, given, given_that, then, when
 from screenpy.exceptions import UnableToPerform
 from useful_mocks import get_mock_ability_class, get_mock_action_class
+from typing import Any
 
 FakeAction = get_mock_action_class()
 FakeAbility = get_mock_ability_class()
@@ -31,9 +32,23 @@ def test_calls_perform_as() -> None:
 
     action.perform_as.assert_called_once_with(actor)
 
-    actor.should(action)
-    actor.was_able_to(action)
-    assert action.perform_as.call_count == 3
+    perform_aliases: list[Any] = [
+        actor.did,
+        actor.does,
+        actor.will,
+        actor.should,
+        actor.shall,
+        actor.was_able_to,
+        actor.tries_to,
+        actor.tried_to,
+        actor.tries,
+        actor.tried,
+    ]
+
+    for alias in perform_aliases:
+        alias(action)
+
+    assert action.perform_as.call_count == len(perform_aliases) + 1
 
 
 def test_complains_for_missing_abilities() -> None:
