@@ -3,9 +3,9 @@ from typing import Any, Generator
 
 import pytest
 
+from screenpy import Narrator, act, aside, beat, scene, the_narrator
 from screenpy.narration.adapters.stdout_adapter import StdOutAdapter
 from screenpy.narration.gravitas import NORMAL
-from screenpy.pacing import Narrator, act, aside, beat, scene, the_narrator
 
 TEST_ACT = "Three"
 TEST_SCENE = "The Scene Where He Uses It"

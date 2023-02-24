@@ -6,7 +6,7 @@ from typing import Type, TypeVar, Union
 
 from hamcrest import assert_that
 
-from screenpy import Actor
+from screenpy.actor import Actor
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper
 from screenpy.resolutions import BaseResolution
