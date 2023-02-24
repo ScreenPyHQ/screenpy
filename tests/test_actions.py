@@ -161,6 +161,12 @@ class TestEventually:
 
         assert ev.timeout == 100
 
+    @mock_settings(POLLING=50)
+    def test_adjusting_settings_polling(self) -> None:
+        ev = Eventually(FakeAction())
+
+        assert ev.poll == 50
+
     def test__timeframebuilder_is_performable(self, Tester) -> None:
         # test passes if no exception is raised
         Eventually(FakeAction()).for_(1).perform_as(Tester)

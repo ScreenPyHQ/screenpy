@@ -159,4 +159,4 @@ class Eventually:
         self.caught_error = None
         self.unique_errors: Set[Tuple[str, str]] = set()
         self.timeout = settings.TIMEOUT
-        self.poll = 0.5
+        self.poll = settings.POLLING
