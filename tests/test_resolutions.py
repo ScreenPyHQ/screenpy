@@ -3,6 +3,7 @@ from unittest import mock
 import pytest
 
 from screenpy import (
+    BaseResolution,
     ContainsItemMatching,
     ContainsTheEntry,
     ContainsTheItem,
@@ -26,7 +27,7 @@ from screenpy import (
     ReadsExactly,
     StartsWith,
 )
-from screenpy.resolutions.base_resolution import BaseMatcher, BaseResolution
+from screenpy.resolutions.base_resolution import BaseMatcher
 
 
 def assert_matcher_annotation(obj: BaseResolution) -> None:

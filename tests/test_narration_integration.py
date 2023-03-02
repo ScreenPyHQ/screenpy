@@ -3,8 +3,16 @@ from typing import Any, Generator
 
 import pytest
 
-from screenpy import Narrator, StdOutAdapter, act, aside, beat, scene, the_narrator
-from screenpy.narration.gravitas import NORMAL
+from screenpy import (
+    NORMAL,
+    Narrator,
+    StdOutAdapter,
+    act,
+    aside,
+    beat,
+    scene,
+    the_narrator,
+)
 
 TEST_ACT = "Three"
 TEST_SCENE = "The Scene Where He Uses It"
