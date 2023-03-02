@@ -2,18 +2,25 @@ import screenpy
 import screenpy.actions
 import screenpy.resolutions
 import screenpy.narration
+import screenpy.narration.adapters
 
 
-def test_screenpy_namespace():
+def test_screenpy():
     expected = [
+        "AIRY",
+        "AbilityError",
+        "ActionError",
         "Actor",
+        "Adapter",
         "AnActor",
+        "Answerable",
         "Assert",
         "AssertAllOf",
         "AssertAnyOf",
         "AttachAFile",
         "AttachFile",
         "AttachTheFile",
+        "BaseResolution",
         "Confirm",
         "ConfirmAllOf",
         "ConfirmAnyOf",
@@ -32,18 +39,24 @@ def test_screenpy_namespace():
         "ContainsTheText",
         "ContainsTheValue",
         "Debug",
+        "DeliveryError",
+        "Describable",
         "Director",
         "DoNot",
         "DoesNot",
+        "EXTREME",
         "Empty",
         "EndWith",
         "EndsWith",
         "Equal",
         "EqualTo",
         "Equals",
+        "ErrorKeeper",
         "Eventually",
+        "Forgettable",
         "GreaterThan",
         "GreaterThanOrEqualTo",
+        "HEAVY",
         "HasLength",
         "InRange",
         "IsCloseTo",
@@ -56,25 +69,37 @@ def test_screenpy_namespace():
         "IsLessThan",
         "IsLessThanOrEqualTo",
         "IsNot",
+        "LIGHT",
         "LessThan",
         "LessThanOrEqualTo",
+        "LoggingAdapter",
         "MakeNote",
         "Match",
         "Matches",
+        "NORMAL",
         "Narrator",
         "Observe",
         "ObserveAllOf",
         "ObserveAnyOf",
         "Pause",
+        "Performable",
+        "QuestionError",
         "ReadExactly",
         "ReadsExactly",
+        "ScreenPyError",
         "See",
         "SeeAllOf",
         "SeeAnyOf",
         "Sleep",
         "StartWith",
         "StartsWith",
+        "StdOutAdapter",
         "TakeNote",
+        "UnableToAct",
+        "UnableToAnswer",
+        "UnableToDirect",
+        "UnableToNarrate",
+        "UnableToPerform",
         "Verify",
         "VerifyAllOf",
         "VerifyAnyOf",
@@ -92,14 +117,10 @@ def test_screenpy_namespace():
         "then",
         "when",
     ]
-    excluded = [
-        "BaseResolution",
-    ]
     assert sorted(screenpy.__all__) == sorted(expected)
-    assert not any(item in excluded for item in screenpy.__all__)
 
 
-def test_actions_namespace():
+def test_actions():
     expected = [
         "Assert",
         "AssertAllOf",
@@ -126,12 +147,10 @@ def test_actions_namespace():
         "VerifyAllOf",
         "VerifyAnyOf",
     ]
-    excluded = []
     assert sorted(screenpy.actions.__all__) == sorted(expected)
-    assert not any(item in excluded for item in screenpy.actions.__all__)
 
 
-def test_resolutions_namespace():
+def test_resolutions():
     expected = [
         "BaseResolution",
         "ContainItemMatching",
@@ -179,6 +198,26 @@ def test_resolutions_namespace():
         "StartsWith",
         "StartWith",
     ]
-    excluded = []
     assert sorted(screenpy.resolutions.__all__) == sorted(expected)
-    assert not any(item in excluded for item in screenpy.resolutions.__all__)
+
+
+def test_narration():
+    expected = [
+        "AIRY",
+        "EXTREME",
+        "HEAVY",
+        "LIGHT",
+        "Narrator",
+        "NORMAL",
+        "LoggingAdapter",
+        "StdOutAdapter",
+    ]
+    assert sorted(screenpy.narration.__all__) == sorted(expected)
+
+
+def test_adapters():
+    expected = [
+        "LoggingAdapter",
+        "StdOutAdapter",
+    ]
+    assert sorted(screenpy.narration.adapters.__all__) == sorted(expected)
