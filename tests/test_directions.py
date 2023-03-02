@@ -1,7 +1,6 @@
 import pytest
 
-from screenpy import Director, noted_under
-from screenpy.exceptions import UnableToDirect
+from screenpy import Director, UnableToDirect, noted_under
 
 
 def test_noted_under() -> None:

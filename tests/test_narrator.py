@@ -3,9 +3,9 @@ from unittest import mock
 
 import pytest
 
+from screenpy import Adapter
 from screenpy.narration.gravitas import NORMAL
 from screenpy.narration.narrator import Narrator, _chainify
-from screenpy.protocols import Adapter
 
 
 def _():

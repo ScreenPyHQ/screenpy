@@ -103,6 +103,7 @@ def test_screenpy():
         "StartsWith",
         "StartWith",
         "StdOutAdapter",
+        "StdOutManager",
         "TakeNote",
         "the_narrator",
         "the_noted",
@@ -211,6 +212,7 @@ def test_narration():
         "Narrator",
         "NORMAL",
         "StdOutAdapter",
+        "StdOutManager",
     ]
     assert sorted(screenpy.narration.__all__) == sorted(expected)
 
@@ -219,5 +221,6 @@ def test_adapters():
     expected = [
         "LoggingAdapter",
         "StdOutAdapter",
+        "StdOutManager",
     ]
     assert sorted(screenpy.narration.adapters.__all__) == sorted(expected)

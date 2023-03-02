@@ -3,8 +3,7 @@ from typing import Any
 
 import pytest
 
-from screenpy import Actor, and_, given, given_that, then, when
-from screenpy.exceptions import UnableToPerform
+from screenpy import Actor, UnableToPerform, and_, given, given_that, then, when
 from useful_mocks import get_mock_ability_class, get_mock_action_class
 
 FakeAction = get_mock_action_class()
