@@ -4,14 +4,8 @@ import time
 from unittest import mock
 
 import pytest
-from conftest import mock_settings
-from unittest_protocols import ErrorQuestion
-from useful_mocks import (
-    get_mock_action_class,
-    get_mock_question_class,
-    get_mock_resolution_class,
-)
 
+from conftest import mock_settings
 from screenpy import (
     AttachTheFile,
     Debug,
@@ -27,6 +21,12 @@ from screenpy import (
 )
 from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
 from screenpy.protocols import Describable, Performable
+from unittest_protocols import ErrorQuestion
+from useful_mocks import (
+    get_mock_action_class,
+    get_mock_question_class,
+    get_mock_resolution_class,
+)
 
 FakeAction = get_mock_action_class()
 FakeQuestion = get_mock_question_class()
