@@ -1,8 +1,4 @@
 import screenpy
-import screenpy.actions
-import screenpy.narration
-import screenpy.narration.adapters
-import screenpy.resolutions
 
 
 def test_screenpy():
