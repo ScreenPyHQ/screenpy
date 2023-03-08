@@ -10,6 +10,7 @@ https://mypy.readthedocs.io/en/stable/protocols.html
 
 from typing import TYPE_CHECKING, Any, Callable, Generator, Optional
 
+from hamcrest.core.base_matcher import Matcher
 from typing_extensions import Protocol, runtime_checkable
 
 if TYPE_CHECKING:
@@ -33,6 +34,21 @@ class Answerable(Protocol):
         Returns:
             The answer, based on the sleuthing the Actor has done.
         """
+
+
+@runtime_checkable
+class Describable(Protocol):
+    """Classes that describe themselves are Describable"""
+
+    def describe(self) -> str:
+        """Describe the Describable in the present tense."""
+
+
+@runtime_checkable
+class ErrorKeeper(Protocol):
+    """Classes that save exceptions for later are ErrorKeeper(s)"""
+
+    caught_exception: Optional[Exception]
 
 
 @runtime_checkable
@@ -60,18 +76,15 @@ class Performable(Protocol):
 
 
 @runtime_checkable
-class ErrorKeeper(Protocol):
-    """Classes that save exceptions for later are ErrorKeeper(s)"""
+class Resolvable(Protocol):
+    """Resolutions are Resolvable"""
 
-    caught_exception: Optional[Exception]
+    def resolve(self) -> Matcher:
+        """Form the Matcher for an assertion.
 
-
-@runtime_checkable
-class Describable(Protocol):
-    """Classes that describe themselves are Describable"""
-
-    def describe(self) -> str:
-        """Describe the Describable in the present tense."""
+        Returns:
+            Matcher: the Matcher this Resolution uses for the expected value.
+        """
 
 
 @runtime_checkable
