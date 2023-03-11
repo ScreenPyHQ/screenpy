@@ -2,14 +2,20 @@
 Matches a sequence which contains an item matching a given regex pattern.
 """
 
-from .base_resolution import BaseResolution
-from .custom_matchers.sequence_containing_pattern import (
-    IsSequenceContainingPattern,
-    has_item_matching,
+from typing import Sequence, TypeVar
+
+from hamcrest.core.base_matcher import Matcher
+
+from screenpy.pacing import beat
+
+from .custom_matchers.sequence_containing_pattern import has_item_matching
+
+SelfContainsItemMatching = TypeVar(
+    "SelfContainsItemMatching", bound="ContainsItemMatching"
 )
 
 
-class ContainsItemMatching(BaseResolution):
+class ContainsItemMatching:
     """Match a sequence containing an item matching a regular expression.
 
     Examples::
@@ -20,9 +26,14 @@ class ContainsItemMatching(BaseResolution):
         )
     """
 
-    matcher: IsSequenceContainingPattern
-    line = 'a sequence with an item matching the regular expression "{expectation}".'
-    matcher_function = has_item_matching
+    def describe(self: SelfContainsItemMatching) -> str:
+        """Describe the Resolution in present tense."""
+        return f"Match the pattern {self.pattern}."
 
-    def __init__(self, match: str) -> None:
-        super().__init__(match)
+    @beat('... hoping it contains an item matching the pattern "{pattern}".')
+    def resolve(self: SelfContainsItemMatching) -> Matcher[Sequence[str]]:
+        """Produce the Matcher to make the assertion."""
+        return has_item_matching(self.pattern)
+
+    def __init__(self: SelfContainsItemMatching, pattern: str) -> None:
+        self.pattern = pattern
