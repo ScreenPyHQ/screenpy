@@ -22,6 +22,10 @@ class IsEqualTo:
         )
     """
 
+    def describe(self) -> str:
+        """Describe the Resolution in present tense."""
+        return f"Equal to {self.expected}."
+
     @beat("... hoping it's equal to {expected}.")
     def resolve(self: SelfIsEqualTo) -> Matcher[Any]:
         """Produce the Matcher to make the assertion."""
