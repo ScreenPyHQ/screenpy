@@ -42,6 +42,10 @@ class BaseResolution(BaseMatcher[T]):
         'phrase: "hoping it\'s...".'
     )
 
+    def describe(self) -> str:
+        """Describe the Resolution in present tense."""
+        return self.get_line().capitalize()
+
     @beat("... hoping it's {motivation}")
     def _matches(self, item: T) -> bool:
         """passthrough to the matcher's method."""
