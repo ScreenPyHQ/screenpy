@@ -23,10 +23,10 @@ class EndsWith:
     """
 
     def describe(self: SelfEndsWith) -> str:
-        """Describe the Resolution in the present tense."""
+        """Describe the Resolution's expectation."""
         return f'Ending with {self.postfix}".'
 
-    @beat('... hoping it\'s text ending with "{postfix}".')
+    @beat('... hoping it ends with "{postfix}".')
     def resolve(self: SelfEndsWith) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return ends_with(self.postfix)

@@ -2,13 +2,17 @@
 Matches a string which begins with a substring.
 """
 
+from typing import TypeVar
+
 from hamcrest import starts_with
-from hamcrest.library.text.stringstartswith import StringStartsWith
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
+
+SelfStartsWith = TypeVar("SelfStartsWith", bound="StartsWith")
 
 
-class StartsWith(BaseResolution):
+class StartsWith:
     """Match a string which starts with the given substring.
 
     Examples::
@@ -18,9 +22,14 @@ class StartsWith(BaseResolution):
         )
     """
 
-    matcher: StringStartsWith
-    line = 'text starting with "{expectation}".'
-    matcher_function = starts_with
+    def describe(self: SelfStartsWith) -> str:
+        """Describe the Resolution's expectation."""
+        return f'Starting with "{self.prefix}".'
 
-    def __init__(self, match: str) -> None:
-        super().__init__(match)
+    @beat('... hoping it starts with "{prefix}".')
+    def resolve(self: SelfStartsWith) -> Matcher[str]:
+        """Produce the Matcher to make the assertion."""
+        return starts_with(self.prefix)
+
+    def __init__(self, prefix: str) -> None:
+        self.prefix = prefix
