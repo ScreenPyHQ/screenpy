@@ -1,14 +1,18 @@
 """
-Matches an exact string.
+ReadsExactly an exact string.
 """
 
+from typing import TypeVar
+
 from hamcrest import has_string
-from hamcrest.library.object.hasstring import HasString
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
+
+SelfReadsExactly = TypeVar("SelfReadsExactly", bound="ReadsExactly")
 
 
-class ReadsExactly(BaseResolution):
+class ReadsExactly:
     """Match a specific string exactly.
 
     Examples::
@@ -18,9 +22,14 @@ class ReadsExactly(BaseResolution):
         )
     """
 
-    matcher: HasString
-    line = '"{expectation}", verbatim'
-    matcher_function = has_string
+    def describe(self: SelfReadsExactly) -> str:
+        """Describe the Resolution's expectation."""
+        return f'"{self.text}", verbatim.'
 
-    def __init__(self, match: str) -> None:
-        super().__init__(match)
+    @beat('... hoping it\'s "{text}", verbatim.')
+    def resolve(self: SelfReadsExactly) -> Matcher[object]:
+        """Produce the Matcher to make the assertion."""
+        return has_string(self.text)
+
+    def __init__(self, text: str) -> None:
+        self.text = text
