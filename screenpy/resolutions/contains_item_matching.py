@@ -4,7 +4,7 @@ Matches a sequence which contains an item matching a given regex pattern.
 
 from typing import Sequence, TypeVar
 
-from hamcrest.core.base_matcher import Matcher
+from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
 

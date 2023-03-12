@@ -5,7 +5,7 @@ Matches using equality.
 from typing import Any, TypeVar
 
 from hamcrest import equal_to
-from hamcrest.core.base_matcher import Matcher
+from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
 
