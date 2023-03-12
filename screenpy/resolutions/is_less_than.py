@@ -2,15 +2,17 @@
 Matches a value less than the given number.
 """
 
-from typing import Union
+from typing import TypeVar
 
 from hamcrest import less_than
-from hamcrest.library.number.ordering_comparison import OrderingComparison
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
+
+SelfIsLessThan = TypeVar("SelfIsLessThan", bound="IsLessThan")
 
 
-class IsLessThan(BaseResolution):
+class IsLessThan:
     """Match on a number that is less than the given number.
 
     Examples::
@@ -20,9 +22,14 @@ class IsLessThan(BaseResolution):
         )
     """
 
-    matcher: OrderingComparison
-    line = "less than {expectation}"
-    matcher_function = less_than
+    def describe(self: SelfIsLessThan) -> str:
+        """Describe the Resolution's expectation."""
+        return f"Less than {self.number}."
 
-    def __init__(self, number: Union[int, float]) -> None:
-        super().__init__(number)
+    @beat("... hoping it's less than {number}.")
+    def resolve(self: SelfIsLessThan) -> Matcher[float]:
+        """Produce the Matcher to make the assertion."""
+        return less_than(self.number)
+
+    def __init__(self, number: float) -> None:
+        self.number = number
