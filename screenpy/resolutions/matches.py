@@ -2,13 +2,17 @@
 Matches a string using a regex pattern.
 """
 
+from typing import TypeVar
+
 from hamcrest import matches_regexp
-from hamcrest.library.text.stringmatches import StringMatchesPattern
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
+
+SelfMatches = TypeVar("SelfMatches", bound="Matches")
 
 
-class Matches(BaseResolution):
+class Matches:
     """Match a string using a regular expression.
 
     Examples::
@@ -19,9 +23,14 @@ class Matches(BaseResolution):
         )
     """
 
-    matcher: StringMatchesPattern
-    line = 'text matching the regular expression "{expectation}".'
-    matcher_function = matches_regexp
+    def describe(self: SelfMatches) -> str:
+        """Describe the Resolution's expectation."""
+        return f'Text matching the pattern r"{self.pattern}".'
 
-    def __init__(self, match: str) -> None:
-        super().__init__(match)
+    @beat('... hoping it\'s text matching the pattern r"{pattern}".')
+    def resolve(self: SelfMatches) -> Matcher[str]:
+        """Produce the Matcher to make the assertion."""
+        return matches_regexp(self.pattern)
+
+    def __init__(self, pattern: str) -> None:
+        self.pattern = pattern
