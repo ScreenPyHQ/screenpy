@@ -2,17 +2,18 @@
 Matches a dictionary that contains a specific value.
 """
 
-from typing import TypeVar
+from typing import Any, Generic, Mapping, TypeVar
 
 from hamcrest import has_value
-from hamcrest.library.collection.isdict_containingvalue import IsDictContainingValue
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
 
+SelfContainsTheValue = TypeVar("SelfContainsTheValue", bound="ContainsTheValue")
 V = TypeVar("V")
 
 
-class ContainsTheValue(BaseResolution):
+class ContainsTheValue(Generic[V]):
     """Match a dictionary containing a specific value.
 
     Examples::
@@ -22,9 +23,14 @@ class ContainsTheValue(BaseResolution):
         )
     """
 
-    matcher: IsDictContainingValue
-    line = 'a dict containing the value "{expectation}"'
-    matcher_function = has_value
+    def describe(self: SelfContainsTheValue) -> str:
+        """Describe the Resolution's expectation."""
+        return f'Containing the value "{self.value}".'
+
+    @beat('... hoping it contains the value "{value}".')
+    def resolve(self: SelfContainsTheValue) -> Matcher[Mapping[Any, V]]:
+        """Produce the Matcher to form the assertion."""
+        return has_value(self.value)
 
     def __init__(self, value: V) -> None:
-        super().__init__(value)
+        self.value = value
