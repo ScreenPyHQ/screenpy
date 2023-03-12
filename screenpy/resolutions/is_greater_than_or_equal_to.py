@@ -2,15 +2,19 @@
 Matches a value greater than the given number.
 """
 
-from typing import Union
+from typing import Any, TypeVar
 
 from hamcrest import greater_than_or_equal_to
-from hamcrest.library.number.ordering_comparison import OrderingComparison
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
+
+SelfIsGreaterThanOrEqualTo = TypeVar(
+    "SelfIsGreaterThanOrEqualTo", bound="IsGreaterThanOrEqualTo"
+)
 
 
-class IsGreaterThanOrEqualTo(BaseResolution):
+class IsGreaterThanOrEqualTo:
     """Match on a number that is greater than or equal to the given number.
 
     Examples::
@@ -20,9 +24,14 @@ class IsGreaterThanOrEqualTo(BaseResolution):
         )
     """
 
-    matcher: OrderingComparison
-    line = "greater than or equal to {expectation}"
-    matcher_function = greater_than_or_equal_to
+    def describe(self: SelfIsGreaterThanOrEqualTo) -> str:
+        """Describe the Resolution's expectation."""
+        return f"Greater than or equal to {self.number}."
 
-    def __init__(self, number: Union[int, float]) -> None:
-        super().__init__(number)
+    @beat("... hoping it's greater than or equal to {number}.")
+    def resolve(self: SelfIsGreaterThanOrEqualTo) -> Matcher[Any]:
+        """Produce the Matcher to make the assertion."""
+        return greater_than_or_equal_to(self.number)
+
+    def __init__(self, number: float) -> None:
+        self.number = number

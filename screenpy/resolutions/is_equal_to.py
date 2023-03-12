@@ -23,7 +23,7 @@ class IsEqualTo:
     """
 
     def describe(self) -> str:
-        """Describe the Resolution in present tense."""
+        """Describe the Resolution's expectation."""
         return f"Equal to {self.expected}."
 
     @beat("... hoping it's equal to {expected}.")
