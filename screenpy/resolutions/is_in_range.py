@@ -2,13 +2,19 @@
 Matches a number against a range.
 """
 
-from typing import Union
+from typing import TypeVar, Union
 
-from .base_resolution import BaseResolution
-from .custom_matchers.is_in_bounds import IsInBounds, is_in_bounds
+from hamcrest.core.matcher import Matcher
+
+from screenpy.exceptions import UnableToFormResolution
+from screenpy.pacing import beat
+
+from .custom_matchers.is_in_bounds import is_in_bounds
+
+SelfIsInRange = TypeVar("SelfIsInRange", bound="IsInRange")
 
 
-class IsInRange(BaseResolution):
+class IsInRange:
     """Match on a number within a given range.
 
     By default, this Resolution assumes an inclusive range (i.e. [x, y])
@@ -29,9 +35,22 @@ class IsInRange(BaseResolution):
         the_actor.should(See.the(Number.of(COOKIES), IsInRange("[1, 5)")))
     """
 
-    matcher: IsInBounds
-    line = "in the range {expectation}"
-    matcher_function = is_in_bounds
+    def describe(self: SelfIsInRange) -> str:
+        """Describe the Resolution's expectation."""
+        return f"In the range {self.bounding_string}."
+
+    @beat("... hoping it's in the range {bounding_string}.")
+    def resolve(self: SelfIsInRange) -> Matcher[float]:
+        """Produce the Matcher to make the assertion."""
+        return is_in_bounds(*self.bounds)
 
     def __init__(self, *bounds: Union[int, str]) -> None:
-        super().__init__(*bounds)
+        if len(bounds) > 2:
+            msg = f"{self.__class__.__name__} was given too many arguments: {bounds}."
+            UnableToFormResolution(msg)
+
+        self.bounds = bounds
+        self.bounding_string = self.bounds[0]  # given bounding string
+        if len(self.bounds) == 2:
+            # given bounding numbers
+            self.bounding_string = f"[{self.bounds[0]}, {self.bounds[1]}]"
