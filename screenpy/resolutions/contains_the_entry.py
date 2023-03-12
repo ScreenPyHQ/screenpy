@@ -73,8 +73,7 @@ class ContainsTheEntry(BaseResolution):
             except ValueError:
                 # given a list of implicitly paired arguments
                 pairs: Iterable[Tuple[Any, Any]] = [
-                    kv_args[i : i + 2]  # type: ignore
-                    for i in range(0, len(kv_args), 2)
+                    (kv_args[i], kv_args[i + 1]) for i in range(0, len(kv_args), 2)
                 ]
                 self.entries = dict(pairs) | kv_kwargs
         self.entries_to_log = ", ".join(
