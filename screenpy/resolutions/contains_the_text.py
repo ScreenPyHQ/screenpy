@@ -2,13 +2,17 @@
 Matches a substring.
 """
 
+from typing import TypeVar
+
 from hamcrest import contains_string
-from hamcrest.library.text.stringcontains import StringContains
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
+
+SelfContainsTheText = TypeVar("SelfContainsTheText", bound="ContainsTheText")
 
 
-class ContainsTheText(BaseResolution):
+class ContainsTheText:
     """Match a specific substring of a string.
 
     Examples::
@@ -18,9 +22,14 @@ class ContainsTheText(BaseResolution):
         )
     """
 
-    matcher: StringContains
-    line = 'text containing "{expectation}"'
-    matcher_function = contains_string
+    def describe(self: SelfContainsTheText) -> str:
+        """Describe the Resolution in the present tense."""
+        return f'Contain the substring "{self.text}".'
 
-    def __init__(self, match: str) -> None:
-        super().__init__(match)
+    @beat('... hoping it\'s text containing "{text}".')
+    def resolve(self: SelfContainsTheText) -> Matcher[str]:
+        """Produce the Matcher to make the assertion."""
+        return contains_string(self.text)
+
+    def __init__(self: SelfContainsTheText, text: str) -> None:
+        self.text = text
