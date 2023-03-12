@@ -23,7 +23,7 @@ class IsCloseTo:
     """
 
     def describe(self: SelfIsCloseTo) -> str:
-        """Describe the Resolution in present tense."""
+        """Describe the Resolution's expectation."""
         return f"At most {self.delta} away from {self.num}."
 
     @beat("... hoping it's at most {delta} away from {num}.")

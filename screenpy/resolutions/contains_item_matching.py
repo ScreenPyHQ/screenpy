@@ -27,10 +27,10 @@ class ContainsItemMatching:
     """
 
     def describe(self: SelfContainsItemMatching) -> str:
-        """Describe the Resolution in present tense."""
-        return f"Match the pattern {self.pattern}."
+        """Describe the Resolution's expectation."""
+        return f'A sequence with an item matching the pattern r"{self.pattern}".'
 
-    @beat('... hoping it contains an item matching the pattern "{pattern}".')
+    @beat('... hoping it contains an item matching the pattern r"{pattern}".')
     def resolve(self: SelfContainsItemMatching) -> Matcher[Sequence[str]]:
         """Produce the Matcher to make the assertion."""
         return has_item_matching(self.pattern)

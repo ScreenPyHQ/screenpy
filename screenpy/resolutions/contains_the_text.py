@@ -23,10 +23,10 @@ class ContainsTheText:
     """
 
     def describe(self: SelfContainsTheText) -> str:
-        """Describe the Resolution in the present tense."""
-        return f'Contain the substring "{self.text}".'
+        """Describe the Resolution's expectation."""
+        return f'Containing the text "{self.text}".'
 
-    @beat('... hoping it\'s text containing "{text}".')
+    @beat('... hoping it contains "{text}".')
     def resolve(self: SelfContainsTheText) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return contains_string(self.text)

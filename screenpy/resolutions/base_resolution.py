@@ -43,8 +43,12 @@ class BaseResolution(BaseMatcher[T]):
     )
 
     def describe(self) -> str:
-        """Describe the Resolution in present tense."""
+        """Describe the Resolution's expectation."""
         return self.get_line().capitalize()
+
+    def resolve(self) -> BaseMatcher[T]:
+        """Produce the Matcher to make the assertion."""
+        return self
 
     @beat("... hoping it's {motivation}")
     def _matches(self, item: T) -> bool:

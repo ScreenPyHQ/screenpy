@@ -23,8 +23,8 @@ class HasLength:
     """
 
     def describe(self: SelfHasLength) -> str:
-        """Describe the Resolution in the present tense."""
-        return f"Has {self.length} item{self.plural}."
+        """Describe the Resolution's expectation."""
+        return f"{self.length} item{self.plural} long."
 
     @beat("... hoping it's a collection with {length} item{plural} in it.")
     def resolve(self: SelfHasLength) -> Matcher[Sized]:
