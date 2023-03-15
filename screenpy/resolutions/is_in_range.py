@@ -45,7 +45,7 @@ class IsInRange:
     def __init__(self, *bounds: Union[int, str]) -> None:
         if len(bounds) > 2:
             msg = f"{self.__class__.__name__} was given too many arguments: {bounds}."
-            UnableToFormResolution(msg)
+            raise UnableToFormResolution(msg)
 
         self.bounds = bounds
         self.bounding_string = self.bounds[0]  # given bounding string
