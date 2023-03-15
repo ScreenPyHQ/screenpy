@@ -2,14 +2,10 @@
 Matches a string using a regex pattern.
 """
 
-from typing import TypeVar
-
 from hamcrest import matches_regexp
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-
-SelfMatches = TypeVar("SelfMatches", bound="Matches")
 
 
 class Matches:
@@ -23,12 +19,12 @@ class Matches:
         )
     """
 
-    def describe(self: SelfMatches) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f'Text matching the pattern r"{self.pattern}".'
 
     @beat('... hoping it\'s text matching the pattern r"{pattern}".')
-    def resolve(self: SelfMatches) -> Matcher[str]:
+    def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return matches_regexp(self.pattern)
 

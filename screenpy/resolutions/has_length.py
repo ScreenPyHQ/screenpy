@@ -2,14 +2,12 @@
 Matches the length of a collection.
 """
 
-from typing import Sized, TypeVar
+from typing import Sized
 
 from hamcrest import has_length
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-
-SelfHasLength = TypeVar("SelfHasLength", bound="HasLength")
 
 
 class HasLength:
@@ -22,15 +20,15 @@ class HasLength:
         )
     """
 
-    def describe(self: SelfHasLength) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"{self.length} item{self.plural} long."
 
     @beat("... hoping it's a collection with {length} item{plural} in it.")
-    def resolve(self: SelfHasLength) -> Matcher[Sized]:
+    def resolve(self) -> Matcher[Sized]:
         """Produce the Matcher to make the assertion."""
         return has_length(self.length)
 
-    def __init__(self: SelfHasLength, length: int) -> None:
+    def __init__(self, length: int) -> None:
         self.length = length
         self.plural = "s" if self.length != 1 else ""

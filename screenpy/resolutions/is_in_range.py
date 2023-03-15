@@ -2,7 +2,7 @@
 Matches a number against a range.
 """
 
-from typing import TypeVar, Union
+from typing import Union
 
 from hamcrest.core.matcher import Matcher
 
@@ -10,8 +10,6 @@ from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
 
 from .custom_matchers.is_in_bounds import is_in_bounds
-
-SelfIsInRange = TypeVar("SelfIsInRange", bound="IsInRange")
 
 
 class IsInRange:
@@ -35,12 +33,12 @@ class IsInRange:
         the_actor.should(See.the(Number.of(COOKIES), IsInRange("[1, 5)")))
     """
 
-    def describe(self: SelfIsInRange) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"In the range {self.bounding_string}."
 
     @beat("... hoping it's in the range {bounding_string}.")
-    def resolve(self: SelfIsInRange) -> Matcher[float]:
+    def resolve(self) -> Matcher[float]:
         """Produce the Matcher to make the assertion."""
         return is_in_bounds(*self.bounds)
 

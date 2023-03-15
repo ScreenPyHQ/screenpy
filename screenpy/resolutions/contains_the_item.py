@@ -9,7 +9,6 @@ from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
 
-SelfContainsTheItem = TypeVar("SelfContainsTheItem", bound="ContainsTheItem")
 T = TypeVar("T")
 
 
@@ -23,14 +22,14 @@ class ContainsTheItem:
         )
     """
 
-    def describe(self: SelfContainsTheItem) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f'A sequence containing "{self.item}".'
 
     @beat('... hoping it contains "{item}".')
-    def resolve(self: SelfContainsTheItem) -> Matcher[Sequence[T]]:
+    def resolve(self) -> Matcher[Sequence[T]]:
         """Produce the Matcher to make the assertion."""
         return has_item(self.item)
 
-    def __init__(self: SelfContainsTheItem, item: T) -> None:
+    def __init__(self, item: T) -> None:
         self.item = item

@@ -2,14 +2,10 @@
 Matches a value less than the given number.
 """
 
-from typing import TypeVar
-
 from hamcrest import less_than
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-
-SelfIsLessThan = TypeVar("SelfIsLessThan", bound="IsLessThan")
 
 
 class IsLessThan:
@@ -22,12 +18,12 @@ class IsLessThan:
         )
     """
 
-    def describe(self: SelfIsLessThan) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"Less than {self.number}."
 
     @beat("... hoping it's less than {number}.")
-    def resolve(self: SelfIsLessThan) -> Matcher[float]:
+    def resolve(self) -> Matcher[float]:
         """Produce the Matcher to make the assertion."""
         return less_than(self.number)
 

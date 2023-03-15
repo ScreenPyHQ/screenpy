@@ -2,14 +2,12 @@
 Matches a value greater than the given number.
 """
 
-from typing import Any, TypeVar
+from typing import Any
 
 from hamcrest import greater_than
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-
-SelfIsGreaterThan = TypeVar("SelfIsGreaterThan", bound="IsGreaterThan")
 
 
 class IsGreaterThan:
@@ -20,12 +18,12 @@ class IsGreaterThan:
         the_actor.should(See.the(Number.of(COUPONS), IsGreaterThan(1)))
     """
 
-    def describe(self: SelfIsGreaterThan) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"Greater than {self.number}."
 
     @beat("... hoping it's greater than {number}.")
-    def resolve(self: SelfIsGreaterThan) -> Matcher[Any]:
+    def resolve(self) -> Matcher[Any]:
         """Produce the Matcher to make the assertion."""
         return greater_than(self.number)
 

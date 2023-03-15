@@ -11,7 +11,6 @@ from screenpy.pacing import beat
 from screenpy.protocols import Resolvable
 from screenpy.speech_tools import get_additive_description
 
-SelfIsNot = TypeVar("SelfIsNot", bound="IsNot")
 T = TypeVar("T")
 
 
@@ -23,12 +22,12 @@ class IsNot:
         the_actor.should(See.the(Element(WELCOME_BANNER), IsNot(Visible())))
     """
 
-    def describe(self: SelfIsNot) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"Not {self.resolution_to_log}."
 
     @beat("... hoping it's not {resolution_to_log}.")
-    def resolve(self: SelfIsNot) -> Matcher[object]:
+    def resolve(self) -> Matcher[object]:
         """Produce the Matcher to make the assertion."""
         return is_not(self.resolution.resolve())
 

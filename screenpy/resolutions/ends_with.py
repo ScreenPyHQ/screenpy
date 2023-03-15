@@ -2,14 +2,10 @@
 Matches a string which ends with a substring.
 """
 
-from typing import TypeVar
-
 from hamcrest import ends_with
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-
-SelfEndsWith = TypeVar("SelfEndsWith", bound="EndsWith")
 
 
 class EndsWith:
@@ -22,12 +18,12 @@ class EndsWith:
         )
     """
 
-    def describe(self: SelfEndsWith) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f'Ending with {self.postfix}".'
 
     @beat('... hoping it ends with "{postfix}".')
-    def resolve(self: SelfEndsWith) -> Matcher[str]:
+    def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return ends_with(self.postfix)
 

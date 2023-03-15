@@ -9,7 +9,6 @@ from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
 
-SelfContainsTheValue = TypeVar("SelfContainsTheValue", bound="ContainsTheValue")
 V = TypeVar("V")
 
 
@@ -23,12 +22,12 @@ class ContainsTheValue(Generic[V]):
         )
     """
 
-    def describe(self: SelfContainsTheValue) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f'Containing the value "{self.value}".'
 
     @beat('... hoping it contains the value "{value}".')
-    def resolve(self: SelfContainsTheValue) -> Matcher[Mapping[Any, V]]:
+    def resolve(self) -> Matcher[Mapping[Any, V]]:
         """Produce the Matcher to form the assertion."""
         return has_value(self.value)
 

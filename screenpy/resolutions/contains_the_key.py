@@ -9,7 +9,6 @@ from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
 
-SelfContainsTheKey = TypeVar("SelfContainsTheKey", bound="ContainsTheKey")
 K = TypeVar("K", bound=Hashable)
 
 
@@ -21,12 +20,12 @@ class ContainsTheKey(Generic[K]):
         the_actor.should(See.the(LastResponseBody(), ContainsTheKey("skeleton")))
     """
 
-    def describe(self: SelfContainsTheKey) -> str:
+    def describe(self) -> str:
         """Describe the Resolution in the present tense."""
         return f'Contain the key "{self.key}".'
 
     @beat('... hoping it\'s a dict containing the key "{key}".')
-    def resolve(self: SelfContainsTheKey) -> Matcher[Mapping[K, Any]]:
+    def resolve(self) -> Matcher[Mapping[K, Any]]:
         """Produce the Matcher to make the assertion."""
         return has_key(self.key)
 

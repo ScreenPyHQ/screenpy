@@ -2,14 +2,10 @@
 ReadsExactly an exact string.
 """
 
-from typing import TypeVar
-
 from hamcrest import has_string
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-
-SelfReadsExactly = TypeVar("SelfReadsExactly", bound="ReadsExactly")
 
 
 class ReadsExactly:
@@ -22,12 +18,12 @@ class ReadsExactly:
         )
     """
 
-    def describe(self: SelfReadsExactly) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f'"{self.text}", verbatim.'
 
     @beat('... hoping it\'s "{text}", verbatim.')
-    def resolve(self: SelfReadsExactly) -> Matcher[object]:
+    def resolve(self) -> Matcher[object]:
         """Produce the Matcher to make the assertion."""
         return has_string(self.text)
 

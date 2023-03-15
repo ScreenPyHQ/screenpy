@@ -12,7 +12,6 @@ from screenpy.pacing import beat
 
 from .base_resolution import BaseResolution
 
-SelfContainsTheEntry = TypeVar("SelfContainsTheEntry", bound="ContainsTheEntry")
 K = TypeVar("K", bound=Hashable)
 V = TypeVar("V")
 
@@ -29,31 +28,31 @@ class ContainsTheEntry(BaseResolution):
         )
     """
 
-    def describe(self: SelfContainsTheEntry) -> str:
+    def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"A mapping with the entries {self.entries_to_log}."
 
     @beat("... hoping it's a mapping with the entries {entries_to_log}")
-    def resolve(self: SelfContainsTheEntry) -> Matcher[Mapping]:
+    def resolve(self) -> Matcher[Mapping]:
         """Produce the Matcher to make the assertion."""
         return has_entries(**self.entries)
 
     # Keyword argument form
     @overload
-    def __init__(self: SelfContainsTheEntry, **kv_args: V) -> None:
+    def __init__(self, **kv_args: V) -> None:
         ...
 
     # Key to value dict form
     @overload
-    def __init__(self: SelfContainsTheEntry, kv_args: Mapping[K, V]) -> None:
+    def __init__(self, kv_args: Mapping[K, V]) -> None:
         ...
 
     # Alternating key/value form
     @overload
-    def __init__(self: SelfContainsTheEntry, *kv_args: Any) -> None:
+    def __init__(self, *kv_args: Any) -> None:
         ...
 
-    def __init__(self: SelfContainsTheEntry, *kv_args: Any, **kv_kwargs: Any) -> None:
+    def __init__(self, *kv_args: Any, **kv_kwargs: Any) -> None:
         if len(kv_args) > 1 and len(kv_args) % 2 == 1:
             msg = f"{self.__class__.__name__} could not pair {kv_args}."
             msg += " Make sure they're paired up properly!"
