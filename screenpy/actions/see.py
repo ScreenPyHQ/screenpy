@@ -36,12 +36,12 @@ class See:
 
     question: T_Q
     question_to_log: str
-    resolution: BaseResolution | Resolvable
+    resolution: Union[BaseResolution, Resolvable]
     resolution_to_log: str
 
     @classmethod
     def the(
-        cls: Type[SelfSee], question: T_Q, resolution: BaseResolution | Resolvable
+        cls: Type[SelfSee], question: T_Q, resolution: Union[BaseResolution, Resolvable]
     ) -> SelfSee:
         """Supply the Question (or value) and Resolution to test."""
         return cls(question, resolution)
@@ -72,7 +72,7 @@ class See:
         assert_that(value, matcher, reason)
 
     def __init__(
-        self: SelfSee, question: T_Q, resolution: BaseResolution | Resolvable
+        self: SelfSee, question: T_Q, resolution: Union[BaseResolution, Resolvable]
     ) -> None:
         self.question = question
         self.question_to_log = get_additive_description(question)
