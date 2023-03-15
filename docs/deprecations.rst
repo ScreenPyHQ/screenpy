@@ -8,6 +8,89 @@ in ScreenPy's life,
 and how to adjust your tests
 to keep them up to date.
 
+4.2.0 Deprecations
+==================
+
+:class:`~screenpy.resolutions.base_resolution.BaseResolution` is now deprecated.
+
+For a long time,
+``BaseResolution`` was an odd duck.
+All the other pieces of ScreenPy are some sort of -able:
+Performable.
+Answerable.
+Describable.
+Resolutions,
+though,
+were some strange inheritance.
+
+Not anymore!
+Now Resolutions are :class:`~screenpy.protocols.Resolvable`!
+This hopefully makes them easier to understand.
+
+Please update your custom Resolutions by making them Resolvable.
+Here is an example of :class:`~screenpy.resolutions.IsEqualTo`
+before and after this change.
+
+Before::
+
+    from typing import TypeVar
+
+    from hamcrest import equal_to
+    from hamcrest.core.core.isequal import IsEqual
+
+    from .base_resolution import BaseResolution
+
+    T = TypeVar("T")
+
+
+    class IsEqualTo(BaseResolution):
+        """Match on an equal object.
+        Examples::
+            the_actor.should(
+                See.the(Number.of(ADVERTISEMENT_BANNERS), IsEqualTo(0))
+            )
+        """
+
+        matcher: IsEqual
+        line = "equal to {expectation}"
+        matcher_function = equal_to
+
+        def __init__(self, obj: T) -> None:
+            super().__init__(obj)
+
+After::
+
+    from typing import Any
+
+    from hamcrest import equal_to
+    from hamcrest.core.matcher import Matcher
+
+    from screenpy.pacing import beat
+
+
+    class IsEqualTo:
+        """Match on an equal object.
+
+        Examples::
+
+            the_actor.should(
+                See.the(Number.of(ADVERTISEMENT_BANNERS), IsEqualTo(0))
+            )
+        """
+
+        def describe(self) -> str:
+            """Describe the Resolution's expectation."""
+            return f"Equal to {self.expected}."
+
+        @beat("... hoping it's equal to {expected}.")
+        def resolve(self) -> Matcher[Any]:
+            """Produce the Matcher to make the assertion."""
+            return equal_to(self.expected)
+
+        def __init__(self, obj: Any) -> None:
+            self.expected = obj
+
+
 4.0.0 Breaking Changes
 ======================
 

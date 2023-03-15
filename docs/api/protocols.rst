@@ -35,6 +35,13 @@ Question
     :members:
     :undoc-members:
 
+Resolution
+----------
+
+.. autoclass:: Resolvable
+    :members:
+    :undoc-members:
+
 Narrator's Adapter
 ------------------
 

@@ -12,6 +12,7 @@ with a Question to get the actual value. An assertion might look like:
     )
 """
 
+import warnings
 from typing import Any, Callable, TypeVar
 
 from hamcrest.core.base_matcher import BaseMatcher, Matcher
@@ -30,7 +31,7 @@ class BaseResolution(BaseMatcher[T]):
 
     You probably shouldn't expect to call any of the defined methods on
     this class or any inherited classes. Just pass an instantiated
-    Resolution to your |Actor|, they'll know what to do with it.
+    Resolution to your Actor, they'll know what to do with it.
     """
 
     matcher: Matcher
@@ -77,6 +78,12 @@ class BaseResolution(BaseMatcher[T]):
         return self.get_line()
 
     def __init__(self, *args: object, **kwargs: object) -> None:
+        warnings.warn(
+            "BaseResolution is deprecated and will be removed in ScreenPy v5.0.0."
+            " Please make your Resolution Resolvable instead."
+            "\nSee https://screenpy-docs.readthedocs.io/en/latest/deprecations.html",
+            DeprecationWarning,
+        )
         cls = self.__class__
         if args and kwargs:
             self.expected = (args, kwargs)

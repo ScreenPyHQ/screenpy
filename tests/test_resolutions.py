@@ -31,6 +31,17 @@ from screenpy.resolutions.base_resolution import BaseMatcher
 
 
 class TestBaseResolution:
+    def test_subclasses_deprecated(self):
+
+        class MockResolution(BaseResolution):
+            """Must be defined here for new mock matchers."""
+
+            matcher_function = mock.create_autospec(BaseMatcher)
+
+        with pytest.deprecated_call():
+            MockResolution()
+
+    @pytest.mark.filterwarnings("ignore:BaseResolution")
     @pytest.mark.parametrize(
         "args,kwargs,expected",
         [
@@ -54,6 +65,7 @@ class TestBaseResolution:
         assert resolution.expected == expected
         resolution.matcher_function.assert_called_once_with(*args, **kwargs)
 
+    @pytest.mark.filterwarnings("ignore:BaseResolution")
     @pytest.mark.parametrize(
         "method,args,expected_method",
         [
@@ -87,6 +99,7 @@ class TestBaseResolution:
 
         getattr(resolution.matcher, expected_method).assert_called_once_with(*args)
 
+    @pytest.mark.filterwarnings("ignore:BaseResolution")
     def test___repr__(self) -> None:
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""

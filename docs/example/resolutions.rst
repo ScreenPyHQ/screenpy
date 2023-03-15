@@ -18,18 +18,10 @@ One used the built-in :class:`~screenpy.resolutions.Equals` Resolution,
 while the other used a custom ``IsPalpable`` Resolution.
 Let's examine the latter.
 
-Resolutions all inherit
-from the :class:`~screenpy.resolutions.BaseResolution` class.
-All that is needed
-is a ``line`` and a "matcher" function.
-
-The ``line`` appears in the log.
-Write the line such that
-it describes the expected value
-while completing the sentence,
-"Hoping it's...".
-You can use ``{expectation}`` here
-to reference the expected value.
+Resolutions are :class:`~screenpy.protocols.Resolvable`.
+This means they have a ``resolve`` method,
+which calls and returns a "matcher" function
+for the assertion.
 
 The "matcher" function
 can come from `PyHamcrest <https://github.com/hamcrest/PyHamcrest#pyhamcrest>`__,
@@ -83,7 +75,8 @@ Here's how those might be assembled::
 .. code-block:: python
 
     # resolutions/is_palpable.py
-    from screenpy.resolutions import BaseResolution
+    from hamcrest.core.matcher import Matcher
+    from screenpy.pacing import beat
 
     from .matchers.has_saturation_greater_than import is_palpable
 
@@ -95,8 +88,11 @@ Here's how those might be assembled::
 
             the_actor.should(See.the(AudienceTension(), IsPalpable()))
         """
-        line = "a palpable tension!"
-        matcher_function = is_palpable
+
+        @beat("... hoping it's a palpable tension!")
+        def resolve(self) -> Matcher[str]:
+            """Provide the Matcher to make the assertion."""
+            return is_palpable()
 
 
 That's really all there is
