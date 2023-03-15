@@ -30,10 +30,6 @@ from screenpy.resolutions import (
 from screenpy.resolutions.base_resolution import BaseMatcher
 
 
-def assert_matcher_annotation(obj: BaseResolution) -> None:
-    assert type(obj.matcher) is obj.__annotations__["matcher"]
-
-
 class TestBaseResolution:
     @pytest.mark.parametrize(
         "args,kwargs,expected",
@@ -112,13 +108,10 @@ class TestContainsItemMatching:
         assert isinstance(cim, ContainsItemMatching)
 
     def test_the_test(self) -> None:
-        cim = ContainsItemMatching(r"([Ss]pam ?)+")
+        cim = ContainsItemMatching(r"([Ss]pam ?)+").resolve()
 
         assert cim.matches(["Spam", "Eggs", "Spam and eggs"])
         assert not cim.matches(["Porridge"])
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(ContainsItemMatching(r"^$"))
 
 
 class TestContainsTheEntry:
@@ -131,10 +124,10 @@ class TestContainsTheEntry:
 
     def test_the_test(self) -> None:
         """Matches dictionaries containing the entry(/ies)"""
-        cte_single = ContainsTheEntry(key="value")
-        cte_multiple = ContainsTheEntry(key1="value1", key2="value2")
-        cte_alt2 = ContainsTheEntry({"key2": "something2"})
-        cte_alt3 = ContainsTheEntry("key3", "something3")
+        cte_single = ContainsTheEntry(key="value").resolve()
+        cte_multiple = ContainsTheEntry(key1="value1", key2="value2").resolve()
+        cte_alt2 = ContainsTheEntry({"key2": "something2"}).resolve()
+        cte_alt3 = ContainsTheEntry("key3", "something3").resolve()
 
         assert cte_alt2.matches({"key2": "something2"})
         assert cte_alt3.matches({"key3": "something3"})
@@ -147,9 +140,6 @@ class TestContainsTheEntry:
         )
         assert not cte_multiple.matches({"key1": "value1"})
 
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(ContainsTheEntry(key2="hi"))
-
 
 class TestContainsTheItem:
     def test_can_be_instantiated(self) -> None:
@@ -159,13 +149,10 @@ class TestContainsTheItem:
 
     def test_the_test(self) -> None:
         """Matches lists containing the item"""
-        cti = ContainsTheItem(1)
+        cti = ContainsTheItem(1).resolve()
 
         assert cti.matches(range(0, 10))
         assert not cti.matches({0, 3, 5})
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(ContainsTheItem(1))
 
 
 class TestContainsTheKey:
@@ -176,14 +163,11 @@ class TestContainsTheKey:
 
     def test_the_test(self) -> None:
         """Matches dictionaries containing the key"""
-        ctk = ContainsTheKey("key")
+        ctk = ContainsTheKey("key").resolve()
 
         assert ctk.matches({"key": "value"})
         assert ctk.matches({"key": "value", "play": "Hamlet"})
         assert not ctk.matches({"play": "Hamlet"})
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(ContainsTheKey(1))
 
 
 class TestContainsTheText:
@@ -194,13 +178,10 @@ class TestContainsTheText:
 
     def test_the_test(self) -> None:
         """Matches text with the substring"""
-        ctt = ContainsTheText("hello")
+        ctt = ContainsTheText("hello").resolve()
 
         assert ctt.matches("hello world!")
         assert not ctt.matches("goodbye universe.")
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(ContainsTheText("hello"))
 
 
 class TestContainsTheValue:
@@ -211,14 +192,11 @@ class TestContainsTheValue:
 
     def test_the_test(self) -> None:
         """Matches dictionaries which contain the value"""
-        ctv = ContainsTheValue("value")
+        ctv = ContainsTheValue("value").resolve()
 
         assert ctv.matches({"key": "value"})
         assert ctv.matches({"key": "value", "play": "Hamlet"})
         assert not ctv.matches({"play": "Hamlet"})
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(ContainsTheValue(1))
 
 
 class TestEmpty:
@@ -229,13 +207,10 @@ class TestEmpty:
 
     def test_the_test(self) -> None:
         """Matches against empty collections"""
-        e = IsEmpty()
+        e = IsEmpty().resolve()
 
         assert e.matches([])
         assert not e.matches(["not", "empty"])
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(IsEmpty())
 
 
 class TestEndsWith:
@@ -245,13 +220,10 @@ class TestEndsWith:
         assert isinstance(ew, EndsWith)
 
     def test_the_test(self) -> None:
-        ew = EndsWith("of life!")
+        ew = EndsWith("of life!").resolve()
 
         assert ew.matches("Bereft of life!")
         assert not ew.matches("He has ceased to be!")
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(EndsWith(""))
 
 
 class TestHasLength:
@@ -262,13 +234,10 @@ class TestHasLength:
 
     def test_the_test(self) -> None:
         """Matches lists with the right length"""
-        hl = HasLength(5)
+        hl = HasLength(5).resolve()
 
         assert hl.matches([1, 2, 3, 4, 5])
         assert not hl.matches([1])
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(HasLength(1))
 
 
 class TestIsCloseTo:
@@ -278,23 +247,12 @@ class TestIsCloseTo:
         assert isinstance(ict, IsCloseTo)
 
     def test_the_test(self) -> None:
-        ict = IsCloseTo(1, delta=3)
+        ict = IsCloseTo(1, delta=3).resolve()
 
         assert ict.matches(1)
         assert ict.matches(4)
         assert not ict.matches(5)
         assert not ict.matches(-5)
-
-    def test_get_line(self) -> None:
-        num = 1
-        delta = 3
-
-        ict = IsCloseTo(num, delta=delta)
-
-        assert ict.get_line() == f"a value at most {delta} away from {num}."
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(IsCloseTo(2))
 
 
 class TestIsEqualTo:
@@ -305,13 +263,10 @@ class TestIsEqualTo:
 
     def test_the_test(self) -> None:
         """Matches objects that are equal to what was passed in"""
-        ie = IsEqualTo(1)
+        ie = IsEqualTo(1).resolve()
 
         assert ie.matches(1)
         assert not ie.matches(2)
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(IsEqualTo(1))
 
 
 class TestIsGreaterThan:
@@ -322,14 +277,11 @@ class TestIsGreaterThan:
 
     def test_the_test(self) -> None:
         test_num = 5
-        igt = IsGreaterThan(test_num)
+        igt = IsGreaterThan(test_num).resolve()
 
         assert igt.matches(test_num + 1)
         assert not igt.matches(test_num)
         assert not igt.matches(test_num - 1)
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(IsGreaterThan(1))
 
 
 class TestIsGreaterThanOrEqualTo:
@@ -340,14 +292,11 @@ class TestIsGreaterThanOrEqualTo:
 
     def test_the_test(self) -> None:
         test_num = 5
-        igtoet = IsGreaterThanOrEqualTo(test_num)
+        igtoet = IsGreaterThanOrEqualTo(test_num).resolve()
 
         assert igtoet.matches(test_num + 1)
         assert igtoet.matches(test_num)
         assert not igtoet.matches(test_num - 1)
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(IsGreaterThanOrEqualTo(1))
 
 
 class TestIsInRange:
@@ -361,10 +310,10 @@ class TestIsInRange:
     def test_the_test(self) -> None:
         test_minorant = 5
         test_majorant = 10
-        iir1 = IsInRange(test_minorant, test_majorant)
-        iir2 = IsInRange(f"[{test_minorant}, {test_majorant}]")
-        iir3 = IsInRange(f"({test_minorant}, {test_majorant})")
-        iir4 = IsInRange(f"[{test_minorant}, {test_majorant})")
+        iir1 = IsInRange(test_minorant, test_majorant).resolve()
+        iir2 = IsInRange(f"[{test_minorant}, {test_majorant}]").resolve()
+        iir3 = IsInRange(f"({test_minorant}, {test_majorant})").resolve()
+        iir4 = IsInRange(f"[{test_minorant}, {test_majorant})").resolve()
 
         assert iir1.matches(test_minorant + 1)
         assert iir2.matches(test_minorant + 1)
@@ -387,9 +336,6 @@ class TestIsInRange:
         assert not iir3.matches(test_majorant + 1)
         assert not iir4.matches(test_majorant + 1)
 
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(IsInRange(1, 5))
-
 
 class TestIsLessThan:
     def test_can_be_instantiated(self) -> None:
@@ -399,14 +345,11 @@ class TestIsLessThan:
 
     def test_the_test(self) -> None:
         test_num = 5
-        ilt = IsLessThan(test_num)
+        ilt = IsLessThan(test_num).resolve()
 
         assert ilt.matches(test_num - 1)
         assert not ilt.matches(test_num)
         assert not ilt.matches(test_num + 1)
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(IsLessThan(1))
 
 
 class TestIsLessThanOrEqualTo:
@@ -417,14 +360,11 @@ class TestIsLessThanOrEqualTo:
 
     def test_the_test(self) -> None:
         test_num = 5
-        iltoet = IsLessThanOrEqualTo(test_num)
+        iltoet = IsLessThanOrEqualTo(test_num).resolve()
 
         assert iltoet.matches(test_num - 1)
         assert iltoet.matches(test_num)
         assert not iltoet.matches(test_num + 1)
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(IsLessThanOrEqualTo(1))
 
 
 class TestIsNot:
@@ -435,13 +375,10 @@ class TestIsNot:
 
     def test_the_test(self) -> None:
         """Matches the opposite of what was passed in"""
-        in_ = DoesNot(Equal(1))
+        in_ = DoesNot(Equal(1)).resolve()
 
         assert in_.matches(2)
         assert not in_.matches(1)
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(IsNot(1))
 
 
 class TestMatches:
@@ -451,13 +388,10 @@ class TestMatches:
         assert isinstance(m, Matches)
 
     def test_the_test(self) -> None:
-        m = Matches(r"([Ss]pam ?)+")
+        m = Matches(r"([Ss]pam ?)+").resolve()
 
         assert m.matches("Spam spam spam spam baked beans and spam")
         assert not m.matches("What do you mean Eugh?!")
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(Matches(r"^$"))
 
 
 class TestReadsExactly:
@@ -468,13 +402,10 @@ class TestReadsExactly:
 
     def test_the_test(self) -> None:
         """Matches text exactly"""
-        re_ = ReadsExactly("Blah")
+        re_ = ReadsExactly("Blah").resolve()
 
         assert re_.matches("Blah")
         assert not re_.matches("blah")
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(ReadsExactly("hi"))
 
 
 class TestStartsWith:
@@ -484,10 +415,7 @@ class TestStartsWith:
         assert isinstance(sw, StartsWith)
 
     def test_the_test(self) -> None:
-        sw = StartsWith("I will not buy this record")
+        sw = StartsWith("I will not buy this record").resolve()
 
         assert sw.matches("I will not buy this record, it is scratched.")
         assert not sw.matches("I will not buy this tobacconist, it is scratched.")
-
-    def test_type_hint(self) -> None:
-        assert_matcher_annotation(StartsWith(""))

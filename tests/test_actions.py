@@ -432,7 +432,7 @@ class TestSee:
         mock_question.describe.return_value = "What was your mother?"
         mock_question.caught_exception = ValueError("Failure msg")
         mock_resolution = FakeResolution()
-        mock_resolution.get_line.return_value = "A hamster!"
+        mock_resolution.describe.return_value = "A hamster!"
 
         See.the(mock_question, mock_resolution).perform_as(Tester)
 
@@ -447,7 +447,7 @@ class TestSee:
     def test_calls_assert_that_with_value(self, mocked_assert_that, Tester) -> None:
         test_value = "Your father smelt of"
         mock_resolution = FakeResolution()
-        mock_resolution.get_line.return_value = "Elderberries!"
+        mock_resolution.describe.return_value = "Elderberries!"
 
         See.the(test_value, mock_resolution).perform_as(Tester)
 
@@ -457,11 +457,11 @@ class TestSee:
         mock_question = FakeQuestion()
         mock_question.describe.return_value = "Can you speak?"
         mock_resolution = FakeResolution()
-        mock_resolution.get_line.return_value = "I speak"
+        mock_resolution.describe.return_value = "Only this sentence."
 
         assert (
             See(mock_question, mock_resolution).describe()
-            == "See if can you speak is I speak."
+            == "See if can you speak is only this sentence."
         )
 
 
