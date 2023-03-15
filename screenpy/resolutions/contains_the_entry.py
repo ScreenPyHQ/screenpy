@@ -60,17 +60,17 @@ class ContainsTheEntry(BaseResolution):
 
         if len(kv_args) == 1:
             # given a dictionary
-            self.entries = dict(kv_args[0]) | kv_kwargs
+            self.entries = dict(kv_args[0], **kv_kwargs)
         else:
             try:
                 # given pairs, keywords, or both
-                self.entries = dict(kv_args) | kv_kwargs
+                self.entries = dict(kv_args, **kv_kwargs)
             except ValueError:
                 # given a list of implicitly paired arguments
                 pairs: Iterable[Tuple[Any, Any]] = [
                     (kv_args[i], kv_args[i + 1]) for i in range(0, len(kv_args), 2)
                 ]
-                self.entries = dict(pairs) | kv_kwargs
+                self.entries = dict(pairs, **kv_kwargs)
         self.entries_to_log = ", ".join(
             f"{{{k}: {v}}}" for k, v in self.entries.items()
         )
