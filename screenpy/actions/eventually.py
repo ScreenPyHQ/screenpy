@@ -57,7 +57,7 @@ class Eventually:
             self.eventually = eventually
             self.amount = amount
             self.attribute = attribute
-            self.eventually.timeout = amount
+            setattr(self.eventually, self.attribute, self.amount)
 
         def milliseconds(self) -> "Eventually":
             """Set the timeout in milliseconds."""
