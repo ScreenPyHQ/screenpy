@@ -3,7 +3,7 @@ Eventually perform a Task or Action, trying until a set timeout.
 """
 
 import time
-from typing import Optional, Set, Tuple
+from typing import Dict, Optional
 
 from screenpy import settings
 from screenpy.actor import Actor
@@ -57,7 +57,7 @@ class Eventually:
             self.eventually = eventually
             self.amount = amount
             self.attribute = attribute
-            self.eventually.timeout = amount
+            setattr(self.eventually, self.attribute, self.amount)
 
         def milliseconds(self) -> "Eventually":
             """Set the timeout in milliseconds."""
@@ -138,7 +138,7 @@ class Eventually:
                     return
                 except Exception as exc:  # pylint: disable=broad-except
                     self.caught_error = exc
-                    self.unique_errors.add((exc.__class__.__name__, str(exc)))
+                    self.unique_errors[exc] = None
 
                 count += 1
                 time.sleep(self.poll)
@@ -146,7 +146,7 @@ class Eventually:
                     break
 
         unique_errors_message = "\n    ".join(
-            f"{e[0]}: {e[1]}" for e in self.unique_errors
+            f"{e.__class__.__name__}: {e}" for e in self.unique_errors
         )
         msg = (
             f"{the_actor} tried to Eventually {self.performable_to_log} {count} times"
@@ -158,6 +158,6 @@ class Eventually:
         self.performable = performable
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
-        self.unique_errors: Set[Tuple[str, str]] = set()
+        self.unique_errors: Dict[Exception, None] = {}
         self.timeout = settings.TIMEOUT
         self.poll = settings.POLLING
