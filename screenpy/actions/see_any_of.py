@@ -5,7 +5,7 @@ at least one of which is expected to be true.
 
 from typing import Tuple, Type, TypeVar, Union
 
-from screenpy import Actor
+from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 from screenpy.protocols import Answerable

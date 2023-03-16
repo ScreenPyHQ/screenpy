@@ -5,22 +5,25 @@ from unittest import mock
 
 import pytest
 
-from screenpy.actions import (
+from conftest import mock_settings
+from screenpy import (
     AttachTheFile,
     Debug,
+    DeliveryError,
+    Describable,
+    Director,
     Eventually,
+    IsEqualTo,
     MakeNote,
     Pause,
+    Performable,
     See,
     SeeAllOf,
     SeeAnyOf,
+    UnableToAct,
+    UnableToDirect,
+    noted_under,
 )
-from screenpy.directions import noted_under
-from screenpy.director import Director
-from screenpy.exceptions import DeliveryError, UnableToAct, UnableToDirect
-from screenpy.protocols import Describable, Performable
-from screenpy.resolutions import IsEqualTo
-from conftest import mock_settings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
     get_mock_action_class,

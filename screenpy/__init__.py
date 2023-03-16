@@ -19,31 +19,72 @@ SerenityBDD library for Java.
 :license: MIT, see LICENSE for more details.
 """
 
+from . import actions, narration, resolutions
+from .actions import *  # noqa
 from .actor import Actor
 from .directions import noted, noted_under, the_noted
 from .director import Director
+from .exceptions import (
+    AbilityError,
+    ActionError,
+    DeliveryError,
+    QuestionError,
+    ScreenPyError,
+    UnableToAct,
+    UnableToAnswer,
+    UnableToDirect,
+    UnableToNarrate,
+    UnableToPerform,
+)
 from .given_when_then import and_, given, given_that, then, when
+from .narration import *  # noqa
 from .pacing import act, aside, beat, scene, the_narrator
+from .protocols import (
+    Adapter,
+    Answerable,
+    Describable,
+    ErrorKeeper,
+    Forgettable,
+    Performable,
+)
+from .resolutions import *  # noqa
 
 # Natural-language-enabling syntactic sugar
 AnActor = Actor
 
 
 __all__ = [
+    "AbilityError",
     "act",
+    "ActionError",
     "Actor",
+    "Adapter",
     "AnActor",
     "and_",
+    "Answerable",
     "aside",
     "beat",
+    "DeliveryError",
+    "Describable",
     "Director",
-    "given_that",
+    "ErrorKeeper",
+    "Forgettable",
     "given",
-    "noted_under",
+    "given_that",
     "noted",
+    "noted_under",
+    "Performable",
+    "QuestionError",
     "scene",
+    "ScreenPyError",
     "the_narrator",
     "the_noted",
     "then",
+    "UnableToAct",
+    "UnableToAnswer",
+    "UnableToDirect",
+    "UnableToNarrate",
+    "UnableToPerform",
     "when",
 ]
+__all__ += actions.__all__ + resolutions.__all__ + narration.__all__

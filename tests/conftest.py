@@ -3,8 +3,7 @@ from unittest import mock
 
 import pytest
 
-from screenpy import Actor, pacing, settings
-from screenpy.narration.narrator import Narrator
+from screenpy import Actor, Narrator, pacing, settings
 
 
 @pytest.fixture(scope="function")

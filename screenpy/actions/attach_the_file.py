@@ -5,7 +5,7 @@ Attach a file.
 import os
 from typing import Any
 
-from screenpy import Actor
+from screenpy.actor import Actor
 from screenpy.pacing import the_narrator
 
 
