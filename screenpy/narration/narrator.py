@@ -16,6 +16,8 @@ from typing import (
     List,
     Optional,
     Tuple,
+    Type,
+    TypeVar,
     Union,
 )
 
@@ -29,6 +31,7 @@ Kwargs = Union[Callable, str]
 BackedUpNarration = Tuple[str, Dict[str, Kwargs], int]
 ChainedNarrations = List[Tuple[str, Dict[str, Kwargs], List]]
 Entangled = Tuple[Callable, List[Generator]]
+SelfNarrator = TypeVar("SelfNarrator", bound="Narrator")
 
 
 def _chainify(narrations: List[BackedUpNarration]) -> ChainedNarrations:
@@ -66,12 +69,21 @@ def _chainify(narrations: List[BackedUpNarration]) -> ChainedNarrations:
 class Narrator:
     """The narrator conveys the story to the audience."""
 
-    def __init__(self, adapters: Optional[List[Adapter]] = None) -> None:
-        self.adapters: List[Adapter] = adapters or []
-        self.on_air = True
-        self.backed_up_narrations: List[List[BackedUpNarration]] = []
-        self.exit_level = 1
-        self.handled_exception = None
+    _instance = None
+
+    def __new__(
+        cls: Type[SelfNarrator], adapters: Optional[List[Adapter]] = None
+    ) -> SelfNarrator:
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls.adapters: List[Adapter] = adapters or []
+            cls.on_air = True
+            cls.backed_up_narrations: List[List[BackedUpNarration]] = []
+            cls.exit_level = 1
+            cls.handled_exception = None
+        else:
+            cls._instance.adapters = adapters or cls.adapters
+        return cls._instance
 
     def attach_adapter(self, adapter: Adapter) -> None:
         """Attach a new adapter to the Narrator's microphone."""
