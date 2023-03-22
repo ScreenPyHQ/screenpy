@@ -41,3 +41,11 @@ class QuestionError(ScreenPyError):
 
 class UnableToAnswer(QuestionError):
     """The Question is not answerable."""
+
+
+class ResolutionError(ScreenPyError):
+    """These errors are raised when a Resolution fails."""
+
+
+class UnableToFormResolution(ResolutionError):
+    """The Resolution is unable to be formed."""

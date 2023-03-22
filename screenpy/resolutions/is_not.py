@@ -2,17 +2,19 @@
 Matches the negation of another Resolution.
 """
 
-from typing import Type, TypeVar, Union
+from typing import TypeVar
 
 from hamcrest import is_not
-from hamcrest.core.core.isnot import IsNot as _IsNot
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
+from screenpy.protocols import Resolvable
+from screenpy.speech_tools import get_additive_description
 
 T = TypeVar("T")
 
 
-class IsNot(BaseResolution):
+class IsNot:
     """Match a negated Resolution.
 
     Examples::
@@ -20,13 +22,15 @@ class IsNot(BaseResolution):
         the_actor.should(See.the(Element(WELCOME_BANNER), IsNot(Visible())))
     """
 
-    matcher: _IsNot
-    line = "not {expectation}"
-    matcher_function = is_not
+    def describe(self) -> str:
+        """Describe the Resolution's expectation."""
+        return f"Not {self.resolution_to_log}."
 
-    def get_line(self) -> str:
-        """Override base get_line to formulate this unique line."""
-        return self.line.format(expectation=self.expected.get_line())
+    @beat("... hoping it's not {resolution_to_log}.")
+    def resolve(self) -> Matcher[object]:
+        """Produce the Matcher to make the assertion."""
+        return is_not(self.resolution.resolve())
 
-    def __init__(self, match: Union[Type, T]) -> None:
-        super().__init__(match)
+    def __init__(self, resolution: Resolvable) -> None:
+        self.resolution = resolution
+        self.resolution_to_log = get_additive_description(self.resolution)

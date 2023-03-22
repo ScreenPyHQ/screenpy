@@ -2,15 +2,13 @@
 Matches a value less than or equal to the given number.
 """
 
-from typing import Union
-
 from hamcrest import less_than_or_equal_to
-from hamcrest.library.number.ordering_comparison import OrderingComparison
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
 
 
-class IsLessThanOrEqualTo(BaseResolution):
+class IsLessThanOrEqualTo:
     """Match on a number that is less than or equal to the given number.
 
     Examples::
@@ -20,9 +18,14 @@ class IsLessThanOrEqualTo(BaseResolution):
         )
     """
 
-    matcher: OrderingComparison
-    line = "less than or equal to {expectation}"
-    matcher_function = less_than_or_equal_to
+    def describe(self) -> str:
+        """Describe the Resolution's expectation."""
+        return f"Less than or equal to {self.number}."
 
-    def __init__(self, number: Union[int, float]) -> None:
-        super().__init__(number)
+    @beat("... hoping it's less than or equal to {number}.")
+    def resolve(self) -> Matcher[float]:
+        """Produce the Matcher to make the assertion."""
+        return less_than_or_equal_to(self.number)
+
+    def __init__(self, number: float) -> None:
+        self.number = number

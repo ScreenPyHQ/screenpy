@@ -151,3 +151,9 @@ StartsWith
 **Aliases**: ``StartWith``
 
 .. autoclass:: StartsWith
+
+
+BaseResolution
+--------------
+
+.. autoclass:: BaseResolution
