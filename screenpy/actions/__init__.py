@@ -13,33 +13,62 @@ from .see_any_of import SeeAnyOf
 
 # Natural-language-enabling syntactic sugar
 AttachFile = AttachAFile = AttachTheFile
+AttachesFile = AttachesAFile = AttachesTheFile = AttachTheFile
 Observe = Verify = Confirm = Assert = See
+Observes = Verifies = Confirms = Asserts = Sees = See
 ObserveAllOf = VerifyAllOf = ConfirmAllOf = AssertAllOf = SeeAllOf
+ObservesAllOf = VerifiesAllOf = ConfirmsAllOf = AssertsAllOf = SeesAllOf = SeeAllOf
 ObserveAnyOf = VerifyAnyOf = ConfirmAnyOf = AssertAnyOf = SeeAnyOf
+ObservesAnyOf = VerifiesAnyOf = ConfirmsAnyOf = AssertsAnyOf = SeesAnyOf = SeeAnyOf
 Sleep = Pause
+Sleeps = Pauses = Pause
 TakeNote = MakeNote
+TakesNote = MakesNote = MakeNote
 
 
 __all__ = [
     "Assert",
     "AssertAllOf",
     "AssertAnyOf",
+    "Asserts",
+    "AssertsAllOf",
+    "AssertsAnyOf",
     "AttachAFile",
+    "AttachesAFile",
+    "AttachesTheFile",
+    "AttachesFile",
     "AttachFile",
     "AttachTheFile",
     "Confirm",
     "ConfirmAllOf",
     "ConfirmAnyOf",
+    "Confirms",
+    "ConfirmsAllOf",
+    "ConfirmsAnyOf",
     "Debug",
     "Eventually",
+    "MakeNote",
+    "MakesNote",
     "Observe",
     "ObserveAllOf",
     "ObserveAnyOf",
+    "Observes",
+    "ObservesAllOf",
+    "ObservesAnyOf",
     "Pause",
+    "Pauses",
     "See",
     "SeeAllOf",
     "SeeAnyOf",
+    "Sees",
+    "SeesAllOf",
+    "SeesAnyOf",
     "Sleep",
+    "Sleeps",
+    "TakesNote",
+    "Verifies",
+    "VerifiesAllOf",
+    "VerifiesAnyOf",
     "Verify",
     "VerifyAllOf",
     "VerifyAnyOf",

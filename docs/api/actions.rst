@@ -10,7 +10,10 @@ AttachTheFile
 -------------
 
 **Aliases**: ``AttachAFile``,
-``AttachFile``
+``AttachFile``,
+``AttachesTheFile``,
+``AttachesAFile``,
+``AttachesFile``
 
 .. autoclass:: AttachTheFile
     :members:
@@ -30,7 +33,9 @@ Eventually
 MakeNote
 --------
 
-**Aliases**: ``TakeNote``
+**Aliases**: ``TakeNote``,
+``MakesNote``,
+``TakesNote``
 
 .. autoclass:: MakeNote
     :members:
@@ -38,7 +43,9 @@ MakeNote
 Pause
 -----
 
-**Aliases**: ``Sleep``
+**Aliases**: ``Sleep``,
+``Pauses``,
+``Sleeps``
 
 .. autoclass:: Pause
     :members:
@@ -49,7 +56,13 @@ See
 **Aliases**: ``Assert``,
 ``Confirm``,
 ``Observe``,
-``Verify``
+``Verify``,
+``Sees``,
+``Asserts``,
+``Confirms``,
+``Observes``,
+``Verifies``
+
 
 .. autoclass:: See
     :members:
@@ -60,7 +73,12 @@ SeeAllOf
 **Aliases**: ``AssertAllOf``,
 ``ConfirmAllOf``,
 ``ObserveAllOf``,
-``VerifyAllOf``
+``VerifyAllOf``,
+``SeesAllOf``,
+``AssertsAllOf``,
+``ConfirmsAllOf``,
+``ObservesAllOf``,
+``VerifiesAllOf``
 
 .. autoclass:: SeeAllOf
     :members:
@@ -71,7 +89,12 @@ SeeAnyOf
 **Aliases**: ``AssertAnyOf``,
 ``ConfirmAnyOf``,
 ``ObserveAnyOf``,
-``VerifyAnyOf``
+``VerifyAnyOf``,
+``SeesAnyOf``,
+``AssertsAnyOf``,
+``ConfirmsAnyOf``,
+``ObservesAnyOf``,
+``VerifiesAnyOf``
 
 .. autoclass:: SeeAnyOf
     :members:
