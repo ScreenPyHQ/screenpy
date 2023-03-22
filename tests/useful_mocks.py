@@ -1,7 +1,7 @@
 from typing import Any
 from unittest import mock
 
-from screenpy.resolutions import BaseResolution
+from screenpy import BaseResolution
 from unittest_protocols import Ability, Action, Question
 
 
@@ -28,14 +28,20 @@ def get_mock_resolution_class() -> Any:
     class FakeResolution(BaseResolution):
         def __new__(cls, *args, **kwargs):
             rt = mock.create_autospec(BaseResolution, instance=True)
+            rt.resolve.return_value = rt
+            rt.describe.return_value = None
             return rt
     return FakeResolution
 
 
 def get_mock_ability_class() -> Any:
-    """
-    This bit of wizardry creates a subclass of Ability that is auto_specced by mock, but
-    still allows for usage in cases where `isinstance` is called without raising exceptions
+    """Generate a mocked Ability class.
+
+    This bit of wizardry creates a subclass of Ability that is auto_specced by
+    mock, but still allows for usage in cases where `isinstance` is called
+    without raising exceptions
+
+    Examples::
 
         MyFakeAbility = get_mock_ability_class()
         fa = MyFakeAbility()

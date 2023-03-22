@@ -2,8 +2,8 @@ import logging
 
 import pytest
 
+from screenpy import StdOutAdapter, StdOutManager
 from screenpy.narration import gravitas
-from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
 from screenpy.protocols import Adapter
 
 

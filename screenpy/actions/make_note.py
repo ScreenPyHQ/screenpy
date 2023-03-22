@@ -4,7 +4,8 @@ Make a quick note about the answer to a Question.
 
 from typing import Optional, Type, TypeVar, Union
 
-from screenpy import Actor, Director
+from screenpy.actor import Actor
+from screenpy.director import Director
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper

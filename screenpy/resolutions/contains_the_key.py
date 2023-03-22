@@ -2,15 +2,17 @@
 Matches a dictionary that contains the desired key.
 """
 
-from typing import Hashable
+from typing import Any, Generic, Hashable, Mapping, TypeVar
 
 from hamcrest import has_key
-from hamcrest.library.collection.isdict_containingkey import IsDictContainingKey
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
+
+K = TypeVar("K", bound=Hashable)
 
 
-class ContainsTheKey(BaseResolution):
+class ContainsTheKey(Generic[K]):
     """Match a dictionary containing a specific key.
 
     Examples::
@@ -18,9 +20,14 @@ class ContainsTheKey(BaseResolution):
         the_actor.should(See.the(LastResponseBody(), ContainsTheKey("skeleton")))
     """
 
-    matcher: IsDictContainingKey
-    line = 'a dict containing the key "{expectation}"'
-    matcher_function = has_key
+    def describe(self) -> str:
+        """Describe the Resolution in the present tense."""
+        return f'Contain the key "{self.key}".'
 
-    def __init__(self, key_match: Hashable) -> None:
-        super().__init__(key_match)
+    @beat('... hoping it\'s a dict containing the key "{key}".')
+    def resolve(self) -> Matcher[Mapping[K, Any]]:
+        """Produce the Matcher to make the assertion."""
+        return has_key(self.key)
+
+    def __init__(self, key: K) -> None:
+        self.key = key

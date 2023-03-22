@@ -3,12 +3,12 @@ Matches a substring.
 """
 
 from hamcrest import contains_string
-from hamcrest.library.text.stringcontains import StringContains
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
 
 
-class ContainsTheText(BaseResolution):
+class ContainsTheText:
     """Match a specific substring of a string.
 
     Examples::
@@ -18,9 +18,14 @@ class ContainsTheText(BaseResolution):
         )
     """
 
-    matcher: StringContains
-    line = 'text containing "{expectation}"'
-    matcher_function = contains_string
+    def describe(self) -> str:
+        """Describe the Resolution's expectation."""
+        return f'Containing the text "{self.text}".'
 
-    def __init__(self, match: str) -> None:
-        super().__init__(match)
+    @beat('... hoping it contains "{text}".')
+    def resolve(self) -> Matcher[str]:
+        """Produce the Matcher to make the assertion."""
+        return contains_string(self.text)
+
+    def __init__(self, text: str) -> None:
+        self.text = text

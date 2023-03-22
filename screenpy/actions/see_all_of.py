@@ -3,18 +3,16 @@ Make several assertions using any number of Question and Resolution tuples,
 all of which are expected to be true.
 """
 
-from typing import Tuple, Type, TypeVar, Union
+from typing import Tuple, Type, TypeVar
 
-from screenpy import Actor
+from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
-from screenpy.protocols import Answerable
-from screenpy.resolutions import BaseResolution
 
-from .see import See
+from .see import T_Q, T_R, See
 
 SelfSeeAllOf = TypeVar("SelfSeeAllOf", bound="SeeAllOf")
-T_T = Tuple[Union[Answerable, object], BaseResolution]
+T_T = Tuple[T_Q, T_R]
 
 
 class SeeAllOf:

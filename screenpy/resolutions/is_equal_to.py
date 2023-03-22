@@ -2,17 +2,15 @@
 Matches using equality.
 """
 
-from typing import TypeVar
+from typing import Any
 
 from hamcrest import equal_to
-from hamcrest.core.core.isequal import IsEqual
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
-
-T = TypeVar("T")
+from screenpy.pacing import beat
 
 
-class IsEqualTo(BaseResolution):
+class IsEqualTo:
     """Match on an equal object.
 
     Examples::
@@ -22,9 +20,14 @@ class IsEqualTo(BaseResolution):
         )
     """
 
-    matcher: IsEqual
-    line = "equal to {expectation}"
-    matcher_function = equal_to
+    def describe(self) -> str:
+        """Describe the Resolution's expectation."""
+        return f"Equal to {self.expected}."
 
-    def __init__(self, obj: T) -> None:
-        super().__init__(obj)
+    @beat("... hoping it's equal to {expected}.")
+    def resolve(self) -> Matcher[Any]:
+        """Produce the Matcher to make the assertion."""
+        return equal_to(self.expected)
+
+    def __init__(self, obj: Any) -> None:
+        self.expected = obj
