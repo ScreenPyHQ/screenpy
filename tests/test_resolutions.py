@@ -13,6 +13,7 @@ from screenpy.resolutions import (
     DoesNot,
     EndsWith,
     Equal,
+    EqualTo,
     HasLength,
     IsCloseTo,
     IsEmpty,
@@ -382,7 +383,7 @@ class TestIsLessThanOrEqualTo:
 
 class TestIsNot:
     def test_can_be_instantiated(self) -> None:
-        in_ = IsNot(IsEqualTo(True))
+        in_ = IsNot(EqualTo(True))
 
         assert isinstance(in_, IsNot)
 
