@@ -15,7 +15,9 @@ def test_can_be_instantiated() -> None:
     a1 = Actor.named("Tester")
     a2 = Actor.named("Tester").can(FakeAbility())
     a3 = Actor.named("Tester").who_can(FakeAbility())
-    a4 = Actor.named("Tester").who_can(FakeAbility()).with_ordered_cleanup_tasks(FakeAction())
+    a4 = Actor.named("Tester").who_can(FakeAbility()).with_ordered_cleanup_tasks(
+        FakeAction()
+    )
 
     assert isinstance(a1, Actor)
     assert isinstance(a2, Actor)
@@ -32,6 +34,7 @@ def test_calls_perform_as() -> None:
     action.perform_as.assert_called_once_with(actor)
 
     perform_aliases: list[Any] = [
+        actor,
         actor.did,
         actor.does,
         actor.will,
