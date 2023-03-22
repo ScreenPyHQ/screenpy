@@ -8,13 +8,12 @@ from typing import Tuple, Type, TypeVar, Union
 from screenpy import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
-from screenpy.protocols import Answerable
-from screenpy.resolutions import BaseResolution
+from screenpy.protocols import Answerable, Resolvable
 
 from .see import See
 
 SelfSeeAllOf = TypeVar("SelfSeeAllOf", bound="SeeAllOf")
-T_T = Tuple[Union[Answerable, object], BaseResolution]
+T_T = Tuple[Union[Answerable, object], Resolvable]
 
 
 class SeeAllOf:

@@ -9,11 +9,11 @@ from hamcrest import assert_that
 from screenpy import Actor
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
-from screenpy.resolutions import BaseResolution
 from screenpy.speech_tools import get_additive_description
 
 SelfSee = TypeVar("SelfSee", bound="See")
 T_Q = Union[Answerable, object]
+T_R = Resolvable
 
 
 class See:
@@ -36,13 +36,11 @@ class See:
 
     question: T_Q
     question_to_log: str
-    resolution: Union[BaseResolution, Resolvable]
+    resolution: T_R
     resolution_to_log: str
 
     @classmethod
-    def the(
-        cls: Type[SelfSee], question: T_Q, resolution: Union[BaseResolution, Resolvable]
-    ) -> SelfSee:
+    def the(cls: Type[SelfSee], question: T_Q, resolution: T_R) -> SelfSee:
         """Supply the Question (or value) and Resolution to test."""
         return cls(question, resolution)
 
@@ -66,9 +64,7 @@ class See:
 
         assert_that(value, self.resolution.resolve(), reason)
 
-    def __init__(
-        self: SelfSee, question: T_Q, resolution: Union[BaseResolution, Resolvable]
-    ) -> None:
+    def __init__(self: SelfSee, question: T_Q, resolution: T_R) -> None:
         self.question = question
         self.question_to_log = get_additive_description(question)
         self.resolution = resolution
