@@ -48,9 +48,9 @@ class SeeAllOf:
 
     def describe(self: SelfSeeAllOf) -> str:
         """Describe the Action in present tense."""
-        return f"See if all of {self.number_of_tests} tests pass."
+        return f"See if {self.log_message}."
 
-    @beat("{} sees if all of the following {number_of_tests} tests pass:")
+    @beat("{} sees if {log_message}:")
     def perform_as(self: SelfSeeAllOf, the_actor: Actor) -> None:
         """Direct the Actor to make a series of observations."""
         for question, resolution in self.tests:
@@ -60,9 +60,14 @@ class SeeAllOf:
         for tup in tests:
             if isinstance(tup, tuple):
                 if len(tup) != 2:
-                    raise UnableToAct("Tuple must contain Question and Resolution")
+                    raise UnableToAct("Tuple must contain Question and Resolution.")
             else:
-                raise TypeError("Arguments must be tuples")
+                raise TypeError("Arguments must be tuples.")
 
         self.tests = tests
-        self.number_of_tests = len(tests)
+        if len(self.tests) == 0:
+            self.log_message = "no tests pass 🤔"
+        elif len(self.tests) == 1:
+            self.log_message = "1 test passes"
+        else:
+            self.log_message = f"all of {len(self.tests)} tests pass"
