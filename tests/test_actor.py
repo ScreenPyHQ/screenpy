@@ -16,7 +16,9 @@ def test_can_be_instantiated() -> None:
     a1 = Actor.named("Tester")
     a2 = Actor.named("Tester").can(FakeAbility())
     a3 = Actor.named("Tester").who_can(FakeAbility())
-    a4 = Actor.named("Tester").who_can(FakeAbility()).with_ordered_cleanup_tasks(FakeAction())
+    a4 = Actor.named("Tester").who_can(FakeAbility()).with_ordered_cleanup_tasks(
+        FakeAction()
+    )
 
     assert isinstance(a1, Actor)
     assert isinstance(a2, Actor)
