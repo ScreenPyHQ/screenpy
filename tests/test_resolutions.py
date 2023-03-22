@@ -382,7 +382,7 @@ class TestIsLessThanOrEqualTo:
 
 class TestIsNot:
     def test_can_be_instantiated(self) -> None:
-        in_ = IsNot(None)
+        in_ = IsNot(IsEqualTo(True))
 
         assert isinstance(in_, IsNot)
 
