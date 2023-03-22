@@ -1,7 +1,7 @@
 from typing import Any
 from unittest import mock
 
-from screenpy.resolutions import BaseResolution
+from screenpy import BaseResolution
 from unittest_protocols import Ability, Action, Question
 
 

@@ -2,7 +2,7 @@ from unittest import mock
 
 import pytest
 
-from screenpy.resolutions import (
+from screenpy import (
     BaseResolution,
     ContainsItemMatching,
     ContainsTheEntry,

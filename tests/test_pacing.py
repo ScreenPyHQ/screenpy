@@ -1,4 +1,4 @@
-from screenpy.pacing import act, aside, beat, scene
+from screenpy import act, aside, beat, scene
 
 
 def prop():
