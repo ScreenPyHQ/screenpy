@@ -64,12 +64,7 @@ class See:
         if isinstance(self.question, ErrorKeeper):
             reason = f"{self.question.caught_exception}"
 
-        if isinstance(self.resolution, Resolvable):
-            matcher = self.resolution.resolve()
-        else:
-            matcher = self.resolution
-
-        assert_that(value, matcher, reason)
+        assert_that(value, self.resolution.resolve(), reason)
 
     def __init__(
         self: SelfSee, question: T_Q, resolution: Union[BaseResolution, Resolvable]
