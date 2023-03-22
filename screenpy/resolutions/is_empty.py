@@ -2,13 +2,15 @@
 Matches an empty collection.
 """
 
+from typing import Sized
+
 from hamcrest import empty
-from hamcrest.library.collection.is_empty import IsEmpty as _IsEmpty
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
 
 
-class IsEmpty(BaseResolution):
+class IsEmpty:
     """Match on an empty collection.
 
     Examples::
@@ -16,9 +18,11 @@ class IsEmpty(BaseResolution):
         the_actor.should(See.the(List.of_all(VIDEO_FRAMES), IsEmpty()))
     """
 
-    matcher: _IsEmpty
-    line = "an empty collection"
-    matcher_function = empty
+    def describe(self) -> str:
+        """Describe the Resolution's expectation."""
+        return "An empty collection."
 
-    def __init__(self) -> None:
-        super().__init__()
+    @beat("... hoping it's an empty collection.")
+    def resolve(self) -> Matcher[Sized]:
+        """Produce the Matcher to make the assertion."""
+        return empty()

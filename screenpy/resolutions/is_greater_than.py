@@ -2,15 +2,15 @@
 Matches a value greater than the given number.
 """
 
-from typing import Union
+from typing import Any
 
 from hamcrest import greater_than
-from hamcrest.library.number.ordering_comparison import OrderingComparison
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
 
 
-class IsGreaterThan(BaseResolution):
+class IsGreaterThan:
     """Match on a number that is greater than the given number.
 
     Examples::
@@ -18,9 +18,14 @@ class IsGreaterThan(BaseResolution):
         the_actor.should(See.the(Number.of(COUPONS), IsGreaterThan(1)))
     """
 
-    matcher: OrderingComparison
-    line = "greater than {expectation}"
-    matcher_function = greater_than
+    def describe(self) -> str:
+        """Describe the Resolution's expectation."""
+        return f"Greater than {self.number}."
 
-    def __init__(self, number: Union[int, float]) -> None:
-        super().__init__(number)
+    @beat("... hoping it's greater than {number}.")
+    def resolve(self) -> Matcher[Any]:
+        """Produce the Matcher to make the assertion."""
+        return greater_than(self.number)
+
+    def __init__(self, number: float) -> None:
+        self.number = number

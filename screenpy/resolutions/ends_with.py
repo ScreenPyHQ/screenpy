@@ -3,12 +3,12 @@ Matches a string which ends with a substring.
 """
 
 from hamcrest import ends_with
-from hamcrest.library.text.stringendswith import StringEndsWith
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
 
 
-class EndsWith(BaseResolution):
+class EndsWith:
     """Match a string which ends with the given substring.
 
     Examples::
@@ -18,9 +18,14 @@ class EndsWith(BaseResolution):
         )
     """
 
-    matcher: StringEndsWith
-    line = 'text ending with "{expectation}".'
-    matcher_function = ends_with
+    def describe(self) -> str:
+        """Describe the Resolution's expectation."""
+        return f'Ending with {self.postfix}".'
 
-    def __init__(self, match: str) -> None:
-        super().__init__(match)
+    @beat('... hoping it ends with "{postfix}".')
+    def resolve(self) -> Matcher[str]:
+        """Produce the Matcher to make the assertion."""
+        return ends_with(self.postfix)
+
+    def __init__(self, postfix: str) -> None:
+        self.postfix = postfix

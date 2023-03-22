@@ -12,25 +12,25 @@ from typing import Callable, Union
 from hamcrest.core.base_matcher import BaseMatcher
 from hamcrest.core.description import Description
 
-InequalityFunc = Callable[[Union[int, float], Union[int, float]], bool]
+InequalityFunc = Callable[[float, float], bool]
 
 
-class IsInBounds(BaseMatcher[int]):
+class IsInBounds(BaseMatcher[float]):
     """Matches a number which is in the given range."""
 
     def __init__(
         self,
-        minorant: Union[int, float],
+        minorant: float,
         lower_comparator: InequalityFunc,
         upper_comparator: InequalityFunc,
-        majorant: Union[int, float],
+        majorant: float,
     ) -> None:
         self.minorant = minorant
         self.lower_comparator = lower_comparator
         self.upper_comparator = upper_comparator
         self.majorant = majorant
 
-    def _matches(self, item: Union[int, float]) -> bool:
+    def _matches(self, item: float) -> bool:
         matches_lower = self.lower_comparator(self.minorant, item)
         matches_upper = self.upper_comparator(item, self.majorant)
         return matches_lower and matches_upper
@@ -41,17 +41,13 @@ class IsInBounds(BaseMatcher[int]):
             f"the number is within the range of {self.minorant} and {self.majorant}"
         )
 
-    def describe_match(
-        self, item: Union[int, float], match_description: Description
-    ) -> None:
+    def describe_match(self, item: float, match_description: Description) -> None:
         """Describe the match."""
         match_description.append_text(
             f"{item} was within the range of {self.minorant} and {self.majorant}"
         )
 
-    def describe_mismatch(
-        self, item: Union[int, float], mismatch_description: Description
-    ) -> None:
+    def describe_mismatch(self, item: float, mismatch_description: Description) -> None:
         """Describe the failing case."""
         mismatch_description.append_text(
             f"{item} does not fall within the range of"

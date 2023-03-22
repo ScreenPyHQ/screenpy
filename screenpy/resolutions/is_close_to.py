@@ -3,12 +3,12 @@ Matches a value that falls within the range specified by the given delta.
 """
 
 from hamcrest import close_to
-from hamcrest.library.number.iscloseto import IsCloseTo as _IsCloseTo
+from hamcrest.core.matcher import Matcher
 
-from .base_resolution import BaseResolution
+from screenpy.pacing import beat
 
 
-class IsCloseTo(BaseResolution):
+class IsCloseTo:
     """Matches a value that falls within the range specified by the given delta.
 
     Examples::
@@ -18,13 +18,15 @@ class IsCloseTo(BaseResolution):
         )
     """
 
-    matcher: _IsCloseTo
-    matcher_function = close_to
+    def describe(self) -> str:
+        """Describe the Resolution's expectation."""
+        return f"At most {self.delta} away from {self.num}."
 
-    def get_line(self) -> str:
-        """Get the line that describes this Resolution."""
-        args, kwargs = self.expected
-        return f"a value at most {kwargs['delta']} away from {args[0]}."
+    @beat("... hoping it's at most {delta} away from {num}.")
+    def resolve(self) -> Matcher[float]:
+        """Produce the Matcher to make the assertion."""
+        return close_to(self.num, self.delta)
 
     def __init__(self, num: int, delta: int = 1) -> None:
-        super().__init__(num, delta=delta)
+        self.num = num
+        self.delta = delta
