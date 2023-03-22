@@ -165,43 +165,43 @@ class Actor:
             self.perform(action)
 
     def was_able_to(self: SelfActor, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`, for test setup."""
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
     def tries_to(self: SelfActor, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`, for test setup."""
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
     def tried_to(self: SelfActor, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`, for test setup."""
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
     def tries(self: SelfActor, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`, for test setup."""
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
     def tried(self: SelfActor, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`, for test setup."""
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
     def does(self: SelfActor, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`, for test setup."""
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
     def did(self: SelfActor, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`, for test setup."""
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
     def will(self: SelfActor, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`, for test assertions."""
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
     def shall(self: SelfActor, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`, for test assertions."""
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
     def should(self: SelfActor, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`, for test assertions."""
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
     def perform(self: SelfActor, action: Performable) -> None:
@@ -260,6 +260,10 @@ class Actor:
     def exit_through_vomitorium(self: SelfActor) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.exit`."""
         return self.exit()
+
+    def __call__(self, *actions: Performable) -> None:
+        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        return self.attempts_to(*actions)
 
     def __repr__(self: SelfActor) -> str:
         return self.name
