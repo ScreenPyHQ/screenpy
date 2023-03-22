@@ -47,9 +47,9 @@ class SeeAnyOf:
 
     def describe(self: SelfSeeAnyOf) -> str:
         """Describe the Action in present tense."""
-        return f"See if any of {self.number_of_tests} tests pass."
+        return f"See if {self.log_message}."
 
-    @beat("{} sees if any of the following {number_of_tests} tests pass:")
+    @beat("{} sees if {log_message}:")
     def perform_as(self: SelfSeeAnyOf, the_actor: Actor) -> None:
         """Direct the Actor to make a series of observations."""
         none_passed = True
@@ -72,4 +72,9 @@ class SeeAnyOf:
                 raise TypeError("Arguments must be tuples")
 
         self.tests = tests
-        self.number_of_tests = len(tests)
+        if len(self.tests) == 0:
+            self.log_message = "no tests pass 🤔"
+        elif len(self.tests) == 1:
+            self.log_message = "1 test passes"
+        else:
+            self.log_message = f"any of {len(self.tests)} tests pass"

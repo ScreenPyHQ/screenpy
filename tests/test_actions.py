@@ -559,6 +559,7 @@ class TestSeeAllOf:
         ).perform_as(Tester)
 
     def test_describe(self) -> None:
+        test = (FakeQuestion(), IsEqualTo(True))
         tests = (
             (FakeQuestion(), IsEqualTo(True)),
             (FakeQuestion(), IsEqualTo(True)),
@@ -566,7 +567,9 @@ class TestSeeAllOf:
             (FakeQuestion(), IsEqualTo(True)),
         )
 
-        assert SeeAllOf(*tests).describe() == "See if all of 4 tests pass."
+        assert SeeAllOf().describe() == "See if no tests pass 🤔."
+        assert SeeAllOf(test).describe() == "See if 1 test passes."
+        assert SeeAllOf(*tests).describe() == f"See if all of {len(tests)} tests pass."
 
 
 class TestSeeAnyOf:
@@ -626,6 +629,7 @@ class TestSeeAnyOf:
         ).perform_as(Tester)
 
     def test_describe(self) -> None:
+        test = (FakeQuestion(), IsEqualTo(True))
         tests = (
             (FakeQuestion(), IsEqualTo(True)),
             (FakeQuestion(), IsEqualTo(True)),
@@ -633,4 +637,6 @@ class TestSeeAnyOf:
             (FakeQuestion(), IsEqualTo(True)),
         )
 
-        assert SeeAnyOf(*tests).describe() == "See if any of 4 tests pass."
+        assert SeeAnyOf().describe() == "See if no tests pass 🤔."
+        assert SeeAnyOf(test).describe() == "See if 1 test passes."
+        assert SeeAnyOf(*tests).describe() == f"See if any of {len(tests)} tests pass."
