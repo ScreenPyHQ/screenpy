@@ -33,6 +33,7 @@ def test_calls_perform_as() -> None:
     action.perform_as.assert_called_once_with(actor)
 
     perform_aliases: list[Any] = [
+        actor,
         actor.did,
         actor.does,
         actor.will,
