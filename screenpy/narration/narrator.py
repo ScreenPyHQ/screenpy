@@ -76,13 +76,15 @@ class Narrator:
     ) -> SelfNarrator:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            cls.adapters: List[Adapter] = adapters or []
+            cls.adapters: List[Adapter] = []
             cls.on_air = True
             cls.backed_up_narrations: List[List[BackedUpNarration]] = []
             cls.exit_level = 1
             cls.handled_exception = None
-        else:
-            cls._instance.adapters = adapters or cls.adapters
+
+        if adapters is not None:
+            cls._instance.adapters = adapters
+
         return cls._instance
 
     def attach_adapter(self, adapter: Adapter) -> None:

@@ -18,11 +18,14 @@ def Tester() -> Generator[Actor, None, None]:
 def mocked_narrator() -> Generator[mock.MagicMock, Any, None]:
     """Mock out the Narrator for a test, replacing the old one afterwards."""
     mock_narrator = mock.create_autospec(Narrator, instance=True)
-    old_narrator = pacing.the_narrator
+    old_narrator = Narrator._instance
+    Narrator._instance = mock_narrator
+    # update pacing since we forced a new instance of Narrator
     pacing.the_narrator = mock_narrator
 
     yield mock_narrator
 
+    Narrator._instance = old_narrator
     pacing.the_narrator = old_narrator
 
 

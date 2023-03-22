@@ -8,7 +8,8 @@ from typing import Dict, Optional
 from screenpy import settings
 from screenpy.actor import Actor
 from screenpy.exceptions import DeliveryError
-from screenpy.pacing import beat, the_narrator
+from screenpy.narration import Narrator
+from screenpy.pacing import beat
 from screenpy.protocols import Performable
 from screenpy.speech_tools import get_additive_description
 
@@ -130,9 +131,9 @@ class Eventually:
         end_time = time.time() + self.timeout
 
         count = 0
-        with the_narrator.mic_cable_kinked():
+        with Narrator().mic_cable_kinked():
             while True:
-                the_narrator.clear_backup()
+                Narrator().clear_backup()
                 try:
                     the_actor.attempts_to(self.performable)
                     return

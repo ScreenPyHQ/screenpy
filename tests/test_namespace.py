@@ -101,7 +101,6 @@ def test_screenpy():
         "StdOutAdapter",
         "StdOutManager",
         "TakeNote",
-        "the_narrator",
         "the_noted",
         "then",
         "UnableToAct",

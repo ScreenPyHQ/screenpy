@@ -12,7 +12,7 @@ from screenpy.narration.adapters.stdout_adapter import StdOutAdapter
 from screenpy.narration.narrator import Narrator
 
 Function = Callable[..., Any]
-the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
+the_narrator = Narrator(adapters=[StdOutAdapter()])
 
 
 def act(title: str, gravitas: Optional[str] = None) -> Callable[[Function], Function]:

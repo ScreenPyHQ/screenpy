@@ -59,7 +59,7 @@ class StdOutAdapter:
 
     Examples::
 
-        the_narrator.attach_adapter(StdOutAdapter())
+        Narrator().attach_adapter(StdOutAdapter())
     """
 
     handled_exception: Optional[Exception]

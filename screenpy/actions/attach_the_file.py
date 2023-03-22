@@ -6,7 +6,7 @@ import os
 from typing import Any
 
 from screenpy.actor import Actor
-from screenpy.pacing import the_narrator
+from screenpy.narration import Narrator
 
 
 class AttachTheFile:
@@ -31,7 +31,7 @@ class AttachTheFile:
     # no beat, to make reading reports easier.
     def perform_as(self, _: Actor) -> None:
         """Direct the Narrator to attach a file."""
-        the_narrator.attaches_a_file(self.filepath, **self.attach_kwargs)
+        Narrator().attaches_a_file(self.filepath, **self.attach_kwargs)
 
     def __init__(self, filepath: str, **kwargs: Any) -> None:
         self.filepath = filepath

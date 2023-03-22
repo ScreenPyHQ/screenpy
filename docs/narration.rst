@@ -19,6 +19,9 @@ logs to ``stdout``.
 There may be more Adapters available
 in the :ref:`official extensions` section.
 
+Like the :ref:`Director`,
+there is only one Narrator.
+
 Describing Your Tests and Tasks
 ===============================
 
@@ -61,6 +64,24 @@ in their execution.
 directly to the adapters.
 Use these to add a quick comment
 to the report.
+
+Calling the Narrator
+====================
+
+There is only one Narrator,
+represented by a singleton class.
+Thus,
+if you need the Narrator,
+all you need to do is call them,
+like ``Narrator()``.
+
+For example,
+this is how to kink the cable
+on the Narrator's microphone
+(which defers logging until you leave the context)::
+
+    with Narrator().mic_cable_kinked():
+       ...
 
 Built-In StdOutAdapter
 ======================
@@ -110,9 +131,9 @@ on the Narrator's microphone,
 do this::
 
     from screenpy.narration.adapters.stdout_adapter import StdOutAdapter
-    from screenpy.pacing import the_narrator
+    from screenpy.narration import Narrator
 
-    the_narrator.attach_adapter(StdOutAdapter())
+    Narrator().attach_adapter(StdOutAdapter())
 
 Do the above in ``conftest.py``
 or a similar setup file

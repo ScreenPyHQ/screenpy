@@ -38,7 +38,7 @@ from .exceptions import (
 )
 from .given_when_then import and_, given, given_that, then, when
 from .narration import *  # noqa
-from .pacing import act, aside, beat, scene, the_narrator
+from .pacing import act, aside, beat, scene
 from .protocols import (
     Adapter,
     Answerable,
@@ -77,7 +77,6 @@ __all__ = [
     "QuestionError",
     "scene",
     "ScreenPyError",
-    "the_narrator",
     "the_noted",
     "then",
     "UnableToAct",

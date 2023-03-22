@@ -3,7 +3,7 @@ from unittest import mock
 
 import pytest
 
-from screenpy import NORMAL, Adapter, Narrator
+from screenpy import NORMAL, Adapter, Narrator, StdOutAdapter
 from screenpy.narration.narrator import _chainify
 
 
@@ -47,32 +47,51 @@ class TestChainify:
         assert actual == expected
 
 
-@pytest.fixture()
-def cleanup_narrator() -> Generator:
-    """Delete the singleton instance of the Narrator.
-
-    Since the Narrator is omnipresent and a singleton, if we change things
-    about it during a test, we will need to reset it afterwards to remove
-    the things we changed about it. Use this fixture to do that!
-    """
-    yield
-    Narrator._instance = None
-
-
 class TestNarrator:
-    def test_is_singleton(self, cleanup_narrator) -> None:
+
+    @pytest.fixture(autouse=True)
+    def cleanup_narrator(self) -> Generator:
+        """Delete the singleton instance of the Narrator.
+
+        Since the Narrator is omnipresent and a singleton, if we change things
+        about it during a test, we will need to reset it afterwards to remove
+        the things we changed about it. Use this fixture to do that!
+        """
+        yield
+        Narrator(adapters=[StdOutAdapter()])
+
+    def test_is_singleton(self) -> None:
         narrator1 = Narrator()
         narrator2 = Narrator()
 
         assert narrator1 is narrator2
 
-    def test_adapters_are_updated(self, cleanup_narrator) -> None:
-        narrator = Narrator()
-        test_adapter = get_mock_adapter()
+    def test_adapters_are_updated(self) -> None:
+        test_adapter1 = get_mock_adapter()
+        test_adapter2 = get_mock_adapter()
+        narrator = Narrator(adapters=[test_adapter1])
 
-        Narrator(adapters=[test_adapter])
+        Narrator(adapters=[test_adapter2])
+
+        assert test_adapter1 not in narrator.adapters
+        assert test_adapter2 in narrator.adapters
+
+    def test_adapters_are_not_blanked(self) -> None:
+        test_adapter = get_mock_adapter()
+        narrator = Narrator(adapters=[test_adapter])
+
+        Narrator()
 
         assert test_adapter in narrator.adapters
+
+    def test_adapters_can_be_blanked(self) -> None:
+        test_adapter = get_mock_adapter()
+        narrator = Narrator(adapters=[test_adapter])
+
+        Narrator(adapters=[])
+
+        assert test_adapter not in narrator.adapters
+        assert len(narrator.adapters) == 0
 
     def test_add_new_adapter(self) -> None:
         narrator = Narrator()

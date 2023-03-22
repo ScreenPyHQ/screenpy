@@ -11,7 +11,6 @@ from screenpy import (
     aside,
     beat,
     scene,
-    the_narrator,
 )
 
 TEST_ACT = "Three"
@@ -48,10 +47,10 @@ def _assert_stdout_correct(caplog) -> None:
 class TestNarrateToStdOut:
     @pytest.fixture(autouse=True)
     def narrator_has_stdout(self) -> Generator[Narrator, Any, None]:
-        old_adapters = the_narrator.adapters
-        the_narrator.adapters = [StdOutAdapter()]
-        yield the_narrator
-        the_narrator.adapters = old_adapters
+        old_adapters = Narrator().adapters
+        Narrator().adapters = [StdOutAdapter()]
+        yield Narrator()
+        Narrator().adapters = old_adapters
 
     def test_narrations(self, caplog) -> None:
         with caplog.at_level(logging.INFO):
@@ -62,7 +61,7 @@ class TestNarrateToStdOut:
 
     def test_flushed_narrations(self, caplog) -> None:
         with caplog.at_level(logging.INFO):
-            with the_narrator.mic_cable_kinked():
+            with Narrator().mic_cable_kinked():
                 prop()
                 Prop().use()
 

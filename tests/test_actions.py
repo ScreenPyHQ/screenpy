@@ -66,7 +66,7 @@ class TestAttachTheFile:
         assert atf_without_path.filename == filename
         assert atf_with_path.filename == filename
 
-    @mock.patch("screenpy.actions.attach_the_file.the_narrator", autospec=True)
+    @mock.patch("screenpy.actions.attach_the_file.Narrator._instance", autospec=True)
     def test_perform_attach_the_file_sends_kwargs(
         self, mocked_narrator, Tester
     ) -> None:
@@ -261,14 +261,16 @@ class TestEventually:
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
     def test_mention_all_errors_in_order(self, mocked_time, Tester):
         num_calls = 5
-        mocked_time.time = mock.create_autospec(time.time, side_effect=[1] * num_calls + [100])
+        mocked_time.time = mock.create_autospec(
+            time.time, side_effect=[1] * num_calls + [100]
+        )
 
         with pytest.raises(DeliveryError) as actual_exception:
             Eventually(DoThingThatFails()).perform_as(Tester)
 
         assert str(actual_exception.value) == (
-            "Tester tried to Eventually do thing that fails 5 times over 20 seconds, but "
-            "got:\n"
+            "Tester tried to Eventually do thing that fails 5 times over 20 seconds,"
+            " but got:\n"
             "    AssertionError: Failure #1\n"
             "    AssertionError: Failure #2\n"
             "    AssertionError: Failure #3\n"
@@ -276,7 +278,6 @@ class TestEventually:
             "    AssertionError: Failure #5"
         )
         return
-
 
     def test_describe(self) -> None:
         mock_action = FakeAction()
