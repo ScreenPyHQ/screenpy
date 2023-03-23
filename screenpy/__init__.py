@@ -46,6 +46,7 @@ from .protocols import (
     ErrorKeeper,
     Forgettable,
     Performable,
+    Resolvable,
 )
 from .resolutions import *  # noqa
 
@@ -75,6 +76,7 @@ __all__ = [
     "noted_under",
     "Performable",
     "QuestionError",
+    "Resolvable",
     "scene",
     "ScreenPyError",
     "the_narrator",

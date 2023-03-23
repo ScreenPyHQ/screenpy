@@ -4,11 +4,14 @@ import time
 from unittest import mock
 
 import pytest
+from pytest_mock import MockerFixture
 
 from conftest import mock_settings
 from screenpy import (
     Actor,
+    Answerable,
     AttachTheFile,
+    beat,
     Debug,
     DeliveryError,
     Describable,
@@ -18,12 +21,21 @@ from screenpy import (
     MakeNote,
     Pause,
     Performable,
+    Quietly,
+    Resolvable,
     See,
     SeeAllOf,
     SeeAnyOf,
     UnableToAct,
     UnableToDirect,
     noted_under,
+    settings,
+    the_narrator,
+)
+from screenpy.actions.quietly import (
+    QuietlyAnswerable,
+    QuietlyPerformable,
+    QuietlyResolvable,
 )
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
@@ -261,7 +273,9 @@ class TestEventually:
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
     def test_mention_all_errors_in_order(self, mocked_time, Tester):
         num_calls = 5
-        mocked_time.time = mock.create_autospec(time.time, side_effect=[1] * num_calls + [100])
+        mocked_time.time = mock.create_autospec(
+            time.time, side_effect=[1] * num_calls + [100]
+        )
 
         with pytest.raises(DeliveryError) as actual_exception:
             Eventually(DoThingThatFails()).perform_as(Tester)
@@ -276,7 +290,6 @@ class TestEventually:
             "    AssertionError: Failure #5"
         )
         return
-
 
     def test_describe(self) -> None:
         mock_action = FakeAction()
@@ -640,3 +653,196 @@ class TestSeeAnyOf:
         assert SeeAnyOf().describe() == "See if no tests pass 🤔."
         assert SeeAnyOf(test).describe() == "See if 1 test passes."
         assert SeeAnyOf(*tests).describe() == f"See if any of {len(tests)} tests pass."
+
+
+class SimpleQuestion(Answerable):
+    @beat("{} examines SimpleQuestion")
+    def answered_by(self, actor: Actor):
+        return True
+
+    def describe(self):
+        return "SimpleQuestion"
+
+
+class TestQuietly:
+    def test_can_be_instantiated(self) -> None:
+        q1 = Quietly(None)
+        q2 = Quietly(1)
+        q3 = Quietly(FakeQuestion())
+        q4 = Quietly(FakeAction())
+        q5 = Quietly(FakeResolution())
+        q6 = QuietlyAnswerable(FakeQuestion())
+        q7 = QuietlyPerformable(FakeAction())
+        q8 = QuietlyResolvable(FakeResolution())
+
+        assert q1 is None
+        assert q2 == 1
+        assert isinstance(q3, QuietlyAnswerable)
+        assert isinstance(q4, QuietlyPerformable)
+        assert isinstance(q5, QuietlyResolvable)
+        assert isinstance(q6, QuietlyAnswerable)
+        assert isinstance(q7, QuietlyPerformable)
+        assert isinstance(q8, QuietlyResolvable)
+
+    def test_implements_protocol(self) -> None:
+        q1 = Quietly(FakeQuestion())
+        q2 = Quietly(FakeAction())
+        q3 = Quietly(FakeResolution())
+        q4 = QuietlyAnswerable(FakeQuestion())
+        q5 = QuietlyPerformable(FakeAction())
+        q6 = QuietlyResolvable(FakeResolution())
+
+        assert isinstance(q1, Answerable)
+        assert isinstance(q2, Performable)
+        assert isinstance(q3, Resolvable)
+        assert isinstance(q4, Answerable)
+        assert isinstance(q5, Performable)
+        assert isinstance(q6, Resolvable)
+
+    def test_passthru_attribute(self):
+        a = FakeAction()
+        a.describe.return_value = "Happy Thoughts"
+        assert Quietly(a).describe() == "Happy Thoughts"
+
+    def test_passthru_attribute_missing(self):
+        a = FakeAction()
+        q = Quietly(a)
+        msg = "QuietlyPerformable(FakeAction) has no attribute 'desribe'"
+        with pytest.raises(AttributeError) as exc:
+            q.desribe()
+        assert str(exc.value) == msg
+
+    def test_answerable_answers(self, Tester):
+        question = FakeQuestion()
+        Quietly(question).answered_by(Tester)
+        question.answered_by.assert_called_once_with(Tester)
+
+    def test_performable_performs(self, Tester):
+        action = FakeAction()
+        Quietly(action).perform_as(Tester)
+        action.perform_as.assert_called_once_with(Tester)
+
+    def test_resolvable_resolves(self):
+        resolution = FakeResolution()
+        Quietly(resolution).resolve()
+        resolution.resolve.assert_called_once_with()
+
+
+class Action1(Performable):
+    @beat("{} tries to Action1")
+    def perform_as(self, actor: Actor):
+        actor.will(Quietly(Action2()))
+
+
+class Action2(Performable):
+    @beat("{} tries to Action2")
+    def perform_as(self, actor: Actor):
+        settings.DEBUG_QUIETLY = True
+        actor.will(Quietly(See(SimpleQuestion(), IsEqualTo(True))))
+
+
+class Action3(Performable):
+    @beat("{} tries to Action3")
+    def perform_as(self, actor: Actor):
+        actor.will(Quietly(Action4()))
+
+
+class Action4(Performable):
+    @beat("{} tries to Action4")
+    def perform_as(self, actor: Actor):
+        actor.will(Quietly(See(SimpleQuestion(), IsEqualTo(True))))
+
+
+class TestQuietlyDebug:
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        settings.DEBUG_QUIETLY = False
+        yield
+        settings.DEBUG_QUIETLY = False
+
+    def test_kinking(self, Tester: Actor, mocker: MockerFixture):
+        mock_clear = mocker.spy(the_narrator, "clear_backup")
+        mock_flush = mocker.spy(the_narrator, "flush_backup")
+        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+
+        Tester.will(Quietly(FakeAction()))
+
+        assert mock_kink.call_count == 1
+        assert mock_clear.call_count == 2
+        assert mock_flush.call_count == 1
+
+    def test_kinking_old(self, Tester) -> None:
+        """same as above test but doesn't use pytest-mock"""
+        with (
+            mock.patch.object(
+                the_narrator, "clear_backup", wraps=the_narrator.clear_backup
+            ) as mock_clear,
+            mock.patch.object(
+                the_narrator, "flush_backup", wraps=the_narrator.flush_backup
+            ) as mock_flush,
+            mock.patch.object(
+                the_narrator, "mic_cable_kinked", wraps=the_narrator.mic_cable_kinked
+            ) as mock_kink,
+        ):
+            Tester.will(Quietly(FakeAction()))
+            assert mock_kink.call_count == 1
+            assert mock_clear.call_count == 2
+            assert mock_flush.call_count == 1
+
+    def test_skip_creation(self) -> None:
+        settings.DEBUG_QUIETLY = True
+        q = Quietly(FakeAction())
+        assert isinstance(q, FakeAction)
+
+    def test_debug_no_kink(self, Tester: Actor, mocker: MockerFixture) -> None:
+        mocker.patch.object(settings, "DEBUG_QUIETLY", return_value=True)
+        mock_clear = mocker.spy(the_narrator, "clear_backup")
+        mock_flush = mocker.spy(the_narrator, "flush_backup")
+        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+
+        Quietly(FakeAction()).perform_as(Tester)
+        assert mock_kink.call_count == 0
+        assert mock_clear.call_count == 0
+        assert mock_flush.call_count == 0
+
+    def test_debug_logging(self, Tester: Actor, mocker: MockerFixture) -> None:
+        mocker.patch.object(settings, "DEBUG_QUIETLY", return_value=True)
+        mock_clear = mocker.spy(the_narrator, "clear_backup")
+        mock_flush = mocker.spy(the_narrator, "flush_backup")
+        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+
+        Tester.will(QuietlyPerformable(FakeAction()))
+        assert mock_kink.call_count == 1
+        assert mock_clear.call_count == 1
+        assert mock_flush.call_count == 1
+
+    def test_realtime_1(self, Tester, caplog) -> None:
+        Tester.will(Quietly(Action1()))
+        assert [r.msg for r in caplog.records] == [
+            "Tester tries to Action1",
+            "    Tester tries to Action2",
+            "        Tester sees if simpleQuestion is equal to True.",
+            "            Tester examines SimpleQuestion",
+            "                => True",
+            "            ... hoping it's equal to True.",
+            "                => <True>",
+        ]
+
+    def test_realtime_2(self, Tester, caplog) -> None:
+        Tester.will(Action3())
+        assert [r.msg for r in caplog.records] == [
+            "Tester tries to Action3"
+        ]
+
+    def test_realtime_3(self, Tester, caplog) -> None:
+        settings.DEBUG_QUIETLY = True
+        Tester.will(Quietly(Action2()))
+        assert [r.msg for r in caplog.records] == [
+            "Tester tries to Action2",
+            "    Tester sees if simpleQuestion is equal to True.",
+            "        Tester examines SimpleQuestion",
+            "            => True",
+            "        ... hoping it's equal to True.",
+            "            => <True>"
+        ]
+

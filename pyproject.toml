@@ -66,6 +66,7 @@ screenpy-playwright = {version = "*", optional = true}
 screenpy-pyotp = {version = "^4.0.1", optional = true}
 screenpy-requests = {version = "^4.0.1", optional = true}
 screenpy-selenium = {version = "^4.0.3", optional = true}
+pytest-mock = {version = "*", optional = true}
 
 [tool.poetry.extras]
 allure = ["screenpy-adapter-allure"]
@@ -77,12 +78,14 @@ selenium = ["screenpy-selenium"]
 dev = [
     "pre-commit",
     "pytest",
+    "pytest-mock",
     "tox",
     "pylint",
 ]
 dev_all = [
     "pre-commit",
     "pytest",
+    "pytest-mock",
     "tox",
     "pylint",
     "mypy",
@@ -93,6 +96,7 @@ dev_all = [
 ]
 test = [
     "pytest",
+    "pytest-mock",
     "coverage",
 ]
 
