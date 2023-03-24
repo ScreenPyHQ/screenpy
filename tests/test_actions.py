@@ -267,7 +267,7 @@ class TestEventually:
             Eventually(DoThingThatFails()).perform_as(Tester)
 
         assert str(actual_exception.value) == (
-            "Tester tried to Eventually do thing that fails 5 times over 20 seconds, but "
+            "Tester tried to Eventually do thing that fails 5 times over 20.0 seconds, but "
             "got:\n"
             "    AssertionError: Failure #1\n"
             "    AssertionError: Failure #2\n"
