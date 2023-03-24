@@ -3,7 +3,7 @@ Quietly allows for "disabling" logging on successful actions & tests
 """
 from __future__ import annotations
 
-from typing import Any, TypeVar, overload
+from typing import Any, TypeVar, Union, overload
 
 from hamcrest.core.base_matcher import Matcher
 from typing_extensions import TypeAlias
@@ -75,22 +75,22 @@ class QuietlyResolvable(Resolvable, QuietlyMixin):
         self.duck = duck
 
 
-T_duck: TypeAlias = Performable | Answerable | Resolvable
-T_Qu: TypeAlias = QuietlyAnswerable | QuietlyPerformable | QuietlyResolvable
+T_duck: TypeAlias = Union[Performable, Answerable, Resolvable]
+T_Qu: TypeAlias = Union[QuietlyAnswerable, QuietlyPerformable, QuietlyResolvable]
 
 
 @overload
-def Quietly(duck: Performable) -> Performable | QuietlyPerformable:
+def Quietly(duck: Performable) -> Union[Performable, QuietlyPerformable]:
     ...
 
 
 @overload
-def Quietly(duck: Answerable) -> Answerable | QuietlyAnswerable:
+def Quietly(duck: Answerable) -> Union[Answerable, QuietlyAnswerable]:
     ...
 
 
 @overload
-def Quietly(duck: Resolvable) -> Resolvable | QuietlyResolvable:
+def Quietly(duck: Resolvable) -> Union[Resolvable, QuietlyResolvable]:
     ...
 
 
@@ -99,7 +99,7 @@ def Quietly(duck: T) -> T:
     ...
 
 
-def Quietly(duck: T | T_duck) -> T | T_duck | T_Qu:
+def Quietly(duck: Union[T, T_duck]) -> Union[T, T_duck, T_Qu]:
     """
     return one of the appropriate Quietly classes
     Skips creation if debug is enabled.
