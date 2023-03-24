@@ -772,24 +772,6 @@ class TestQuietlyDebug:
         assert mock_clear.call_count == 2
         assert mock_flush.call_count == 1
 
-    def test_kinking_old(self, Tester) -> None:
-        """same as above test but doesn't use pytest-mock"""
-        with (
-            mock.patch.object(
-                the_narrator, "clear_backup", wraps=the_narrator.clear_backup
-            ) as mock_clear,
-            mock.patch.object(
-                the_narrator, "flush_backup", wraps=the_narrator.flush_backup
-            ) as mock_flush,
-            mock.patch.object(
-                the_narrator, "mic_cable_kinked", wraps=the_narrator.mic_cable_kinked
-            ) as mock_kink,
-        ):
-            Tester.will(Quietly(FakeAction()))
-            assert mock_kink.call_count == 1
-            assert mock_clear.call_count == 2
-            assert mock_flush.call_count == 1
-
     def test_skip_creation(self) -> None:
         settings.DEBUG_QUIETLY = True
         q = Quietly(FakeAction())
