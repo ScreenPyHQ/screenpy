@@ -2,8 +2,7 @@
 Tools for narrating the screenplay.
 """
 
-from . import adapters
-from .adapters import *  # noqa
+from .adapters import LoggingAdapter, StdOutAdapter, StdOutManager
 from .gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
 from .narrator import Narrator
 
@@ -12,7 +11,9 @@ __all__ = [
     "EXTREME",
     "HEAVY",
     "LIGHT",
+    "LoggingAdapter",
     "Narrator",
     "NORMAL",
+    "StdOutAdapter",
+    "StdOutManager",
 ]
-__all__ += adapters.__all__
