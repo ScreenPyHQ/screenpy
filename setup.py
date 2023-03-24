@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 requires = [
     "PyHamcrest>=2.0.0",
-    "typing-extensions>=4.1.1",
+    "pydantic>=1.10.0"
 ]
 
 extras_require = {

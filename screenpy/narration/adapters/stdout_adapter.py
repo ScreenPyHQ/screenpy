@@ -7,11 +7,14 @@ from contextlib import contextmanager
 from functools import wraps
 from typing import Any, Callable, Generator, List, Optional
 
-from screenpy import settings
+from screenpy.settings import StdOutAdapterSettings
 
 from ..gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
 
 # pylint: disable=unused-argument
+
+# initialize adapter settings
+settings = StdOutAdapterSettings()
 
 
 class StdOutManager:
@@ -20,8 +23,8 @@ class StdOutManager:
     def __init__(self, logger: Optional[logging.Logger] = None) -> None:
         self.logger = logger or logging.getLogger("screenpy")
         self.depth: List[str] = []
-        self.whitespace = settings.INDENT_SIZE * settings.INDENT_CHAR
-        self.enabled = settings.INDENT_LOGS
+        self.whitespace = settings.indent_size * settings.indent_char
+        self.enabled = settings.indent_logs
 
     @contextmanager
     def _indent(self) -> Generator:
