@@ -1,4 +1,5 @@
 [MASTER]
+extension-pkg-whitelist=pydantic
 ignore-paths=^.*/tests/.*$
 disable=
     arguments-renamed,
@@ -8,7 +9,6 @@ disable=
     logging-format-interpolation,
     logging-fstring-interpolation,
     no-member,
-    no-self-use,
     super-init-not-called,
     too-few-public-methods,
     unused-argument,
