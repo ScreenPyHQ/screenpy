@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import time
@@ -11,7 +12,6 @@ from screenpy import (
     Actor,
     Answerable,
     AttachTheFile,
-    beat,
     Debug,
     DeliveryError,
     Describable,
@@ -28,6 +28,7 @@ from screenpy import (
     SeeAnyOf,
     UnableToAct,
     UnableToDirect,
+    beat,
     noted_under,
     settings,
     the_narrator,
@@ -817,6 +818,7 @@ class TestQuietlyDebug:
         assert mock_flush.call_count == 1
 
     def test_realtime_1(self, Tester, caplog) -> None:
+        caplog.set_level(logging.INFO)
         Tester.will(Quietly(Action1()))
         assert [r.msg for r in caplog.records] == [
             "Tester tries to Action1",
@@ -829,12 +831,14 @@ class TestQuietlyDebug:
         ]
 
     def test_realtime_2(self, Tester, caplog) -> None:
+        caplog.set_level(logging.INFO)
         Tester.will(Action3())
         assert [r.msg for r in caplog.records] == [
             "Tester tries to Action3"
         ]
 
     def test_realtime_3(self, Tester, caplog) -> None:
+        caplog.set_level(logging.INFO)
         settings.DEBUG_QUIETLY = True
         Tester.will(Quietly(Action2()))
         assert [r.msg for r in caplog.records] == [
