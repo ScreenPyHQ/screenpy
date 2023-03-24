@@ -5,7 +5,6 @@ from unittest import mock
 
 import pytest
 
-from conftest import mock_settings
 from screenpy import (
     Actor,
     AttachTheFile,
@@ -25,6 +24,7 @@ from screenpy import (
     UnableToDirect,
     noted_under,
 )
+from screenpy.test_utils import mock_settings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
     get_mock_action_class,
@@ -167,13 +167,13 @@ class TestEventually:
 
         assert ev.poll == 1
 
-    @mock_settings(TIMEOUT=100)
+    @mock_settings(timeout=100)
     def test_adjusting_settings_timeout(self) -> None:
         ev = Eventually(FakeAction())
 
         assert ev.timeout == 100
 
-    @mock_settings(POLLING=50)
+    @mock_settings(polling=50)
     def test_adjusting_settings_polling(self) -> None:
         ev = Eventually(FakeAction())
 

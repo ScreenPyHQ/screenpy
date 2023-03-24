@@ -3,22 +3,50 @@ Settings
 ========
 
 To configure ScreenPy,
-there are some settings available.
+we provide some settings
+through `Pydantic's settings management <https://docs.pydantic.dev/usage/settings/>`__.
 
-Currently the only way to change these settings
-is to import the module
-and edit the values.
-If anyone knows how to tie in to things like
-pyproject.toml,
-tox.ini,
-etc.—please,
-feel free to contribute!
+Settings can be configured through three ways:
 
-Here is an example
-which will turn Action logging off::
+  * Directly modifying the ``settings`` object in your test configuration.
+  * Using environment variables.
+  * In the ``[tool.screenpy]`` section in your ``pyproject.toml``.
+
+The above three options are in order of precedence;
+that is,
+modifying ``settings`` directly will override any environment variables,
+any environment variables will override any ``pyproject.toml`` settings,
+and any ``pyproject.toml`` settings will override the defaults.
+
+To demonstrate,
+here is how we can change the default timeout value
+used by things like :class:`screenpy.actions.Eventually`::
 
     # in your suite setup file, like conftest.py
-    from screenpy import settings
+    from screenpy.settings import settings
 
-    settings.LOG_ACTIONS = False
+    settings.timeout = 60
 
+.. code-block:: toml
+
+    # in your pyproject.toml file
+    [tool.screenpy]
+    timeout = 60
+
+.. code-block:: bash
+
+    $ # in your shell
+    $ SCREENPY_TIMEOUT=60 pytest
+
+
+ScreenPy Default Settings
+-------------------------
+
+.. autopydantic_settings:: screenpy.settings.ScreenPySettings
+    :exclude-members: Config.customise_sources
+
+ScreenPy StdOutAdapter Default Settings
+---------------------------------------
+
+.. autopydantic_settings:: screenpy.settings.StdOutAdapterSettings
+    :exclude-members: Config.customise_sources

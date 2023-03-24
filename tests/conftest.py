@@ -1,9 +1,9 @@
-from typing import Any, Callable, Generator
+from typing import Any, Generator
 from unittest import mock
 
 import pytest
 
-from screenpy import Actor, Narrator, pacing, settings
+from screenpy import Actor, Narrator, pacing
 
 
 @pytest.fixture(scope="function")
@@ -24,23 +24,3 @@ def mocked_narrator() -> Generator[mock.MagicMock, Any, None]:
     yield mock_narrator
 
     pacing.the_narrator = old_narrator
-
-
-def mock_settings(**new_settings) -> Callable:
-    """Mock one or more settings for the duration of a test."""
-
-    def decorator(func: Callable) -> Callable:
-        def wrapper(*args, **kwargs):
-            old_settings = {key: getattr(settings, key) for key in new_settings.keys()}
-            for key, value in new_settings.items():
-                setattr(settings, key, value)
-
-            try:
-                func(*args, **kwargs)
-            finally:
-                for key, value in old_settings.items():
-                    setattr(settings, key, value)
-
-        return wrapper
-
-    return decorator

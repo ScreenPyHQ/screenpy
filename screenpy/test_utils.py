@@ -4,8 +4,9 @@ ScreenPy extensions.
 """
 
 from typing import Any, Callable
+from unittest import mock
 
-from . import settings
+from .settings import settings
 
 
 def mock_settings(**new_settings: Any) -> Callable:
@@ -25,7 +26,8 @@ def mock_settings(**new_settings: Any) -> Callable:
                 setattr(settings, key, value)
 
             try:
-                func(*args, **kwargs)
+                with mock.patch("screenpy.settings.settings", settings):
+                    func(*args, **kwargs)
             finally:
                 for key, value in old_settings.items():
                     setattr(settings, key, value)
