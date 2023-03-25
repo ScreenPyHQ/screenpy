@@ -159,5 +159,5 @@ class Eventually:
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
         self.unique_errors: Dict[Exception, None] = {}
-        self.timeout = settings.timeout
-        self.poll = settings.polling
+        self.timeout = settings.TIMEOUT
+        self.poll = settings.POLLING

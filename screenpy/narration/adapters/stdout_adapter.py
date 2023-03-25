@@ -23,8 +23,8 @@ class StdOutManager:
     def __init__(self, logger: Optional[logging.Logger] = None) -> None:
         self.logger = logger or logging.getLogger("screenpy")
         self.depth: List[str] = []
-        self.whitespace = settings.indent_size * settings.indent_char
-        self.enabled = settings.indent_logs
+        self.whitespace = settings.INDENT_SIZE * settings.INDENT_CHAR
+        self.enabled = settings.INDENT_LOGS
 
     @contextmanager
     def _indent(self) -> Generator:

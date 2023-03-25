@@ -25,13 +25,13 @@ used by things like :class:`screenpy.actions.Eventually`::
     # in your suite setup file, like conftest.py
     from screenpy.settings import settings
 
-    settings.timeout = 60
+    settings.TIMEOUT = 60
 
 .. code-block:: toml
 
     # in your pyproject.toml file
     [tool.screenpy]
-    timeout = 60
+    TIMEOUT = 60
 
 .. code-block:: bash
 

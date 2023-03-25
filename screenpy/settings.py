@@ -118,10 +118,10 @@ class ScreenPySettings(BaseSettings):
 
     tool_path = "screenpy"
 
-    timeout: float = 20
+    TIMEOUT: float = 20
     """Default timeout (in seconds) to use for things that wait."""
 
-    polling: float = 0.5
+    POLLING: float = 0.5
     """Default polling interval (in seconds) to use for things that poll."""
 
     class Config:  # pylint: disable=missing-class-docstring
@@ -149,13 +149,13 @@ class StdOutAdapterSettings(BaseSettings):
 
     tool_path = "screenpy.stdoutadapter"
 
-    indent_logs: bool = True
+    INDENT_LOGS: bool = True
     """Whether or not to use indentation in logging."""
 
-    indent_char: str = " "
+    INDENT_CHAR: str = " "
     """Which character to use for indentation."""
 
-    indent_size: int = 4
+    INDENT_SIZE: int = 4
     """How many indent_chars to use for each level of indentation."""
 
     class Config(ScreenPySettings.Config):  # pylint: disable=missing-class-docstring

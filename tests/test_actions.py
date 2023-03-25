@@ -167,13 +167,13 @@ class TestEventually:
 
         assert ev.poll == 1
 
-    @mock_settings(timeout=100)
+    @mock_settings(TIMEOUT=100)
     def test_adjusting_settings_timeout(self) -> None:
         ev = Eventually(FakeAction())
 
         assert ev.timeout == 100
 
-    @mock_settings(polling=50)
+    @mock_settings(POLLING=50)
     def test_adjusting_settings_polling(self) -> None:
         ev = Eventually(FakeAction())
 
