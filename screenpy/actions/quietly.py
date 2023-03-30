@@ -76,7 +76,7 @@ class QuietlyResolvable(Resolvable, QuietlyMixin):
 
 
 T_duck: TypeAlias = Union[Performable, Answerable, Resolvable]
-T_Qu: TypeAlias = Union[QuietlyAnswerable, QuietlyPerformable, QuietlyResolvable]
+T_quack: TypeAlias = Union[QuietlyAnswerable, QuietlyPerformable, QuietlyResolvable]
 
 
 @overload
@@ -99,7 +99,7 @@ def Quietly(duck: T) -> T:
     ...
 
 
-def Quietly(duck: Union[T, T_duck]) -> Union[T, T_duck, T_Qu]:
+def Quietly(duck: Union[T, T_duck]) -> Union[T, T_duck, T_quack]:
     """
     return one of the appropriate Quietly classes
     Skips creation if debug is enabled.
