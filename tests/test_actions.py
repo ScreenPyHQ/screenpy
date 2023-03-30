@@ -730,7 +730,7 @@ class TestQuietly:
 
         resolution.resolve.assert_called_once_with()
 
-    def test_happy_path(self, Tester, caplog) -> None:
+    def test_quietly_does_not_log(self, Tester, caplog) -> None:
         """
         Confirm that when quietly is used, all beat messages inside it are not logged.
         """
