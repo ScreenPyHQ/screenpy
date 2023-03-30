@@ -776,9 +776,11 @@ class TestQuietlyDebug:
 
     def test_skip_creation(self) -> None:
         settings.DEBUG_QUIETLY = True
-        q = Quietly(FakeAction())
+        fake_action = FakeAction()
 
-        assert isinstance(q, FakeAction)
+        q = Quietly(fake_action)
+
+        assert q is fake_action
 
     def test_debug_no_kink(self, Tester: Actor, mocker: MockerFixture) -> None:
         settings.DEBUG_QUIETLY = True
