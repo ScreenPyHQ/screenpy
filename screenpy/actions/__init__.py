@@ -7,7 +7,7 @@ from .debug import Debug
 from .eventually import Eventually
 from .make_note import MakeNote
 from .pause import Pause
-from .quietly import Quietly, QuietlyAnswerable, QuietlyPerformable, QuietlyResolvable
+from .quietly import Quietly
 from .see import See
 from .see_all_of import SeeAllOf
 from .see_any_of import SeeAnyOf
@@ -59,9 +59,6 @@ __all__ = [
     "Pause",
     "Pauses",
     "Quietly",
-    "QuietlyAnswerable",
-    "QuietlyPerformable",
-    "QuietlyResolvable",
     "See",
     "SeeAllOf",
     "SeeAnyOf",
