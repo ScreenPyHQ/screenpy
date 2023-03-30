@@ -778,7 +778,7 @@ class TestQuietlyDebug:
         assert isinstance(q, FakeAction)
 
     def test_debug_no_kink(self, Tester: Actor, mocker: MockerFixture) -> None:
-        mocker.patch.object(settings, "DEBUG_QUIETLY", return_value=True)
+        settings.DEBUG_QUIETLY = True
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
@@ -789,7 +789,7 @@ class TestQuietlyDebug:
         assert mock_flush.call_count == 0
 
     def test_debug_logging(self, Tester: Actor, mocker: MockerFixture) -> None:
-        mocker.patch.object(settings, "DEBUG_QUIETLY", return_value=True)
+        settings.DEBUG_QUIETLY = True
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
