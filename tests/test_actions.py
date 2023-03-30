@@ -666,39 +666,35 @@ class SimpleQuestion(Answerable):
 
 
 class TestQuietly:
-    def test_can_be_instantiated(self) -> None:
+    def test_function_returns_properly(self) -> None:
         q1 = Quietly(None)
         q2 = Quietly(1)
         q3 = Quietly(FakeQuestion())
         q4 = Quietly(FakeAction())
         q5 = Quietly(FakeResolution())
-        q6 = QuietlyAnswerable(FakeQuestion())
-        q7 = QuietlyPerformable(FakeAction())
-        q8 = QuietlyResolvable(FakeResolution())
-
         assert q1 is None
         assert q2 == 1
         assert isinstance(q3, QuietlyAnswerable)
         assert isinstance(q4, QuietlyPerformable)
         assert isinstance(q5, QuietlyResolvable)
-        assert isinstance(q6, QuietlyAnswerable)
-        assert isinstance(q7, QuietlyPerformable)
-        assert isinstance(q8, QuietlyResolvable)
+
+    def test_can_be_instantiated(self) -> None:
+        q1 = QuietlyAnswerable(FakeQuestion())
+        q2 = QuietlyPerformable(FakeAction())
+        q3 = QuietlyResolvable(FakeResolution())
+
+        assert isinstance(q1, QuietlyAnswerable)
+        assert isinstance(q2, QuietlyPerformable)
+        assert isinstance(q3, QuietlyResolvable)
 
     def test_implements_protocol(self) -> None:
-        q1 = Quietly(FakeQuestion())
-        q2 = Quietly(FakeAction())
-        q3 = Quietly(FakeResolution())
-        q4 = QuietlyAnswerable(FakeQuestion())
-        q5 = QuietlyPerformable(FakeAction())
-        q6 = QuietlyResolvable(FakeResolution())
+        q1 = QuietlyAnswerable(FakeQuestion())
+        q2 = QuietlyPerformable(FakeAction())
+        q3 = QuietlyResolvable(FakeResolution())
 
         assert isinstance(q1, Answerable)
         assert isinstance(q2, Performable)
         assert isinstance(q3, Resolvable)
-        assert isinstance(q4, Answerable)
-        assert isinstance(q5, Performable)
-        assert isinstance(q6, Resolvable)
 
     def test_passthru_attribute(self):
         a = FakeAction()
