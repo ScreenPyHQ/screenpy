@@ -752,7 +752,7 @@ class Action1(Performable):
 class Action2(Performable):
     @beat("{} tries to Action2")
     def perform_as(self, actor: Actor):
-        settings.DEBUG_QUIETLY = True
+        settings.UNABRIDGED_LOGGING = True
         actor.will(Quietly(See(SimpleQuestion(), IsEqualTo(True))))
 
 
@@ -768,12 +768,12 @@ class Action4(Performable):
         actor.will(Quietly(See(SimpleQuestion(), IsEqualTo(True))))
 
 
-class TestQuietlyDebug:
+class TestQuietlyUnabridged:
     @pytest.fixture(autouse=True)
     def setup(self):
-        settings.DEBUG_QUIETLY = False
+        settings.UNABRIDGED_LOGGING = False
         yield
-        settings.DEBUG_QUIETLY = False
+        settings.UNABRIDGED_LOGGING = False
 
     def test_kinking(self, Tester: Actor, mocker: MockerFixture):
         mock_clear = mocker.spy(the_narrator, "clear_backup")
@@ -787,15 +787,15 @@ class TestQuietlyDebug:
         assert mock_flush.call_count == 1
 
     def test_skip_creation(self) -> None:
-        settings.DEBUG_QUIETLY = True
+        settings.UNABRIDGED_LOGGING = True
         fake_action = FakeAction()
 
         q = Quietly(fake_action)
 
         assert q is fake_action
 
-    def test_debug_no_kink(self, Tester: Actor, mocker: MockerFixture) -> None:
-        settings.DEBUG_QUIETLY = True
+    def test_unabridge_from_function(self, Tester: Actor, mocker: MockerFixture) -> None:
+        settings.UNABRIDGED_LOGGING = True
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
@@ -806,8 +806,8 @@ class TestQuietlyDebug:
         assert mock_clear.call_count == 0
         assert mock_flush.call_count == 0
 
-    def test_debug_logging(self, Tester: Actor, mocker: MockerFixture) -> None:
-        settings.DEBUG_QUIETLY = True
+    def test_unabridged_from_class(self, Tester: Actor, mocker: MockerFixture) -> None:
+        settings.UNABRIDGED_LOGGING = True
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
@@ -818,9 +818,9 @@ class TestQuietlyDebug:
         assert mock_clear.call_count == 1
         assert mock_flush.call_count == 1
 
-    def test_flag_set_inside_quietly(self, Tester, caplog) -> None:
+    def test_unabridged_set_inside_quietly(self, Tester, caplog) -> None:
         """
-        Confirm when debug flag is set, DEEP INSIDE actions which are
+        Confirm when unabridged flag is set, DEEP INSIDE actions which are
         wrapped in Quietly, that logging will occur normally.
         """
         caplog.set_level(logging.INFO)
@@ -837,12 +837,12 @@ class TestQuietlyDebug:
             "                => <True>",
         ]
 
-    def test_flag_set_outside_quietly(self, Tester, caplog) -> None:
+    def test_unabridged_set_outside_quietly(self, Tester, caplog) -> None:
         """
-        Confirm when debug flag is set, logging will occur normally.
+        Confirm when unabridged flag is set, logging will occur normally.
         """
         caplog.set_level(logging.INFO)
-        settings.DEBUG_QUIETLY = True
+        settings.UNABRIDGED_LOGGING = True
 
         Tester.will(Quietly(Action2()))
 

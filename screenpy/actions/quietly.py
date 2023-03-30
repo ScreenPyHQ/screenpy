@@ -39,7 +39,7 @@ class QuietlyPerformable(Performable, QuietlyMixin):
     def perform_as(self, actor: Actor) -> None:
         with the_narrator.mic_cable_kinked():
             self.duck.perform_as(actor)
-            if not settings.DEBUG_QUIETLY:
+            if not settings.UNABRIDGED_LOGGING:
                 the_narrator.clear_backup()
             return
 
@@ -53,7 +53,7 @@ class QuietlyAnswerable(Answerable, QuietlyMixin):
     def answered_by(self, actor: Actor) -> Any:
         with the_narrator.mic_cable_kinked():
             thing = self.duck.answered_by(actor)
-            if not settings.DEBUG_QUIETLY:
+            if not settings.UNABRIDGED_LOGGING:
                 the_narrator.clear_backup()
             return thing
 
@@ -67,7 +67,7 @@ class QuietlyResolvable(Resolvable, QuietlyMixin):
     def resolve(self) -> Matcher:
         with the_narrator.mic_cable_kinked():
             res = self.duck.resolve()
-            if not settings.DEBUG_QUIETLY:
+            if not settings.UNABRIDGED_LOGGING:
                 the_narrator.clear_backup()
             return res
 
@@ -104,7 +104,7 @@ def Quietly(duck: Union[T, T_duck]) -> Union[T, T_duck, T_quack]:
     return one of the appropriate Quietly classes
     Skips creation if debug is enabled.
     """
-    if settings.DEBUG_QUIETLY:
+    if settings.UNABRIDGED_LOGGING:
         return duck
 
     if isinstance(duck, Performable):
