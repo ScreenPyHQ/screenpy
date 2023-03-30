@@ -730,6 +730,18 @@ class TestQuietly:
 
         resolution.resolve.assert_called_once_with()
 
+    def test_happy_path(self, Tester, caplog) -> None:
+        """
+        Confirm that when quietly is used, all beat messages inside it are not logged.
+        """
+        caplog.set_level(logging.INFO)
+
+        Tester.will(Action3())
+
+        assert [r.msg for r in caplog.records] == [
+            "Tester tries to Action3"
+        ]
+
 
 class Action1(Performable):
     @beat("{} tries to Action1")
@@ -806,7 +818,11 @@ class TestQuietlyDebug:
         assert mock_clear.call_count == 1
         assert mock_flush.call_count == 1
 
-    def test_realtime_1(self, Tester, caplog) -> None:
+    def test_flag_set_inside_quietly(self, Tester, caplog) -> None:
+        """
+        Confirm when debug flag is set, DEEP INSIDE actions which are
+        wrapped in Quietly, that logging will occur normally.
+        """
         caplog.set_level(logging.INFO)
 
         Tester.will(Quietly(Action1()))
@@ -821,16 +837,10 @@ class TestQuietlyDebug:
             "                => <True>",
         ]
 
-    def test_realtime_2(self, Tester, caplog) -> None:
-        caplog.set_level(logging.INFO)
-
-        Tester.will(Action3())
-
-        assert [r.msg for r in caplog.records] == [
-            "Tester tries to Action3"
-        ]
-
-    def test_realtime_3(self, Tester, caplog) -> None:
+    def test_flag_set_outside_quietly(self, Tester, caplog) -> None:
+        """
+        Confirm when debug flag is set, logging will occur normally.
+        """
         caplog.set_level(logging.INFO)
         settings.DEBUG_QUIETLY = True
 
