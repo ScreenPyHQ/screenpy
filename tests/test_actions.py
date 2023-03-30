@@ -672,6 +672,7 @@ class TestQuietly:
         q3 = Quietly(FakeQuestion())
         q4 = Quietly(FakeAction())
         q5 = Quietly(FakeResolution())
+
         assert q1 is None
         assert q2 == 1
         assert isinstance(q3, QuietlyAnswerable)
@@ -699,6 +700,7 @@ class TestQuietly:
     def test_passthru_attribute(self):
         a = FakeAction()
         a.describe.return_value = "Happy Thoughts"
+
         assert Quietly(a).describe() == "Happy Thoughts"
 
     def test_passthru_attribute_missing(self):
@@ -707,21 +709,25 @@ class TestQuietly:
         msg = "QuietlyPerformable(FakeAction) has no attribute 'desribe'"
         with pytest.raises(AttributeError) as exc:
             q.desribe()
+
         assert str(exc.value) == msg
 
     def test_answerable_answers(self, Tester):
         question = FakeQuestion()
         Quietly(question).answered_by(Tester)
+
         question.answered_by.assert_called_once_with(Tester)
 
     def test_performable_performs(self, Tester):
         action = FakeAction()
         Quietly(action).perform_as(Tester)
+
         action.perform_as.assert_called_once_with(Tester)
 
     def test_resolvable_resolves(self):
         resolution = FakeResolution()
         Quietly(resolution).resolve()
+
         resolution.resolve.assert_called_once_with()
 
 
@@ -771,6 +777,7 @@ class TestQuietlyDebug:
     def test_skip_creation(self) -> None:
         settings.DEBUG_QUIETLY = True
         q = Quietly(FakeAction())
+
         assert isinstance(q, FakeAction)
 
     def test_debug_no_kink(self, Tester: Actor, mocker: MockerFixture) -> None:
@@ -780,6 +787,7 @@ class TestQuietlyDebug:
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
 
         Quietly(FakeAction()).perform_as(Tester)
+
         assert mock_kink.call_count == 0
         assert mock_clear.call_count == 0
         assert mock_flush.call_count == 0
@@ -791,13 +799,16 @@ class TestQuietlyDebug:
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
 
         Tester.will(QuietlyPerformable(FakeAction()))
+
         assert mock_kink.call_count == 1
         assert mock_clear.call_count == 1
         assert mock_flush.call_count == 1
 
     def test_realtime_1(self, Tester, caplog) -> None:
         caplog.set_level(logging.INFO)
+
         Tester.will(Quietly(Action1()))
+
         assert [r.msg for r in caplog.records] == [
             "Tester tries to Action1",
             "    Tester tries to Action2",
@@ -810,7 +821,9 @@ class TestQuietlyDebug:
 
     def test_realtime_2(self, Tester, caplog) -> None:
         caplog.set_level(logging.INFO)
+
         Tester.will(Action3())
+
         assert [r.msg for r in caplog.records] == [
             "Tester tries to Action3"
         ]
@@ -818,7 +831,9 @@ class TestQuietlyDebug:
     def test_realtime_3(self, Tester, caplog) -> None:
         caplog.set_level(logging.INFO)
         settings.DEBUG_QUIETLY = True
+
         Tester.will(Quietly(Action2()))
+
         assert [r.msg for r in caplog.records] == [
             "Tester tries to Action2",
             "    Tester sees if simpleQuestion is equal to True.",
