@@ -89,8 +89,16 @@ class SilentlyResolvable(Resolvable, SilentlyMixin):
         self.duck = duck
 
 
-T_duck: TypeAlias = Union[Performable, Answerable, Resolvable]
-T_quack: TypeAlias = Union[SilentlyAnswerable, SilentlyPerformable, SilentlyResolvable]
+T_duck: TypeAlias = Union[
+    Answerable,
+    Performable,
+    Resolvable,
+]
+T_silent_duck: TypeAlias = Union[
+    SilentlyAnswerable,
+    SilentlyPerformable,
+    SilentlyResolvable,
+]
 
 
 @overload
@@ -108,7 +116,7 @@ def Silently(duck: Resolvable) -> Union[Resolvable, SilentlyResolvable]:
     ...
 
 
-def Silently(duck: T_duck) -> Union[T_duck, T_quack]:
+def Silently(duck: T_duck) -> Union[T_duck, T_silent_duck]:
     """
     return one of the appropriate Silently classes
     Skips creation if debug is enabled.
