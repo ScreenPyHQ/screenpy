@@ -10,6 +10,7 @@ from typing_extensions import TypeAlias
 
 from screenpy import settings
 from screenpy.actor import Actor
+from screenpy.exceptions import NotAnswerable, NotPerformable, NotResolvable
 from screenpy.pacing import the_narrator
 from screenpy.protocols import Answerable, Performable, Resolvable
 
@@ -44,6 +45,10 @@ class QuietlyPerformable(Performable, QuietlyMixin):
             return
 
     def __init__(self, duck: Performable):
+        if not isinstance(duck, Performable):
+            raise NotPerformable(
+                "QuietlyPerformable only works with Performable. Use `Quietly` instead."
+            )
         self.duck = duck
 
 
@@ -58,6 +63,10 @@ class QuietlyAnswerable(Answerable, QuietlyMixin):
             return thing
 
     def __init__(self, duck: Answerable):
+        if not isinstance(duck, Answerable):
+            raise NotAnswerable(
+                "QuietlyAnswerable only works with Answerable. Use `Quietly` instead."
+            )
         self.duck = duck
 
 
@@ -72,6 +81,10 @@ class QuietlyResolvable(Resolvable, QuietlyMixin):
             return res
 
     def __init__(self, duck: Resolvable):
+        if not isinstance(duck, Resolvable):
+            raise NotResolvable(
+                "QuietlyResolvable only works with Resolvable. Use `Quietly` instead."
+            )
         self.duck = duck
 
 
@@ -94,12 +107,7 @@ def Quietly(duck: Resolvable) -> Union[Resolvable, QuietlyResolvable]:
     ...
 
 
-@overload
-def Quietly(duck: T) -> T:
-    ...
-
-
-def Quietly(duck: Union[T, T_duck]) -> Union[T, T_duck, T_quack]:
+def Quietly(duck: T_duck) -> Union[T_duck, T_quack]:
     """
     return one of the appropriate Quietly classes
     Skips creation if debug is enabled.

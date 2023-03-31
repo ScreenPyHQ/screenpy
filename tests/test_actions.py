@@ -19,6 +19,9 @@ from screenpy import (
     Eventually,
     IsEqualTo,
     MakeNote,
+    NotAnswerable,
+    NotPerformable,
+    NotResolvable,
     Pause,
     Performable,
     Quietly,
@@ -658,26 +661,22 @@ class TestSeeAnyOf:
 
 class SimpleQuestion(Answerable):
     @beat("{} examines SimpleQuestion")
-    def answered_by(self, actor: Actor):
+    def answered_by(self, actor: Actor) -> bool:
         return True
 
-    def describe(self):
+    def describe(self) -> str:
         return "SimpleQuestion"
 
 
 class TestQuietly:
     def test_function_returns_properly(self) -> None:
-        q1 = Quietly(None)
-        q2 = Quietly(1)
-        q3 = Quietly(FakeQuestion())
-        q4 = Quietly(FakeAction())
-        q5 = Quietly(FakeResolution())
+        q1 = Quietly(FakeQuestion())
+        q2 = Quietly(FakeAction())
+        q3 = Quietly(FakeResolution())
 
-        assert q1 is None
-        assert q2 == 1
-        assert isinstance(q3, QuietlyAnswerable)
-        assert isinstance(q4, QuietlyPerformable)
-        assert isinstance(q5, QuietlyResolvable)
+        assert isinstance(q1, QuietlyAnswerable)
+        assert isinstance(q2, QuietlyPerformable)
+        assert isinstance(q3, QuietlyResolvable)
 
     def test_can_be_instantiated(self) -> None:
         q1 = QuietlyAnswerable(FakeQuestion())
@@ -697,13 +696,37 @@ class TestQuietly:
         assert isinstance(q2, Performable)
         assert isinstance(q3, Resolvable)
 
-    def test_passthru_attribute(self):
+    @pytest.mark.parametrize("arg", (None, 1, "a"))
+    def test_quietlyperformable_raises(self, arg) -> None:
+        with pytest.raises(NotPerformable) as exc:
+            QuietlyPerformable(arg)  # type: ignore
+
+        assert str(exc.value) == ("QuietlyPerformable only works with Performable. "
+                                  "Use `Quietly` instead.")
+
+    @pytest.mark.parametrize("arg", (None, 1, "a"))
+    def test_quietlyanswerable_raises(self, arg) -> None:
+        with pytest.raises(NotAnswerable) as exc:
+            QuietlyAnswerable(arg)  # type: ignore
+
+        assert str(exc.value) == ("QuietlyAnswerable only works with Answerable. "
+                                  "Use `Quietly` instead.")
+
+    @pytest.mark.parametrize("arg", (None, 1, "a"))
+    def test_quietlyresolveable_raises(self, arg) -> None:
+        with pytest.raises(NotResolvable) as exc:
+            QuietlyResolvable(arg)  # type: ignore
+
+        assert str(exc.value) == ("QuietlyResolvable only works with Resolvable. "
+                                  "Use `Quietly` instead.")
+
+    def test_passthru_attribute(self) -> None:
         a = FakeAction()
         a.describe.return_value = "Happy Thoughts"
 
         assert Quietly(a).describe() == "Happy Thoughts"
 
-    def test_passthru_attribute_missing(self):
+    def test_passthru_attribute_missing(self) -> None:
         a = FakeAction()
         q = Quietly(a)
         msg = "QuietlyPerformable(FakeAction) has no attribute 'desribe'"
@@ -712,19 +735,19 @@ class TestQuietly:
 
         assert str(exc.value) == msg
 
-    def test_answerable_answers(self, Tester):
+    def test_answerable_answers(self, Tester) -> None:
         question = FakeQuestion()
         Quietly(question).answered_by(Tester)
 
         question.answered_by.assert_called_once_with(Tester)
 
-    def test_performable_performs(self, Tester):
+    def test_performable_performs(self, Tester) -> None:
         action = FakeAction()
         Quietly(action).perform_as(Tester)
 
         action.perform_as.assert_called_once_with(Tester)
 
-    def test_resolvable_resolves(self):
+    def test_resolvable_resolves(self) -> None:
         resolution = FakeResolution()
         Quietly(resolution).resolve()
 
@@ -745,26 +768,26 @@ class TestQuietly:
 
 class Action1(Performable):
     @beat("{} tries to Action1")
-    def perform_as(self, actor: Actor):
+    def perform_as(self, actor: Actor) -> None:
         actor.will(Quietly(Action2()))
 
 
 class Action2(Performable):
     @beat("{} tries to Action2")
-    def perform_as(self, actor: Actor):
+    def perform_as(self, actor: Actor) -> None:
         settings.UNABRIDGED_LOGGING = True
         actor.will(Quietly(See(SimpleQuestion(), IsEqualTo(True))))
 
 
 class Action3(Performable):
     @beat("{} tries to Action3")
-    def perform_as(self, actor: Actor):
+    def perform_as(self, actor: Actor) -> None:
         actor.will(Quietly(Action4()))
 
 
 class Action4(Performable):
     @beat("{} tries to Action4")
-    def perform_as(self, actor: Actor):
+    def perform_as(self, actor: Actor) -> None:
         actor.will(Quietly(See(SimpleQuestion(), IsEqualTo(True))))
 
 
@@ -775,7 +798,7 @@ class TestQuietlyUnabridged:
         yield
         settings.UNABRIDGED_LOGGING = False
 
-    def test_kinking(self, Tester: Actor, mocker: MockerFixture):
+    def test_kinking(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
