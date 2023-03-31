@@ -1,5 +1,5 @@
 """
-Quietly allows for "disabling" logging on successful actions & tests
+Silently allows for "disabling" logging on successful actions & tests
 """
 from __future__ import annotations
 
@@ -17,10 +17,10 @@ from screenpy.protocols import Answerable, Performable, Resolvable
 T = TypeVar("T")
 
 
-class QuietlyMixin:
+class SilentlyMixin:
     """
-    Quietly needs to mimic the ducks (i.e. objects) they are wrapping.
-    All of the attributes from the "duck" should be exposed by the Quietly object.
+    Silently needs to mimic the ducks (i.e. objects) they are wrapping.
+    All of the attributes from the "duck" should be exposed by the Silently object.
     """
 
     def __getattr__(self, key: Any) -> Any:
@@ -34,7 +34,7 @@ class QuietlyMixin:
             raise AttributeError(msg) from exc
 
 
-class QuietlyPerformable(Performable, QuietlyMixin):
+class SilentlyPerformable(Performable, SilentlyMixin):
     """Act like the Performable passed in but kink the cable when performing"""
 
     def perform_as(self, actor: Actor) -> None:
@@ -47,12 +47,13 @@ class QuietlyPerformable(Performable, QuietlyMixin):
     def __init__(self, duck: Performable):
         if not isinstance(duck, Performable):
             raise NotPerformable(
-                "QuietlyPerformable only works with Performable. Use `Quietly` instead."
+                "SilentlyPerformable only works with Performable. "
+                "Use `Silently` instead."
             )
         self.duck = duck
 
 
-class QuietlyAnswerable(Answerable, QuietlyMixin):
+class SilentlyAnswerable(Answerable, SilentlyMixin):
     """Act like the Answerable passed in but kink the cable when answering"""
 
     def answered_by(self, actor: Actor) -> Any:
@@ -65,12 +66,12 @@ class QuietlyAnswerable(Answerable, QuietlyMixin):
     def __init__(self, duck: Answerable):
         if not isinstance(duck, Answerable):
             raise NotAnswerable(
-                "QuietlyAnswerable only works with Answerable. Use `Quietly` instead."
+                "SilentlyAnswerable only works with Answerable. Use `Silently` instead."
             )
         self.duck = duck
 
 
-class QuietlyResolvable(Resolvable, QuietlyMixin):
+class SilentlyResolvable(Resolvable, SilentlyMixin):
     """Act like the Resolvable passed in but kink the cable when resolving"""
 
     def resolve(self) -> Matcher:
@@ -83,43 +84,43 @@ class QuietlyResolvable(Resolvable, QuietlyMixin):
     def __init__(self, duck: Resolvable):
         if not isinstance(duck, Resolvable):
             raise NotResolvable(
-                "QuietlyResolvable only works with Resolvable. Use `Quietly` instead."
+                "SilentlyResolvable only works with Resolvable. Use `Silently` instead."
             )
         self.duck = duck
 
 
 T_duck: TypeAlias = Union[Performable, Answerable, Resolvable]
-T_quack: TypeAlias = Union[QuietlyAnswerable, QuietlyPerformable, QuietlyResolvable]
+T_quack: TypeAlias = Union[SilentlyAnswerable, SilentlyPerformable, SilentlyResolvable]
 
 
 @overload
-def Quietly(duck: Performable) -> Union[Performable, QuietlyPerformable]:
+def Silently(duck: Performable) -> Union[Performable, SilentlyPerformable]:
     ...
 
 
 @overload
-def Quietly(duck: Answerable) -> Union[Answerable, QuietlyAnswerable]:
+def Silently(duck: Answerable) -> Union[Answerable, SilentlyAnswerable]:
     ...
 
 
 @overload
-def Quietly(duck: Resolvable) -> Union[Resolvable, QuietlyResolvable]:
+def Silently(duck: Resolvable) -> Union[Resolvable, SilentlyResolvable]:
     ...
 
 
-def Quietly(duck: T_duck) -> Union[T_duck, T_quack]:
+def Silently(duck: T_duck) -> Union[T_duck, T_quack]:
     """
-    return one of the appropriate Quietly classes
+    return one of the appropriate Silently classes
     Skips creation if debug is enabled.
     """
     if settings.UNABRIDGED_LOGGING:
         return duck
 
     if isinstance(duck, Performable):
-        return QuietlyPerformable(duck)
+        return SilentlyPerformable(duck)
     if isinstance(duck, Answerable):
-        return QuietlyAnswerable(duck)
+        return SilentlyAnswerable(duck)
     if isinstance(duck, Resolvable):
-        return QuietlyResolvable(duck)
+        return SilentlyResolvable(duck)
 
     return duck
