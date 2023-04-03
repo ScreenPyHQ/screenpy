@@ -120,10 +120,16 @@ def Silently(duck: T_duck) -> Union[T_duck, T_silent_duck]:
     """
     Does not log the duck's behavior unless something goes wrong.
 
-    Return one of the appropriate Silently classes.
-    Skips creation if settings.UNABRIDGED_LOGGING is enabled.
+    Args:
+        duck: Performable, Answerable, or Resolvable
+
+    Returns:
+        SilentlyPerformable, SilentlyAnswerable, or SilentlyResolvable
+        unless settings.UNABRIDGED_LOGGING is enabled.
+
 
     Examples::
+
         actor.will(Silently(Click(BUTTON)))
 
         actor.shall(

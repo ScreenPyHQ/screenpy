@@ -105,5 +105,4 @@ Silently
 
 **Aliases**: ``Quietly``
 
-.. autoclass:: Silently
-    :members:
+.. autofunction:: Silently
