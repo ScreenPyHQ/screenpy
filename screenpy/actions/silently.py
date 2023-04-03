@@ -35,7 +35,7 @@ class SilentlyMixin:
 
 
 class SilentlyPerformable(Performable, SilentlyMixin):
-    """Act like the Performable passed in but kink the cable when performing"""
+    """Calls the Performable passed in but kinks the cable prior performing"""
 
     def perform_as(self, actor: Actor) -> None:
         with the_narrator.mic_cable_kinked():
@@ -54,7 +54,7 @@ class SilentlyPerformable(Performable, SilentlyMixin):
 
 
 class SilentlyAnswerable(Answerable, SilentlyMixin):
-    """Act like the Answerable passed in but kink the cable when answering"""
+    """Calls the Answerable passed in but kinks the cable prior to answering"""
 
     def answered_by(self, actor: Actor) -> Any:
         with the_narrator.mic_cable_kinked():
@@ -72,7 +72,7 @@ class SilentlyAnswerable(Answerable, SilentlyMixin):
 
 
 class SilentlyResolvable(Resolvable, SilentlyMixin):
-    """Act like the Resolvable passed in but kink the cable when resolving"""
+    """Calls the Resolvable passed in but kinks the cable prior to resolving"""
 
     def resolve(self) -> Matcher:
         with the_narrator.mic_cable_kinked():
@@ -118,8 +118,25 @@ def Silently(duck: Resolvable) -> Union[Resolvable, SilentlyResolvable]:
 
 def Silently(duck: T_duck) -> Union[T_duck, T_silent_duck]:
     """
-    return one of the appropriate Silently classes
-    Skips creation if debug is enabled.
+    Does not log the duck's behavior unless something goes wrong.
+
+    Return one of the appropriate Silently classes.
+    Skips creation if settings.UNABRIDGED_LOGGING is enabled.
+
+    Examples::
+        actor.will(Silently(Click(BUTTON)))
+
+        actor.shall(
+            See(
+                Silently(Text.of_the(WELCOME_BANNER)), ContainsTheText("Welcome!")
+            )
+        )
+
+        actor.shall(
+            See(
+                Text.of_the(WELCOME_BANNER), Silently(ContainsTheText("Welcome!"))
+            )
+        )
     """
     if settings.UNABRIDGED_LOGGING:
         return duck
