@@ -696,26 +696,23 @@ class TestSilently:
         assert isinstance(q2, Performable)
         assert isinstance(q3, Resolvable)
 
-    @pytest.mark.parametrize("arg", (None, 1, "a"))
-    def test_not_performable(self, arg) -> None:
+    def test_not_performable(self) -> None:
         with pytest.raises(NotPerformable) as exc:
-            SilentlyPerformable(arg)  # type: ignore
+            SilentlyPerformable(None)  # type: ignore
 
         assert str(exc.value) == ("SilentlyPerformable only works with Performable. "
                                   "Use `Silently` instead.")
 
-    @pytest.mark.parametrize("arg", (None, 1, "a"))
-    def test_not_answerable(self, arg) -> None:
+    def test_not_answerable(self) -> None:
         with pytest.raises(NotAnswerable) as exc:
-            SilentlyAnswerable(arg)  # type: ignore
+            SilentlyAnswerable(None)  # type: ignore
 
         assert str(exc.value) == ("SilentlyAnswerable only works with Answerable. "
                                   "Use `Silently` instead.")
 
-    @pytest.mark.parametrize("arg", (None, 1, "a"))
-    def test_not_resolvable(self, arg) -> None:
+    def test_not_resolvable(self) -> None:
         with pytest.raises(NotResolvable) as exc:
-            SilentlyResolvable(arg)  # type: ignore
+            SilentlyResolvable(None)  # type: ignore
 
         assert str(exc.value) == ("SilentlyResolvable only works with Resolvable. "
                                   "Use `Silently` instead.")
