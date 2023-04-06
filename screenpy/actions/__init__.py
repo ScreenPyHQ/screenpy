@@ -10,6 +10,7 @@ from .pause import Pause
 from .see import See
 from .see_all_of import SeeAllOf
 from .see_any_of import SeeAnyOf
+from .silently import Silently
 
 # Natural-language-enabling syntactic sugar
 AttachFile = AttachAFile = AttachTheFile
@@ -20,6 +21,7 @@ ObserveAllOf = VerifyAllOf = ConfirmAllOf = AssertAllOf = SeeAllOf
 ObservesAllOf = VerifiesAllOf = ConfirmsAllOf = AssertsAllOf = SeesAllOf = SeeAllOf
 ObserveAnyOf = VerifyAnyOf = ConfirmAnyOf = AssertAnyOf = SeeAnyOf
 ObservesAnyOf = VerifiesAnyOf = ConfirmsAnyOf = AssertsAnyOf = SeesAnyOf = SeeAnyOf
+Quietly = Silently
 Sleep = Pause
 Sleeps = Pauses = Pause
 TakeNote = MakeNote
@@ -57,12 +59,14 @@ __all__ = [
     "ObservesAnyOf",
     "Pause",
     "Pauses",
+    "Quietly",
     "See",
     "SeeAllOf",
     "SeeAnyOf",
     "Sees",
     "SeesAllOf",
     "SeesAnyOf",
+    "Silently",
     "Sleep",
     "Sleeps",
     "TakeNote",

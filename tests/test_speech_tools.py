@@ -51,4 +51,4 @@ class TestGetAdditiveDescription:
     def test_indescribable(self) -> None:
         description = get_additive_description(Indescribable())
 
-        assert description == 'something indescribable'
+        assert description == "something indescribable"

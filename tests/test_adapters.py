@@ -157,7 +157,7 @@ class TestStdOutAdapter:
             (gravitas.NORMAL, logging.WARNING),
             (gravitas.HEAVY, logging.CRITICAL),
             (gravitas.EXTREME, logging.ERROR),
-        ]
+        ],
     )
     def test_gravitas(self, gravitas, level, caplog) -> None:
         adapter = StdOutAdapter()

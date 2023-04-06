@@ -189,3 +189,67 @@ Once the cleanup tasks are performed,
 they are removed
 from the Actor's cleanup list.
 They will only be performed once.
+
+
+Using Silently
+==============
+
+    "Talk less. Smile more." -- Aaron Burr in Hamilton
+
+Sometimes you only need logging when things go wrong.  
+:function:`~screenpy.action.silently.Silently` gives you the capability
+to only log the important things when things go right. 
+Everything inside of ``Silently`` is prevented from logging.
+
+Example: The following Action::
+
+    class PerformChatty(Performable):
+        @beat("{} tries to PerformChatty")
+        def perform_as(self, actor: Actor):
+            actor.will(PerformA())
+    
+    # used inside a test
+    def test_1(marcel):
+        marcel.will(PerformChatty())
+
+Would generate this log::
+
+    Marcel tries to PerformChatty
+        Marcel tries to PerformA
+            Marcel tries to PerformB
+                Marcel tries to PerformPass
+                    Marcel sees if simpleQuestion is equal to True.
+                        Marcel examines SimpleQuestion
+                            => True
+                        ... hoping it's equal to True.
+                            => <True>
+
+But what if perhaps, we didn't need to know all the steps being taken at in  ``PerformChatty`` unless they were to fail?
+Wrapping ``PerformA`` in ``Silently``::
+
+    class PerformChatty(Performable):
+        @beat("{} tries to PerformChatty")
+        def perform_as(self, actor: Actor):
+            actor.will(Silently(PerformA()))
+
+Will only generate this log::
+
+    Marcel tries to PerformChatty
+
+Unless of course something bad happens inside of ``PerformA`` in which case the normal logging will take place::
+
+    Marcel tries to PerformChatty
+        Marcel tries to PerformA
+            Marcel tries to PerformB
+                Marcel tries to PerformPass
+                    Marcel sees if simpleQuestion is equal to True.
+                        Marcel examines SimpleQuestion
+                            => True
+                        ... hoping it's equal to False.
+                            => <False>
+                        ***ERROR***
+    
+    AssertionError: 
+    Expected: <True>
+         but: was <False>
+

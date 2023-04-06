@@ -1,12 +1,15 @@
+import logging
 import os
 import sys
 import time
 from unittest import mock
 
 import pytest
+from pytest_mock import MockerFixture
 
 from screenpy import (
     Actor,
+    Answerable,
     AttachTheFile,
     Debug,
     DeliveryError,
@@ -15,14 +18,27 @@ from screenpy import (
     Eventually,
     IsEqualTo,
     MakeNote,
+    NotAnswerable,
+    NotPerformable,
+    NotResolvable,
     Pause,
     Performable,
+    Silently,
+    Resolvable,
     See,
     SeeAllOf,
     SeeAnyOf,
     UnableToAct,
     UnableToDirect,
+    beat,
     noted_under,
+    settings,
+    the_narrator,
+)
+from screenpy.actions.silently import (
+    SilentlyAnswerable,
+    SilentlyPerformable,
+    SilentlyResolvable,
 )
 from screenpy.test_utils import mock_settings
 from unittest_protocols import ErrorQuestion
@@ -261,14 +277,16 @@ class TestEventually:
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
     def test_mention_all_errors_in_order(self, mocked_time, Tester):
         num_calls = 5
-        mocked_time.time = mock.create_autospec(time.time, side_effect=[1] * num_calls + [100])
+        mocked_time.time = mock.create_autospec(
+            time.time, side_effect=[1] * num_calls + [100]
+        )
 
         with pytest.raises(DeliveryError) as actual_exception:
             Eventually(DoThingThatFails()).perform_as(Tester)
 
         assert str(actual_exception.value) == (
-            "Tester tried to Eventually do thing that fails 5 times over 20.0 seconds, but "
-            "got:\n"
+            "Tester tried to Eventually do thing that fails 5 times over 20.0 seconds,"
+            " but got:\n"
             "    AssertionError: Failure #1\n"
             "    AssertionError: Failure #2\n"
             "    AssertionError: Failure #3\n"
@@ -276,7 +294,6 @@ class TestEventually:
             "    AssertionError: Failure #5"
         )
         return
-
 
     def test_describe(self) -> None:
         mock_action = FakeAction()
@@ -640,3 +657,221 @@ class TestSeeAnyOf:
         assert SeeAnyOf().describe() == "See if no tests pass 🤔."
         assert SeeAnyOf(test).describe() == "See if 1 test passes."
         assert SeeAnyOf(*tests).describe() == f"See if any of {len(tests)} tests pass."
+
+
+class SimpleQuestion(Answerable):
+    @beat("{} examines SimpleQuestion")
+    def answered_by(self, actor: Actor) -> bool:
+        return True
+
+    def describe(self) -> str:
+        return "SimpleQuestion"
+
+
+class TestSilently:
+    def test_function_returns_properly(self) -> None:
+        q1 = Silently(FakeQuestion())
+        q2 = Silently(FakeAction())
+        q3 = Silently(FakeResolution())
+
+        assert isinstance(q1, SilentlyAnswerable)
+        assert isinstance(q2, SilentlyPerformable)
+        assert isinstance(q3, SilentlyResolvable)
+
+    def test_can_be_instantiated(self) -> None:
+        q1 = SilentlyAnswerable(FakeQuestion())
+        q2 = SilentlyPerformable(FakeAction())
+        q3 = SilentlyResolvable(FakeResolution())
+
+        assert isinstance(q1, SilentlyAnswerable)
+        assert isinstance(q2, SilentlyPerformable)
+        assert isinstance(q3, SilentlyResolvable)
+
+    def test_implements_protocol(self) -> None:
+        q1 = SilentlyAnswerable(FakeQuestion())
+        q2 = SilentlyPerformable(FakeAction())
+        q3 = SilentlyResolvable(FakeResolution())
+
+        assert isinstance(q1, Answerable)
+        assert isinstance(q2, Performable)
+        assert isinstance(q3, Resolvable)
+
+    def test_not_performable(self) -> None:
+        with pytest.raises(NotPerformable) as exc:
+            SilentlyPerformable(None)  # type: ignore
+
+        assert str(exc.value) == (
+            "SilentlyPerformable only works with Performable. "
+            "Use `Silently` instead."
+        )
+
+    def test_not_answerable(self) -> None:
+        with pytest.raises(NotAnswerable) as exc:
+            SilentlyAnswerable(None)  # type: ignore
+
+        assert str(exc.value) == (
+            "SilentlyAnswerable only works with Answerable. " "Use `Silently` instead."
+        )
+
+    def test_not_resolvable(self) -> None:
+        with pytest.raises(NotResolvable) as exc:
+            SilentlyResolvable(None)  # type: ignore
+
+        assert str(exc.value) == (
+            "SilentlyResolvable only works with Resolvable. " "Use `Silently` instead."
+        )
+
+    def test_passthru_attribute(self) -> None:
+        a = FakeAction()
+        a.describe.return_value = "Happy Thoughts"
+
+        assert Silently(a).describe() == "Happy Thoughts"
+
+    def test_passthru_attribute_missing(self) -> None:
+        a = FakeAction()
+        q = Silently(a)
+        with pytest.raises(AttributeError):
+            q.not_a_real_attribute_of_silent_performables()
+
+    def test_answerable_answers(self, Tester) -> None:
+        question = FakeQuestion()
+        Silently(question).answered_by(Tester)
+
+        question.answered_by.assert_called_once_with(Tester)
+
+    def test_performable_performs(self, Tester) -> None:
+        action = FakeAction()
+        Silently(action).perform_as(Tester)
+
+        action.perform_as.assert_called_once_with(Tester)
+
+    def test_resolvable_resolves(self) -> None:
+        resolution = FakeResolution()
+        Silently(resolution).resolve()
+
+        resolution.resolve.assert_called_once_with()
+
+    def test_silently_does_not_log(self, Tester, caplog) -> None:
+        """
+        Confirm that when Silently is used, all beat messages inside it are not logged.
+        """
+        caplog.set_level(logging.INFO)
+
+        Tester.will(Action3())
+
+        assert [r.msg for r in caplog.records] == ["Tester tries to Action3"]
+
+
+class Action1(Performable):
+    @beat("{} tries to Action1")
+    def perform_as(self, actor: Actor) -> None:
+        actor.will(Silently(Action2()))
+
+
+class Action2(Performable):
+    @beat("{} tries to Action2")
+    def perform_as(self, actor: Actor) -> None:
+        settings.UNABRIDGED_NARRATION = True
+        actor.will(Silently(See(SimpleQuestion(), IsEqualTo(True))))
+
+
+class Action3(Performable):
+    @beat("{} tries to Action3")
+    def perform_as(self, actor: Actor) -> None:
+        actor.will(Silently(Action4()))
+
+
+class Action4(Performable):
+    @beat("{} tries to Action4")
+    def perform_as(self, actor: Actor) -> None:
+        actor.will(Silently(See(SimpleQuestion(), IsEqualTo(True))))
+
+
+class TestSilentlyUnabridged:
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        settings.UNABRIDGED_NARRATION = False
+        yield
+        settings.UNABRIDGED_NARRATION = False
+
+    def test_kinking(self, Tester: Actor, mocker: MockerFixture) -> None:
+        mock_clear = mocker.spy(the_narrator, "clear_backup")
+        mock_flush = mocker.spy(the_narrator, "flush_backup")
+        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+
+        Tester.will(Silently(FakeAction()))
+
+        assert mock_kink.call_count == 1
+        assert mock_clear.call_count == 2
+        assert mock_flush.call_count == 1
+
+    def test_skip_creation(self) -> None:
+        settings.UNABRIDGED_NARRATION = True
+        fake_action = FakeAction()
+
+        q = Silently(fake_action)
+
+        assert q is fake_action
+
+    def test_unabridge_from_function(
+        self, Tester: Actor, mocker: MockerFixture
+    ) -> None:
+        settings.UNABRIDGED_NARRATION = True
+        mock_clear = mocker.spy(the_narrator, "clear_backup")
+        mock_flush = mocker.spy(the_narrator, "flush_backup")
+        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+
+        Silently(FakeAction()).perform_as(Tester)
+
+        assert mock_kink.call_count == 0
+        assert mock_clear.call_count == 0
+        assert mock_flush.call_count == 0
+
+    def test_unabridged_from_class(self, Tester: Actor, mocker: MockerFixture) -> None:
+        settings.UNABRIDGED_NARRATION = True
+        mock_clear = mocker.spy(the_narrator, "clear_backup")
+        mock_flush = mocker.spy(the_narrator, "flush_backup")
+        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+
+        Tester.will(SilentlyPerformable(FakeAction()))
+
+        assert mock_kink.call_count == 1
+        assert mock_clear.call_count == 1
+        assert mock_flush.call_count == 1
+
+    def test_unabridged_set_inside_silently(self, Tester, caplog) -> None:
+        """
+        Confirm when unabridged flag is set, DEEP INSIDE actions which are
+        wrapped in Silently, that logging will occur normally.
+        """
+        caplog.set_level(logging.INFO)
+
+        Tester.will(Silently(Action1()))
+
+        assert [r.msg for r in caplog.records] == [
+            "Tester tries to Action1",
+            "    Tester tries to Action2",
+            "        Tester sees if simpleQuestion is equal to True.",
+            "            Tester examines SimpleQuestion",
+            "                => True",
+            "            ... hoping it's equal to True.",
+            "                => <True>",
+        ]
+
+    def test_unabridged_set_outside_silently(self, Tester, caplog) -> None:
+        """
+        Confirm when unabridged flag is set, logging will occur normally.
+        """
+        caplog.set_level(logging.INFO)
+        settings.UNABRIDGED_NARRATION = True
+
+        Tester.will(Silently(Action2()))
+
+        assert [r.msg for r in caplog.records] == [
+            "Tester tries to Action2",
+            "    Tester sees if simpleQuestion is equal to True.",
+            "        Tester examines SimpleQuestion",
+            "            => True",
+            "        ... hoping it's equal to True.",
+            "            => <True>",
+        ]

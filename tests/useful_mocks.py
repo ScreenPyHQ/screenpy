@@ -1,8 +1,7 @@
 from typing import Any
 from unittest import mock
 
-from screenpy import BaseResolution
-from unittest_protocols import Ability, Action, Question
+from unittest_protocols import Ability, Action, Question, Resolution
 
 
 def get_mock_action_class() -> Any:
@@ -11,26 +10,29 @@ def get_mock_action_class() -> Any:
             rt = mock.create_autospec(FakeAction, instance=True)
             rt.describe.return_value = None
             return rt
+
     return FakeAction
 
 
 def get_mock_question_class() -> Any:
     class FakeQuestion(Question):
         def __new__(cls, *args, **kwargs):
-            rt = mock.create_autospec(Question, instance=True)
+            rt = mock.create_autospec(FakeQuestion, instance=True)
             rt.describe.return_value = None
             rt.answered_by.return_value = True
             return rt
+
     return FakeQuestion
 
 
 def get_mock_resolution_class() -> Any:
-    class FakeResolution(BaseResolution):
+    class FakeResolution(Resolution):
         def __new__(cls, *args, **kwargs):
-            rt = mock.create_autospec(BaseResolution, instance=True)
+            rt = mock.create_autospec(FakeResolution, instance=True)
             rt.resolve.return_value = rt
             rt.describe.return_value = None
             return rt
+
     return FakeResolution
 
 
@@ -55,7 +57,9 @@ def get_mock_ability_class() -> Any:
         b = B()
         a != b
     """
+
     class FakeAbility(Ability):
         def __new__(cls, *args, **kwargs):
             return mock.create_autospec(FakeAbility, *args, **kwargs)
+
     return FakeAbility

@@ -28,6 +28,9 @@ from .exceptions import (
     AbilityError,
     ActionError,
     DeliveryError,
+    NotAnswerable,
+    NotPerformable,
+    NotResolvable,
     QuestionError,
     ScreenPyError,
     UnableToAct,
@@ -46,8 +49,10 @@ from .protocols import (
     ErrorKeeper,
     Forgettable,
     Performable,
+    Resolvable,
 )
 from .resolutions import *  # noqa
+from .settings import settings
 
 # Natural-language-enabling syntactic sugar
 AnActor = Actor
@@ -71,12 +76,17 @@ __all__ = [
     "Forgettable",
     "given",
     "given_that",
+    "NotAnswerable",
     "noted",
     "noted_under",
+    "NotPerformable",
+    "NotResolvable",
     "Performable",
     "QuestionError",
+    "Resolvable",
     "scene",
     "ScreenPyError",
+    "settings",
     "the_narrator",
     "the_noted",
     "then",

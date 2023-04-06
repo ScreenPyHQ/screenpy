@@ -119,10 +119,22 @@ class ScreenPySettings(BaseSettings):
     tool_path = "screenpy"
 
     TIMEOUT: float = 20
-    """Default timeout (in seconds) to use for things that wait."""
+    """
+    Default timeout (in seconds) to use for things that wait
+    (e.g. :class:`~screenpy.actions.Eventually`).
+    """
 
     POLLING: float = 0.5
-    """Default polling interval (in seconds) to use for things that poll."""
+    """
+    Default polling interval (in seconds) to use for things that poll
+    (e.g. :class:`~screenpy.actions.Eventually`).
+    """
+
+    UNABRIDGED_NARRATION: bool = False
+    """
+    If True, :class:`~screenpy.actions.Silently` is turned off, allowing
+    all Narration. False by default.
+    """
 
     class Config:  # pylint: disable=missing-class-docstring
         env_prefix = "SCREENPY_"
