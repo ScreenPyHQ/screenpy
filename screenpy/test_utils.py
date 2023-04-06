@@ -26,7 +26,7 @@ def mock_settings(**new_settings: Any) -> Callable:
                 setattr(settings, key, value)
 
             try:
-                with mock.patch("screenpy.settings.settings", settings):
+                with mock.patch("screenpy.settings", settings):
                     func(*args, **kwargs)
             finally:
                 for key, value in old_settings.items():
