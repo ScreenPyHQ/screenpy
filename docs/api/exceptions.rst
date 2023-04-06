@@ -15,6 +15,8 @@ Base
 ----
 
 .. autoclass:: ScreenPyError
+.. autoclass:: ResolutionError
+.. autoclass:: QuestionError
 
 Ability Exceptions
 ------------------
@@ -26,6 +28,7 @@ Action Exceptions
 
 .. autoclass:: ActionError
 .. autoclass:: DeliveryError
+.. autoclass:: NotPerformable
 .. autoclass:: UnableToAct
 
 Actor Exceptions
@@ -33,7 +36,25 @@ Actor Exceptions
 
 .. autoclass:: UnableToPerform
 
+Director Exceptions
+-------------------
+
+.. autoclass:: UnableToDirect
+
+Narrator Exceptions
+-------------------
+
+.. autoclass:: UnableToNarrate
+
+
 Question Exceptions
 -------------------
 
+.. autoclass:: NotAnswerable
 .. autoclass:: UnableToAnswer
+
+Resolution Exceptions
+---------------------
+
+.. autoclass:: NotResolvable
+.. autoclass:: UnableToFormResolution

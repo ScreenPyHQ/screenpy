@@ -49,3 +49,15 @@ class ResolutionError(ScreenPyError):
 
 class UnableToFormResolution(ResolutionError):
     """The Resolution is unable to be formed."""
+
+
+class NotPerformable(ScreenPyError):
+    """Does not conform to Performable Protocol"""
+
+
+class NotAnswerable(ScreenPyError):
+    """Does not conform to Answerable Protocol"""
+
+
+class NotResolvable(ScreenPyError):
+    """Does not conform to Resolvable Protocol"""

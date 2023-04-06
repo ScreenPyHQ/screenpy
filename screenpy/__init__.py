@@ -28,6 +28,9 @@ from .exceptions import (
     AbilityError,
     ActionError,
     DeliveryError,
+    NotAnswerable,
+    NotPerformable,
+    NotResolvable,
     QuestionError,
     ScreenPyError,
     UnableToAct,
@@ -46,6 +49,7 @@ from .protocols import (
     ErrorKeeper,
     Forgettable,
     Performable,
+    Resolvable,
 )
 from .resolutions import *  # noqa
 
@@ -71,10 +75,14 @@ __all__ = [
     "Forgettable",
     "given",
     "given_that",
+    "NotAnswerable",
     "noted",
     "noted_under",
+    "NotPerformable",
+    "NotResolvable",
     "Performable",
     "QuestionError",
+    "Resolvable",
     "scene",
     "ScreenPyError",
     "the_narrator",

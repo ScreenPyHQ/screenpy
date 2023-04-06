@@ -98,3 +98,11 @@ SeeAnyOf
 
 .. autoclass:: SeeAnyOf
     :members:
+
+
+Silently
+--------
+
+**Aliases**: ``Quietly``
+
+.. autofunction:: Silently
