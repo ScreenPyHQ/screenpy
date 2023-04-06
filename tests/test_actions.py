@@ -11,6 +11,7 @@ from screenpy import (
     Actor,
     Answerable,
     AttachTheFile,
+    config,
     Debug,
     DeliveryError,
     Describable,
@@ -32,7 +33,6 @@ from screenpy import (
     UnableToDirect,
     beat,
     noted_under,
-    settings,
     the_narrator,
 )
 from screenpy.actions.silently import (
@@ -771,7 +771,7 @@ class Action1(Performable):
 class Action2(Performable):
     @beat("{} tries to Action2")
     def perform_as(self, actor: Actor) -> None:
-        settings.UNABRIDGED_NARRATION = True
+        config.UNABRIDGED_NARRATION = True
         actor.will(Silently(See(SimpleQuestion(), IsEqualTo(True))))
 
 
@@ -790,9 +790,9 @@ class Action4(Performable):
 class TestSilentlyUnabridged:
     @pytest.fixture(autouse=True)
     def setup(self):
-        settings.UNABRIDGED_NARRATION = False
+        config.UNABRIDGED_NARRATION = False
         yield
-        settings.UNABRIDGED_NARRATION = False
+        config.UNABRIDGED_NARRATION = False
 
     def test_kinking(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
@@ -806,7 +806,7 @@ class TestSilentlyUnabridged:
         assert mock_flush.call_count == 1
 
     def test_skip_creation(self) -> None:
-        settings.UNABRIDGED_NARRATION = True
+        config.UNABRIDGED_NARRATION = True
         fake_action = FakeAction()
 
         q = Silently(fake_action)
@@ -816,7 +816,7 @@ class TestSilentlyUnabridged:
     def test_unabridge_from_function(
         self, Tester: Actor, mocker: MockerFixture
     ) -> None:
-        settings.UNABRIDGED_NARRATION = True
+        config.UNABRIDGED_NARRATION = True
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
@@ -828,7 +828,7 @@ class TestSilentlyUnabridged:
         assert mock_flush.call_count == 0
 
     def test_unabridged_from_class(self, Tester: Actor, mocker: MockerFixture) -> None:
-        settings.UNABRIDGED_NARRATION = True
+        config.UNABRIDGED_NARRATION = True
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
@@ -863,7 +863,7 @@ class TestSilentlyUnabridged:
         Confirm when unabridged flag is set, logging will occur normally.
         """
         caplog.set_level(logging.INFO)
-        settings.UNABRIDGED_NARRATION = True
+        config.UNABRIDGED_NARRATION = True
 
         Tester.will(Silently(Action2()))
 

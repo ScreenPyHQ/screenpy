@@ -86,14 +86,16 @@ def _parse_pyproject_toml(
 
     with filepath.open("rb") as f:
         pyproject_toml = tomllib.load(f)
-    config: Dict[str, Any] = pyproject_toml.get("tool", {})
+    toml_config: Dict[str, Any] = pyproject_toml.get("tool", {})
     tool_path = settings_class.schema()["properties"].get("tool_path", {})
     tool_paths = [path for path in tool_path.get("default", "").split(".") if path]
     for subtool in tool_paths:
-        config = config.get(subtool, {})
-    config = {k.replace("--", "").replace("-", "_"): v for k, v in config.items()}
+        toml_config = toml_config.get(subtool, {})
+    toml_config = {
+        k.replace("--", "").replace("-", "_"): v for k, v in toml_config.items()
+    }
 
-    return config
+    return toml_config
 
 
 def pyproject_settings(settings_class: BaseSettings) -> Dict[str, Any]:
@@ -175,4 +177,4 @@ class StdOutAdapterSettings(BaseSettings):
 
 
 # initialized instance
-settings = ScreenPySettings()
+config = ScreenPySettings()

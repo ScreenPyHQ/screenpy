@@ -12,7 +12,7 @@ from screenpy.actor import Actor
 from screenpy.exceptions import NotAnswerable, NotPerformable, NotResolvable
 from screenpy.pacing import the_narrator
 from screenpy.protocols import Answerable, Performable, Resolvable
-from screenpy.settings import settings
+from screenpy.settings import config
 
 T = TypeVar("T")
 
@@ -40,7 +40,7 @@ class SilentlyPerformable(Performable, SilentlyMixin):
     def perform_as(self, actor: Actor) -> None:
         with the_narrator.mic_cable_kinked():
             self.duck.perform_as(actor)
-            if not settings.UNABRIDGED_NARRATION:
+            if not config.UNABRIDGED_NARRATION:
                 the_narrator.clear_backup()
             return
 
@@ -59,7 +59,7 @@ class SilentlyAnswerable(Answerable, SilentlyMixin):
     def answered_by(self, actor: Actor) -> Any:
         with the_narrator.mic_cable_kinked():
             thing = self.duck.answered_by(actor)
-            if not settings.UNABRIDGED_NARRATION:
+            if not config.UNABRIDGED_NARRATION:
                 the_narrator.clear_backup()
             return thing
 
@@ -77,7 +77,7 @@ class SilentlyResolvable(Resolvable, SilentlyMixin):
     def resolve(self) -> Matcher:
         with the_narrator.mic_cable_kinked():
             res = self.duck.resolve()
-            if not settings.UNABRIDGED_NARRATION:
+            if not config.UNABRIDGED_NARRATION:
                 the_narrator.clear_backup()
             return res
 
@@ -144,7 +144,7 @@ def Silently(duck: T_duck) -> Union[T_duck, T_silent_duck]:
             )
         )
     """
-    if settings.UNABRIDGED_NARRATION:
+    if config.UNABRIDGED_NARRATION:
         return duck
 
     if isinstance(duck, Performable):

@@ -52,7 +52,7 @@ from .protocols import (
     Resolvable,
 )
 from .resolutions import *  # noqa
-from .settings import settings
+from .settings import config
 
 # Natural-language-enabling syntactic sugar
 AnActor = Actor
@@ -69,6 +69,7 @@ __all__ = [
     "Answerable",
     "aside",
     "beat",
+    "config",
     "DeliveryError",
     "Describable",
     "Director",
@@ -86,7 +87,6 @@ __all__ = [
     "Resolvable",
     "scene",
     "ScreenPyError",
-    "settings",
     "the_narrator",
     "the_noted",
     "then",
