@@ -51,5 +51,5 @@ ScreenPy Default Settings
 ScreenPy StdOutAdapter Default Settings
 ---------------------------------------
 
-.. autopydantic_settings:: screenpy.settings.StdOutAdapterSettings
+.. autopydantic_settings:: screenpy.narration.adapters.settings.StdOutAdapterSettings
     :exclude-members: Config.customise_sources

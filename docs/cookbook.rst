@@ -196,9 +196,9 @@ Using Silently
 
     "Talk less. Smile more." -- Aaron Burr in Hamilton
 
-Sometimes you only need logging when things go wrong.  
-:function:`~screenpy.action.silently.Silently` gives you the capability
-to only log the important things when things go right. 
+Sometimes you only need logging when things go wrong.
+:func:`~screenpy.actions.Silently` gives you the capability
+to only log the important things when things go right.
 Everything inside of ``Silently`` is prevented from logging.
 
 Example: The following Action::
@@ -207,7 +207,7 @@ Example: The following Action::
         @beat("{} tries to PerformChatty")
         def perform_as(self, actor: Actor):
             actor.will(PerformA())
-    
+
     # used inside a test
     def test_1(marcel):
         marcel.will(PerformChatty())
@@ -248,8 +248,29 @@ Unless of course something bad happens inside of ``PerformA`` in which case the 
                         ... hoping it's equal to False.
                             => <False>
                         ***ERROR***
-    
-    AssertionError: 
+
+    AssertionError:
     Expected: <True>
          but: was <False>
 
+
+Configuring Multiple Extensions in Conftest
+===========================================
+
+So your project doesn't have a ``pyproject.toml``
+and you don't want to bother with environment variables.
+Luckily,
+you can configure ScreenPy and its extensions' settings
+directly in a test configuration file!
+
+Here's one readable way to deal with all these ``config`` objects::
+
+    import screenpy
+    import screenpy_some_extension
+
+    screenpy.config.TIMEOUT = 42
+    screenpy_some_extension.config.SOME_SETTING = "spam"
+
+That way,
+it's clear which extension's configuration you're configuring
+without needing to do a lot of ``import X as Y`` shenanigans.
