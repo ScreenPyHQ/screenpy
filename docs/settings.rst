@@ -8,13 +8,13 @@ through `Pydantic's settings management <https://docs.pydantic.dev/usage/setting
 
 Settings can be configured through three ways:
 
-  * Directly modifying the ``settings`` object in your test configuration.
+  * Directly modifying the ``config`` object in your test configuration.
   * Using environment variables.
   * In the ``[tool.screenpy]`` section in your ``pyproject.toml``.
 
 The above three options are in order of precedence;
 that is,
-modifying ``settings`` directly will override any environment variables,
+modifying ``config`` directly will override everything,
 any environment variables will override any ``pyproject.toml`` settings,
 and any ``pyproject.toml`` settings will override the defaults.
 
@@ -23,9 +23,9 @@ here is how we can change the default timeout value
 used by things like :class:`screenpy.actions.Eventually`::
 
     # in your suite setup file, like conftest.py
-    from screenpy.settings import settings
+    from screenpy import config
 
-    settings.TIMEOUT = 60
+    config.TIMEOUT = 60
 
 .. code-block:: toml
 
@@ -37,6 +37,9 @@ used by things like :class:`screenpy.actions.Eventually`::
 
     $ # in your shell
     $ SCREENPY_TIMEOUT=60 pytest
+
+The environment variable approach
+works particularly well with `python-dotenv <https://pypi.org/project/python-dotenv/>`__!
 
 
 ScreenPy Default Settings

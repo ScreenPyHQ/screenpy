@@ -268,8 +268,8 @@ def test_narration():
 
 def test_adapters():
     expected = [
+        "config",
         "LoggingAdapter",
-        "settings",
         "StdOutAdapter",
         "StdOutManager",
     ]
