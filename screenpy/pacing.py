@@ -8,8 +8,7 @@ import re
 from functools import wraps
 from typing import Any, Callable, Optional
 
-from screenpy.narration.adapters.stdout_adapter import StdOutAdapter
-from screenpy.narration.narrator import Narrator
+from screenpy.narration import Narrator, StdOutAdapter
 
 Function = Callable[..., Any]
 the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
@@ -82,7 +81,7 @@ def beat(line: str, gravitas: Optional[str] = None) -> Callable[[Function], Func
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             action = args[0] if len(args) > 0 else None
             actor = args[1] if len(args) > 1 else ""
-            markers = re.findall(r"\{([^0-9\}]+)}", line)
+            markers = re.findall(r"\{([^\}]+)}", line)
             cues = {mark: getattr(action, mark) for mark in markers}
 
             completed_line = f"{line.format(actor, **cues)}"
