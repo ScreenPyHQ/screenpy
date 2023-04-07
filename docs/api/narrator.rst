@@ -19,5 +19,5 @@ to reach ``stdout``.
 StdOutAdapter
 -------------
 
-.. autoclass:: screenpy.narration.adapters.stdout_adapter.StdOutAdapter
+.. autoclass:: screenpy.StdOutAdapter
     :members:

@@ -2,7 +2,7 @@ import os
 from unittest import mock
 
 from screenpy.settings import ScreenPySettings
-from screenpy.narration.adapters.settings import StdOutAdapterSettings
+from screenpy.narration.stdout_adapter.settings import StdOutAdapterSettings
 
 
 class TestSettings:
