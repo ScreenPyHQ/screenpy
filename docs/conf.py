@@ -203,3 +203,4 @@ intersphinx_mapping = {
 autodoc_pydantic_settings_show_json = False
 autodoc_pydantic_settings_show_config_member = False
 autodoc_pydantic_settings_show_config_summary = False
+autodoc_pydantic_settings_member_order = "bysource"
