@@ -32,15 +32,14 @@ from screenpy import (
     UnableToDirect,
     beat,
     noted_under,
-    settings,
     the_narrator,
 )
+from screenpy.configuration import ScreenPySettings
 from screenpy.actions.silently import (
     SilentlyAnswerable,
     SilentlyPerformable,
     SilentlyResolvable,
 )
-from screenpy.test_utils import mock_settings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
     get_mock_action_class,
@@ -132,6 +131,9 @@ class TestDebug:
 
 
 class TestEventually:
+
+    settings_path = "screenpy.actions.eventually.settings"
+
     def test_can_be_instantiated(self) -> None:
         e1 = Eventually(FakeAction())
         e2 = Eventually(FakeAction()).trying_for_no_longer_than(0).seconds()
@@ -183,15 +185,15 @@ class TestEventually:
 
         assert ev.poll == 1
 
-    @mock_settings(TIMEOUT=100)
     def test_adjusting_settings_timeout(self) -> None:
-        ev = Eventually(FakeAction())
+        with mock.patch(self.settings_path, ScreenPySettings(TIMEOUT=100)):
+            ev = Eventually(FakeAction())
 
         assert ev.timeout == 100
 
-    @mock_settings(POLLING=50)
     def test_adjusting_settings_polling(self) -> None:
-        ev = Eventually(FakeAction())
+        with mock.patch(self.settings_path, ScreenPySettings(POLLING=50)):
+            ev = Eventually(FakeAction())
 
         assert ev.poll == 50
 
@@ -771,28 +773,17 @@ class Action1(Performable):
 class Action2(Performable):
     @beat("{} tries to Action2")
     def perform_as(self, actor: Actor) -> None:
-        settings.UNABRIDGED_NARRATION = True
-        actor.will(Silently(See(SimpleQuestion(), IsEqualTo(True))))
+        actor.will(Silently(Action3()))
 
 
 class Action3(Performable):
     @beat("{} tries to Action3")
     def perform_as(self, actor: Actor) -> None:
-        actor.will(Silently(Action4()))
-
-
-class Action4(Performable):
-    @beat("{} tries to Action4")
-    def perform_as(self, actor: Actor) -> None:
         actor.will(Silently(See(SimpleQuestion(), IsEqualTo(True))))
 
 
 class TestSilentlyUnabridged:
-    @pytest.fixture(autouse=True)
-    def setup(self):
-        settings.UNABRIDGED_NARRATION = False
-        yield
-        settings.UNABRIDGED_NARRATION = False
+    settings_path = "screenpy.actions.silently.settings"
 
     def test_kinking(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
@@ -806,69 +797,54 @@ class TestSilentlyUnabridged:
         assert mock_flush.call_count == 1
 
     def test_skip_creation(self) -> None:
-        settings.UNABRIDGED_NARRATION = True
         fake_action = FakeAction()
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
 
-        q = Silently(fake_action)
+        with mock.patch(self.settings_path, mock_settings):
+            q = Silently(fake_action)
 
         assert q is fake_action
 
     def test_unabridge_from_function(
         self, Tester: Actor, mocker: MockerFixture
     ) -> None:
-        settings.UNABRIDGED_NARRATION = True
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
 
-        Silently(FakeAction()).perform_as(Tester)
+        with mock.patch(self.settings_path, mock_settings):
+            Silently(FakeAction()).perform_as(Tester)
 
         assert mock_kink.call_count == 0
         assert mock_clear.call_count == 0
         assert mock_flush.call_count == 0
 
     def test_unabridged_from_class(self, Tester: Actor, mocker: MockerFixture) -> None:
-        settings.UNABRIDGED_NARRATION = True
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
 
-        Tester.will(SilentlyPerformable(FakeAction()))
+        with mock.patch(self.settings_path, mock_settings):
+            Tester.will(SilentlyPerformable(FakeAction()))
 
         assert mock_kink.call_count == 1
         assert mock_clear.call_count == 1
         assert mock_flush.call_count == 1
-
-    def test_unabridged_set_inside_silently(self, Tester, caplog) -> None:
-        """
-        Confirm when unabridged flag is set, DEEP INSIDE actions which are
-        wrapped in Silently, that logging will occur normally.
-        """
-        caplog.set_level(logging.INFO)
-
-        Tester.will(Silently(Action1()))
-
-        assert [r.msg for r in caplog.records] == [
-            "Tester tries to Action1",
-            "    Tester tries to Action2",
-            "        Tester sees if simpleQuestion is equal to True.",
-            "            Tester examines SimpleQuestion",
-            "                => True",
-            "            ... hoping it's equal to True.",
-            "                => <True>",
-        ]
 
     def test_unabridged_set_outside_silently(self, Tester, caplog) -> None:
         """
         Confirm when unabridged flag is set, logging will occur normally.
         """
         caplog.set_level(logging.INFO)
-        settings.UNABRIDGED_NARRATION = True
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
 
-        Tester.will(Silently(Action2()))
+        with mock.patch(self.settings_path, mock_settings):
+            Tester.will(Silently(Action3()))
 
         assert [r.msg for r in caplog.records] == [
-            "Tester tries to Action2",
+            "Tester tries to Action3",
             "    Tester sees if simpleQuestion is equal to True.",
             "        Tester examines SimpleQuestion",
             "            => True",

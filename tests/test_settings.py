@@ -1,6 +1,10 @@
 import os
 from unittest import mock
 
+import pytest
+
+from screenpy import settings as screenpy_settings
+from screenpy.narration.stdout_adapter import settings as stdout_adapter_settings
 from screenpy.configuration import ScreenPySettings
 from screenpy.narration.stdout_adapter.configuration import StdOutAdapterSettings
 
@@ -31,6 +35,10 @@ class TestSettings:
             settings = ScreenPySettings(TIMEOUT=9001)
 
         assert settings.TIMEOUT == 9001
+
+    def test_cannot_be_changed_at_runtime(self):
+        with pytest.raises(TypeError):
+            screenpy_settings.TIMEOUT = 4
 
 
 class TestStdOutAdapterSettings:
@@ -63,3 +71,7 @@ class TestStdOutAdapterSettings:
             settings = StdOutAdapterSettings(INDENT_SIZE=9001)
 
         assert settings.INDENT_SIZE == 9001
+
+    def test_cannot_be_changed_at_runtime(self):
+        with pytest.raises(TypeError):
+            stdout_adapter_settings.INDENT_CHAR = "?"
