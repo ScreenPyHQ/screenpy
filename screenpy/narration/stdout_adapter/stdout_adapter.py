@@ -8,7 +8,7 @@ from functools import wraps
 from typing import Any, Callable, Generator, List, Optional
 
 from ..gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
-from .settings import config
+from .configuration import settings
 
 # pylint: disable=unused-argument
 
@@ -19,8 +19,8 @@ class StdOutManager:
     def __init__(self, logger: Optional[logging.Logger] = None) -> None:
         self.logger = logger or logging.getLogger("screenpy")
         self.depth: List[str] = []
-        self.whitespace = config.INDENT_SIZE * config.INDENT_CHAR
-        self.enabled = config.INDENT_LOGS
+        self.whitespace = settings.INDENT_SIZE * settings.INDENT_CHAR
+        self.enabled = settings.INDENT_LOGS
 
     @contextmanager
     def _indent(self) -> Generator:

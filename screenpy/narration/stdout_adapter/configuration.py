@@ -2,7 +2,7 @@
 
 from pydantic import BaseSettings
 
-from screenpy.settings import ScreenPySettings
+from screenpy.configuration import ScreenPySettings
 
 
 class StdOutAdapterSettings(BaseSettings):
@@ -25,9 +25,11 @@ class StdOutAdapterSettings(BaseSettings):
     INDENT_SIZE: int = 4
     """How many indent_chars to use for each level of indentation."""
 
-    class Config(ScreenPySettings.Config):  # pylint: disable=missing-class-docstring
+    class Config(ScreenPySettings.Config):
+        """Inherit from the base Config but change the env_prefix."""
+
         env_prefix = "SCREENPY_STDOUTADAPTER_"
 
 
 # initialized instance
-config = StdOutAdapterSettings()
+settings = StdOutAdapterSettings()

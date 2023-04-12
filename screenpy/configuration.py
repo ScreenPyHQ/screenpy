@@ -140,6 +140,7 @@ class ScreenPySettings(BaseSettings):
 
     class Config:  # pylint: disable=missing-class-docstring
         env_prefix = "SCREENPY_"
+        freeze = True
 
         @classmethod
         def customise_sources(
@@ -153,4 +154,4 @@ class ScreenPySettings(BaseSettings):
 
 
 # initialized instance
-config = ScreenPySettings()
+settings = ScreenPySettings()

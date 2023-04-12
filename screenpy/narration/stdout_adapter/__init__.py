@@ -3,14 +3,14 @@ Default Adapters for the Narrator's microphone.
 """
 
 
-from .settings import config
+from .configuration import settings
 from .stdout_adapter import StdOutAdapter, StdOutManager
 
 LoggingAdapter = StdOutAdapter
 
 __all__ = [
-    "config",
     "LoggingAdapter",
+    "settings",
     "StdOutAdapter",
     "StdOutManager",
 ]

@@ -6,7 +6,7 @@ ScreenPy extensions.
 from typing import Any, Callable
 from unittest import mock
 
-from .settings import config
+from .configuration import settings
 
 
 def mock_settings(**new_settings: Any) -> Callable:
@@ -21,16 +21,16 @@ def mock_settings(**new_settings: Any) -> Callable:
 
     def decorator(func: Callable) -> Callable:
         def wrapper(*args: Any, **kwargs: Any) -> None:
-            old_settings = {key: getattr(config, key) for key in new_settings}
+            old_settings = {key: getattr(settings, key) for key in new_settings}
             for key, value in new_settings.items():
-                setattr(config, key, value)
+                setattr(settings, key, value)
 
             try:
-                with mock.patch("screenpy.settings.config", config):
+                with mock.patch("screenpy.configuration.settings", settings):
                     func(*args, **kwargs)
             finally:
                 for key, value in old_settings.items():
-                    setattr(config, key, value)
+                    setattr(settings, key, value)
 
         return wrapper
 

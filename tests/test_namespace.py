@@ -27,7 +27,6 @@ def test_screenpy():
         "AttachTheFile",
         "BaseResolution",
         "beat",
-        "config",
         "Confirm",
         "ConfirmAllOf",
         "ConfirmAnyOf",
@@ -118,6 +117,7 @@ def test_screenpy():
         "Sees",
         "SeesAllOf",
         "SeesAnyOf",
+        "settings",
         "Silently",
         "Sleep",
         "Sleeps",
@@ -268,8 +268,8 @@ def test_narration():
 
 def test_stdout_adapter():
     expected = [
-        "config",
         "LoggingAdapter",
+        "settings",
         "StdOutAdapter",
         "StdOutManager",
     ]

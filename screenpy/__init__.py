@@ -22,6 +22,7 @@ SerenityBDD library for Java.
 from . import actions, narration, resolutions
 from .actions import *  # noqa
 from .actor import Actor
+from .configuration import settings
 from .directions import noted, noted_under, the_noted
 from .director import Director
 from .exceptions import (
@@ -52,7 +53,6 @@ from .protocols import (
     Resolvable,
 )
 from .resolutions import *  # noqa
-from .settings import config
 
 # Natural-language-enabling syntactic sugar
 AnActor = Actor
@@ -69,7 +69,6 @@ __all__ = [
     "Answerable",
     "aside",
     "beat",
-    "config",
     "DeliveryError",
     "Describable",
     "Director",
@@ -87,6 +86,7 @@ __all__ = [
     "Resolvable",
     "scene",
     "ScreenPyError",
+    "settings",
     "the_narrator",
     "the_noted",
     "then",

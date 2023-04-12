@@ -6,10 +6,10 @@ import time
 from typing import Dict, Optional
 
 from screenpy.actor import Actor
+from screenpy.configuration import settings
 from screenpy.exceptions import DeliveryError
 from screenpy.pacing import beat, the_narrator
 from screenpy.protocols import Performable
-from screenpy.settings import config
 from screenpy.speech_tools import get_additive_description
 
 
@@ -159,5 +159,5 @@ class Eventually:
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
         self.unique_errors: Dict[Exception, None] = {}
-        self.timeout = config.TIMEOUT
-        self.poll = config.POLLING
+        self.timeout = settings.TIMEOUT
+        self.poll = settings.POLLING
