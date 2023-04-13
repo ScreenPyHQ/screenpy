@@ -6,7 +6,7 @@ at least one of which is expected to be true.
 from typing import Tuple, Type, TypeVar
 
 from screenpy.actor import Actor
-from screenpy.exceptions import DeliveryError, UnableToAct
+from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 
 from .see import T_Q, T_R, See
@@ -52,9 +52,6 @@ class SeeAnyOf:
     @beat("{} sees if {log_message}:")
     def perform_as(self: SelfSeeAnyOf, the_actor: Actor) -> None:
         """Direct the Actor to make a series of observations."""
-        if not self.tests:
-            raise DeliveryError("SeeAnyOf was not given any tests.")
-
         none_passed = True
         for question, resolution in self.tests:
             try:
@@ -67,6 +64,8 @@ class SeeAnyOf:
             raise AssertionError(f"{the_actor} did not find any expected answers!")
 
     def __init__(self: SelfSeeAnyOf, *tests: T_T) -> None:
+        if not tests:
+            raise UnableToAct("SeeAnyOf was not given any tests.")
         for tup in tests:
             if isinstance(tup, tuple):
                 if len(tup) != 2:
@@ -75,9 +74,7 @@ class SeeAnyOf:
                 raise TypeError("Arguments must be tuples")
 
         self.tests = tests
-        if len(self.tests) == 0:
-            self.log_message = "no tests pass 🤔"
-        elif len(self.tests) == 1:
+        if len(self.tests) == 1:
             self.log_message = "1 test passes"
         else:
             self.log_message = f"any of {len(self.tests)} tests pass"

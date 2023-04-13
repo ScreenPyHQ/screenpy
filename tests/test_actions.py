@@ -567,7 +567,7 @@ class TestSeeAllOf:
             ).perform_as(Tester)
 
     def test_raises_for_no_tests(self, Tester) -> None:
-        with pytest.raises(DeliveryError):
+        with pytest.raises(UnableToAct):
             SeeAllOf().perform_as(Tester)
 
     def test_performs_all_tests(self, Tester) -> None:
@@ -601,7 +601,6 @@ class TestSeeAllOf:
             (FakeQuestion(), IsEqualTo(True)),
         )
 
-        assert SeeAllOf().describe() == "See if no tests pass 🤔."
         assert SeeAllOf(test).describe() == "See if 1 test passes."
         assert SeeAllOf(*tests).describe() == f"See if all of {len(tests)} tests pass."
 
@@ -654,7 +653,7 @@ class TestSeeAnyOf:
         assert "did not find any expected answers" in str(actual_exception)
 
     def test_raises_for_no_tests(self, Tester) -> None:
-        with pytest.raises(DeliveryError):
+        with pytest.raises(UnableToAct):
             SeeAnyOf().perform_as(Tester)
 
     def test_performs_all_tests(self, Tester) -> None:
@@ -687,7 +686,6 @@ class TestSeeAnyOf:
             (FakeQuestion(), IsEqualTo(True)),
         )
 
-        assert SeeAnyOf().describe() == "See if no tests pass 🤔."
         assert SeeAnyOf(test).describe() == "See if 1 test passes."
         assert SeeAnyOf(*tests).describe() == f"See if any of {len(tests)} tests pass."
 
