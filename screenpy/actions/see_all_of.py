@@ -6,7 +6,7 @@ all of which are expected to be true.
 from typing import Tuple, Type, TypeVar
 
 from screenpy.actor import Actor
-from screenpy.exceptions import UnableToAct
+from screenpy.exceptions import DeliveryError, UnableToAct
 from screenpy.pacing import beat
 
 from .see import T_Q, T_R, See
@@ -51,8 +51,18 @@ class SeeAllOf:
     @beat("{} sees if {log_message}:")
     def perform_as(self: SelfSeeAllOf, the_actor: Actor) -> None:
         """Direct the Actor to make a series of observations."""
+        if not self.tests:
+            raise DeliveryError("SeeAllOf was not given any tests.")
+
+        all_passed = True
         for question, resolution in self.tests:
-            the_actor.should(See.the(question, resolution))
+            try:
+                the_actor.should(See.the(question, resolution))
+            except AssertionError:
+                all_passed = False
+
+        if not all_passed:
+            raise AssertionError(f"{the_actor} did not find all expected answers!")
 
     def __init__(self: SelfSeeAllOf, *tests: T_T) -> None:
         for tup in tests:

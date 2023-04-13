@@ -6,7 +6,7 @@ at least one of which is expected to be true.
 from typing import Tuple, Type, TypeVar
 
 from screenpy.actor import Actor
-from screenpy.exceptions import UnableToAct
+from screenpy.exceptions import DeliveryError, UnableToAct
 from screenpy.pacing import beat
 
 from .see import T_Q, T_R, See
@@ -52,6 +52,9 @@ class SeeAnyOf:
     @beat("{} sees if {log_message}:")
     def perform_as(self: SelfSeeAnyOf, the_actor: Actor) -> None:
         """Direct the Actor to make a series of observations."""
+        if not self.tests:
+            raise DeliveryError("SeeAnyOf was not given any tests.")
+
         none_passed = True
         for question, resolution in self.tests:
             try:

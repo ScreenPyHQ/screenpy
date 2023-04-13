@@ -566,6 +566,23 @@ class TestSeeAllOf:
                 (FakeQuestion(), IsEqualTo(True)),
             ).perform_as(Tester)
 
+    def test_raises_for_no_tests(self, Tester) -> None:
+        with pytest.raises(DeliveryError):
+            SeeAllOf().perform_as(Tester)
+
+    def test_performs_all_tests(self, Tester) -> None:
+        mock_question = FakeQuestion()
+
+        with pytest.raises(AssertionError):
+            SeeAllOf(
+                (mock_question, IsEqualTo(True)),
+                (mock_question, IsEqualTo(False)),  # <--
+                (mock_question, IsEqualTo(True)),
+                (mock_question, IsEqualTo(True)),
+            ).perform_as(Tester)
+
+        assert mock_question.answered_by.call_count == 4
+
     def test_passes_if_all_pass(self, Tester) -> None:
         # test passes if no exception is raised
         SeeAllOf(
@@ -635,6 +652,22 @@ class TestSeeAnyOf:
             ).perform_as(Tester)
 
         assert "did not find any expected answers" in str(actual_exception)
+
+    def test_raises_for_no_tests(self, Tester) -> None:
+        with pytest.raises(DeliveryError):
+            SeeAnyOf().perform_as(Tester)
+
+    def test_performs_all_tests(self, Tester) -> None:
+        mock_question = FakeQuestion()
+
+        SeeAnyOf(
+            (mock_question, IsEqualTo(True)),
+            (mock_question, IsEqualTo(True)),
+            (mock_question, IsEqualTo(True)),
+            (mock_question, IsEqualTo(True)),
+        ).perform_as(Tester)
+
+        assert mock_question.answered_by.call_count == 4
 
     def test_passes_with_one_pass(self, Tester) -> None:
         # test passes if no exception is raised
