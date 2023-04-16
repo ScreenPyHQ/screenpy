@@ -18,6 +18,7 @@ from screenpy import (
     Director,
     Eventually,
     IsEqualTo,
+    Log,
     MakeNote,
     NotAnswerable,
     NotPerformable,
@@ -307,6 +308,20 @@ class TestEventually:
         assert (
             Eventually(FakeAction()).describe() == "Eventually something indescribable."
         )
+
+
+class TestLog:
+    def test_can_be_instantiated(self) -> None:
+        l1 = Log(FakeQuestion())
+
+        assert isinstance(l1, Log)
+
+    def test_answers_the_question(self, Tester) -> None:
+        mock_question = FakeQuestion()
+
+        Log(mock_question).perform_as(Tester)
+
+        mock_question.answered_by.assert_called_once_with(Tester)
 
 
 class TestMakeNote:

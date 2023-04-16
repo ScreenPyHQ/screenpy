@@ -30,6 +30,12 @@ Eventually
 .. autoclass:: Eventually
     :members:
 
+Log
+---
+
+.. autoclass:: Log
+    :members:
+
 MakeNote
 --------
 
