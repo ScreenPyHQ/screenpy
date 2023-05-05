@@ -30,6 +30,8 @@ jobs:
           build
       - name: Publish distribution to Test PyPI  # always
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
       - name: Publish distribution to PyPI       # only on new tag push
         if: startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@release/v1
