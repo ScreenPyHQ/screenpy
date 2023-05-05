@@ -252,27 +252,3 @@ Unless of course something bad happens inside of ``PerformA`` in which case the 
     AssertionError:
     Expected: <True>
          but: was <False>
-
-
-Configuring Multiple Extensions in Conftest
-===========================================
-
-So your project doesn't have a ``pyproject.toml``
-and you don't want to bother with environment variables.
-Luckily,
-you can configure ScreenPy and its extensions' settings
-directly in a test configuration file!
-
-Here's one readable way to deal with all these ``config`` objects::
-
-    import screenpy
-    import screenpy_some_extension
-    from screenpy.narration import stdout_adapter
-
-    screenpy.config.TIMEOUT = 42
-    stdout_adapter.config.INDENT_CHAR = ">"
-    screenpy_some_extension.config.SOME_SETTING = "spam"
-
-That way,
-it's clear which extension's configuration you're configuring
-without needing to do a lot of ``import X as Y`` shenanigans.
