@@ -40,7 +40,7 @@ Adding Settings for Extensions
 Extensions to ScreenPy
 should follow the conventions set up in :class:`screenpy.configuration.ScreenPySettings`:
 
- * Add a ``tool_path`` that looks like "screenpy.extensionname".
+ * Add a ``_tool_path`` that looks like "screenpy.extensionname".
  * Add a ``Config`` subclass which inherits from ``ScreenPySettings.Config`` and override ``env_prefix``.
 
 For example,
@@ -52,7 +52,7 @@ here is a bare-bones fictional extension settings class::
 
 
     class ScreenPyExampleSettings(BaseSettings):
-        tool_path = "screenpy.example"
+        _tool_path = "screenpy.example"
 
         class Config(ScreenPySettings.Config):
             env_prefix = "SCREENPY_EXAMPLE_"

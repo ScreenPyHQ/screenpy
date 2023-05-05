@@ -14,7 +14,7 @@ class StdOutAdapterSettings(BaseSettings):
         SCREENPY_STDOUTADAPTER_INDENT_CHAR=">"  # sets the indent char to >
     """
 
-    tool_path = "screenpy.stdoutadapter"
+    _tool_path = "screenpy.stdoutadapter"
 
     INDENT_LOGS: bool = True
     """Whether or not to use indentation in logging."""

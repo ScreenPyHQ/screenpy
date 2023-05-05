@@ -87,8 +87,7 @@ def _parse_pyproject_toml(
     with filepath.open("rb") as f:
         pyproject_toml = tomllib.load(f)
     toml_config: Dict[str, Any] = pyproject_toml.get("tool", {})
-    tool_path = settings_class.schema()["properties"].get("tool_path", {})
-    tool_paths = [path for path in tool_path.get("default", "").split(".") if path]
+    tool_paths = settings_class._tool_path.split(".")  # pylint: disable=W0212
     for subtool in tool_paths:
         toml_config = toml_config.get(subtool, {})
     toml_config = {
@@ -118,7 +117,7 @@ class ScreenPySettings(BaseSettings):
         SCREENPY_TIMEOUT=60   # sets the default timeout length to 60 seconds
     """
 
-    tool_path = "screenpy"
+    _tool_path = "screenpy"
 
     TIMEOUT: float = 20
     """
