@@ -1,13 +1,11 @@
 import logging
 import os
-import sys
 import time
 from unittest import mock
 
 import pytest
 from pytest_mock import MockerFixture
 
-from conftest import mock_settings
 from screenpy import (
     Actor,
     Answerable,
@@ -41,6 +39,7 @@ from screenpy.actions.silently import (
     SilentlyPerformable,
     SilentlyResolvable,
 )
+from screenpy.test_utils import mock_settings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
     get_mock_action_class,
