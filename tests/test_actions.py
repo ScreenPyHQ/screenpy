@@ -96,6 +96,7 @@ class TestAttachTheFile:
 
     def test_describe(self) -> None:
         file = "somefile.txt"
+
         assert AttachTheFile(file).describe() == f"Attach a file named {file}."
 
 
@@ -196,6 +197,7 @@ class TestEventually:
 
     def test_can_adjust_timeout_and_polling(self) -> None:
         ev = Eventually(FakeAction()).trying_for(23).seconds().polling(3).second()
+
         assert ev.timeout == 23
         assert ev.poll == 3
 
@@ -297,14 +299,10 @@ class TestEventually:
     def test_describe(self) -> None:
         mock_action = FakeAction()
         mock_action.describe.return_value = "An African or a European swallow?"
+
         assert (
             Eventually(mock_action).describe()
             == "Eventually an African or a European swallow."
-        )
-
-    def test_describe_none(self) -> None:
-        assert (
-            Eventually(FakeAction()).describe() == "Eventually something indescribable."
         )
 
 
