@@ -52,20 +52,18 @@ class SeeAnyOf:
     @beat("{} sees if {log_message}:")
     def perform_as(self: SelfSeeAnyOf, the_actor: Actor) -> None:
         """Direct the Actor to make a series of observations."""
-        none_passed = True
         for question, resolution in self.tests:
             try:
                 the_actor.should(See.the(question, resolution))
-                none_passed = False
+                break
             except AssertionError:
                 pass  # well, not *pass*, but... you get it.
-
-        if none_passed:
-            raise AssertionError(f"{the_actor} did not find any expected answers!")
+        else:
+            # none passed!
+            msg = f"{the_actor} did not find any expected answers!"
+            raise AssertionError(msg)
 
     def __init__(self: SelfSeeAnyOf, *tests: T_T) -> None:
-        if not tests:
-            raise UnableToAct("SeeAnyOf was not given any tests.")
         for tup in tests:
             if isinstance(tup, tuple):
                 if len(tup) != 2:
@@ -74,7 +72,9 @@ class SeeAnyOf:
                 raise TypeError("Arguments must be tuples")
 
         self.tests = tests
-        if len(self.tests) == 1:
+        if len(self.tests) == 0:
+            self.log_message = "no tests pass 🤔"
+        elif len(self.tests) == 1:
             self.log_message = "1 test passes"
         else:
             self.log_message = f"any of {len(self.tests)} tests pass"
