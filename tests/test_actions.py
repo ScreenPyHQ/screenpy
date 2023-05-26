@@ -18,6 +18,7 @@ from screenpy import (
     Director,
     Eventually,
     IsEqualTo,
+    Log,
     MakeNote,
     NotAnswerable,
     NotPerformable,
@@ -307,6 +308,30 @@ class TestEventually:
         assert (
             Eventually(FakeAction()).describe() == "Eventually something indescribable."
         )
+
+
+class TestLog:
+    def test_can_be_instantiated(self) -> None:
+        l1 = Log(FakeQuestion())
+        l2 = Log.the(FakeQuestion())
+
+        assert isinstance(l1, Log)
+        assert isinstance(l2, Log)
+
+    def test_answers_the_question(self, Tester) -> None:
+        mock_question = FakeQuestion()
+
+        Log(mock_question).perform_as(Tester)
+
+        mock_question.answered_by.assert_called_once_with(Tester)
+
+    def test_logs_the_value(self, Tester, caplog) -> None:
+        test_value = "I've come here for an argument."
+        caplog.set_level(logging.INFO)
+
+        Log(test_value).perform_as(Tester)
+
+        assert test_value in caplog.records[1].msg
 
 
 class TestMakeNote:
@@ -758,9 +783,7 @@ class TestSilently:
 
         Tester.will(Action3())
 
-        assert [r.msg for r in caplog.records] == [
-            "Tester tries to Action3"
-        ]
+        assert [r.msg for r in caplog.records] == ["Tester tries to Action3"]
 
 
 class Action1(Performable):

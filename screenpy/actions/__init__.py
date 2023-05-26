@@ -5,6 +5,7 @@ Actions are what the Actors do, possibly requiring use of their Abilities.
 from .attach_the_file import AttachTheFile
 from .debug import Debug
 from .eventually import Eventually
+from .log import Log
 from .make_note import MakeNote
 from .pause import Pause
 from .see import See
@@ -49,6 +50,7 @@ __all__ = [
     "ConfirmsAnyOf",
     "Debug",
     "Eventually",
+    "Log",
     "MakeNote",
     "MakesNote",
     "Observe",
