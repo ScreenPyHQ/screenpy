@@ -87,7 +87,7 @@ def _parse_pyproject_toml(
     with filepath.open("rb") as f:
         pyproject_toml = tomllib.load(f)
     toml_config: Dict[str, Any] = pyproject_toml.get("tool", {})
-    tool_paths = settings_class._tool_path.split(".")  # pylint: disable=W0212
+    tool_paths = getattr(settings_class, "_tool_path", "").split(".")
     for subtool in tool_paths:
         toml_config = toml_config.get(subtool, {})
     toml_config = {
