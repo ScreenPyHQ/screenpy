@@ -542,6 +542,9 @@ class TestSeeAllOf:
         with pytest.raises(UnableToAct):
             SeeAllOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
 
+    def test_passes_with_zero_tests(self, Tester) -> None:
+        SeeAllOf().perform_as(Tester)  # no exception means this test passes
+
     @mock.patch("screenpy.actions.see_all_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
         num_tests = 3
@@ -622,6 +625,9 @@ class TestSeeAnyOf:
 
         with pytest.raises(UnableToAct):
             SeeAnyOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
+
+    def test_passes_with_zero_tests(self, Tester) -> None:
+        SeeAnyOf().perform_as(Tester)  # no exception means this test passes
 
     @mock.patch("screenpy.actions.see_any_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:

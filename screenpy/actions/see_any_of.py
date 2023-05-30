@@ -52,6 +52,10 @@ class SeeAnyOf:
     @beat("{} sees if {log_message}:")
     def perform_as(self: SelfSeeAnyOf, the_actor: Actor) -> None:
         """Direct the Actor to make a series of observations."""
+        if not self.tests:
+            # No tests is OK!
+            return
+
         for question, resolution in self.tests:
             try:
                 the_actor.should(See.the(question, resolution))
