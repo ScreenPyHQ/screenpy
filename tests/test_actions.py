@@ -40,7 +40,6 @@ from screenpy.actions.silently import (
     SilentlyPerformable,
     SilentlyResolvable,
 )
-from screenpy.test_utils import mock_settings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
     get_mock_action_class,
