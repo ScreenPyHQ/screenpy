@@ -52,16 +52,20 @@ class SeeAnyOf:
     @beat("{} sees if {log_message}:")
     def perform_as(self: SelfSeeAnyOf, the_actor: Actor) -> None:
         """Direct the Actor to make a series of observations."""
-        none_passed = True
+        if not self.tests:
+            # No tests is OK!
+            return
+
         for question, resolution in self.tests:
             try:
                 the_actor.should(See.the(question, resolution))
-                none_passed = False
+                break
             except AssertionError:
                 pass  # well, not *pass*, but... you get it.
-
-        if none_passed:
-            raise AssertionError(f"{the_actor} did not find any expected answers!")
+        else:
+            # none passed!
+            msg = f"{the_actor} did not find any expected answers!"
+            raise AssertionError(msg)
 
     def __init__(self: SelfSeeAnyOf, *tests: T_T) -> None:
         for tup in tests:

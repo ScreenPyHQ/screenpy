@@ -1,0 +1,33 @@
+# adapted from https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
+# with changes from https://blog.pypi.org/posts/2023-04-20-introducing-trusted-publishers/
+
+name: Publish to PyPI
+
+on: push
+
+jobs:
+  build-and-pypi-publish:
+    name: Build and upload release to PyPI
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install Poetry
+        run: >-
+          python -m
+          pip install
+          poetry
+          --user
+      - name: Build ScreenPy
+        run: >-
+          python -m
+          poetry
+          build
+      - name: Publish distribution to PyPI       # only on new tag push
+        if: startsWith(github.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@release/v1
