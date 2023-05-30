@@ -1,13 +1,11 @@
 import logging
 import os
-import sys
 import time
 from unittest import mock
 
 import pytest
 from pytest_mock import MockerFixture
 
-from conftest import mock_settings
 from screenpy import (
     Actor,
     Answerable,
@@ -42,6 +40,7 @@ from screenpy.actions.silently import (
     SilentlyPerformable,
     SilentlyResolvable,
 )
+from screenpy.test_utils import mock_settings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
     get_mock_action_class,
@@ -98,6 +97,7 @@ class TestAttachTheFile:
 
     def test_describe(self) -> None:
         file = "somefile.txt"
+
         assert AttachTheFile(file).describe() == f"Attach a file named {file}."
 
 
@@ -198,6 +198,7 @@ class TestEventually:
 
     def test_can_adjust_timeout_and_polling(self) -> None:
         ev = Eventually(FakeAction()).trying_for(23).seconds().polling(3).second()
+
         assert ev.timeout == 23
         assert ev.poll == 3
 
@@ -299,14 +300,10 @@ class TestEventually:
     def test_describe(self) -> None:
         mock_action = FakeAction()
         mock_action.describe.return_value = "An African or a European swallow?"
+
         assert (
             Eventually(mock_action).describe()
             == "Eventually an African or a European swallow."
-        )
-
-    def test_describe_none(self) -> None:
-        assert (
-            Eventually(FakeAction()).describe() == "Eventually something indescribable."
         )
 
 
@@ -548,9 +545,11 @@ class TestSeeAllOf:
     def test_can_be_instantiated(self) -> None:
         sao1 = SeeAllOf(("FakeQuestion()", FakeResolution()))
         sao2 = SeeAllOf.the((FakeQuestion(), FakeResolution()))
+        sao3 = SeeAllOf()
 
         assert isinstance(sao1, SeeAllOf)
         assert isinstance(sao2, SeeAllOf)
+        assert isinstance(sao3, SeeAllOf)
 
     def test_implements_protocol(self) -> None:
         s = SeeAllOf((FakeQuestion(), FakeResolution()))
@@ -568,6 +567,9 @@ class TestSeeAllOf:
         with pytest.raises(UnableToAct):
             SeeAllOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
 
+    def test_passes_with_zero_tests(self, Tester) -> None:
+        SeeAllOf().perform_as(Tester)  # no exception means this test passes
+
     @mock.patch("screenpy.actions.see_all_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
         num_tests = 3
@@ -576,11 +578,8 @@ class TestSeeAllOf:
         SeeAllOf.the(*tests).perform_as(Tester)
 
         assert MockedSee.the.call_count == num_tests
-        # In 3.7 and earlier, you can't get the .args of a method call from
-        # the mocked instance. We can't do the full test there.
-        if sys.version_info >= (3, 8):
-            for num, test in enumerate(tests):
-                assert MockedSee.method_calls[num].args == test
+        for num, test in enumerate(tests):
+            assert MockedSee.method_calls[num].args == test
 
     def test_raises_assertionerror_if_one_fails(self, Tester) -> None:
         with pytest.raises(AssertionError):
@@ -590,6 +589,19 @@ class TestSeeAllOf:
                 (FakeQuestion(), IsEqualTo(True)),
                 (FakeQuestion(), IsEqualTo(True)),
             ).perform_as(Tester)
+
+    def test_stops_at_first_failure(self, Tester) -> None:
+        mock_question = FakeQuestion()
+
+        with pytest.raises(AssertionError):
+            SeeAllOf(
+                (mock_question, IsEqualTo(True)),
+                (mock_question, IsEqualTo(False)),  # <--
+                (mock_question, IsEqualTo(True)),
+                (mock_question, IsEqualTo(True)),
+            ).perform_as(Tester)
+
+        assert mock_question.answered_by.call_count == 2
 
     def test_passes_if_all_pass(self, Tester) -> None:
         # test passes if no exception is raised
@@ -618,9 +630,11 @@ class TestSeeAnyOf:
     def test_can_be_instantiated(self) -> None:
         sao1 = SeeAnyOf((FakeQuestion(), FakeResolution()))
         sao2 = SeeAnyOf.the((FakeQuestion(), FakeResolution()))
+        sao3 = SeeAnyOf()
 
         assert isinstance(sao1, SeeAnyOf)
         assert isinstance(sao2, SeeAnyOf)
+        assert isinstance(sao3, SeeAnyOf)
 
     def test_implements_protocol(self) -> None:
         s = SeeAnyOf((FakeQuestion(), FakeResolution()))
@@ -638,19 +652,21 @@ class TestSeeAnyOf:
         with pytest.raises(UnableToAct):
             SeeAnyOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
 
+    def test_passes_with_zero_tests(self, Tester) -> None:
+        SeeAnyOf().perform_as(Tester)  # no exception means this test passes
+
     @mock.patch("screenpy.actions.see_any_of.See")
     def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
         num_tests = 3
-        tests = ((FakeQuestion(), FakeResolution()),) * num_tests
+        tests = ((FakeQuestion(), IsEqualTo(False)),) * num_tests
+        MockedSee.the.return_value.perform_as.side_effect = AssertionError("Fail!")
 
-        SeeAnyOf.the(*tests).perform_as(Tester)
+        with pytest.raises(AssertionError):
+            SeeAnyOf.the(*tests).perform_as(Tester)
 
         assert MockedSee.the.call_count == num_tests
-        # In 3.7 and earlier, you can't get the .args of a method call from
-        # the mocked instance. We can't do the full test there.
-        if sys.version_info >= (3, 8):
-            for num, test in enumerate(tests):
-                assert MockedSee.method_calls[num].args == test
+        for num, test in enumerate(tests):
+            assert MockedSee.method_calls[num].args == test
 
     def test_raises_assertionerror_if_none_pass(self, Tester) -> None:
         with pytest.raises(AssertionError) as actual_exception:
@@ -660,6 +676,18 @@ class TestSeeAnyOf:
             ).perform_as(Tester)
 
         assert "did not find any expected answers" in str(actual_exception)
+
+    def test_stops_at_first_pass(self, Tester) -> None:
+        mock_question = FakeQuestion()
+
+        SeeAnyOf(
+            (mock_question, IsEqualTo(False)),
+            (mock_question, IsEqualTo(True)),  # <--
+            (mock_question, IsEqualTo(True)),
+            (mock_question, IsEqualTo(True)),
+        ).perform_as(Tester)
+
+        assert mock_question.answered_by.call_count == 2
 
     def test_passes_with_one_pass(self, Tester) -> None:
         # test passes if no exception is raised
