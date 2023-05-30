@@ -86,12 +86,15 @@ def _parse_pyproject_toml(
 
     with filepath.open("rb") as f:
         pyproject_toml = tomllib.load(f)
+    allowed_keys = settings_class.schema()["properties"]
     toml_config: Dict[str, Any] = pyproject_toml.get("tool", {})
     tool_paths = getattr(settings_class, "_tool_path", "").split(".")
     for subtool in tool_paths:
         toml_config = toml_config.get(subtool, {})
     toml_config = {
-        k.replace("--", "").replace("-", "_"): v for k, v in toml_config.items()
+        k.replace("--", "").replace("-", "_"): v
+        for k, v in toml_config.items()
+        if k in allowed_keys
     }
 
     return toml_config

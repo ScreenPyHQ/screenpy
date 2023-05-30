@@ -75,3 +75,19 @@ class TestStdOutAdapterSettings:
     def test_cannot_be_changed_at_runtime(self):
         with pytest.raises(TypeError):
             stdout_adapter_settings.INDENT_CHAR = "?"
+
+
+class TestCombo:
+    def test_can_set_multiple_tools(self):
+        test_data = (
+            b"[tool.screenpy]\nTIMEOUT = 500"
+            b"\n\n[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500"
+        )
+        mock_open = mock.mock_open(read_data=test_data)
+
+        with mock.patch("pathlib.Path.open", mock_open):
+            base_settings = ScreenPySettings()
+            adapter_settings = StdOutAdapterSettings()
+
+        assert base_settings.TIMEOUT == 500
+        assert adapter_settings.INDENT_SIZE == 500
