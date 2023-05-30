@@ -596,6 +596,7 @@ class TestSeeAllOf:
             (FakeQuestion(), IsEqualTo(True)),
         )
 
+        assert SeeAllOf().describe() == "See if no tests pass 🤔."
         assert SeeAllOf(test).describe() == "See if 1 test passes."
         assert SeeAllOf(*tests).describe() == f"See if all of {len(tests)} tests pass."
 
@@ -681,6 +682,7 @@ class TestSeeAnyOf:
             (FakeQuestion(), IsEqualTo(True)),
         )
 
+        assert SeeAnyOf().describe() == "See if no tests pass 🤔."
         assert SeeAnyOf(test).describe() == "See if 1 test passes."
         assert SeeAnyOf(*tests).describe() == f"See if any of {len(tests)} tests pass."
 
