@@ -9,11 +9,11 @@ class Prop:
     """The wrench in the study!"""
 
     def __init__(self, weapon: str, room: str, perpetrator: str) -> None:
-        self.weapon = weapon
+        self.weapon1 = weapon
         self.room = room
         self.perpetrator = perpetrator
 
-    @beat("The {weapon} in the {room}!")
+    @beat("The {weapon1} in the {room}!")
     def use(self):
         pass
 
