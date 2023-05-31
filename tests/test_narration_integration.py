@@ -13,13 +13,14 @@ from screenpy import (
     scene,
     the_narrator,
 )
+from screenpy.narration.stdout_adapter import settings
 
 TEST_ACT = "Three"
 TEST_SCENE = "The Scene Where He Uses It"
 TEST_BEAT = "Don't make me use this!"
 TEST_ASIDE = "You made me use it!!"
 TEST_RETVAL = ">:("
-INDENT = StdOutAdapter().manager.whitespace
+INDENT = settings.INDENT_CHAR * settings.INDENT_SIZE
 
 
 @act(TEST_ACT, gravitas=NORMAL)
