@@ -36,9 +36,12 @@ class TestSettings:
 
         assert settings.TIMEOUT == 9001
 
-    def test_cannot_be_changed_at_runtime(self):
-        with pytest.raises(TypeError):
+    def test_can_be_changed_at_runtime(self):
+        try:
             screenpy_settings.TIMEOUT = 4
+        except TypeError:
+            msg = "ScreenPySettings could not be changed at runtime."
+            raise AssertionError(msg)
 
 
 class TestStdOutAdapterSettings:
@@ -72,9 +75,12 @@ class TestStdOutAdapterSettings:
 
         assert settings.INDENT_SIZE == 9001
 
-    def test_cannot_be_changed_at_runtime(self):
-        with pytest.raises(TypeError):
+    def test_can_be_changed_at_runtime(self):
+        try:
             stdout_adapter_settings.INDENT_CHAR = "?"
+        except TypeError:
+            msg = "StdOutAdapterSettings could not be changed at runtime."
+            raise AssertionError(msg)
 
 
 class TestCombo:

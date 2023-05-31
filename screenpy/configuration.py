@@ -142,7 +142,7 @@ class ScreenPySettings(BaseSettings):
 
     class Config:  # pylint: disable=missing-class-docstring
         env_prefix = "SCREENPY_"
-        allow_mutation = False
+        allow_mutation = True
 
         @classmethod
         def customise_sources(
