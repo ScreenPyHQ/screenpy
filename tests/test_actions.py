@@ -784,9 +784,13 @@ class TestSilently:
 
     def test_passthru_attribute_missing(self) -> None:
         a = FakeAction()
-        q = Silently(a)
-        with pytest.raises(AttributeError):
-            q.not_a_real_attribute_of_silent_performables()
+        silent_a = Silently(a)
+        msg = "SilentlyPerformable(FakeAction) has no attribute 'definitely_not_real'"
+
+        with pytest.raises(AttributeError) as exc:
+            silent_a.definitely_not_real()
+
+        assert str(exc.value) == msg
 
     def test_answerable_answers(self, Tester) -> None:
         question = FakeQuestion()
