@@ -765,7 +765,7 @@ class TestSilently:
             SilentlyAnswerable(None)  # type: ignore
 
         assert str(exc.value) == (
-            "SilentlyAnswerable only works with Answerable. " "Use `Silently` instead."
+            "SilentlyAnswerable only works with Answerable. Use `Silently` instead."
         )
 
     def test_not_resolvable(self) -> None:
@@ -773,7 +773,7 @@ class TestSilently:
             SilentlyResolvable(None)  # type: ignore
 
         assert str(exc.value) == (
-            "SilentlyResolvable only works with Resolvable. " "Use `Silently` instead."
+            "SilentlyResolvable only works with Resolvable. Use `Silently` instead."
         )
 
     def test_passthru_attribute(self) -> None:
