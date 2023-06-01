@@ -1,12 +1,65 @@
 import os
+from pathlib import Path
 from unittest import mock
-
-import pytest
 
 from screenpy import settings as screenpy_settings
 from screenpy.narration.stdout_adapter import settings as stdout_adapter_settings
-from screenpy.configuration import ScreenPySettings
+from screenpy.configuration import (
+    _parse_pyproject_toml,
+    pyproject_settings,
+    ScreenPySettings,
+)
 from screenpy.narration.stdout_adapter.configuration import StdOutAdapterSettings
+
+
+def test__parse_pyproject_toml_file_does_not_exist():
+    MockedPath = mock.MagicMock(spec=Path)
+    MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
+    MockedPath.is_file.return_value = False
+
+    toml_config = _parse_pyproject_toml("screenpy")
+
+    assert toml_config == {}
+
+
+def test__parse_pyproject_toml_file_exists():
+    MockedPath = mock.MagicMock(spec=Path)
+    MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
+    MockedPath.is_file.return_value = True
+    test_data = (
+        b"[tool.screenpy]\nTIMEOUT = 500"
+        b"\n\n[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500"
+    )
+    mock_open = mock.mock_open(read_data=test_data)
+
+    with mock.patch("pathlib.Path.open", mock_open):
+        toml_config = _parse_pyproject_toml("screenpy")
+
+    assert toml_config == {
+        "TIMEOUT": 500,
+        "stdoutadapter": {
+            "INDENT_SIZE": 500
+        }
+    }
+
+
+def test_pyproject_settings():
+    test_config = {
+        "TIMEOUT": 500,
+        "SOMETHING_THAT_DOESNT_EXIST": True,
+        "stdoutadapter": {
+            "INDENT_SIZE": 500
+        }
+    }
+    parse_path = "screenpy.configuration._parse_pyproject_toml"
+    mocked_parse = mock.Mock()
+    mocked_parse.return_value = test_config
+
+    with mock.patch(parse_path, mocked_parse):
+        settings = pyproject_settings(ScreenPySettings)
+
+    mocked_parse.assert_called_once_with(ScreenPySettings._tool_path)
+    assert settings == {"TIMEOUT": 500}
 
 
 class TestSettings:
@@ -39,9 +92,9 @@ class TestSettings:
     def test_can_be_changed_at_runtime(self):
         try:
             screenpy_settings.TIMEOUT = 4
-        except TypeError:
+        except TypeError as exc:
             msg = "ScreenPySettings could not be changed at runtime."
-            raise AssertionError(msg)
+            raise AssertionError(msg) from exc
 
 
 class TestStdOutAdapterSettings:
@@ -78,9 +131,9 @@ class TestStdOutAdapterSettings:
     def test_can_be_changed_at_runtime(self):
         try:
             stdout_adapter_settings.INDENT_CHAR = "?"
-        except TypeError:
+        except TypeError as exc:
             msg = "StdOutAdapterSettings could not be changed at runtime."
-            raise AssertionError(msg)
+            raise AssertionError(msg) from exc
 
 
 class TestCombo:

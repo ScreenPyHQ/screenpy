@@ -298,7 +298,6 @@ class TestEventually:
             "    AssertionError: Failure #4\n"
             "    AssertionError: Failure #5"
         )
-        return
 
     def test_describe(self) -> None:
         mock_action = FakeAction()
@@ -416,7 +415,6 @@ class TestMakeNote:
                 mock.call(f"Caught Exception: {mock_question.caught_exception}"),
             )
         )
-        return
 
 
 class TestPause:

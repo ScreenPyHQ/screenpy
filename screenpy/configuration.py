@@ -3,9 +3,8 @@ Settings that affect ScreenPy's behavior.
 """
 
 import sys
-from functools import lru_cache
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, Optional, Tuple
+from typing import TYPE_CHECKING, Any, Dict, Tuple
 
 from pydantic import BaseSettings
 from pydantic.env_settings import SettingsSourceCallable
@@ -21,93 +20,58 @@ else:
     import tomli as tomllib
 
 
-# The following pyproject.toml functions were taken and adapted from Black:
+# The following pyproject.toml function was taken and adapted from Black:
 # https://github.com/psf/black/blob/main/src/black/files.py
 
 
-@lru_cache()
-def _find_project_root() -> Tuple[Path, str]:
-    """Return a directory containing .git, .hg, or pyproject.toml.
-
-    That directory will be a common parent of all files and directories
-    passed in `srcs`.
-
-    If no directory in the tree contains a marker that would specify it's the
-    project root, the root of the file system is returned.
-
-    Returns a two-tuple with the first element as the project root path and
-    the second element as a string describing the method by which the
-    project root was discovered.
-    """
-    path_srcs = [Path.cwd()]
-
-    # A list of lists of parents for each 'src'. 'src' is included as a
-    # "parent" of itself if it is a directory
-    src_parents = [
-        list(path.parents) + ([path] if path.is_dir() else []) for path in path_srcs
-    ]
-
-    common_base = max(
-        set.intersection(*(set(parents) for parents in src_parents)),
-        key=lambda path: path.parts,
-    )
-
-    for directory in (common_base, *common_base.parents):
-        if (directory / ".git").exists():
-            return directory, ".git directory"
-
-        if (directory / ".hg").is_dir():
-            return directory, ".hg directory"
-
-        if (directory / "pyproject.toml").is_file():
-            return directory, "pyproject.toml"
-
-    return common_base, "file system root"
-
-
-def _find_pyproject_toml() -> Optional[Path]:
-    """Find the absolute filepath to a pyproject.toml if it exists"""
-    path_project_root, _ = _find_project_root()
-    path_pyproject_toml = path_project_root / "pyproject.toml"
-    if path_pyproject_toml.is_file():
-        return path_pyproject_toml
-    return None
-
-
-def _parse_pyproject_toml(
-    filepath: Optional[Path], settings_class: BaseSettings
-) -> Dict[str, Any]:
+def _parse_pyproject_toml(tool_path: str) -> Dict[str, Any]:
     """Parse a pyproject toml file, pulling out relevant parts for ScreenPy.
 
     If parsing fails, will raise a tomllib.TOMLDecodeError.
+
+    Args:
+        tool_path: dotted-path for the tool, like "screenpy.stdoutadapter"
+
+    Returns:
+        Dict[str, Any]: the pyproject.toml settings under the tool_path.
     """
-    if filepath is None:
+    pyproject_path = Path.cwd() / "pyproject.toml"
+    if not pyproject_path.is_file():
         return {}
 
-    with filepath.open("rb") as f:
+    with pyproject_path.open("rb") as f:
         pyproject_toml = tomllib.load(f)
-    allowed_keys = settings_class.schema()["properties"]
     toml_config: Dict[str, Any] = pyproject_toml.get("tool", {})
-    tool_paths = getattr(settings_class, "_tool_path", "").split(".")
-    for subtool in tool_paths:
+    tool_steps = tool_path.split(".")
+    for subtool in tool_steps:
         toml_config = toml_config.get(subtool, {})
-    toml_config = {
-        k.replace("--", "").replace("-", "_"): v
-        for k, v in toml_config.items()
-        if k in allowed_keys
-    }
 
     return toml_config
 
 
 def pyproject_settings(settings_class: BaseSettings) -> Dict[str, Any]:
-    """Retrieve the ``pyproject.toml`` settings for ScreenPy.
+    """Retrieve the ``pyproject.toml`` settings for a ScreenPy settings class.
 
     For more information, see Pydantic's documentation:
     https://docs.pydantic.dev/usage/settings/#adding-sources
+
+    Args:
+        settings_class: the ScreenPy settings class to populate. This class
+            should have a ``_tool_path`` set, which will inform this function
+            of where to find its settings in pyproject.toml.
+
+    Returns:
+        Dict[str, Any]: the pyproject.toml settings for the settings_class.
     """
-    pyproject_path = _find_pyproject_toml()
-    project_settings = _parse_pyproject_toml(pyproject_path, settings_class)
+    tool_path = getattr(settings_class, "_tool_path", "")
+    toml_config = _parse_pyproject_toml(tool_path)
+
+    allowed_keys = settings_class.schema()["properties"]
+    project_settings = {
+        k.replace("--", "").replace("-", "_"): v
+        for k, v in toml_config.items()
+        if k in allowed_keys
+    }
     return project_settings
 
 
