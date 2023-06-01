@@ -904,10 +904,11 @@ class TestSilentlyUnabridged:
             "            => <True>",
         ]
 
-    def test_unabridged_set_inside_silently(self, Tester, caplog) -> None:
-        """
-        Confirm when unabridged flag is set, DEEP INSIDE actions which are
-        wrapped in Silently, that logging will occur normally.
+    def test_gotcha_unabridged_set_inside_block(self, Tester, caplog) -> None:
+        """This is a gotcha case.
+
+        Setting UNABRIDGED_NARRATION to True inside of a block of Silently-performed
+        Actions will cause all of the Actions to be logged.
         """
         caplog.set_level(logging.INFO)
 
@@ -941,3 +942,34 @@ class TestSilentlyUnabridged:
             "                ... hoping it's equal to True.",
             "                    => <True>",
         ]
+
+    def test_gotcha_unabridged_set_and_unset_inside_block(self, Tester, caplog) -> None:
+        """This is a gotcha case.
+
+        Setting UNABRIDGED_NARRATION to True inside of a block of Silently-performed
+        Actions, then back to False again will cause all of the Actions to be logged.
+        """
+        caplog.set_level(logging.INFO)
+
+        class Action4:
+            """It is weird to change the setting inside of an Action.
+
+            The results of this test show the strange behavior.
+            """
+            @beat("{} tries to Action4")
+            def perform_as(self, the_actor: Actor) -> None:
+                settings.UNABRIDGED_NARRATION = True
+                the_actor.attempts_to(Silently(Action1()))
+                settings.UNABRIDGED_NARRATION = False
+
+        try:
+            Tester.will(Silently(Action4()))
+        finally:
+            # Need to do this here just in case.
+            settings.UNABRIDGED_NARRATION = False
+
+        # Changing the setting to True, performing some stuff, then back to
+        # False will essentially be ignored. This is because the Narrator's
+        # kinked microphone will flush the logs back up into the previous
+        # kink, which will then be cleared by the outer Silently.
+        assert [r.msg for r in caplog.records] == []
