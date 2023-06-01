@@ -27,6 +27,7 @@ from screenpy import (
     See,
     SeeAllOf,
     SeeAnyOf,
+    settings,
     Silently,
     UnableToAct,
     UnableToDirect,
@@ -816,9 +817,9 @@ class TestSilently:
         """
         caplog.set_level(logging.INFO)
 
-        Tester.will(Action3())
+        Tester.will(Action1())
 
-        assert [r.msg for r in caplog.records] == ["Tester tries to Action3"]
+        assert [r.msg for r in caplog.records] == ["Tester tries to Action1"]
 
 
 class Action1(Performable):
@@ -829,12 +830,6 @@ class Action1(Performable):
 
 class Action2(Performable):
     @beat("{} tries to Action2")
-    def perform_as(self, actor: Actor) -> None:
-        actor.will(Silently(Action3()))
-
-
-class Action3(Performable):
-    @beat("{} tries to Action3")
     def perform_as(self, actor: Actor) -> None:
         actor.will(Silently(See(SimpleQuestion(), IsEqualTo(True))))
 
@@ -898,13 +893,51 @@ class TestSilentlyUnabridged:
         mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
 
         with mock.patch(self.settings_path, mock_settings):
-            Tester.will(Silently(Action3()))
+            Tester.will(Silently(Action2()))
 
         assert [r.msg for r in caplog.records] == [
-            "Tester tries to Action3",
+            "Tester tries to Action2",
             "    Tester sees if simpleQuestion is equal to True.",
             "        Tester examines SimpleQuestion",
             "            => True",
             "        ... hoping it's equal to True.",
             "            => <True>",
+        ]
+
+    def test_unabridged_set_inside_silently(self, Tester, caplog) -> None:
+        """
+        Confirm when unabridged flag is set, DEEP INSIDE actions which are
+        wrapped in Silently, that logging will occur normally.
+        """
+        caplog.set_level(logging.INFO)
+
+        class Action3:
+            """It is weird to change the setting inside of an Action.
+
+            The results of this test show the strange behavior.
+            """
+            @beat("{} tries to Action3")
+            def perform_as(self, the_actor: Actor) -> None:
+                settings.UNABRIDGED_NARRATION = True
+                the_actor.attempts_to(Silently(Action1()))
+
+        try:
+            Tester.will(Silently(Action3()))
+        finally:
+            # Need to do this here because Action3 set it to True! Weird!
+            settings.UNABRIDGED_NARRATION = False
+
+        # Changing the setting in the middle of a series of Actions will
+        # essentially cause the entire Silently block to be turned off.
+        # Notice how the log for Action3 still occurs even though it was
+        # supposed to be performed silently!
+        assert [r.msg for r in caplog.records] == [
+            "Tester tries to Action3",  # this shouldn't be here!
+            "    Tester tries to Action1",
+            "        Tester tries to Action2",
+            "            Tester sees if simpleQuestion is equal to True.",
+            "                Tester examines SimpleQuestion",
+            "                    => True",
+            "                ... hoping it's equal to True.",
+            "                    => <True>",
         ]
