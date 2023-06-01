@@ -933,7 +933,7 @@ class TestSilentlyUnabridged:
         # Notice how the log for Action3 still occurs even though it was
         # supposed to be performed silently!
         assert [r.msg for r in caplog.records] == [
-            "Tester tries to Action3",  # this shouldn't be here!
+            "Tester tries to Action3",  # you'd think this wouldn't be here!
             "    Tester tries to Action1",
             "        Tester tries to Action2",
             "            Tester sees if simpleQuestion is equal to True.",
