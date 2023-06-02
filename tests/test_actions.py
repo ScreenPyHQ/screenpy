@@ -23,24 +23,24 @@ from screenpy import (
     NotResolvable,
     Pause,
     Performable,
-    Silently,
     Resolvable,
     See,
     SeeAllOf,
     SeeAnyOf,
+    settings,
+    Silently,
     UnableToAct,
     UnableToDirect,
     beat,
     noted_under,
-    settings,
     the_narrator,
 )
+from screenpy.configuration import ScreenPySettings
 from screenpy.actions.silently import (
     SilentlyAnswerable,
     SilentlyPerformable,
     SilentlyResolvable,
 )
-from screenpy.test_utils import mock_settings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
     get_mock_action_class,
@@ -133,6 +133,9 @@ class TestDebug:
 
 
 class TestEventually:
+
+    settings_path = "screenpy.actions.eventually.settings"
+
     def test_can_be_instantiated(self) -> None:
         e1 = Eventually(FakeAction())
         e2 = Eventually(FakeAction()).trying_for_no_longer_than(0).seconds()
@@ -184,15 +187,15 @@ class TestEventually:
 
         assert ev.poll == 1
 
-    @mock_settings(TIMEOUT=100)
     def test_adjusting_settings_timeout(self) -> None:
-        ev = Eventually(FakeAction())
+        with mock.patch(self.settings_path, ScreenPySettings(TIMEOUT=100)):
+            ev = Eventually(FakeAction())
 
         assert ev.timeout == 100
 
-    @mock_settings(POLLING=50)
     def test_adjusting_settings_polling(self) -> None:
-        ev = Eventually(FakeAction())
+        with mock.patch(self.settings_path, ScreenPySettings(POLLING=50)):
+            ev = Eventually(FakeAction())
 
         assert ev.poll == 50
 
@@ -287,15 +290,14 @@ class TestEventually:
             Eventually(DoThingThatFails()).perform_as(Tester)
 
         assert str(actual_exception.value) == (
-            "Tester tried to Eventually do thing that fails 5 times over 20 seconds, but "
-            "got:\n"
+            "Tester tried to Eventually do thing that fails 5 times over 20.0 seconds,"
+            " but got:\n"
             "    AssertionError: Failure #1\n"
             "    AssertionError: Failure #2\n"
             "    AssertionError: Failure #3\n"
             "    AssertionError: Failure #4\n"
             "    AssertionError: Failure #5"
         )
-        return
 
     def test_describe(self) -> None:
         mock_action = FakeAction()
@@ -413,7 +415,6 @@ class TestMakeNote:
                 mock.call(f"Caught Exception: {mock_question.caught_exception}"),
             )
         )
-        return
 
 
 class TestPause:
@@ -753,22 +754,26 @@ class TestSilently:
         with pytest.raises(NotPerformable) as exc:
             SilentlyPerformable(None)  # type: ignore
 
-        assert str(exc.value) == ("SilentlyPerformable only works with Performable. "
-                                  "Use `Silently` instead.")
+        assert str(exc.value) == (
+            "SilentlyPerformable only works with Performable. "
+            "Use `Silently` instead."
+        )
 
     def test_not_answerable(self) -> None:
         with pytest.raises(NotAnswerable) as exc:
             SilentlyAnswerable(None)  # type: ignore
 
-        assert str(exc.value) == ("SilentlyAnswerable only works with Answerable. "
-                                  "Use `Silently` instead.")
+        assert str(exc.value) == (
+            "SilentlyAnswerable only works with Answerable. Use `Silently` instead."
+        )
 
     def test_not_resolvable(self) -> None:
         with pytest.raises(NotResolvable) as exc:
             SilentlyResolvable(None)  # type: ignore
 
-        assert str(exc.value) == ("SilentlyResolvable only works with Resolvable. "
-                                  "Use `Silently` instead.")
+        assert str(exc.value) == (
+            "SilentlyResolvable only works with Resolvable. Use `Silently` instead."
+        )
 
     def test_passthru_attribute(self) -> None:
         a = FakeAction()
@@ -778,10 +783,11 @@ class TestSilently:
 
     def test_passthru_attribute_missing(self) -> None:
         a = FakeAction()
-        q = Silently(a)
-        msg = "SilentlyPerformable(FakeAction) has no attribute 'desribe'"
+        silent_a = Silently(a)
+        msg = "SilentlyPerformable(FakeAction) has no attribute 'definitely_not_real'"
+
         with pytest.raises(AttributeError) as exc:
-            q.desribe()
+            silent_a.definitely_not_real()
 
         assert str(exc.value) == msg
 
@@ -809,9 +815,9 @@ class TestSilently:
         """
         caplog.set_level(logging.INFO)
 
-        Tester.will(Action3())
+        Tester.will(Action1())
 
-        assert [r.msg for r in caplog.records] == ["Tester tries to Action3"]
+        assert [r.msg for r in caplog.records] == ["Tester tries to Action1"]
 
 
 class Action1(Performable):
@@ -823,28 +829,11 @@ class Action1(Performable):
 class Action2(Performable):
     @beat("{} tries to Action2")
     def perform_as(self, actor: Actor) -> None:
-        settings.UNABRIDGED_LOGGING = True
-        actor.will(Silently(See(SimpleQuestion(), IsEqualTo(True))))
-
-
-class Action3(Performable):
-    @beat("{} tries to Action3")
-    def perform_as(self, actor: Actor) -> None:
-        actor.will(Silently(Action4()))
-
-
-class Action4(Performable):
-    @beat("{} tries to Action4")
-    def perform_as(self, actor: Actor) -> None:
         actor.will(Silently(See(SimpleQuestion(), IsEqualTo(True))))
 
 
 class TestSilentlyUnabridged:
-    @pytest.fixture(autouse=True)
-    def setup(self):
-        settings.UNABRIDGED_LOGGING = False
-        yield
-        settings.UNABRIDGED_LOGGING = False
+    settings_path = "screenpy.actions.silently.settings"
 
     def test_kinking(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
@@ -858,64 +847,51 @@ class TestSilentlyUnabridged:
         assert mock_flush.call_count == 1
 
     def test_skip_creation(self) -> None:
-        settings.UNABRIDGED_LOGGING = True
         fake_action = FakeAction()
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
 
-        q = Silently(fake_action)
+        with mock.patch(self.settings_path, mock_settings):
+            q = Silently(fake_action)
 
         assert q is fake_action
 
-    def test_unabridge_from_function(self, Tester: Actor, mocker: MockerFixture) -> None:
-        settings.UNABRIDGED_LOGGING = True
+    def test_unabridge_from_function(
+        self, Tester: Actor, mocker: MockerFixture
+    ) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
 
-        Silently(FakeAction()).perform_as(Tester)
+        with mock.patch(self.settings_path, mock_settings):
+            Silently(FakeAction()).perform_as(Tester)
 
         assert mock_kink.call_count == 0
         assert mock_clear.call_count == 0
         assert mock_flush.call_count == 0
 
     def test_unabridged_from_class(self, Tester: Actor, mocker: MockerFixture) -> None:
-        settings.UNABRIDGED_LOGGING = True
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
 
-        Tester.will(SilentlyPerformable(FakeAction()))
+        with mock.patch(self.settings_path, mock_settings):
+            Tester.will(SilentlyPerformable(FakeAction()))
 
         assert mock_kink.call_count == 1
         assert mock_clear.call_count == 1
         assert mock_flush.call_count == 1
-
-    def test_unabridged_set_inside_silently(self, Tester, caplog) -> None:
-        """
-        Confirm when unabridged flag is set, DEEP INSIDE actions which are
-        wrapped in Silently, that logging will occur normally.
-        """
-        caplog.set_level(logging.INFO)
-
-        Tester.will(Silently(Action1()))
-
-        assert [r.msg for r in caplog.records] == [
-            "Tester tries to Action1",
-            "    Tester tries to Action2",
-            "        Tester sees if simpleQuestion is equal to True.",
-            "            Tester examines SimpleQuestion",
-            "                => True",
-            "            ... hoping it's equal to True.",
-            "                => <True>",
-        ]
 
     def test_unabridged_set_outside_silently(self, Tester, caplog) -> None:
         """
         Confirm when unabridged flag is set, logging will occur normally.
         """
         caplog.set_level(logging.INFO)
-        settings.UNABRIDGED_LOGGING = True
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
 
-        Tester.will(Silently(Action2()))
+        with mock.patch(self.settings_path, mock_settings):
+            Tester.will(Silently(Action2()))
 
         assert [r.msg for r in caplog.records] == [
             "Tester tries to Action2",
@@ -923,6 +899,75 @@ class TestSilentlyUnabridged:
             "        Tester examines SimpleQuestion",
             "            => True",
             "        ... hoping it's equal to True.",
-            "            => <True>"
+            "            => <True>",
         ]
 
+    def test_gotcha_unabridged_set_inside_block(self, Tester, caplog) -> None:
+        """This is a gotcha case.
+
+        Setting UNABRIDGED_NARRATION to True inside of a block of Silently-performed
+        Actions will cause all of the Actions to be logged.
+        """
+        caplog.set_level(logging.INFO)
+
+        class Action3:
+            """It is weird to change the setting inside of an Action.
+
+            The results of this test show the strange behavior.
+            """
+            @beat("{} tries to Action3")
+            def perform_as(self, the_actor: Actor) -> None:
+                settings.UNABRIDGED_NARRATION = True
+                the_actor.attempts_to(Silently(Action1()))
+
+        try:
+            Tester.will(Silently(Action3()))
+        finally:
+            # Need to do this here because Action3 set it to True! Weird!
+            settings.UNABRIDGED_NARRATION = False
+
+        # Changing the setting in the middle of a series of Actions will
+        # essentially cause the entire Silently block to be turned off.
+        # Notice how the log for Action3 still occurs even though it was
+        # supposed to be performed silently!
+        assert [r.msg for r in caplog.records] == [
+            "Tester tries to Action3",  # you'd think this wouldn't be here!
+            "    Tester tries to Action1",
+            "        Tester tries to Action2",
+            "            Tester sees if simpleQuestion is equal to True.",
+            "                Tester examines SimpleQuestion",
+            "                    => True",
+            "                ... hoping it's equal to True.",
+            "                    => <True>",
+        ]
+
+    def test_gotcha_unabridged_set_and_unset_inside_block(self, Tester, caplog) -> None:
+        """This is a gotcha case.
+
+        Setting UNABRIDGED_NARRATION to True inside of a block of Silently-performed
+        Actions, then back to False again will cause all of the Actions to be logged.
+        """
+        caplog.set_level(logging.INFO)
+
+        class Action4:
+            """It is weird to change the setting inside of an Action.
+
+            The results of this test show the strange behavior.
+            """
+            @beat("{} tries to Action4")
+            def perform_as(self, the_actor: Actor) -> None:
+                settings.UNABRIDGED_NARRATION = True
+                the_actor.attempts_to(Silently(Action1()))
+                settings.UNABRIDGED_NARRATION = False
+
+        try:
+            Tester.will(Silently(Action4()))
+        finally:
+            # Need to do this here just in case.
+            settings.UNABRIDGED_NARRATION = False
+
+        # Changing the setting to True, performing some stuff, then back to
+        # False will essentially be ignored. This is because the Narrator's
+        # kinked microphone will flush the logs back up into the previous
+        # kink, which will then be cleared by the outer Silently.
+        assert [r.msg for r in caplog.records] == []

@@ -9,7 +9,6 @@ from screenpy.protocols import Adapter
 
 def prop():
     """The revolver in the foyer!"""
-    pass
 
 
 class TestStdOutManager:
@@ -150,22 +149,22 @@ class TestStdOutAdapter:
         assert test_filepath in caplog.records[0].message
 
     @pytest.mark.parametrize(
-        "gravitas,level",
+        "gravity,level",
         [
             (gravitas.AIRY, logging.DEBUG),
             (gravitas.LIGHT, logging.INFO),
             (gravitas.NORMAL, logging.WARNING),
             (gravitas.HEAVY, logging.CRITICAL),
             (gravitas.EXTREME, logging.ERROR),
-        ]
+        ],
     )
-    def test_gravitas(self, gravitas, level, caplog) -> None:
+    def test_gravitas(self, gravity, level, caplog) -> None:
         adapter = StdOutAdapter()
         line = "testing!"
-        act = adapter.act(prop, line, gravitas)
-        scene = adapter.scene(prop, line, gravitas)
-        beat = adapter.beat(prop, line, gravitas)
-        aside = adapter.aside(prop, line, gravitas)
+        act = adapter.act(prop, line, gravity)
+        scene = adapter.scene(prop, line, gravity)
+        beat = adapter.beat(prop, line, gravity)
+        aside = adapter.aside(prop, line, gravity)
 
         with caplog.at_level(level):
             for test_func in [act, scene, beat, aside]:

@@ -33,7 +33,6 @@ from screenpy.resolutions.base_resolution import BaseMatcher
 
 class TestBaseResolution:
     def test_subclasses_deprecated(self):
-
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
 

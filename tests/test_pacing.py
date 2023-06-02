@@ -9,11 +9,11 @@ class Prop:
     """The wrench in the study!"""
 
     def __init__(self, weapon: str, room: str, perpetrator: str) -> None:
-        self.weapon = weapon
+        self.weapon1 = weapon
         self.room = room
         self.perpetrator = perpetrator
 
-    @beat("The {weapon} in the {room}!")
+    @beat("The {weapon1} in the {room}!")
     def use(self):
         pass
 
@@ -47,9 +47,9 @@ class TestBeat:
         """(This also tests that the narrator's method was called.)"""
         test_weapon = "rope"
         test_room = "ballroom"
-        prop = Prop(test_weapon, test_room, "")
+        test_prop = Prop(test_weapon, test_room, "")
 
-        prop.use()
+        test_prop.use()
 
         mocked_narrator.stating_a_beat.assert_called_once()
         completed_line = mocked_narrator.stating_a_beat.call_args_list[0][0][1]

@@ -7,9 +7,8 @@ from contextlib import contextmanager
 from functools import wraps
 from typing import Any, Callable, Generator, List, Optional
 
-from screenpy import settings
-
 from ..gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
+from .configuration import settings
 
 # pylint: disable=unused-argument
 
@@ -20,8 +19,6 @@ class StdOutManager:
     def __init__(self, logger: Optional[logging.Logger] = None) -> None:
         self.logger = logger or logging.getLogger("screenpy")
         self.depth: List[str] = []
-        self.whitespace = settings.INDENT_SIZE * settings.INDENT_CHAR
-        self.enabled = settings.INDENT_LOGS
 
     @contextmanager
     def _indent(self) -> Generator:
@@ -40,7 +37,8 @@ class StdOutManager:
 
     def log(self, line: str, level: int = logging.INFO) -> None:
         """Log a line!"""
-        indent = len(self.depth) * self.whitespace if self.enabled else ""
+        whitespace = settings.INDENT_SIZE * settings.INDENT_CHAR
+        indent = len(self.depth) * whitespace if settings.INDENT_LOGS else ""
         self.logger.log(level, f"{indent}{line}")
 
     @contextmanager

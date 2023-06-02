@@ -10,6 +10,7 @@ def get_mock_action_class() -> Any:
             rt = mock.create_autospec(FakeAction, instance=True)
             rt.describe.return_value = None
             return rt
+
     return FakeAction
 
 
@@ -20,6 +21,7 @@ def get_mock_question_class() -> Any:
             rt.describe.return_value = None
             rt.answered_by.return_value = True
             return rt
+
     return FakeQuestion
 
 
@@ -30,6 +32,7 @@ def get_mock_resolution_class() -> Any:
             rt.resolve.return_value = rt
             rt.describe.return_value = None
             return rt
+
     return FakeResolution
 
 
@@ -54,7 +57,9 @@ def get_mock_ability_class() -> Any:
         b = B()
         a != b
     """
+
     class FakeAbility(Ability):
         def __new__(cls, *args, **kwargs):
             return mock.create_autospec(FakeAbility, *args, **kwargs)
+
     return FakeAbility

@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 from screenpy.__version__ import __version__, __author__, __copyright__  # noqa: need the path first
 
-autodoc_mock_imports = ["hamcrest"]
+autodoc_mock_imports = ["hamcrest", "pydantic"]
 
 # -- Project information -----------------------------------------------------
 
@@ -47,6 +47,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.intersphinx",
+    "sphinxcontrib.autodoc_pydantic",
     "autodoc_skip_protocols",
 ]
 
@@ -195,3 +196,11 @@ epub_exclude_files = ["search.html"]
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
 }
+
+# -- Options for Autodoc Pydantic extension ----------------------------------
+
+# Don't show the JSON schema for BaseSettings extensions
+autodoc_pydantic_settings_show_json = False
+autodoc_pydantic_settings_show_config_member = False
+autodoc_pydantic_settings_show_config_summary = False
+autodoc_pydantic_settings_member_order = "bysource"

@@ -196,9 +196,9 @@ Using Silently
 
     "Talk less. Smile more." -- Aaron Burr in Hamilton
 
-Sometimes you only need logging when things go wrong.  
-:function:`~screenpy.action.silently.Silently` gives you the capability
-to only log the important things when things go right. 
+Sometimes you only need logging when things go wrong.
+:func:`~screenpy.actions.Silently` gives you the capability
+to only log the important things when things go right.
 Everything inside of ``Silently`` is prevented from logging.
 
 Example: The following Action::
@@ -207,7 +207,7 @@ Example: The following Action::
         @beat("{} tries to PerformChatty")
         def perform_as(self, actor: Actor):
             actor.will(PerformA())
-    
+
     # used inside a test
     def test_1(marcel):
         marcel.will(PerformChatty())
@@ -248,8 +248,7 @@ Unless of course something bad happens inside of ``PerformA`` in which case the 
                         ... hoping it's equal to False.
                             => <False>
                         ***ERROR***
-    
-    AssertionError: 
+
+    AssertionError:
     Expected: <True>
          but: was <False>
-

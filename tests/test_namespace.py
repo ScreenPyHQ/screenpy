@@ -118,6 +118,7 @@ def test_screenpy():
         "Sees",
         "SeesAllOf",
         "SeesAnyOf",
+        "settings",
         "Silently",
         "Sleep",
         "Sleeps",
@@ -267,10 +268,11 @@ def test_narration():
     assert sorted(screenpy.narration.__all__) == sorted(expected)
 
 
-def test_adapters():
+def test_stdout_adapter():
     expected = [
         "LoggingAdapter",
+        "settings",
         "StdOutAdapter",
         "StdOutManager",
     ]
-    assert sorted(screenpy.narration.adapters.__all__) == sorted(expected)
+    assert sorted(screenpy.narration.stdout_adapter.__all__) == sorted(expected)

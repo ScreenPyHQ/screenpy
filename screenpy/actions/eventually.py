@@ -5,8 +5,8 @@ Eventually perform a Task or Action, trying until a set timeout.
 import time
 from typing import Dict, Optional
 
-from screenpy import settings
 from screenpy.actor import Actor
+from screenpy.configuration import settings
 from screenpy.exceptions import DeliveryError
 from screenpy.pacing import beat, the_narrator
 from screenpy.protocols import Performable

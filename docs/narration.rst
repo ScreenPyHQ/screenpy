@@ -109,8 +109,7 @@ To include Adapters
 on the Narrator's microphone,
 do this::
 
-    from screenpy.narration.adapters.stdout_adapter import StdOutAdapter
-    from screenpy.pacing import the_narrator
+    from screenpy import StdOutAdapter, the_narrator
 
     the_narrator.attach_adapter(StdOutAdapter())
 

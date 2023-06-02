@@ -6,7 +6,7 @@ from screenpy.protocols import (
     ErrorKeeper,
     Forgettable,
     Performable,
-    Resolvable
+    Resolvable,
 )
 
 

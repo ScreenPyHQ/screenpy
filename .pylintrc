@@ -1,4 +1,5 @@
 [MASTER]
+extension-pkg-whitelist=pydantic
 ignore-paths=^.*/tests/.*$
 disable=
     arguments-renamed,

@@ -3,22 +3,76 @@ Settings
 ========
 
 To configure ScreenPy,
-there are some settings available.
+we provide some settings
+through `Pydantic's settings management <https://docs.pydantic.dev/usage/settings/>`__.
 
-Currently the only way to change these settings
-is to import the module
-and edit the values.
-If anyone knows how to tie in to things like
-pyproject.toml,
-tox.ini,
-etc.—please,
-feel free to contribute!
+Settings can be configured through two ways:
 
-Here is an example
-which will turn Action logging off::
+  * Using environment variables.
+  * In the ``[tool.screenpy]`` section in your ``pyproject.toml``.
 
-    # in your suite setup file, like conftest.py
-    from screenpy import settings
+The above options are in order of precedence;
+that is,
+any environment variables will override any ``pyproject.toml`` settings
+and any ``pyproject.toml`` settings will override the defaults.
 
-    settings.LOG_ACTIONS = False
+To demonstrate,
+here is how we can change the default timeout value
+used by things like :class:`screenpy.actions.Eventually`:
+.. code-block:: bash
 
+    $ # environment variables in your shell
+    $ SCREENPY_TIMEOUT=60 pytest
+
+.. code-block:: toml
+
+    # in your pyproject.toml file
+    [tool.screenpy]
+    TIMEOUT = 60
+
+The environment variable approach
+works particularly well with `python-dotenv <https://pypi.org/project/python-dotenv/>`__!
+
+
+Adding Settings for Extensions
+------------------------------
+
+Extensions to ScreenPy
+should follow the conventions set up in :class:`screenpy.configuration.ScreenPySettings`:
+
+ * Add a ``_tool_path`` that looks like "screenpy.extensionname".
+ * Add a ``Config`` subclass which inherits from ``ScreenPySettings.Config`` and override ``env_prefix``.
+
+For example,
+here is a bare-bones fictional extension settings class::
+
+    from pydantic import BaseSettings
+
+    from screenpy.configuration import ScreenPySettings
+
+
+    class ScreenPyExampleSettings(BaseSettings):
+        _tool_path = "screenpy.example"
+
+        class Config(ScreenPySettings.Config):
+            env_prefix = "SCREENPY_EXAMPLE_"
+
+You can also look at the
+`StdOutAdapterSettings class <https://github.com/ScreenPyHQ/screenpy/tree/trunk/screenpy/narration/stdout_adapter/configuration.py>`__
+to see a concrete example.
+
+
+Default Settings
+----------------
+
+These are the default settings included in ScreenPy.
+
+ScreenPy Default Settings
++++++++++++++++++++++++++
+
+.. autopydantic_settings:: screenpy.configuration.ScreenPySettings
+
+StdOutAdapter Default Settings
+++++++++++++++++++++++++++++++
+
+.. autopydantic_settings:: screenpy.narration.stdout_adapter.configuration.StdOutAdapterSettings

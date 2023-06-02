@@ -222,7 +222,6 @@ class TestNarrator:
         narrator = Narrator()
 
         with narrator._dummy_entangle(lambda: narrator.exit_level) as func:
-
             assert func() == 2
         assert narrator.exit_level == 1
 
