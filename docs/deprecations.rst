@@ -11,6 +11,9 @@ to keep them up to date.
 4.2.0 Deprecations
 ==================
 
+BaseResolution Deprecation
+--------------------------
+
 :class:`~screenpy.resolutions.base_resolution.BaseResolution` is now deprecated.
 
 For a long time,
@@ -45,6 +48,7 @@ Before::
 
     class IsEqualTo(BaseResolution):
         """Match on an equal object.
+
         Examples::
             the_actor.should(
                 See.the(Number.of(ADVERTISEMENT_BANNERS), IsEqualTo(0))
@@ -90,6 +94,19 @@ After::
         def __init__(self, obj: Any) -> None:
             self.expected = obj
 
+Actor.has_cleanup_tasks Removed
+-------------------------------
+
+This method was deprecated in 4.0.1,
+and is removed as of 4.2.0.
+(Sorry for not mentioning it here yet!)
+
+If you used this method,
+you can use :meth:`~screenpy.actor.Actor.has_ordered_cleanup_tasks` instead
+as a drop-in replacement,
+or :meth:`~screenpy.actor.Actor.has_independent_cleanup_tasks`
+if the tasks can be executed
+without ensuring they are successful.
 
 4.0.0 Breaking Changes
 ======================

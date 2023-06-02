@@ -123,7 +123,7 @@ to drop a debugger
 in a series of Actions.
 
 You will need to go up a few frames
-to get to the Actor's :meth:`~screenpy.Actor.attempts_to` method.
+to get to the Actor's :meth:`~screenpy.actor.Actor.attempts_to` method.
 From there, you will be able to
 step through each Action one at a time.
 
@@ -162,14 +162,14 @@ Cleaning Up
 ===========
 
 Sometimes,
-your Actors may need
-one or more of their Abilities
+your Actors may need one or more of their Abilities
 to do some cleanup.
 You can assign cleanup tasks to your Actor
-using their :meth:`~screenpy.actor.Actor.has_cleanup_tasks` method::
+using their :meth:`~screenpy.actor.Actor.has_ordered_cleanup_tasks`
+or :meth:`~screenpy.actor.Actor.has_independent_cleanup_tasks` method::
 
     Perry = AnActor.named("Perry").who_can(BrowseTheWeb.using_firefox())
-    Perry.has_cleanup_task(CompleteAllTodoItems())
+    Perry.has_ordered_cleanup_tasks(CompleteAllTodoItems())
 
     # ... test code here
 
@@ -180,14 +180,11 @@ These tasks can be assigned at any point
 before the Actor exits.
 Some opportune moments are
 when the Actor is created,
-or during a test
-or task
-which creates things
-that need to be cleaned up.
+or during a test or task
+which creates things that need to be cleaned up.
 
 Once the cleanup tasks are performed,
-they are removed
-from the Actor's cleanup list.
+they are removed from the Actor's cleanup list.
 They will only be performed once.
 
 

@@ -4,7 +4,6 @@ about the state of the application, and assert Resolutions, all in the
 service of perfoming their roles.
 """
 
-import warnings
 from random import choice
 from typing import List, Type, TypeVar
 
@@ -70,16 +69,6 @@ class Actor:
     def can(self: SelfActor, *abilities: T_Ability) -> SelfActor:
         """Alias for :meth:`~screenpy.actor.Actor.who_can`."""
         return self.who_can(*abilities)
-
-    def has_cleanup_tasks(self: SelfActor, *tasks: Performable) -> SelfActor:
-        """Assign one or more tasks to the Actor to perform when exiting."""
-        warnings.warn(
-            "This method is deprecated and will be removed in ScreenPy 4.2.0."
-            " Please use either `has_ordered_cleanup_tasks`"
-            " or `has_independent_cleanup_tasks` instead.",
-            DeprecationWarning,
-        )
-        return self.has_ordered_cleanup_tasks(*tasks)
 
     def has_ordered_cleanup_tasks(self: SelfActor, *tasks: Performable) -> SelfActor:
         """Assign one or more tasks for the Actor to perform when exiting.
