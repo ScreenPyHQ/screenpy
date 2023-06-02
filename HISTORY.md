@@ -1,6 +1,33 @@
 Release History
 ===============
 
+4.2.0 (2023-06-01)
+------------------
+
+### Deprecations
+
+- `BaseResolution` is now deprecated in favor of the new `Resolvable` protocol. No longer are Resolutions the odd-duck of ScreenPy, now they behave the same as Actions (`Performable`) and Questions (`Answerable`)! See the [deprecations page entry](https://screenpy-docs.readthedocs.io/en/latest/deprecations.html#id1) for more information.
+- As foretold, the `has_cleanup_tasks` method of `Actor` has been removed. Er, what do you mean i forgot to mention it last year when it was deprecated?? Well hopefully you saw the warning! 😬
+
+### New Features
+
+- Actors are now callable, and-
+- There are now present-tense aliases for all Actions, so you can do `the_actor(Sees(This(), IsCool()))`! Well except that `This` is not a Question and `IsCool` is not a Resolution... unless you make them!
+- Added `Silently` "Action" (more of an Adverb, really). This wrapper silences all narration for the -ables contained within. No Actions, Questions, or Resolutions will be narrated inside of `Silently`!
+- Added `Log` Action to log the answer to a Question real quick. Could be useful during debugging.
+
+### Improvements
+
+- Almost everything you could want from ScreenPy is now available from the top-level. Now instead of doing `from screenpy.actions import ...`, `from screenpy.resolutions import...`, you can just do it all using `from screenpy import ...` in one block! You can still do the old way if you want, but now you can do it this way, too!
+- `SeeAnyOf` and `SeeAllOf` now behave consistently with each other and consistently with how one might expect `and` and `or` to behave. They both accept 0 tests (and pass), they both allow 1 test, and they both short-circuit their testing. They also handle narrating plurals better!
+- Settings now use Pydantic, and are much, MUCH better! You can set settings for ScreenPy through environment variables, through pyproject.toml, or in a conftest.py file. Checkout the updated [Settings documentation](https://screenpy-docs.readthedocs.io/en/latest/settings.html) for details!
+
+### Bug Fixes
+
+- `Eventually` now preserves the *order* of the errors it encounters, which will make debugging much easier.
+- `Eventually` now correctly sets both poll rate and timeout in the same call, if you want to do that sort of thing.
+-
+
 4.1.2 (2023-02-03)
 ------------------
 
