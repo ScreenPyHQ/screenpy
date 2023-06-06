@@ -1,6 +1,14 @@
 Release History
 ===============
 
+4.2.1 (2023-06-06)
+------------------
+
+### Bug Fixes
+
+- `ContainsTheEntry` was still inheriting from `BaseResolution`, even after the deprecation (thanks for the issue, @jardilac91!). No longer!
+
+
 4.2.0 (2023-06-01)
 ------------------
 
