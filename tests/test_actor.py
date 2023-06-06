@@ -1,4 +1,3 @@
-import warnings
 from typing import Any
 
 import pytest
@@ -88,17 +87,6 @@ def test_performs_cleanup_tasks_when_exiting() -> None:
     mocked_independent_task.perform_as.assert_called_once_with(actor)
     assert len(actor.ordered_cleanup_tasks) == 0
     assert len(actor.independent_cleanup_tasks) == 0
-
-
-def test_assert_has_cleanup_tasks_is_deprecated() -> None:
-    actor = Actor.named("Tester")
-
-    with warnings.catch_warnings(record=True) as w:
-        actor.has_cleanup_tasks(FakeAction())
-
-    assert issubclass(w[-1].category, DeprecationWarning)
-    assert "has_ordered_cleanup_tasks" in str(w[-1])
-    assert "has_independent_cleanup_tasks" in str(w[-1])
 
 
 def test_clears_cleanup_tasks() -> None:
