@@ -29,6 +29,7 @@ from screenpy import (
     StartsWith,
 )
 from screenpy.resolutions.base_resolution import BaseMatcher
+from screenpy.speech_tools import get_additive_description
 
 
 class TestBaseResolution:
@@ -126,6 +127,16 @@ class TestContainsItemMatching:
         assert cim.matches(["Spam", "Eggs", "Spam and eggs"])
         assert not cim.matches(["Porridge"])
 
+    def test_description(self) -> None:
+        test_pattern = r".*"
+
+        cim = ContainsItemMatching(test_pattern)
+
+        expected_description = (
+            f'A sequence with an item matching the pattern r"{test_pattern}".'
+        )
+        assert cim.describe() == expected_description
+
 
 class TestContainsTheEntry:
     def test_can_be_instantiated(self) -> None:
@@ -153,6 +164,21 @@ class TestContainsTheEntry:
         )
         assert not cte_multiple.matches({"key1": "value1"})
 
+    def test_description(self) -> None:
+        test_entry = {"spam": "eggs"}
+        test_entries = {"tree": "larch", "spam": "eggs"}
+
+        cte_single = ContainsTheEntry(**test_entry)
+        cte_mutiple = ContainsTheEntry(**test_entries)
+
+        expected_description_single = "A mapping with the entry spam->eggs."
+        expected_description_multiple = (
+            "A mapping with the entries"
+            f" {', '.join(f'{k}->{v}' for k, v in test_entries.items())}."
+        )
+        assert cte_single.describe() == expected_description_single
+        assert cte_mutiple.describe() == expected_description_multiple
+
 
 class TestContainsTheItem:
     def test_can_be_instantiated(self) -> None:
@@ -166,6 +192,14 @@ class TestContainsTheItem:
 
         assert cti.matches(range(0, 10))
         assert not cti.matches({0, 3, 5})
+
+    def test_description(self) -> None:
+        test_item = 1
+
+        cti = ContainsTheItem(test_item)
+
+        expected_description = f'A sequence containing "{test_item}".'
+        assert cti.describe() == expected_description
 
 
 class TestContainsTheKey:
@@ -182,6 +216,14 @@ class TestContainsTheKey:
         assert ctk.matches({"key": "value", "play": "Hamlet"})
         assert not ctk.matches({"play": "Hamlet"})
 
+    def test_description(self) -> None:
+        test_key = "spam"
+
+        ctk = ContainsTheKey(test_key)
+
+        expected_description = f'Containing the key "{test_key}".'
+        assert ctk.describe() == expected_description
+
 
 class TestContainsTheText:
     def test_can_be_instantiated(self) -> None:
@@ -195,6 +237,14 @@ class TestContainsTheText:
 
         assert ctt.matches("hello world!")
         assert not ctt.matches("goodbye universe.")
+
+    def test_description(self) -> None:
+        test_text = "Wenn ist das Nunstück git und Slotermeyer?"
+
+        ctt = ContainsTheText(test_text)
+
+        expected_description = f'Containing the text "{test_text}".'
+        assert ctt.describe() == expected_description
 
 
 class TestContainsTheValue:
@@ -211,6 +261,14 @@ class TestContainsTheValue:
         assert ctv.matches({"key": "value", "play": "Hamlet"})
         assert not ctv.matches({"play": "Hamlet"})
 
+    def test_description(self) -> None:
+        test_value = 42
+
+        ctv = ContainsTheValue(test_value)
+
+        expected_description = f'Containing the value "{test_value}".'
+        assert ctv.describe() == expected_description
+
 
 class TestEmpty:
     def test_can_be_instantiated(self) -> None:
@@ -225,6 +283,11 @@ class TestEmpty:
         assert e.matches([])
         assert not e.matches(["not", "empty"])
 
+    def test_description(self) -> None:
+        e = IsEmpty()
+
+        assert e.describe() == "An empty collection."
+
 
 class TestEndsWith:
     def test_can_be_instantiated(self) -> None:
@@ -237,6 +300,14 @@ class TestEndsWith:
 
         assert ew.matches("Bereft of life!")
         assert not ew.matches("He has ceased to be!")
+
+    def test_description(self) -> None:
+        test_postfix = "got better."
+
+        ew = EndsWith(test_postfix)
+
+        expected_description = f'Ending with "{test_postfix}".'
+        assert ew.describe() == expected_description
 
 
 class TestHasLength:
@@ -251,6 +322,17 @@ class TestHasLength:
 
         assert hl.matches([1, 2, 3, 4, 5])
         assert not hl.matches([1])
+
+    def test_description(self) -> None:
+        test_length = 5
+
+        hl1 = HasLength(1)
+        hl5 = HasLength(test_length)
+
+        expected_description1 = "1 item long."
+        expected_description5 = f"{test_length} items long."
+        assert hl1.describe() == expected_description1
+        assert hl5.describe() == expected_description5
 
 
 class TestIsCloseTo:
@@ -267,6 +349,15 @@ class TestIsCloseTo:
         assert not ict.matches(5)
         assert not ict.matches(-5)
 
+    def test_description(self) -> None:
+        test_delta = 42
+        test_num = 1337
+
+        ict = IsCloseTo(test_num, delta=test_delta)
+
+        expected_description = f"At most {test_delta} away from {test_num}."
+        assert ict.describe() == expected_description
+
 
 class TestIsEqualTo:
     def test_can_be_instantiated(self) -> None:
@@ -280,6 +371,14 @@ class TestIsEqualTo:
 
         assert ie.matches(1)
         assert not ie.matches(2)
+
+    def test_description(self) -> None:
+        test_object = "my Schwartz"
+
+        ie = IsEqualTo(test_object)
+
+        expected_description = f"Equal to {test_object}."
+        assert ie.describe() == expected_description
 
 
 class TestIsGreaterThan:
@@ -296,6 +395,14 @@ class TestIsGreaterThan:
         assert not igt.matches(test_num)
         assert not igt.matches(test_num - 1)
 
+    def test_description(self) -> None:
+        test_num = 41
+
+        igt = IsGreaterThan(test_num)
+
+        expected_description = f"Greater than {test_num}."
+        assert igt.describe() == expected_description
+
 
 class TestIsGreaterThanOrEqualTo:
     def test_can_be_instantiated(self) -> None:
@@ -310,6 +417,14 @@ class TestIsGreaterThanOrEqualTo:
         assert igtoet.matches(test_num + 1)
         assert igtoet.matches(test_num)
         assert not igtoet.matches(test_num - 1)
+
+    def test_description(self) -> None:
+        test_num = 1337
+
+        igtoet = IsGreaterThanOrEqualTo(test_num)
+
+        expected_description = f"Greater than or equal to {test_num}."
+        assert igtoet.describe() == expected_description
 
 
 class TestIsInRange:
@@ -349,6 +464,19 @@ class TestIsInRange:
         assert not iir3.matches(test_majorant + 1)
         assert not iir4.matches(test_majorant + 1)
 
+    def test_description(self) -> None:
+        test_minorant = 42
+        test_majorant = 1337
+        test_bounding_string = "(100, 300)"
+
+        iir_nums = IsInRange(test_minorant, test_majorant)
+        iir_str = IsInRange(test_bounding_string)
+
+        expected_description_nums = f"In the range [{test_minorant}, {test_majorant}]."
+        expected_description_str = f"In the range {test_bounding_string}."
+        assert iir_nums.describe() == expected_description_nums
+        assert iir_str.describe() == expected_description_str
+
 
 class TestIsLessThan:
     def test_can_be_instantiated(self) -> None:
@@ -363,6 +491,14 @@ class TestIsLessThan:
         assert ilt.matches(test_num - 1)
         assert not ilt.matches(test_num)
         assert not ilt.matches(test_num + 1)
+
+    def test_description(self) -> None:
+        test_num = 43
+
+        ilt = IsLessThan(test_num)
+
+        expected_description = f"Less than {test_num}."
+        assert ilt.describe() == expected_description
 
 
 class TestIsLessThanOrEqualTo:
@@ -379,6 +515,14 @@ class TestIsLessThanOrEqualTo:
         assert iltoet.matches(test_num)
         assert not iltoet.matches(test_num + 1)
 
+    def test_description(self) -> None:
+        test_num = 1337
+
+        iltoet = IsLessThanOrEqualTo(test_num)
+
+        expected_description = f"Less than or equal to {test_num}."
+        assert iltoet.describe() == expected_description
+
 
 class TestIsNot:
     def test_can_be_instantiated(self) -> None:
@@ -393,6 +537,14 @@ class TestIsNot:
         assert in_.matches(2)
         assert not in_.matches(1)
 
+    def test_description(self) -> None:
+        test_resolution = IsEqualTo(5)
+
+        in_ = IsNot(test_resolution)
+
+        expected_description = f"Not {get_additive_description(test_resolution)}."
+        assert in_.describe() == expected_description
+
 
 class TestMatches:
     def test_can_be_instantiated(self) -> None:
@@ -405,6 +557,14 @@ class TestMatches:
 
         assert m.matches("Spam spam spam spam baked beans and spam")
         assert not m.matches("What do you mean Eugh?!")
+
+    def test_description(self) -> None:
+        test_match = r"(spam)+"
+
+        m = Matches(test_match)
+
+        expected_description = f'Text matching the pattern r"{test_match}".'
+        assert m.describe() == expected_description
 
 
 class TestReadsExactly:
@@ -420,6 +580,14 @@ class TestReadsExactly:
         assert re_.matches("Blah")
         assert not re_.matches("blah")
 
+    def test_description(self) -> None:
+        test_text = "I will not buy this record, it is scratched."
+
+        re_ = ReadsExactly(test_text)
+
+        expected_description = f'"{test_text}", verbatim.'
+        assert re_.describe() == expected_description
+
 
 class TestStartsWith:
     def test_can_be_instantiated(self) -> None:
@@ -432,3 +600,11 @@ class TestStartsWith:
 
         assert sw.matches("I will not buy this record, it is scratched.")
         assert not sw.matches("I will not buy this tobacconist, it is scratched.")
+
+    def test_description(self) -> None:
+        test_prefix = "It was the best of times,"
+
+        sw = StartsWith(test_prefix)
+
+        expected_description = f'Starting with "{test_prefix}".'
+        assert sw.describe() == expected_description
