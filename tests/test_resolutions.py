@@ -169,7 +169,7 @@ class TestContainsTheEntry:
         test_entries = {"tree": "larch", "spam": "eggs"}
 
         cte_single = ContainsTheEntry(**test_entry)
-        cte_mutiple = ContainsTheEntry(**test_entries)
+        cte_multiple = ContainsTheEntry(**test_entries)
 
         expected_description_single = "A mapping with the entry spam->eggs."
         expected_description_multiple = (
@@ -177,7 +177,7 @@ class TestContainsTheEntry:
             f" {', '.join(f'{k}->{v}' for k, v in test_entries.items())}."
         )
         assert cte_single.describe() == expected_description_single
-        assert cte_mutiple.describe() == expected_description_multiple
+        assert cte_multiple.describe() == expected_description_multiple
 
 
 class TestContainsTheItem:
