@@ -10,13 +10,11 @@ from hamcrest.core.matcher import Matcher
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
 
-from .base_resolution import BaseResolution
-
 K = TypeVar("K", bound=Hashable)
 V = TypeVar("V")
 
 
-class ContainsTheEntry(BaseResolution):
+class ContainsTheEntry:
     """Match a dictionary containing the specified key/value pair(s).
 
     Examples::
@@ -26,13 +24,21 @@ class ContainsTheEntry(BaseResolution):
                 HeadersOfTheLastResponse(), ContainTheEntry(Authorization="Bearer 1")
             )
         )
+
+        the_actor.should(
+            See.the(
+                EnglishDictionary(), ContainsTheEntry({"Python": "a large snake."})
+            )
+        )
+
+        the_actor.should(See.the(MathTestAnswers(), ContainsTheEntry("Problem3", 45)))
     """
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"A mapping with the entries {self.entries_to_log}."
+        return f"A mapping with the {self.entry_plural} {self.entries_to_log}."
 
-    @beat("... hoping it's a mapping with the entries {entries_to_log}")
+    @beat("... hoping it's a mapping with the {entry_plural} {entries_to_log}")
     def resolve(self) -> Matcher[Mapping]:
         """Produce the Matcher to make the assertion."""
         return has_entries(**self.entries)
@@ -71,6 +77,5 @@ class ContainsTheEntry(BaseResolution):
                     (kv_args[i], kv_args[i + 1]) for i in range(0, len(kv_args), 2)
                 ]
                 self.entries = dict(pairs, **kv_kwargs)
-        self.entries_to_log = ", ".join(
-            f"{{{k}: {v}}}" for k, v in self.entries.items()
-        )
+        self.entry_plural = "entries" if len(self.entries) != 1 else "entry"
+        self.entries_to_log = ", ".join(f"{k}->{v}" for k, v in self.entries.items())
