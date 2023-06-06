@@ -20,7 +20,7 @@ class EndsWith:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f'Ending with {self.postfix}".'
+        return f'Ending with "{self.postfix}".'
 
     @beat('... hoping it ends with "{postfix}".')
     def resolve(self) -> Matcher[str]:

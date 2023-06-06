@@ -21,8 +21,8 @@ class ContainsTheKey(Generic[K]):
     """
 
     def describe(self) -> str:
-        """Describe the Resolution in the present tense."""
-        return f'Contain the key "{self.key}".'
+        """Describe the Resolution's expectation."""
+        return f'Containing the key "{self.key}".'
 
     @beat('... hoping it\'s a dict containing the key "{key}".')
     def resolve(self) -> Matcher[Mapping[K, Any]]:
