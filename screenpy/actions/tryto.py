@@ -7,13 +7,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from screenpy.pacing import the_narrator
-from screenpy.protocols import Performable
+from screenpy.speech_tools import get_additive_description
 
 if TYPE_CHECKING:
     from screenpy import Actor
+    from screenpy.protocols import Performable
 
 
-class TryTo(Performable):
+class TryTo:
     """
     TryTo perform followup action if the first one fails.
 
@@ -61,6 +62,18 @@ class TryTo(Performable):
         return self
 
     except_ = else_ = otherwise = alternatively = failing_that = or_
+
+    def describe(self) -> str:
+        """Describe the Action in present tense."""
+        s1 = ""
+        s2 = ""
+        for a1 in self.First:
+            s1 += get_additive_description(a1)
+
+        for a2 in self.Second:
+            s2 += get_additive_description(a2)
+
+        return f"TryTo {s1} or {s2}"
 
     def __init__(self, *first: Performable) -> None:
         self.First: tuple[Performable, ...] = first
