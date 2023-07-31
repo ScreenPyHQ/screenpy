@@ -28,7 +28,8 @@ Sleep = Pause
 Sleeps = Pauses = Pause
 TakeNote = MakeNote
 TakesNote = MakesNote = MakeNote
-Either = SeeIfTheyCan = Attempt = AttemptTo = GoFor = Try = TryTo
+Attempts = AttemptsTo = GoesFor = Tries = TriesTo = TryTo
+Either = Attempt = AttemptTo = GoFor = Try = TryTo
 
 
 __all__ = [
@@ -45,6 +46,8 @@ __all__ = [
     "AttachFile",
     "AttachTheFile",
     "Attempt",
+    "Attempts",
+    "AttemptsTo",
     "AttemptTo",
     "Confirm",
     "ConfirmAllOf",
@@ -55,6 +58,7 @@ __all__ = [
     "Debug",
     "Either",
     "Eventually",
+    "GoesFor",
     "GoFor",
     "Log",
     "MakeNote",
@@ -79,6 +83,8 @@ __all__ = [
     "Sleeps",
     "TakeNote",
     "TakesNote",
+    "Tries",
+    "TriesTo",
     "Try",
     "TryTo",
     "Verifies",
