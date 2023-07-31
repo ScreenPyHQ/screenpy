@@ -278,3 +278,4 @@ multiple actions in one call::
             DoDifferentAction3(),
         )
     )
+
