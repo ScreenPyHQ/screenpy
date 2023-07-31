@@ -249,3 +249,32 @@ Unless of course something bad happens inside of ``PerformA`` in which case the 
     AssertionError:
     Expected: <True>
          but: was <False>
+
+
+Using TryTo
+===========
+
+Sometimes we need to try one thing then followed by a different thing when the first one fails.
+You could just add a try/except in your code but that breaks up the screenplay pattern.
+So there is an action for that; :func:`~screenpy.actions.TryTo`::
+
+    the_actor.will(TryTo(DoAction()).except_(DoDifferentAction())
+
+Screenpy will attempt to perform the first action but if an `AssertionError` is raised
+screenpy will move on to attempt performing the second action instead.  Note that we only catch
+`AssertionError` here allowing for other exceptions to still be raised.
+
+The action also allows users to pass in multiple actions similar to how actors can perform
+multiple actions in one call::
+
+    the_actor.will(
+        TryTo(
+            DoAction1(),
+            DoAction2(),
+            DoAction3(),
+        ).except_(
+            DoDifferentAction1(),
+            DoDifferentAction2(),
+            DoDifferentAction3(),
+        )
+    )

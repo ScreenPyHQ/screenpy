@@ -112,3 +112,21 @@ Silently
 **Aliases**: ``Quietly``
 
 .. autofunction:: Silently
+
+
+TryTo
+-----
+
+**Aliases**: ``Attempt``,
+``Attempts``,
+``AttemptsTo``,
+``AttemptTo``,
+``Either``,
+``GoesFor``,
+``GoFor``,
+``Tries``,
+``TriesT``
+``Try``
+
+.. autoclass:: TryTo
+    :members:
