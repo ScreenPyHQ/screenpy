@@ -1012,7 +1012,6 @@ class TestTryTo:
 
         assert action1.perform_as.call_count == 1
         assert action2.perform_as.call_count == 0
-
         assert mock_kink.call_count == 1
         assert mock_clear.call_count == 1
         assert mock_flush.call_count == 1
@@ -1031,7 +1030,6 @@ class TestTryTo:
 
         assert action1.perform_as.call_count == 1
         assert action2.perform_as.call_count == 1
-
         assert mock_kink.call_count == 1
         assert mock_clear.call_count == 2
         assert mock_flush.call_count == 1
@@ -1050,6 +1048,7 @@ class TestTryTo:
 
         with caplog.at_level(logging.INFO):
             TryTo(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
+
         assert caplog.records[0].message == "Tester tries to FakeActionPass"
 
     def test_output_first_passes(self, Tester, caplog):
@@ -1065,4 +1064,5 @@ class TestTryTo:
 
         with caplog.at_level(logging.INFO):
             TryTo(FakeActionPass()).or_(FakeActionFail()).perform_as(Tester)
+
         assert caplog.records[0].message == "Tester tries to FakeActionPass"
