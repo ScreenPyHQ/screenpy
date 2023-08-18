@@ -254,14 +254,15 @@ Unless of course something bad happens inside of ``PerformA`` in which case the 
 Using Either
 ===========
 
-Sometimes we need to try one thing then followed by a different thing when the first one fails.
-You could just add a try/except in your code but that breaks up the screenplay pattern.
-So there is an action for that; :func:`~screenpy.actions.Either`::
+Sometimes you may need to use a try/except control flow in your test, for 
+one reason or another. Luckily, your Actor can perform this flow 
+with the :class:`~screenpy.actions.Either` Action!::
 
     the_actor.will(Either(DoAction()).or_(DoDifferentAction())
 
-Screenpy will attempt to perform the first action but if an `AssertionError` is raised
-screenpy will move on to attempt performing the second action instead.  Note that we only catch
+Screenpy will attempt to perform the first action (or set of actions) but 
+if an `AssertionError` is raised screenpy will move on to attempt performing the 
+second action (or set of actions) instead.  Note that we only catch
 `AssertionError` here allowing for other exceptions to still be raised.
 
 The action also allows users to pass in multiple actions similar to how actors can perform
@@ -277,5 +278,26 @@ multiple actions in one call::
             DoDifferentAction2(),
             DoDifferentAction3(),
         )
+    )
+
+
+.. note::
+   :class:`~screenpy.actions.Either` will not describe any cleanup for the Actor
+   after it experiences a failure in the first routine; the Actor will proceed directly
+   to the second routine. Keep this in mind while defining the two branches of Actions.
+
+To help illustrate this further here is a real-world example using screenpy_selenium::
+
+    the_actor.will(
+       Either(
+           See(BrowserURL(), HasUrlNetloc(URL)),
+           CheckIfAuthenticated(),
+       ).or_(
+           ClearCache()
+           Open.their_browser_on(URL())
+           Eventually(Enter(username).into(USERNAME_FIELD)),
+           Enter.the_secret(password).into(PASSWORD_FIELD),
+           Click.on(SIGN_IN_BUTTON)
+       )
     )
 
