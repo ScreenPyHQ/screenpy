@@ -1001,6 +1001,19 @@ class TestEither:
         t = Either(mock_action1).or_(mock_action2)
         assert (t.describe() == "Either do thing or produce stuff")
 
+    def test_multi_action_describe(self) -> None:
+        mock_action1 = FakeAction()
+        mock_action1.describe.return_value = "DoThing!"
+        mock_action2 = FakeAction()
+        mock_action2.describe.return_value = "DoStuff!"
+        mock_action3 = FakeAction()
+        mock_action3.describe.return_value = "PerformFoo."
+        mock_action4 = FakeAction()
+        mock_action4.describe.return_value = "PerformBar."
+
+        t = Either(mock_action1, mock_action2).or_(mock_action3, mock_action4)
+        assert (t.describe() == "Either doThing, doStuff or performFoo, performBar")
+
     def test_first_action_passes(self, Tester, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")

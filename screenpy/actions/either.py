@@ -65,13 +65,8 @@ class Either:
 
     def describe(self) -> str:
         """Describe the Action in present tense."""
-        summary1 = ""
-        summary2 = ""
-        for action1 in self.first:
-            summary1 += get_additive_description(action1)
-
-        for action2 in self.second:
-            summary2 += get_additive_description(action2)
+        summary1 = ", ".join(get_additive_description(action) for action in self.first)
+        summary2 = ", ".join(get_additive_description(action) for action in self.second)
 
         return f"Either {summary1} or {summary2}"
 
