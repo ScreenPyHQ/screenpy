@@ -118,15 +118,15 @@ TryTo
 -----
 
 **Aliases**: ``Attempt``,
+``AttemptTo``,
+``GoFor``,
+``Try``
+``Either``,
 ``Attempts``,
 ``AttemptsTo``,
-``AttemptTo``,
-``Either``,
 ``GoesFor``,
-``GoFor``,
 ``Tries``,
-``TriesT``
-``Try``
+``TriesTo``
 
 .. autoclass:: TryTo
     :members:
