@@ -28,7 +28,7 @@ from screenpy import (
     SeeAllOf,
     SeeAnyOf,
     Silently,
-    TryTo,
+    Either,
     UnableToAct,
     UnableToDirect,
     beat,
@@ -977,29 +977,29 @@ class TestSilentlyUnabridged:
         assert [r.msg for r in caplog.records] == []
 
 
-class TestTryTo:
+class TestEither:
     def test_can_be_instantiated(self) -> None:
-        t1 = TryTo()
-        t2 = TryTo(FakeAction()).or_(FakeAction())
+        t1 = Either()
+        t2 = Either(FakeAction()).or_(FakeAction())
 
-        assert isinstance(t1, TryTo)
-        assert isinstance(t2, TryTo)
+        assert isinstance(t1, Either)
+        assert isinstance(t2, Either)
 
     def test_implements_protocol(self) -> None:
-        t = TryTo()
+        t = Either()
 
         assert isinstance(t, Performable)
         assert isinstance(t, Describable)
 
     def test_describe(self) -> None:
         mock_action1 = FakeAction()
-        mock_action1.describe.return_value = "Be!"
+        mock_action1.describe.return_value = "Do thing!"
 
         mock_action2 = FakeAction()
-        mock_action2.describe.return_value = "not to be!"
+        mock_action2.describe.return_value = "produce stuff!"
     
-        t = TryTo(mock_action1).or_(mock_action2)
-        assert (t.describe() == "TryTo be or not to be")
+        t = Either(mock_action1).or_(mock_action2)
+        assert (t.describe() == "Either do thing or produce stuff")
 
     def test_first_action_passes(self, Tester, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
@@ -1008,7 +1008,7 @@ class TestTryTo:
         
         action1 = FakeAction()
         action2 = FakeAction()
-        TryTo(action1).or_(action2).perform_as(Tester)
+        Either(action1).or_(action2).perform_as(Tester)
 
         assert action1.perform_as.call_count == 1
         assert action2.perform_as.call_count == 0
@@ -1026,7 +1026,7 @@ class TestTryTo:
         action2 = FakeAction()
         action1.perform_as.side_effect = exc
         
-        TryTo(action1).or_(action2).perform_as(Tester)
+        Either(action1).or_(action2).perform_as(Tester)
 
         assert action1.perform_as.call_count == 1
         assert action2.perform_as.call_count == 1
@@ -1047,7 +1047,7 @@ class TestTryTo:
                 return
 
         with caplog.at_level(logging.INFO):
-            TryTo(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
+            Either(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
 
         assert caplog.records[0].message == "Tester tries to FakeActionPass"
 
@@ -1063,6 +1063,6 @@ class TestTryTo:
                 return
 
         with caplog.at_level(logging.INFO):
-            TryTo(FakeActionPass()).or_(FakeActionFail()).perform_as(Tester)
+            Either(FakeActionPass()).or_(FakeActionFail()).perform_as(Tester)
 
         assert caplog.records[0].message == "Tester tries to FakeActionPass"

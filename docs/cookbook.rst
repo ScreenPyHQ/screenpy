@@ -251,14 +251,14 @@ Unless of course something bad happens inside of ``PerformA`` in which case the 
          but: was <False>
 
 
-Using TryTo
+Using Either
 ===========
 
 Sometimes we need to try one thing then followed by a different thing when the first one fails.
 You could just add a try/except in your code but that breaks up the screenplay pattern.
-So there is an action for that; :func:`~screenpy.actions.TryTo`::
+So there is an action for that; :func:`~screenpy.actions.Either`::
 
-    the_actor.will(TryTo(DoAction()).except_(DoDifferentAction())
+    the_actor.will(Either(DoAction()).or_(DoDifferentAction())
 
 Screenpy will attempt to perform the first action but if an `AssertionError` is raised
 screenpy will move on to attempt performing the second action instead.  Note that we only catch
@@ -268,11 +268,11 @@ The action also allows users to pass in multiple actions similar to how actors c
 multiple actions in one call::
 
     the_actor.will(
-        TryTo(
+        Either(
             DoAction1(),
             DoAction2(),
             DoAction3(),
-        ).except_(
+        ).or_(
             DoDifferentAction1(),
             DoDifferentAction2(),
             DoDifferentAction3(),

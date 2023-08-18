@@ -4,6 +4,7 @@ Actions are what the Actors do, possibly requiring use of their Abilities.
 
 from .attach_the_file import AttachTheFile
 from .debug import Debug
+from .either import Either
 from .eventually import Eventually
 from .log import Log
 from .make_note import MakeNote
@@ -12,7 +13,6 @@ from .see import See
 from .see_all_of import SeeAllOf
 from .see_any_of import SeeAnyOf
 from .silently import Silently
-from .tryto import TryTo
 
 # Natural-language-enabling syntactic sugar
 AttachFile = AttachAFile = AttachTheFile
@@ -28,8 +28,8 @@ Sleep = Pause
 Sleeps = Pauses = Pause
 TakeNote = MakeNote
 TakesNote = MakesNote = MakeNote
-Attempts = AttemptsTo = GoesFor = Tries = TriesTo = TryTo
-Either = Attempt = AttemptTo = GoFor = Try = TryTo
+Attempts = AttemptsTo = GoesFor = Tries = TriesTo = Either
+TryTo = Attempt = AttemptTo = GoFor = Try = Either
 
 
 __all__ = [

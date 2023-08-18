@@ -114,19 +114,19 @@ Silently
 .. autofunction:: Silently
 
 
-TryTo
+Either
 -----
 
 **Aliases**: ``Attempt``,
 ``AttemptTo``,
 ``GoFor``,
 ``Try``
-``Either``,
+``TryTo``,
 ``Attempts``,
 ``AttemptsTo``,
 ``GoesFor``,
 ``Tries``,
 ``TriesTo``
 
-.. autoclass:: TryTo
+.. autoclass:: Either
     :members:

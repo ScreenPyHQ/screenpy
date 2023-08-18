@@ -14,16 +14,16 @@ if TYPE_CHECKING:
     from screenpy.protocols import Performable
 
 
-class TryTo:
-    """TryTo perform followup action if the first one fails.
+class Either:
+    """Either perform followup action if the first one fails.
 
     Allows actors to perform try/except blocks while still using screenplay pattern.
     Examples::
 
-        the_actor.will(TryTo(DoAction()).otherwise(DoDifferentAction())
+        the_actor.will(Either(DoAction()).or_(DoDifferentAction())
 
         the_actor.will(
-            TryTo(CheckIfOnDomain(URL())).otherwise(Open.their_browser_on(URL())
+            Either(CheckIfOnDomain(URL())).or_(Open.their_browser_on(URL())
         )
     """
 
@@ -56,7 +56,7 @@ class TryTo:
         the_actor.will(*self.second)
         return
 
-    def or_(self, *second: Performable) -> TryTo:
+    def or_(self, *second: Performable) -> Either:
         """submit the second action"""
         self.second = second
         return self
@@ -73,7 +73,7 @@ class TryTo:
         for action2 in self.second:
             summary2 += get_additive_description(action2)
 
-        return f"TryTo {summary1} or {summary2}"
+        return f"Either {summary1} or {summary2}"
 
     def __init__(self, *first: Performable) -> None:
         self.first: tuple[Performable, ...] = first
