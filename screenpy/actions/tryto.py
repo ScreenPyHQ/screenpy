@@ -65,15 +65,15 @@ class TryTo:
 
     def describe(self) -> str:
         """Describe the Action in present tense."""
-        s1 = ""
-        s2 = ""
-        for a1 in self.first:
-            s1 += get_additive_description(a1)
+        summary1 = ""
+        summary2 = ""
+        for action1 in self.first:
+            summary1 += get_additive_description(action1)
 
-        for a2 in self.second:
-            s2 += get_additive_description(a2)
+        for action2 in self.second:
+            summary2 += get_additive_description(action2)
 
-        return f"TryTo {s1} or {s2}"
+        return f"TryTo {summary1} or {summary2}"
 
     def __init__(self, *first: Performable) -> None:
         self.first: tuple[Performable, ...] = first
