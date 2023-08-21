@@ -27,17 +27,17 @@ class Either:
         )
     """
 
-    second: tuple[Performable, ...]
+    except_performables: tuple[Performable, ...]
 
     def perform_as(self, the_actor: Actor) -> None:
         """perform a try/accept using the two provided actions"""
         # logs the first attempt even if it fails
         # try:
         #     with the_narrator.mic_cable_kinked():
-        #         the_actor.will(*self.first)
+        #         the_actor.will(*self.try_performables)
         # except AssertionError:
         #     try:
-        #         the_actor.will(*self.second)
+        #         the_actor.will(*self.except_performables)
         #     except Exception as exc:
         #         raise exc from None
 
@@ -48,27 +48,31 @@ class Either:
         # logs the first attempt only if it succeeds.
         with the_narrator.mic_cable_kinked():
             try:
-                the_actor.will(*self.first)
+                the_actor.will(*self.try_performables)
                 return
             except AssertionError:
                 the_narrator.clear_backup()
 
-        the_actor.will(*self.second)
+        the_actor.will(*self.except_performables)
         return
 
-    def or_(self, *second: Performable) -> Either:
-        """submit the second action"""
-        self.second = second
+    def or_(self, *except_performables: Performable) -> Either:
+        """submit the except_performables action"""
+        self.except_performables = except_performables
         return self
 
     except_ = else_ = otherwise = alternatively = failing_that = or_
 
     def describe(self) -> str:
         """Describe the Action in present tense."""
-        summary1 = ", ".join(get_additive_description(action) for action in self.first)
-        summary2 = ", ".join(get_additive_description(action) for action in self.second)
+        try_summary = ", ".join(
+            get_additive_description(action) for action in self.try_performables
+        )
+        except_summary = ", ".join(
+            get_additive_description(action) for action in self.except_performables
+        )
 
-        return f"Either {summary1} or {summary2}"
+        return f"Either {try_summary} or {except_summary}"
 
     def __init__(self, *first: Performable) -> None:
-        self.first: tuple[Performable, ...] = first
+        self.try_performables: tuple[Performable, ...] = first
