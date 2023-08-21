@@ -290,7 +290,7 @@ To help illustrate this further here is a real-world example using screenpy_sele
 
     the_actor.will(
        Either(
-           See(BrowserURL(), HasUrlNetloc(URL)),
+           See(BrowserURL(), ReadsExactly(URL)),
            CheckIfAuthenticated(),
        ).or_(
            ClearCache()
