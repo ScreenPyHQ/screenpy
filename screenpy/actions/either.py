@@ -23,11 +23,19 @@ class Either:
         the_actor.will(Either(DoAction()).or_(DoDifferentAction())
 
         the_actor.will(
+            Either(DoAction()).otherwise(DoDifferentAction()).ignoring(
+                AssertionError, NotImplementedError
+            )
+        )
+
+        the_actor.will(
             Either(CheckIfOnDomain(URL())).or_(Open.their_browser_on(URL())
         )
+
     """
 
     except_performables: tuple[Performable, ...]
+    ignore_exceptions: tuple[type[BaseException], ...]
 
     def perform_as(self, the_actor: Actor) -> None:
         """perform a try/accept using the two provided actions"""
@@ -50,7 +58,7 @@ class Either:
             try:
                 the_actor.will(*self.try_performables)
                 return
-            except AssertionError:
+            except self.ignore_exceptions:
                 the_narrator.clear_backup()
 
         the_actor.will(*self.except_performables)
@@ -62,6 +70,11 @@ class Either:
         return self
 
     except_ = else_ = otherwise = alternatively = failing_that = or_
+
+    def ignoring(self, *ignored_exceptions: type[BaseException]) -> Either:
+        """ignore the exception classes"""
+        self.ignore_exceptions = ignored_exceptions
+        return self
 
     def describe(self) -> str:
         """Describe the Action in present tense."""
@@ -76,3 +89,4 @@ class Either:
 
     def __init__(self, *first: Performable) -> None:
         self.try_performables: tuple[Performable, ...] = first
+        self.ignore_exceptions = (AssertionError,)

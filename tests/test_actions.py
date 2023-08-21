@@ -1047,6 +1047,27 @@ class TestEither:
         assert mock_clear.call_count == 2
         assert mock_flush.call_count == 1
 
+    def test_first_action_fails_with_custom_exception(self, Tester, mocker: MockerFixture) -> None:
+        mock_clear = mocker.spy(the_narrator, "clear_backup")
+        mock_flush = mocker.spy(the_narrator, "flush_backup")
+        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+
+        class CustomException(Exception):
+            """Some Random Exception"""
+
+        exc = CustomException("it broke!")
+        action1 = FakeAction()
+        action2 = FakeAction()
+        action1.perform_as.side_effect = exc
+
+        Either(action1).or_(action2).ignoring(CustomException).perform_as(Tester)
+
+        assert action1.perform_as.call_count == 1
+        assert action2.perform_as.call_count == 1
+        assert mock_kink.call_count == 1
+        assert mock_clear.call_count == 2
+        assert mock_flush.call_count == 1
+
     def test_output_first_fails(self, Tester, caplog):
         
         class FakeActionFail(Performable):
