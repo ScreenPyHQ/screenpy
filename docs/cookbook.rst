@@ -286,7 +286,7 @@ similar Actor performing multiple actions in one call::
    after it experiences a failure in the first routine; the Actor will proceed directly
    to the second routine. Keep this in mind while defining the two branches of Actions.
 
-To help illustrate this further here is a real-world example using screenpy_selenium::
+To help illustrate this further here is a real-world example using `screenpy_selenium <https://screenpy-selenium-docs.readthedocs.io/en/latest/>`__::
 
     the_actor.will(
        Either(
