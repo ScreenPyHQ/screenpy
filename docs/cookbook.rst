@@ -261,9 +261,9 @@ with the :class:`~screenpy.actions.Either` Action!::
     the_actor.will(Either(DoAction()).or_(DoDifferentAction())
 
 The Actor will attempt to perform the first action (or set of actions).  
-If successful, the Actor moves on. but an `AssertionError` is raised the Actor will 
+If successful, the Actor moves on. But an ``AssertionError`` is raised the Actor will 
 begin performing the second action (or set of actions) passed into :meth:`~screenpy.actions.Either.or_`.
-Note the Actor only catches `AssertionError` here allowing for other exceptions to still be raised.
+Note the Actor only catches ``AssertionError`` here allowing for other exceptions to still be raised.
 
 :class:`~screenpy.actions.Either` allows users to pass in multiple actions. This is 
 similar Actor performing multiple actions in one call::
