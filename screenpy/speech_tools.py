@@ -58,7 +58,7 @@ def tostring(item: T) -> T:
     ...
 
 
-def tostring(item: str | T) -> str | T:
+def tostring(item: Union[str, T]) -> Union[str, T]:
     """help convert objects to a proper format for logging"""
     if isinstance(item, str):
         return repr(item)
