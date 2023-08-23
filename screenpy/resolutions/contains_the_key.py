@@ -8,6 +8,7 @@ from hamcrest import has_key
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
+from screenpy.speech_tools import tostring
 
 K = TypeVar("K", bound=Hashable)
 
@@ -22,9 +23,14 @@ class ContainsTheKey(Generic[K]):
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f'Containing the key "{self.key}".'
+        return f"Containing the key {tostring(self.key)}."
 
-    @beat('... hoping it\'s a dict containing the key "{key}".')
+    @property
+    def beatmsg(self) -> str:
+        """format string meant for beat msg"""
+        return f"... hoping it's a dict containing the key {tostring(self.key)}."
+
+    @beat("{beatmsg}")
     def resolve(self) -> Matcher[Mapping[K, Any]]:
         """Produce the Matcher to make the assertion."""
         return has_key(self.key)

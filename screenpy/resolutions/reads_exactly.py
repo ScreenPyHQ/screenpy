@@ -6,6 +6,7 @@ from hamcrest import has_string
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
+from screenpy.speech_tools import tostring
 
 
 class ReadsExactly:
@@ -20,9 +21,14 @@ class ReadsExactly:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f'"{self.text}", verbatim.'
+        return f"{tostring(self.text)}, verbatim."
 
-    @beat('... hoping it\'s "{text}", verbatim.')
+    @property
+    def beatmsg(self) -> str:
+        """format string meant for beat msg"""
+        return f"... hoping it's {tostring(self.text)}, verbatim."
+
+    @beat("{beatmsg}")
     def resolve(self) -> Matcher[object]:
         """Produce the Matcher to make the assertion."""
         return has_string(self.text)

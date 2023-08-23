@@ -6,6 +6,7 @@ from hamcrest import starts_with
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
+from screenpy.speech_tools import tostring
 
 
 class StartsWith:
@@ -20,9 +21,14 @@ class StartsWith:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f'Starting with "{self.prefix}".'
+        return f"Starting with {tostring(self.prefix)}."
 
-    @beat('... hoping it starts with "{prefix}".')
+    @property
+    def beatmsg(self) -> str:
+        """format string meant for beat msg"""
+        return f"... hoping it starts with {tostring(self.prefix)}."
+
+    @beat("{beatmsg}")
     def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return starts_with(self.prefix)

@@ -3,12 +3,14 @@ A grab-bag of useful language-massaging functions with broad applicability.
 """
 
 import re
-from typing import Any, Union
+from typing import TypeVar, Union, overload
 
 from screenpy.protocols import Answerable, Describable, Performable, Resolvable
 
+T = TypeVar("T")
 
-def get_additive_description(describable: Union[Describable, Any]) -> str:
+
+def get_additive_description(describable: Union[Describable, T]) -> str:
     """Extract a description that can be placed within a sentence.
 
     The ``describe`` method of Describables will provide a description,
@@ -44,3 +46,20 @@ def get_additive_description(describable: Union[Describable, Any]) -> str:
         description = f"the {describable.__class__.__name__}"
 
     return description
+
+
+@overload
+def tostring(item: str) -> str:
+    ...
+
+
+@overload
+def tostring(item: T) -> T:
+    ...
+
+
+def tostring(item: str | T) -> str | T:
+    """help convert objects to a proper format for logging"""
+    if isinstance(item, str):
+        return repr(item)
+    return item

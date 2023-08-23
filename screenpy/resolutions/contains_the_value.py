@@ -8,6 +8,7 @@ from hamcrest import has_value
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
+from screenpy.speech_tools import tostring
 
 V = TypeVar("V")
 
@@ -24,9 +25,14 @@ class ContainsTheValue(Generic[V]):
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f'Containing the value "{self.value}".'
+        return f"Containing the value {tostring(self.value)}."
 
-    @beat('... hoping it contains the value "{value}".')
+    @property
+    def beatmsg(self) -> str:
+        """format string meant for beat msg"""
+        return f"... hoping it contains the value {tostring(self.value)}."
+
+    @beat("{beatmsg}")
     def resolve(self) -> Matcher[Mapping[Any, V]]:
         """Produce the Matcher to form the assertion."""
         return has_value(self.value)

@@ -6,6 +6,7 @@ from hamcrest import ends_with
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
+from screenpy.speech_tools import tostring
 
 
 class EndsWith:
@@ -20,9 +21,14 @@ class EndsWith:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f'Ending with "{self.postfix}".'
+        return f"Ending with {tostring(self.postfix)}."
 
-    @beat('... hoping it ends with "{postfix}".')
+    @property
+    def beatmsg(self) -> str:
+        """format string meant for beat msg"""
+        return f"... hoping it ends with {tostring(self.postfix)}."
+
+    @beat("{beatmsg}")
     def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return ends_with(self.postfix)

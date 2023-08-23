@@ -123,8 +123,7 @@ class TestContainsItemMatching:
 
     def test_the_test(self) -> None:
         cim = ContainsItemMatching(r"([Ss]pam ?)+").resolve()
-
-        assert cim.matches(["Spam", "Eggs", "Spam and eggs"])
+        assert cim.matches(["Spam", "Eggs", "Spam and eggs"], )
         assert not cim.matches(["Porridge"])
 
     def test_description(self) -> None:
@@ -150,10 +149,10 @@ class TestContainsTheEntry:
         """Matches dictionaries containing the entry(/ies)"""
         cte_single = ContainsTheEntry(key="value").resolve()
         cte_multiple = ContainsTheEntry(key1="value1", key2="value2").resolve()
-        cte_alt2 = ContainsTheEntry({"key2": "something2"}).resolve()
+        cte_alt2 = ContainsTheEntry({"key2": 12345}).resolve()
         cte_alt3 = ContainsTheEntry("key3", "something3").resolve()
 
-        assert cte_alt2.matches({"key2": "something2"})
+        assert cte_alt2.matches({"key2": 12345})
         assert cte_alt3.matches({"key3": "something3"})
         assert cte_single.matches({"key": "value"})
         assert cte_single.matches({"key": "value", "play": "Hamlet"})
@@ -166,15 +165,15 @@ class TestContainsTheEntry:
 
     def test_description(self) -> None:
         test_entry = {"spam": "eggs"}
-        test_entries = {"tree": "larch", "spam": "eggs"}
+        test_entries = {"tree": 1234, "spam": "eggs"}
 
         cte_single = ContainsTheEntry(**test_entry)
         cte_multiple = ContainsTheEntry(**test_entries)
 
-        expected_description_single = "A mapping with the entry spam->eggs."
+        expected_description_single = "A mapping with the entry 'spam'->'eggs'."
         expected_description_multiple = (
             "A mapping with the entries"
-            f" {', '.join(f'{k}->{v}' for k, v in test_entries.items())}."
+            f" {', '.join(f'{k!r}->{v!r}' for k, v in test_entries.items())}."
         )
         assert cte_single.describe() == expected_description_single
         assert cte_multiple.describe() == expected_description_multiple
@@ -198,7 +197,15 @@ class TestContainsTheItem:
 
         cti = ContainsTheItem(test_item)
 
-        expected_description = f'A sequence containing "{test_item}".'
+        expected_description = f'A sequence containing {test_item}.'
+        assert cti.describe() == expected_description
+
+    def test_description_str(self) -> None:
+        test_item = "1"
+
+        cti = ContainsTheItem(test_item)
+
+        expected_description = f'A sequence containing {test_item!r}.'
         assert cti.describe() == expected_description
 
 
@@ -221,7 +228,7 @@ class TestContainsTheKey:
 
         ctk = ContainsTheKey(test_key)
 
-        expected_description = f'Containing the key "{test_key}".'
+        expected_description = f'Containing the key {test_key!r}.'
         assert ctk.describe() == expected_description
 
 
@@ -243,7 +250,7 @@ class TestContainsTheText:
 
         ctt = ContainsTheText(test_text)
 
-        expected_description = f'Containing the text "{test_text}".'
+        expected_description = f'Containing the text {test_text!r}.'
         assert ctt.describe() == expected_description
 
 
@@ -266,7 +273,15 @@ class TestContainsTheValue:
 
         ctv = ContainsTheValue(test_value)
 
-        expected_description = f'Containing the value "{test_value}".'
+        expected_description = f'Containing the value {test_value}.'
+        assert ctv.describe() == expected_description
+
+    def test_description_str(self) -> None:
+        test_value = "42"
+
+        ctv = ContainsTheValue(test_value)
+
+        expected_description = f'Containing the value {test_value!r}.'
         assert ctv.describe() == expected_description
 
 
@@ -306,7 +321,7 @@ class TestEndsWith:
 
         ew = EndsWith(test_postfix)
 
-        expected_description = f'Ending with "{test_postfix}".'
+        expected_description = f'Ending with {test_postfix!r}.'
         assert ew.describe() == expected_description
 
 
@@ -585,7 +600,7 @@ class TestReadsExactly:
 
         re_ = ReadsExactly(test_text)
 
-        expected_description = f'"{test_text}", verbatim.'
+        expected_description = f'{test_text!r}, verbatim.'
         assert re_.describe() == expected_description
 
 
@@ -606,5 +621,5 @@ class TestStartsWith:
 
         sw = StartsWith(test_prefix)
 
-        expected_description = f'Starting with "{test_prefix}".'
+        expected_description = f'Starting with {test_prefix!r}.'
         assert sw.describe() == expected_description

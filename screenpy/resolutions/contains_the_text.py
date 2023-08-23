@@ -6,6 +6,7 @@ from hamcrest import contains_string
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
+from screenpy.speech_tools import tostring
 
 
 class ContainsTheText:
@@ -20,9 +21,14 @@ class ContainsTheText:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f'Containing the text "{self.text}".'
+        return f"Containing the text {tostring(self.text)}."
 
-    @beat('... hoping it contains "{text}".')
+    @property
+    def beatmsg(self) -> str:
+        """format string meant for beat msg"""
+        return f"... hoping it contains {tostring(self.text)}."
+
+    @beat("{beatmsg}")
     def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return contains_string(self.text)

@@ -8,6 +8,7 @@ from hamcrest import has_item
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
+from screenpy.speech_tools import tostring
 
 T = TypeVar("T")
 
@@ -24,9 +25,14 @@ class ContainsTheItem:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f'A sequence containing "{self.item}".'
+        return f"A sequence containing {tostring(self.item)}."
 
-    @beat('... hoping it contains "{item}".')
+    @property
+    def beatmsg(self) -> str:
+        """format string meant for beat msg"""
+        return f"... hoping it contains {tostring(self.item)}."
+
+    @beat("{beatmsg}")
     def resolve(self) -> Matcher[Sequence[T]]:
         """Produce the Matcher to make the assertion."""
         return has_item(self.item)

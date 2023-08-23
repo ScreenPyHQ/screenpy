@@ -1,6 +1,6 @@
 import pytest
 
-from screenpy.speech_tools import get_additive_description
+from screenpy.speech_tools import get_additive_description, tostring
 
 
 class ThisIsADescribableWithADescribe:
@@ -52,3 +52,15 @@ class TestGetAdditiveDescription:
         description = get_additive_description(Indescribable())
 
         assert description == "something indescribable"
+
+
+class TestTostring:
+    def test_str(self):
+        val = "hello\nworld!"
+        
+        assert tostring(val) == f"{val!r}"
+
+    def test_int(self):
+        val = 1234
+
+        assert tostring(val) == val
