@@ -21,17 +21,13 @@ class ReadsExactly:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"{tostring(self.text)}, verbatim."
+        return f"{self.text_to_log}, verbatim."
 
-    @property
-    def beatmsg(self) -> str:
-        """format string meant for beat msg"""
-        return f"... hoping it's {tostring(self.text)}, verbatim."
-
-    @beat("{beatmsg}")
+    @beat("... hoping it's {text_to_log}, verbatim.")
     def resolve(self) -> Matcher[object]:
         """Produce the Matcher to make the assertion."""
         return has_string(self.text)
 
     def __init__(self, text: str) -> None:
         self.text = text
+        self.text_to_log = tostring(text)

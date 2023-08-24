@@ -21,17 +21,13 @@ class EndsWith:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"Ending with {tostring(self.postfix)}."
+        return f"Ending with {self.postfix_to_log}."
 
-    @property
-    def beatmsg(self) -> str:
-        """format string meant for beat msg"""
-        return f"... hoping it ends with {tostring(self.postfix)}."
-
-    @beat("{beatmsg}")
+    @beat("... hoping it ends with {postfix_to_log}.")
     def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return ends_with(self.postfix)
 
     def __init__(self, postfix: str) -> None:
         self.postfix = postfix
+        self.postfix_to_log = tostring(postfix)

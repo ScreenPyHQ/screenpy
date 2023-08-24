@@ -21,17 +21,13 @@ class StartsWith:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"Starting with {tostring(self.prefix)}."
+        return f"Starting with {self.prefix_to_log}."
 
-    @property
-    def beatmsg(self) -> str:
-        """format string meant for beat msg"""
-        return f"... hoping it starts with {tostring(self.prefix)}."
-
-    @beat("{beatmsg}")
+    @beat("... hoping it starts with {prefix_to_log}.")
     def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return starts_with(self.prefix)
 
     def __init__(self, prefix: str) -> None:
         self.prefix = prefix
+        self.prefix_to_log = tostring(prefix)

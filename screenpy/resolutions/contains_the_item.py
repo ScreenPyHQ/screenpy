@@ -25,17 +25,13 @@ class ContainsTheItem:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"A sequence containing {tostring(self.item)}."
+        return f"A sequence containing {self.item_to_log}."
 
-    @property
-    def beatmsg(self) -> str:
-        """format string meant for beat msg"""
-        return f"... hoping it contains {tostring(self.item)}."
-
-    @beat("{beatmsg}")
+    @beat("... hoping it contains {item_to_log}.")
     def resolve(self) -> Matcher[Sequence[T]]:
         """Produce the Matcher to make the assertion."""
         return has_item(self.item)
 
     def __init__(self, item: T) -> None:
         self.item = item
+        self.item_to_log = tostring(item)

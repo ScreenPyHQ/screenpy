@@ -25,17 +25,13 @@ class ContainsTheValue(Generic[V]):
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"Containing the value {tostring(self.value)}."
+        return f"Containing the value {self.value_to_log}."
 
-    @property
-    def beatmsg(self) -> str:
-        """format string meant for beat msg"""
-        return f"... hoping it contains the value {tostring(self.value)}."
-
-    @beat("{beatmsg}")
+    @beat("... hoping it contains the value {value_to_log}.")
     def resolve(self) -> Matcher[Mapping[Any, V]]:
         """Produce the Matcher to form the assertion."""
         return has_value(self.value)
 
     def __init__(self, value: V) -> None:
         self.value = value
+        self.value_to_log = tostring(value)

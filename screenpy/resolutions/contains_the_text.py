@@ -21,17 +21,13 @@ class ContainsTheText:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"Containing the text {tostring(self.text)}."
+        return f"Containing the text {self.text_to_log}."
 
-    @property
-    def beatmsg(self) -> str:
-        """format string meant for beat msg"""
-        return f"... hoping it contains {tostring(self.text)}."
-
-    @beat("{beatmsg}")
+    @beat("... hoping it contains {text_to_log}.")
     def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return contains_string(self.text)
 
     def __init__(self, text: str) -> None:
         self.text = text
+        self.text_to_log = tostring(text)

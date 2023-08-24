@@ -165,7 +165,7 @@ class TestContainsTheEntry:
 
     def test_description(self) -> None:
         test_entry = {"spam": "eggs"}
-        test_entries = {"tree": 1234, "spam": "eggs"}
+        test_entries = {"number": 1234, "spam": "eggs"}
 
         cte_single = ContainsTheEntry(**test_entry)
         cte_multiple = ContainsTheEntry(**test_entries)
