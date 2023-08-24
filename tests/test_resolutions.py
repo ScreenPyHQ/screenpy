@@ -123,7 +123,7 @@ class TestContainsItemMatching:
 
     def test_the_test(self) -> None:
         cim = ContainsItemMatching(r"([Ss]pam ?)+").resolve()
-        assert cim.matches(["Spam", "Eggs", "Spam and eggs"], )
+        assert cim.matches(["Spam", "Eggs", "Spam and eggs"])
         assert not cim.matches(["Porridge"])
 
     def test_description(self) -> None:
