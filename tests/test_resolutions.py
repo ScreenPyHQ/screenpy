@@ -150,10 +150,10 @@ class TestContainsTheEntry:
         cte_single = ContainsTheEntry(key="value").resolve()
         cte_multiple = ContainsTheEntry(key1="value1", key2="value2").resolve()
         cte_alt2 = ContainsTheEntry({"key2": 12345}).resolve()
-        cte_alt3 = ContainsTheEntry("key3", "something3").resolve()
+        cte_alt3 = ContainsTheEntry("key3", False).resolve()
 
         assert cte_alt2.matches({"key2": 12345})
-        assert cte_alt3.matches({"key3": "something3"})
+        assert cte_alt3.matches({"key3": False})
         assert cte_single.matches({"key": "value"})
         assert cte_single.matches({"key": "value", "play": "Hamlet"})
         assert not cte_single.matches({"play": "Hamlet"})
@@ -172,7 +172,7 @@ class TestContainsTheEntry:
 
         expected_description_single = "A mapping with the entry 'spam'->'eggs'."
         expected_description_multiple = (
-            "A mapping with the entries 'number'->1234, 'spam'->'eggs'."
+            "A mapping with the entries 'number'-><1234>, 'spam'->'eggs'."
         )
         assert cte_single.describe() == expected_description_single
         assert cte_multiple.describe() == expected_description_multiple
@@ -196,7 +196,7 @@ class TestContainsTheItem:
 
         cti = ContainsTheItem(test_item)
 
-        expected_description = "A sequence containing 1."
+        expected_description = "A sequence containing <1>."
         assert cti.describe() == expected_description
 
     def test_description_str(self) -> None:
@@ -272,7 +272,7 @@ class TestContainsTheValue:
 
         ctv = ContainsTheValue(test_value)
 
-        expected_description = "Containing the value 42."
+        expected_description = "Containing the value <42>."
         assert ctv.describe() == expected_description
 
     def test_description_str(self) -> None:
@@ -391,7 +391,7 @@ class TestIsEqualTo:
 
         ie = IsEqualTo(test_object)
 
-        expected_description = "Equal to 8675."
+        expected_description = "Equal to <8675>."
         assert ie.describe() == expected_description
 
     def test_description_str(self) -> None:

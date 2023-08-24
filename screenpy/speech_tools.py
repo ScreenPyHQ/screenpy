@@ -5,6 +5,9 @@ A grab-bag of useful language-massaging functions with broad applicability.
 import re
 from typing import TypeVar, Union, overload
 
+from hamcrest.core.helpers.hasmethod import hasmethod
+from hamcrest.core.helpers.ismock import ismock
+
 from screenpy.protocols import Answerable, Describable, Performable, Resolvable
 
 T = TypeVar("T")
@@ -60,6 +63,13 @@ def represent_prop(item: T) -> T:
 
 def represent_prop(item: Union[str, T]) -> Union[str, T]:
     """represent items in a manner suitable for the audience (logging)"""
+    if not ismock(item) and hasmethod(item, "describe_to"):
+        return f"{item}"
     if isinstance(item, str):
         return repr(item)
-    return item
+
+    description = str(item)
+    if description[:1] == "<" and description[-1:] == ">":
+        return item
+
+    return f"<{item}>"

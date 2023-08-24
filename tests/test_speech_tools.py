@@ -63,4 +63,4 @@ class TestRepresentProp:
     def test_int(self):
         val = 1234
 
-        assert represent_prop(val) == val
+        assert represent_prop(val) == "<1234>"

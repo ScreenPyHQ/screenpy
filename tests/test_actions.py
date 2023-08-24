@@ -917,10 +917,10 @@ class TestSilentlyUnabridged:
 
         assert [r.msg for r in caplog.records] == [
             "Tester tries to Action2",
-            "    Tester sees if simpleQuestion is equal to True.",
+            "    Tester sees if simpleQuestion is equal to <True>.",
             "        Tester examines SimpleQuestion",
-            "            => True",
-            "        ... hoping it's equal to True.",
+            "            => <True>",
+            "        ... hoping it's equal to <True>.",
             "            => <True>",
         ]
 
@@ -956,10 +956,10 @@ class TestSilentlyUnabridged:
             "Tester tries to Action3",  # you'd think this wouldn't be here!
             "    Tester tries to Action1",
             "        Tester tries to Action2",
-            "            Tester sees if simpleQuestion is equal to True.",
+            "            Tester sees if simpleQuestion is equal to <True>.",
             "                Tester examines SimpleQuestion",
-            "                    => True",
-            "                ... hoping it's equal to True.",
+            "                    => <True>",
+            "                ... hoping it's equal to <True>.",
             "                    => <True>",
         ]
 
