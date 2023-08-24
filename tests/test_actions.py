@@ -417,7 +417,7 @@ class TestMakeNote:
         assert "screenpy-docs.readthedocs.io" in str(exc.value)
 
     def test_describe(self) -> None:
-        assert MakeNote(None).as_("blah").describe() == "Make a note under blah."
+        assert MakeNote(None).as_("blah").describe() == "Make a note under 'blah'."
 
     @mock.patch("screenpy.actions.make_note.aside", autospec=True)
     def test_caught_exception_noted(self, mock_aside: mock.Mock, Tester) -> None:
