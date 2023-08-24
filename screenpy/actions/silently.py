@@ -6,7 +6,6 @@ from __future__ import annotations
 from typing import Any, TypeVar, Union, overload
 
 from hamcrest.core.base_matcher import Matcher
-from typing_extensions import TypeAlias
 
 from screenpy.actor import Actor
 from screenpy.configuration import settings
@@ -89,12 +88,12 @@ class SilentlyResolvable(Resolvable, SilentlyMixin):
         self.duck = duck
 
 
-T_duck: TypeAlias = Union[
+T_duck = Union[
     Answerable,
     Performable,
     Resolvable,
 ]
-T_silent_duck: TypeAlias = Union[
+T_silent_duck = Union[
     SilentlyAnswerable,
     SilentlyPerformable,
     SilentlyResolvable,

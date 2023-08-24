@@ -749,6 +749,9 @@ class TestSilently:
         assert isinstance(q1, Answerable)
         assert isinstance(q2, Performable)
         assert isinstance(q3, Resolvable)
+        assert isinstance(q1, Describable)
+        assert isinstance(q2, Describable)
+        assert isinstance(q3, Describable)
 
     def test_not_performable(self) -> None:
         with pytest.raises(NotPerformable) as exc:

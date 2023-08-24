@@ -8,10 +8,17 @@ implements ``answered_by`` is a Question, etc. For more information, see
 https://mypy.readthedocs.io/en/stable/protocols.html
 """
 
-from typing import TYPE_CHECKING, Any, Callable, Generator, Optional
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    Generator,
+    Optional,
+    Protocol,
+    runtime_checkable,
+)
 
 from hamcrest.core.base_matcher import Matcher
-from typing_extensions import Protocol, runtime_checkable
 
 if TYPE_CHECKING:
     from .actor import Actor

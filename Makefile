@@ -2,10 +2,16 @@
 sync:
 	poetry install --extras dev_all --sync
 
-update:
-	poetry update --extras dev_all
+update_lock_only:
+	poetry update --lock
+
+update: update_lock_only
+	poetry install --extras dev_all
+
+check:
+	poetry check
 
 requirements:
 	poetry export --without-hashes --with dev -f requirements.txt > requirements.txt
 
-.PHONY: sync update requirements
+.PHONY: sync update_lock_only update check requirements
