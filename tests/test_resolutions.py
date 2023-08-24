@@ -387,11 +387,19 @@ class TestIsEqualTo:
         assert not ie.matches(2)
 
     def test_description(self) -> None:
+        test_object = 8675
+
+        ie = IsEqualTo(test_object)
+
+        expected_description = "Equal to 8675."
+        assert ie.describe() == expected_description
+
+    def test_description_str(self) -> None:
         test_object = "my Schwartz"
 
         ie = IsEqualTo(test_object)
 
-        expected_description = f"Equal to {test_object}."
+        expected_description = "Equal to 'my Schwartz'."
         assert ie.describe() == expected_description
 
 
