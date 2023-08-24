@@ -9,6 +9,7 @@ from hamcrest.core.matcher import Matcher
 
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
+from screenpy.speech_tools import tostring
 
 K = TypeVar("K", bound=Hashable)
 V = TypeVar("V")
@@ -79,5 +80,5 @@ class ContainsTheEntry:
                 self.entries = dict(pairs, **kv_kwargs)
         self.entry_plural = "entries" if len(self.entries) != 1 else "entry"
         self.entries_to_log = ", ".join(
-            f"{k!r}->{v!r}" for k, v in self.entries.items()
+            f"{tostring(k)}->{tostring(v)}" for k, v in self.entries.items()
         )
