@@ -8,7 +8,7 @@ from hamcrest import has_key
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-from screenpy.speech_tools import tostring
+from screenpy.speech_tools import represent_prop
 
 K = TypeVar("K", bound=Hashable)
 
@@ -32,4 +32,4 @@ class ContainsTheKey(Generic[K]):
 
     def __init__(self, key: K) -> None:
         self.key = key
-        self.key_to_log = tostring(key)
+        self.key_to_log = represent_prop(key)

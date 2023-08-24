@@ -6,7 +6,7 @@ from hamcrest import starts_with
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-from screenpy.speech_tools import tostring
+from screenpy.speech_tools import represent_prop
 
 
 class StartsWith:
@@ -30,4 +30,4 @@ class StartsWith:
 
     def __init__(self, prefix: str) -> None:
         self.prefix = prefix
-        self.prefix_to_log = tostring(prefix)
+        self.prefix_to_log = represent_prop(prefix)

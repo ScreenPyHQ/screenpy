@@ -8,7 +8,7 @@ from hamcrest import has_value
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-from screenpy.speech_tools import tostring
+from screenpy.speech_tools import represent_prop
 
 V = TypeVar("V")
 
@@ -34,4 +34,4 @@ class ContainsTheValue(Generic[V]):
 
     def __init__(self, value: V) -> None:
         self.value = value
-        self.value_to_log = tostring(value)
+        self.value_to_log = represent_prop(value)

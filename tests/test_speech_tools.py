@@ -1,6 +1,6 @@
 import pytest
 
-from screenpy.speech_tools import get_additive_description, tostring
+from screenpy.speech_tools import get_additive_description, represent_prop
 
 
 class ThisIsADescribableWithADescribe:
@@ -58,9 +58,9 @@ class TestTostring:
     def test_str(self):
         val = "hello\nworld!"
         
-        assert tostring(val) == "'hello\\nworld!'"
+        assert represent_prop(val) == "'hello\\nworld!'"
 
     def test_int(self):
         val = 1234
 
-        assert tostring(val) == val
+        assert represent_prop(val) == val

@@ -9,7 +9,7 @@ from functools import wraps
 from typing import Any, Callable, Optional
 
 from screenpy.narration import Narrator, StdOutAdapter
-from screenpy.speech_tools import tostring
+from screenpy.speech_tools import represent_prop
 
 Function = Callable[..., Any]
 the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
@@ -89,7 +89,7 @@ def beat(line: str, gravitas: Optional[str] = None) -> Callable[[Function], Func
             with the_narrator.stating_a_beat(func, completed_line, gravitas) as n_func:
                 retval = n_func(*args, **kwargs)
                 if retval is not None:
-                    aside(f"=> {tostring(retval)}")
+                    aside(f"=> {represent_prop(retval)}")
             return retval
 
         return wrapper

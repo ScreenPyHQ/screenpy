@@ -6,7 +6,7 @@ from hamcrest import ends_with
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-from screenpy.speech_tools import tostring
+from screenpy.speech_tools import represent_prop
 
 
 class EndsWith:
@@ -30,4 +30,4 @@ class EndsWith:
 
     def __init__(self, postfix: str) -> None:
         self.postfix = postfix
-        self.postfix_to_log = tostring(postfix)
+        self.postfix_to_log = represent_prop(postfix)

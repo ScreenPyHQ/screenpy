@@ -49,17 +49,17 @@ def get_additive_description(describable: Union[Describable, T]) -> str:
 
 
 @overload
-def tostring(item: str) -> str:
+def represent_prop(item: str) -> str:
     ...
 
 
 @overload
-def tostring(item: T) -> T:
+def represent_prop(item: T) -> T:
     ...
 
 
-def tostring(item: Union[str, T]) -> Union[str, T]:
-    """help convert objects to a proper format for logging"""
+def represent_prop(item: Union[str, T]) -> Union[str, T]:
+    """represent items in a manner suitable for the audience (logging)"""
     if isinstance(item, str):
         return repr(item)
     return item

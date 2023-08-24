@@ -8,7 +8,7 @@ from hamcrest import has_item
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
-from screenpy.speech_tools import tostring
+from screenpy.speech_tools import represent_prop
 
 T = TypeVar("T")
 
@@ -34,4 +34,4 @@ class ContainsTheItem:
 
     def __init__(self, item: T) -> None:
         self.item = item
-        self.item_to_log = tostring(item)
+        self.item_to_log = represent_prop(item)
