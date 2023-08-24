@@ -54,7 +54,7 @@ class TestGetAdditiveDescription:
         assert description == "something indescribable"
 
 
-class TestTostring:
+class TestRepresentProp:
     def test_str(self):
         val = "hello\nworld!"
         
