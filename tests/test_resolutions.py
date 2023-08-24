@@ -132,7 +132,7 @@ class TestContainsItemMatching:
         cim = ContainsItemMatching(test_pattern)
 
         expected_description = (
-            f'A sequence with an item matching the pattern r"{test_pattern}".'
+            'A sequence with an item matching the pattern r".*".'
         )
         assert cim.describe() == expected_description
 
@@ -172,8 +172,7 @@ class TestContainsTheEntry:
 
         expected_description_single = "A mapping with the entry 'spam'->'eggs'."
         expected_description_multiple = (
-            "A mapping with the entries"
-            f" {', '.join(f'{k!r}->{v!r}' for k, v in test_entries.items())}."
+            "A mapping with the entries 'number'->1234, 'spam'->'eggs'."
         )
         assert cte_single.describe() == expected_description_single
         assert cte_multiple.describe() == expected_description_multiple
@@ -197,7 +196,7 @@ class TestContainsTheItem:
 
         cti = ContainsTheItem(test_item)
 
-        expected_description = f'A sequence containing {test_item}.'
+        expected_description = "A sequence containing 1."
         assert cti.describe() == expected_description
 
     def test_description_str(self) -> None:
@@ -205,7 +204,7 @@ class TestContainsTheItem:
 
         cti = ContainsTheItem(test_item)
 
-        expected_description = f'A sequence containing {test_item!r}.'
+        expected_description = "A sequence containing '1'."
         assert cti.describe() == expected_description
 
 
@@ -228,7 +227,7 @@ class TestContainsTheKey:
 
         ctk = ContainsTheKey(test_key)
 
-        expected_description = f'Containing the key {test_key!r}.'
+        expected_description = "Containing the key 'spam'."
         assert ctk.describe() == expected_description
 
 
@@ -250,7 +249,7 @@ class TestContainsTheText:
 
         ctt = ContainsTheText(test_text)
 
-        expected_description = f'Containing the text {test_text!r}.'
+        expected_description = "Containing the text 'Wenn ist das Nunstück git und Slotermeyer?'."
         assert ctt.describe() == expected_description
 
 
@@ -273,7 +272,7 @@ class TestContainsTheValue:
 
         ctv = ContainsTheValue(test_value)
 
-        expected_description = f'Containing the value {test_value}.'
+        expected_description = "Containing the value 42."
         assert ctv.describe() == expected_description
 
     def test_description_str(self) -> None:
@@ -281,7 +280,7 @@ class TestContainsTheValue:
 
         ctv = ContainsTheValue(test_value)
 
-        expected_description = f'Containing the value {test_value!r}.'
+        expected_description = "Containing the value '42'."
         assert ctv.describe() == expected_description
 
 
@@ -321,7 +320,7 @@ class TestEndsWith:
 
         ew = EndsWith(test_postfix)
 
-        expected_description = f'Ending with {test_postfix!r}.'
+        expected_description = "Ending with 'got better.'."
         assert ew.describe() == expected_description
 
 
@@ -345,7 +344,7 @@ class TestHasLength:
         hl5 = HasLength(test_length)
 
         expected_description1 = "1 item long."
-        expected_description5 = f"{test_length} items long."
+        expected_description5 = "5 items long."
         assert hl1.describe() == expected_description1
         assert hl5.describe() == expected_description5
 
@@ -578,7 +577,7 @@ class TestMatches:
 
         m = Matches(test_match)
 
-        expected_description = f'Text matching the pattern r"{test_match}".'
+        expected_description = 'Text matching the pattern r"(spam)+".'
         assert m.describe() == expected_description
 
 
@@ -600,7 +599,7 @@ class TestReadsExactly:
 
         re_ = ReadsExactly(test_text)
 
-        expected_description = f'{test_text!r}, verbatim.'
+        expected_description = "'I will not buy this record, it is scratched.', verbatim."
         assert re_.describe() == expected_description
 
 
@@ -621,5 +620,5 @@ class TestStartsWith:
 
         sw = StartsWith(test_prefix)
 
-        expected_description = f'Starting with {test_prefix!r}.'
+        expected_description = "Starting with 'It was the best of times,'."
         assert sw.describe() == expected_description

@@ -58,7 +58,7 @@ class TestTostring:
     def test_str(self):
         val = "hello\nworld!"
         
-        assert tostring(val) == f"{val!r}"
+        assert tostring(val) == "'hello\\nworld!'"
 
     def test_int(self):
         val = 1234
