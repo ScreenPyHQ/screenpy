@@ -29,7 +29,7 @@ Using MakeNote
 You can also retrieve initial answers
 with the :class:`~screenpy.actions.MakeNote` class,
 and retrieve the value
-with a :ref:`direction <directions>`
+with a :ref:`direction <directions>`.
 
 .. code-block:: python
 
@@ -174,7 +174,7 @@ your Actors may need one or more of their Abilities
 to do some cleanup.
 You can assign cleanup tasks to your Actor
 using their :meth:`~screenpy.actor.Actor.has_ordered_cleanup_tasks`
-or :meth:`~screenpy.actor.Actor.has_independent_cleanup_tasks` method:
+or :meth:`~screenpy.actor.Actor.has_independent_cleanup_tasks` method.
 
 .. code-block:: python
 
@@ -208,7 +208,7 @@ Sometimes you only need logging when things go wrong.
 to only log the important things when things go right.
 Everything inside of ``Silently`` is prevented from logging.
 
-Example: The following Action
+Example: The following Action:
 
 .. code-block:: python
 
@@ -233,9 +233,10 @@ Would generate this log::
                         ... hoping it's equal to True.
                             => <True>
 
-But what if perhaps, we didn't need to know all the steps being taken at in
-``PerformChatty`` unless they were to fail?
-Wrapping ``PerformA`` in ``Silently``
+But what if we didn't need to know 
+all the steps being taken in ``PerformChatty`` 
+unless they were to fail?
+Wrapping ``PerformA`` in ``Silently``...
 
 .. code-block:: python
 
@@ -244,11 +245,13 @@ Wrapping ``PerformA`` in ``Silently``
         def perform_as(self, actor: Actor):
             actor.will(Silently(PerformA()))
 
-Will only generate this log::
+...will only generate this log::
 
     Marcel tries to PerformChatty
 
-Unless of course something bad happens inside of ``PerformA`` in which case the normal logging will take place::
+Unless of course something bad happens 
+inside of ``PerformA`` in which case 
+the normal logging will take place::
 
     Marcel tries to PerformChatty
         Marcel tries to PerformA
@@ -269,21 +272,26 @@ Unless of course something bad happens inside of ``PerformA`` in which case the 
 Using Either
 ===========
 
-Sometimes you may need to use a try/except control flow in your test, for 
-one reason or another. Luckily, your Actor can perform this flow 
-with the :class:`~screenpy.actions.Either` Action!
+Sometimes you may need to use a try/except control flow in your test, 
+for one reason or another. 
+Luckily, your Actor can perform 
+this flow with the :class:`~screenpy.actions.Either` Action!
 
 .. code-block:: python
 
     the_actor.will(Either(DoAction()).or_(DoDifferentAction())
 
 The Actor will attempt to perform the first action (or set of actions).  
-If successful, the Actor moves on. But an ``AssertionError`` is raised the Actor will 
-begin performing the second action (or set of actions) passed into :meth:`~screenpy.actions.Either.or_`.
-Note the Actor only catches ``AssertionError`` here allowing for other exceptions to still be raised.
+If successful, the Actor moves on. 
+But if an ``AssertionError`` is raised 
+the Actor will begin performing 
+the second action (or set of actions) 
+passed into :meth:`~screenpy.actions.Either.or_`.
+Note the Actor only catches ``AssertionError`` here 
+allowing for other exceptions to still be raised.
 
-:class:`~screenpy.actions.Either` allows users to pass in multiple actions. This is 
-similar Actor performing multiple actions in one call.
+:class:`~screenpy.actions.Either` allows users to pass in multiple actions. 
+This is similar Actor performing multiple actions in one call.
 
 .. code-block:: python
 

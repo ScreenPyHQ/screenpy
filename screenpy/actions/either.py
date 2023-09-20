@@ -15,9 +15,10 @@ if TYPE_CHECKING:
 
 
 class Either:
-    """Either perform followup action if the first one fails.
+    """Either performs followup action if the first one fails.
 
     Allows actors to perform try/except blocks while still using screenplay pattern.
+
     Examples::
 
         the_actor.will(Either(DoAction()).or_(DoDifferentAction())
@@ -31,14 +32,13 @@ class Either:
         the_actor.will(
             Either(CheckIfOnDomain(URL())).or_(Open.their_browser_on(URL())
         )
-
     """
 
     except_performables: tuple[Performable, ...]
     ignore_exceptions: tuple[type[BaseException], ...]
 
     def perform_as(self, the_actor: Actor) -> None:
-        """perform a try/accept using the two provided actions"""
+        """Direct the Actor to do one of two actions using try/accept."""
         # logs the first attempt even if it fails
         # try:
         #     with the_narrator.mic_cable_kinked():
@@ -65,14 +65,22 @@ class Either:
         return
 
     def or_(self, *except_performables: Performable) -> Either:
-        """submit the except_performables action"""
+        """Provide the alternative routine to perform.
+
+        Aliases:
+            * :meth:`~screenpy.actions.Either.except_`
+            * :meth:`~screenpy.actions.Either.else_`
+            * :meth:`~screenpy.actions.Either.otherwise`
+            * :meth:`~screenpy.actions.Either.alternatively`
+            * :meth:`~screenpy.actions.Either.failing_that`
+        """
         self.except_performables = except_performables
         return self
 
     except_ = else_ = otherwise = alternatively = failing_that = or_
 
     def ignoring(self, *ignored_exceptions: type[BaseException]) -> Either:
-        """ignore the exception classes"""
+        """Set the expception classes to Ignore"""
         self.ignore_exceptions = ignored_exceptions
         return self
 
