@@ -978,6 +978,8 @@ class TestSilentlyUnabridged:
 
 
 class TestEither:
+    settings_path = "screenpy.actions.either.settings"
+
     def test_can_be_instantiated(self) -> None:
         t1 = Either()
         t2 = Either(FakeAction()).or_(FakeAction())
@@ -1096,10 +1098,11 @@ class TestEither:
             def perform_as(self, actor: Actor):
                 return
 
-        settings.UNABRIDGED_NARRATION = True
-        with caplog.at_level(logging.INFO):
+        caplog.at_level(logging.INFO)
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
+        
+        with mock.patch(self.settings_path, mock_settings):
             Either(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
-        settings.UNABRIDGED_NARRATION = False
 
         assert caplog.records[0].message == "Tester tries to FakeActionFail"
 
