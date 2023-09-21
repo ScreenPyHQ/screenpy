@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from screenpy.configuration import settings
 from screenpy.pacing import the_narrator
 from screenpy.speech_tools import get_additive_description
 
@@ -39,27 +40,17 @@ class Either:
 
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to do one of two actions using try/accept."""
-        # logs the first attempt even if it fails
-        # try:
-        #     with the_narrator.mic_cable_kinked():
-        #         the_actor.will(*self.try_performables)
-        # except AssertionError:
-        #     try:
-        #         the_actor.will(*self.except_performables)
-        #     except Exception as exc:
-        #         raise exc from None
-
-        # Since we are fully expecting assertion error to be raised we kink the
-        # cable to avoid the explanation; which only happens when the cable is not
-        # kinked
-
-        # logs the first attempt only if it succeeds.
+        # kinking the cable before the attempt
+        # avoids explaning what the actor tries to do.
+        # logs the first attempt only if it succeeds
+        # or if UNABRIDGED_NARRATION is enabled
         with the_narrator.mic_cable_kinked():
             try:
                 the_actor.will(*self.try_performables)
                 return
             except self.ignore_exceptions:
-                the_narrator.clear_backup()
+                if not settings.UNABRIDGED_NARRATION:
+                    the_narrator.clear_backup()
 
         the_actor.will(*self.except_performables)
         return

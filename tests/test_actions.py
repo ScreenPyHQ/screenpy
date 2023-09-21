@@ -34,7 +34,7 @@ from screenpy import (
     beat,
     noted_under,
     settings,
-    the_narrator,
+    the_narrator, aside,
 )
 from screenpy.actions.silently import (
     SilentlyAnswerable,
@@ -1084,6 +1084,24 @@ class TestEither:
             Either(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
 
         assert caplog.records[0].message == "Tester tries to FakeActionPass"
+
+    def test_output_first_fails_unabridged(self, Tester, caplog):
+        class FakeActionFail(Performable):
+            @beat("{} tries to FakeActionFail")
+            def perform_as(self, actor: Actor):
+                raise AssertionError("This Fails!")
+
+        class FakeActionPass(Performable):
+            @beat("{} tries to FakeActionPass")
+            def perform_as(self, actor: Actor):
+                return
+
+        settings.UNABRIDGED_NARRATION = True
+        with caplog.at_level(logging.INFO):
+            Either(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
+        settings.UNABRIDGED_NARRATION = False
+
+        assert caplog.records[0].message == "Tester tries to FakeActionFail"
 
     def test_output_first_passes(self, Tester, caplog):
         class FakeActionFail(Performable):

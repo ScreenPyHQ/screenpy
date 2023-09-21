@@ -290,6 +290,16 @@ passed into :meth:`~screenpy.actions.Either.or_`.
 Note the Actor only catches ``AssertionError`` here 
 allowing for other exceptions to still be raised.
 
+Other exceptions can be caught when specified.
+
+.. code-block:: python
+    
+    the_actor.will(
+        Either(DoAction())
+        .or_(DoDifferentAction())
+        .ignoring(ValueError, AssertionError)
+    )
+
 :class:`~screenpy.actions.Either` allows users to pass in multiple actions. 
 This is similar Actor performing multiple actions in one call.
 
@@ -306,6 +316,9 @@ This is similar Actor performing multiple actions in one call.
             DoDifferentAction3(),
         )
     )
+
+:class:`~screenpy.actions.Either` has the ability to ignore other exceptions.
+Y
 
 
 .. note::
