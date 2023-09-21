@@ -317,9 +317,6 @@ This is similar Actor performing multiple actions in one call.
         )
     )
 
-:class:`~screenpy.actions.Either` has the ability to ignore other exceptions.
-Y
-
 
 .. note::
    :class:`~screenpy.actions.Either` will not describe any cleanup for the Actor
