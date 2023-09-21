@@ -4,6 +4,7 @@ Actions are what the Actors do, possibly requiring use of their Abilities.
 
 from .attach_the_file import AttachTheFile
 from .debug import Debug
+from .either import Either
 from .eventually import Eventually
 from .log import Log
 from .make_note import MakeNote
@@ -27,6 +28,8 @@ Sleep = Pause
 Sleeps = Pauses = Pause
 TakeNote = MakeNote
 TakesNote = MakesNote = MakeNote
+Attempts = AttemptsTo = GoesFor = Tries = TriesTo = Either
+TryTo = Attempt = AttemptTo = GoFor = Try = Either
 
 
 __all__ = [
@@ -42,6 +45,10 @@ __all__ = [
     "AttachesTheFile",
     "AttachFile",
     "AttachTheFile",
+    "Attempt",
+    "Attempts",
+    "AttemptsTo",
+    "AttemptTo",
     "Confirm",
     "ConfirmAllOf",
     "ConfirmAnyOf",
@@ -49,7 +56,10 @@ __all__ = [
     "ConfirmsAllOf",
     "ConfirmsAnyOf",
     "Debug",
+    "Either",
     "Eventually",
+    "GoesFor",
+    "GoFor",
     "Log",
     "MakeNote",
     "MakesNote",
@@ -73,6 +83,10 @@ __all__ = [
     "Sleeps",
     "TakeNote",
     "TakesNote",
+    "Tries",
+    "TriesTo",
+    "Try",
+    "TryTo",
     "Verifies",
     "VerifiesAllOf",
     "VerifiesAnyOf",

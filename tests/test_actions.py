@@ -14,6 +14,7 @@ from screenpy import (
     DeliveryError,
     Describable,
     Director,
+    Either,
     Eventually,
     IsEqualTo,
     Log,
@@ -27,20 +28,20 @@ from screenpy import (
     See,
     SeeAllOf,
     SeeAnyOf,
-    settings,
     Silently,
     UnableToAct,
     UnableToDirect,
     beat,
     noted_under,
+    settings,
     the_narrator,
 )
-from screenpy.configuration import ScreenPySettings
 from screenpy.actions.silently import (
     SilentlyAnswerable,
     SilentlyPerformable,
     SilentlyResolvable,
 )
+from screenpy.configuration import ScreenPySettings
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
     get_mock_action_class,
@@ -974,3 +975,149 @@ class TestSilentlyUnabridged:
         # kinked microphone will flush the logs back up into the previous
         # kink, which will then be cleared by the outer Silently.
         assert [r.msg for r in caplog.records] == []
+
+
+class TestEither:
+    settings_path = "screenpy.actions.either.settings"
+
+    def test_can_be_instantiated(self) -> None:
+        t1 = Either()
+        t2 = Either(FakeAction()).or_(FakeAction())
+
+        assert isinstance(t1, Either)
+        assert isinstance(t2, Either)
+
+    def test_implements_protocol(self) -> None:
+        t = Either()
+
+        assert isinstance(t, Performable)
+        assert isinstance(t, Describable)
+
+    def test_describe(self) -> None:
+        mock_action1 = FakeAction()
+        mock_action1.describe.return_value = "Do thing!"
+
+        mock_action2 = FakeAction()
+        mock_action2.describe.return_value = "produce stuff!"
+    
+        t = Either(mock_action1).or_(mock_action2)
+        assert (t.describe() == "Either do thing or produce stuff")
+
+    def test_multi_action_describe(self) -> None:
+        mock_action1 = FakeAction()
+        mock_action1.describe.return_value = "DoThing!"
+        mock_action2 = FakeAction()
+        mock_action2.describe.return_value = "DoStuff!"
+        mock_action3 = FakeAction()
+        mock_action3.describe.return_value = "PerformFoo."
+        mock_action4 = FakeAction()
+        mock_action4.describe.return_value = "PerformBar."
+
+        t = Either(mock_action1, mock_action2).or_(mock_action3, mock_action4)
+        assert (t.describe() == "Either doThing, doStuff or performFoo, performBar")
+
+    def test_first_action_passes(self, Tester, mocker: MockerFixture) -> None:
+        mock_clear = mocker.spy(the_narrator, "clear_backup")
+        mock_flush = mocker.spy(the_narrator, "flush_backup")
+        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+        
+        action1 = FakeAction()
+        action2 = FakeAction()
+        Either(action1).or_(action2).perform_as(Tester)
+
+        assert action1.perform_as.call_count == 1
+        assert action2.perform_as.call_count == 0
+        assert mock_kink.call_count == 1
+        assert mock_clear.call_count == 1
+        assert mock_flush.call_count == 1
+
+    def test_first_action_fails(self, Tester, mocker: MockerFixture) -> None:
+        mock_clear = mocker.spy(the_narrator, "clear_backup")
+        mock_flush = mocker.spy(the_narrator, "flush_backup")
+        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+        
+        exc = AssertionError("Wrong!")
+        action1 = FakeAction()
+        action2 = FakeAction()
+        action1.perform_as.side_effect = exc
+        
+        Either(action1).or_(action2).perform_as(Tester)
+
+        assert action1.perform_as.call_count == 1
+        assert action2.perform_as.call_count == 1
+        assert mock_kink.call_count == 1
+        assert mock_clear.call_count == 2
+        assert mock_flush.call_count == 1
+
+    def test_first_action_fails_with_custom_exception(self, Tester, mocker: MockerFixture) -> None:
+        mock_clear = mocker.spy(the_narrator, "clear_backup")
+        mock_flush = mocker.spy(the_narrator, "flush_backup")
+        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
+
+        class CustomException(Exception):
+            """Some Random Exception"""
+
+        exc = CustomException("it broke!")
+        action1 = FakeAction()
+        action2 = FakeAction()
+        action1.perform_as.side_effect = exc
+
+        Either(action1).or_(action2).ignoring(CustomException).perform_as(Tester)
+
+        assert action1.perform_as.call_count == 1
+        assert action2.perform_as.call_count == 1
+        assert mock_kink.call_count == 1
+        assert mock_clear.call_count == 2
+        assert mock_flush.call_count == 1
+
+    def test_output_first_fails(self, Tester, caplog):
+        
+        class FakeActionFail(Performable):
+            @beat("{} tries to FakeActionFail")
+            def perform_as(self, actor: Actor):
+                raise AssertionError("This Fails!")
+
+        class FakeActionPass(Performable):
+            @beat("{} tries to FakeActionPass")
+            def perform_as(self, actor: Actor):
+                return
+
+        with caplog.at_level(logging.INFO):
+            Either(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
+
+        assert caplog.records[0].message == "Tester tries to FakeActionPass"
+
+    def test_output_first_fails_unabridged(self, Tester, caplog):
+        class FakeActionFail(Performable):
+            @beat("{} tries to FakeActionFail")
+            def perform_as(self, actor: Actor):
+                raise AssertionError("This Fails!")
+
+        class FakeActionPass(Performable):
+            @beat("{} tries to FakeActionPass")
+            def perform_as(self, actor: Actor):
+                return
+
+        caplog.set_level(logging.INFO)
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
+        
+        with mock.patch(self.settings_path, mock_settings):
+            Either(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
+
+        assert caplog.records[0].message == "Tester tries to FakeActionFail"
+
+    def test_output_first_passes(self, Tester, caplog):
+        class FakeActionFail(Performable):
+            @beat("{} tries to FakeActionFail")
+            def perform_as(self, actor: Actor):
+                raise AssertionError("This Fails!")
+
+        class FakeActionPass(Performable):
+            @beat("{} tries to FakeActionPass")
+            def perform_as(self, actor: Actor):
+                return
+
+        with caplog.at_level(logging.INFO):
+            Either(FakeActionPass()).or_(FakeActionFail()).perform_as(Tester)
+
+        assert caplog.records[0].message == "Tester tries to FakeActionPass"
