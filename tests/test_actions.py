@@ -14,6 +14,7 @@ from screenpy import (
     DeliveryError,
     Describable,
     Director,
+    Either,
     Eventually,
     IsEqualTo,
     Log,
@@ -28,13 +29,12 @@ from screenpy import (
     SeeAllOf,
     SeeAnyOf,
     Silently,
-    Either,
     UnableToAct,
     UnableToDirect,
     beat,
     noted_under,
     settings,
-    the_narrator, aside,
+    the_narrator,
 )
 from screenpy.actions.silently import (
     SilentlyAnswerable,
