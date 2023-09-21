@@ -1098,7 +1098,7 @@ class TestEither:
             def perform_as(self, actor: Actor):
                 return
 
-        caplog.at_level(logging.INFO)
+        caplog.set_level(logging.INFO)
         mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
         
         with mock.patch(self.settings_path, mock_settings):
