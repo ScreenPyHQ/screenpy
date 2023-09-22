@@ -1,3 +1,5 @@
+import logging
+
 from screenpy import Actor, Answerable, IsEqualTo, See, act, aside, beat, scene
 
 
@@ -65,6 +67,7 @@ class TestBeat:
         assert completed_line == f"The {test_weapon} in the {test_room}!"
 
     def test_beat_logging_none(self, Tester, caplog):
+        caplog.set_level(logging.INFO)
         See(NonesyQuestion(), IsEqualTo(None)).perform_as(Tester)
 
         assert [r.msg for r in caplog.records] == [
