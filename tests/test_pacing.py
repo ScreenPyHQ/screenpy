@@ -1,4 +1,4 @@
-from screenpy import act, aside, beat, scene
+from screenpy import Actor, Answerable, IsEqualTo, See, act, aside, beat, scene
 
 
 def prop():
@@ -16,6 +16,15 @@ class Prop:
     @beat("The {weapon1} in the {room}!")
     def use(self):
         pass
+
+
+class NonesyQuestion(Answerable):
+    @beat("{} examines NonesyQuestion")
+    def answered_by(self, actor: Actor) -> None:
+        return None
+
+    def describe(self) -> str:
+        return "NonesyQuestion"
 
 
 class TestAct:
@@ -54,6 +63,17 @@ class TestBeat:
         mocked_narrator.stating_a_beat.assert_called_once()
         completed_line = mocked_narrator.stating_a_beat.call_args_list[0][0][1]
         assert completed_line == f"The {test_weapon} in the {test_room}!"
+
+    def test_beat_logging_none(self, Tester, caplog):
+        See(NonesyQuestion(), IsEqualTo(None)).perform_as(Tester)
+
+        assert [r.msg for r in caplog.records] == [
+            "Tester sees if nonesyQuestion is equal to None.",
+            "    Tester examines NonesyQuestion",
+            "        => None",
+            "    ... hoping it's equal to None.",
+            "        => <None>",
+        ]
 
 
 class TestAside:
