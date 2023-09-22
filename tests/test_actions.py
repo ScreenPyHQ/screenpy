@@ -300,6 +300,24 @@ class TestEventually:
             "    AssertionError: Failure #5"
         )
 
+    @mock.patch("screenpy.actions.eventually.time", autospec=True)
+    def test_mention_multiple_errors_once(self, mocked_time, Tester):
+        mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 1, 100])
+        mock_question = FakeQuestion()
+        mock_question.answered_by.return_value = True
+        mock_question.describe.return_value = "returns bool"
+        
+        with pytest.raises(DeliveryError) as actual_exception:
+            Eventually(See(mock_question, IsEqualTo(False))).perform_as(Tester)
+
+        assert str(actual_exception.value) == (
+            "Tester tried to Eventually see if returns bool is equal to False 3 times "
+            "over 20.0 seconds, but got:\n"
+            "    AssertionError: \n"
+            "Expected: <False>\n"
+            "     but: was <True>\n"
+        )
+
     def test_describe(self) -> None:
         mock_action = FakeAction()
         mock_action.describe.return_value = "An African or a European swallow?"

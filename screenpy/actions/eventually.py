@@ -3,7 +3,8 @@ Eventually perform a Task or Action, trying until a set timeout.
 """
 
 import time
-from typing import Dict, Optional
+from traceback import format_tb
+from typing import Optional
 
 from screenpy.actor import Actor
 from screenpy.configuration import settings
@@ -138,7 +139,8 @@ class Eventually:
                     return
                 except Exception as exc:  # pylint: disable=broad-except
                     self.caught_error = exc
-                    self.unique_errors[exc] = None
+                    if not any(same_exception(exc, c) for c in self.unique_errors):
+                        self.unique_errors.append(exc)
 
                 count += 1
                 time.sleep(self.poll)
@@ -158,6 +160,15 @@ class Eventually:
         self.performable = performable
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
-        self.unique_errors: Dict[Exception, None] = {}
+        self.unique_errors: list[BaseException] = []
         self.timeout = settings.TIMEOUT
         self.poll = settings.POLLING
+
+
+def same_exception(a: BaseException, b: BaseException) -> bool:
+    """compare exceptions to see if they match"""
+    return (
+        isinstance(a, type(b))
+        and (str(a) == str(b))
+        and (format_tb(a.__traceback__) == format_tb(b.__traceback__))
+    )
