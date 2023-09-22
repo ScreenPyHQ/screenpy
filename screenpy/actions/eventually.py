@@ -4,7 +4,7 @@ Eventually perform a Task or Action, trying until a set timeout.
 
 import time
 from traceback import format_tb
-from typing import Optional
+from typing import List, Optional
 
 from screenpy.actor import Actor
 from screenpy.configuration import settings
@@ -160,7 +160,7 @@ class Eventually:
         self.performable = performable
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
-        self.unique_errors: list[BaseException] = []
+        self.unique_errors: List[BaseException] = []
         self.timeout = settings.TIMEOUT
         self.poll = settings.POLLING
 
