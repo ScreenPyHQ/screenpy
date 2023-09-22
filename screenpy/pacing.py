@@ -125,7 +125,6 @@ def beat(line: str, gravitas: Optional[str] = None) -> Callable[[Function], Func
             completed_line = f"{line.format(actor, **cues)}"
             with the_narrator.stating_a_beat(func, completed_line, gravitas) as n_func:
                 retval = n_func(*args, **kwargs)
-
                 if retval is not None or function_attached_to_protocol(n_func):
                     aside(f"=> {retval}")
             return retval
