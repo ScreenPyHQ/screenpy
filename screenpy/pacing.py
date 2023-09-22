@@ -3,15 +3,53 @@ Provides decorators to group your tests into acts (features) and scenes
 (cases), and provide the gravitas (severity) of those groupings. These will
 run through all of the Narrator's adapters.
 """
-
+import functools
+import inspect
 import re
 from functools import wraps
 from typing import Any, Callable, Optional
 
 from screenpy.narration import Narrator, StdOutAdapter
+from screenpy.protocols import Answerable, Resolvable
 
 Function = Callable[..., Any]
 the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
+
+
+# credit to https://stackoverflow.com/a/25959545/2532408
+def get_class_that_defined_method(meth: Any) -> type | None:
+    """attempt to identify what class a method/function came from"""
+    if isinstance(meth, functools.partial):
+        return get_class_that_defined_method(meth.func)
+    if inspect.ismethod(meth) or (
+        inspect.isbuiltin(meth)
+        and getattr(meth, "__self__", None) is not None
+        and getattr(meth.__self__, "__class__", None)
+    ):
+        for cls in inspect.getmro(meth.__self__.__class__):
+            if meth.__name__ in cls.__dict__:
+                return cls
+        # fallback to __qualname__ parsing
+        meth = getattr(meth, "__func__", meth)
+    if inspect.isfunction(meth):
+        cls2 = getattr(
+            inspect.getmodule(meth),
+            meth.__qualname__.split(".<locals>", 1)[0].rsplit(".", 1)[0],
+            None,
+        )
+        if isinstance(cls2, type):
+            return cls2
+    # handle special descriptor objects
+    return getattr(meth, "__objclass__", None)
+
+
+def function_attached_to_protocol(func: Function) -> bool:
+    """
+    determine if function is attached to one of the protocols that allow for anything
+    to return
+    """
+    cls = get_class_that_defined_method(func)
+    return isinstance(cls, (Answerable, Resolvable))
 
 
 def act(title: str, gravitas: Optional[str] = None) -> Callable[[Function], Function]:
@@ -87,7 +125,8 @@ def beat(line: str, gravitas: Optional[str] = None) -> Callable[[Function], Func
             completed_line = f"{line.format(actor, **cues)}"
             with the_narrator.stating_a_beat(func, completed_line, gravitas) as n_func:
                 retval = n_func(*args, **kwargs)
-                if retval is not None:
+
+                if retval is not None or function_attached_to_protocol(n_func):
                     aside(f"=> {retval}")
             return retval
 
