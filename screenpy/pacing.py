@@ -17,7 +17,7 @@ the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
 
 
 # credit to https://stackoverflow.com/a/25959545/2532408
-def get_class_that_defined_method(meth: Any) -> type | None:
+def get_class_that_defined_method(meth: Any) -> Optional[type]:
     """attempt to identify what class a method/function came from"""
     if isinstance(meth, functools.partial):
         return get_class_that_defined_method(meth.func)
