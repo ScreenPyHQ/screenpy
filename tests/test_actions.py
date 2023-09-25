@@ -134,7 +134,6 @@ class TestDebug:
 
 
 class TestEventually:
-
     settings_path = "screenpy.actions.eventually.settings"
 
     def test_can_be_instantiated(self) -> None:
@@ -559,6 +558,36 @@ class TestSee:
             See(mock_question, mock_resolution).describe()
             == "See if can you speak is only this sentence."
         )
+
+    def test_log_passes(self, Tester, caplog) -> None:
+        with caplog.at_level(logging.INFO):
+            See(SimpleQuestion(), IsEqualTo(True)).perform_as(Tester)
+
+        assert [r.msg for r in caplog.records] == [
+            "Tester sees if simpleQuestion is equal to <True>.",
+            "    Tester examines SimpleQuestion",
+            "        => <True>",
+            "    ... hoping it's equal to <True>.",
+            "        => <True>",
+        ]
+
+    def test_log_fails(self, Tester, caplog) -> None:
+        with caplog.at_level(logging.INFO), pytest.raises(AssertionError):
+            See(SimpleQuestion(), IsEqualTo(False)).perform_as(Tester)
+
+        assert [r.msg for r in caplog.records] == [
+            "Tester sees if simpleQuestion is equal to <False>.",
+            "    Tester examines SimpleQuestion",
+            "        => <True>",
+            "    ... hoping it's equal to <False>.",
+            "        => <False>",
+            # don't be fooled! the next few lines do not have commas on purpose
+            "    ***ERROR***\n"
+            "\n"
+            "AssertionError: \n"
+            "Expected: <False>\n"
+            "     but: was <True>\n",
+        ]
 
 
 class TestSeeAllOf:
@@ -988,6 +1017,7 @@ class TestSilentlyUnabridged:
 
             The results of this test show the strange behavior.
             """
+
             @beat("{} tries to Action3")
             def perform_as(self, the_actor: Actor) -> None:
                 settings.UNABRIDGED_NARRATION = True
@@ -1027,6 +1057,7 @@ class TestSilentlyUnabridged:
 
             The results of this test show the strange behavior.
             """
+
             @beat("{} tries to Action4")
             def perform_as(self, the_actor: Actor) -> None:
                 settings.UNABRIDGED_NARRATION = True
@@ -1068,9 +1099,9 @@ class TestEither:
 
         mock_action2 = FakeAction()
         mock_action2.describe.return_value = "produce stuff!"
-    
+
         t = Either(mock_action1).or_(mock_action2)
-        assert (t.describe() == "Either do thing or produce stuff")
+        assert t.describe() == "Either do thing or produce stuff"
 
     def test_multi_action_describe(self) -> None:
         mock_action1 = FakeAction()
@@ -1083,13 +1114,13 @@ class TestEither:
         mock_action4.describe.return_value = "PerformBar."
 
         t = Either(mock_action1, mock_action2).or_(mock_action3, mock_action4)
-        assert (t.describe() == "Either doThing, doStuff or performFoo, performBar")
+        assert t.describe() == "Either doThing, doStuff or performFoo, performBar"
 
     def test_first_action_passes(self, Tester, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
-        
+
         action1 = FakeAction()
         action2 = FakeAction()
         Either(action1).or_(action2).perform_as(Tester)
@@ -1104,12 +1135,12 @@ class TestEither:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
-        
+
         exc = AssertionError("Wrong!")
         action1 = FakeAction()
         action2 = FakeAction()
         action1.perform_as.side_effect = exc
-        
+
         Either(action1).or_(action2).perform_as(Tester)
 
         assert action1.perform_as.call_count == 1
@@ -1118,7 +1149,9 @@ class TestEither:
         assert mock_clear.call_count == 2
         assert mock_flush.call_count == 1
 
-    def test_first_action_fails_with_custom_exception(self, Tester, mocker: MockerFixture) -> None:
+    def test_first_action_fails_with_custom_exception(
+        self, Tester, mocker: MockerFixture
+    ) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
@@ -1140,7 +1173,6 @@ class TestEither:
         assert mock_flush.call_count == 1
 
     def test_output_first_fails(self, Tester, caplog):
-        
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, actor: Actor):
@@ -1169,7 +1201,7 @@ class TestEither:
 
         caplog.set_level(logging.INFO)
         mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
-        
+
         with mock.patch(self.settings_path, mock_settings):
             Either(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
 
