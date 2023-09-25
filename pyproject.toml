@@ -151,8 +151,6 @@ ignore = [
     "ANN202",
     "ANN201",
     "ANN001",
-    "ANN002",
-    "ANN003",
     
     
     "D107",  # missing __init__ docstring, we do that in the class docstring.

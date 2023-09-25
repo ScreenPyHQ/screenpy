@@ -7,7 +7,7 @@ from unittest_protocols import Ability, Action, Question, Resolution
 
 def get_mock_action_class() -> Any:
     class FakeAction(Action):
-        def __new__(cls, *args, **kwargs) -> FakeAction:
+        def __new__(cls, *args: Any, **kwargs: Any) -> FakeAction:
             rt = mock.create_autospec(FakeAction, instance=True)
             rt.describe.return_value = None
             return rt
@@ -17,7 +17,7 @@ def get_mock_action_class() -> Any:
 
 def get_mock_question_class() -> Any:
     class FakeQuestion(Question):
-        def __new__(cls, *args, **kwargs) -> FakeQuestion:
+        def __new__(cls, *args: Any, **kwargs: Any) -> FakeQuestion:
             rt = mock.create_autospec(FakeQuestion, instance=True)
             rt.describe.return_value = None
             rt.answered_by.return_value = True
@@ -28,7 +28,7 @@ def get_mock_question_class() -> Any:
 
 def get_mock_resolution_class() -> Any:
     class FakeResolution(Resolution):
-        def __new__(cls, *args, **kwargs) -> FakeResolution:
+        def __new__(cls, *args: Any, **kwargs: Any) -> FakeResolution:
             rt = mock.create_autospec(FakeResolution, instance=True)
             rt.resolve.return_value = rt
             rt.describe.return_value = None
@@ -60,7 +60,7 @@ def get_mock_ability_class() -> Any:
     """
 
     class FakeAbility(Ability):
-        def __new__(cls, *args, **kwargs) -> FakeAbility:
+        def __new__(cls, *args: Any, **kwargs: Any) -> FakeAbility:
             return mock.create_autospec(FakeAbility, *args, **kwargs)
 
     return FakeAbility
