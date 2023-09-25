@@ -1,6 +1,6 @@
 import logging
 
-from screenpy import Actor, Answerable, IsEqualTo, See, act, aside, beat, scene
+from screenpy import Actor, IsEqualTo, See, act, aside, beat, scene
 
 
 def prop():
@@ -20,7 +20,7 @@ class Prop:
         pass
 
 
-class NonesyQuestion(Answerable):
+class NonesyQuestion:
     @beat("{} examines NonesyQuestion")
     def answered_by(self, actor: Actor) -> None:
         return None
