@@ -192,21 +192,12 @@ class TestContainsTheItem:
         assert cti.matches(range(0, 10))
         assert not cti.matches({0, 3, 5})
 
-    def test_description(self) -> None:
-        test_item = 1
+    def test_description_uses_represent_prop(self) -> None:
+        cti_int = ContainsTheItem(1)
+        cti_str = ContainsTheItem("1")
 
-        cti = ContainsTheItem(test_item)
-
-        expected_description = "A sequence containing <1>."
-        assert cti.describe() == expected_description
-
-    def test_description_str(self) -> None:
-        test_item = "1"
-
-        cti = ContainsTheItem(test_item)
-
-        expected_description = "A sequence containing '1'."
-        assert cti.describe() == expected_description
+        assert cti_int.describe() == "A sequence containing <1>."
+        assert cti_str.describe() == "A sequence containing '1'."
 
 
 class TestContainsTheKey:
@@ -268,21 +259,12 @@ class TestContainsTheValue:
         assert ctv.matches({"key": "value", "play": "Hamlet"})
         assert not ctv.matches({"play": "Hamlet"})
 
-    def test_description(self) -> None:
-        test_value = 42
+    def test_description_uses_represent_prop(self) -> None:
+        ctv_int = ContainsTheValue(42)
+        ctv_str = ContainsTheValue("42")
 
-        ctv = ContainsTheValue(test_value)
-
-        expected_description = "Containing the value <42>."
-        assert ctv.describe() == expected_description
-
-    def test_description_str(self) -> None:
-        test_value = "42"
-
-        ctv = ContainsTheValue(test_value)
-
-        expected_description = "Containing the value '42'."
-        assert ctv.describe() == expected_description
+        assert ctv_int.describe() == "Containing the value <42>."
+        assert ctv_str.describe() == "Containing the value '42'."
 
 
 class TestEmpty:
@@ -387,21 +369,12 @@ class TestIsEqualTo:
         assert ie.matches(1)
         assert not ie.matches(2)
 
-    def test_description(self) -> None:
-        test_object = 8675
+    def test_description_uses_represent_prop(self) -> None:
+        ie_int = IsEqualTo(8675)
+        ie_str = IsEqualTo("8675")
 
-        ie = IsEqualTo(test_object)
-
-        expected_description = "Equal to <8675>."
-        assert ie.describe() == expected_description
-
-    def test_description_str(self) -> None:
-        test_object = "my Schwartz"
-
-        ie = IsEqualTo(test_object)
-
-        expected_description = "Equal to 'my Schwartz'."
-        assert ie.describe() == expected_description
+        assert ie_int.describe() == "Equal to <8675>."
+        assert ie_str.describe() == "Equal to '8675'."
 
 
 class TestIsGreaterThan:
