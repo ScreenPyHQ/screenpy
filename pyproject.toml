@@ -147,8 +147,6 @@ select = [
 ]
 ignore = [
     # temp
-#    "ANN204",
-    "ANN202",
     "ANN201",
     "ANN001",
     

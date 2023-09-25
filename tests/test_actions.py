@@ -1074,12 +1074,12 @@ class TestEither:
         
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, actor: Actor) -> None:
                 raise AssertionError("This Fails!")
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, actor: Actor) -> None:
                 return
 
         with caplog.at_level(logging.INFO):
@@ -1090,12 +1090,12 @@ class TestEither:
     def test_output_first_fails_unabridged(self, Tester, caplog):
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, actor: Actor) -> None:
                 raise AssertionError("This Fails!")
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, actor: Actor) -> None:
                 return
 
         caplog.set_level(logging.INFO)
@@ -1109,12 +1109,12 @@ class TestEither:
     def test_output_first_passes(self, Tester, caplog):
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, actor: Actor) -> None:
                 raise AssertionError("This Fails!")
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, actor: Actor) -> None:
                 return
 
         with caplog.at_level(logging.INFO):

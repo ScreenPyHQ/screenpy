@@ -7,7 +7,7 @@ from screenpy import NORMAL, Adapter, Narrator
 from screenpy.narration.narrator import _chainify
 
 
-def _():
+def _() -> None:
     """Dummy function for simple chaining tests."""
     pass
 
