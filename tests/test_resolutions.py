@@ -396,7 +396,7 @@ class TestIsGreaterThan:
 
         igt = IsGreaterThan(test_num)
 
-        expected_description = f"Greater than {test_num}."
+        expected_description = "Greater than <41>."
         assert igt.describe() == expected_description
 
 
@@ -419,7 +419,7 @@ class TestIsGreaterThanOrEqualTo:
 
         igtoet = IsGreaterThanOrEqualTo(test_num)
 
-        expected_description = f"Greater than or equal to {test_num}."
+        expected_description = "Greater than or equal to <1337>."
         assert igtoet.describe() == expected_description
 
 
@@ -493,7 +493,7 @@ class TestIsLessThan:
 
         ilt = IsLessThan(test_num)
 
-        expected_description = f"Less than {test_num}."
+        expected_description = "Less than <43>."
         assert ilt.describe() == expected_description
 
 
@@ -516,7 +516,7 @@ class TestIsLessThanOrEqualTo:
 
         iltoet = IsLessThanOrEqualTo(test_num)
 
-        expected_description = f"Less than or equal to {test_num}."
+        expected_description = "Less than or equal to <1337>."
         assert iltoet.describe() == expected_description
 
 
