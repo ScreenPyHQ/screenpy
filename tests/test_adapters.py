@@ -1,3 +1,4 @@
+from __future__ import annotations
 import logging
 
 import pytest
@@ -7,7 +8,7 @@ from screenpy.narration import gravitas
 from screenpy.protocols import Adapter
 
 
-def prop():
+def prop() -> None:
     """The revolver in the foyer!"""
 
 

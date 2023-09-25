@@ -1,7 +1,8 @@
+from __future__ import annotations
 import screenpy
 
 
-def test_screenpy():
+def test_screenpy() -> None:
     expected = [
         "AbilityError",
         "act",
@@ -158,7 +159,7 @@ def test_screenpy():
     assert sorted(screenpy.__all__) == sorted(expected)
 
 
-def test_actions():
+def test_actions() -> None:
     expected = [
         "Assert",
         "AssertAllOf",
@@ -224,7 +225,7 @@ def test_actions():
     assert sorted(screenpy.actions.__all__) == sorted(expected)
 
 
-def test_resolutions():
+def test_resolutions() -> None:
     expected = [
         "BaseResolution",
         "ContainItemMatching",
@@ -275,7 +276,7 @@ def test_resolutions():
     assert sorted(screenpy.resolutions.__all__) == sorted(expected)
 
 
-def test_narration():
+def test_narration() -> None:
     expected = [
         "AIRY",
         "EXTREME",
@@ -290,7 +291,7 @@ def test_narration():
     assert sorted(screenpy.narration.__all__) == sorted(expected)
 
 
-def test_stdout_adapter():
+def test_stdout_adapter() -> None:
     expected = [
         "LoggingAdapter",
         "settings",

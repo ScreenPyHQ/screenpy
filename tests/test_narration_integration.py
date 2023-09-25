@@ -1,3 +1,4 @@
+from __future__ import annotations
 import logging
 from typing import Any, Generator
 
@@ -25,7 +26,7 @@ INDENT = settings.INDENT_CHAR * settings.INDENT_SIZE
 
 @act(TEST_ACT, gravitas=NORMAL)
 @scene(TEST_SCENE)
-def prop():
+def prop() -> None:
     pass
 
 

@@ -1,4 +1,5 @@
-from typing import Callable, Dict, List, Tuple, Union
+from __future__ import annotations
+from typing import Callable, Dict, List, Tuple, Union, Any
 from unittest import mock
 
 import pytest
@@ -19,7 +20,7 @@ KW: T_KW = {"func": _, "line": ""}
 KW_G: T_KW = {**KW, "gravitas": NORMAL}
 
 
-def get_mock_adapter():
+def get_mock_adapter() -> Any:
     return mock.create_autospec(Adapter, instance=True)
 
 

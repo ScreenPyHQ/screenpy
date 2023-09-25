@@ -1,3 +1,4 @@
+from __future__ import annotations
 from unittest import mock
 
 import pytest
@@ -33,7 +34,7 @@ from screenpy.speech_tools import get_additive_description
 
 
 class TestBaseResolution:
-    def test_subclasses_deprecated(self):
+    def test_subclasses_deprecated(self) -> None:
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
 

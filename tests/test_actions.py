@@ -1,3 +1,4 @@
+from __future__ import annotations
 import logging
 import os
 import time
@@ -57,7 +58,7 @@ FakeResolution = get_mock_resolution_class()
 class DoThingThatFails(Performable):
     COUNTER = 0
 
-    def perform_as(self, actor: Actor):
+    def perform_as(self, actor: Actor) -> None:
         DoThingThatFails.COUNTER += 1
         raise AssertionError(f"Failure #{DoThingThatFails.COUNTER}")
 
@@ -281,7 +282,7 @@ class TestEventually:
         assert str(exc2) in str(actual_exception.value)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_mention_all_errors_in_order(self, mocked_time, Tester):
+    def test_mention_all_errors_in_order(self, mocked_time, Tester) -> None:
         num_calls = 5
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
@@ -1070,7 +1071,7 @@ class TestEither:
         assert mock_clear.call_count == 2
         assert mock_flush.call_count == 1
 
-    def test_output_first_fails(self, Tester, caplog):
+    def test_output_first_fails(self, Tester, caplog) -> None:
         
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
@@ -1087,7 +1088,7 @@ class TestEither:
 
         assert caplog.records[0].message == "Tester tries to FakeActionPass"
 
-    def test_output_first_fails_unabridged(self, Tester, caplog):
+    def test_output_first_fails_unabridged(self, Tester, caplog) -> None:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, actor: Actor) -> None:
@@ -1106,7 +1107,7 @@ class TestEither:
 
         assert caplog.records[0].message == "Tester tries to FakeActionFail"
 
-    def test_output_first_passes(self, Tester, caplog):
+    def test_output_first_passes(self, Tester, caplog) -> None:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, actor: Actor) -> None:

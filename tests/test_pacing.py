@@ -1,7 +1,8 @@
+from __future__ import annotations
 from screenpy import act, aside, beat, scene
 
 
-def prop():
+def prop() -> None:
     """The candlestick in the hall!"""
 
 
@@ -14,7 +15,7 @@ class Prop:
         self.perpetrator = perpetrator
 
     @beat("The {weapon1} in the {room}!")
-    def use(self):
+    def use(self) -> None:
         pass
 
 

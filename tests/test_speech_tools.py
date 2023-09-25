@@ -1,31 +1,32 @@
+from __future__ import annotations
 import pytest
 
 from screenpy.speech_tools import get_additive_description
 
 
 class ThisIsADescribableWithADescribe:
-    def perform_as(self):
+    def perform_as(self) -> None:
         pass
 
-    def describe(self):
+    def describe(self) -> str:
         return "This is a describable."
 
 
 class ThisIsADescribable:
-    def perform_as(self):
+    def perform_as(self) -> None:
         pass
 
 
 class DescribableWithQuote:
-    def perform_as(self):
+    def perform_as(self) -> None:
         pass
 
-    def describe(self):
+    def describe(self) -> str:
         return 'This Describable ends with a "quote".'
 
 
 class Indescribable:
-    def describe(self):
+    def describe(self) -> None:
         return
 
 
