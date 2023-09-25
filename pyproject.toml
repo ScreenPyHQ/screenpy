@@ -107,26 +107,20 @@ line-length = 88  # same as Black.
 select = [
     "A",  # flake8-builtins
     "ANN",  # flake8-annotations
-    "ARG",  # flake8-unused-arguments
     "B",  # flake8-bugbear
-    "BLE",  # flake8-blind-except
     "C4",  # flake8-comprehensions
     "D",  # pydocstyle
     "E",  # pycodestyle error
-    "EM",  # flake8-errmsg
     "ERA",  # eradicate
     "F",  # Pyflakes
-    "FA",  # flake8-future-annotations
-    "FBT",  # flake8-boolean-trap
     "FIX",  # flake8-fixme
     "FLY",  # flynt
-    "FURB",  # refurb
     "I",  # isort
     "ICN",  # flake8-import-conventions
     "ISC",  # flake8-implicit-str-concat
-    "PERF",  # perflint
     "PGH",  # pygrep-hooks
     "PIE",  # flake8-pie
+    "PERF",  # perflint
     "PL",  # pylint
     "PT",  # flake8-pytest-style
     "Q",  # flake8-quotes
@@ -138,9 +132,18 @@ select = [
     "T20",  # flake8-print
     "TCH",  # flake8-type-checking
     "TRY",  # tryceratops
-    "UP",  # python upgrade
     "W",  # pycodestyle warning
     "YTT",  # flake8-2020
+    
+    
+    # would leave off
+#    "FURB",  # refurb  # requires use of --preview
+#    "ARG",  # flake8-unused-arguments  # more false positives than helpful
+#    "BLE",  # flake8-blind-except  # we already use # pylint: disable=broad-except
+#    "EM",  # flake8-errmsg  # very opinionated
+#    "FA",  # flake8-future-annotations  # conflicts with 3.8 & 3.9
+#    "FBT",  # flake8-boolean-trap  # opinionated
+#    "UP",  # python upgrade  # conflicts with 3.8
 ]
 ignore = [
     "D107",  # missing __init__ docstring, we do that in the class docstring.
@@ -148,24 +151,37 @@ ignore = [
     "D212",  # multi line summary first line, we want a one line summary.
     "ANN101",  # missing self annotation, we only annotate self when we return it.
     "ANN401",  # no `**kwargs: Any` typing; unfortunately we don't have a better way.
-]
-include = [
-    "screenpy",
-    "tests",
-]
+    
+    # should include to avoid issues
+    
+    # maybe just ignore in the files where needed?
+    "A003", # Class attribute shadow builtin   
+    "ANN102",  # cls  # mypy doesnt need it. will always be 'Self'
+    "D200", # One-line docstring should fit on one line
+    "PLR2004", # magic-value-comparison  # super opinionated
+    
+    # explicit is always better
+    "PT003", # [*] `scope='function'` is implied in `@pytest.fixture()`
+    "PT011", # `pytest.raises(ValueError)` is too broad -- REALLY?!
+]   
+# when we get done, we're gonig to want to be able to run `ruff .` against the whole
+# project in github actions or tox.  For some reason setting these doesn't allow me to
+# run `ruff .`
+#include = [
+#    "screenpy",
+#    "tests",
+#]
 exclude = [
     "screenpy/__init__.py",
     "screenpy/__version__.py",
+    "docs",
 ]
 
 
 [tool.ruff.per-file-ignores]
-"__init__.py" = ["F401"]
-"tests/ui/admin/budget_configure/modal*.py" = ["F401"]
-"tests/ui/admin/organization_configure/modal*.py" = ["F401"]
-"tests/ui/admin/schedule_configure/modal*.py" = ["F401"]
-"setup/dbutil.py" = ["E722"] # bare except
-"tests/question/new_expected_conditions.py" = ["ANN"] # this is a copy of the original
+"tests/*" = ["D"]
+"setup.py" = ["D"]
+"screenpy/actions/debug.py" = ["T100"] # T100 `pdb`, `breakpoint` found/used
 
 
 [tool.ruff.isort]
