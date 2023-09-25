@@ -107,35 +107,35 @@ line-length = 88  # same as Black.
 select = [
     "A",  # flake8-builtins
     "ANN",  # flake8-annotations
-    "B",  # flake8-bugbear
-    "C4",  # flake8-comprehensions
-    "D",  # pydocstyle
-    "E",  # pycodestyle error
-    "ERA",  # eradicate
-    "F",  # Pyflakes
-    "FA",  # flake8-future-annotations
-    "FIX",  # flake8-fixme
-    "FLY",  # flynt
-    "I",  # isort
-    "ICN",  # flake8-import-conventions
-    "ISC",  # flake8-implicit-str-concat
-    "PGH",  # pygrep-hooks
-    "PIE",  # flake8-pie
-    "PERF",  # perflint
-    "PL",  # pylint
-    "PT",  # flake8-pytest-style
-    "Q",  # flake8-quotes
-    "RET",  # flake8-return
-    "RSE",  # flake8-raise
-    "RUF",  # ruff specific
-    "SIM",  # flake8-simplify
-    "T10",  # flake8-debugger
-    "T20",  # flake8-print
-    "TCH",  # flake8-type-checking
-    "TRY",  # tryceratops
-    "UP",  # python upgrade
-    "W",  # pycodestyle warning
-    "YTT",  # flake8-2020
+#    "B",  # flake8-bugbear
+#    "C4",  # flake8-comprehensions
+#    "D",  # pydocstyle
+#    "E",  # pycodestyle error
+#    "ERA",  # eradicate
+#    "F",  # Pyflakes
+#    "FA",  # flake8-future-annotations
+#    "FIX",  # flake8-fixme
+#    "FLY",  # flynt
+#    "I",  # isort
+#    "ICN",  # flake8-import-conventions
+#    "ISC",  # flake8-implicit-str-concat
+#    "PGH",  # pygrep-hooks
+#    "PIE",  # flake8-pie
+#    "PERF",  # perflint
+#    "PL",  # pylint
+#    "PT",  # flake8-pytest-style
+#    "Q",  # flake8-quotes
+#    "RET",  # flake8-return
+#    "RSE",  # flake8-raise
+#    "RUF",  # ruff specific
+#    "SIM",  # flake8-simplify
+#    "T10",  # flake8-debugger
+#    "T20",  # flake8-print
+#    "TCH",  # flake8-type-checking
+#    "TRY",  # tryceratops
+#    "UP",  # python upgrade
+#    "W",  # pycodestyle warning
+#    "YTT",  # flake8-2020
     
     
     # would leave off
@@ -146,6 +146,15 @@ select = [
 #    "FBT",  # flake8-boolean-trap  # opinionated
 ]
 ignore = [
+    # temp
+#    "ANN204",
+    "ANN202",
+    "ANN201",
+    "ANN001",
+    "ANN002",
+    "ANN003",
+    
+    
     "D107",  # missing __init__ docstring, we do that in the class docstring.
     "D203",  # one blank line before class; we want 2!
     "D212",  # multi line summary first line, we want a one line summary.

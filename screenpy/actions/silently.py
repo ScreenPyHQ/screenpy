@@ -43,7 +43,7 @@ class SilentlyPerformable(Performable, SilentlyMixin):
                 the_narrator.clear_backup()
             return
 
-    def __init__(self, duck: Performable):
+    def __init__(self, duck: Performable) -> None:
         if not isinstance(duck, Performable):
             raise NotPerformable(
                 "SilentlyPerformable only works with Performable. "
@@ -62,7 +62,7 @@ class SilentlyAnswerable(Answerable, SilentlyMixin):
                 the_narrator.clear_backup()
             return thing
 
-    def __init__(self, duck: Answerable):
+    def __init__(self, duck: Answerable) -> None:
         if not isinstance(duck, Answerable):
             raise NotAnswerable(
                 "SilentlyAnswerable only works with Answerable. Use `Silently` instead."
@@ -80,7 +80,7 @@ class SilentlyResolvable(Resolvable, SilentlyMixin):
                 the_narrator.clear_backup()
             return res
 
-    def __init__(self, duck: Resolvable):
+    def __init__(self, duck: Resolvable) -> None:
         if not isinstance(duck, Resolvable):
             raise NotResolvable(
                 "SilentlyResolvable only works with Resolvable. Use `Silently` instead."

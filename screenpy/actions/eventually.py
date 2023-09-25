@@ -1,7 +1,7 @@
 """
 Eventually perform a Task or Action, trying until a set timeout.
 """
-
+from __future__ import annotations
 import time
 from typing import Dict, Optional
 
@@ -52,21 +52,21 @@ class Eventually:
         """
 
         def __init__(
-            self, eventually: "Eventually", amount: float, attribute: str
+            self, eventually: Eventually, amount: float, attribute: str
         ) -> None:
             self.eventually = eventually
             self.amount = amount
             self.attribute = attribute
             setattr(self.eventually, self.attribute, self.amount)
 
-        def milliseconds(self) -> "Eventually":
+        def milliseconds(self) -> Eventually:
             """Set the timeout in milliseconds."""
             setattr(self.eventually, self.attribute, self.amount / 1000)
             return self.eventually
 
         millisecond = milliseconds
 
-        def seconds(self) -> "Eventually":
+        def seconds(self) -> Eventually:
             """Set the timeout in seconds."""
             setattr(self.eventually, self.attribute, self.amount)
             return self.eventually
@@ -154,7 +154,7 @@ class Eventually:
         )
         raise DeliveryError(msg) from self.caught_error
 
-    def __init__(self, performable: Performable):
+    def __init__(self, performable: Performable) -> None:
         self.performable = performable
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
