@@ -111,11 +111,11 @@ select = [
 #    "C4",  # flake8-comprehensions
 #    "D",  # pydocstyle
     "E",  # pycodestyle error
-#    "ERA",  # eradicate
+    "ERA",  # eradicate
     "F",  # Pyflakes
     "FA",  # flake8-future-annotations
-#    "FIX",  # flake8-fixme
-#    "FLY",  # flynt
+    "FIX",  # flake8-fixme
+    "FLY",  # flynt
     "I",  # isort
 #    "ICN",  # flake8-import-conventions
 #    "ISC",  # flake8-implicit-str-concat
