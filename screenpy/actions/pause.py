@@ -87,9 +87,7 @@ class Pause:
         if not reason.startswith("because"):
             reason = f"because {reason}"
 
-        reason = re.sub(r"\W*$", "", reason)
-
-        return reason
+        return re.sub(r"\W*$", "", reason)
 
     def __init__(self: SelfPause, number: float) -> None:
         self.number = number

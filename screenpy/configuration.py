@@ -70,12 +70,11 @@ def pyproject_settings(settings_class: BaseSettings) -> dict[str, Any]:
     toml_config = _parse_pyproject_toml(tool_path)
 
     allowed_keys = settings_class.schema()["properties"]
-    project_settings = {
+    return {
         k.replace("--", "").replace("-", "_"): v
         for k, v in toml_config.items()
         if k in allowed_keys
     }
-    return project_settings
 
 
 class ScreenPySettings(BaseSettings):
