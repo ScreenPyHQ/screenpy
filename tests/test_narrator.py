@@ -50,7 +50,7 @@ test_params: tuple[T_1, T_2, T_3] = (
 
 class TestChainify:
     @pytest.mark.parametrize(
-        "test_narrations,expected",
+        ("test_narrations", "expected"),
         test_params,
     )
     def test_flat_narration(
@@ -269,7 +269,7 @@ class TestNarrator:
             narrator.narrate("", func="")
 
     @pytest.mark.parametrize(
-        "channel_func,channel",
+        ("channel_func", "channel"),
         [
             ("announcing_the_act", "act"),
             ("setting_the_scene", "scene"),

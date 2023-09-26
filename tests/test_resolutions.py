@@ -46,7 +46,7 @@ class TestBaseResolution:
 
     @pytest.mark.filterwarnings("ignore:BaseResolution")
     @pytest.mark.parametrize(
-        "args,kwargs,expected",
+        ("args", "kwargs", "expected"),
         [
             ([], {}, True),
             ([1], {}, 1),
@@ -79,7 +79,7 @@ class TestBaseResolution:
 
     @pytest.mark.filterwarnings("ignore:BaseResolution")
     @pytest.mark.parametrize(
-        "method,args,expected_method",
+        ("method", "args", "expected_method"),
         [
             ("_matches", [mock.create_autospec(BaseResolution._matches)], "matches"),
             (

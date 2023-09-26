@@ -123,7 +123,7 @@ select = [
     "PIE",  # flake8-pie
 #    "PERF",  # perflint
     "PL",  # pylint
-#    "PT",  # flake8-pytest-style
+    "PT",  # flake8-pytest-style
     "Q",  # flake8-quotes
 #    "RET",  # flake8-return
 #    "RSE",  # flake8-raise
