@@ -32,15 +32,15 @@ jobs:
       - name: Lint with black
         run: |
           black --check --diff screenpy
-      - name: Lint with isort
+      - name: Lint with ruff
         run: |
-          isort --check-only --diff screenpy
-      - name: Lint with flake8
-        run: |
-          flake8 --exit-zero screenpy
+          ruff
+#      - name: Lint with flake8
+#        run: |
+#          flake8 --exit-zero screenpy
       - name: Lint with mypy
         run: |
           mypy screenpy
-      - name: Lint with pylint
-        run: |
-          pylint screenpy
+#      - name: Lint with pylint
+#        run: |
+#          pylint screenpy
