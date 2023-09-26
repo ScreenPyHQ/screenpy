@@ -153,7 +153,7 @@ ignore = [
     "D106",
 #    "D202",
     "D205",
-    "D403",
+#    "D403",
 #    "D415",
     
     "E501", # line too long -- fixing those last
