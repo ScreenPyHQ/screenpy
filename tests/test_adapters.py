@@ -44,7 +44,7 @@ class TestStdOutManager:
 
     def test_step(self, caplog: LogCaptureFixture) -> None:
         manager = StdOutManager()
-        test_message = "Wow. I’m Mr. Manager."
+        test_message = "Wow. I'm Mr. Manager."
 
         with caplog.at_level(logging.INFO):
             with manager.log_context(test_message):

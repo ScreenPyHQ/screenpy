@@ -6,7 +6,7 @@ from __future__ import annotations
 import logging
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Callable, Generator
+from typing import Any, Callable, ClassVar, Generator
 
 from ..gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
 from .configuration import settings
@@ -63,7 +63,7 @@ class StdOutAdapter:
 
     handled_exception: Exception | None
 
-    GRAVITAS = {
+    GRAVITAS: ClassVar[dict[str, int]] = {
         AIRY: logging.DEBUG,
         LIGHT: logging.INFO,
         NORMAL: logging.WARNING,
