@@ -126,7 +126,7 @@ select = [
     "PT",  # flake8-pytest-style
     "Q",  # flake8-quotes
     "RET",  # flake8-return
-#    "RSE",  # flake8-raise
+    "RSE",  # flake8-raise
 #    "RUF",  # ruff specific
 #    "SIM",  # flake8-simplify
     "T10",  # flake8-debugger

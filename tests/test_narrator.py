@@ -308,7 +308,7 @@ class TestNarrator:
         try:
             with narrator.off_the_air():
                 with narrator.stating_a_beat(lambda: "Hello", "Clarise"):
-                    raise ValueError()
+                    raise ValueError
         except ValueError:
             pass
 
@@ -320,7 +320,7 @@ class TestNarrator:
         try:
             with narrator.mic_cable_kinked():
                 with narrator.stating_a_beat(lambda: "Hello", "Anthony"):
-                    raise ValueError()
+                    raise ValueError
         except ValueError:
             pass
 
