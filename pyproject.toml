@@ -108,7 +108,7 @@ select = [
     "A",  # flake8-builtins
     "ANN",  # flake8-annotations
 #    "B",  # flake8-bugbear
-#    "C4",  # flake8-comprehensions
+    "C4",  # flake8-comprehensions
 #    "D",  # pydocstyle
     "E",  # pycodestyle error
     "ERA",  # eradicate
