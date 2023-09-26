@@ -121,14 +121,18 @@ class TestDebug:
         assert isinstance(d, Describable)
 
     @mock.patch("screenpy.actions.debug.breakpoint")
-    def test_calls_breakpoint(self, mocked_breakpoint: mock.Mock, Tester: Actor) -> None:
+    def test_calls_breakpoint(
+        self, mocked_breakpoint: mock.Mock, Tester: Actor
+    ) -> None:
         Debug().perform_as(Tester)
 
         mocked_breakpoint.assert_called_once()
 
     @mock.patch("screenpy.actions.debug.breakpoint")
     @mock.patch("screenpy.actions.debug.pdb")
-    def test_falls_back_to_pdb(self, mocked_pdb: mock.Mock, mocked_breakpoint: mock.Mock, Tester: Actor) -> None:
+    def test_falls_back_to_pdb(
+        self, mocked_pdb: mock.Mock, mocked_breakpoint: mock.Mock, Tester: Actor
+    ) -> None:
         mocked_breakpoint.side_effect = NameError("name 'breakpoint' is not defined")
 
         Debug().perform_as(Tester)
@@ -140,7 +144,6 @@ class TestDebug:
 
 
 class TestEventually:
-
     settings_path = "screenpy.actions.eventually.settings"
 
     def test_can_be_instantiated(self) -> None:
@@ -231,7 +234,9 @@ class TestEventually:
         assert "poll must be less than or equal to timeout" in str(actual_exception)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_perform_eventually_times_out(self, mocked_time: mock.Mock, Tester: Actor) -> None:
+    def test_perform_eventually_times_out(
+        self, mocked_time: mock.Mock, Tester: Actor
+    ) -> None:
         num_calls = 5
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
@@ -245,7 +250,9 @@ class TestEventually:
         assert mocked_time.time.call_count == num_calls + 1
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_timeout_mentions_num_executions(self, mocked_time: mock.Mock, Tester: Actor) -> None:
+    def test_timeout_mentions_num_executions(
+        self, mocked_time: mock.Mock, Tester: Actor
+    ) -> None:
         num_calls = 5
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
@@ -287,7 +294,9 @@ class TestEventually:
         assert str(exc2) in str(actual_exception.value)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_mention_all_errors_in_order(self, mocked_time: mock.Mock, Tester: Actor) -> None:
+    def test_mention_all_errors_in_order(
+        self, mocked_time: mock.Mock, Tester: Actor
+    ) -> None:
         num_calls = 5
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
@@ -528,7 +537,9 @@ class TestSee:
         )
 
     @mock.patch("screenpy.actions.see.assert_that")
-    def test_calls_assert_that_with_value(self, mocked_assert_that: mock.Mock, Tester: Actor) -> None:
+    def test_calls_assert_that_with_value(
+        self, mocked_assert_that: mock.Mock, Tester: Actor
+    ) -> None:
         test_value = "Your father smelt of"
         mock_resolution = FakeResolution()
         mock_resolution.describe.return_value = "Elderberries!"
@@ -819,7 +830,9 @@ class TestSilently:
 
         resolution.resolve.assert_called_once_with()
 
-    def test_silently_does_not_log(self, Tester: Actor, caplog: LogCaptureFixture) -> None:
+    def test_silently_does_not_log(
+        self, Tester: Actor, caplog: LogCaptureFixture
+    ) -> None:
         """
         Confirm that when Silently is used, all beat messages inside it are not logged.
         """
@@ -893,7 +906,9 @@ class TestSilentlyUnabridged:
         assert mock_clear.call_count == 1
         assert mock_flush.call_count == 1
 
-    def test_unabridged_set_outside_silently(self, Tester: Actor, caplog: LogCaptureFixture) -> None:
+    def test_unabridged_set_outside_silently(
+        self, Tester: Actor, caplog: LogCaptureFixture
+    ) -> None:
         """
         Confirm when unabridged flag is set, logging will occur normally.
         """
@@ -912,7 +927,9 @@ class TestSilentlyUnabridged:
             "            => <True>",
         ]
 
-    def test_gotcha_unabridged_set_inside_block(self, Tester: Actor, caplog: LogCaptureFixture) -> None:
+    def test_gotcha_unabridged_set_inside_block(
+        self, Tester: Actor, caplog: LogCaptureFixture
+    ) -> None:
         """This is a gotcha case.
 
         Setting UNABRIDGED_NARRATION to True inside of a block of Silently-performed
@@ -925,6 +942,7 @@ class TestSilentlyUnabridged:
 
             The results of this test show the strange behavior.
             """
+
             @beat("{} tries to Action3")
             def perform_as(self, the_actor: Actor) -> None:
                 settings.UNABRIDGED_NARRATION = True
@@ -951,7 +969,9 @@ class TestSilentlyUnabridged:
             "                    => <True>",
         ]
 
-    def test_gotcha_unabridged_set_and_unset_inside_block(self, Tester: Actor, caplog: LogCaptureFixture) -> None:
+    def test_gotcha_unabridged_set_and_unset_inside_block(
+        self, Tester: Actor, caplog: LogCaptureFixture
+    ) -> None:
         """This is a gotcha case.
 
         Setting UNABRIDGED_NARRATION to True inside of a block of Silently-performed
@@ -964,6 +984,7 @@ class TestSilentlyUnabridged:
 
             The results of this test show the strange behavior.
             """
+
             @beat("{} tries to Action4")
             def perform_as(self, the_actor: Actor) -> None:
                 settings.UNABRIDGED_NARRATION = True
@@ -1007,7 +1028,7 @@ class TestEither:
         mock_action2.describe.return_value = "produce stuff!"
 
         t = Either(mock_action1).or_(mock_action2)
-        assert (t.describe() == "Either do thing or produce stuff")
+        assert t.describe() == "Either do thing or produce stuff"
 
     def test_multi_action_describe(self) -> None:
         mock_action1 = FakeAction()
@@ -1020,7 +1041,7 @@ class TestEither:
         mock_action4.describe.return_value = "PerformBar."
 
         t = Either(mock_action1, mock_action2).or_(mock_action3, mock_action4)
-        assert (t.describe() == "Either doThing, doStuff or performFoo, performBar")
+        assert t.describe() == "Either doThing, doStuff or performFoo, performBar"
 
     def test_first_action_passes(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
@@ -1055,7 +1076,9 @@ class TestEither:
         assert mock_clear.call_count == 2
         assert mock_flush.call_count == 1
 
-    def test_first_action_fails_with_custom_exception(self, Tester: Actor, mocker: MockerFixture) -> None:
+    def test_first_action_fails_with_custom_exception(
+        self, Tester: Actor, mocker: MockerFixture
+    ) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
@@ -1077,7 +1100,6 @@ class TestEither:
         assert mock_flush.call_count == 1
 
     def test_output_first_fails(self, Tester: Actor, caplog: LogCaptureFixture) -> None:
-
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, actor: Actor) -> None:
@@ -1093,7 +1115,9 @@ class TestEither:
 
         assert caplog.records[0].message == "Tester tries to FakeActionPass"
 
-    def test_output_first_fails_unabridged(self, Tester: Actor, caplog: LogCaptureFixture) -> None:
+    def test_output_first_fails_unabridged(
+        self, Tester: Actor, caplog: LogCaptureFixture
+    ) -> None:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, actor: Actor) -> None:
@@ -1112,7 +1136,9 @@ class TestEither:
 
         assert caplog.records[0].message == "Tester tries to FakeActionFail"
 
-    def test_output_first_passes(self, Tester: Actor, caplog: LogCaptureFixture) -> None:
+    def test_output_first_passes(
+        self, Tester: Actor, caplog: LogCaptureFixture
+    ) -> None:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, actor: Actor) -> None:

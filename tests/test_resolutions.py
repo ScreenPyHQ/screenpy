@@ -99,7 +99,9 @@ class TestBaseResolution:
             ),
         ],
     )
-    def test_passthroughs(self, method: str, args: list[mock.Mock], expected_method: str) -> None:
+    def test_passthroughs(
+        self, method: str, args: list[mock.Mock], expected_method: str
+    ) -> None:
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
 

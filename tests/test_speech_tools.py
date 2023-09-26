@@ -35,7 +35,9 @@ class TestGetAdditiveDescription:
     @pytest.mark.parametrize(
         "describable", [ThisIsADescribable(), ThisIsADescribableWithADescribe()]
     )
-    def test_get_description(self, describable: ThisIsADescribable | ThisIsADescribableWithADescribe) -> None:
+    def test_get_description(
+        self, describable: ThisIsADescribable | ThisIsADescribableWithADescribe
+    ) -> None:
         description = get_additive_description(describable)
 
         assert description == "this is a describable"

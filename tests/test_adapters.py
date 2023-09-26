@@ -163,7 +163,9 @@ class TestStdOutAdapter:
             (gravitas.EXTREME, logging.ERROR),
         ],
     )
-    def test_gravitas(self, gravity: str, level: int, caplog: LogCaptureFixture) -> None:
+    def test_gravitas(
+        self, gravity: str, level: int, caplog: LogCaptureFixture
+    ) -> None:
         adapter = StdOutAdapter()
         line = "testing!"
         act = adapter.act(prop, line, gravity)
