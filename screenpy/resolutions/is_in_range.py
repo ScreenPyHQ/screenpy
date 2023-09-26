@@ -3,7 +3,7 @@ Matches a number against a range.
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING
 
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
@@ -44,7 +44,7 @@ class IsInRange:
         """Produce the Matcher to make the assertion."""
         return is_in_bounds(*self.bounds)
 
-    def __init__(self, *bounds: Union[int, str]) -> None:
+    def __init__(self, *bounds: int | str) -> None:
         if len(bounds) > 2:
             msg = f"{self.__class__.__name__} was given too many arguments: {bounds}."
             raise UnableToFormResolution(msg)

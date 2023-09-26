@@ -4,7 +4,7 @@ all of which are expected to be true.
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Tuple, Type, TypeVar
+from typing import TYPE_CHECKING, Tuple, TypeVar
 
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
@@ -40,10 +40,10 @@ class SeeAllOf:
         )
     """
 
-    tests: Tuple[T_T, ...]
+    tests: tuple[T_T, ...]
 
     @classmethod
-    def the(cls: Type[SelfSeeAllOf], *tests: T_T) -> SelfSeeAllOf:
+    def the(cls: type[SelfSeeAllOf], *tests: T_T) -> SelfSeeAllOf:
         """Supply any number of Question/value + Resolution tuples to test."""
         return cls(*tests)
 

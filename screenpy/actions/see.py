@@ -3,7 +3,7 @@ Make an assertion using a Question and a Resolution.
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Type, TypeVar, Union
+from typing import TYPE_CHECKING, TypeVar, Union
 
 from hamcrest import assert_that
 
@@ -43,7 +43,7 @@ class See:
     resolution_to_log: str
 
     @classmethod
-    def the(cls: Type[SelfSee], question: T_Q, resolution: T_R) -> SelfSee:
+    def the(cls: type[SelfSee], question: T_Q, resolution: T_R) -> SelfSee:
         """Supply the Question (or value) and Resolution to test."""
         return cls(question, resolution)
 

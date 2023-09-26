@@ -4,12 +4,12 @@ A grab-bag of useful language-massaging functions with broad applicability.
 from __future__ import annotations
 
 import re
-from typing import Any, Union
+from typing import Any
 
 from screenpy.protocols import Answerable, Describable, Performable, Resolvable
 
 
-def get_additive_description(describable: Union[Describable, Any]) -> str:
+def get_additive_description(describable: Describable | Any) -> str:
     """Extract a description that can be placed within a sentence.
 
     The ``describe`` method of Describables will provide a description,

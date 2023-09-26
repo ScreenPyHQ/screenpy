@@ -4,7 +4,7 @@ is only one of them, so you'll always have access to the same information.
 """
 from __future__ import annotations
 
-from typing import Any, Type, TypeVar
+from typing import Any, TypeVar
 
 SelfDirector = TypeVar("SelfDirector", bound="Director")
 
@@ -20,7 +20,7 @@ class Director:
 
     _instance = None
 
-    def __new__(cls: Type[SelfDirector]) -> SelfDirector:
+    def __new__(cls: type[SelfDirector]) -> SelfDirector:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance.notebook = {}

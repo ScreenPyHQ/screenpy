@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import re
 from functools import wraps
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 from screenpy.narration import Narrator, StdOutAdapter
 
@@ -15,7 +15,7 @@ Function = Callable[..., Any]
 the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
 
 
-def act(title: str, gravitas: Optional[str] = None) -> Callable[[Function], Function]:
+def act(title: str, gravitas: str | None = None) -> Callable[[Function], Function]:
     """Decorator to mark an "act".
 
     Acts are large groupings of tests, like suites or tests for an epic. You
@@ -37,7 +37,7 @@ def act(title: str, gravitas: Optional[str] = None) -> Callable[[Function], Func
     return decorator
 
 
-def scene(title: str, gravitas: Optional[str] = None) -> Callable[[Function], Function]:
+def scene(title: str, gravitas: str | None = None) -> Callable[[Function], Function]:
     """Decorator to mark a "scene".
 
     Scenes are smaller groupings of tests which can transcend a suite's
@@ -59,7 +59,7 @@ def scene(title: str, gravitas: Optional[str] = None) -> Callable[[Function], Fu
     return decorator
 
 
-def beat(line: str, gravitas: Optional[str] = None) -> Callable[[Function], Function]:
+def beat(line: str, gravitas: str | None = None) -> Callable[[Function], Function]:
     """Decorator to describe a "beat" (a step in a test).
 
     A beat's line can contain markers for replacement via str.format(), which
@@ -97,7 +97,7 @@ def beat(line: str, gravitas: Optional[str] = None) -> Callable[[Function], Func
     return decorator
 
 
-def aside(line: str, gravitas: Optional[str] = None) -> None:
+def aside(line: str, gravitas: str | None = None) -> None:
     """A line spoken in a stage whisper to the audience (log a message).
 
     Args:

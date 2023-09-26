@@ -3,7 +3,7 @@ Make a quick note about the answer to a Question.
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Type, TypeVar, Union
+from typing import TYPE_CHECKING, TypeVar, Union
 
 from screenpy.director import Director
 from screenpy.exceptions import UnableToAct
@@ -33,11 +33,11 @@ class MakeNote:
         the_actor.attempts_to(MakeNote.of_the(items).as_("items list"))
     """
 
-    key: Optional[str]
+    key: str | None
     question: T_Q
 
     @classmethod
-    def of(cls: Type[SelfMakeNote], question: T_Q) -> SelfMakeNote:
+    def of(cls: type[SelfMakeNote], question: T_Q) -> SelfMakeNote:
         """Supply the Question to answer and its arguments.
 
         Aliases:
@@ -46,7 +46,7 @@ class MakeNote:
         return cls(question)
 
     @classmethod
-    def of_the(cls: Type[SelfMakeNote], question: T_Q) -> SelfMakeNote:
+    def of_the(cls: type[SelfMakeNote], question: T_Q) -> SelfMakeNote:
         """Alias for :meth:`~screenpy.actions.MakeNote.of`."""
         return cls.of(question)
 
@@ -80,7 +80,7 @@ class MakeNote:
     def __init__(
         self: SelfMakeNote,
         question: T_Q,
-        key: Optional[str] = None,
+        key: str | None = None,
     ) -> None:
         self.question = question
         self.key = key

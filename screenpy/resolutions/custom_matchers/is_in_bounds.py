@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import operator
 import re
-from typing import TYPE_CHECKING, Callable, Union
+from typing import TYPE_CHECKING, Callable
 
 from hamcrest.core.base_matcher import BaseMatcher
 
@@ -58,7 +58,7 @@ class IsInBounds(BaseMatcher[float]):
         )
 
 
-def is_in_bounds(*bounds: Union[int, float, str]) -> IsInBounds:
+def is_in_bounds(*bounds: int | (float | str)) -> IsInBounds:
     """Matches a number that falls within the bounds."""
     lower_comparator = operator.le
     upper_comparator = operator.le

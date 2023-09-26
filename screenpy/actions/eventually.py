@@ -4,7 +4,7 @@ Eventually perform a Task or Action, trying until a set timeout.
 from __future__ import annotations
 
 import time
-from typing import TYPE_CHECKING, Dict, Optional
+from typing import TYPE_CHECKING
 
 from screenpy.configuration import settings
 from screenpy.exceptions import DeliveryError
@@ -45,7 +45,7 @@ class Eventually:
     """
 
     performable: Performable
-    caught_error: Optional[Exception]
+    caught_error: Exception | None
     timeout: float
 
     class _TimeframeBuilder:
@@ -76,7 +76,7 @@ class Eventually:
 
         second = seconds
 
-        def perform_as(self, the_actor: "Actor") -> None:
+        def perform_as(self, the_actor: Actor) -> None:
             """Just in case the author forgets to use a unit method."""
             the_actor.attempts_to(self.eventually)
 
@@ -161,6 +161,6 @@ class Eventually:
         self.performable = performable
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
-        self.unique_errors: Dict[Exception, None] = {}
+        self.unique_errors: dict[Exception, None] = {}
         self.timeout = settings.TIMEOUT
         self.poll = settings.POLLING

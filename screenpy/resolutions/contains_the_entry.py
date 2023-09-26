@@ -9,7 +9,6 @@ from typing import (
     Hashable,
     Iterable,
     Mapping,
-    Tuple,
     TypeVar,
     overload,
 )
@@ -85,7 +84,7 @@ class ContainsTheEntry:
                 self.entries = dict(kv_args, **kv_kwargs)
             except ValueError:
                 # given a list of implicitly paired arguments
-                pairs: Iterable[Tuple[Any, Any]] = [
+                pairs: Iterable[tuple[Any, Any]] = [
                     (kv_args[i], kv_args[i + 1]) for i in range(0, len(kv_args), 2)
                 ]
                 self.entries = dict(pairs, **kv_kwargs)

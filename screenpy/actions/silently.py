@@ -103,21 +103,21 @@ T_silent_duck = Union[
 
 
 @overload
-def Silently(duck: Performable) -> Union[Performable, SilentlyPerformable]:
+def Silently(duck: Performable) -> Performable | SilentlyPerformable:
     ...
 
 
 @overload
-def Silently(duck: Answerable) -> Union[Answerable, SilentlyAnswerable]:
+def Silently(duck: Answerable) -> Answerable | SilentlyAnswerable:
     ...
 
 
 @overload
-def Silently(duck: Resolvable) -> Union[Resolvable, SilentlyResolvable]:
+def Silently(duck: Resolvable) -> Resolvable | SilentlyResolvable:
     ...
 
 
-def Silently(duck: T_duck) -> Union[T_duck, T_silent_duck]:
+def Silently(duck: T_duck) -> T_duck | T_silent_duck:
     """
     Does not log the duck's behavior unless something goes wrong.
 

@@ -3,7 +3,7 @@ Log the answer to a Question or other Answerable.
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Type, TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable
@@ -30,7 +30,7 @@ class Log:
     """
 
     @classmethod
-    def the(cls: Type[SelfLog], question: T_Q) -> SelfLog:
+    def the(cls: type[SelfLog], question: T_Q) -> SelfLog:
         """Supply the Question to answer."""
         return cls(question)
 

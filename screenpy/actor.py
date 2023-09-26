@@ -6,7 +6,7 @@ service of perfoming their roles.
 from __future__ import annotations
 
 from random import choice
-from typing import List, Type, TypeVar
+from typing import TypeVar
 
 from .exceptions import UnableToPerform
 from .pacing import aside
@@ -48,12 +48,12 @@ class Actor:
         Perry = Actor.named("Perry")
     """
 
-    abilities: List[Forgettable]
-    ordered_cleanup_tasks: List[Performable]
-    independent_cleanup_tasks: List[Performable]
+    abilities: list[Forgettable]
+    ordered_cleanup_tasks: list[Performable]
+    independent_cleanup_tasks: list[Performable]
 
     @classmethod
-    def named(cls: Type[SelfActor], name: str) -> SelfActor:
+    def named(cls: type[SelfActor], name: str) -> SelfActor:
         """Give a name to this Actor."""
         aside(choice(ENTRANCE_DIRECTIONS).format(actor=name))
         return cls(name)
@@ -109,7 +109,7 @@ class Actor:
         """Alias for :meth:`~screenpy.actor.Actor.has_independent_cleanup_tasks`."""
         return self.has_independent_cleanup_tasks(*tasks)
 
-    def uses_ability_to(self: SelfActor, ability: Type[T_Ability]) -> T_Ability:
+    def uses_ability_to(self: SelfActor, ability: type[T_Ability]) -> T_Ability:
         """Find the Ability referenced and return it, if the Actor is capable.
 
         Raises:
@@ -124,11 +124,11 @@ class Actor:
 
         raise UnableToPerform(f"{self} does not have the Ability to {ability}")
 
-    def ability_to(self: SelfActor, ability: Type[T_Ability]) -> T_Ability:
+    def ability_to(self: SelfActor, ability: type[T_Ability]) -> T_Ability:
         """Alias for :meth:`~screenpy.actor.Actor.uses_ability_to`."""
         return self.uses_ability_to(ability)
 
-    def has_ability_to(self: SelfActor, ability: Type[T_Ability]) -> bool:
+    def has_ability_to(self: SelfActor, ability: type[T_Ability]) -> bool:
         """Ask whether the Actor has the Ability to do something."""
         try:
             self.ability_to(ability)
