@@ -117,14 +117,14 @@ select = [
     "FIX",  # flake8-fixme
     "FLY",  # flynt
     "I",  # isort
-#    "ICN",  # flake8-import-conventions
-#    "ISC",  # flake8-implicit-str-concat
+    "ICN",  # flake8-import-conventions
+    "ISC",  # flake8-implicit-str-concat
 #    "PGH",  # pygrep-hooks
 #    "PIE",  # flake8-pie
 #    "PERF",  # perflint
-#    "PL",  # pylint
+    "PL",  # pylint
 #    "PT",  # flake8-pytest-style
-#    "Q",  # flake8-quotes
+    "Q",  # flake8-quotes
 #    "RET",  # flake8-return
 #    "RSE",  # flake8-raise
 #    "RUF",  # ruff specific
