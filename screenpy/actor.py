@@ -211,7 +211,7 @@ class Actor:
         for task in self.independent_cleanup_tasks:
             try:
                 self.perform(task)
-            except Exception as e:  # pylint: disable=broad-except
+            except Exception as e:  # noqa: PERF203
                 action = get_additive_description(task)
                 msg = (
                     f"{self} encountered an error while attempting to {action}:"

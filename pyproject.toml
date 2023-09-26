@@ -121,7 +121,7 @@ select = [
     "ISC",  # flake8-implicit-str-concat
 #    "PGH",  # pygrep-hooks
     "PIE",  # flake8-pie
-#    "PERF",  # perflint
+    "PERF",  # perflint
     "PL",  # pylint
     "PT",  # flake8-pytest-style
     "Q",  # flake8-quotes
