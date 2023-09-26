@@ -1005,7 +1005,7 @@ class TestEither:
 
         mock_action2 = FakeAction()
         mock_action2.describe.return_value = "produce stuff!"
-    
+
         t = Either(mock_action1).or_(mock_action2)
         assert (t.describe() == "Either do thing or produce stuff")
 
@@ -1026,7 +1026,7 @@ class TestEither:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
-        
+
         action1 = FakeAction()
         action2 = FakeAction()
         Either(action1).or_(action2).perform_as(Tester)
@@ -1041,12 +1041,12 @@ class TestEither:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
-        
+
         exc = AssertionError("Wrong!")
         action1 = FakeAction()
         action2 = FakeAction()
         action1.perform_as.side_effect = exc
-        
+
         Either(action1).or_(action2).perform_as(Tester)
 
         assert action1.perform_as.call_count == 1
@@ -1077,7 +1077,7 @@ class TestEither:
         assert mock_flush.call_count == 1
 
     def test_output_first_fails(self, Tester: Actor, caplog: LogCaptureFixture) -> None:
-        
+
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, actor: Actor) -> None:
@@ -1106,7 +1106,7 @@ class TestEither:
 
         caplog.set_level(logging.INFO)
         mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
-        
+
         with mock.patch(self.settings_path, mock_settings):
             Either(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
 
