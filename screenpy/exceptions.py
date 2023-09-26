@@ -52,12 +52,12 @@ class UnableToFormResolution(ResolutionError):
 
 
 class NotPerformable(ScreenPyError):
-    """Does not conform to Performable Protocol"""
+    """Does not conform to Performable Protocol."""
 
 
 class NotAnswerable(ScreenPyError):
-    """Does not conform to Answerable Protocol"""
+    """Does not conform to Answerable Protocol."""
 
 
 class NotResolvable(ScreenPyError):
-    """Does not conform to Resolvable Protocol"""
+    """Does not conform to Resolvable Protocol."""

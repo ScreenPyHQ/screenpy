@@ -1,6 +1,8 @@
 """
-Resolutions provide the expected answers to Questions. All Resolutions
-are given the expected value when instantiated. For example:
+Resolutions provide the expected answers to Questions.
+All Resolutions are given the expected value when instantiated.
+
+For example:
 
     ReadsExactly("the expected text")
 

@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 
 @runtime_checkable
 class Answerable(Protocol):
-    """Questions are Answerable"""
+    """Questions are Answerable."""
 
     def answered_by(self, the_actor: Actor) -> Any:
         """
@@ -45,7 +45,7 @@ class Answerable(Protocol):
 
 @runtime_checkable
 class Describable(Protocol):
-    """Classes that describe themselves are Describable"""
+    """Classes that describe themselves are Describable."""
 
     def describe(self) -> str:
         """Describe the Describable in the present tense."""
@@ -53,25 +53,25 @@ class Describable(Protocol):
 
 @runtime_checkable
 class ErrorKeeper(Protocol):
-    """Classes that save exceptions for later are ErrorKeeper(s)"""
+    """Classes that save exceptions for later are ErrorKeeper(s)."""
 
     caught_exception: Exception | None
 
 
 @runtime_checkable
 class Forgettable(Protocol):
-    """Abilities are Forgettable"""
+    """Abilities are Forgettable."""
 
     def forget(self) -> None:
         """
         Forget this Ability by doing any necessary cleanup (quitting browsers,
-        closing connections, etc.)
+        closing connections, etc.).
         """
 
 
 @runtime_checkable
 class Performable(Protocol):
-    """Actions that can be performed are Performable"""
+    """Actions that can be performed are Performable."""
 
     def perform_as(self, the_actor: Actor) -> None:
         """
@@ -84,7 +84,7 @@ class Performable(Protocol):
 
 @runtime_checkable
 class Resolvable(Protocol):
-    """Resolutions are Resolvable"""
+    """Resolutions are Resolvable."""
 
     def resolve(self) -> Matcher:
         """Form the Matcher for an assertion.

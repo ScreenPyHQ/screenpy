@@ -1,5 +1,5 @@
 """
-try/accept logic using screenplay pattern
+try/accept logic using screenplay pattern.
 """
 
 from __future__ import annotations
@@ -72,7 +72,7 @@ class Either:
     except_ = else_ = otherwise = alternatively = failing_that = or_
 
     def ignoring(self, *ignored_exceptions: type[BaseException]) -> Either:
-        """Set the expception classes to Ignore"""
+        """Set the expception classes to Ignore."""
         self.ignore_exceptions = ignored_exceptions
         return self
 

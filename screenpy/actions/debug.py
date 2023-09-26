@@ -1,7 +1,7 @@
 """
 Launch a debugger either using the debugger set in the PYTHONBREAKPOINT
 environment variable or pdb. (See more information in PEP-553
-https://www.python.org/dev/peps/pep-0553/)
+https://www.python.org/dev/peps/pep-0553/).
 """
 
 import pdb

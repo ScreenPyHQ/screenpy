@@ -1,5 +1,7 @@
 """
-Given, When, and Then are Gherkin-style directives. The general idea is:
+Given, When, and Then are Gherkin-style directives.
+
+The general idea is:
 
 * given/given_that is for test setup or "arrange" steps.
 * when is for test actions or the "act" steps.
