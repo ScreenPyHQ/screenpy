@@ -7,6 +7,7 @@ any class that implements ``perform_as`` can be an Action, any class that
 implements ``answered_by`` is a Question, etc. For more information, see
 https://mypy.readthedocs.io/en/stable/protocols.html
 """
+from __future__ import annotations
 
 from typing import (
     TYPE_CHECKING,

@@ -4,6 +4,7 @@ A matcher that matches a number in a range. For example:
     assert_that(5, is_in_bounds("5, 10"))
     assert_that(5, is_in_bounds(1, 20))
 """
+from __future__ import annotations
 
 import operator
 import re

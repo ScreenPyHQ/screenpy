@@ -2,6 +2,7 @@
 Make several assertions using any number of Question and Resolution tuples,
 all of which are expected to be true.
 """
+from __future__ import annotations
 
 from typing import Tuple, Type, TypeVar
 

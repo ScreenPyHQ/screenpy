@@ -1,6 +1,7 @@
 """
 Make an assertion using a Question and a Resolution.
 """
+from __future__ import annotations
 
 from typing import Type, TypeVar, Union
 

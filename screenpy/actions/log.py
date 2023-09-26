@@ -1,6 +1,7 @@
 """
 Log the answer to a Question or other Answerable.
 """
+from __future__ import annotations
 
 from typing import Type, TypeVar
 

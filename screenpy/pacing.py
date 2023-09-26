@@ -3,6 +3,7 @@ Provides decorators to group your tests into acts (features) and scenes
 (cases), and provide the gravitas (severity) of those groupings. These will
 run through all of the Narrator's adapters.
 """
+from __future__ import annotations
 
 import re
 from functools import wraps

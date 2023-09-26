@@ -1,6 +1,7 @@
 """
 Matches a dictionary that contains the specified key/value pair(s).
 """
+from __future__ import annotations
 
 from typing import Any, Hashable, Iterable, Mapping, Tuple, TypeVar, overload
 

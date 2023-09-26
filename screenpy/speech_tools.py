@@ -1,6 +1,7 @@
 """
 A grab-bag of useful language-massaging functions with broad applicability.
 """
+from __future__ import annotations
 
 import re
 from typing import Any, Union
