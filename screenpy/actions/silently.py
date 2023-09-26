@@ -39,6 +39,7 @@ class SilentlyPerformable(Performable, SilentlyMixin):
     """Calls the Performable passed in but kinks the cable prior performing."""
 
     def perform_as(self, actor: Actor) -> None:
+        """Direct Actor to Perform Silently."""
         with the_narrator.mic_cable_kinked():
             self.duck.perform_as(actor)
             if not settings.UNABRIDGED_NARRATION:
@@ -58,6 +59,7 @@ class SilentlyAnswerable(Answerable, SilentlyMixin):
     """Calls the Answerable passed in but kinks the cable prior to answering."""
 
     def answered_by(self, actor: Actor) -> Any:
+        """Direct Actor to answer question silently."""
         with the_narrator.mic_cable_kinked():
             thing = self.duck.answered_by(actor)
             if not settings.UNABRIDGED_NARRATION:
@@ -76,6 +78,7 @@ class SilentlyResolvable(Resolvable, SilentlyMixin):
     """Calls the Resolvable passed in but kinks the cable prior to resolving."""
 
     def resolve(self) -> Matcher:
+        """Produce Matcher Silently."""
         with the_narrator.mic_cable_kinked():
             res = self.duck.resolve()
             if not settings.UNABRIDGED_NARRATION:

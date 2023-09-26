@@ -147,21 +147,15 @@ select = [
 ]
 ignore = [
     # temporary
-    "D102",
-    "D104",
-    "D105",
-#    "D106",
-#    "D202",
-    "D205",
-#    "D403",
-#    "D415",
-    
     "E501", # line too long -- fixing those last
     
     "TRY003", # Avoid specifying long messages outside the exception class
-    
+
+    "D104",  # Missing docstring in public package
+    "D105",  # Missing docstring in magic method
     "D107",  # missing __init__ docstring, we do that in the class docstring.
     "D203",  # one blank line before class; we want 2!
+    "D205",  # 1 blank line required between summary line and description 
     "D212",  # multi line summary first line, we want a one line summary.
     "ANN101",  # missing self annotation, we only annotate self when we return it.
     "ANN401",  # no `**kwargs: Any` typing; unfortunately we don't have a better way.
