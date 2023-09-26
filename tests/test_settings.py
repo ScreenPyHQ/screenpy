@@ -1,15 +1,16 @@
 from __future__ import annotations
+
 import os
 from pathlib import Path
 from unittest import mock
 
 from screenpy import settings as screenpy_settings
-from screenpy.narration.stdout_adapter import settings as stdout_adapter_settings
 from screenpy.configuration import (
+    ScreenPySettings,
     _parse_pyproject_toml,
     pyproject_settings,
-    ScreenPySettings,
 )
+from screenpy.narration.stdout_adapter import settings as stdout_adapter_settings
 from screenpy.narration.stdout_adapter.configuration import StdOutAdapterSettings
 
 

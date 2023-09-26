@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import pytest
 
 from screenpy.speech_tools import get_additive_description

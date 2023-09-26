@@ -116,7 +116,7 @@ select = [
 #    "FA",  # flake8-future-annotations
 #    "FIX",  # flake8-fixme
 #    "FLY",  # flynt
-#    "I",  # isort
+    "I",  # isort
 #    "ICN",  # flake8-import-conventions
 #    "ISC",  # flake8-implicit-str-concat
 #    "PGH",  # pygrep-hooks
@@ -147,7 +147,6 @@ select = [
 ]
 ignore = [
     # temp
-#    "ANN001",
     
     
     "D107",  # missing __init__ docstring, we do that in the class docstring.

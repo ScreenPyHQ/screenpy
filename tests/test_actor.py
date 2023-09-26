@@ -1,9 +1,9 @@
 from typing import Any
 
 import pytest
+from useful_mocks import get_mock_ability_class, get_mock_action_class
 
 from screenpy import Actor, UnableToPerform, and_, given, given_that, then, when
-from useful_mocks import get_mock_ability_class, get_mock_action_class
 
 FakeAction = get_mock_action_class()
 FakeAbility = get_mock_ability_class()

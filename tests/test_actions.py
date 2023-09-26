@@ -1,12 +1,19 @@
 from __future__ import annotations
+
 import logging
 import os
 import time
 from unittest import mock
 
-from _pytest.logging import LogCaptureFixture
 import pytest
+from _pytest.logging import LogCaptureFixture
 from pytest_mock import MockerFixture
+from unittest_protocols import ErrorQuestion
+from useful_mocks import (
+    get_mock_action_class,
+    get_mock_question_class,
+    get_mock_resolution_class,
+)
 
 from screenpy import (
     Actor,
@@ -44,12 +51,6 @@ from screenpy.actions.silently import (
     SilentlyResolvable,
 )
 from screenpy.configuration import ScreenPySettings
-from unittest_protocols import ErrorQuestion
-from useful_mocks import (
-    get_mock_action_class,
-    get_mock_question_class,
-    get_mock_resolution_class,
-)
 
 FakeAction = get_mock_action_class()
 FakeQuestion = get_mock_question_class()

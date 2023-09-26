@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Callable, Dict, Any, TypeVar
+
+from typing import Any, Callable, Dict, TypeVar
 from unittest import mock
 
 import pytest

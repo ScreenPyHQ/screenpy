@@ -1,8 +1,9 @@
 from __future__ import annotations
+
 import logging
 
-from _pytest.logging import LogCaptureFixture
 import pytest
+from _pytest.logging import LogCaptureFixture
 
 from screenpy import StdOutAdapter, StdOutManager
 from screenpy.narration import gravitas

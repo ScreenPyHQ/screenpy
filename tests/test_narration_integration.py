@@ -1,9 +1,10 @@
 from __future__ import annotations
+
 import logging
 from typing import Any, Generator
 
-from _pytest.logging import LogCaptureFixture
 import pytest
+from _pytest.logging import LogCaptureFixture
 
 from screenpy import (
     NORMAL,
