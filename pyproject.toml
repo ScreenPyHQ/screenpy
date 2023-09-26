@@ -45,20 +45,24 @@ classifiers = [
 # so we dont have two different sets of package versions to update.
 
 [tool.poetry.dependencies]
-python = "^3.8"
-PyHamcrest = ">=2.0.0"
-pydantic = "^1.10.7"
-tomli = "^2.0.1"
 importlib_metadata = {version = "*", python = "3.8.*"}
+pydantic = "^1.10.7"
+PyHamcrest = ">=2.0.0"
+python = "^3.8"
+tomli = "^2.0.1"
 
 # convenience packages for development of screenpy only
-pre-commit = {version = "*", optional = true}
-pytest = {version = "*", optional = true}
-tox = {version = "*", optional = true}
-mypy = {version = "*", optional = true}
+autodoc-pydantic = {version = "^1.8.0", optional = true}
 black = {version = "*", optional = true}
-ruff = "^0.0.291"
 coverage = {version = "*", optional = true}
+flake8 = {version = "*", optional = true}
+isort = {version = "*", optional = true}
+mypy = {version = "*", optional = true}
+pre-commit = {version = "*", optional = true}
+pylint = {version = "*", optional = true}
+pytest = {version = "*", optional = true}
+pytest-mock = {version = "*", optional = true}
+ruff = "^0.0.291"
 screenpy-adapter_allure = {version = "^4.0.1", optional = true}
 screenpy-appium = {version = "*", optional = true}
 screenpy-playwright = {version = "*", optional = true}
@@ -66,8 +70,7 @@ screenpy-pyotp = {version = "^4.0.1", optional = true}
 screenpy-requests = {version = "^4.0.1", optional = true}
 screenpy-selenium = {version = "^4.0.3", optional = true}
 sphinx = {version = "^6.1.3", optional = true}
-autodoc-pydantic = {version = "^1.8.0", optional = true}
-pytest-mock = {version = "*", optional = true}
+tox = {version = "*", optional = true}
 
 [tool.poetry.extras]
 allure = ["screenpy-adapter-allure"]
@@ -78,27 +81,30 @@ requests = ["screenpy-requests"]
 selenium = ["screenpy-selenium"]
 dev = [
     "pre-commit",
-    "pytest",
-    "pytest-mock",
-    "tox",
     "pylint",
+    "pytest-mock",
+    "pytest",
+    "tox",
 ]
 dev_all = [
-    "pre-commit",
-    "pytest",
-    "pytest-mock",
-    "tox",
-    "mypy",
-    "black",
-    "ruff",
-    "coverage",
-    "sphinx",
     "autodoc-pydantic",
+    "black",
+    "coverage",
+    "flake8",
+    "isort",
+    "mypy",
+    "pre-commit",
+    "pylint",
+    "pytest-mock",
+    "pytest",
+    "ruff",
+    "sphinx",
+    "tox",
 ]
 test = [
-    "pytest",
-    "pytest-mock",
     "coverage",
+    "pytest-mock",
+    "pytest",
 ]
 
 [tool.ruff]
