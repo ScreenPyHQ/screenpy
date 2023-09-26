@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, TypeVar, Union, List, Tuple
+from typing import Any, Callable, Dict, List, Tuple, TypeVar, Union
 from unittest import mock
 
 import pytest
@@ -32,7 +32,7 @@ def get_mock_adapter() -> Any:
     return mock.create_autospec(Adapter, instance=True)
 
 
-test_params: Tuple[T_1, T_2, T_3] = (
+test_params: tuple[T_1, T_2, T_3] = (
     (
         [("ch", KW, 1), ("ch", KW, 1), ("ch", KW, 1)],
         [("ch", KW, []), ("ch", KW, []), ("ch", KW, [])],
@@ -54,7 +54,7 @@ class TestChainify:
         test_params,
     )
     def test_flat_narration(
-        self, test_narrations: List[T_int], expected: List[T_narrate]
+        self, test_narrations: list[T_int], expected: list[T_narrate]
     ) -> None:
         actual = _chainify(test_narrations)
 
@@ -123,14 +123,12 @@ class TestNarrator:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
 
-        with (
-            narrator.mic_cable_kinked(),
-            narrator.announcing_the_act(_, ""),
-            narrator.mic_cable_kinked(),
-            narrator.stating_a_beat(_, ""),
-        ):
-            assert len(narrator.backed_up_narrations) == 2
-            assert narrator.backed_up_narrations[-1][0][0] == "beat"
+        with narrator.mic_cable_kinked():
+            with narrator.announcing_the_act(_, ""):
+                with narrator.mic_cable_kinked():
+                    with narrator.stating_a_beat(_, ""):
+                        assert len(narrator.backed_up_narrations) == 2
+                        assert narrator.backed_up_narrations[-1][0][0] == "beat"
 
     def test_clear_backup(self) -> None:
         mock_adapter = get_mock_adapter()
@@ -154,16 +152,14 @@ class TestNarrator:
     def test_clear_backup_deep_kink(self) -> None:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
-        with (
-            narrator.mic_cable_kinked(),
-            narrator.announcing_the_act(_, ""),
-            narrator.mic_cable_kinked(),
-        ):
-            with narrator.stating_a_beat(_, ""):
-                narrator.clear_backup()
-            assert len(narrator.backed_up_narrations) == 2
-            assert narrator.backed_up_narrations[0][0][0] == "act"
-            assert narrator.backed_up_narrations[1] == []
+        with narrator.mic_cable_kinked():
+            with narrator.announcing_the_act(_, ""):
+                with narrator.mic_cable_kinked():
+                    with narrator.stating_a_beat(_, ""):
+                        narrator.clear_backup()
+                    assert len(narrator.backed_up_narrations) == 2
+                    assert narrator.backed_up_narrations[0][0][0] == "act"
+                    assert narrator.backed_up_narrations[1] == []
 
         mock_adapter.act.assert_called_once()
 
@@ -171,15 +167,14 @@ class TestNarrator:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
 
-        with narrator.mic_cable_kinked(), narrator.announcing_the_act(_, "act"):
-            with (
-                narrator.setting_the_scene(_, "scene"),
-                narrator.stating_a_beat(_, "beat"),
-                narrator.whispering_an_aside("aside"),
-            ):
-                pass
-            with narrator.whispering_an_aside("aside, too"):
-                pass
+        with narrator.mic_cable_kinked():
+            with narrator.announcing_the_act(_, "act"):
+                with narrator.setting_the_scene(_, "scene"):
+                    with narrator.stating_a_beat(_, "beat"):
+                        with narrator.whispering_an_aside("aside"):
+                            pass
+                with narrator.whispering_an_aside("aside, too"):
+                    pass
 
             assert narrator.backed_up_narrations[0][0][0] == "act"
             assert narrator.backed_up_narrations[0][0][-1] == 1
@@ -311,11 +306,9 @@ class TestNarrator:
         narrator = Narrator(adapters=[get_mock_adapter()])
 
         try:
-            with (
-                narrator.off_the_air(),
-                narrator.stating_a_beat(lambda: "Hello", "Clarise"),
-            ):
-                raise ValueError  # noqa: TRY301
+            with narrator.off_the_air():
+                with narrator.stating_a_beat(lambda: "Hello", "Clarise"):
+                    raise ValueError  # noqa: TRY301
         except ValueError:
             pass
 
@@ -325,11 +318,9 @@ class TestNarrator:
         narrator = Narrator(adapters=[get_mock_adapter()])
 
         try:
-            with (
-                narrator.mic_cable_kinked(),
-                narrator.stating_a_beat(lambda: "Hello", "Anthony"),
-            ):
-                raise ValueError  # noqa: TRY301
+            with narrator.mic_cable_kinked():
+                with narrator.stating_a_beat(lambda: "Hello", "Anthony"):
+                    raise ValueError  # noqa: TRY301
         except ValueError:
             pass
 
