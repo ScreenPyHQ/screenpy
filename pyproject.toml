@@ -147,7 +147,6 @@ select = [
 ]
 ignore = [
     # temporary
-    "SIM117", # single with statement
     "E501", # line too long -- fixing those last
     
     "TRY003", # Avoid specifying long messages outside the exception class
