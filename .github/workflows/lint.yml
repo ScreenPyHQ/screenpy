@@ -34,7 +34,7 @@ jobs:
           black --check --diff screenpy
       - name: Lint with ruff
         run: |
-          ruff
+          ruff .
 #      - name: Lint with flake8
 #        run: |
 #          flake8 --exit-zero screenpy
