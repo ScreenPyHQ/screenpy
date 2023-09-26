@@ -40,7 +40,6 @@ class Debug:
     @beat("{} assumes direct control...")
     def perform_as(self, _: Actor) -> None:
         """Direct the Actor to activate a debugger."""
-
         try:
             # Hello! To get to the perform loop and step through the remaining
             # Actions, you will need to go "up" about 3 times.

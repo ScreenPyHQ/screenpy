@@ -109,7 +109,7 @@ select = [
     "ANN",  # flake8-annotations
     "B",  # flake8-bugbear
     "C4",  # flake8-comprehensions
-#    "D",  # pydocstyle
+    "D",  # pydocstyle
     "E",  # pycodestyle error
     "ERA",  # eradicate
     "F",  # Pyflakes
@@ -147,6 +147,15 @@ select = [
 ]
 ignore = [
     # temporary
+    "D102",
+    "D104",
+    "D105",
+    "D106",
+#    "D202",
+    "D205",
+    "D403",
+    "D415",
+    
     "E501", # line too long -- fixing those last
     
     "TRY003", # Avoid specifying long messages outside the exception class
