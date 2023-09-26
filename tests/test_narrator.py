@@ -315,7 +315,7 @@ class TestNarrator:
                 narrator.off_the_air(),
                 narrator.stating_a_beat(lambda: "Hello", "Clarise"),
             ):
-                raise ValueError
+                raise ValueError  # noqa: TRY301
         except ValueError:
             pass
 
@@ -329,7 +329,7 @@ class TestNarrator:
                 narrator.mic_cable_kinked(),
                 narrator.stating_a_beat(lambda: "Hello", "Anthony"),
             ):
-                raise ValueError
+                raise ValueError  # noqa: TRY301
         except ValueError:
             pass
 
