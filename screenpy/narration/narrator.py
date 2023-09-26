@@ -207,7 +207,7 @@ class Narrator:
                 (channel, channel_kws, self.exit_level)
             )
         else:
-            enclosed_func = self._entangle_func(channel, **channel_kws)  # type: ignore
+            enclosed_func = self._entangle_func(channel, **channel_kws)  # type: ignore[arg-type]
 
         return enclosed_func
 

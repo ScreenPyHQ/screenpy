@@ -578,13 +578,13 @@ class TestSeeAllOf:
 
     def test_raises_exception(self) -> None:
         with pytest.raises(TypeError):
-            SeeAllOf(FakeQuestion())  # type: ignore
+            SeeAllOf(FakeQuestion())
 
         with pytest.raises(UnableToAct):
-            SeeAllOf((FakeQuestion(),))  # type: ignore
+            SeeAllOf((FakeQuestion(),))  # type: ignore[arg-type]
 
         with pytest.raises(UnableToAct):
-            SeeAllOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
+            SeeAllOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore[arg-type]
 
     def test_passes_with_zero_tests(self, Tester: Actor) -> None:
         SeeAllOf().perform_as(Tester)  # no exception means this test passes
@@ -663,13 +663,13 @@ class TestSeeAnyOf:
 
     def test_raises_exception(self) -> None:
         with pytest.raises(TypeError):
-            SeeAnyOf(FakeQuestion())  # type: ignore
+            SeeAnyOf(FakeQuestion())
 
         with pytest.raises(UnableToAct):
-            SeeAnyOf((FakeQuestion(),))  # type: ignore
+            SeeAnyOf((FakeQuestion(),))  # type: ignore[arg-type]
 
         with pytest.raises(UnableToAct):
-            SeeAnyOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
+            SeeAnyOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore[arg-type]
 
     def test_passes_with_zero_tests(self, Tester: Actor) -> None:
         SeeAnyOf().perform_as(Tester)  # no exception means this test passes
@@ -773,7 +773,7 @@ class TestSilently:
 
     def test_not_performable(self) -> None:
         with pytest.raises(NotPerformable) as exc:
-            SilentlyPerformable(None)  # type: ignore
+            SilentlyPerformable(None)  # type: ignore[arg-type]
 
         assert str(exc.value) == (
             "SilentlyPerformable only works with Performable. "
@@ -782,7 +782,7 @@ class TestSilently:
 
     def test_not_answerable(self) -> None:
         with pytest.raises(NotAnswerable) as exc:
-            SilentlyAnswerable(None)  # type: ignore
+            SilentlyAnswerable(None)  # type: ignore[arg-type]
 
         assert str(exc.value) == (
             "SilentlyAnswerable only works with Answerable. Use `Silently` instead."
@@ -790,7 +790,7 @@ class TestSilently:
 
     def test_not_resolvable(self) -> None:
         with pytest.raises(NotResolvable) as exc:
-            SilentlyResolvable(None)  # type: ignore
+            SilentlyResolvable(None)  # type: ignore[arg-type]
 
         assert str(exc.value) == (
             "SilentlyResolvable only works with Resolvable. Use `Silently` instead."
