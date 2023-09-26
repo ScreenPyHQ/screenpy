@@ -110,9 +110,9 @@ select = [
 #    "B",  # flake8-bugbear
 #    "C4",  # flake8-comprehensions
 #    "D",  # pydocstyle
-#    "E",  # pycodestyle error
+    "E",  # pycodestyle error
 #    "ERA",  # eradicate
-#    "F",  # Pyflakes
+    "F",  # Pyflakes
 #    "FA",  # flake8-future-annotations
 #    "FIX",  # flake8-fixme
 #    "FLY",  # flynt
@@ -146,7 +146,8 @@ select = [
 #    "FBT",  # flake8-boolean-trap  # opinionated
 ]
 ignore = [
-    # temp
+    # temporary
+    "E501", # line too long -- fixing those last
     
     
     "D107",  # missing __init__ docstring, we do that in the class docstring.
