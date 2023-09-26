@@ -132,7 +132,7 @@ select = [
     "T10",  # flake8-debugger
     "T20",  # flake8-print
     "TCH",  # flake8-type-checking
-#    "TRY",  # tryceratops
+    "TRY",  # tryceratops
     "UP",  # python upgrade
     "W",  # pycodestyle warning
     "YTT",  # flake8-2020
@@ -147,6 +147,7 @@ select = [
 ]
 ignore = [
     # temporary
+    "TRY003", # Avoid specifying long messages outside the exception class
     "E501", # line too long -- fixing those last
     
     

@@ -47,10 +47,11 @@ class Either:
         with the_narrator.mic_cable_kinked():
             try:
                 the_actor.will(*self.try_performables)
-                return
             except self.ignore_exceptions:
                 if not settings.UNABRIDGED_NARRATION:
                     the_narrator.clear_backup()
+            else:
+                return
 
         the_actor.will(*self.except_performables)
         return

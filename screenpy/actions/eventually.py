@@ -138,10 +138,11 @@ class Eventually:
                 the_narrator.clear_backup()
                 try:
                     the_actor.attempts_to(self.performable)
-                    return
                 except Exception as exc:  # pylint: disable=broad-except
                     self.caught_error = exc
                     self.unique_errors[exc] = None
+                else:
+                    return
 
                 count += 1
                 time.sleep(self.poll)
