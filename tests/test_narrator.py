@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, TypeVar
+from typing import Any, Callable, Dict, TypeVar, Union, List, Tuple
 from unittest import mock
 
 import pytest
@@ -15,13 +15,13 @@ def _() -> None:
 
 T = TypeVar("T")
 
-T_KW = Dict[str, Callable | str]
-T_narrate = tuple[str, T_KW, list[T]]
-T_int = tuple[str, T_KW, int]
+T_KW = Dict[str, Union[Callable, str]]
+T_narrate = Tuple[str, T_KW, List[T]]
+T_int = Tuple[str, T_KW, int]
 
-T_1 = tuple[list[T_int], list[T_narrate]]
-T_2 = tuple[list[T_int], list[T_narrate[T_narrate[T_narrate]]]]
-T_3 = tuple[list[T_int], list[T_narrate[T_narrate[T_narrate]] | T_narrate]]
+T_1 = Tuple[List[T_int], List[T_narrate]]
+T_2 = Tuple[List[T_int], List[T_narrate[T_narrate[T_narrate]]]]
+T_3 = Tuple[List[T_int], List[Union[T_narrate[T_narrate[T_narrate]], T_narrate]]]
 
 
 KW: T_KW = {"func": _, "line": ""}
@@ -32,7 +32,7 @@ def get_mock_adapter() -> Any:
     return mock.create_autospec(Adapter, instance=True)
 
 
-test_params: tuple[T_1, T_2, T_3] = (
+test_params: Tuple[T_1, T_2, T_3] = (
     (
         [("ch", KW, 1), ("ch", KW, 1), ("ch", KW, 1)],
         [("ch", KW, []), ("ch", KW, []), ("ch", KW, [])],
@@ -54,7 +54,7 @@ class TestChainify:
         test_params,
     )
     def test_flat_narration(
-        self, test_narrations: list[T_int], expected: list[T_narrate]
+        self, test_narrations: List[T_int], expected: List[T_narrate]
     ) -> None:
         actual = _chainify(test_narrations)
 
