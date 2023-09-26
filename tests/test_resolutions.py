@@ -201,7 +201,7 @@ class TestContainsTheItem:
         """Matches lists containing the item"""
         cti = ContainsTheItem(1).resolve()
 
-        assert cti.matches(range(0, 10))
+        assert cti.matches(range(10))
         assert not cti.matches({0, 3, 5})
 
     def test_description(self) -> None:

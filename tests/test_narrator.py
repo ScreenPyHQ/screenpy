@@ -11,7 +11,6 @@ from screenpy.narration.narrator import _chainify
 
 def _() -> None:
     """Dummy function for simple chaining tests."""
-    pass
 
 
 T = TypeVar("T")
