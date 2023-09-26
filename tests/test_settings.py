@@ -50,10 +50,12 @@ def test_pyproject_settings() -> None:
     mocked_parse = mock.Mock()
     mocked_parse.return_value = test_config
 
-    with mock.patch(parse_path, mocked_parse):
-        settings = pyproject_settings(ScreenPySettings)
+    ss = ScreenPySettings()
 
-    mocked_parse.assert_called_once_with(ScreenPySettings._tool_path)
+    with mock.patch(parse_path, mocked_parse):
+        settings = pyproject_settings(ss)
+
+    mocked_parse.assert_called_once_with(ss._tool_path)
     assert settings == {"TIMEOUT": 500}
 
 
