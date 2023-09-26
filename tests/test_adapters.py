@@ -1,6 +1,7 @@
 from __future__ import annotations
 import logging
 
+from _pytest.logging import LogCaptureFixture
 import pytest
 
 from screenpy import StdOutAdapter, StdOutManager
@@ -37,7 +38,7 @@ class TestStdOutManager:
         # context persists until manager._outdent is called
         assert len(manager.depth) == 1
 
-    def test_step(self, caplog) -> None:
+    def test_step(self, caplog: LogCaptureFixture) -> None:
         manager = StdOutManager()
         test_message = "Wow. I’m Mr. Manager."
 
@@ -58,7 +59,7 @@ class TestStdOutAdapter:
 
         assert isinstance(a, Adapter)
 
-    def test_act(self, caplog) -> None:
+    def test_act(self, caplog: LogCaptureFixture) -> None:
         adapter = StdOutAdapter()
         act_name = "test act"
         test_func = adapter.act(prop, act_name)
@@ -69,7 +70,7 @@ class TestStdOutAdapter:
         assert len(caplog.records) == 1
         assert caplog.records[0].message == f"ACT {act_name.upper()}"
 
-    def test_scene(self, caplog) -> None:
+    def test_scene(self, caplog: LogCaptureFixture) -> None:
         adapter = StdOutAdapter()
         scene_name = "test scene"
         test_func = adapter.scene(prop, scene_name)
@@ -80,7 +81,7 @@ class TestStdOutAdapter:
         assert len(caplog.records) == 1
         assert caplog.records[0].message == f"Scene: {scene_name.title()}"
 
-    def test_beat(self, caplog) -> None:
+    def test_beat(self, caplog: LogCaptureFixture) -> None:
         adapter = StdOutAdapter()
         beat_line = "test beat"
         test_func = adapter.beat(prop, beat_line)
@@ -91,7 +92,7 @@ class TestStdOutAdapter:
         assert len(caplog.records) == 1
         assert caplog.records[0].message == beat_line
 
-    def test_indentation(self, caplog) -> None:
+    def test_indentation(self, caplog: LogCaptureFixture) -> None:
         adapter = StdOutAdapter()
 
         with caplog.at_level(logging.INFO):
@@ -105,7 +106,7 @@ class TestStdOutAdapter:
         assert caplog.records[1].message == "    2"
         assert caplog.records[2].message == "        3"
 
-    def test_aside(self, caplog) -> None:
+    def test_aside(self, caplog: LogCaptureFixture) -> None:
         adapter = StdOutAdapter()
         aside_line = "test aside"
         test_func = adapter.aside(prop, aside_line)
@@ -116,7 +117,7 @@ class TestStdOutAdapter:
         assert len(caplog.records) == 1
         assert caplog.records[0].message == aside_line
 
-    def test_aside_in_a_beat(self, caplog) -> None:
+    def test_aside_in_a_beat(self, caplog: LogCaptureFixture) -> None:
         adapter = StdOutAdapter()
 
         with caplog.at_level(logging.INFO):
@@ -128,7 +129,7 @@ class TestStdOutAdapter:
         assert caplog.records[0].message == "beat"
         assert caplog.records[1].message == "    aside"
 
-    def test_error(self, caplog) -> None:
+    def test_error(self, caplog: LogCaptureFixture) -> None:
         adapter = StdOutAdapter()
         expected_exception = ValueError("Snakes. Why is it always snakes?")
 
@@ -139,7 +140,7 @@ class TestStdOutAdapter:
         assert expected_exception.__class__.__name__ in caplog.records[0].message
         assert str(expected_exception) in caplog.records[0].message
 
-    def test_attach(self, caplog) -> None:
+    def test_attach(self, caplog: LogCaptureFixture) -> None:
         test_filepath = "freakazoid/documents/freak_in.png"
         adapter = StdOutAdapter()
 
@@ -159,7 +160,7 @@ class TestStdOutAdapter:
             (gravitas.EXTREME, logging.ERROR),
         ],
     )
-    def test_gravitas(self, gravity, level, caplog) -> None:
+    def test_gravitas(self, gravity: str, level: int, caplog: LogCaptureFixture) -> None:
         adapter = StdOutAdapter()
         line = "testing!"
         act = adapter.act(prop, line, gravity)

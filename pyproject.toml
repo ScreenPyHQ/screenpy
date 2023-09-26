@@ -147,8 +147,7 @@ select = [
 ]
 ignore = [
     # temp
-#    "ANN201",
-    "ANN001",
+#    "ANN001",
     
     
     "D107",  # missing __init__ docstring, we do that in the class docstring.

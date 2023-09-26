@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Callable, Dict, List, Tuple, Union, Any
+from typing import Callable, Dict, Any, TypeVar
 from unittest import mock
 
 import pytest
@@ -13,8 +13,16 @@ def _() -> None:
     pass
 
 
-T_KW = Dict[str, Union[Callable, str]]
-T_Chain = List[Tuple[str, T_KW, List]]
+T = TypeVar("T")
+
+T_KW = Dict[str, Callable | str]
+T_narrate = tuple[str, T_KW, list[T]]
+T_int = tuple[str, T_KW, int]
+
+T_1 = tuple[list[T_int], list[T_narrate]]
+T_2 = tuple[list[T_int], list[T_narrate[T_narrate[T_narrate]]]]
+T_3 = tuple[list[T_int], list[T_narrate[T_narrate[T_narrate]] | T_narrate]]
+
 
 KW: T_KW = {"func": _, "line": ""}
 KW_G: T_KW = {**KW, "gravitas": NORMAL}
@@ -24,25 +32,30 @@ def get_mock_adapter() -> Any:
     return mock.create_autospec(Adapter, instance=True)
 
 
+test_params: tuple[T_1, T_2, T_3] = (
+    (
+        [("ch", KW, 1), ("ch", KW, 1), ("ch", KW, 1)],
+        [("ch", KW, []), ("ch", KW, []), ("ch", KW, [])],
+    ),
+    (
+        [("ch", KW, 1), ("ch", KW, 2), ("ch", KW, 3)],
+        [("ch", KW, [("ch", KW, [("ch", KW, [])])])],
+    ),
+    (
+        [("ch", KW, 1), ("ch", KW, 2), ("ch", KW, 3), ("ch", KW, 1)],
+        [("ch", KW, [("ch", KW, [("ch", KW, [])])]), ("ch", KW, [])],
+    ),
+)
+
+
 class TestChainify:
     @pytest.mark.parametrize(
         "test_narrations,expected",
-        [
-            (
-                [("ch", KW, 1), ("ch", KW, 1), ("ch", KW, 1)],
-                [("ch", KW, []), ("ch", KW, []), ("ch", KW, [])],
-            ),
-            (
-                [("ch", KW, 1), ("ch", KW, 2), ("ch", KW, 3)],
-                [("ch", KW, [("ch", KW, [("ch", KW, [])])])],
-            ),
-            (
-                [("ch", KW, 1), ("ch", KW, 2), ("ch", KW, 3), ("ch", KW, 1)],
-                [("ch", KW, [("ch", KW, [("ch", KW, [])])]), ("ch", KW, [])],
-            ),
-        ],
+        test_params,
     )
-    def test_flat_narration(self, test_narrations, expected) -> None:
+    def test_flat_narration(
+        self, test_narrations: list[T_int], expected: list[T_narrate]
+    ) -> None:
         actual = _chainify(test_narrations)
 
         assert actual == expected
@@ -229,7 +242,7 @@ class TestNarrator:
     def test__entangle_chain(self) -> None:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
-        chain: T_Chain = [
+        chain: list[T_narrate] = [
             ("act", KW, [("scene", KW, [("beat", KW, [])])]),
             ("aside", KW, []),
         ]
@@ -242,7 +255,7 @@ class TestNarrator:
         mock_adapter.act.assert_called_once()
 
     @pytest.mark.parametrize("channel", ["act", "scene", "beat", "aside"])
-    def test__entangle_func(self, channel) -> None:
+    def test__entangle_func(self, channel: str) -> None:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
 
@@ -264,7 +277,7 @@ class TestNarrator:
             ("whispering_an_aside", "aside"),
         ],
     )
-    def test_channels(self, channel_func, channel) -> None:
+    def test_channels(self, channel_func: str, channel: str) -> None:
         narrator = Narrator()
         kwargs = dict(KW_G)
         expected_kwargs = ["func", "line", "gravitas"]

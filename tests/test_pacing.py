@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+from unittest import mock
+
 from screenpy import act, aside, beat, scene
 
 
@@ -20,7 +23,7 @@ class Prop:
 
 
 class TestAct:
-    def test_calls_narrators_method(self, mocked_narrator) -> None:
+    def test_calls_narrators_method(self, mocked_narrator: mock.Mock) -> None:
         test_act = "Test Act"
         actprop = act(test_act)(prop)
 
@@ -32,7 +35,7 @@ class TestAct:
 
 
 class TestScene:
-    def test_calls_narrators_method(self, mocked_narrator) -> None:
+    def test_calls_narrators_method(self, mocked_narrator: mock.Mock) -> None:
         test_scene = "Test Scene"
         sceneprop = scene(test_scene)(prop)
 
@@ -44,7 +47,7 @@ class TestScene:
 
 
 class TestBeat:
-    def test_interpolations(self, mocked_narrator) -> None:
+    def test_interpolations(self, mocked_narrator: mock.Mock) -> None:
         """(This also tests that the narrator's method was called.)"""
         test_weapon = "rope"
         test_room = "ballroom"
@@ -58,7 +61,7 @@ class TestBeat:
 
 
 class TestAside:
-    def test_calls_narrators_method(self, mocked_narrator) -> None:
+    def test_calls_narrators_method(self, mocked_narrator: mock.Mock) -> None:
         test_whisper = "<whisper whisper>"
 
         aside(test_whisper)

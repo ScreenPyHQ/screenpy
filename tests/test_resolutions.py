@@ -54,7 +54,16 @@ class TestBaseResolution:
             ([1], {"a": 1}, ((1,), {"a": 1})),
         ],
     )
-    def test_matcher_instantiation(self, args, kwargs, expected) -> None:
+    def test_matcher_instantiation(
+        self,
+        args: list | list[int],
+        kwargs: dict | dict[str, int],
+        expected: bool
+        | int
+        | tuple[int, int]
+        | dict[str, int]
+        | tuple[tuple[int], dict[str, int]],
+    ) -> None:
         """matcher function is properly called."""
 
         class MockResolution(BaseResolution):
@@ -89,7 +98,7 @@ class TestBaseResolution:
             ),
         ],
     )
-    def test_passthroughs(self, method, args, expected_method) -> None:
+    def test_passthroughs(self, method: str, args: list[mock.Mock], expected_method: str) -> None:
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
 
