@@ -3,11 +3,10 @@ from __future__ import annotations
 import logging
 import os
 import time
+from typing import TYPE_CHECKING
 from unittest import mock
 
 import pytest
-from _pytest.logging import LogCaptureFixture
-from pytest_mock import MockerFixture
 from unittest_protocols import ErrorQuestion
 from useful_mocks import (
     get_mock_action_class,
@@ -51,6 +50,10 @@ from screenpy.actions.silently import (
     SilentlyResolvable,
 )
 from screenpy.configuration import ScreenPySettings
+
+if TYPE_CHECKING:
+    from _pytest.logging import LogCaptureFixture
+    from pytest_mock import MockerFixture
 
 FakeAction = get_mock_action_class()
 FakeQuestion = get_mock_question_class()

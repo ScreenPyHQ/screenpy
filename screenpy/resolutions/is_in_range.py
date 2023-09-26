@@ -3,14 +3,15 @@ Matches a number against a range.
 """
 from __future__ import annotations
 
-from typing import Union
-
-from hamcrest.core.matcher import Matcher
+from typing import TYPE_CHECKING, Union
 
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
 
 from .custom_matchers.is_in_bounds import is_in_bounds
+
+if TYPE_CHECKING:
+    from hamcrest.core.matcher import Matcher
 
 
 class IsInRange:

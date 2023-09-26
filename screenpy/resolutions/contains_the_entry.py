@@ -3,13 +3,24 @@ Matches a dictionary that contains the specified key/value pair(s).
 """
 from __future__ import annotations
 
-from typing import Any, Hashable, Iterable, Mapping, Tuple, TypeVar, overload
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Hashable,
+    Iterable,
+    Mapping,
+    Tuple,
+    TypeVar,
+    overload,
+)
 
 from hamcrest import has_entries
-from hamcrest.core.matcher import Matcher
 
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
+
+if TYPE_CHECKING:
+    from hamcrest.core.matcher import Matcher
 
 K = TypeVar("K", bound=Hashable)
 V = TypeVar("V")

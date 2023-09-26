@@ -3,14 +3,16 @@ Make an assertion using a Question and a Resolution.
 """
 from __future__ import annotations
 
-from typing import Type, TypeVar, Union
+from typing import TYPE_CHECKING, Type, TypeVar, Union
 
 from hamcrest import assert_that
 
-from screenpy.actor import Actor
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
 from screenpy.speech_tools import get_additive_description
+
+if TYPE_CHECKING:
+    from screenpy.actor import Actor
 
 SelfSee = TypeVar("SelfSee", bound="See")
 T_Q = Union[Answerable, object]

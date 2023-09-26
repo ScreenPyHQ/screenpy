@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, Generator
+from typing import TYPE_CHECKING, Any, Generator
 
 import pytest
-from _pytest.logging import LogCaptureFixture
 
 from screenpy import (
     NORMAL,
@@ -17,6 +16,9 @@ from screenpy import (
     the_narrator,
 )
 from screenpy.narration.stdout_adapter import settings
+
+if TYPE_CHECKING:
+    from _pytest.logging import LogCaptureFixture
 
 TEST_ACT = "Three"
 TEST_SCENE = "The Scene Where He Uses It"

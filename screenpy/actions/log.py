@@ -3,14 +3,16 @@ Log the answer to a Question or other Answerable.
 """
 from __future__ import annotations
 
-from typing import Type, TypeVar
+from typing import TYPE_CHECKING, Type, TypeVar
 
-from screenpy.actor import Actor
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable
 from screenpy.speech_tools import get_additive_description
 
-from .see import T_Q
+if TYPE_CHECKING:
+    from screenpy.actor import Actor
+
+    from .see import T_Q
 
 SelfLog = TypeVar("SelfLog", bound="Log")
 

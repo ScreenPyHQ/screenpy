@@ -19,9 +19,9 @@ from typing import (
     runtime_checkable,
 )
 
-from hamcrest.core.base_matcher import Matcher
-
 if TYPE_CHECKING:
+    from hamcrest.core.base_matcher import Matcher
+
     from .actor import Actor
 
 # pylint: disable=unused-argument

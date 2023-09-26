@@ -9,6 +9,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 from copy import deepcopy
 from typing import (
+    TYPE_CHECKING,
     Any,
     Callable,
     ContextManager,
@@ -20,7 +21,8 @@ from typing import (
     Union,
 )
 
-from screenpy.protocols import Adapter
+if TYPE_CHECKING:
+    from screenpy.protocols import Adapter
 
 # pylint: disable=stop-iteration-return
 # The above pylint warning may be a false-positive since Narrator calls `next`

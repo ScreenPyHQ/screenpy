@@ -1,8 +1,11 @@
 from __future__ import annotations
 
-from unittest import mock
+from typing import TYPE_CHECKING
 
 from screenpy import act, aside, beat, scene
+
+if TYPE_CHECKING:
+    from unittest import mock
 
 
 def prop() -> None:

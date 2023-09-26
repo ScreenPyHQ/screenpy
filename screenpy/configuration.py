@@ -8,7 +8,9 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, Tuple
 
 from pydantic import BaseSettings
-from pydantic.env_settings import SettingsSourceCallable
+
+if TYPE_CHECKING:
+    from pydantic.env_settings import SettingsSourceCallable
 
 if sys.version_info >= (3, 11):
     try:

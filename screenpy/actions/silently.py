@@ -3,15 +3,17 @@ Silently allows for "disabling" logging on successful actions & tests
 """
 from __future__ import annotations
 
-from typing import Any, TypeVar, Union, overload
+from typing import TYPE_CHECKING, Any, TypeVar, Union, overload
 
-from hamcrest.core.base_matcher import Matcher
-
-from screenpy.actor import Actor
 from screenpy.configuration import settings
 from screenpy.exceptions import NotAnswerable, NotPerformable, NotResolvable
 from screenpy.pacing import the_narrator
 from screenpy.protocols import Answerable, Performable, Resolvable
+
+if TYPE_CHECKING:
+    from hamcrest.core.base_matcher import Matcher
+
+    from screenpy.actor import Actor
 
 T = TypeVar("T")
 

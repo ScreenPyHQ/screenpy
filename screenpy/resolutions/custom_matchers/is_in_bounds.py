@@ -8,10 +8,12 @@ from __future__ import annotations
 
 import operator
 import re
-from typing import Callable, Union
+from typing import TYPE_CHECKING, Callable, Union
 
 from hamcrest.core.base_matcher import BaseMatcher
-from hamcrest.core.description import Description
+
+if TYPE_CHECKING:
+    from hamcrest.core.description import Description
 
 InequalityFunc = Callable[[float, float], bool]
 

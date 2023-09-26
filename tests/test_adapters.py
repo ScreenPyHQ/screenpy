@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 import logging
+from typing import TYPE_CHECKING
 
 import pytest
-from _pytest.logging import LogCaptureFixture
 
 from screenpy import StdOutAdapter, StdOutManager
 from screenpy.narration import gravitas
 from screenpy.protocols import Adapter
+
+if TYPE_CHECKING:
+    from _pytest.logging import LogCaptureFixture
 
 
 def prop() -> None:
