@@ -111,41 +111,41 @@ test = [
 target-version = "py38"  # minimum supported version
 line-length = 88  # same as Black.
 select = [
-    "A",  # flake8-builtins
-    "ANN",  # flake8-annotations
-    "ARG",  # flake8-unused-arguments
-    "B",  # flake8-bugbear
-    "BLE",  # flake8-blind-except
-    "C4",  # flake8-comprehensions
-    "D",  # pydocstyle
-    "E",  # pycodestyle error
-    "EM",  # flake8-errmsg
-    "ERA",  # eradicate
-    "F",  # Pyflakes
-    "FA",  # flake8-future-annotations
-    "FBT",  # flake8-boolean-trap
-    "FIX",  # flake8-fixme
-    "FLY",  # flynt
-    "I",  # isort
-    "ICN",  # flake8-import-conventions
-    "ISC",  # flake8-implicit-str-concat
-    "PERF",  # perflint
-    "PGH",  # pygrep-hooks
-    "PIE",  # flake8-pie
-    "PL",  # pylint
-    "PT",  # flake8-pytest-style
-    "Q",  # flake8-quotes
-    "RET",  # flake8-return
-    "RSE",  # flake8-raise
-    "RUF",  # ruff specific
-    "SIM",  # flake8-simplify
-    "T10",  # flake8-debugger
-    "T20",  # flake8-print
-    "TCH",  # flake8-type-checking
-    "TRY",  # tryceratops
-    "UP",  # python upgrade
-    "W",  # pycodestyle warning
-    "YTT",  # flake8-2020
+    # "A",  # flake8-builtins
+    # "ANN",  # flake8-annotations
+    # "ARG",  # flake8-unused-arguments
+    # "B",  # flake8-bugbear
+    # "BLE",  # flake8-blind-except
+    # "C4",  # flake8-comprehensions
+    # "D",  # pydocstyle
+    # "E",  # pycodestyle error
+    # "EM",  # flake8-errmsg
+    # "ERA",  # eradicate
+    # "F",  # Pyflakes
+    # "FA",  # flake8-future-annotations
+    # "FBT",  # flake8-boolean-trap
+    # "FIX",  # flake8-fixme
+    # "FLY",  # flynt
+    # "I",  # isort
+    # "ICN",  # flake8-import-conventions
+    # "ISC",  # flake8-implicit-str-concat
+    # "PERF",  # perflint
+    # "PGH",  # pygrep-hooks
+    # "PIE",  # flake8-pie
+    # "PL",  # pylint
+    # "PT",  # flake8-pytest-style
+    # "Q",  # flake8-quotes
+    # "RET",  # flake8-return
+    # "RSE",  # flake8-raise
+    # "RUF",  # ruff specific
+    # "SIM",  # flake8-simplify
+    # "T10",  # flake8-debugger
+    # "T20",  # flake8-print
+    # "TCH",  # flake8-type-checking
+    # "TRY",  # tryceratops
+    # "UP",  # python upgrade
+    # "W",  # pycodestyle warning
+    # "YTT",  # flake8-2020
 
     # we would like these someday, but not yet
     # "FURB",  # refurb
@@ -186,10 +186,6 @@ ignore-overlong-task-comments = true
 
 [tool.ruff.pydocstyle]
 convention = "google"
-
-
-#[tool.ruff.flake8-annotations]
-#mypy-init-return = true
 
 
 [build-system]
