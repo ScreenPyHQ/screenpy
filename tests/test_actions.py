@@ -639,7 +639,7 @@ class TestSeeAllOf:
                 (FakeQuestion(), IsEqualTo(True)),
             ).perform_as(Tester)
 
-    def test_stops_at_first_failure(self, Tester, caplog) -> None:
+    def test_log_first_failure(self, Tester, caplog) -> None:
         mock_question = FakeQuestion()
 
         caplog.set_level(logging.INFO)
@@ -669,7 +669,7 @@ class TestSeeAllOf:
             "     but: was <True>\n",
         ]
 
-    def test_passes_if_all_pass(self, Tester, caplog) -> None:
+    def test_log_all_pass(self, Tester, caplog) -> None:
         caplog.set_level(logging.INFO)
         # test passes if no exception is raised
         SeeAllOf(
@@ -760,14 +760,14 @@ class TestSeeAnyOf:
 
         assert "did not find any expected answers" in str(actual_exception)
 
-    def test_stops_at_first_pass(self, Tester, caplog) -> None:
+    def test_log_first_pass(self, Tester, caplog) -> None:
         mock_question = FakeQuestion()
 
         caplog.set_level(logging.INFO)
 
         SeeAnyOf(
             (mock_question, IsEqualTo(False)),
-            (mock_question, IsEqualTo(True)),  # <--
+            (mock_question, IsEqualTo(True)),
             (mock_question, IsEqualTo(True)),
             (mock_question, IsEqualTo(True)),
         ).perform_as(Tester)
