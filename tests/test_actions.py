@@ -310,7 +310,7 @@ class TestEventually:
             Eventually(See(mock_question, IsEqualTo(False))).perform_as(Tester)
 
         assert str(actual_exception.value) == (
-            "Tester tried to Eventually see if returns bool is equal to False 3 times "
+            "Tester tried to Eventually see if returns bool is equal to <False> 3 times "
             "over 20.0 seconds, but got:\n"
             "    AssertionError: \n"
             "Expected: <False>\n"
