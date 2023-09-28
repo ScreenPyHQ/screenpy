@@ -132,9 +132,7 @@ class TestContainsItemMatching:
 
         cim = ContainsItemMatching(test_pattern)
 
-        expected_description = (
-            'A sequence with an item matching the pattern r".*".'
-        )
+        expected_description = 'A sequence with an item matching the pattern r".*".'
         assert cim.describe() == expected_description
 
 
@@ -192,12 +190,13 @@ class TestContainsTheItem:
         assert cti.matches(range(0, 10))
         assert not cti.matches({0, 3, 5})
 
-    def test_description_uses_represent_prop(self) -> None:
-        cti_int = ContainsTheItem(1)
-        cti_str = ContainsTheItem("1")
-
-        assert cti_int.describe() == "A sequence containing <1>."
-        assert cti_str.describe() == "A sequence containing '1'."
+    @pytest.mark.parametrize(
+        ("arg", "expected"),
+        ((1, "A sequence containing <1>."), ("1", "A sequence containing '1'.")),
+    )
+    def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
+        cti = ContainsTheItem(arg)
+        assert cti.describe() == expected
 
 
 class TestContainsTheKey:
@@ -259,12 +258,14 @@ class TestContainsTheValue:
         assert ctv.matches({"key": "value", "play": "Hamlet"})
         assert not ctv.matches({"play": "Hamlet"})
 
-    def test_description_uses_represent_prop(self) -> None:
-        ctv_int = ContainsTheValue(42)
-        ctv_str = ContainsTheValue("42")
 
-        assert ctv_int.describe() == "Containing the value <42>."
-        assert ctv_str.describe() == "Containing the value '42'."
+    @pytest.mark.parametrize(
+        ("arg", "expected"),
+        ((42, "Containing the value <42>."), ("42", "Containing the value '42'.")),
+    )
+    def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
+        ctv = ContainsTheValue(arg)
+        assert ctv.describe() == expected
 
 
 class TestEmpty:
@@ -369,12 +370,13 @@ class TestIsEqualTo:
         assert ie.matches(1)
         assert not ie.matches(2)
 
-    def test_description_uses_represent_prop(self) -> None:
-        ie_int = IsEqualTo(8675)
-        ie_str = IsEqualTo("8675")
-
-        assert ie_int.describe() == "Equal to <8675>."
-        assert ie_str.describe() == "Equal to '8675'."
+    @pytest.mark.parametrize(
+        ("arg", "expected"),
+        ((8675, "Equal to <8675>."), ("8675", "Equal to '8675'.")),
+    )
+    def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
+        ie = IsEqualTo(arg)
+        assert ie.describe() == expected
 
 
 class TestIsGreaterThan:
@@ -581,7 +583,9 @@ class TestReadsExactly:
 
         re_ = ReadsExactly(test_text)
 
-        expected_description = "'I will not buy this record, it is scratched.', verbatim."
+        expected_description = (
+            "'I will not buy this record, it is scratched.', verbatim."
+        )
         assert re_.describe() == expected_description
 
 
