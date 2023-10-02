@@ -1,4 +1,4 @@
-files: '(screenpy|examples)/.*'
+files: '(screenpy|tests)/.*'
 fail_fast: false
 repos:
 - repo: https://github.com/psf/black
@@ -6,26 +6,15 @@ repos:
   hooks:
   - id: black
     language_version: python3.11
-- repo: https://github.com/timothycrosley/isort
-  rev: 5.12.0
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: v0.0.291
   hooks:
-  - id: isort
-    language_version: python3.11
-- repo: https://github.com/PyCQA/flake8
-  rev: 6.1.0
-  hooks:
-  - id: flake8
-    language_version: python3.11
+    - id: ruff
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: v1.5.1
   hooks:
   - id: mypy
     language_version: python3.11
     additional_dependencies: ["PyHamcrest", "pytest"]
-- repo: local
-  hooks:
-  - id: pylint
-    name: pylint
-    entry: pylint
-    language: system
-    types: [python]
+
