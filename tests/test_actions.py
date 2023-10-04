@@ -134,7 +134,6 @@ class TestDebug:
 
 
 class TestEventually:
-
     settings_path = "screenpy.actions.eventually.settings"
 
     def test_can_be_instantiated(self) -> None:
@@ -311,7 +310,7 @@ class TestEventually:
             Eventually(See(mock_question, IsEqualTo(False))).perform_as(Tester)
 
         assert str(actual_exception.value) == (
-            "Tester tried to Eventually see if returns bool is equal to False 3 times "
+            "Tester tried to Eventually see if returns bool is equal to <False> 3 times "
             "over 20.0 seconds, but got:\n"
             "    AssertionError: \n"
             "Expected: <False>\n"
@@ -417,7 +416,7 @@ class TestMakeNote:
         assert "screenpy-docs.readthedocs.io" in str(exc.value)
 
     def test_describe(self) -> None:
-        assert MakeNote(None).as_("blah").describe() == "Make a note under blah."
+        assert MakeNote(None).as_("blah").describe() == "Make a note under 'blah'."
 
     @mock.patch("screenpy.actions.make_note.aside", autospec=True)
     def test_caught_exception_noted(self, mock_aside: mock.Mock, Tester) -> None:
@@ -560,6 +559,36 @@ class TestSee:
             == "See if can you speak is only this sentence."
         )
 
+    def test_log_passes(self, Tester, caplog) -> None:
+        with caplog.at_level(logging.INFO):
+            See(SimpleQuestion(), IsEqualTo(True)).perform_as(Tester)
+
+        assert [r.msg for r in caplog.records] == [
+            "Tester sees if simpleQuestion is equal to <True>.",
+            "    Tester examines SimpleQuestion",
+            "        => <True>",
+            "    ... hoping it's equal to <True>.",
+            "        => <True>",
+        ]
+
+    def test_log_fails(self, Tester, caplog) -> None:
+        with caplog.at_level(logging.INFO), pytest.raises(AssertionError):
+            See(SimpleQuestion(), IsEqualTo(False)).perform_as(Tester)
+
+        assert [r.msg for r in caplog.records] == [
+            "Tester sees if simpleQuestion is equal to <False>.",
+            "    Tester examines SimpleQuestion",
+            "        => <True>",
+            "    ... hoping it's equal to <False>.",
+            "        => <False>",
+            # don't be fooled! the next few lines do not have commas on purpose
+            "    ***ERROR***\n"
+            "\n"
+            "AssertionError: \n"
+            "Expected: <False>\n"
+            "     but: was <True>\n",
+        ]
+
 
 class TestSeeAllOf:
     def test_can_be_instantiated(self) -> None:
@@ -610,8 +639,10 @@ class TestSeeAllOf:
                 (FakeQuestion(), IsEqualTo(True)),
             ).perform_as(Tester)
 
-    def test_stops_at_first_failure(self, Tester) -> None:
+    def test_log_first_failure(self, Tester, caplog) -> None:
         mock_question = FakeQuestion()
+
+        caplog.set_level(logging.INFO)
 
         with pytest.raises(AssertionError):
             SeeAllOf(
@@ -622,8 +653,24 @@ class TestSeeAllOf:
             ).perform_as(Tester)
 
         assert mock_question.answered_by.call_count == 2
+        assert [r.msg for r in caplog.records] == [
+            "Tester sees if all of 4 tests pass:",
+            "    Tester sees if fakeQuestion is equal to <True>.",
+            "        ... hoping it's equal to <True>.",
+            "            => <True>",
+            "    Tester sees if fakeQuestion is equal to <False>.",
+            "        ... hoping it's equal to <False>.",
+            "            => <False>",
+            # don't be fooled! the next few lines do not have commas on purpose
+            "        ***ERROR***\n"
+            "\n"
+            "AssertionError: \n"
+            "Expected: <False>\n"
+            "     but: was <True>\n",
+        ]
 
-    def test_passes_if_all_pass(self, Tester) -> None:
+    def test_log_all_pass(self, Tester, caplog) -> None:
+        caplog.set_level(logging.INFO)
         # test passes if no exception is raised
         SeeAllOf(
             (FakeQuestion(), IsEqualTo(True)),
@@ -631,6 +678,22 @@ class TestSeeAllOf:
             (FakeQuestion(), IsEqualTo(True)),
             (FakeQuestion(), IsEqualTo(True)),
         ).perform_as(Tester)
+
+        assert [r.msg for r in caplog.records] == [
+            "Tester sees if all of 4 tests pass:",
+            "    Tester sees if fakeQuestion is equal to <True>.",
+            "        ... hoping it's equal to <True>.",
+            "            => <True>",
+            "    Tester sees if fakeQuestion is equal to <True>.",
+            "        ... hoping it's equal to <True>.",
+            "            => <True>",
+            "    Tester sees if fakeQuestion is equal to <True>.",
+            "        ... hoping it's equal to <True>.",
+            "            => <True>",
+            "    Tester sees if fakeQuestion is equal to <True>.",
+            "        ... hoping it's equal to <True>.",
+            "            => <True>",
+        ]
 
     def test_describe(self) -> None:
         test = (FakeQuestion(), IsEqualTo(True))
@@ -697,17 +760,34 @@ class TestSeeAnyOf:
 
         assert "did not find any expected answers" in str(actual_exception)
 
-    def test_stops_at_first_pass(self, Tester) -> None:
+    def test_log_first_pass(self, Tester, caplog) -> None:
         mock_question = FakeQuestion()
+
+        caplog.set_level(logging.INFO)
 
         SeeAnyOf(
             (mock_question, IsEqualTo(False)),
-            (mock_question, IsEqualTo(True)),  # <--
+            (mock_question, IsEqualTo(True)),
             (mock_question, IsEqualTo(True)),
             (mock_question, IsEqualTo(True)),
         ).perform_as(Tester)
 
         assert mock_question.answered_by.call_count == 2
+        assert [r.msg for r in caplog.records] == [
+            "Tester sees if any of 4 tests pass:",
+            "    Tester sees if fakeQuestion is equal to <False>.",
+            "        ... hoping it's equal to <False>.",
+            "            => <False>",
+            # don't be fooled! the next few lines do not have commas on purpose
+            "        ***ERROR***\n"
+            "\n"
+            "AssertionError: \n"
+            "Expected: <False>\n"
+            "     but: was <True>\n",
+            "    Tester sees if fakeQuestion is equal to <True>.",
+            "        ... hoping it's equal to <True>.",
+            "            => <True>",
+        ]
 
     def test_passes_with_one_pass(self, Tester) -> None:
         # test passes if no exception is raised
@@ -917,10 +997,10 @@ class TestSilentlyUnabridged:
 
         assert [r.msg for r in caplog.records] == [
             "Tester tries to Action2",
-            "    Tester sees if simpleQuestion is equal to True.",
+            "    Tester sees if simpleQuestion is equal to <True>.",
             "        Tester examines SimpleQuestion",
-            "            => True",
-            "        ... hoping it's equal to True.",
+            "            => <True>",
+            "        ... hoping it's equal to <True>.",
             "            => <True>",
         ]
 
@@ -937,6 +1017,7 @@ class TestSilentlyUnabridged:
 
             The results of this test show the strange behavior.
             """
+
             @beat("{} tries to Action3")
             def perform_as(self, the_actor: Actor) -> None:
                 settings.UNABRIDGED_NARRATION = True
@@ -956,10 +1037,10 @@ class TestSilentlyUnabridged:
             "Tester tries to Action3",  # you'd think this wouldn't be here!
             "    Tester tries to Action1",
             "        Tester tries to Action2",
-            "            Tester sees if simpleQuestion is equal to True.",
+            "            Tester sees if simpleQuestion is equal to <True>.",
             "                Tester examines SimpleQuestion",
-            "                    => True",
-            "                ... hoping it's equal to True.",
+            "                    => <True>",
+            "                ... hoping it's equal to <True>.",
             "                    => <True>",
         ]
 
@@ -976,6 +1057,7 @@ class TestSilentlyUnabridged:
 
             The results of this test show the strange behavior.
             """
+
             @beat("{} tries to Action4")
             def perform_as(self, the_actor: Actor) -> None:
                 settings.UNABRIDGED_NARRATION = True
@@ -1017,9 +1099,9 @@ class TestEither:
 
         mock_action2 = FakeAction()
         mock_action2.describe.return_value = "produce stuff!"
-    
+
         t = Either(mock_action1).or_(mock_action2)
-        assert (t.describe() == "Either do thing or produce stuff")
+        assert t.describe() == "Either do thing or produce stuff"
 
     def test_multi_action_describe(self) -> None:
         mock_action1 = FakeAction()
@@ -1032,13 +1114,13 @@ class TestEither:
         mock_action4.describe.return_value = "PerformBar."
 
         t = Either(mock_action1, mock_action2).or_(mock_action3, mock_action4)
-        assert (t.describe() == "Either doThing, doStuff or performFoo, performBar")
+        assert t.describe() == "Either doThing, doStuff or performFoo, performBar"
 
     def test_first_action_passes(self, Tester, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
-        
+
         action1 = FakeAction()
         action2 = FakeAction()
         Either(action1).or_(action2).perform_as(Tester)
@@ -1053,12 +1135,12 @@ class TestEither:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
-        
+
         exc = AssertionError("Wrong!")
         action1 = FakeAction()
         action2 = FakeAction()
         action1.perform_as.side_effect = exc
-        
+
         Either(action1).or_(action2).perform_as(Tester)
 
         assert action1.perform_as.call_count == 1
@@ -1067,7 +1149,9 @@ class TestEither:
         assert mock_clear.call_count == 2
         assert mock_flush.call_count == 1
 
-    def test_first_action_fails_with_custom_exception(self, Tester, mocker: MockerFixture) -> None:
+    def test_first_action_fails_with_custom_exception(
+        self, Tester, mocker: MockerFixture
+    ) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
@@ -1089,7 +1173,6 @@ class TestEither:
         assert mock_flush.call_count == 1
 
     def test_output_first_fails(self, Tester, caplog):
-        
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, actor: Actor):
@@ -1118,7 +1201,7 @@ class TestEither:
 
         caplog.set_level(logging.INFO)
         mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
-        
+
         with mock.patch(self.settings_path, mock_settings):
             Either(FakeActionFail()).or_(FakeActionPass()).perform_as(Tester)
 

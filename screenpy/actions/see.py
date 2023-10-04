@@ -9,7 +9,7 @@ from hamcrest import assert_that
 from screenpy.actor import Actor
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
-from screenpy.speech_tools import get_additive_description
+from screenpy.speech_tools import get_additive_description, represent_prop
 
 SelfSee = TypeVar("SelfSee", bound="See")
 T_Q = Union[Answerable, object]
@@ -56,7 +56,7 @@ class See:
         else:
             # must be a value instead of a question!
             value = self.question
-            aside(f"the actual value is: {value}")
+            aside(f"the actual value is: {represent_prop(value)}")
 
         reason = ""
         if isinstance(self.question, ErrorKeeper):

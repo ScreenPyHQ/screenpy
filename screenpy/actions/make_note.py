@@ -9,6 +9,7 @@ from screenpy.director import Director
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper
+from screenpy.speech_tools import represent_prop
 
 SelfMakeNote = TypeVar("SelfMakeNote", bound="MakeNote")
 T_Q = Union[Answerable, object]
@@ -54,9 +55,9 @@ class MakeNote:
 
     def describe(self: SelfMakeNote) -> str:
         """Describe the Action in present tense."""
-        return f"Make a note under {self.key}."
+        return f"Make a note under {represent_prop(self.key)}."
 
-    @beat('{} jots something down under "{key}".')
+    @beat("{} jots something down under {key_to_log}.")
     def perform_as(self: SelfMakeNote, the_actor: Actor) -> None:
         """Direct the Actor to take a note."""
         if self.key is None:
@@ -81,3 +82,4 @@ class MakeNote:
     ) -> None:
         self.question = question
         self.key = key
+        self.key_to_log = represent_prop(key)

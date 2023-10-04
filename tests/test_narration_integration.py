@@ -43,7 +43,7 @@ def _assert_stdout_correct(caplog) -> None:
     assert caplog.messages[1] == f"Scene: {TEST_SCENE.title()}"
     assert caplog.messages[2] == TEST_BEAT
     assert caplog.messages[3] == f"{INDENT}{TEST_ASIDE}"
-    assert caplog.messages[4] == f"{INDENT}=> {TEST_RETVAL}"
+    assert caplog.messages[4] == f"{INDENT}=> {TEST_RETVAL!r}"
 
 
 class TestNarrateToStdOut:

@@ -28,7 +28,7 @@ class IsSequenceContainingPattern(BaseMatcher[Sequence[str]]):
     def describe_to(self, description: Description) -> None:
         """Describe the passing case."""
         description.append_text(
-            f"a sequence containing an element which matches {self.pattern}"
+            f'a sequence containing an element which matches r"{self.pattern}"'
         )
 
     def describe_match(self, _: Sequence[str], match_description: Description) -> None:
@@ -43,7 +43,7 @@ class IsSequenceContainingPattern(BaseMatcher[Sequence[str]]):
             mismatch_description.append_text("was not a sequence")
             return
         mismatch_description.append_text(
-            f"did not contain an item matching {self.pattern}"
+            f'did not contain an item matching r"{self.pattern}"'
         )
 
 
