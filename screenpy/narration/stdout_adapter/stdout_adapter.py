@@ -137,6 +137,6 @@ class StdOutAdapter:
             )
             self.handled_exception = exc
 
-    def attach(self, filepath: str, **kwargs: Any) -> None:
+    def attach(self, filepath: str, **__: Any) -> None:
         """Log a mention of an attached file."""
         self.manager.log(f"See reference file: {filepath}")
