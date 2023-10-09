@@ -132,9 +132,7 @@ class TestContainsItemMatching:
 
         cim = ContainsItemMatching(test_pattern)
 
-        expected_description = (
-            f'A sequence with an item matching the pattern r"{test_pattern}".'
-        )
+        expected_description = 'A sequence with an item matching the pattern r".*".'
         assert cim.describe() == expected_description
 
 
@@ -150,11 +148,11 @@ class TestContainsTheEntry:
         """Matches dictionaries containing the entry(/ies)"""
         cte_single = ContainsTheEntry(key="value").resolve()
         cte_multiple = ContainsTheEntry(key1="value1", key2="value2").resolve()
-        cte_alt2 = ContainsTheEntry({"key2": "something2"}).resolve()
-        cte_alt3 = ContainsTheEntry("key3", "something3").resolve()
+        cte_alt2 = ContainsTheEntry({"key2": 12345}).resolve()
+        cte_alt3 = ContainsTheEntry("key3", False).resolve()
 
-        assert cte_alt2.matches({"key2": "something2"})
-        assert cte_alt3.matches({"key3": "something3"})
+        assert cte_alt2.matches({"key2": 12345})
+        assert cte_alt3.matches({"key3": False})
         assert cte_single.matches({"key": "value"})
         assert cte_single.matches({"key": "value", "play": "Hamlet"})
         assert not cte_single.matches({"play": "Hamlet"})
@@ -166,15 +164,14 @@ class TestContainsTheEntry:
 
     def test_description(self) -> None:
         test_entry = {"spam": "eggs"}
-        test_entries = {"tree": "larch", "spam": "eggs"}
+        test_entries = {"number": 1234, "spam": "eggs"}
 
         cte_single = ContainsTheEntry(**test_entry)
         cte_multiple = ContainsTheEntry(**test_entries)
 
-        expected_description_single = "A mapping with the entry spam->eggs."
+        expected_description_single = "A mapping with the entry 'spam'->'eggs'."
         expected_description_multiple = (
-            "A mapping with the entries"
-            f" {', '.join(f'{k}->{v}' for k, v in test_entries.items())}."
+            "A mapping with the entries 'number'-><1234>, 'spam'->'eggs'."
         )
         assert cte_single.describe() == expected_description_single
         assert cte_multiple.describe() == expected_description_multiple
@@ -193,13 +190,13 @@ class TestContainsTheItem:
         assert cti.matches(range(0, 10))
         assert not cti.matches({0, 3, 5})
 
-    def test_description(self) -> None:
-        test_item = 1
-
-        cti = ContainsTheItem(test_item)
-
-        expected_description = f'A sequence containing "{test_item}".'
-        assert cti.describe() == expected_description
+    @pytest.mark.parametrize(
+        ("arg", "expected"),
+        ((1, "A sequence containing <1>."), ("1", "A sequence containing '1'.")),
+    )
+    def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
+        cti = ContainsTheItem(arg)
+        assert cti.describe() == expected
 
 
 class TestContainsTheKey:
@@ -221,7 +218,7 @@ class TestContainsTheKey:
 
         ctk = ContainsTheKey(test_key)
 
-        expected_description = f'Containing the key "{test_key}".'
+        expected_description = "Containing the key 'spam'."
         assert ctk.describe() == expected_description
 
 
@@ -243,7 +240,7 @@ class TestContainsTheText:
 
         ctt = ContainsTheText(test_text)
 
-        expected_description = f'Containing the text "{test_text}".'
+        expected_description = "Containing the text 'Wenn ist das Nunstück git und Slotermeyer?'."
         assert ctt.describe() == expected_description
 
 
@@ -261,13 +258,14 @@ class TestContainsTheValue:
         assert ctv.matches({"key": "value", "play": "Hamlet"})
         assert not ctv.matches({"play": "Hamlet"})
 
-    def test_description(self) -> None:
-        test_value = 42
 
-        ctv = ContainsTheValue(test_value)
-
-        expected_description = f'Containing the value "{test_value}".'
-        assert ctv.describe() == expected_description
+    @pytest.mark.parametrize(
+        ("arg", "expected"),
+        ((42, "Containing the value <42>."), ("42", "Containing the value '42'.")),
+    )
+    def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
+        ctv = ContainsTheValue(arg)
+        assert ctv.describe() == expected
 
 
 class TestEmpty:
@@ -306,7 +304,7 @@ class TestEndsWith:
 
         ew = EndsWith(test_postfix)
 
-        expected_description = f'Ending with "{test_postfix}".'
+        expected_description = "Ending with 'got better.'."
         assert ew.describe() == expected_description
 
 
@@ -330,7 +328,7 @@ class TestHasLength:
         hl5 = HasLength(test_length)
 
         expected_description1 = "1 item long."
-        expected_description5 = f"{test_length} items long."
+        expected_description5 = "5 items long."
         assert hl1.describe() == expected_description1
         assert hl5.describe() == expected_description5
 
@@ -372,13 +370,13 @@ class TestIsEqualTo:
         assert ie.matches(1)
         assert not ie.matches(2)
 
-    def test_description(self) -> None:
-        test_object = "my Schwartz"
-
-        ie = IsEqualTo(test_object)
-
-        expected_description = f"Equal to {test_object}."
-        assert ie.describe() == expected_description
+    @pytest.mark.parametrize(
+        ("arg", "expected"),
+        ((8675, "Equal to <8675>."), ("8675", "Equal to '8675'.")),
+    )
+    def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
+        ie = IsEqualTo(arg)
+        assert ie.describe() == expected
 
 
 class TestIsGreaterThan:
@@ -400,7 +398,7 @@ class TestIsGreaterThan:
 
         igt = IsGreaterThan(test_num)
 
-        expected_description = f"Greater than {test_num}."
+        expected_description = "Greater than <41>."
         assert igt.describe() == expected_description
 
 
@@ -423,7 +421,7 @@ class TestIsGreaterThanOrEqualTo:
 
         igtoet = IsGreaterThanOrEqualTo(test_num)
 
-        expected_description = f"Greater than or equal to {test_num}."
+        expected_description = "Greater than or equal to <1337>."
         assert igtoet.describe() == expected_description
 
 
@@ -497,7 +495,7 @@ class TestIsLessThan:
 
         ilt = IsLessThan(test_num)
 
-        expected_description = f"Less than {test_num}."
+        expected_description = "Less than <43>."
         assert ilt.describe() == expected_description
 
 
@@ -520,7 +518,7 @@ class TestIsLessThanOrEqualTo:
 
         iltoet = IsLessThanOrEqualTo(test_num)
 
-        expected_description = f"Less than or equal to {test_num}."
+        expected_description = "Less than or equal to <1337>."
         assert iltoet.describe() == expected_description
 
 
@@ -563,7 +561,7 @@ class TestMatches:
 
         m = Matches(test_match)
 
-        expected_description = f'Text matching the pattern r"{test_match}".'
+        expected_description = 'Text matching the pattern r"(spam)+".'
         assert m.describe() == expected_description
 
 
@@ -585,7 +583,9 @@ class TestReadsExactly:
 
         re_ = ReadsExactly(test_text)
 
-        expected_description = f'"{test_text}", verbatim.'
+        expected_description = (
+            "'I will not buy this record, it is scratched.', verbatim."
+        )
         assert re_.describe() == expected_description
 
 
@@ -606,5 +606,5 @@ class TestStartsWith:
 
         sw = StartsWith(test_prefix)
 
-        expected_description = f'Starting with "{test_prefix}".'
+        expected_description = "Starting with 'It was the best of times,'."
         assert sw.describe() == expected_description

@@ -3,12 +3,17 @@ A grab-bag of useful language-massaging functions with broad applicability.
 """
 
 import re
-from typing import Any, Union
+from typing import TypeVar, Union, overload
+
+from hamcrest.core.helpers.hasmethod import hasmethod
+from hamcrest.core.helpers.ismock import ismock
 
 from screenpy.protocols import Answerable, Describable, Performable, Resolvable
 
+T = TypeVar("T")
 
-def get_additive_description(describable: Union[Describable, Any]) -> str:
+
+def get_additive_description(describable: Union[Describable, T]) -> str:
     """Extract a description that can be placed within a sentence.
 
     The ``describe`` method of Describables will provide a description,
@@ -44,3 +49,27 @@ def get_additive_description(describable: Union[Describable, Any]) -> str:
         description = f"the {describable.__class__.__name__}"
 
     return description
+
+
+@overload
+def represent_prop(item: str) -> str:
+    ...
+
+
+@overload
+def represent_prop(item: T) -> T:
+    ...
+
+
+def represent_prop(item: Union[str, T]) -> Union[str, T]:
+    """represent items in a manner suitable for the audience (logging)"""
+    if not ismock(item) and hasmethod(item, "describe_to"):
+        return f"{item}"
+    if isinstance(item, str):
+        return repr(item)
+
+    description = str(item)
+    if description[:1] == "<" and description[-1:] == ">":
+        return item
+
+    return f"<{item}>"

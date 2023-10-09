@@ -1,6 +1,6 @@
 import pytest
 
-from screenpy.speech_tools import get_additive_description
+from screenpy.speech_tools import get_additive_description, represent_prop
 
 
 class ThisIsADescribableWithADescribe:
@@ -52,3 +52,15 @@ class TestGetAdditiveDescription:
         description = get_additive_description(Indescribable())
 
         assert description == "something indescribable"
+
+
+class TestRepresentProp:
+    def test_str(self):
+        val = "hello\nworld!"
+        
+        assert represent_prop(val) == "'hello\\nworld!'"
+
+    def test_int(self):
+        val = 1234
+
+        assert represent_prop(val) == "<1234>"
