@@ -137,7 +137,7 @@ class Eventually:
                 try:
                     the_actor.attempts_to(self.performable)
                     return
-                except Exception as exc:  # pylint: disable=broad-except
+                except Exception as exc:  # noqa: BLE001
                     self.caught_error = exc
                     if not any(same_exception(exc, c) for c in self.unique_errors):
                         self.unique_errors.append(exc)
