@@ -114,7 +114,7 @@ select = [
     "A",  # flake8-builtins
     # "ANN",  # flake8-annotations  # coming back to this one later to compare against mypy
     "ARG",  # flake8-unused-arguments
-    # "B",  # flake8-bugbear
+    "B",  # flake8-bugbear
     # "BLE",  # flake8-blind-except
     # "C4",  # flake8-comprehensions
     # "D",  # pydocstyle

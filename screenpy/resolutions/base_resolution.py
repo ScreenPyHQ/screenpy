@@ -83,6 +83,7 @@ class BaseResolution(BaseMatcher[T]):
             " Please make your Resolution Resolvable instead."
             "\nSee https://screenpy-docs.readthedocs.io/en/latest/deprecations.html",
             DeprecationWarning,
+            stacklevel=2,
         )
         cls = self.__class__
         if args and kwargs:
