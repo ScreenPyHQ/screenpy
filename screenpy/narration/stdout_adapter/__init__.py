@@ -1,6 +1,4 @@
-"""
-Default Adapters for the Narrator's microphone.
-"""
+"""Default Adapters for the Narrator's microphone."""
 
 
 from .configuration import settings

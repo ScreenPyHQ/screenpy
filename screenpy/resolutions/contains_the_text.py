@@ -1,6 +1,4 @@
-"""
-Matches a substring.
-"""
+"""Matches a substring in a string."""
 
 from hamcrest import contains_string
 from hamcrest.core.matcher import Matcher

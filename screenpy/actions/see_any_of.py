@@ -1,7 +1,4 @@
-"""
-Make several assertions using any number of Question and Resolution tuples,
-at least one of which is expected to be true.
-"""
+"""Make several assertions, at least one of which is expected to be True."""
 
 from typing import Tuple, Type, TypeVar
 

@@ -1,6 +1,4 @@
-"""
-Matcher to use a regular expression pattern to match an item in a sequence.
-"""
+"""Matcher to use a regular expression pattern to match an item in a sequence."""
 
 import re
 from typing import Sequence

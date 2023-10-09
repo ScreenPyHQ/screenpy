@@ -1,6 +1,4 @@
-"""
-Actions are what the Actors do, possibly requiring use of their Abilities.
-"""
+"""Actions are what the Actors do, possibly requiring use of their Abilities."""
 
 from .attach_the_file import AttachTheFile
 from .debug import Debug

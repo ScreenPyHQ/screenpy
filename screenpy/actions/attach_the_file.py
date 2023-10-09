@@ -1,6 +1,4 @@
-"""
-Attach a file.
-"""
+"""Attach a file."""
 
 import os
 from typing import Any

@@ -1,6 +1,4 @@
-"""
-Matches a dictionary that contains the desired key.
-"""
+"""Matches a dictionary that contains the desired key."""
 
 from typing import Any, Generic, Hashable, Mapping, TypeVar
 

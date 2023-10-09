@@ -1,7 +1,8 @@
-"""
+"""Decorators to mark key moments in your tests.
+
 Provides decorators to group your tests into acts (features) and scenes
-(cases), and provide the gravitas (severity) of those groupings. These will
-run through all of the Narrator's adapters.
+(cases), and provide the gravitas (severity) of those groupings; or markers
+for moments the Narrator should narrate.
 """
 
 import re

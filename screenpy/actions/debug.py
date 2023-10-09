@@ -1,7 +1,8 @@
-"""
-Launch a debugger either using the debugger set in the PYTHONBREAKPOINT
-environment variable or pdb. (See more information in PEP-553
-https://www.python.org/dev/peps/pep-0553/)
+"""Debug a performance.
+
+Launch a debugger either using pdb or the debugger set in the PYTHONBREAKPOINT
+environment variable.
+(See more information in PEP-553 https://www.python.org/dev/peps/pep-0553/)
 """
 
 import pdb
@@ -40,7 +41,6 @@ class Debug:
     @beat("{} assumes direct control...")
     def perform_as(self, _: Actor) -> None:
         """Direct the Actor to activate a debugger."""
-
         try:
             # Hello! To get to the perform loop and step through the remaining
             # Actions, you will need to go "up" about 3 times.

@@ -1,6 +1,4 @@
-"""
-Pause test execution for a specific time frame.
-"""
+"""Pause test execution for a specific time frame."""
 
 import re
 from time import sleep

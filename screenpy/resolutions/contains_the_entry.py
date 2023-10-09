@@ -1,6 +1,4 @@
-"""
-Matches a dictionary that contains the specified key/value pair(s).
-"""
+"""Matches a dictionary that contains the specified key/value pair(s)."""
 
 from typing import Any, Hashable, Iterable, Mapping, Tuple, TypeVar, overload
 

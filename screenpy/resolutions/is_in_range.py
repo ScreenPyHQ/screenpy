@@ -1,6 +1,4 @@
-"""
-Matches a number against a range.
-"""
+"""Matches a number against a range."""
 
 from typing import Union
 

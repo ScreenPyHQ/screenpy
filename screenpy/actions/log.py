@@ -1,13 +1,11 @@
-"""
-Log the answer to a Question or other Answerable.
-"""
+"""Log the answer to a Question or other Answerable, or a value."""
 
 from typing import Type, TypeVar
 
 from screenpy.actor import Actor
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable
-from screenpy.speech_tools import get_additive_description
+from screenpy.speech_tools import get_additive_description, represent_prop
 
 from .see import T_Q
 
@@ -18,7 +16,7 @@ class Log:
     """Log the answer to a Question, or anything.
 
     Probably most useful for debugging a test, or for announcing the
-    answer to a question for the record.
+    answer to a Question for the record.
 
     Examples::
         the_actor.attempts_to(Log(HowManyBirdsAreInTheSky()))
@@ -37,8 +35,8 @@ class Log:
         if isinstance(self.question, Answerable):
             self.question.answered_by(the_actor)
         else:
-            # must be a value instead of a question!
-            aside(f"the value is: {self.question}")
+            # must be a value instead of a Question!
+            aside(f"the value is: {represent_prop(self.question)}")
 
     def __init__(self, question: T_Q) -> None:
         self.question = question

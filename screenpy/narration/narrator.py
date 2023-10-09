@@ -1,8 +1,8 @@
-"""
-The Narrator for the screenplay, who informs the audience what the actors are
-doing. The Narrator's microphone is modular, allowing for any number of
-adapters to be applied. Adapters must follow the Adapter protocol outlined in
-screenpy.protocols.
+"""The Narrator narrates the Screenplay.
+
+The Narrator for the screenplay informs the audience what the actors are doing.
+The Narrator's microphone is modular, allowing for any number of adapters to be
+applied. Adapters must follow the Adapter protocol outlined in screenpy.protocols.
 """
 
 from contextlib import contextmanager

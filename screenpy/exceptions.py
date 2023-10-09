@@ -1,6 +1,4 @@
-"""
-Common exceptions for ScreenPy.
-"""
+"""Common exceptions for ScreenPy."""
 
 
 class ScreenPyError(Exception):
@@ -8,11 +6,11 @@ class ScreenPyError(Exception):
 
 
 class UnableToDirect(ScreenPyError):
-    """The Director cannot direct."""
+    """Raised by the Director."""
 
 
 class UnableToNarrate(ScreenPyError):
-    """The Narrator cannot narrate."""
+    """Raised by the Narrator."""
 
 
 class UnableToPerform(ScreenPyError):
@@ -20,11 +18,11 @@ class UnableToPerform(ScreenPyError):
 
 
 class AbilityError(ScreenPyError):
-    """These errors are raised when an Ability fails in some way."""
+    """Raised by an Ability."""
 
 
 class ActionError(ScreenPyError):
-    """These errors are raised when an Action fails."""
+    """Raised by an Action."""
 
 
 class DeliveryError(ActionError):
@@ -36,28 +34,28 @@ class UnableToAct(ActionError):
 
 
 class QuestionError(ScreenPyError):
-    """These errors are raised when a Question fails."""
+    """Raised by a Question."""
 
 
 class UnableToAnswer(QuestionError):
-    """The Question is not answerable."""
+    """The Question encountered an error while being answered."""
 
 
 class ResolutionError(ScreenPyError):
-    """These errors are raised when a Resolution fails."""
+    """Raised by a Resolution."""
 
 
 class UnableToFormResolution(ResolutionError):
-    """The Resolution is unable to be formed."""
+    """The Resolution is unable to produce its Matcher."""
 
 
 class NotPerformable(ScreenPyError):
-    """Does not conform to Performable Protocol"""
+    """Does not conform to Performable Protocol."""
 
 
 class NotAnswerable(ScreenPyError):
-    """Does not conform to Answerable Protocol"""
+    """Does not conform to Answerable Protocol."""
 
 
 class NotResolvable(ScreenPyError):
-    """Does not conform to Resolvable Protocol"""
+    """Does not conform to Resolvable Protocol."""

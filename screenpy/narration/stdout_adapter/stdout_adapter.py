@@ -1,6 +1,4 @@
-"""
-Logs the Narrator's narration using Python's standard logging library.
-"""
+"""Logs the Narrator's narration using Python's standard logging library."""
 
 import logging
 from contextlib import contextmanager

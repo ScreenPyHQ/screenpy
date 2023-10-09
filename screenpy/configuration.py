@@ -1,6 +1,4 @@
-"""
-Settings that affect ScreenPy's behavior.
-"""
+"""Settings that affect ScreenPy's behavior."""
 
 import sys
 from pathlib import Path
@@ -104,7 +102,7 @@ class ScreenPySettings(BaseSettings):
     all Narration. False by default.
     """
 
-    class Config:  # pylint: disable=missing-class-docstring
+    class Config:  # noqa: D106
         env_prefix = "SCREENPY_"
         allow_mutation = True
 

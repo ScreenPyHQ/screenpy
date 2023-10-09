@@ -1,4 +1,5 @@
-"""
+"""The User stand-in!
+
 Actors are the stars of the show. They perform your Actions, ask Questions
 about the state of the application, and assert Resolutions, all in the
 service of perfoming their roles.
@@ -255,6 +256,7 @@ class Actor:
         return self.attempts_to(*actions)
 
     def __repr__(self: SelfActor) -> str:
+        """The name of the Actor represents them."""
         return self.name
 
     def __init__(self: SelfActor, name: str) -> None:
