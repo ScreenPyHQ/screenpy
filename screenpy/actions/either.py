@@ -44,6 +44,23 @@ class Either:
     except_performables: tuple[Performable, ...]
     ignore_exceptions: tuple[type[BaseException], ...]
 
+    def perform_as(self, the_actor: Actor) -> None:
+        """Direct the Actor to perform one of two performances."""
+        # kinking the cable before the attempt
+        # avoids explaning what the actor tries to do.
+        # logs the first attempt only if it succeeds
+        # or if UNABRIDGED_NARRATION is enabled
+        with the_narrator.mic_cable_kinked():
+            try:
+                the_actor.will(*self.try_performables)
+                return
+            except self.ignore_exceptions:
+                if not settings.UNABRIDGED_NARRATION:
+                    the_narrator.clear_backup()
+
+        the_actor.will(*self.except_performables)
+        return
+
     def or_(self, *except_performables: Performable) -> Either:
         """Provide the alternative routine to perform.
 
@@ -74,23 +91,6 @@ class Either:
         )
 
         return f"Either {try_summary} or {except_summary}"
-
-    def perform_as(self, the_actor: Actor) -> None:
-        """Direct the Actor to perform one of two performances."""
-        # kinking the cable before the attempt
-        # avoids explaning what the actor tries to do.
-        # logs the first attempt only if it succeeds
-        # or if UNABRIDGED_NARRATION is enabled
-        with the_narrator.mic_cable_kinked():
-            try:
-                the_actor.will(*self.try_performables)
-                return
-            except self.ignore_exceptions:
-                if not settings.UNABRIDGED_NARRATION:
-                    the_narrator.clear_backup()
-
-        the_actor.will(*self.except_performables)
-        return
 
     def __init__(self, *first: Performable) -> None:
         self.try_performables: tuple[Performable, ...] = first
