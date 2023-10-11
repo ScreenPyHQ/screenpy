@@ -1,6 +1,4 @@
-"""
-Matches a sequence which contains an item matching a given regex pattern.
-"""
+"""Matches a sequence which contains an item matching a given regex pattern."""
 
 from typing import Sequence
 

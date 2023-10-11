@@ -1,10 +1,11 @@
-"""
-Protocols to define the expected functions each of the types of Screenplay
-Pattern will need to implement.
+"""ScreenPy uses a structural subtyping faciliated by Protocols.
 
-ScreenPy uses structural subtyping to define its "subclasses" -- for example,
-any class that implements ``perform_as`` can be an Action, any class that
-implements ``answered_by`` is a Question, etc. For more information, see
+These protocols define the expected methods each of the -ables in ScreenPy
+will need to implement to satisfy the protocol.
+
+For example, any class that implements ``perform_as`` is a Performable and
+can be an Action, any class that implements ``answered_by`` is an Answerable
+and can be a Question, etc. For more information on structural subtyping, see
 https://mypy.readthedocs.io/en/stable/protocols.html
 """
 
@@ -28,15 +29,13 @@ if TYPE_CHECKING:
 
 @runtime_checkable
 class Answerable(Protocol):
-    """Questions are Answerable"""
+    """Questions are Answerable."""
 
     def answered_by(self, the_actor: "Actor") -> Any:
-        """
-        Pose the Question to the Actor, who will investigate and provide the
-        answer to their best knowledge.
+        """Pose the Question to the Actor, who will attempt to answer.
 
         Args:
-            the_actor: the Actor who will answer the Question.
+            the_actor: the Actor who will answer this Question.
 
         Returns:
             The answer, based on the sleuthing the Actor has done.
@@ -45,7 +44,7 @@ class Answerable(Protocol):
 
 @runtime_checkable
 class Describable(Protocol):
-    """Classes that describe themselves are Describable"""
+    """Classes that describe themselves are Describable."""
 
     def describe(self) -> str:
         """Describe the Describable in the present tense."""
@@ -53,29 +52,29 @@ class Describable(Protocol):
 
 @runtime_checkable
 class ErrorKeeper(Protocol):
-    """Classes that save exceptions for later are ErrorKeeper(s)"""
+    """Classes that save exceptions for later are ErrorKeeper(s)."""
 
     caught_exception: Optional[Exception]
 
 
 @runtime_checkable
 class Forgettable(Protocol):
-    """Abilities are Forgettable"""
+    """Abilities are Forgettable."""
 
     def forget(self) -> None:
-        """
-        Forget this Ability by doing any necessary cleanup (quitting browsers,
-        closing connections, etc.)
+        """Clean up the Ability, assuming it will not be used again.
+
+        This may involve closing database connections, quitting browsers,
+        deleting data from an API, etc.
         """
 
 
 @runtime_checkable
 class Performable(Protocol):
-    """Actions that can be performed are Performable"""
+    """Actions and Tasks are Performable."""
 
     def perform_as(self, the_actor: "Actor") -> None:
-        """
-        Direct the Actor to perform this Action.
+        """Direct the Actor to perform this Action.
 
         Args:
             the_actor: the Actor who will perform this Action.
@@ -84,7 +83,7 @@ class Performable(Protocol):
 
 @runtime_checkable
 class Resolvable(Protocol):
-    """Resolutions are Resolvable"""
+    """Resolutions are Resolvable."""
 
     def resolve(self) -> Matcher:
         """Form the Matcher for an assertion.

@@ -36,6 +36,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
 ]
 
+
 # It's possible to add optional dependencies with the poetry CLI tool using:
 #   poetry add --optional some_dev_pkg
 # This will set `optional = true` flag in [tool.poetry.dependencies], as seen below
@@ -72,6 +73,7 @@ screenpy-selenium = {version = "^4.0.3", optional = true}
 sphinx = {version = "^6.1.3", optional = true}
 tox = {version = "*", optional = true}
 
+
 [tool.poetry.extras]
 allure = ["screenpy-adapter-allure"]
 appium = ["screenpy-appium"]
@@ -107,17 +109,18 @@ test = [
     "pytest",
 ]
 
+
 [tool.ruff]
 target-version = "py38"  # minimum supported version
 line-length = 88  # same as Black.
 select = [
-    # "A",  # flake8-builtins
-    # "ANN",  # flake8-annotations
-    # "ARG",  # flake8-unused-arguments
-    # "B",  # flake8-bugbear
-    # "BLE",  # flake8-blind-except
-    # "C4",  # flake8-comprehensions
-    # "D",  # pydocstyle
+    "A",  # flake8-builtins
+    # "ANN",  # flake8-annotations  # coming back to this one later to compare against mypy
+    "ARG",  # flake8-unused-arguments
+    "B",  # flake8-bugbear
+    "BLE",  # flake8-blind-except
+    "C4",  # flake8-comprehensions
+    "D",  # pydocstyle
     # "E",  # pycodestyle error
     # "EM",  # flake8-errmsg
     # "ERA",  # eradicate
@@ -171,10 +174,12 @@ exclude = [
     "PLR",  # likewise using specific numbers and strings in tests.
 ]
 
+
 [tool.ruff.isort]
 combine-as-imports = true
 split-on-trailing-comma = true
 known-first-party = ["screenpy", "tests"]
+
 
 [tool.ruff.flake8-pytest-style]
 mark-parentheses = false

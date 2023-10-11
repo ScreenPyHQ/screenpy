@@ -1,6 +1,4 @@
-"""
-ReadsExactly an exact string.
-"""
+"""Matches an exact string."""
 
 from hamcrest import has_string
 from hamcrest.core.matcher import Matcher

@@ -1,6 +1,4 @@
-"""
-Matches a dictionary that contains a specific value.
-"""
+"""Matches a dictionary that contains a specific value."""
 
 from typing import Any, Generic, Mapping, TypeVar
 

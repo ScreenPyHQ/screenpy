@@ -1,6 +1,4 @@
-"""
-Make an assertion using a Question and a Resolution.
-"""
+"""Make an assertion using a Question/value and a Resolution."""
 
 from typing import Type, TypeVar, Union
 
@@ -19,7 +17,7 @@ T_R = Resolvable
 class See:
     """See if a value or the answer to a Question matches the Resolution.
 
-    This is a very important Action in ScreenPy. It is the way to perform
+    This is a very important Action in ScreenPy; it is the way to perform
     test assertions. For more information, see the documentation for
     :ref:`Questions` and :ref:`Resolutions`.
 

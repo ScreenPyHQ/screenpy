@@ -1,6 +1,4 @@
-"""
-Matches a string which begins with a substring.
-"""
+"""Matches a string which begins with a substring."""
 
 from hamcrest import starts_with
 from hamcrest.core.matcher import Matcher

@@ -1,9 +1,7 @@
-"""
-Resolutions are expected results asserted by Actors, compared against the
-answers to their Questions.
+"""The expected answer to a Question.
 
-These form the second half of test assertions in Screenplay Pattern; the
-first half is handled by Questions.
+When combined with a Question, the Question + Resolution pair make up the test
+assertions in Screenplay Pattern.
 """
 
 from .base_resolution import BaseResolution

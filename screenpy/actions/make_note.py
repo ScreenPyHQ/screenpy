@@ -1,6 +1,4 @@
-"""
-Make a quick note about the answer to a Question.
-"""
+"""Make a quick note about the answer to a Question."""
 
 from typing import Optional, Type, TypeVar, Union
 

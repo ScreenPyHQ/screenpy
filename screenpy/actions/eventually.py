@@ -1,6 +1,4 @@
-"""
-Eventually perform a Task or Action, trying until a set timeout.
-"""
+"""Eventually perform a Task or Action, trying until a set timeout."""
 
 import time
 from traceback import format_tb
@@ -47,10 +45,7 @@ class Eventually:
     timeout: float
 
     class _TimeframeBuilder:
-        """
-        Allows caller of Eventually to tack on waiting for specific time
-        frames in seconds or milliseconds.
-        """
+        """Build a timeframe, combining numbers and units."""
 
         def __init__(
             self, eventually: "Eventually", amount: float, attribute: str
@@ -137,7 +132,7 @@ class Eventually:
                 try:
                     the_actor.attempts_to(self.performable)
                     return
-                except Exception as exc:  # pylint: disable=broad-except
+                except Exception as exc:  # noqa: BLE001
                     self.caught_error = exc
                     if not any(same_exception(exc, c) for c in self.unique_errors):
                         self.unique_errors.append(exc)
@@ -165,10 +160,10 @@ class Eventually:
         self.poll = settings.POLLING
 
 
-def same_exception(a: BaseException, b: BaseException) -> bool:
-    """compare exceptions to see if they match"""
+def same_exception(exc1: BaseException, exc2: BaseException) -> bool:
+    """Compare two exceptions to see if they match."""
     return (
-        isinstance(a, type(b))
-        and (str(a) == str(b))
-        and (format_tb(a.__traceback__) == format_tb(b.__traceback__))
+        isinstance(exc1, type(exc2))
+        and (str(exc1) == str(exc2))
+        and (format_tb(exc1.__traceback__) == format_tb(exc2.__traceback__))
     )

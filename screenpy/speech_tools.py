@@ -1,6 +1,4 @@
-"""
-A grab-bag of useful language-massaging functions with broad applicability.
-"""
+"""A grab-bag of useful language-massaging functions with broad applicability."""
 
 import re
 from typing import TypeVar, Union, overload
@@ -62,7 +60,7 @@ def represent_prop(item: T) -> T:
 
 
 def represent_prop(item: Union[str, T]) -> Union[str, T]:
-    """represent items in a manner suitable for the audience (logging)"""
+    """Represent items in a manner suitable for the audience (logging)."""
     if not ismock(item) and hasmethod(item, "describe_to"):
         return f"{item}"
     if isinstance(item, str):

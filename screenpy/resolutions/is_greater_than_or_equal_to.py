@@ -1,6 +1,4 @@
-"""
-Matches a value greater than the given number.
-"""
+"""Matches a value greater than the given number."""
 
 from typing import Any
 

@@ -57,7 +57,7 @@ FakeResolution = get_mock_resolution_class()
 class DoThingThatFails(Performable):
     COUNTER = 0
 
-    def perform_as(self, actor: Actor):
+    def perform_as(self, _: Actor):
         DoThingThatFails.COUNTER += 1
         raise AssertionError(f"Failure #{DoThingThatFails.COUNTER}")
 
@@ -305,7 +305,7 @@ class TestEventually:
         mock_question = FakeQuestion()
         mock_question.answered_by.return_value = True
         mock_question.describe.return_value = "returns bool"
-        
+
         with pytest.raises(DeliveryError) as actual_exception:
             Eventually(See(mock_question, IsEqualTo(False))).perform_as(Tester)
 
@@ -814,7 +814,7 @@ class TestSeeAnyOf:
 
 class SimpleQuestion(Answerable):
     @beat("{} examines SimpleQuestion")
-    def answered_by(self, actor: Actor) -> bool:
+    def answered_by(self, _: Actor) -> bool:
         return True
 
     def describe(self) -> str:
@@ -857,7 +857,7 @@ class TestSilently:
             SilentlyPerformable(None)  # type: ignore
 
         assert str(exc.value) == (
-            "SilentlyPerformable only works with Performable. "
+            "SilentlyPerformable only works with Performables. "
             "Use `Silently` instead."
         )
 
@@ -866,7 +866,7 @@ class TestSilently:
             SilentlyAnswerable(None)  # type: ignore
 
         assert str(exc.value) == (
-            "SilentlyAnswerable only works with Answerable. Use `Silently` instead."
+            "SilentlyAnswerable only works with Answerables. Use `Silently` instead."
         )
 
     def test_not_resolvable(self) -> None:
@@ -874,7 +874,7 @@ class TestSilently:
             SilentlyResolvable(None)  # type: ignore
 
         assert str(exc.value) == (
-            "SilentlyResolvable only works with Resolvable. Use `Silently` instead."
+            "SilentlyResolvable only works with Resolvables. Use `Silently` instead."
         )
 
     def test_passthru_attribute(self) -> None:
@@ -1175,12 +1175,12 @@ class TestEither:
     def test_output_first_fails(self, Tester, caplog):
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, _: Actor):
                 raise AssertionError("This Fails!")
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, _: Actor):
                 return
 
         with caplog.at_level(logging.INFO):
@@ -1191,12 +1191,12 @@ class TestEither:
     def test_output_first_fails_unabridged(self, Tester, caplog):
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, _: Actor):
                 raise AssertionError("This Fails!")
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, _: Actor):
                 return
 
         caplog.set_level(logging.INFO)
@@ -1210,12 +1210,12 @@ class TestEither:
     def test_output_first_passes(self, Tester, caplog):
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, _: Actor):
                 raise AssertionError("This Fails!")
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
-            def perform_as(self, actor: Actor):
+            def perform_as(self, _: Actor):
                 return
 
         with caplog.at_level(logging.INFO):

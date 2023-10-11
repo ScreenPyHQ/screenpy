@@ -1,6 +1,4 @@
-"""
-Matches using equality.
-"""
+"""Matches using equality."""
 
 from typing import Any
 

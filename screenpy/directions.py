@@ -1,6 +1,4 @@
-"""
-Directions are special functions that ask for something from the Director.
-"""
+"""Directions are special functions that ask for something from the Director."""
 
 from typing import Any
 
@@ -9,7 +7,7 @@ from .exceptions import UnableToDirect
 
 
 def noted_under(key: str) -> Any:
-    """Gets a noted value from the director.
+    """Get a noted value from the director.
 
     Examples::
 

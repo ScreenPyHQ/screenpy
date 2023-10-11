@@ -1,6 +1,4 @@
-"""
-Tools for narrating the screenplay.
-"""
+"""Tools for narrating the screenplay."""
 
 from .gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
 from .narrator import Narrator

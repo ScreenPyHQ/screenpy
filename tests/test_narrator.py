@@ -91,7 +91,7 @@ class TestNarrator:
             assert narrator.backed_up_narrations[0][3][0] == "aside"
             assert all(
                 level == 1
-                for level in map(lambda n: n[-1], narrator.backed_up_narrations[0])
+                for level in (n[-1] for n in narrator.backed_up_narrations[0])
             )
             mock_adapter.act.assert_not_called()
             mock_adapter.scene.assert_not_called()

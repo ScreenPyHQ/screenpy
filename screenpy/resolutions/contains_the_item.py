@@ -1,6 +1,4 @@
-"""
-Matches a list that contains the desired item.
-"""
+"""Matches a list that contains the desired item."""
 
 from typing import Sequence, TypeVar
 

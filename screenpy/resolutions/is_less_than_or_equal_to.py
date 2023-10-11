@@ -1,6 +1,4 @@
-"""
-Matches a value less than or equal to the given number.
-"""
+"""Matches a value less than or equal to the given number."""
 
 from hamcrest import less_than_or_equal_to
 from hamcrest.core.matcher import Matcher

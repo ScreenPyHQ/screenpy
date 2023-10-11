@@ -1,6 +1,4 @@
-"""
-Matches a string which ends with a substring.
-"""
+"""Matches a string which ends with a substring."""
 
 from hamcrest import ends_with
 from hamcrest.core.matcher import Matcher
