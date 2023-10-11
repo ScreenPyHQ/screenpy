@@ -90,7 +90,7 @@ class SilentlyResolvable(Resolvable, SilentlyMixin):
     def __init__(self, duck: Resolvable):
         if not isinstance(duck, Resolvable):
             msg = (
-                "SilentlyResolvable only works with Resolvable."
+                "SilentlyResolvable only works with Resolvables."
                 " Use `Silently` instead."
             )
             raise NotResolvable(msg)
