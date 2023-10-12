@@ -23,7 +23,7 @@ class Prop:
 
 class NonesyQuestion:
     @beat("{} examines NonesyQuestion")
-    def answered_by(self, actor: Actor) -> object:
+    def answered_by(self, _: Actor) -> object:
         return None
 
     def describe(self) -> str:
@@ -32,7 +32,7 @@ class NonesyQuestion:
 
 class CornerCase:
     @beat("{} examines CornerCase")
-    def answered_by(self, the_actor: Actor) -> object:
+    def answered_by(self, _: Actor) -> object:
         self.do_not_log_me_man()
         self.does_return_something()
         self.no_annotations_rt_none(False)
