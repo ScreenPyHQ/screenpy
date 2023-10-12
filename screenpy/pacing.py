@@ -1,13 +1,15 @@
-"""
+"""Decorators to mark key moments in your tests.
+
 Provides decorators to group your tests into acts (features) and scenes
-(cases), and provide the gravitas (severity) of those groupings. These will
-run through all of the Narrator's adapters.
+(cases), and provide the gravitas (severity) of those groupings; or markers
+for moments the Narrator should narrate.
 """
 import re
 from functools import wraps
 from typing import Any, Callable, Optional
 
 from screenpy.narration import Narrator, StdOutAdapter
+from screenpy.speech_tools import represent_prop
 
 Function = Callable[..., Any]
 

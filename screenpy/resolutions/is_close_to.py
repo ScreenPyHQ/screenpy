@@ -1,6 +1,4 @@
-"""
-Matches a value that falls within the range specified by the given delta.
-"""
+"""Matches a value that falls within a range specified by the given delta."""
 
 from hamcrest import close_to
 from hamcrest.core.matcher import Matcher

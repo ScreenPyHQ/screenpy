@@ -1,5 +1,6 @@
-"""
-try/accept logic using screenplay pattern
+"""Attempt one of two different performances.
+
+Simulates a try/except control flow, but in Screenplay Pattern.
 """
 
 from __future__ import annotations
@@ -16,9 +17,13 @@ if TYPE_CHECKING:
 
 
 class Either:
-    """Either performs followup action if the first one fails.
+    """Perform one of two branching performances.
 
-    Allows actors to perform try/except blocks while still using screenplay pattern.
+    Simulates a try/except block while still following Screenplay Pattern.
+
+    By default, ``Either`` catches AssertionErrors, so you can use
+    :class:`~screenpy.actions.See` to decide which path to follow. Use the
+    :meth:`~screenpy.actions.Either.ignoring` method to ignore other exceptions.
 
     Examples::
 
@@ -30,6 +35,7 @@ class Either:
             )
         )
 
+        # using a custom Task which raises AssertionError
         the_actor.will(
             Either(CheckIfOnDomain(URL())).or_(Open.their_browser_on(URL())
         )
@@ -39,7 +45,7 @@ class Either:
     ignore_exceptions: tuple[type[BaseException], ...]
 
     def perform_as(self, the_actor: Actor) -> None:
-        """Direct the Actor to do one of two actions using try/accept."""
+        """Direct the Actor to perform one of two performances."""
         # kinking the cable before the attempt
         # avoids explaning what the actor tries to do.
         # logs the first attempt only if it succeeds
@@ -71,7 +77,7 @@ class Either:
     except_ = else_ = otherwise = alternatively = failing_that = or_
 
     def ignoring(self, *ignored_exceptions: type[BaseException]) -> Either:
-        """Set the expception classes to Ignore"""
+        """Set the expception classes to ignore."""
         self.ignore_exceptions = ignored_exceptions
         return self
 

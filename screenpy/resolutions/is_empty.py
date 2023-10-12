@@ -1,6 +1,4 @@
-"""
-Matches an empty collection.
-"""
+"""Matches an empty collection."""
 
 from typing import Sized
 

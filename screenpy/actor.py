@@ -1,4 +1,5 @@
-"""
+"""The User stand-in!
+
 Actors are the stars of the show. They perform your Actions, ask Questions
 about the state of the application, and assert Resolutions, all in the
 service of perfoming their roles.
@@ -210,7 +211,7 @@ class Actor:
         for task in self.independent_cleanup_tasks:
             try:
                 self.perform(task)
-            except Exception as e:  # pylint: disable=broad-except
+            except Exception as e:  # noqa: BLE001
                 action = get_additive_description(task)
                 msg = (
                     f"{self} encountered an error while attempting to {action}:"
@@ -225,7 +226,7 @@ class Actor:
         self.cleans_up_independent_tasks()
         self.cleans_up_ordered_tasks()
 
-    def exit(self: SelfActor) -> None:
+    def exit(self: SelfActor) -> None:  # noqa: A003
         """Direct the Actor to forget all their Abilities.
 
         Aliases:
@@ -255,6 +256,7 @@ class Actor:
         return self.attempts_to(*actions)
 
     def __repr__(self: SelfActor) -> str:
+        """The name of the Actor represents them."""
         return self.name
 
     def __init__(self: SelfActor, name: str) -> None:

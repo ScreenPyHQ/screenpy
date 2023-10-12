@@ -1,6 +1,4 @@
-"""
-Matches a dictionary that contains the specified key/value pair(s).
-"""
+"""Matches a dictionary that contains the specified key/value pair(s)."""
 
 from typing import Any, Hashable, Iterable, Mapping, Tuple, TypeVar, overload
 
@@ -9,6 +7,7 @@ from hamcrest.core.matcher import Matcher
 
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
+from screenpy.speech_tools import represent_prop
 
 K = TypeVar("K", bound=Hashable)
 V = TypeVar("V")
@@ -78,4 +77,6 @@ class ContainsTheEntry:
                 ]
                 self.entries = dict(pairs, **kv_kwargs)
         self.entry_plural = "entries" if len(self.entries) != 1 else "entry"
-        self.entries_to_log = ", ".join(f"{k}->{v}" for k, v in self.entries.items())
+        self.entries_to_log = ", ".join(
+            f"{represent_prop(k)}->{represent_prop(v)}" for k, v in self.entries.items()
+        )

@@ -1,11 +1,10 @@
-"""
-Matches a string which ends with a substring.
-"""
+"""Matches a string which ends with a substring."""
 
 from hamcrest import ends_with
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
+from screenpy.speech_tools import represent_prop
 
 
 class EndsWith:
@@ -20,12 +19,13 @@ class EndsWith:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f'Ending with "{self.postfix}".'
+        return f"Ending with {self.postfix_to_log}."
 
-    @beat('... hoping it ends with "{postfix}".')
+    @beat("... hoping it ends with {postfix_to_log}.")
     def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return ends_with(self.postfix)
 
     def __init__(self, postfix: str) -> None:
         self.postfix = postfix
+        self.postfix_to_log = represent_prop(postfix)

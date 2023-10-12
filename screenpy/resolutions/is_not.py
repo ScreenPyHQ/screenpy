@@ -1,6 +1,4 @@
-"""
-Matches the negation of another Resolution.
-"""
+"""Matches the negation of another Resolution."""
 
 from typing import TypeVar
 

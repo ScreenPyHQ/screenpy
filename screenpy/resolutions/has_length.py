@@ -1,6 +1,4 @@
-"""
-Matches the length of a collection.
-"""
+"""Matches the length of a collection."""
 
 from typing import Sized
 

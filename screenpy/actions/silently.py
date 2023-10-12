@@ -1,6 +1,5 @@
-"""
-Silently allows for "disabling" logging on successful actions & tests
-"""
+"""Skip logging of successful Actions and tests."""
+
 from __future__ import annotations
 
 from typing import Any, TypeVar, Union, overload
@@ -17,12 +16,14 @@ T = TypeVar("T")
 
 
 class SilentlyMixin:
-    """
+    """Passthrough to the duck which is being silenced.
+
     Silently needs to mimic the ducks (i.e. objects) they are wrapping.
     All of the attributes from the "duck" should be exposed by the Silently object.
     """
 
     def __getattr__(self, key: Any) -> Any:
+        """Passthrough to the silenced duck's getattr."""
         try:
             return getattr(self.duck, key)
         except AttributeError as exc:
@@ -34,9 +35,10 @@ class SilentlyMixin:
 
 
 class SilentlyPerformable(Performable, SilentlyMixin):
-    """Calls the Performable passed in but kinks the cable prior performing"""
+    """Perform the Performable, but quietly."""
 
     def perform_as(self, actor: Actor) -> None:
+        """Direct the Actor to perform silently."""
         with the_narrator.mic_cable_kinked():
             self.duck.perform_as(actor)
             if not settings.UNABRIDGED_NARRATION:
@@ -45,17 +47,19 @@ class SilentlyPerformable(Performable, SilentlyMixin):
 
     def __init__(self, duck: Performable):
         if not isinstance(duck, Performable):
-            raise NotPerformable(
-                "SilentlyPerformable only works with Performable. "
-                "Use `Silently` instead."
+            msg = (
+                "SilentlyPerformable only works with Performables."
+                " Use `Silently` instead."
             )
+            raise NotPerformable(msg)
         self.duck = duck
 
 
 class SilentlyAnswerable(Answerable, SilentlyMixin):
-    """Calls the Answerable passed in but kinks the cable prior to answering"""
+    """Answer the Answerable, but quietly."""
 
     def answered_by(self, actor: Actor) -> Any:
+        """Direct the Actor to answer the question silently."""
         with the_narrator.mic_cable_kinked():
             thing = self.duck.answered_by(actor)
             if not settings.UNABRIDGED_NARRATION:
@@ -64,16 +68,19 @@ class SilentlyAnswerable(Answerable, SilentlyMixin):
 
     def __init__(self, duck: Answerable):
         if not isinstance(duck, Answerable):
-            raise NotAnswerable(
-                "SilentlyAnswerable only works with Answerable. Use `Silently` instead."
+            msg = (
+                "SilentlyAnswerable only works with Answerables."
+                " Use `Silently` instead."
             )
+            raise NotAnswerable(msg)
         self.duck = duck
 
 
 class SilentlyResolvable(Resolvable, SilentlyMixin):
-    """Calls the Resolvable passed in but kinks the cable prior to resolving"""
+    """Resolve the Resolvable, but quietly."""
 
     def resolve(self) -> Matcher:
+        """Produce the Matcher to make the assertion, silently."""
         with the_narrator.mic_cable_kinked():
             res = self.duck.resolve()
             if not settings.UNABRIDGED_NARRATION:
@@ -82,9 +89,11 @@ class SilentlyResolvable(Resolvable, SilentlyMixin):
 
     def __init__(self, duck: Resolvable):
         if not isinstance(duck, Resolvable):
-            raise NotResolvable(
-                "SilentlyResolvable only works with Resolvable. Use `Silently` instead."
+            msg = (
+                "SilentlyResolvable only works with Resolvables."
+                " Use `Silently` instead."
             )
+            raise NotResolvable(msg)
         self.duck = duck
 
 
@@ -116,8 +125,10 @@ def Silently(duck: Resolvable) -> Union[Resolvable, SilentlyResolvable]:
 
 
 def Silently(duck: T_duck) -> Union[T_duck, T_silent_duck]:
-    """
-    Does not log the duck's behavior unless something goes wrong.
+    """Silence the duck.
+
+    Any Performable, Answerable, or Resolvable wrapped in Silently will not be
+    narrated by the Narrator, unless an exception is raised.
 
     Args:
         duck: Performable, Answerable, or Resolvable
@@ -129,15 +140,15 @@ def Silently(duck: T_duck) -> Union[T_duck, T_silent_duck]:
 
     Examples::
 
-        actor.will(Silently(Click(BUTTON)))
+        the_actor.will(Silently(Click.on(THE_BUTTON)))
 
-        actor.shall(
+        the_actor.shall(
             See(
                 Silently(Text.of_the(WELCOME_BANNER)), ContainsTheText("Welcome!")
             )
         )
 
-        actor.shall(
+        the_actor.shall(
             See(
                 Text.of_the(WELCOME_BANNER), Silently(ContainsTheText("Welcome!"))
             )

@@ -1,11 +1,10 @@
-"""
-Matches a substring.
-"""
+"""Matches a substring in a string."""
 
 from hamcrest import contains_string
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
+from screenpy.speech_tools import represent_prop
 
 
 class ContainsTheText:
@@ -20,12 +19,13 @@ class ContainsTheText:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f'Containing the text "{self.text}".'
+        return f"Containing the text {self.text_to_log}."
 
-    @beat('... hoping it contains "{text}".')
+    @beat("... hoping it contains {text_to_log}.")
     def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return contains_string(self.text)
 
     def __init__(self, text: str) -> None:
         self.text = text
+        self.text_to_log = represent_prop(text)

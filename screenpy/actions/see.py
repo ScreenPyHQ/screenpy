@@ -1,6 +1,4 @@
-"""
-Make an assertion using a Question and a Resolution.
-"""
+"""Make an assertion using a Question/value and a Resolution."""
 
 from typing import Type, TypeVar, Union
 
@@ -9,7 +7,7 @@ from hamcrest import assert_that
 from screenpy.actor import Actor
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
-from screenpy.speech_tools import get_additive_description
+from screenpy.speech_tools import get_additive_description, represent_prop
 
 SelfSee = TypeVar("SelfSee", bound="See")
 T_Q = Union[Answerable, object]
@@ -19,7 +17,7 @@ T_R = Resolvable
 class See:
     """See if a value or the answer to a Question matches the Resolution.
 
-    This is a very important Action in ScreenPy. It is the way to perform
+    This is a very important Action in ScreenPy; it is the way to perform
     test assertions. For more information, see the documentation for
     :ref:`Questions` and :ref:`Resolutions`.
 
@@ -56,7 +54,7 @@ class See:
         else:
             # must be a value instead of a question!
             value = self.question
-            aside(f"the actual value is: {value}")
+            aside(f"the actual value is: {represent_prop(value)}")
 
         reason = ""
         if isinstance(self.question, ErrorKeeper):

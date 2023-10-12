@@ -6,7 +6,7 @@ from screenpy.configuration import ScreenPySettings
 
 
 class StdOutAdapterSettings(BaseSettings):
-    """Settings for the StdOutAdapter
+    """Settings for the StdOutAdapter.
 
     To change these settings using environment variables, use the prefix
     ``SCREENPY_STDOUTADAPTER_``, like so::

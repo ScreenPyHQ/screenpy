@@ -1,6 +1,7 @@
-"""
-Directors handle the meta information that it takes to run a screenplay. There
-is only one of them, so you'll always have access to the same information.
+"""Directors handle the meta information that it takes to run a screenplay.
+
+Director is a singleton, just like in real life. The Director can take notes
+to be passed between functions
 """
 
 from typing import Any, Type, TypeVar
@@ -20,6 +21,7 @@ class Director:
     _instance = None
 
     def __new__(cls: Type[SelfDirector]) -> SelfDirector:
+        """Ensure there is only one Director."""
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance.notebook = {}

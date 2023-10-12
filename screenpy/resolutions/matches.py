@@ -1,6 +1,4 @@
-"""
-Matches a string using a regex pattern.
-"""
+"""Matches a string using a regex pattern."""
 
 from hamcrest import matches_regexp
 from hamcrest.core.matcher import Matcher

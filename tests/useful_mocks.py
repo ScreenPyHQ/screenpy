@@ -6,9 +6,9 @@ from unittest_protocols import Ability, Action, Question, Resolution
 
 def get_mock_action_class() -> Any:
     class FakeAction(Action):
-        def __new__(cls, *args, **kwargs):
+        def __new__(cls, *_, **__):
             rt = mock.create_autospec(FakeAction, instance=True)
-            rt.describe.return_value = None
+            rt.describe.return_value = "FakeAction"
             return rt
 
     return FakeAction
@@ -16,9 +16,9 @@ def get_mock_action_class() -> Any:
 
 def get_mock_question_class() -> Any:
     class FakeQuestion(Question):
-        def __new__(cls, *args, **kwargs):
+        def __new__(cls, *_, **__):
             rt = mock.create_autospec(FakeQuestion, instance=True)
-            rt.describe.return_value = None
+            rt.describe.return_value = "FakeQuestion"
             rt.answered_by.return_value = True
             return rt
 
@@ -27,10 +27,10 @@ def get_mock_question_class() -> Any:
 
 def get_mock_resolution_class() -> Any:
     class FakeResolution(Resolution):
-        def __new__(cls, *args, **kwargs):
+        def __new__(cls, *_, **__):
             rt = mock.create_autospec(FakeResolution, instance=True)
             rt.resolve.return_value = rt
-            rt.describe.return_value = None
+            rt.describe.return_value = "FakeResolution"
             return rt
 
     return FakeResolution
