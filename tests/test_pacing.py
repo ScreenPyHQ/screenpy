@@ -109,10 +109,10 @@ class TestBeat:
         See(NonesyQuestion(), IsEqualTo(None)).perform_as(Tester)
 
         assert [r.msg for r in caplog.records] == [
-            "Tester sees if nonesyQuestion is equal to None.",
+            "Tester sees if nonesyQuestion is equal to <None>.",
             "    Tester examines NonesyQuestion",
-            "        => None",
-            "    ... hoping it's equal to None.",
+            "        => <None>",
+            "    ... hoping it's equal to <None>.",
             "        => <None>",
         ]
 
@@ -121,16 +121,16 @@ class TestBeat:
         See(CornerCase(), IsEqualTo(None)).perform_as(Tester)
 
         assert [r.msg for r in caplog.records] == [
-            "Tester sees if cornerCase is equal to None.",
+            "Tester sees if cornerCase is equal to <None>.",
             "    Tester examines CornerCase",
             "        Blah!",
             "        Foobar...",
-            "            => None",
+            "            => <None>",
             "        Baz?",
             "        Bazinga!!",
-            "            => 1",
-            "        => None",
-            "    ... hoping it's equal to None.",
+            "            => <1>",
+            "        => <None>",
+            "    ... hoping it's equal to <None>.",
             "        => <None>",
         ]
 
