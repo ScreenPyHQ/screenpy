@@ -4,7 +4,6 @@ Provides decorators to group your tests into acts (features) and scenes
 (cases), and provide the gravitas (severity) of those groupings; or markers
 for moments the Narrator should narrate.
 """
-
 import re
 from functools import wraps
 from typing import Any, Callable, Optional
@@ -13,7 +12,19 @@ from screenpy.narration import Narrator, StdOutAdapter
 from screenpy.speech_tools import represent_prop
 
 Function = Callable[..., Any]
+
 the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
+
+
+def function_should_log_none(func: Function) -> bool:
+    """Helper function to decide when to log return values.
+
+    Determine if function is attached to one of the protocols that allow for anything
+    to return.
+    """
+    if func.__annotations__ and "return" in func.__annotations__:
+        return func.__annotations__["return"] is not None
+    return False
 
 
 def act(title: str, gravitas: Optional[str] = None) -> Callable[[Function], Function]:
@@ -89,7 +100,7 @@ def beat(line: str, gravitas: Optional[str] = None) -> Callable[[Function], Func
             completed_line = f"{line.format(actor, **cues)}"
             with the_narrator.stating_a_beat(func, completed_line, gravitas) as n_func:
                 retval = n_func(*args, **kwargs)
-                if retval is not None:
+                if retval is not None or function_should_log_none(func):
                     aside(f"=> {represent_prop(retval)}")
             return retval
 
