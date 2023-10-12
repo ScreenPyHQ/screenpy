@@ -17,9 +17,10 @@ the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
 
 
 def function_should_log_none(func: Function) -> bool:
-    """
-    determine if function is attached to one of the protocols that allow for anything
-    to return
+    """Helper function to decide when to log return values.
+
+    Determine if function is attached to one of the protocols that allow for anything
+    to return.
     """
     if func.__annotations__ and "return" in func.__annotations__:
         return func.__annotations__["return"] is not None
@@ -100,7 +101,7 @@ def beat(line: str, gravitas: Optional[str] = None) -> Callable[[Function], Func
             with the_narrator.stating_a_beat(func, completed_line, gravitas) as n_func:
                 retval = n_func(*args, **kwargs)
                 if retval is not None or function_should_log_none(func):
-                    aside(f"=> {retval}")
+                    aside(f"=> {represent_prop(retval)}")
             return retval
 
         return wrapper
