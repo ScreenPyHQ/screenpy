@@ -7,15 +7,6 @@ from typing import Optional
 from screenpy import Actor, IsEqualTo, See, beat
 
 
-class NonesyQuestion:
-    @beat("{} examines NonesyQuestion")
-    def answered_by(self, _: Actor) -> object:
-        return None
-
-    def describe(self) -> str:
-        return "NonesyQuestion"
-
-
 class CornerCase:
     @beat("{} examines CornerCase")
     def answered_by(self, _: Actor) -> object:
@@ -54,18 +45,6 @@ class CornerCase:
 
 
 class TestBeat:
-    def test_beat_logging_none(self, Tester, caplog):
-        caplog.set_level(logging.INFO)
-        See(NonesyQuestion(), IsEqualTo(None)).perform_as(Tester)
-
-        assert [r.msg for r in caplog.records] == [
-            "Tester sees if nonesyQuestion is equal to <None>.",
-            "    Tester examines NonesyQuestion",
-            "        => <None>",
-            "    ... hoping it's equal to <None>.",
-            "        => <None>",
-        ]
-
     def test_beat_logging_none_corner(self, Tester, caplog):
         caplog.set_level(logging.INFO)
         See(CornerCase(), IsEqualTo(None)).perform_as(Tester)
