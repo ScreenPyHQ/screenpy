@@ -19,11 +19,12 @@ the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
 def function_should_log_none(func: Function) -> bool:
     """Helper function to decide when to log return values.
 
-    Determine if function is attached to one of the protocols that allow for anything
-    to return.
+    Determine if function wrapped in beat should log that it returns None
     """
     if func.__annotations__ and "return" in func.__annotations__:
-        return func.__annotations__["return"] is not None
+        anno = func.__annotations__["return"]
+        return anno is not None and anno != "None"
+
     return False
 
 
