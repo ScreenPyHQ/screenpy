@@ -11,6 +11,9 @@ def get_mock_action_class() -> Any:
             rt.describe.return_value = "FakeAction"
             return rt
 
+        def describe(self) -> str:
+            return "FakeAction"
+
     return FakeAction
 
 
@@ -22,6 +25,9 @@ def get_mock_question_class() -> Any:
             rt.answered_by.return_value = True
             return rt
 
+        def describe(self) -> str:
+            return "FakeQuestion"
+
     return FakeQuestion
 
 
@@ -32,6 +38,9 @@ def get_mock_resolution_class() -> Any:
             rt.resolve.return_value = rt
             rt.describe.return_value = "FakeResolution"
             return rt
+
+        def describe(self) -> str:
+            return "FakeResolution"
 
     return FakeResolution
 

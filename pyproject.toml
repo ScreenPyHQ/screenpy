@@ -1,5 +1,5 @@
 [tool.black]
-target-version = ['py311']
+target-version = ['py312']
 
 # This pyproject.toml is setup so it can be used with or without poetry and also
 # supports editable installs (PEP 660) without breaking IDE and linter inspection.
@@ -9,6 +9,20 @@ target-version = ['py311']
 #   poetry install --extras dev
 # PIP:
 #   pip install -e .[dev]
+
+extend-exclude = '''
+# A regex preceded with ^/ will apply only to files and directories
+# in the root of the project.
+(
+    \.idea
+    | \.git
+    | \.mypy_cache
+    | \.tox
+    | \/docs
+    | ^/setup.py
+)
+
+'''
 
 [tool.poetry]
 name = "screenpy"

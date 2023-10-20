@@ -57,7 +57,7 @@ class TestGetAdditiveDescription:
 class TestRepresentProp:
     def test_str(self):
         val = "hello\nworld!"
-        
+
         assert represent_prop(val) == "'hello\\nworld!'"
 
     def test_int(self):
