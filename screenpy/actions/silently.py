@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import types
-from typing import Any, TypeVar, Union, overload
+from typing import Any, TypeVar
 
 from hamcrest.core.base_matcher import Matcher
 
@@ -15,29 +15,7 @@ from screenpy.protocols import Answerable, Performable, Resolvable
 T = TypeVar("T")
 
 
-T_duck = Union[
-    Answerable,
-    Performable,
-    Resolvable,
-]
-
-
-@overload
-def Silently(duck: Performable) -> Performable:
-    ...
-
-
-@overload
-def Silently(duck: Answerable) -> Answerable:
-    ...
-
-
-@overload
-def Silently(duck: Resolvable) -> Resolvable:
-    ...
-
-
-def Silently(duck: T_duck) -> T_duck:
+def Silently(duck: T) -> T:
     """Silence the duck.
 
     Any Performable, Answerable, or Resolvable wrapped in Silently will not be
