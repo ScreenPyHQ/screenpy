@@ -47,8 +47,7 @@ def Silently(duck: T_duck) -> T_duck:
         duck: Performable, Answerable, or Resolvable
 
     Returns:
-        SilentlyPerformable, SilentlyAnswerable, or SilentlyResolvable
-        unless settings.UNABRIDGED_NARRATION is enabled.
+        Performable, Answerable, or Resolvable
 
 
     Examples::
