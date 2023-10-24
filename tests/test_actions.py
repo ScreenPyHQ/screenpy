@@ -854,14 +854,15 @@ class TestSilently:
     def test_answerable_answers(self, Tester) -> None:
         question = FakeQuestion()
         original_answered_by = question.answered_by
-        s = Silently(question)
-        s.answered_by(Tester)
+
+        Silently(question).answered_by(Tester)
 
         original_answered_by.assert_called_once_with(Tester)
 
     def test_performable_performs(self, Tester) -> None:
         action = FakeAction()
         original_perform_as = action.perform_as
+
         Silently(action).perform_as(Tester)
 
         original_perform_as.assert_called_once_with(Tester)
@@ -869,6 +870,7 @@ class TestSilently:
     def test_resolvable_resolves(self) -> None:
         resolution = FakeResolution()
         original_resolve = resolution.resolve
+
         Silently(resolution).resolve()
 
         original_resolve.assert_called_once_with()
