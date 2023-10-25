@@ -135,7 +135,7 @@ select = [
     "BLE",  # flake8-blind-except
     "C4",  # flake8-comprehensions
     "D",  # pydocstyle
-    # "E",  # pycodestyle error
+    "E",  # pycodestyle error
     # "EM",  # flake8-errmsg
     # "ERA",  # eradicate
     # "F",  # Pyflakes
