@@ -240,7 +240,9 @@ class TestContainsTheText:
 
         ctt = ContainsTheText(test_text)
 
-        expected_description = "Containing the text 'Wenn ist das Nunstück git und Slotermeyer?'."
+        expected_description = (
+            "Containing the text 'Wenn ist das Nunstück git und Slotermeyer?'."
+        )
         assert ctt.describe() == expected_description
 
 
@@ -257,7 +259,6 @@ class TestContainsTheValue:
         assert ctv.matches({"key": "value"})
         assert ctv.matches({"key": "value", "play": "Hamlet"})
         assert not ctv.matches({"play": "Hamlet"})
-
 
     @pytest.mark.parametrize(
         ("arg", "expected"),

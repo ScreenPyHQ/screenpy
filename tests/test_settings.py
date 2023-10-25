@@ -3,12 +3,12 @@ from pathlib import Path
 from unittest import mock
 
 from screenpy import settings as screenpy_settings
-from screenpy.narration.stdout_adapter import settings as stdout_adapter_settings
 from screenpy.configuration import (
+    ScreenPySettings,
     _parse_pyproject_toml,
     pyproject_settings,
-    ScreenPySettings,
 )
+from screenpy.narration.stdout_adapter import settings as stdout_adapter_settings
 from screenpy.narration.stdout_adapter.configuration import StdOutAdapterSettings
 
 
@@ -35,21 +35,14 @@ def test__parse_pyproject_toml_file_exists():
     with mock.patch("pathlib.Path.open", mock_open):
         toml_config = _parse_pyproject_toml("screenpy")
 
-    assert toml_config == {
-        "TIMEOUT": 500,
-        "stdoutadapter": {
-            "INDENT_SIZE": 500
-        }
-    }
+    assert toml_config == {"TIMEOUT": 500, "stdoutadapter": {"INDENT_SIZE": 500}}
 
 
 def test_pyproject_settings():
     test_config = {
         "TIMEOUT": 500,
         "SOMETHING_THAT_DOESNT_EXIST": True,
-        "stdoutadapter": {
-            "INDENT_SIZE": 500
-        }
+        "stdoutadapter": {"INDENT_SIZE": 500},
     }
     parse_path = "screenpy.configuration._parse_pyproject_toml"
     mocked_parse = mock.Mock()

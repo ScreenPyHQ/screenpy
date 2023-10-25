@@ -19,9 +19,6 @@ from screenpy import (
     IsEqualTo,
     Log,
     MakeNote,
-    NotAnswerable,
-    NotPerformable,
-    NotResolvable,
     Pause,
     Performable,
     Resolvable,
@@ -35,11 +32,6 @@ from screenpy import (
     noted_under,
     settings,
     the_narrator,
-)
-from screenpy.actions.silently import (
-    SilentlyAnswerable,
-    SilentlyPerformable,
-    SilentlyResolvable,
 )
 from screenpy.configuration import ScreenPySettings
 from unittest_protocols import ErrorQuestion
@@ -827,23 +819,14 @@ class TestSilently:
         q2 = Silently(FakeAction())
         q3 = Silently(FakeResolution())
 
-        assert isinstance(q1, SilentlyAnswerable)
-        assert isinstance(q2, SilentlyPerformable)
-        assert isinstance(q3, SilentlyResolvable)
-
-    def test_can_be_instantiated(self) -> None:
-        q1 = SilentlyAnswerable(FakeQuestion())
-        q2 = SilentlyPerformable(FakeAction())
-        q3 = SilentlyResolvable(FakeResolution())
-
-        assert isinstance(q1, SilentlyAnswerable)
-        assert isinstance(q2, SilentlyPerformable)
-        assert isinstance(q3, SilentlyResolvable)
+        assert isinstance(q1, FakeQuestion)
+        assert isinstance(q2, FakeAction)
+        assert isinstance(q3, FakeResolution)
 
     def test_implements_protocol(self) -> None:
-        q1 = SilentlyAnswerable(FakeQuestion())
-        q2 = SilentlyPerformable(FakeAction())
-        q3 = SilentlyResolvable(FakeResolution())
+        q1 = Silently(FakeQuestion())
+        q2 = Silently(FakeAction())
+        q3 = Silently(FakeResolution())
 
         assert isinstance(q1, Answerable)
         assert isinstance(q2, Performable)
@@ -851,31 +834,6 @@ class TestSilently:
         assert isinstance(q1, Describable)
         assert isinstance(q2, Describable)
         assert isinstance(q3, Describable)
-
-    def test_not_performable(self) -> None:
-        with pytest.raises(NotPerformable) as exc:
-            SilentlyPerformable(None)  # type: ignore
-
-        assert str(exc.value) == (
-            "SilentlyPerformable only works with Performables. "
-            "Use `Silently` instead."
-        )
-
-    def test_not_answerable(self) -> None:
-        with pytest.raises(NotAnswerable) as exc:
-            SilentlyAnswerable(None)  # type: ignore
-
-        assert str(exc.value) == (
-            "SilentlyAnswerable only works with Answerables. Use `Silently` instead."
-        )
-
-    def test_not_resolvable(self) -> None:
-        with pytest.raises(NotResolvable) as exc:
-            SilentlyResolvable(None)  # type: ignore
-
-        assert str(exc.value) == (
-            "SilentlyResolvable only works with Resolvables. Use `Silently` instead."
-        )
 
     def test_passthru_attribute(self) -> None:
         a = FakeAction()
@@ -886,7 +844,7 @@ class TestSilently:
     def test_passthru_attribute_missing(self) -> None:
         a = FakeAction()
         silent_a = Silently(a)
-        msg = "SilentlyPerformable(FakeAction) has no attribute 'definitely_not_real'"
+        msg = "Mock object has no attribute 'definitely_not_real'"
 
         with pytest.raises(AttributeError) as exc:
             silent_a.definitely_not_real()
@@ -895,21 +853,27 @@ class TestSilently:
 
     def test_answerable_answers(self, Tester) -> None:
         question = FakeQuestion()
+        original_answered_by = question.answered_by
+
         Silently(question).answered_by(Tester)
 
-        question.answered_by.assert_called_once_with(Tester)
+        original_answered_by.assert_called_once_with(Tester)
 
     def test_performable_performs(self, Tester) -> None:
         action = FakeAction()
+        original_perform_as = action.perform_as
+
         Silently(action).perform_as(Tester)
 
-        action.perform_as.assert_called_once_with(Tester)
+        original_perform_as.assert_called_once_with(Tester)
 
     def test_resolvable_resolves(self) -> None:
         resolution = FakeResolution()
+        original_resolve = resolution.resolve
+
         Silently(resolution).resolve()
 
-        resolution.resolve.assert_called_once_with()
+        original_resolve.assert_called_once_with()
 
     def test_silently_does_not_log(self, Tester, caplog) -> None:
         """
@@ -971,19 +935,6 @@ class TestSilentlyUnabridged:
         assert mock_kink.call_count == 0
         assert mock_clear.call_count == 0
         assert mock_flush.call_count == 0
-
-    def test_unabridged_from_class(self, Tester: Actor, mocker: MockerFixture) -> None:
-        mock_clear = mocker.spy(the_narrator, "clear_backup")
-        mock_flush = mocker.spy(the_narrator, "flush_backup")
-        mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
-        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
-
-        with mock.patch(self.settings_path, mock_settings):
-            Tester.will(SilentlyPerformable(FakeAction()))
-
-        assert mock_kink.call_count == 1
-        assert mock_clear.call_count == 1
-        assert mock_flush.call_count == 1
 
     def test_unabridged_set_outside_silently(self, Tester, caplog) -> None:
         """
