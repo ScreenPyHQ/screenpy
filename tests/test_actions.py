@@ -34,8 +34,9 @@ from screenpy import (
     the_narrator,
 )
 from screenpy.configuration import ScreenPySettings
-from unittest_protocols import ErrorQuestion
-from useful_mocks import (
+
+from .unittest_protocols import ErrorQuestion
+from .useful_mocks import (
     get_mock_action_class,
     get_mock_question_class,
     get_mock_resolution_class,

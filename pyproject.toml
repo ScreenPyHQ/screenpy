@@ -143,7 +143,7 @@ select = [
     "FBT",  # flake8-boolean-trap
     "FIX",  # flake8-fixme
     "FLY",  # flynt
-    # "I",  # isort
+    "I",  # isort
     # "ICN",  # flake8-import-conventions
     # "ISC",  # flake8-implicit-str-concat
     # "PERF",  # perflint
