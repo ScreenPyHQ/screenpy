@@ -603,13 +603,13 @@ class TestSeeAllOf:
 
     def test_raises_exception(self) -> None:
         with pytest.raises(UnableToAct):
-            SeeAllOf(FakeQuestion())  # type: ignore
+            SeeAllOf(FakeQuestion())
 
         with pytest.raises(UnableToAct):
-            SeeAllOf((FakeQuestion(),))  # type: ignore
+            SeeAllOf((FakeQuestion(),))  # type: ignore[arg-type]
 
         with pytest.raises(UnableToAct):
-            SeeAllOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
+            SeeAllOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore[arg-type]
 
     def test_passes_with_zero_tests(self, Tester) -> None:
         SeeAllOf().perform_as(Tester)  # no exception means this test passes
@@ -722,13 +722,13 @@ class TestSeeAnyOf:
 
     def test_raises_exception(self) -> None:
         with pytest.raises(UnableToAct):
-            SeeAnyOf(FakeQuestion())  # type: ignore
+            SeeAnyOf(FakeQuestion())
 
         with pytest.raises(UnableToAct):
-            SeeAnyOf((FakeQuestion(),))  # type: ignore
+            SeeAnyOf((FakeQuestion(),))  # type: ignore[arg-type]
 
         with pytest.raises(UnableToAct):
-            SeeAnyOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore
+            SeeAnyOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore[arg-type]
 
     def test_passes_with_zero_tests(self, Tester) -> None:
         SeeAnyOf().perform_as(Tester)  # no exception means this test passes

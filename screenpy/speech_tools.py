@@ -34,7 +34,7 @@ def get_additive_description(describable: Union[Describable, T]) -> str:
         str: the string to place within another string.
     """
     if isinstance(describable, Describable):
-        description = describable.describe()  # type: ignore # see PEP 544
+        description = describable.describe()
         if description:
             description = description[0].lower() + description[1:]
             description = re.sub(r"[.,?!;:]*$", r"", description)
