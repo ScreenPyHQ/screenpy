@@ -9,7 +9,6 @@ from screenpy.narration.narrator import _chainify
 
 def _():
     """Dummy function for simple chaining tests."""
-    pass
 
 
 T_KW = Dict[str, Union[Callable, str]]
