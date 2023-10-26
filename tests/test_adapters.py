@@ -149,7 +149,7 @@ class TestStdOutAdapter:
         assert test_filepath in caplog.records[0].message
 
     @pytest.mark.parametrize(
-        "gravity,level",
+        ("gravity", "level"),
         [
             (gravitas.AIRY, logging.DEBUG),
             (gravitas.LIGHT, logging.INFO),

@@ -24,7 +24,7 @@ def get_mock_adapter():
 
 class TestChainify:
     @pytest.mark.parametrize(
-        "test_narrations,expected",
+        ("test_narrations", "expected"),
         [
             (
                 [("ch", KW, 1), ("ch", KW, 1), ("ch", KW, 1)],
@@ -254,7 +254,7 @@ class TestNarrator:
             narrator.narrate("", func="")
 
     @pytest.mark.parametrize(
-        "channel_func,channel",
+        ("channel_func", "channel"),
         [
             ("announcing_the_act", "act"),
             ("setting_the_scene", "scene"),
