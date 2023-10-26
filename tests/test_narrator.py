@@ -3,7 +3,7 @@ from unittest import mock
 
 import pytest
 
-from screenpy import NORMAL, Adapter, Narrator
+from screenpy import NORMAL, Adapter, Narrator, UnableToNarrate
 from screenpy.narration.narrator import _chainify
 
 
@@ -251,7 +251,7 @@ class TestNarrator:
     def test_narrate_throws_for_uncallable_func(self) -> None:
         narrator = Narrator()
 
-        with pytest.raises(TypeError):
+        with pytest.raises(UnableToNarrate):
             narrator.narrate("", func="")
 
     @pytest.mark.parametrize(

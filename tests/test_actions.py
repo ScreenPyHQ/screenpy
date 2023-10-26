@@ -51,7 +51,8 @@ class DoThingThatFails(Performable):
 
     def perform_as(self, _: Actor):
         DoThingThatFails.COUNTER += 1
-        raise AssertionError(f"Failure #{DoThingThatFails.COUNTER}")
+        msg = f"Failure #{DoThingThatFails.COUNTER}"
+        raise AssertionError(msg)
 
 
 class TestAttachTheFile:
@@ -210,10 +211,11 @@ class TestEventually:
             .milliseconds()
         )
 
-        with pytest.raises(ValueError) as actual_exception:
+        with pytest.raises(UnableToAct) as actual_exception:
             ev.perform_as(Tester)
 
-        assert "poll must be less than or equal to timeout" in str(actual_exception)
+        expected_msg = "Poll period must be less than or equal to timeout."
+        assert expected_msg in str(actual_exception)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
     def test_perform_eventually_times_out(self, mocked_time, Tester) -> None:
@@ -599,7 +601,7 @@ class TestSeeAllOf:
         assert isinstance(s, Describable)
 
     def test_raises_exception(self) -> None:
-        with pytest.raises(TypeError):
+        with pytest.raises(UnableToAct):
             SeeAllOf(FakeQuestion())  # type: ignore
 
         with pytest.raises(UnableToAct):
@@ -718,7 +720,7 @@ class TestSeeAnyOf:
         assert isinstance(s, Describable)
 
     def test_raises_exception(self) -> None:
-        with pytest.raises(TypeError):
+        with pytest.raises(UnableToAct):
             SeeAnyOf(FakeQuestion())  # type: ignore
 
         with pytest.raises(UnableToAct):
@@ -1127,7 +1129,8 @@ class TestEither:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, _: Actor):
-                raise AssertionError("This Fails!")
+                msg = "This Fails!"
+                raise AssertionError(msg)
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
@@ -1143,7 +1146,8 @@ class TestEither:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, _: Actor):
-                raise AssertionError("This Fails!")
+                msg = "This Fails!"
+                raise AssertionError(msg)
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
@@ -1162,7 +1166,8 @@ class TestEither:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
             def perform_as(self, _: Actor):
-                raise AssertionError("This Fails!")
+                msg = "This Fails!"
+                raise AssertionError(msg)
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")

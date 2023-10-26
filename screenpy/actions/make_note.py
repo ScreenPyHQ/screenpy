@@ -59,7 +59,8 @@ class MakeNote:
     def perform_as(self: SelfMakeNote, the_actor: Actor) -> None:
         """Direct the Actor to take a note."""
         if self.key is None:
-            raise UnableToAct("No key was provided to name this note.")
+            msg = "No key was provided to name this note."
+            raise UnableToAct(msg)
 
         if isinstance(self.question, Answerable):
             value: object = self.question.answered_by(the_actor)

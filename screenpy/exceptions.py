@@ -30,7 +30,7 @@ class DeliveryError(ActionError):
 
 
 class UnableToAct(ActionError):
-    """The Action is missing key information."""
+    """The Action is missing key information or is misconfigured."""
 
 
 class QuestionError(ScreenPyError):

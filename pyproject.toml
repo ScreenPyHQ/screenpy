@@ -136,7 +136,7 @@ select = [
     "C4",  # flake8-comprehensions
     "D",  # pydocstyle
     "E",  # pycodestyle error
-    # "EM",  # flake8-errmsg
+    "EM",  # flake8-errmsg
     # "ERA",  # eradicate
     # "F",  # Pyflakes
     # "FA",  # flake8-future-annotations

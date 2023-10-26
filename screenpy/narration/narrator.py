@@ -19,6 +19,7 @@ from typing import (
     Union,
 )
 
+from screenpy.exceptions import UnableToNarrate
 from screenpy.protocols import Adapter
 
 # pylint: disable=stop-iteration-return
@@ -196,7 +197,8 @@ class Narrator:
         """Speak the message into the microphone plugged in to all the adapters."""
         channel_kws = {key: value for key, value in kwargs.items() if value is not None}
         if not callable(channel_kws["func"]):
-            raise TypeError('Narration "func" is not callable.')
+            msg = 'Narration "func" is not callable.'
+            raise UnableToNarrate(msg)
 
         if self.cable_kinked:
             enclosed_func = self._dummy_entangle(channel_kws["func"])

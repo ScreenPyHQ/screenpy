@@ -122,7 +122,8 @@ class Actor:
             if isinstance(a, ability):
                 return a
 
-        raise UnableToPerform(f"{self} does not have the Ability to {ability}")
+        msg = f"{self} does not have the Ability to {ability}"
+        raise UnableToPerform(msg)
 
     def ability_to(self: SelfActor, ability: Type[T_Ability]) -> T_Ability:
         """Alias for :meth:`~screenpy.actor.Actor.uses_ability_to`."""
