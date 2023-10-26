@@ -56,7 +56,7 @@ class SeeAllOf:
     def __init__(self: SelfSeeAllOf, *tests: T_T) -> None:
         for tup in tests:
             if isinstance(tup, tuple):
-                if len(tup) != 2:
+                if len(tup) != 2:  # noqa: PLR2004
                     msg = "Tuple must contain Question and Resolution."
                     raise UnableToAct(msg)
             else:
