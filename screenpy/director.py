@@ -4,6 +4,8 @@ Director is a singleton, just like in real life. The Director can take notes
 to be passed between functions
 """
 
+from __future__ import annotations
+
 from typing import Any, Type, TypeVar
 
 SelfDirector = TypeVar("SelfDirector", bound="Director")

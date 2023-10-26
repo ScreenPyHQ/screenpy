@@ -1,5 +1,7 @@
 """Pause test execution for a specific time frame."""
 
+from __future__ import annotations
+
 import re
 from time import sleep
 from typing import Type, TypeVar

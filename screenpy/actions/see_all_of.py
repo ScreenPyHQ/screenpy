@@ -1,5 +1,7 @@
 """Make several assertions, all of which are expected to be True."""
 
+from __future__ import annotations
+
 from typing import Tuple, Type, TypeVar
 
 from screenpy.actor import Actor

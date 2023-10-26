@@ -1,5 +1,7 @@
 """Logs the Narrator's narration using Python's standard logging library."""
 
+from __future__ import annotations
+
 import logging
 from contextlib import contextmanager
 from functools import wraps

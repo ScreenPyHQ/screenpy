@@ -1,5 +1,7 @@
 """Log the answer to a Question or other Answerable, or a value."""
 
+from __future__ import annotations
+
 from typing import Type, TypeVar
 
 from screenpy.actor import Actor

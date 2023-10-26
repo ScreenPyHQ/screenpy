@@ -5,6 +5,8 @@ The Narrator's microphone is modular, allowing for any number of adapters to be
 applied. Adapters must follow the Adapter protocol outlined in screenpy.protocols.
 """
 
+from __future__ import annotations
+
 from contextlib import contextmanager
 from copy import deepcopy
 from typing import (

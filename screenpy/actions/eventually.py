@@ -1,5 +1,7 @@
 """Eventually perform a Task or Action, trying until a set timeout."""
 
+from __future__ import annotations
+
 import time
 from traceback import format_tb
 from typing import List, Optional

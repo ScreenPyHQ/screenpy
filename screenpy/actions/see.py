@@ -1,5 +1,7 @@
 """Make an assertion using a Question/value and a Resolution."""
 
+from __future__ import annotations
+
 from typing import Type, TypeVar, Union
 
 from hamcrest import assert_that

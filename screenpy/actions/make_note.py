@@ -1,5 +1,7 @@
 """Make a quick note about the answer to a Question."""
 
+from __future__ import annotations
+
 from typing import Optional, Type, TypeVar, Union
 
 from screenpy.actor import Actor

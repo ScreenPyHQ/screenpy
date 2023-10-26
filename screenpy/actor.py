@@ -5,6 +5,8 @@ about the state of the application, and assert Resolutions, all in the
 service of perfoming their roles.
 """
 
+from __future__ import annotations
+
 from random import choice
 from typing import List, Type, TypeVar
 
