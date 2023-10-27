@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 from contextlib import contextmanager
 from functools import wraps
+from types import MappingProxyType
 from typing import Any, Callable, Generator, List, Optional
 
 from ..gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
@@ -62,13 +63,15 @@ class StdOutAdapter:
 
     handled_exception: Optional[Exception]
 
-    GRAVITAS = {
-        AIRY: logging.DEBUG,
-        LIGHT: logging.INFO,
-        NORMAL: logging.WARNING,
-        HEAVY: logging.CRITICAL,
-        EXTREME: logging.ERROR,
-    }
+    GRAVITAS = MappingProxyType(  # makes it immutable
+        {
+            AIRY: logging.DEBUG,
+            LIGHT: logging.INFO,
+            NORMAL: logging.WARNING,
+            HEAVY: logging.CRITICAL,
+            EXTREME: logging.ERROR,
+        }
+    )
 
     def __init__(self, stdout_manager: Optional["StdOutManager"] = None) -> None:
         if stdout_manager is None:
