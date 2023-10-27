@@ -62,9 +62,8 @@ class TestNarrateToStdOut:
         _assert_stdout_correct(caplog)
 
     def test_flushed_narrations(self, caplog) -> None:
-        with caplog.at_level(logging.INFO):
-            with the_narrator.mic_cable_kinked():
-                prop()
-                Prop().use()
+        with caplog.at_level(logging.INFO), the_narrator.mic_cable_kinked():
+            prop()
+            Prop().use()
 
         _assert_stdout_correct(caplog)

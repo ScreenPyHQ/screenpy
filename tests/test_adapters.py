@@ -40,10 +40,9 @@ class TestStdOutManager:
         manager = StdOutManager()
         test_message = "Wow. I'm Mr. Manager."
 
-        with caplog.at_level(logging.INFO):
-            with manager.log_context(test_message):
-                assert len(caplog.records) == 1
-                assert caplog.records[0].message == test_message
+        with caplog.at_level(logging.INFO), manager.log_context(test_message):
+            assert len(caplog.records) == 1
+            assert caplog.records[0].message == test_message
 
 
 class TestStdOutAdapter:
