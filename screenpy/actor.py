@@ -135,9 +135,10 @@ class Actor:
         """Ask whether the Actor has the Ability to do something."""
         try:
             self.ability_to(ability)
-            return True
         except UnableToPerform:
             return False
+        else:
+            return True
 
     def attempts_to(self: SelfActor, *actions: Performable) -> None:
         """Perform a list of Actions, one after the other.

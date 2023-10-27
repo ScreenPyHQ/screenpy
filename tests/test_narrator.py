@@ -293,7 +293,7 @@ class TestNarrator:
         try:
             with narrator.off_the_air():  # noqa: SIM117
                 with narrator.stating_a_beat(lambda: "Hello", "Clarise"):
-                    raise ValueError
+                    raise ValueError  # noqa: TRY301
         except ValueError:
             pass
 
@@ -305,7 +305,7 @@ class TestNarrator:
         try:
             with narrator.mic_cable_kinked():  # noqa: SIM117
                 with narrator.stating_a_beat(lambda: "Hello", "Anthony"):
-                    raise ValueError
+                    raise ValueError  # noqa: TRY301
         except ValueError:
             pass
 

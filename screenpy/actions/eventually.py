@@ -138,11 +138,12 @@ class Eventually:
                 the_narrator.clear_backup()
                 try:
                     the_actor.attempts_to(self.performable)
-                    return
                 except Exception as exc:  # noqa: BLE001
                     self.caught_error = exc
                     if not any(same_exception(exc, c) for c in self.unique_errors):
                         self.unique_errors.append(exc)
+                else:
+                    return
 
                 count += 1
                 time.sleep(self.poll)
