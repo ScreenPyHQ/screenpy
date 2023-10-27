@@ -151,7 +151,7 @@ select = [
     "PL",  # pylint
     "PT",  # flake8-pytest-style
     "Q",  # flake8-quotes
-    # "RET",  # flake8-return
+    "RET",  # flake8-return
     # "RSE",  # flake8-raise
     # "RUF",  # ruff specific
     # "SIM",  # flake8-simplify
