@@ -10,7 +10,6 @@ from screenpy.pacing import beat
 from .see import See
 
 if TYPE_CHECKING:
-
     from screenpy.actor import Actor
 
     from .see import T_Q, T_R

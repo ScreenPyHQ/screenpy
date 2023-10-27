@@ -79,9 +79,7 @@ class StdOutAdapter:
         self.manager = stdout_manager
         self.handled_exception = None
 
-    def act(
-        self, func: Callable, line: str, gravitas: str | None = None
-    ) -> Generator:
+    def act(self, func: Callable, line: str, gravitas: str | None = None) -> Generator:
         """Wrap the act, to log the stylized title."""
 
         @wraps(func)
@@ -113,9 +111,7 @@ class StdOutAdapter:
 
         yield func_wrapper
 
-    def beat(
-        self, func: Callable, line: str, gravitas: str | None = None
-    ) -> Generator:
+    def beat(self, func: Callable, line: str, gravitas: str | None = None) -> Generator:
         """Encapsulate the beat within the manager's log context."""
         if not gravitas:
             gravitas = LIGHT

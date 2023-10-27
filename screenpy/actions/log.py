@@ -9,7 +9,6 @@ from screenpy.protocols import Answerable
 from screenpy.speech_tools import get_additive_description, represent_prop
 
 if TYPE_CHECKING:
-
     from screenpy.actor import Actor
 
     from .see import T_Q

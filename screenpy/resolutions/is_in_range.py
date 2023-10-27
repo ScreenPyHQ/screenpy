@@ -10,7 +10,6 @@ from screenpy.pacing import beat
 from .custom_matchers.is_in_bounds import is_in_bounds
 
 if TYPE_CHECKING:
-
     from hamcrest.core.matcher import Matcher
 
 

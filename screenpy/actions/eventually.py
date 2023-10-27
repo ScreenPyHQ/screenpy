@@ -12,7 +12,6 @@ from screenpy.pacing import beat, the_narrator
 from screenpy.speech_tools import get_additive_description
 
 if TYPE_CHECKING:
-
     from screenpy.actor import Actor
     from screenpy.protocols import Performable
 

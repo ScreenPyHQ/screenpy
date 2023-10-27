@@ -108,9 +108,7 @@ class Adapter(Protocol):
     arguments in as keyword arguments, so they must not be renamed.
     """
 
-    def act(
-        self, func: Callable, line: str, gravitas: str | None = None
-    ) -> Generator:
+    def act(self, func: Callable, line: str, gravitas: str | None = None) -> Generator:
         """Handle narrating an Act, which designates a group of tests."""
 
     def scene(
@@ -118,9 +116,7 @@ class Adapter(Protocol):
     ) -> Generator:
         """Handle narrating a Scene, which designates a subgroup of tests."""
 
-    def beat(
-        self, func: Callable, line: str, gravitas: str | None = None
-    ) -> Generator:
+    def beat(self, func: Callable, line: str, gravitas: str | None = None) -> Generator:
         """Handle narrating a Beat, which is a step in a test."""
 
     def aside(
