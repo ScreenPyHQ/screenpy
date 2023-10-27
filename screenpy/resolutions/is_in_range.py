@@ -10,7 +10,6 @@ from screenpy.pacing import beat
 from .custom_matchers.is_in_bounds import is_in_bounds
 
 if TYPE_CHECKING:
-    from typing import Union
 
     from hamcrest.core.matcher import Matcher
 
@@ -45,7 +44,7 @@ class IsInRange:
         """Produce the Matcher to make the assertion."""
         return is_in_bounds(*self.bounds)
 
-    def __init__(self, *bounds: Union[int, str]) -> None:
+    def __init__(self, *bounds: int | str) -> None:
         if len(bounds) > 2:  # noqa: PLR2004
             msg = f"{self.__class__.__name__} was given too many arguments: {bounds}."
             raise UnableToFormResolution(msg)

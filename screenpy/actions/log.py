@@ -9,7 +9,6 @@ from screenpy.protocols import Answerable
 from screenpy.speech_tools import get_additive_description, represent_prop
 
 if TYPE_CHECKING:
-    from typing import Type
 
     from screenpy.actor import Actor
 
@@ -32,7 +31,7 @@ class Log:
     """
 
     @classmethod
-    def the(cls: Type[SelfLog], question: T_Q) -> SelfLog:
+    def the(cls: type[SelfLog], question: T_Q) -> SelfLog:
         """Supply the Question to answer."""
         return cls(question)
 

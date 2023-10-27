@@ -12,7 +12,6 @@ from screenpy.pacing import beat, the_narrator
 from screenpy.speech_tools import get_additive_description
 
 if TYPE_CHECKING:
-    from typing import List, Optional
 
     from screenpy.actor import Actor
     from screenpy.protocols import Performable
@@ -47,35 +46,35 @@ class Eventually:
     """
 
     performable: Performable
-    caught_error: Optional[Exception]
+    caught_error: Exception | None
     timeout: float
 
     class _TimeframeBuilder:
         """Build a timeframe, combining numbers and units."""
 
         def __init__(
-            self, eventually: "Eventually", amount: float, attribute: str
+            self, eventually: Eventually, amount: float, attribute: str
         ) -> None:
             self.eventually = eventually
             self.amount = amount
             self.attribute = attribute
             setattr(self.eventually, self.attribute, self.amount)
 
-        def milliseconds(self) -> "Eventually":
+        def milliseconds(self) -> Eventually:
             """Set the timeout in milliseconds."""
             setattr(self.eventually, self.attribute, self.amount / 1000)
             return self.eventually
 
         millisecond = milliseconds
 
-        def seconds(self) -> "Eventually":
+        def seconds(self) -> Eventually:
             """Set the timeout in seconds."""
             setattr(self.eventually, self.attribute, self.amount)
             return self.eventually
 
         second = seconds
 
-        def perform_as(self, the_actor: "Actor") -> None:
+        def perform_as(self, the_actor: Actor) -> None:
             """Just in case the author forgets to use a unit method."""
             the_actor.attempts_to(self.eventually)
 
@@ -163,7 +162,7 @@ class Eventually:
         self.performable = performable
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
-        self.unique_errors: List[BaseException] = []
+        self.unique_errors: list[BaseException] = []
         self.timeout = settings.TIMEOUT
         self.poll = settings.POLLING
 

@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseSettings
 
 if TYPE_CHECKING:
-    from typing import Any, Dict, Tuple
+    from typing import Any
 
     from pydantic.env_settings import SettingsSourceCallable
 
@@ -28,7 +28,7 @@ else:
 # https://github.com/psf/black/blob/main/src/black/files.py
 
 
-def _parse_pyproject_toml(tool_path: str) -> Dict[str, Any]:
+def _parse_pyproject_toml(tool_path: str) -> dict[str, Any]:
     """Parse a pyproject toml file, pulling out relevant parts for ScreenPy.
 
     If parsing fails, will raise a tomllib.TOMLDecodeError.
@@ -45,7 +45,7 @@ def _parse_pyproject_toml(tool_path: str) -> Dict[str, Any]:
 
     with pyproject_path.open("rb") as f:
         pyproject_toml = tomllib.load(f)
-    toml_config: Dict[str, Any] = pyproject_toml.get("tool", {})
+    toml_config: dict[str, Any] = pyproject_toml.get("tool", {})
     tool_steps = tool_path.split(".")
     for subtool in tool_steps:
         toml_config = toml_config.get(subtool, {})
@@ -53,7 +53,7 @@ def _parse_pyproject_toml(tool_path: str) -> Dict[str, Any]:
     return toml_config
 
 
-def pyproject_settings(settings_class: BaseSettings) -> Dict[str, Any]:
+def pyproject_settings(settings_class: BaseSettings) -> dict[str, Any]:
     """Retrieve the ``pyproject.toml`` settings for a ScreenPy settings class.
 
     For more information, see Pydantic's documentation:
@@ -117,7 +117,7 @@ class ScreenPySettings(BaseSettings):
             init_settings: SettingsSourceCallable,
             env_settings: SettingsSourceCallable,
             file_secret_settings: SettingsSourceCallable,
-        ) -> Tuple[SettingsSourceCallable, ...]:
+        ) -> tuple[SettingsSourceCallable, ...]:
             """Set the order of preference of settings sources."""
             return init_settings, env_settings, pyproject_settings, file_secret_settings
 

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from typing import TypeVar, Union, overload
+from typing import TypeVar, overload
 
 from hamcrest.core.helpers.hasmethod import hasmethod
 from hamcrest.core.helpers.ismock import ismock
@@ -13,7 +13,7 @@ from screenpy.protocols import Answerable, Describable, Performable, Resolvable
 T = TypeVar("T")
 
 
-def get_additive_description(describable: Union[Describable, T]) -> str:
+def get_additive_description(describable: Describable | T) -> str:
     """Extract a description that can be placed within a sentence.
 
     The ``describe`` method of Describables will provide a description,
@@ -61,7 +61,7 @@ def represent_prop(item: T) -> T:
     ...
 
 
-def represent_prop(item: Union[str, T]) -> Union[str, T]:
+def represent_prop(item: str | T) -> str | T:
     """Represent items in a manner suitable for the audience (logging)."""
     if not ismock(item) and hasmethod(item, "describe_to"):
         return f"{item}"

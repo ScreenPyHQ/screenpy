@@ -11,7 +11,7 @@ from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
 from screenpy.speech_tools import get_additive_description, represent_prop
 
 if TYPE_CHECKING:
-    from typing import Type, TypeVar, Union
+    from typing import TypeVar, Union
 
     from screenpy.actor import Actor
 
@@ -44,7 +44,7 @@ class See:
     resolution_to_log: str
 
     @classmethod
-    def the(cls: Type[SelfSee], question: T_Q, resolution: T_R) -> SelfSee:
+    def the(cls: type[SelfSee], question: T_Q, resolution: T_R) -> SelfSee:
         """Supply the Question (or value) and Resolution to test."""
         return cls(question, resolution)
 

@@ -10,7 +10,7 @@ from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 
 if TYPE_CHECKING:
-    from typing import Type, TypeVar
+    from typing import TypeVar
 
     from screenpy.actor import Actor
 
@@ -43,7 +43,7 @@ class Pause:
     reason: str
 
     @classmethod
-    def for_(cls: Type[SelfPause], number: float) -> SelfPause:
+    def for_(cls: type[SelfPause], number: float) -> SelfPause:
         """Specify how many seconds or milliseconds to wait for."""
         return cls(number)
 

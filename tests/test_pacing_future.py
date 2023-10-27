@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
 from screenpy import Actor, IsEqualTo, See, beat
 
@@ -21,7 +20,7 @@ class CornerCase:
         return None
 
     @beat("Foobar...")
-    def does_return_something(self, toggle: bool = False) -> Optional[int]:
+    def does_return_something(self, toggle: bool = False) -> int | None:
         if toggle:
             return 1
         return None

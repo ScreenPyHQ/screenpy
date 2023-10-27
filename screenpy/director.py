@@ -6,7 +6,7 @@ to be passed between functions
 
 from __future__ import annotations
 
-from typing import Any, Type, TypeVar
+from typing import Any, TypeVar
 
 SelfDirector = TypeVar("SelfDirector", bound="Director")
 
@@ -22,7 +22,7 @@ class Director:
 
     _instance = None
 
-    def __new__(cls: Type[SelfDirector]) -> SelfDirector:
+    def __new__(cls: type[SelfDirector]) -> SelfDirector:
         """Ensure there is only one Director."""
         if cls._instance is None:
             cls._instance = super().__new__(cls)

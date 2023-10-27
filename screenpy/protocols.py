@@ -14,7 +14,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 if TYPE_CHECKING:
-    from typing import Any, Callable, Generator, Optional
+    from typing import Any, Callable, Generator
 
     from hamcrest.core.base_matcher import Matcher
 
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 class Answerable(Protocol):
     """Questions are Answerable."""
 
-    def answered_by(self, the_actor: "Actor") -> Any:
+    def answered_by(self, the_actor: Actor) -> Any:
         """Pose the Question to the Actor, who will attempt to answer.
 
         Args:
@@ -51,7 +51,7 @@ class Describable(Protocol):
 class ErrorKeeper(Protocol):
     """Classes that save exceptions for later are ErrorKeeper(s)."""
 
-    caught_exception: Optional[Exception]
+    caught_exception: Exception | None
 
 
 @runtime_checkable
@@ -70,7 +70,7 @@ class Forgettable(Protocol):
 class Performable(Protocol):
     """Actions and Tasks are Performable."""
 
-    def perform_as(self, the_actor: "Actor") -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to perform this Action.
 
         Args:
@@ -109,22 +109,22 @@ class Adapter(Protocol):
     """
 
     def act(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Handle narrating an Act, which designates a group of tests."""
 
     def scene(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Handle narrating a Scene, which designates a subgroup of tests."""
 
     def beat(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Handle narrating a Beat, which is a step in a test."""
 
     def aside(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Handle narrating an Aside, which can happen any time."""
 

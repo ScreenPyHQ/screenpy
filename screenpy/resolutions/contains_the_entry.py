@@ -11,7 +11,7 @@ from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
 
 if TYPE_CHECKING:
-    from typing import Any, Hashable, Iterable, Mapping, Tuple, TypeVar
+    from typing import Any, Hashable, Iterable, Mapping, TypeVar
 
     from hamcrest.core.matcher import Matcher
 
@@ -78,7 +78,7 @@ class ContainsTheEntry:
                 self.entries = dict(kv_args, **kv_kwargs)
             except ValueError:
                 # given a list of implicitly paired arguments
-                pairs: Iterable[Tuple[Any, Any]] = [
+                pairs: Iterable[tuple[Any, Any]] = [
                     (kv_args[i], kv_args[i + 1]) for i in range(0, len(kv_args), 2)
                 ]
                 self.entries = dict(pairs, **kv_kwargs)

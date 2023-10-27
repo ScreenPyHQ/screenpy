@@ -10,7 +10,7 @@ from screenpy.pacing import beat
 from .see import See
 
 if TYPE_CHECKING:
-    from typing import Tuple, Type, TypeVar
+    from typing import Tuple, TypeVar
 
     from screenpy.actor import Actor
 
@@ -43,10 +43,10 @@ class SeeAnyOf:
         )
     """
 
-    tests: Tuple[T_T, ...]
+    tests: tuple[T_T, ...]
 
     @classmethod
-    def the(cls: Type[SelfSeeAnyOf], *tests: T_T) -> SelfSeeAnyOf:
+    def the(cls: type[SelfSeeAnyOf], *tests: T_T) -> SelfSeeAnyOf:
         """Supply any number of Question/value + Resolution tuples to test."""
         return cls(*tests)
 
