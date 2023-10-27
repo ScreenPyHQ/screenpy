@@ -155,7 +155,7 @@ select = [
     "RSE",  # flake8-raise
     "RUF",  # ruff specific
     "SIM",  # flake8-simplify
-    # "T10",  # flake8-debugger
+    "T10",  # flake8-debugger
     # "T20",  # flake8-print
     # "TCH",  # flake8-type-checking
     # "TRY",  # tryceratops
