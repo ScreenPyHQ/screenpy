@@ -4,14 +4,18 @@ from __future__ import annotations
 
 import time
 from traceback import format_tb
-from typing import List, Optional
+from typing import TYPE_CHECKING
 
-from screenpy.actor import Actor
 from screenpy.configuration import settings
 from screenpy.exceptions import DeliveryError, UnableToAct
 from screenpy.pacing import beat, the_narrator
-from screenpy.protocols import Performable
 from screenpy.speech_tools import get_additive_description
+
+if TYPE_CHECKING:
+    from typing import List, Optional
+
+    from screenpy.actor import Actor
+    from screenpy.protocols import Performable
 
 
 class Eventually:

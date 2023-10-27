@@ -2,18 +2,22 @@
 
 from __future__ import annotations
 
-from typing import Type, TypeVar, Union
+from typing import TYPE_CHECKING
 
 from hamcrest import assert_that
 
-from screenpy.actor import Actor
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
 from screenpy.speech_tools import get_additive_description, represent_prop
 
-SelfSee = TypeVar("SelfSee", bound="See")
-T_Q = Union[Answerable, object]
-T_R = Resolvable
+if TYPE_CHECKING:
+    from typing import Type, TypeVar, Union
+
+    from screenpy.actor import Actor
+
+    SelfSee = TypeVar("SelfSee", bound="See")
+    T_Q = Union[Answerable, object]
+    T_R = Resolvable
 
 
 class See:

@@ -11,20 +11,15 @@ https://mypy.readthedocs.io/en/stable/protocols.html
 
 from __future__ import annotations
 
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Callable,
-    Generator,
-    Optional,
-    Protocol,
-    runtime_checkable,
-)
-
-from hamcrest.core.base_matcher import Matcher
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 if TYPE_CHECKING:
+    from typing import Any, Callable, Generator, Optional
+
+    from hamcrest.core.base_matcher import Matcher
+
     from .actor import Actor
+
 
 # pylint: disable=unused-argument
 

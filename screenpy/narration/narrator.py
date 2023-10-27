@@ -9,29 +9,33 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 from copy import deepcopy
-from typing import (
-    Any,
-    Callable,
-    ContextManager,
-    Dict,
-    Generator,
-    List,
-    Optional,
-    Tuple,
-    Union,
-)
+from typing import TYPE_CHECKING
 
 from screenpy.exceptions import UnableToNarrate
-from screenpy.protocols import Adapter
 
 # pylint: disable=stop-iteration-return
 # The above pylint warning may be a false-positive since Narrator calls `next`
 # directly instead of iterating over the generators.
 
-Kwargs = Union[Callable, str]
-BackedUpNarration = Tuple[str, Dict[str, Kwargs], int]
-ChainedNarrations = List[Tuple[str, Dict[str, Kwargs], List]]
-Entangled = Tuple[Callable, List[Generator]]
+if TYPE_CHECKING:
+    from typing import (
+        Any,
+        Callable,
+        ContextManager,
+        Dict,
+        Generator,
+        List,
+        Optional,
+        Tuple,
+        Union,
+    )
+
+    from screenpy.protocols import Adapter
+
+    Kwargs = Union[Callable, str]
+    BackedUpNarration = Tuple[str, Dict[str, Kwargs], int]
+    ChainedNarrations = List[Tuple[str, Dict[str, Kwargs], List]]
+    Entangled = Tuple[Callable, List[Generator]]
 
 
 def _chainify(narrations: List[BackedUpNarration]) -> ChainedNarrations:

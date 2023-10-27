@@ -2,17 +2,21 @@
 
 from __future__ import annotations
 
-from typing import Optional, Type, TypeVar, Union
+from typing import TYPE_CHECKING
 
-from screenpy.actor import Actor
 from screenpy.director import Director
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper
 from screenpy.speech_tools import represent_prop
 
-SelfMakeNote = TypeVar("SelfMakeNote", bound="MakeNote")
-T_Q = Union[Answerable, object]
+if TYPE_CHECKING:
+    from typing import Optional, Type, TypeVar, Union
+
+    from screenpy.actor import Actor
+
+    SelfMakeNote = TypeVar("SelfMakeNote", bound="MakeNote")
+    T_Q = Union[Answerable, object]
 
 
 class MakeNote:

@@ -3,16 +3,20 @@
 from __future__ import annotations
 
 from types import MethodType
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING
 
-from hamcrest.core.base_matcher import Matcher
-
-from screenpy.actor import Actor
 from screenpy.configuration import settings
 from screenpy.pacing import the_narrator
 from screenpy.protocols import Answerable, Performable, Resolvable
 
-T = TypeVar("T")
+if TYPE_CHECKING:
+    from typing import Any, TypeVar
+
+    from hamcrest.core.base_matcher import Matcher
+
+    from screenpy.actor import Actor
+
+    T = TypeVar("T")
 
 
 def Silently(duck: T) -> T:

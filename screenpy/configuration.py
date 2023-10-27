@@ -4,10 +4,14 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, Tuple
+from typing import TYPE_CHECKING
 
 from pydantic import BaseSettings
-from pydantic.env_settings import SettingsSourceCallable
+
+if TYPE_CHECKING:
+    from typing import Any, Dict, Tuple
+
+    from pydantic.env_settings import SettingsSourceCallable
 
 if sys.version_info >= (3, 11):
     try:

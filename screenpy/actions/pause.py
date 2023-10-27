@@ -4,13 +4,17 @@ from __future__ import annotations
 
 import re
 from time import sleep
-from typing import Type, TypeVar
+from typing import TYPE_CHECKING
 
-from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 
-SelfPause = TypeVar("SelfPause", bound="Pause")
+if TYPE_CHECKING:
+    from typing import Type, TypeVar
+
+    from screenpy.actor import Actor
+
+    SelfPause = TypeVar("SelfPause", bound="Pause")
 
 
 class Pause:

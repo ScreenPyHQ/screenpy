@@ -10,12 +10,16 @@ from __future__ import annotations
 
 import operator
 import re
-from typing import Callable, Union
+from typing import TYPE_CHECKING
 
 from hamcrest.core.base_matcher import BaseMatcher
-from hamcrest.core.description import Description
 
-InequalityFunc = Callable[[float, float], bool]
+if TYPE_CHECKING:
+    from typing import Callable, Union
+
+    from hamcrest.core.description import Description
+
+    InequalityFunc = Callable[[float, float], bool]
 
 
 class IsInBounds(BaseMatcher[float]):

@@ -2,16 +2,22 @@
 
 from __future__ import annotations
 
-from typing import Tuple, Type, TypeVar
+from typing import TYPE_CHECKING, Tuple, TypeVar
 
-from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 
-from .see import T_Q, T_R, See
+from .see import See
 
-SelfSeeAllOf = TypeVar("SelfSeeAllOf", bound="SeeAllOf")
-T_T = Tuple[T_Q, T_R]
+if TYPE_CHECKING:
+    from typing import Type
+
+    from screenpy.actor import Actor
+
+    from .see import T_Q, T_R
+
+    SelfSeeAllOf = TypeVar("SelfSeeAllOf", bound="SeeAllOf")
+    T_T = Tuple[T_Q, T_R]
 
 
 class SeeAllOf:

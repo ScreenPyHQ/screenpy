@@ -2,17 +2,21 @@
 
 from __future__ import annotations
 
-from typing import Any, Hashable, Iterable, Mapping, Tuple, TypeVar, overload
+from typing import TYPE_CHECKING, overload
 
 from hamcrest import has_entries
-from hamcrest.core.matcher import Matcher
 
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
 
-K = TypeVar("K", bound=Hashable)
-V = TypeVar("V")
+if TYPE_CHECKING:
+    from typing import Any, Hashable, Iterable, Mapping, Tuple, TypeVar
+
+    from hamcrest.core.matcher import Matcher
+
+    K = TypeVar("K", bound=Hashable)
+    V = TypeVar("V")
 
 
 class ContainsTheEntry:
