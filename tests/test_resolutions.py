@@ -44,7 +44,7 @@ class TestBaseResolution:
 
     @pytest.mark.filterwarnings("ignore:BaseResolution")
     @pytest.mark.parametrize(
-        "args,kwargs,expected",
+        ("args", "kwargs", "expected"),
         [
             ([], {}, True),
             ([1], {}, 1),
@@ -68,7 +68,7 @@ class TestBaseResolution:
 
     @pytest.mark.filterwarnings("ignore:BaseResolution")
     @pytest.mark.parametrize(
-        "method,args,expected_method",
+        ("method", "args", "expected_method"),
         [
             ("_matches", [mock.create_autospec(BaseResolution._matches)], "matches"),
             (
@@ -187,12 +187,12 @@ class TestContainsTheItem:
         """Matches lists containing the item"""
         cti = ContainsTheItem(1).resolve()
 
-        assert cti.matches(range(0, 10))
+        assert cti.matches(range(10))
         assert not cti.matches({0, 3, 5})
 
     @pytest.mark.parametrize(
         ("arg", "expected"),
-        ((1, "A sequence containing <1>."), ("1", "A sequence containing '1'.")),
+        [(1, "A sequence containing <1>."), ("1", "A sequence containing '1'.")],
     )
     def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
         cti = ContainsTheItem(arg)
@@ -262,7 +262,7 @@ class TestContainsTheValue:
 
     @pytest.mark.parametrize(
         ("arg", "expected"),
-        ((42, "Containing the value <42>."), ("42", "Containing the value '42'.")),
+        [(42, "Containing the value <42>."), ("42", "Containing the value '42'.")],
     )
     def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
         ctv = ContainsTheValue(arg)
@@ -373,7 +373,7 @@ class TestIsEqualTo:
 
     @pytest.mark.parametrize(
         ("arg", "expected"),
-        ((8675, "Equal to <8675>."), ("8675", "Equal to '8675'.")),
+        [(8675, "Equal to <8675>."), ("8675", "Equal to '8675'.")],
     )
     def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
         ie = IsEqualTo(arg)

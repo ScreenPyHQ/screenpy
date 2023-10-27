@@ -9,6 +9,8 @@ and can be a Question, etc. For more information on structural subtyping, see
 https://mypy.readthedocs.io/en/stable/protocols.html
 """
 
+from __future__ import annotations
+
 from typing import (
     TYPE_CHECKING,
     Any,

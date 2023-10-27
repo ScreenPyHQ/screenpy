@@ -1,12 +1,14 @@
 """Eventually perform a Task or Action, trying until a set timeout."""
 
+from __future__ import annotations
+
 import time
 from traceback import format_tb
 from typing import List, Optional
 
 from screenpy.actor import Actor
 from screenpy.configuration import settings
-from screenpy.exceptions import DeliveryError
+from screenpy.exceptions import DeliveryError, UnableToAct
 from screenpy.pacing import beat, the_narrator
 from screenpy.protocols import Performable
 from screenpy.speech_tools import get_additive_description
@@ -121,7 +123,8 @@ class Eventually:
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to just keep trying."""
         if self.poll > self.timeout:
-            raise ValueError("poll must be less than or equal to timeout")
+            msg = "Poll period must be less than or equal to timeout."
+            raise UnableToAct(msg)
 
         end_time = time.time() + self.timeout
 

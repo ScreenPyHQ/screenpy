@@ -1,7 +1,7 @@
 from typing import Any
 from unittest import mock
 
-from unittest_protocols import Ability, Action, Question, Resolution
+from .unittest_protocols import Ability, Action, Question, Resolution
 
 
 def get_mock_action_class() -> Any:

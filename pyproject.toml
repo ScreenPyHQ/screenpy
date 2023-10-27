@@ -67,7 +67,7 @@ python = "^3.8"
 tomli = "^2.0.1"
 
 # convenience packages for development of screenpy only
-autodoc-pydantic = {version = "^1.8.0", optional = true}
+autodoc-pydantic = {version = "*", optional = true}
 black = {version = "*", optional = true}
 coverage = {version = "*", optional = true}
 flake8 = {version = "*", optional = true}
@@ -77,14 +77,14 @@ pre-commit = {version = "*", optional = true}
 pylint = {version = "*", optional = true}
 pytest = {version = "*", optional = true}
 pytest-mock = {version = "*", optional = true}
-ruff = "^0.0.291"
+ruff = {version = "*", optional = true}
 screenpy-adapter_allure = {version = "^4.0.1", optional = true}
 screenpy-appium = {version = "*", optional = true}
 screenpy-playwright = {version = "*", optional = true}
 screenpy-pyotp = {version = "^4.0.1", optional = true}
 screenpy-requests = {version = "^4.0.1", optional = true}
 screenpy-selenium = {version = "^4.0.3", optional = true}
-sphinx = {version = "^6.1.3", optional = true}
+sphinx = {version = "*", optional = true}
 tox = {version = "*", optional = true}
 
 
@@ -135,22 +135,21 @@ select = [
     "BLE",  # flake8-blind-except
     "C4",  # flake8-comprehensions
     "D",  # pydocstyle
-    # "E",  # pycodestyle error
-    # "EM",  # flake8-errmsg
-    # "ERA",  # eradicate
-    # "F",  # Pyflakes
-    # "FA",  # flake8-future-annotations
-    # "FBT",  # flake8-boolean-trap
-    # "FIX",  # flake8-fixme
-    # "FLY",  # flynt
-    # "I",  # isort
-    # "ICN",  # flake8-import-conventions
-    # "ISC",  # flake8-implicit-str-concat
-    # "PERF",  # perflint
-    # "PGH",  # pygrep-hooks
-    # "PIE",  # flake8-pie
-    # "PL",  # pylint
-    # "PT",  # flake8-pytest-style
+    "E",  # pycodestyle error
+    "EM",  # flake8-errmsg
+    "ERA",  # eradicate
+    "F",  # Pyflakes
+    "FA",  # flake8-future-annotations
+    "FBT",  # flake8-boolean-trap
+    "FIX",  # flake8-fixme
+    "FLY",  # flynt
+    "I",  # isort
+    "ICN",  # flake8-import-conventions
+    "ISC",  # flake8-implicit-str-concat
+    "PGH",  # pygrep-hooks
+    "PIE",  # flake8-pie
+    "PL",  # pylint
+    "PT",  # flake8-pytest-style
     # "Q",  # flake8-quotes
     # "RET",  # flake8-return
     # "RSE",  # flake8-raise

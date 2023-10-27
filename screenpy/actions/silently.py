@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import types
+from types import MethodType
 from typing import Any, TypeVar
 
 from hamcrest.core.base_matcher import Matcher
@@ -61,7 +61,7 @@ def Silently(duck: T) -> T:
                     the_narrator.clear_backup()
                 return
 
-        duck.perform_as = types.MethodType(perform_as, duck)  # type: ignore[method-assign]
+        duck.perform_as = MethodType(perform_as, duck)  # type: ignore[method-assign]
 
     if isinstance(duck, Answerable):
         original_answered_by = duck.answered_by
@@ -74,7 +74,7 @@ def Silently(duck: T) -> T:
                     the_narrator.clear_backup()
                 return thing
 
-        duck.answered_by = types.MethodType(answered_by, duck)  # type: ignore[method-assign]
+        duck.answered_by = MethodType(answered_by, duck)  # type: ignore[method-assign]
 
     if isinstance(duck, Resolvable):
         original_resolve = duck.resolve
@@ -87,6 +87,6 @@ def Silently(duck: T) -> T:
                     the_narrator.clear_backup()
                 return res
 
-        duck.resolve = types.MethodType(resolve, duck)  # type: ignore[method-assign]
+        duck.resolve = MethodType(resolve, duck)  # type: ignore[method-assign]
 
     return duck

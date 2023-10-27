@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 from typing import Any
 
 import pytest
 
 from screenpy import Actor, UnableToPerform, and_, given, given_that, then, when
-from useful_mocks import get_mock_ability_class, get_mock_action_class
+
+from .useful_mocks import get_mock_ability_class, get_mock_action_class
 
 FakeAction = get_mock_action_class()
 FakeAbility = get_mock_ability_class()
@@ -92,9 +95,8 @@ def test_performs_cleanup_tasks_when_exiting() -> None:
 def test_clears_cleanup_tasks() -> None:
     mocked_task = FakeAction()
     mocked_task_with_exception = FakeAction()
-    mocked_task_with_exception.perform_as.side_effect = ValueError(
-        "I will not buy this record, it is scratched."
-    )
+    test_msg = "I will not buy this record, it is scratched."
+    mocked_task_with_exception.perform_as.side_effect = ValueError(test_msg)
     actor1 = Actor.named("Tester").with_ordered_cleanup_tasks(mocked_task)
     actor1.has_independent_cleanup_tasks(mocked_task)
     actor2 = Actor.named("Tester").with_ordered_cleanup_tasks(
@@ -103,7 +105,7 @@ def test_clears_cleanup_tasks() -> None:
     actor2.has_independent_cleanup_tasks(mocked_task_with_exception)
 
     actor1.cleans_up()
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=test_msg):
         actor2.cleans_up()
 
     assert len(actor1.ordered_cleanup_tasks) == 0
@@ -115,14 +117,13 @@ def test_clears_cleanup_tasks() -> None:
 def test_ordered_cleanup_stops_at_first_exception() -> None:
     mocked_task = FakeAction()
     mocked_task_with_exception = FakeAction()
-    mocked_task_with_exception.perform_as.side_effect = ValueError(
-        "Good night, a-ding ding ding ding..."
-    )
+    test_msg = "Gooood-a niiight, a-ding ding ding ding..."
+    mocked_task_with_exception.perform_as.side_effect = ValueError(test_msg)
     actor1 = Actor.named("Tester").with_ordered_cleanup_tasks(
         mocked_task_with_exception, mocked_task
     )
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=test_msg):
         actor1.cleans_up()
 
     mocked_task.perform_as.assert_not_called()

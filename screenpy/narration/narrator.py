@@ -5,6 +5,8 @@ The Narrator's microphone is modular, allowing for any number of adapters to be
 applied. Adapters must follow the Adapter protocol outlined in screenpy.protocols.
 """
 
+from __future__ import annotations
+
 from contextlib import contextmanager
 from copy import deepcopy
 from typing import (
@@ -19,6 +21,7 @@ from typing import (
     Union,
 )
 
+from screenpy.exceptions import UnableToNarrate
 from screenpy.protocols import Adapter
 
 # pylint: disable=stop-iteration-return
@@ -196,7 +199,8 @@ class Narrator:
         """Speak the message into the microphone plugged in to all the adapters."""
         channel_kws = {key: value for key, value in kwargs.items() if value is not None}
         if not callable(channel_kws["func"]):
-            raise TypeError('Narration "func" is not callable.')
+            msg = 'Narration "func" is not callable.'
+            raise UnableToNarrate(msg)
 
         if self.cable_kinked:
             enclosed_func = self._dummy_entangle(channel_kws["func"])
@@ -205,7 +209,7 @@ class Narrator:
                 (channel, channel_kws, self.exit_level)
             )
         else:
-            enclosed_func = self._entangle_func(channel, **channel_kws)  # type: ignore
+            enclosed_func = self._entangle_func(channel, None, **channel_kws)
 
         return enclosed_func
 

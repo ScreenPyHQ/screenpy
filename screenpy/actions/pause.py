@@ -1,5 +1,7 @@
 """Pause test execution for a specific time frame."""
 
+from __future__ import annotations
+
 import re
 from time import sleep
 from typing import Type, TypeVar
@@ -70,10 +72,11 @@ class Pause:
     def perform_as(self: SelfPause, _: Actor) -> None:
         """Direct the Actor to take their union-mandated break."""
         if not self.reason:
-            raise UnableToAct(
-                "Cannot Pause without a reason. Use one of "
-                ".seconds_because(), .second_because(), or .milliseconds_because()."
+            msg = (
+                "Cannot Pause without a reason. Use one of"
+                " .seconds_because(), .second_because(), or .milliseconds_because()."
             )
+            raise UnableToAct(msg)
 
         sleep(self.time)
 

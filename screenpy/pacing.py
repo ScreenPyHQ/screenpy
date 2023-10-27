@@ -4,6 +4,9 @@ Provides decorators to group your tests into acts (features) and scenes
 (cases), and provide the gravitas (severity) of those groupings; or markers
 for moments the Narrator should narrate.
 """
+
+from __future__ import annotations
+
 import re
 from functools import wraps
 from typing import Any, Callable, Optional

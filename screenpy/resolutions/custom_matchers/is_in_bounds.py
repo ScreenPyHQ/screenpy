@@ -6,6 +6,8 @@ For example:
     assert_that(5, is_in_bounds(1, 20))
 """
 
+from __future__ import annotations
+
 import operator
 import re
 from typing import Callable, Union
@@ -76,7 +78,7 @@ def is_in_bounds(*bounds: Union[int, float, str]) -> IsInBounds:
         if matched.group("upper") == ")":
             upper_comparator = operator.lt
         minorant, majorant = map(float, matched.group("minorant", "majorant"))
-    elif len(bounds) == 2:
+    elif len(bounds) == 2:  # noqa: PLR2004
         minorant, majorant = map(float, bounds)
     else:
         msg = "is_in_bounds takes either a range string or two numbers."

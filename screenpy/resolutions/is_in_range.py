@@ -1,5 +1,7 @@
 """Matches a number against a range."""
 
+from __future__ import annotations
+
 from typing import Union
 
 from hamcrest.core.matcher import Matcher
@@ -41,12 +43,12 @@ class IsInRange:
         return is_in_bounds(*self.bounds)
 
     def __init__(self, *bounds: Union[int, str]) -> None:
-        if len(bounds) > 2:
+        if len(bounds) > 2:  # noqa: PLR2004
             msg = f"{self.__class__.__name__} was given too many arguments: {bounds}."
             raise UnableToFormResolution(msg)
 
         self.bounds = bounds
         self.bounding_string = self.bounds[0]  # given bounding string
-        if len(self.bounds) == 2:
+        if len(self.bounds) == 2:  # noqa: PLR2004
             # given bounding numbers
             self.bounding_string = f"[{self.bounds[0]}, {self.bounds[1]}]"

@@ -3,13 +3,12 @@ from unittest import mock
 
 import pytest
 
-from screenpy import NORMAL, Adapter, Narrator
+from screenpy import NORMAL, Adapter, Narrator, UnableToNarrate
 from screenpy.narration.narrator import _chainify
 
 
 def _():
     """Dummy function for simple chaining tests."""
-    pass
 
 
 T_KW = Dict[str, Union[Callable, str]]
@@ -25,7 +24,7 @@ def get_mock_adapter():
 
 class TestChainify:
     @pytest.mark.parametrize(
-        "test_narrations,expected",
+        ("test_narrations", "expected"),
         [
             (
                 [("ch", KW, 1), ("ch", KW, 1), ("ch", KW, 1)],
@@ -251,11 +250,11 @@ class TestNarrator:
     def test_narrate_throws_for_uncallable_func(self) -> None:
         narrator = Narrator()
 
-        with pytest.raises(TypeError):
+        with pytest.raises(UnableToNarrate):
             narrator.narrate("", func="")
 
     @pytest.mark.parametrize(
-        "channel_func,channel",
+        ("channel_func", "channel"),
         [
             ("announcing_the_act", "act"),
             ("setting_the_scene", "scene"),

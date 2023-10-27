@@ -1,5 +1,7 @@
 """Make several assertions, all of which are expected to be True."""
 
+from __future__ import annotations
+
 from typing import Tuple, Type, TypeVar
 
 from screenpy.actor import Actor
@@ -54,10 +56,12 @@ class SeeAllOf:
     def __init__(self: SelfSeeAllOf, *tests: T_T) -> None:
         for tup in tests:
             if isinstance(tup, tuple):
-                if len(tup) != 2:
-                    raise UnableToAct("Tuple must contain Question and Resolution.")
+                if len(tup) != 2:  # noqa: PLR2004
+                    msg = "Tuple must contain Question and Resolution."
+                    raise UnableToAct(msg)
             else:
-                raise TypeError("Arguments must be tuples.")
+                msg = "Arguments must be tuples."
+                raise UnableToAct(msg)
 
         self.tests = tests
         if len(self.tests) == 0:
