@@ -160,8 +160,8 @@ select = [
     "TCH",  # flake8-type-checking
     "TRY",  # tryceratops
     "UP",  # python upgrade
-    # "W",  # pycodestyle warning
-    # "YTT",  # flake8-2020
+    "W",  # pycodestyle warning
+    "YTT",  # flake8-2020
 
     # we would like these someday, but not yet
     # "FURB",  # refurb
