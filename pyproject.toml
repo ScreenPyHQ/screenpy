@@ -150,7 +150,7 @@ select = [
     "PIE",  # flake8-pie
     "PL",  # pylint
     "PT",  # flake8-pytest-style
-    # "Q",  # flake8-quotes
+    "Q",  # flake8-quotes
     # "RET",  # flake8-return
     # "RSE",  # flake8-raise
     # "RUF",  # ruff specific
