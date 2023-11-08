@@ -2,17 +2,21 @@
 
 from __future__ import annotations
 
-from typing import Any, Hashable, Iterable, Mapping, Tuple, TypeVar, overload
+from typing import TYPE_CHECKING, overload
 
 from hamcrest import has_entries
-from hamcrest.core.matcher import Matcher
 
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
 
-K = TypeVar("K", bound=Hashable)
-V = TypeVar("V")
+if TYPE_CHECKING:
+    from typing import Any, Hashable, Iterable, Mapping, TypeVar
+
+    from hamcrest.core.matcher import Matcher
+
+    K = TypeVar("K", bound=Hashable)
+    V = TypeVar("V")
 
 
 class ContainsTheEntry:
@@ -74,7 +78,7 @@ class ContainsTheEntry:
                 self.entries = dict(kv_args, **kv_kwargs)
             except ValueError:
                 # given a list of implicitly paired arguments
-                pairs: Iterable[Tuple[Any, Any]] = [
+                pairs: Iterable[tuple[Any, Any]] = [
                     (kv_args[i], kv_args[i + 1]) for i in range(0, len(kv_args), 2)
                 ]
                 self.entries = dict(pairs, **kv_kwargs)

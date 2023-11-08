@@ -4,14 +4,16 @@ from __future__ import annotations
 
 import time
 from traceback import format_tb
-from typing import List, Optional
+from typing import TYPE_CHECKING
 
-from screenpy.actor import Actor
 from screenpy.configuration import settings
 from screenpy.exceptions import DeliveryError, UnableToAct
 from screenpy.pacing import beat, the_narrator
-from screenpy.protocols import Performable
 from screenpy.speech_tools import get_additive_description
+
+if TYPE_CHECKING:
+    from screenpy.actor import Actor
+    from screenpy.protocols import Performable
 
 
 class Eventually:
@@ -43,35 +45,35 @@ class Eventually:
     """
 
     performable: Performable
-    caught_error: Optional[Exception]
+    caught_error: Exception | None
     timeout: float
 
     class _TimeframeBuilder:
         """Build a timeframe, combining numbers and units."""
 
         def __init__(
-            self, eventually: "Eventually", amount: float, attribute: str
+            self, eventually: Eventually, amount: float, attribute: str
         ) -> None:
             self.eventually = eventually
             self.amount = amount
             self.attribute = attribute
             setattr(self.eventually, self.attribute, self.amount)
 
-        def milliseconds(self) -> "Eventually":
+        def milliseconds(self) -> Eventually:
             """Set the timeout in milliseconds."""
             setattr(self.eventually, self.attribute, self.amount / 1000)
             return self.eventually
 
         millisecond = milliseconds
 
-        def seconds(self) -> "Eventually":
+        def seconds(self) -> Eventually:
             """Set the timeout in seconds."""
             setattr(self.eventually, self.attribute, self.amount)
             return self.eventually
 
         second = seconds
 
-        def perform_as(self, the_actor: "Actor") -> None:
+        def perform_as(self, the_actor: Actor) -> None:
             """Just in case the author forgets to use a unit method."""
             the_actor.attempts_to(self.eventually)
 
@@ -134,11 +136,12 @@ class Eventually:
                 the_narrator.clear_backup()
                 try:
                     the_actor.attempts_to(self.performable)
-                    return
                 except Exception as exc:  # noqa: BLE001
                     self.caught_error = exc
                     if not any(same_exception(exc, c) for c in self.unique_errors):
                         self.unique_errors.append(exc)
+                else:
+                    return
 
                 count += 1
                 time.sleep(self.poll)
@@ -158,7 +161,7 @@ class Eventually:
         self.performable = performable
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
-        self.unique_errors: List[BaseException] = []
+        self.unique_errors: list[BaseException] = []
         self.timeout = settings.TIMEOUT
         self.poll = settings.POLLING
 

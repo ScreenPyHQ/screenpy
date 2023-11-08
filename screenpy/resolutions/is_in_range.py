@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
-from typing import Union
-
-from hamcrest.core.matcher import Matcher
+from typing import TYPE_CHECKING
 
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
 
 from .custom_matchers.is_in_bounds import is_in_bounds
+
+if TYPE_CHECKING:
+    from hamcrest.core.matcher import Matcher
 
 
 class IsInRange:
@@ -42,7 +43,7 @@ class IsInRange:
         """Produce the Matcher to make the assertion."""
         return is_in_bounds(*self.bounds)
 
-    def __init__(self, *bounds: Union[int, str]) -> None:
+    def __init__(self, *bounds: int | str) -> None:
         if len(bounds) > 2:  # noqa: PLR2004
             msg = f"{self.__class__.__name__} was given too many arguments: {bounds}."
             raise UnableToFormResolution(msg)

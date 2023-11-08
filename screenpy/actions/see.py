@@ -2,18 +2,22 @@
 
 from __future__ import annotations
 
-from typing import Type, TypeVar, Union
+from typing import TYPE_CHECKING
 
 from hamcrest import assert_that
 
-from screenpy.actor import Actor
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
 from screenpy.speech_tools import get_additive_description, represent_prop
 
-SelfSee = TypeVar("SelfSee", bound="See")
-T_Q = Union[Answerable, object]
-T_R = Resolvable
+if TYPE_CHECKING:
+    from typing import TypeVar, Union
+
+    from screenpy.actor import Actor
+
+    SelfSee = TypeVar("SelfSee", bound="See")
+    T_Q = Union[Answerable, object]
+    T_R = Resolvable
 
 
 class See:
@@ -40,7 +44,7 @@ class See:
     resolution_to_log: str
 
     @classmethod
-    def the(cls: Type[SelfSee], question: T_Q, resolution: T_R) -> SelfSee:
+    def the(cls: type[SelfSee], question: T_Q, resolution: T_R) -> SelfSee:
         """Supply the Question (or value) and Resolution to test."""
         return cls(question, resolution)
 

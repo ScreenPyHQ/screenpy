@@ -4,13 +4,17 @@ from __future__ import annotations
 
 import re
 from time import sleep
-from typing import Type, TypeVar
+from typing import TYPE_CHECKING
 
-from screenpy.actor import Actor
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 
-SelfPause = TypeVar("SelfPause", bound="Pause")
+if TYPE_CHECKING:
+    from typing import TypeVar
+
+    from screenpy.actor import Actor
+
+    SelfPause = TypeVar("SelfPause", bound="Pause")
 
 
 class Pause:
@@ -39,7 +43,7 @@ class Pause:
     reason: str
 
     @classmethod
-    def for_(cls: Type[SelfPause], number: float) -> SelfPause:
+    def for_(cls: type[SelfPause], number: float) -> SelfPause:
         """Specify how many seconds or milliseconds to wait for."""
         return cls(number)
 
@@ -85,9 +89,7 @@ class Pause:
         if not reason.startswith("because"):
             reason = f"because {reason}"
 
-        reason = re.sub(r"\W*$", "", reason)
-
-        return reason
+        return re.sub(r"\W*$", "", reason)
 
     def __init__(self: SelfPause, number: float) -> None:
         self.number = number

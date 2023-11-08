@@ -10,12 +10,16 @@ from __future__ import annotations
 
 import operator
 import re
-from typing import Callable, Union
+from typing import TYPE_CHECKING
 
 from hamcrest.core.base_matcher import BaseMatcher
-from hamcrest.core.description import Description
 
-InequalityFunc = Callable[[float, float], bool]
+if TYPE_CHECKING:
+    from typing import Callable
+
+    from hamcrest.core.description import Description
+
+    InequalityFunc = Callable[[float, float], bool]
 
 
 class IsInBounds(BaseMatcher[float]):
@@ -58,7 +62,7 @@ class IsInBounds(BaseMatcher[float]):
         )
 
 
-def is_in_bounds(*bounds: Union[int, float, str]) -> IsInBounds:
+def is_in_bounds(*bounds: int | (float | str)) -> IsInBounds:
     """Matches a number that falls within the bounds."""
     lower_comparator = operator.le
     upper_comparator = operator.le

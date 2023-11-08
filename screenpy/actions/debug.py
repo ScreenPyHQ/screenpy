@@ -5,7 +5,7 @@ environment variable.
 (See more information in PEP-553 https://www.python.org/dev/peps/pep-0553/)
 """
 
-import pdb
+import pdb  # noqa: T100
 
 from screenpy.actor import Actor
 from screenpy.pacing import beat
@@ -44,6 +44,6 @@ class Debug:
         try:
             # Hello! To get to the perform loop and step through the remaining
             # Actions, you will need to go "up" about 3 times.
-            breakpoint()
+            breakpoint()  # noqa: T100
         except NameError:
-            pdb.set_trace()
+            pdb.set_trace()  # noqa: T100

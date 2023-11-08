@@ -2,17 +2,21 @@
 
 from __future__ import annotations
 
-from typing import Optional, Type, TypeVar, Union
+from typing import TYPE_CHECKING
 
-from screenpy.actor import Actor
 from screenpy.director import Director
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper
 from screenpy.speech_tools import represent_prop
 
-SelfMakeNote = TypeVar("SelfMakeNote", bound="MakeNote")
-T_Q = Union[Answerable, object]
+if TYPE_CHECKING:
+    from typing import TypeVar, Union
+
+    from screenpy.actor import Actor
+
+    SelfMakeNote = TypeVar("SelfMakeNote", bound="MakeNote")
+    T_Q = Union[Answerable, object]
 
 
 class MakeNote:
@@ -31,11 +35,11 @@ class MakeNote:
         the_actor.attempts_to(MakeNote.of_the(items).as_("items list"))
     """
 
-    key: Optional[str]
+    key: str | None
     question: T_Q
 
     @classmethod
-    def of(cls: Type[SelfMakeNote], question: T_Q) -> SelfMakeNote:
+    def of(cls: type[SelfMakeNote], question: T_Q) -> SelfMakeNote:
         """Supply the Question to answer and its arguments.
 
         Aliases:
@@ -44,7 +48,7 @@ class MakeNote:
         return cls(question)
 
     @classmethod
-    def of_the(cls: Type[SelfMakeNote], question: T_Q) -> SelfMakeNote:
+    def of_the(cls: type[SelfMakeNote], question: T_Q) -> SelfMakeNote:
         """Alias for :meth:`~screenpy.actions.MakeNote.of`."""
         return cls.of(question)
 
@@ -79,7 +83,7 @@ class MakeNote:
     def __init__(
         self: SelfMakeNote,
         question: T_Q,
-        key: Optional[str] = None,
+        key: str | None = None,
     ) -> None:
         self.question = question
         self.key = key

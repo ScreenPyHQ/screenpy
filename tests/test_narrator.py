@@ -108,7 +108,7 @@ class TestNarrator:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
 
-        with narrator.mic_cable_kinked():
+        with narrator.mic_cable_kinked():  # noqa: SIM117
             with narrator.announcing_the_act(_, ""):
                 with narrator.mic_cable_kinked():
                     with narrator.stating_a_beat(_, ""):
@@ -137,7 +137,7 @@ class TestNarrator:
     def test_clear_backup_deep_kink(self) -> None:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
-        with narrator.mic_cable_kinked():
+        with narrator.mic_cable_kinked():  # noqa: SIM117
             with narrator.announcing_the_act(_, ""):
                 with narrator.mic_cable_kinked():
                     with narrator.stating_a_beat(_, ""):
@@ -154,7 +154,7 @@ class TestNarrator:
 
         with narrator.mic_cable_kinked():
             with narrator.announcing_the_act(_, "act"):
-                with narrator.setting_the_scene(_, "scene"):
+                with narrator.setting_the_scene(_, "scene"):  # noqa: SIM117
                     with narrator.stating_a_beat(_, "beat"):
                         with narrator.whispering_an_aside("aside"):
                             pass
@@ -291,9 +291,9 @@ class TestNarrator:
         narrator = Narrator(adapters=[get_mock_adapter()])
 
         try:
-            with narrator.off_the_air():
+            with narrator.off_the_air():  # noqa: SIM117
                 with narrator.stating_a_beat(lambda: "Hello", "Clarise"):
-                    raise ValueError()
+                    raise ValueError  # noqa: TRY301
         except ValueError:
             pass
 
@@ -303,9 +303,9 @@ class TestNarrator:
         narrator = Narrator(adapters=[get_mock_adapter()])
 
         try:
-            with narrator.mic_cable_kinked():
+            with narrator.mic_cable_kinked():  # noqa: SIM117
                 with narrator.stating_a_beat(lambda: "Hello", "Anthony"):
-                    raise ValueError()
+                    raise ValueError  # noqa: TRY301
         except ValueError:
             pass
 

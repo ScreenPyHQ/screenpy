@@ -9,32 +9,35 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 from copy import deepcopy
-from typing import (
-    Any,
-    Callable,
-    ContextManager,
-    Dict,
-    Generator,
-    List,
-    Optional,
-    Tuple,
-    Union,
-)
+from typing import TYPE_CHECKING
 
 from screenpy.exceptions import UnableToNarrate
-from screenpy.protocols import Adapter
 
 # pylint: disable=stop-iteration-return
 # The above pylint warning may be a false-positive since Narrator calls `next`
 # directly instead of iterating over the generators.
 
-Kwargs = Union[Callable, str]
-BackedUpNarration = Tuple[str, Dict[str, Kwargs], int]
-ChainedNarrations = List[Tuple[str, Dict[str, Kwargs], List]]
-Entangled = Tuple[Callable, List[Generator]]
+if TYPE_CHECKING:
+    from typing import (
+        Any,
+        Callable,
+        ContextManager,
+        Dict,
+        Generator,
+        List,
+        Tuple,
+        Union,
+    )
+
+    from screenpy.protocols import Adapter
+
+    Kwargs = Union[Callable, str]
+    BackedUpNarration = Tuple[str, Dict[str, Kwargs], int]
+    ChainedNarrations = List[Tuple[str, Dict[str, Kwargs], List]]
+    Entangled = Tuple[Callable, List[Generator]]
 
 
-def _chainify(narrations: List[BackedUpNarration]) -> ChainedNarrations:
+def _chainify(narrations: list[BackedUpNarration]) -> ChainedNarrations:
     """Organize backed-up narrations into an encapsulation chain.
 
     This helper function takes a flat list of narrations and exit levels and
@@ -69,10 +72,10 @@ def _chainify(narrations: List[BackedUpNarration]) -> ChainedNarrations:
 class Narrator:
     """The narrator conveys the story to the audience."""
 
-    def __init__(self, adapters: Optional[List[Adapter]] = None) -> None:
-        self.adapters: List[Adapter] = adapters or []
+    def __init__(self, adapters: list[Adapter] | None = None) -> None:
+        self.adapters: list[Adapter] = adapters or []
         self.on_air = True
-        self.backed_up_narrations: List[List[BackedUpNarration]] = []
+        self.backed_up_narrations: list[list[BackedUpNarration]] = []
         self.exit_level = 1
         self.handled_exception = None
 
@@ -151,7 +154,7 @@ class Narrator:
 
     def _entangle_chain(self, adapter: Adapter, chain: ChainedNarrations) -> Callable:
         """Mimic narration entanglement from a backed-up narration chain."""
-        roots: List[Callable] = []
+        roots: list[Callable] = []
         for channel, channel_kwargs, enclosed in chain:
             with self._entangle_func(channel, [adapter], **channel_kwargs) as root:
                 if enclosed:
@@ -166,7 +169,7 @@ class Narrator:
     def _entangle_func(
         self,
         channel: str,
-        adapters: Optional[List[Adapter]] = None,
+        adapters: list[Adapter] | None = None,
         **channel_kwargs: Kwargs,
     ) -> Generator:
         """Entangle the function in the adapters' contexts, decorations, etc.
@@ -195,7 +198,7 @@ class Narrator:
                 # close the closures
                 next(exit_, None)
 
-    def narrate(self, channel: str, **kwargs: Union[Kwargs, None]) -> ContextManager:
+    def narrate(self, channel: str, **kwargs: Kwargs | None) -> ContextManager:
         """Speak the message into the microphone plugged in to all the adapters."""
         channel_kws = {key: value for key, value in kwargs.items() if value is not None}
         if not callable(channel_kws["func"]):
@@ -214,7 +217,7 @@ class Narrator:
         return enclosed_func
 
     def announcing_the_act(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> ContextManager:
         """Narrate the title of the act."""
         if not self.on_air:
@@ -222,7 +225,7 @@ class Narrator:
         return self.narrate("act", func=func, line=line, gravitas=gravitas)
 
     def setting_the_scene(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> ContextManager:
         """Narrate the title of the scene."""
         if not self.on_air:
@@ -230,7 +233,7 @@ class Narrator:
         return self.narrate("scene", func=func, line=line, gravitas=gravitas)
 
     def stating_a_beat(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> ContextManager:
         """Narrate an emotional beat."""
         if not self.on_air:
@@ -238,7 +241,7 @@ class Narrator:
         return self.narrate("beat", func=func, line=line, gravitas=gravitas)
 
     def whispering_an_aside(
-        self, line: str, gravitas: Optional[str] = None
+        self, line: str, gravitas: str | None = None
     ) -> ContextManager:
         """Narrate a conspiratorial aside (as a stage-whisper)."""
         if not self.on_air:

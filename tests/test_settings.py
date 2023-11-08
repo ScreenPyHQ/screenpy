@@ -68,7 +68,7 @@ class TestSettings:
         mock_open = mock.mock_open(read_data=b"[tool.screenpy]\nTIMEOUT = 500")
         mock_env = {"SCREENPY_TIMEOUT": "1337"}
 
-        with mock.patch("pathlib.Path.open", mock_open):
+        with mock.patch("pathlib.Path.open", mock_open):  # noqa: SIM117
             with mock.patch.dict(os.environ, mock_env):
                 settings = ScreenPySettings()
 
@@ -107,7 +107,7 @@ class TestStdOutAdapterSettings:
         )
         mock_env = {"SCREENPY_STDOUTADAPTER_INDENT_SIZE": "1337"}
 
-        with mock.patch("pathlib.Path.open", mock_open):
+        with mock.patch("pathlib.Path.open", mock_open):  # noqa: SIM117
             with mock.patch.dict(os.environ, mock_env):
                 settings = StdOutAdapterSettings()
 

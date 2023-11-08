@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
-from typing import Type, TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
-from screenpy.actor import Actor
 from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable
 from screenpy.speech_tools import get_additive_description, represent_prop
 
-from .see import T_Q
+if TYPE_CHECKING:
+    from screenpy.actor import Actor
+
+    from .see import T_Q
+
 
 SelfLog = TypeVar("SelfLog", bound="Log")
 
@@ -27,7 +30,7 @@ class Log:
     """
 
     @classmethod
-    def the(cls: Type[SelfLog], question: T_Q) -> SelfLog:
+    def the(cls: type[SelfLog], question: T_Q) -> SelfLog:
         """Supply the Question to answer."""
         return cls(question)
 

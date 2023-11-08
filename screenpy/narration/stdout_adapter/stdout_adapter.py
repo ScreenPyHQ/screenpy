@@ -5,7 +5,8 @@ from __future__ import annotations
 import logging
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Callable, Generator, List, Optional
+from types import MappingProxyType
+from typing import Any, Callable, Generator
 
 from ..gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
 from .configuration import settings
@@ -16,9 +17,9 @@ from .configuration import settings
 class StdOutManager:
     """Handle the indentation, formatting, and log action for CLI logging."""
 
-    def __init__(self, logger: Optional[logging.Logger] = None) -> None:
+    def __init__(self, logger: logging.Logger | None = None) -> None:
         self.logger = logger or logging.getLogger("screenpy")
-        self.depth: List[str] = []
+        self.depth: list[str] = []
 
     @contextmanager
     def _indent(self) -> Generator:
@@ -60,25 +61,25 @@ class StdOutAdapter:
         the_narrator.attach_adapter(StdOutAdapter())
     """
 
-    handled_exception: Optional[Exception]
+    handled_exception: Exception | None
 
-    GRAVITAS = {
-        AIRY: logging.DEBUG,
-        LIGHT: logging.INFO,
-        NORMAL: logging.WARNING,
-        HEAVY: logging.CRITICAL,
-        EXTREME: logging.ERROR,
-    }
+    GRAVITAS = MappingProxyType(  # makes it immutable
+        {
+            AIRY: logging.DEBUG,
+            LIGHT: logging.INFO,
+            NORMAL: logging.WARNING,
+            HEAVY: logging.CRITICAL,
+            EXTREME: logging.ERROR,
+        }
+    )
 
-    def __init__(self, stdout_manager: Optional["StdOutManager"] = None) -> None:
+    def __init__(self, stdout_manager: StdOutManager | None = None) -> None:
         if stdout_manager is None:
             stdout_manager = StdOutManager()
         self.manager = stdout_manager
         self.handled_exception = None
 
-    def act(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
-    ) -> Generator:
+    def act(self, func: Callable, line: str, gravitas: str | None = None) -> Generator:
         """Wrap the act, to log the stylized title."""
 
         @wraps(func)
@@ -94,7 +95,7 @@ class StdOutAdapter:
         yield func_wrapper
 
     def scene(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Wrap the scene, to log the stylized title."""
 
@@ -110,9 +111,7 @@ class StdOutAdapter:
 
         yield func_wrapper
 
-    def beat(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
-    ) -> Generator:
+    def beat(self, func: Callable, line: str, gravitas: str | None = None) -> Generator:
         """Encapsulate the beat within the manager's log context."""
         if not gravitas:
             gravitas = LIGHT
@@ -120,7 +119,7 @@ class StdOutAdapter:
             yield func
 
     def aside(
-        self, func: Callable, line: str, gravitas: Optional[str] = None
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Encapsulate the aside within the manager's log context."""
         if not gravitas:
