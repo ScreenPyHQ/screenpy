@@ -70,11 +70,8 @@ tomli = "^2.0.1"
 autodoc-pydantic = {version = "*", optional = true}
 black = {version = "*", optional = true}
 coverage = {version = "*", optional = true}
-flake8 = {version = "*", optional = true}
-isort = {version = "*", optional = true}
 mypy = {version = "*", optional = true}
 pre-commit = {version = "*", optional = true}
-pylint = {version = "*", optional = true}
 pytest = {version = "*", optional = true}
 pytest-mock = {version = "*", optional = true}
 ruff = {version = "*", optional = true}
