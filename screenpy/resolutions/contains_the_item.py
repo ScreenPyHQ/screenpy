@@ -1,6 +1,6 @@
 """Matches a list that contains the desired item."""
 
-from typing import Sequence, TypeVar
+from typing import Generic, Sequence, TypeVar
 
 from hamcrest import has_item
 from hamcrest.core.matcher import Matcher
@@ -11,7 +11,7 @@ from screenpy.speech_tools import represent_prop
 T = TypeVar("T")
 
 
-class ContainsTheItem:
+class ContainsTheItem(Generic[T]):
     """Match an iterable containing a specific item.
 
     Examples::
