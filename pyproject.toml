@@ -65,6 +65,7 @@ pydantic = "^1.10.7"
 PyHamcrest = ">=2.0.0"
 python = "^3.8"
 tomli = "^2.0.1"
+typing_extensions = ">=4.8.0"
 
 # convenience packages for development of screenpy only
 autodoc-pydantic = {version = "*", optional = true}
@@ -126,7 +127,7 @@ target-version = "py38"  # minimum supported version
 line-length = 88  # same as Black.
 select = [
     "A",  # flake8-builtins
-    # "ANN",  # flake8-annotations  # coming back to this one later to compare against mypy
+    "ANN",  # flake8-annotations  # coming back to this one later to compare against mypy
     "ARG",  # flake8-unused-arguments
     "B",  # flake8-bugbear
     "BLE",  # flake8-blind-except
@@ -168,7 +169,7 @@ ignore = [
     "D203",  # one blank line before class docstring, no thanks!
     "D212",  # multi line summary first line, we want a one line summary.
     "ANN101",  # missing self annotation, we only annotate self when we return it.
-    "ANN401",  # no `**kwargs: Any` typing; unfortunately we don't have a better way.
+    "ANN102",  # missing cls annotation, we only annotate cls when we return it.
 ]
 exclude = [
     "screenpy/__init__.py",
@@ -182,6 +183,9 @@ exclude = [
     "D",  # we don't need public-API-polished docstrings in tests.
     "FBT",  # using a boolean as a test object is useful!
     "PLR",  # likewise using specific numbers and strings in tests.
+]
+"tests/test_pacing.py" = [
+    "FA100",  # we are purposely testing pacing without future annotations.
 ]
 
 

@@ -6,7 +6,8 @@ from .director import Director
 from .exceptions import UnableToDirect
 
 
-def noted_under(key: str) -> Any:
+# ANN401 ignored here because the Director can note anything!
+def noted_under(key: str) -> Any:  # noqa: ANN401
     """Get a noted value from the director.
 
     Examples::

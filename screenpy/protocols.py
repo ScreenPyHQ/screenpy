@@ -28,7 +28,8 @@ if TYPE_CHECKING:
 class Answerable(Protocol):
     """Questions are Answerable."""
 
-    def answered_by(self, the_actor: Actor) -> Any:
+    # ANN401 ignored here so any Question can fulfill this protocol.
+    def answered_by(self, the_actor: Actor) -> Any:  # noqa: ANN401
         """Pose the Question to the Actor, who will attempt to answer.
 
         Args:
@@ -127,7 +128,8 @@ class Adapter(Protocol):
     def error(self, exc: Exception) -> None:
         """React to an exception being thrown, probably during a beat."""
 
-    def attach(self, filepath: str, **kwargs: Any) -> None:
+    # ANN401 ignored here to allow for new adapters to use any kwargs.
+    def attach(self, filepath: str, **kwargs: Any) -> None:  # noqa: ANN401
         """Handle attaching a file.
 
         Pass keyword arguments for specific adapters' needs.

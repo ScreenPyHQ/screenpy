@@ -253,7 +253,8 @@ class Narrator:
         for adapter in self.adapters:
             adapter.error(exc)
 
-    def attaches_a_file(self, filepath: str, **kwargs: Any) -> None:
+    # ANN401 ignored here to allow for new adapters to use any kwargs.
+    def attaches_a_file(self, filepath: str, **kwargs: Any) -> None:  # noqa: ANN401
         """Attach a file for the various adapters."""
         for adapter in self.adapters:
             adapter.attach(filepath, **kwargs)

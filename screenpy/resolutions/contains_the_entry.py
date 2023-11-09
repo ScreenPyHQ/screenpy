@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, Any, Hashable, Iterable, Mapping, TypeVar, overload
 
 from hamcrest import has_entries
 
@@ -11,8 +11,6 @@ from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
 
 if TYPE_CHECKING:
-    from typing import Any, Hashable, Iterable, Mapping, TypeVar
-
     from hamcrest.core.matcher import Matcher
 
     K = TypeVar("K", bound=Hashable)
@@ -53,14 +51,14 @@ class ContainsTheEntry:
     def __init__(self, **kv_args: V) -> None:
         ...
 
-    # Key to value dict form
+    # Key to value dict or list of tuples form
     @overload
-    def __init__(self, kv_args: Mapping[K, V]) -> None:
+    def __init__(self, kv_args: Mapping[K, V] | list[tuple[K, V]]) -> None:
         ...
 
     # Alternating key/value form
     @overload
-    def __init__(self, *kv_args: Any) -> None:
+    def __init__(self, *kv_args: K | V) -> None:
         ...
 
     def __init__(self, *kv_args: Any, **kv_kwargs: Any) -> None:
@@ -70,7 +68,7 @@ class ContainsTheEntry:
             raise UnableToFormResolution(msg)
 
         if len(kv_args) == 1:
-            # given a dictionary
+            # given a dictionary or list of tuples
             self.entries = dict(kv_args[0], **kv_kwargs)
         else:
             try:

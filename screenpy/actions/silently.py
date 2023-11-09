@@ -70,7 +70,8 @@ def Silently(duck: T) -> T:
     if isinstance(duck, Answerable):
         original_answered_by = duck.answered_by
 
-        def answered_by(self: Answerable, actor: Actor) -> Any:  # noqa: ARG001
+        # ANN401 ignored here to follow the Answerable protocol.
+        def answered_by(self: Answerable, actor: Actor) -> Any:  # noqa: ARG001, ANN401
             """Direct the Actor to answer the question silently."""
             with the_narrator.mic_cable_kinked():
                 thing = original_answered_by(actor)

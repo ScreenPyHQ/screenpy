@@ -1,9 +1,14 @@
-"""This is a duplicate of test_pacing but uses future annotations"""
+"""This is a duplicate of test_pacing but uses future annotations."""
+
 from __future__ import annotations
 
 import logging
+from typing import TYPE_CHECKING
 
 from screenpy import Actor, IsEqualTo, See, beat
+
+if TYPE_CHECKING:
+    import pytest
 
 
 class CornerCase:
@@ -27,14 +32,16 @@ class CornerCase:
 
     # purposfully not annotated
     @beat("Baz?")
-    def no_annotations_rt_none(self, toggle=False):
+    # type: ignore[no-untyped-def]
+    def no_annotations_rt_none(self, toggle=False):  # noqa: ANN001, ANN201
         if toggle:
             return 1
         return None
 
     # purposfully not annotated
     @beat("Bazinga!!")
-    def no_annotations_rt_int(self, toggle=False):
+    # type: ignore[no-untyped-def]
+    def no_annotations_rt_int(self, toggle=False):  # noqa: ANN001, ANN201
         if toggle:
             return 1
         return None
@@ -44,7 +51,9 @@ class CornerCase:
 
 
 class TestBeat:
-    def test_beat_logging_none_corner(self, Tester, caplog):
+    def test_beat_logging_none_corner(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         caplog.set_level(logging.INFO)
         See(CornerCase(), IsEqualTo(None)).perform_as(Tester)
 

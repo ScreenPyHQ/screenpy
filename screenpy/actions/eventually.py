@@ -157,7 +157,7 @@ class Eventually:
         )
         raise DeliveryError(msg) from self.caught_error
 
-    def __init__(self, performable: Performable):
+    def __init__(self, performable: Performable) -> None:
         self.performable = performable
         self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None

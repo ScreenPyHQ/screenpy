@@ -25,7 +25,7 @@ INDENT = settings.INDENT_CHAR * settings.INDENT_SIZE
 
 @act(TEST_ACT, gravitas=NORMAL)
 @scene(TEST_SCENE)
-def prop():
+def prop() -> None:
     pass
 
 
@@ -36,7 +36,7 @@ class Prop:
         return TEST_RETVAL
 
 
-def _assert_stdout_correct(caplog) -> None:
+def _assert_stdout_correct(caplog: pytest.LogCaptureFixture) -> None:
     """Assert the correctness of logged messages to stdout."""
     assert len(caplog.messages) == 5
     assert caplog.messages[0] == f"ACT {TEST_ACT.upper()}"
@@ -54,14 +54,14 @@ class TestNarrateToStdOut:
         yield the_narrator
         the_narrator.adapters = old_adapters
 
-    def test_narrations(self, caplog) -> None:
+    def test_narrations(self, caplog: pytest.LogCaptureFixture) -> None:
         with caplog.at_level(logging.INFO):
             prop()
             Prop().use()
 
         _assert_stdout_correct(caplog)
 
-    def test_flushed_narrations(self, caplog) -> None:
+    def test_flushed_narrations(self, caplog: pytest.LogCaptureFixture) -> None:
         with caplog.at_level(logging.INFO), the_narrator.mic_cable_kinked():
             prop()
             Prop().use()
