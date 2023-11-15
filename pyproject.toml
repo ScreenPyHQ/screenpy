@@ -95,7 +95,6 @@ requests = ["screenpy-requests"]
 selenium = ["screenpy-selenium"]
 dev = [
     "pre-commit",
-    "pylint",
     "pytest-mock",
     "pytest",
     "tox",
@@ -104,11 +103,8 @@ dev_all = [
     "autodoc-pydantic",
     "black",
     "coverage",
-    "flake8",
-    "isort",
     "mypy",
     "pre-commit",
-    "pylint",
     "pytest-mock",
     "pytest",
     "ruff",
