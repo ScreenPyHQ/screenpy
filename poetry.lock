@@ -1686,4 +1686,4 @@ test = ["coverage", "pytest", "pytest-mock"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "6f4dd16a325d53c08515a190533a0c06a99ebaf0a5049886fe831d60b6b46e7d"
+content-hash = "3b780f3cfa39aa4ac6debe474d9243f81f48062a251b4c862351b8df0ae235d2"
