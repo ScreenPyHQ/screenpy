@@ -2,7 +2,15 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Hashable, Iterable, Mapping, TypeVar, overload
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Hashable,
+    Iterable,
+    Mapping,
+    TypeVar,
+    overload,
+)
 
 from hamcrest import has_entries
 
@@ -14,7 +22,7 @@ if TYPE_CHECKING:
     from hamcrest.core.matcher import Matcher
 
     K = TypeVar("K", bound=Hashable)
-    V = TypeVar("V")
+    V = TypeVar("V", bound=Any)
 
 
 class ContainsTheEntry:
@@ -58,7 +66,7 @@ class ContainsTheEntry:
 
     # Alternating key/value form
     @overload
-    def __init__(self, *kv_args: K | V) -> None:
+    def __init__(self, *kv_args: V) -> None:
         ...
 
     def __init__(self, *kv_args: Any, **kv_kwargs: Any) -> None:
