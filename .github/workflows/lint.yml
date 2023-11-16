@@ -32,9 +32,11 @@ jobs:
       - name: Lint with black
         run: |
           black --check --diff screenpy
+          black --check --diff tests
       - name: Lint with mypy
         run: |
           mypy screenpy
+          mypy tests
       - name: Lint with ruff
         run: |
           ruff check .
