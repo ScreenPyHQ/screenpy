@@ -2,19 +2,19 @@ files: '(screenpy|tests)/.*'
 fail_fast: false
 repos:
 - repo: https://github.com/psf/black
-  rev: 23.10.1
+  rev: 23.11.0
   hooks:
   - id: black
-    language_version: python3.11
+    language_version: python3.12
 - repo: https://github.com/astral-sh/ruff-pre-commit
   # Ruff version.
-  rev: v0.1.2
+  rev: v0.1.5
   hooks:
     - id: ruff
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.6.1
+  rev: v1.7.0
   hooks:
   - id: mypy
-    language_version: python3.11
+    language_version: python3.12
     additional_dependencies: ["PyHamcrest", "pytest"]
 

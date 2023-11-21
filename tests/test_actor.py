@@ -173,7 +173,7 @@ def test_exit_through_vomitorium() -> None:
     mocked_ability.forget.assert_called_once()
 
 
-def test_directives(Tester) -> None:
+def test_directives_are_identities(Tester: Actor) -> None:
     assert given(Tester) == Tester
     assert given_that(Tester) == Tester
     assert when(Tester) == Tester

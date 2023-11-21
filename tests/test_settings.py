@@ -12,7 +12,7 @@ from screenpy.narration.stdout_adapter import settings as stdout_adapter_setting
 from screenpy.narration.stdout_adapter.configuration import StdOutAdapterSettings
 
 
-def test__parse_pyproject_toml_file_does_not_exist():
+def test__parse_pyproject_toml_file_does_not_exist() -> None:
     MockedPath = mock.MagicMock(spec=Path)
     MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
     MockedPath.is_file.return_value = False
@@ -22,7 +22,7 @@ def test__parse_pyproject_toml_file_does_not_exist():
     assert toml_config == {}
 
 
-def test__parse_pyproject_toml_file_exists():
+def test__parse_pyproject_toml_file_exists() -> None:
     MockedPath = mock.MagicMock(spec=Path)
     MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
     MockedPath.is_file.return_value = True
@@ -38,7 +38,7 @@ def test__parse_pyproject_toml_file_exists():
     assert toml_config == {"TIMEOUT": 500, "stdoutadapter": {"INDENT_SIZE": 500}}
 
 
-def test_pyproject_settings():
+def test_pyproject_settings() -> None:
     test_config = {
         "TIMEOUT": 500,
         "SOMETHING_THAT_DOESNT_EXIST": True,
@@ -47,16 +47,17 @@ def test_pyproject_settings():
     parse_path = "screenpy.configuration._parse_pyproject_toml"
     mocked_parse = mock.Mock()
     mocked_parse.return_value = test_config
+    screenpy_settings = ScreenPySettings()
 
     with mock.patch(parse_path, mocked_parse):
-        settings = pyproject_settings(ScreenPySettings)
+        settings = pyproject_settings(screenpy_settings)
 
     mocked_parse.assert_called_once_with(ScreenPySettings._tool_path)
     assert settings == {"TIMEOUT": 500}
 
 
 class TestSettings:
-    def test_pyproject_overwrites_initial(self):
+    def test_pyproject_overwrites_initial(self) -> None:
         mock_open = mock.mock_open(read_data=b"[tool.screenpy]\nTIMEOUT = 500")
 
         with mock.patch("pathlib.Path.open", mock_open):
@@ -64,7 +65,7 @@ class TestSettings:
 
         assert settings.TIMEOUT == 500
 
-    def test_env_overwrites_pyproject(self):
+    def test_env_overwrites_pyproject(self) -> None:
         mock_open = mock.mock_open(read_data=b"[tool.screenpy]\nTIMEOUT = 500")
         mock_env = {"SCREENPY_TIMEOUT": "1337"}
 
@@ -74,7 +75,7 @@ class TestSettings:
 
         assert settings.TIMEOUT == 1337
 
-    def test_init_overwrites_env(self):
+    def test_init_overwrites_env(self) -> None:
         mock_env = {"SCREENPY_TIMEOUT": "1337"}
 
         with mock.patch.dict(os.environ, mock_env):
@@ -82,7 +83,7 @@ class TestSettings:
 
         assert settings.TIMEOUT == 9001
 
-    def test_can_be_changed_at_runtime(self):
+    def test_can_be_changed_at_runtime(self) -> None:
         try:
             screenpy_settings.TIMEOUT = 4
         except TypeError as exc:
@@ -91,7 +92,7 @@ class TestSettings:
 
 
 class TestStdOutAdapterSettings:
-    def test_pyproject_overwrites_initial(self):
+    def test_pyproject_overwrites_initial(self) -> None:
         mock_open = mock.mock_open(
             read_data=b"[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500"
         )
@@ -101,7 +102,7 @@ class TestStdOutAdapterSettings:
 
         assert settings.INDENT_SIZE == 500
 
-    def test_env_overwrites_pyproject(self):
+    def test_env_overwrites_pyproject(self) -> None:
         mock_open = mock.mock_open(
             read_data=b"[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500"
         )
@@ -113,7 +114,7 @@ class TestStdOutAdapterSettings:
 
         assert settings.INDENT_SIZE == 1337
 
-    def test_init_overwrites_env(self):
+    def test_init_overwrites_env(self) -> None:
         mock_env = {"SCREENPY_STDOUTADAPTER_INDENT_SIZE": "1337"}
 
         with mock.patch.dict(os.environ, mock_env):
@@ -121,7 +122,7 @@ class TestStdOutAdapterSettings:
 
         assert settings.INDENT_SIZE == 9001
 
-    def test_can_be_changed_at_runtime(self):
+    def test_can_be_changed_at_runtime(self) -> None:
         try:
             stdout_adapter_settings.INDENT_CHAR = "?"
         except TypeError as exc:
@@ -130,7 +131,7 @@ class TestStdOutAdapterSettings:
 
 
 class TestCombo:
-    def test_can_set_multiple_tools(self):
+    def test_can_set_multiple_tools(self) -> None:
         test_data = (
             b"[tool.screenpy]\nTIMEOUT = 500"
             b"\n\n[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500"

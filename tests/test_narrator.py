@@ -7,18 +7,19 @@ from screenpy import NORMAL, Adapter, Narrator, UnableToNarrate
 from screenpy.narration.narrator import _chainify
 
 
-def _():
+def _() -> None:
     """Dummy function for simple chaining tests."""
 
 
 T_KW = Dict[str, Union[Callable, str]]
+T_Flat = List[Tuple[str, T_KW, int]]
 T_Chain = List[Tuple[str, T_KW, List]]
 
 KW: T_KW = {"func": _, "line": ""}
 KW_G: T_KW = {**KW, "gravitas": NORMAL}
 
 
-def get_mock_adapter():
+def get_mock_adapter() -> mock.Mock:
     return mock.create_autospec(Adapter, instance=True)
 
 
@@ -40,7 +41,7 @@ class TestChainify:
             ),
         ],
     )
-    def test_flat_narration(self, test_narrations, expected) -> None:
+    def test_flat_narration(self, test_narrations: T_Flat, expected: T_Chain) -> None:
         actual = _chainify(test_narrations)
 
         assert actual == expected
@@ -240,7 +241,7 @@ class TestNarrator:
         mock_adapter.act.assert_called_once()
 
     @pytest.mark.parametrize("channel", ["act", "scene", "beat", "aside"])
-    def test__entangle_func(self, channel) -> None:
+    def test__entangle_func(self, channel: str) -> None:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
 
@@ -262,7 +263,7 @@ class TestNarrator:
             ("whispering_an_aside", "aside"),
         ],
     )
-    def test_channels(self, channel_func, channel) -> None:
+    def test_channels(self, channel_func: str, channel: str) -> None:
         narrator = Narrator()
         kwargs = dict(KW_G)
         expected_kwargs = ["func", "line", "gravitas"]
@@ -278,7 +279,7 @@ class TestNarrator:
 
     def test_attach(self) -> None:
         test_adapters = [get_mock_adapter() for _ in range(3)]
-        narrator = Narrator(adapters=test_adapters)
+        narrator = Narrator(adapters=test_adapters)  # type: ignore[arg-type]  # good ol' mocks
         test_path = "lskywalker/documents/father.png"
         test_kwargs = {"no": "that's not true!", "that": "is impossible!"}
 

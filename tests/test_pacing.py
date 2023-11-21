@@ -1,11 +1,15 @@
-from __future__ import annotations
+"""This file intentionally does not use __future__.annotations."""
 
 import logging
+from typing import Optional
+from unittest import mock
+
+import pytest
 
 from screenpy import Actor, IsEqualTo, See, act, aside, beat, scene
 
 
-def prop():
+def prop() -> None:
     """The candlestick in the hall!"""
 
 
@@ -18,7 +22,7 @@ class Prop:
         self.perpetrator = perpetrator
 
     @beat("The {weapon1} in the {room}!")
-    def use(self):
+    def use(self) -> None:
         pass
 
 
@@ -45,21 +49,23 @@ class CornerCase:
         return None
 
     @beat("Foobar...")
-    def does_return_something(self, toggle: bool = False) -> int | None:
+    def does_return_something(self, toggle: bool = False) -> Optional[int]:
         if toggle:
             return 1
         return None
 
     # purposfully not annotated
     @beat("Baz?")
-    def no_annotations_rt_none(self, toggle=False):
+    # type: ignore[no-untyped-def]
+    def no_annotations_rt_none(self, toggle=False):  # noqa: ANN001, ANN201
         if toggle:
             return 1
         return None
 
     # purposfully not annotated
     @beat("Bazinga!!")
-    def no_annotations_rt_int(self, toggle=False):
+    # type: ignore[no-untyped-def]
+    def no_annotations_rt_int(self, toggle=False):  # noqa: ANN001, ANN201
         if toggle:
             return 1
         return None
@@ -69,7 +75,7 @@ class CornerCase:
 
 
 class TestAct:
-    def test_calls_narrators_method(self, mocked_narrator) -> None:
+    def test_calls_narrators_method(self, mocked_narrator: mock.Mock) -> None:
         test_act = "Test Act"
         actprop = act(test_act)(prop)
 
@@ -81,7 +87,7 @@ class TestAct:
 
 
 class TestScene:
-    def test_calls_narrators_method(self, mocked_narrator) -> None:
+    def test_calls_narrators_method(self, mocked_narrator: mock.Mock) -> None:
         test_scene = "Test Scene"
         sceneprop = scene(test_scene)(prop)
 
@@ -93,7 +99,7 @@ class TestScene:
 
 
 class TestBeat:
-    def test_interpolations(self, mocked_narrator) -> None:
+    def test_interpolations(self, mocked_narrator: mock.Mock) -> None:
         """(This also tests that the narrator's method was called.)"""
         test_weapon = "rope"
         test_room = "ballroom"
@@ -105,7 +111,9 @@ class TestBeat:
         completed_line = mocked_narrator.stating_a_beat.call_args_list[0][0][1]
         assert completed_line == f"The {test_weapon} in the {test_room}!"
 
-    def test_beat_logging_none(self, Tester, caplog):
+    def test_beat_logging_none(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         caplog.set_level(logging.INFO)
         See(NonesyQuestion(), IsEqualTo(None)).perform_as(Tester)
 
@@ -117,7 +125,9 @@ class TestBeat:
             "        => <None>",
         ]
 
-    def test_beat_logging_none_corner(self, Tester, caplog):
+    def test_beat_logging_none_corner(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         caplog.set_level(logging.INFO)
         See(CornerCase(), IsEqualTo(None)).perform_as(Tester)
 
@@ -137,7 +147,7 @@ class TestBeat:
 
 
 class TestAside:
-    def test_calls_narrators_method(self, mocked_narrator) -> None:
+    def test_calls_narrators_method(self, mocked_narrator: mock.Mock) -> None:
         test_whisper = "<whisper whisper>"
 
         aside(test_whisper)

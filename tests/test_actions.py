@@ -50,7 +50,7 @@ FakeResolution = get_mock_resolution_class()
 class DoThingThatFails(Performable):
     COUNTER = 0
 
-    def perform_as(self, _: Actor):
+    def perform_as(self, _: Actor) -> None:
         DoThingThatFails.COUNTER += 1
         msg = f"Failure #{DoThingThatFails.COUNTER}"
         raise AssertionError(msg)
@@ -79,7 +79,7 @@ class TestAttachTheFile:
 
     @mock.patch("screenpy.actions.attach_the_file.the_narrator", autospec=True)
     def test_perform_attach_the_file_sends_kwargs(
-        self, mocked_narrator, Tester
+        self, mocked_narrator: mock.Mock, Tester: Actor
     ) -> None:
         test_path = "souiiie.png"
         test_kwargs = {"color": "Red", "weather": "Tornado"}
@@ -109,14 +109,18 @@ class TestDebug:
         assert isinstance(d, Describable)
 
     @mock.patch("screenpy.actions.debug.breakpoint")
-    def test_calls_breakpoint(self, mocked_breakpoint, Tester) -> None:
+    def test_calls_breakpoint(
+        self, mocked_breakpoint: mock.Mock, Tester: Actor
+    ) -> None:
         Debug().perform_as(Tester)
 
         mocked_breakpoint.assert_called_once()
 
     @mock.patch("screenpy.actions.debug.breakpoint")
     @mock.patch("screenpy.actions.debug.pdb")
-    def test_falls_back_to_pdb(self, mocked_pdb, mocked_breakpoint, Tester) -> None:
+    def test_falls_back_to_pdb(
+        self, mocked_pdb: mock.Mock, mocked_breakpoint: mock.Mock, Tester: Actor
+    ) -> None:
         mocked_breakpoint.side_effect = NameError("name 'breakpoint' is not defined")
 
         Debug().perform_as(Tester)
@@ -199,11 +203,11 @@ class TestEventually:
         assert ev.timeout == 23
         assert ev.poll == 3
 
-    def test__timeframebuilder_is_performable(self, Tester) -> None:
+    def test__timeframebuilder_is_performable(self, Tester: Actor) -> None:
         # test passes if no exception is raised
         Eventually(FakeAction()).for_(1).perform_as(Tester)
 
-    def test_valueerror_when_poll_is_larger_than_timeout(self, Tester) -> None:
+    def test_valueerror_when_poll_is_larger_than_timeout(self, Tester: Actor) -> None:
         ev = (
             Eventually(FakeAction())
             .polling_every(200)
@@ -219,7 +223,9 @@ class TestEventually:
         assert expected_msg in str(actual_exception)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_perform_eventually_times_out(self, mocked_time, Tester) -> None:
+    def test_perform_eventually_times_out(
+        self, mocked_time: mock.Mock, Tester: Actor
+    ) -> None:
         num_calls = 5
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
@@ -233,7 +239,9 @@ class TestEventually:
         assert mocked_time.time.call_count == num_calls + 1
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_timeout_mentions_num_executions(self, mocked_time, Tester) -> None:
+    def test_timeout_mentions_num_executions(
+        self, mocked_time: mock.Mock, Tester: Actor
+    ) -> None:
         num_calls = 5
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
@@ -247,7 +255,7 @@ class TestEventually:
         assert f"{num_calls} times" in str(e)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_catches_exceptions(self, mocked_time, Tester) -> None:
+    def test_catches_exceptions(self, mocked_time: mock.Mock, Tester: Actor) -> None:
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         msg = "I got better."
         mock_action = FakeAction()
@@ -259,7 +267,7 @@ class TestEventually:
         assert msg in str(actual_exception)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_mentions_all_errors(self, mocked_time, Tester) -> None:
+    def test_mentions_all_errors(self, mocked_time: mock.Mock, Tester: Actor) -> None:
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 100])
         exc1 = ValueError("These tracts of land aren't that huge!")
         exc2 = TypeError("This witch does not weigh as much as a duck!")
@@ -275,7 +283,9 @@ class TestEventually:
         assert str(exc2) in str(actual_exception.value)
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_mention_all_errors_in_order(self, mocked_time, Tester):
+    def test_mention_all_errors_in_order(
+        self, mocked_time: mock.Mock, Tester: Actor
+    ) -> None:
         num_calls = 5
         mocked_time.time = mock.create_autospec(
             time.time, side_effect=[1] * num_calls + [100]
@@ -295,7 +305,9 @@ class TestEventually:
         )
 
     @mock.patch("screenpy.actions.eventually.time", autospec=True)
-    def test_mention_multiple_errors_once(self, mocked_time, Tester):
+    def test_mention_multiple_errors_once(
+        self, mocked_time: mock.Mock, Tester: Actor
+    ) -> None:
         mocked_time.time = mock.create_autospec(time.time, side_effect=[1, 1, 1, 100])
         mock_question = FakeQuestion()
         mock_question.answered_by.return_value = True
@@ -330,14 +342,16 @@ class TestLog:
         assert isinstance(l1, Log)
         assert isinstance(l2, Log)
 
-    def test_answers_the_question(self, Tester) -> None:
+    def test_answers_the_question(self, Tester: Actor) -> None:
         mock_question = FakeQuestion()
 
         Log(mock_question).perform_as(Tester)
 
         mock_question.answered_by.assert_called_once_with(Tester)
 
-    def test_logs_the_value(self, Tester, caplog) -> None:
+    def test_logs_the_value(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         test_value = "I've come here for an argument."
         caplog.set_level(logging.INFO)
 
@@ -371,16 +385,16 @@ class TestMakeNote:
         assert mn.question == test_question
         assert mn.key == test_key
 
-    def test_answers_question(self, Tester) -> None:
+    def test_answers_question(self, Tester: Actor) -> None:
         mock_question = FakeQuestion()
         MakeNote.of_the(mock_question).as_("test").perform_as(Tester)
         mock_question.answered_by.assert_called_once_with(Tester)
 
-    def test_raises_without_key(self, Tester) -> None:
+    def test_raises_without_key(self, Tester: Actor) -> None:
         with pytest.raises(UnableToAct):
             MakeNote.of_the(None).perform_as(Tester)
 
-    def test_adds_note_to_director(self, Tester) -> None:
+    def test_adds_note_to_director(self, Tester: Actor) -> None:
         key = "key"
         value = "note"
         mock_question = FakeQuestion()
@@ -390,7 +404,7 @@ class TestMakeNote:
 
         assert Director().looks_up(key) == value
 
-    def test_can_use_value_instead_of_question(self, Tester) -> None:
+    def test_can_use_value_instead_of_question(self, Tester: Actor) -> None:
         key = "key"
         test_note = "note"
 
@@ -398,7 +412,7 @@ class TestMakeNote:
 
         assert Director().looks_up(key) == test_note
 
-    def test_using_note_immediately_raises_with_docs(self, Tester) -> None:
+    def test_using_note_immediately_raises_with_docs(self, Tester: Actor) -> None:
         mock_question = FakeQuestion()
         key = "spam, spam, spam, spam, baked beans, and spam"
 
@@ -414,7 +428,7 @@ class TestMakeNote:
         assert MakeNote(None).as_("blah").describe() == "Make a note under 'blah'."
 
     @mock.patch("screenpy.actions.make_note.aside", autospec=True)
-    def test_caught_exception_noted(self, mock_aside: mock.Mock, Tester) -> None:
+    def test_caught_exception_noted(self, mock_aside: mock.Mock, Tester: Actor) -> None:
         key = "key"
         value = "note"
         mock_question = mock.create_autospec(ErrorQuestion, instance=True)
@@ -482,14 +496,14 @@ class TestPause:
         assert p3.reason == p4.reason == "because reasons"
 
     @mock.patch("screenpy.actions.pause.sleep", autospec=True)
-    def test_calls_sleep(self, mocked_sleep, Tester) -> None:
+    def test_calls_sleep(self, mocked_sleep: mock.Mock, Tester: Actor) -> None:
         duration = 20
 
         Pause.for_(duration).seconds_because("").perform_as(Tester)
 
         mocked_sleep.assert_called_once_with(duration)
 
-    def test_complains_for_missing_reason(self, Tester) -> None:
+    def test_complains_for_missing_reason(self, Tester: Actor) -> None:
         with pytest.raises(UnableToAct):
             Pause.for_(20).perform_as(Tester)
 
@@ -516,7 +530,7 @@ class TestSee:
 
     @mock.patch("screenpy.actions.see.assert_that")
     def test_calls_assert_that_with_answered_question(
-        self, mocked_assert_that, Tester
+        self, mocked_assert_that: mock.Mock, Tester: Actor
     ) -> None:
         mock_question = FakeQuestion()
         mock_question.describe.return_value = "What was your mother?"
@@ -534,7 +548,9 @@ class TestSee:
         )
 
     @mock.patch("screenpy.actions.see.assert_that")
-    def test_calls_assert_that_with_value(self, mocked_assert_that, Tester) -> None:
+    def test_calls_assert_that_with_value(
+        self, mocked_assert_that: mock.Mock, Tester: Actor
+    ) -> None:
         test_value = "Your father smelt of"
         mock_resolution = FakeResolution()
         mock_resolution.describe.return_value = "Elderberries!"
@@ -554,7 +570,7 @@ class TestSee:
             == "See if can you speak is only this sentence."
         )
 
-    def test_log_passes(self, Tester, caplog) -> None:
+    def test_log_passes(self, Tester: Actor, caplog: pytest.LogCaptureFixture) -> None:
         with caplog.at_level(logging.INFO):
             See(SimpleQuestion(), IsEqualTo(True)).perform_as(Tester)
 
@@ -566,7 +582,7 @@ class TestSee:
             "        => <True>",
         ]
 
-    def test_log_fails(self, Tester, caplog) -> None:
+    def test_log_fails(self, Tester: Actor, caplog: pytest.LogCaptureFixture) -> None:
         with caplog.at_level(logging.INFO), pytest.raises(AssertionError):
             See(SimpleQuestion(), IsEqualTo(False)).perform_as(Tester)
 
@@ -611,11 +627,11 @@ class TestSeeAllOf:
         with pytest.raises(UnableToAct):
             SeeAllOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore[arg-type]
 
-    def test_passes_with_zero_tests(self, Tester) -> None:
+    def test_passes_with_zero_tests(self, Tester: Actor) -> None:
         SeeAllOf().perform_as(Tester)  # no exception means this test passes
 
     @mock.patch("screenpy.actions.see_all_of.See")
-    def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
+    def test_calls_see_for_each_test(self, MockedSee: mock.Mock, Tester: Actor) -> None:
         num_tests = 3
         tests = ((FakeQuestion(), FakeResolution()),) * num_tests
 
@@ -625,7 +641,7 @@ class TestSeeAllOf:
         for num, test in enumerate(tests):
             assert MockedSee.method_calls[num].args == test
 
-    def test_raises_assertionerror_if_one_fails(self, Tester) -> None:
+    def test_raises_assertionerror_if_one_fails(self, Tester: Actor) -> None:
         with pytest.raises(AssertionError):
             SeeAllOf(
                 (FakeQuestion(), IsEqualTo(True)),
@@ -634,7 +650,9 @@ class TestSeeAllOf:
                 (FakeQuestion(), IsEqualTo(True)),
             ).perform_as(Tester)
 
-    def test_log_first_failure(self, Tester, caplog) -> None:
+    def test_log_first_failure(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         mock_question = FakeQuestion()
 
         caplog.set_level(logging.INFO)
@@ -664,7 +682,9 @@ class TestSeeAllOf:
             "     but: was <True>\n",
         ]
 
-    def test_log_all_pass(self, Tester, caplog) -> None:
+    def test_log_all_pass(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         caplog.set_level(logging.INFO)
         # test passes if no exception is raised
         SeeAllOf(
@@ -730,11 +750,11 @@ class TestSeeAnyOf:
         with pytest.raises(UnableToAct):
             SeeAnyOf((FakeQuestion(), FakeResolution(), 1))  # type: ignore[arg-type]
 
-    def test_passes_with_zero_tests(self, Tester) -> None:
+    def test_passes_with_zero_tests(self, Tester: Actor) -> None:
         SeeAnyOf().perform_as(Tester)  # no exception means this test passes
 
     @mock.patch("screenpy.actions.see_any_of.See")
-    def test_calls_see_for_each_test(self, MockedSee, Tester) -> None:
+    def test_calls_see_for_each_test(self, MockedSee: mock.Mock, Tester: Actor) -> None:
         num_tests = 3
         tests = ((FakeQuestion(), IsEqualTo(False)),) * num_tests
         MockedSee.the.return_value.perform_as.side_effect = AssertionError("Fail!")
@@ -746,7 +766,7 @@ class TestSeeAnyOf:
         for num, test in enumerate(tests):
             assert MockedSee.method_calls[num].args == test
 
-    def test_raises_assertionerror_if_none_pass(self, Tester) -> None:
+    def test_raises_assertionerror_if_none_pass(self, Tester: Actor) -> None:
         with pytest.raises(AssertionError) as actual_exception:
             SeeAnyOf(
                 (FakeQuestion(), IsEqualTo(False)),
@@ -755,7 +775,9 @@ class TestSeeAnyOf:
 
         assert "did not find any expected answers" in str(actual_exception)
 
-    def test_log_first_pass(self, Tester, caplog) -> None:
+    def test_log_first_pass(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         mock_question = FakeQuestion()
 
         caplog.set_level(logging.INFO)
@@ -784,7 +806,7 @@ class TestSeeAnyOf:
             "            => <True>",
         ]
 
-    def test_passes_with_one_pass(self, Tester) -> None:
+    def test_passes_with_one_pass(self, Tester: Actor) -> None:
         # test passes if no exception is raised
         SeeAnyOf(
             (FakeQuestion(), IsEqualTo(False)),
@@ -854,7 +876,7 @@ class TestSilently:
 
         assert str(exc.value) == msg
 
-    def test_answerable_answers(self, Tester) -> None:
+    def test_answerable_answers(self, Tester: Actor) -> None:
         question = FakeQuestion()
         original_answered_by = question.answered_by
 
@@ -862,7 +884,7 @@ class TestSilently:
 
         original_answered_by.assert_called_once_with(Tester)
 
-    def test_performable_performs(self, Tester) -> None:
+    def test_performable_performs(self, Tester: Actor) -> None:
         action = FakeAction()
         original_perform_as = action.perform_as
 
@@ -878,7 +900,9 @@ class TestSilently:
 
         original_resolve.assert_called_once_with()
 
-    def test_silently_does_not_log(self, Tester, caplog) -> None:
+    def test_silently_does_not_log(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         """
         Confirm that when Silently is used, all beat messages inside it are not logged.
         """
@@ -939,7 +963,9 @@ class TestSilentlyUnabridged:
         assert mock_clear.call_count == 0
         assert mock_flush.call_count == 0
 
-    def test_unabridged_set_outside_silently(self, Tester, caplog) -> None:
+    def test_unabridged_set_outside_silently(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         """
         Confirm when unabridged flag is set, logging will occur normally.
         """
@@ -958,7 +984,9 @@ class TestSilentlyUnabridged:
             "            => <True>",
         ]
 
-    def test_gotcha_unabridged_set_inside_block(self, Tester, caplog) -> None:
+    def test_gotcha_unabridged_set_inside_block(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         """This is a gotcha case.
 
         Setting UNABRIDGED_NARRATION to True inside of a block of Silently-performed
@@ -998,7 +1026,9 @@ class TestSilentlyUnabridged:
             "                    => <True>",
         ]
 
-    def test_gotcha_unabridged_set_and_unset_inside_block(self, Tester, caplog) -> None:
+    def test_gotcha_unabridged_set_and_unset_inside_block(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         """This is a gotcha case.
 
         Setting UNABRIDGED_NARRATION to True inside of a block of Silently-performed
@@ -1070,7 +1100,7 @@ class TestEither:
         t = Either(mock_action1, mock_action2).or_(mock_action3, mock_action4)
         assert t.describe() == "Either doThing, doStuff or performFoo, performBar"
 
-    def test_first_action_passes(self, Tester, mocker: MockerFixture) -> None:
+    def test_first_action_passes(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
@@ -1085,7 +1115,7 @@ class TestEither:
         assert mock_clear.call_count == 1
         assert mock_flush.call_count == 1
 
-    def test_first_action_fails(self, Tester, mocker: MockerFixture) -> None:
+    def test_first_action_fails(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
         mock_kink = mocker.spy(the_narrator, "mic_cable_kinked")
@@ -1104,7 +1134,7 @@ class TestEither:
         assert mock_flush.call_count == 1
 
     def test_first_action_fails_with_custom_exception(
-        self, Tester, mocker: MockerFixture
+        self, Tester: Actor, mocker: MockerFixture
     ) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
@@ -1126,16 +1156,18 @@ class TestEither:
         assert mock_clear.call_count == 2
         assert mock_flush.call_count == 1
 
-    def test_output_first_fails(self, Tester, caplog):
+    def test_output_first_fails(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
-            def perform_as(self, _: Actor):
+            def perform_as(self, _: Actor) -> None:
                 msg = "This Fails!"
                 raise AssertionError(msg)
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
-            def perform_as(self, _: Actor):
+            def perform_as(self, _: Actor) -> None:
                 return
 
         with caplog.at_level(logging.INFO):
@@ -1143,16 +1175,18 @@ class TestEither:
 
         assert caplog.records[0].message == "Tester tries to FakeActionPass"
 
-    def test_output_first_fails_unabridged(self, Tester, caplog):
+    def test_output_first_fails_unabridged(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
-            def perform_as(self, _: Actor):
+            def perform_as(self, _: Actor) -> None:
                 msg = "This Fails!"
                 raise AssertionError(msg)
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
-            def perform_as(self, _: Actor):
+            def perform_as(self, _: Actor) -> None:
                 return
 
         caplog.set_level(logging.INFO)
@@ -1163,16 +1197,18 @@ class TestEither:
 
         assert caplog.records[0].message == "Tester tries to FakeActionFail"
 
-    def test_output_first_passes(self, Tester, caplog):
+    def test_output_first_passes(
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+    ) -> None:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
-            def perform_as(self, _: Actor):
+            def perform_as(self, _: Actor) -> None:
                 msg = "This Fails!"
                 raise AssertionError(msg)
 
         class FakeActionPass(Performable):
             @beat("{} tries to FakeActionPass")
-            def perform_as(self, _: Actor):
+            def perform_as(self, _: Actor) -> None:
                 return
 
         with caplog.at_level(logging.INFO):

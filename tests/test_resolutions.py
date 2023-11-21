@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from itertools import chain
 from unittest import mock
 
 import pytest
@@ -33,7 +36,7 @@ from screenpy.speech_tools import get_additive_description
 
 
 class TestBaseResolution:
-    def test_subclasses_deprecated(self):
+    def test_subclasses_deprecated(self) -> None:
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
 
@@ -53,7 +56,9 @@ class TestBaseResolution:
             ([1], {"a": 1}, ((1,), {"a": 1})),
         ],
     )
-    def test_matcher_instantiation(self, args, kwargs, expected) -> None:
+    def test_matcher_instantiation(
+        self, args: list, kwargs: dict, expected: object
+    ) -> None:
         """matcher function is properly called."""
 
         class MockResolution(BaseResolution):
@@ -88,7 +93,7 @@ class TestBaseResolution:
             ),
         ],
     )
-    def test_passthroughs(self, method, args, expected_method) -> None:
+    def test_passthroughs(self, method: str, args: list, expected_method: str) -> None:
         class MockResolution(BaseResolution):
             """Must be defined here for new mock matchers."""
 
@@ -140,27 +145,31 @@ class TestContainsTheEntry:
     def test_can_be_instantiated(self) -> None:
         cte_single = ContainsTheEntry(key="value")
         cte_multiple = ContainsTheEntry(key1="value1", key2="value2")
+        cte_dict = ContainsTheEntry({"key2": 12345})
+        cte_alternating = ContainsTheEntry("key3", False)
 
         assert isinstance(cte_single, ContainsTheEntry)
         assert isinstance(cte_multiple, ContainsTheEntry)
+        assert isinstance(cte_dict, ContainsTheEntry)
+        assert isinstance(cte_alternating, ContainsTheEntry)
 
     def test_the_test(self) -> None:
         """Matches dictionaries containing the entry(/ies)"""
-        cte_single = ContainsTheEntry(key="value").resolve()
-        cte_multiple = ContainsTheEntry(key1="value1", key2="value2").resolve()
-        cte_alt2 = ContainsTheEntry({"key2": 12345}).resolve()
-        cte_alt3 = ContainsTheEntry("key3", False).resolve()
+        cte_single_matcher = ContainsTheEntry(key="value").resolve()
+        cte_multiple_matcher = ContainsTheEntry(key1="value1", key2="value2").resolve()
+        cte_dict_matcher = ContainsTheEntry({"key2": 12345}).resolve()
+        cte_alternating_matcher = ContainsTheEntry("key3", False).resolve()
 
-        assert cte_alt2.matches({"key2": 12345})
-        assert cte_alt3.matches({"key3": False})
-        assert cte_single.matches({"key": "value"})
-        assert cte_single.matches({"key": "value", "play": "Hamlet"})
-        assert not cte_single.matches({"play": "Hamlet"})
-        assert cte_multiple.matches({"key1": "value1", "key2": "value2"})
-        assert cte_multiple.matches(
+        assert cte_dict_matcher.matches({"key2": 12345})
+        assert cte_alternating_matcher.matches({"key3": False})
+        assert cte_single_matcher.matches({"key": "value"})
+        assert cte_single_matcher.matches({"key": "value", "play": "Hamlet"})
+        assert not cte_single_matcher.matches({"play": "Hamlet"})
+        assert cte_multiple_matcher.matches({"key1": "value1", "key2": "value2"})
+        assert cte_multiple_matcher.matches(
             {"key1": "value1", "key2": "value2", "play": "Hamlet"}
         )
-        assert not cte_multiple.matches({"key1": "value1"})
+        assert not cte_multiple_matcher.matches({"key1": "value1"})
 
     def test_description(self) -> None:
         test_entry = {"spam": "eggs"}
@@ -168,6 +177,10 @@ class TestContainsTheEntry:
 
         cte_single = ContainsTheEntry(**test_entry)
         cte_multiple = ContainsTheEntry(**test_entries)
+        cte_dict = ContainsTheEntry(test_entries)
+        cte_alternating = ContainsTheEntry(
+            *chain(*zip(test_entries.keys(), test_entries.values()))
+        )
 
         expected_description_single = "A mapping with the entry 'spam'->'eggs'."
         expected_description_multiple = (
@@ -175,6 +188,8 @@ class TestContainsTheEntry:
         )
         assert cte_single.describe() == expected_description_single
         assert cte_multiple.describe() == expected_description_multiple
+        assert cte_dict.describe() == expected_description_multiple
+        assert cte_alternating.describe() == expected_description_multiple
 
 
 class TestContainsTheItem:
@@ -185,10 +200,10 @@ class TestContainsTheItem:
 
     def test_the_test(self) -> None:
         """Matches lists containing the item"""
-        cti = ContainsTheItem(1).resolve()
+        cti_matcher = ContainsTheItem(1).resolve()
 
-        assert cti.matches(range(10))
-        assert not cti.matches({0, 3, 5})
+        assert cti_matcher.matches(range(10))
+        assert not cti_matcher.matches([0, 3, 5])
 
     @pytest.mark.parametrize(
         ("arg", "expected"),

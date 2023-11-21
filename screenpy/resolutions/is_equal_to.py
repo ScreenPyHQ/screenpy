@@ -28,6 +28,6 @@ class IsEqualTo:
         """Produce the Matcher to make the assertion."""
         return equal_to(self.expected)
 
-    def __init__(self, obj: Any) -> None:
+    def __init__(self, obj: object) -> None:
         self.expected = obj
         self.expected_to_log = represent_prop(obj)

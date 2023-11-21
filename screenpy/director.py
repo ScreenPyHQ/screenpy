@@ -29,10 +29,12 @@ class Director:
             cls._instance.notebook = {}
         return cls._instance
 
-    def notes(self: SelfDirector, key: str, value: Any) -> None:
+    # ANN401 ignored here because the Director can note anything!
+    def notes(self: SelfDirector, key: str, value: Any) -> None:  # noqa: ANN401
         """Note down a value under the given key."""
         self.notebook[key] = value
 
-    def looks_up(self: SelfDirector, key: str) -> Any:
+    # ANN401 ignored here because the Director can note anything!
+    def looks_up(self: SelfDirector, key: str) -> Any:  # noqa: ANN401
         """Look up a noted value by its key."""
         return self.notebook[key]

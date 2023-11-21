@@ -1,12 +1,13 @@
-from typing import Any
+from __future__ import annotations
+
 from unittest import mock
 
 from .unittest_protocols import Ability, Action, Question, Resolution
 
 
-def get_mock_action_class() -> Any:
+def get_mock_action_class() -> type:
     class FakeAction(Action):
-        def __new__(cls, *_, **__):
+        def __new__(cls) -> FakeAction:
             rt = mock.create_autospec(FakeAction, instance=True)
             rt.describe.return_value = "FakeAction"
             return rt
@@ -14,9 +15,9 @@ def get_mock_action_class() -> Any:
     return FakeAction
 
 
-def get_mock_question_class() -> Any:
+def get_mock_question_class() -> type:
     class FakeQuestion(Question):
-        def __new__(cls, *_, **__):
+        def __new__(cls) -> FakeQuestion:
             rt = mock.create_autospec(FakeQuestion, instance=True)
             rt.describe.return_value = "FakeQuestion"
             rt.answered_by.return_value = True
@@ -25,9 +26,9 @@ def get_mock_question_class() -> Any:
     return FakeQuestion
 
 
-def get_mock_resolution_class() -> Any:
+def get_mock_resolution_class() -> type:
     class FakeResolution(Resolution):
-        def __new__(cls, *_, **__):
+        def __new__(cls) -> FakeResolution:
             rt = mock.create_autospec(FakeResolution, instance=True)
             rt.resolve.return_value = rt
             rt.describe.return_value = "FakeResolution"
@@ -36,7 +37,7 @@ def get_mock_resolution_class() -> Any:
     return FakeResolution
 
 
-def get_mock_ability_class() -> Any:
+def get_mock_ability_class() -> type:
     """Generate a mocked Ability class.
 
     This bit of wizardry creates a subclass of Ability that is auto_specced by
@@ -59,7 +60,7 @@ def get_mock_ability_class() -> Any:
     """
 
     class FakeAbility(Ability):
-        def __new__(cls, *args, **kwargs):
-            return mock.create_autospec(FakeAbility, *args, **kwargs)
+        def __new__(cls) -> FakeAbility:
+            return mock.create_autospec(FakeAbility)
 
     return FakeAbility

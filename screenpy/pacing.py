@@ -9,17 +9,21 @@ from __future__ import annotations
 
 import re
 from functools import wraps
-from typing import Any, Callable
+from typing import TYPE_CHECKING, Callable, TypeVar
 
 from screenpy.narration import Narrator, StdOutAdapter
 from screenpy.speech_tools import represent_prop
 
-Function = Callable[..., Any]
+if TYPE_CHECKING:
+    from typing_extensions import ParamSpec
+
+    P = ParamSpec("P")
+    T = TypeVar("T")
 
 the_narrator: Narrator = Narrator(adapters=[StdOutAdapter()])
 
 
-def function_should_log_none(func: Function) -> bool:
+def function_should_log_none(func: Callable[P, T]) -> bool:
     """Helper function to decide when to log return values.
 
     Determine if function wrapped in beat should log that it returns None
@@ -31,7 +35,9 @@ def function_should_log_none(func: Function) -> bool:
     return False
 
 
-def act(title: str, gravitas: str | None = None) -> Callable[[Function], Function]:
+def act(
+    title: str, gravitas: str | None = None
+) -> Callable[[Callable[P, T]], Callable[P, T]]:
     """Decorator to mark an "act".
 
     Acts are large groupings of tests, like suites or tests for an epic. You
@@ -46,14 +52,16 @@ def act(title: str, gravitas: str | None = None) -> Callable[[Function], Functio
         The decorated function, which will be narrated when called.
     """
 
-    def decorator(func: Function) -> Function:
+    def decorator(func: Callable[P, T]) -> Callable[P, T]:
         with the_narrator.announcing_the_act(func, title, gravitas) as n_func:
             return n_func
 
     return decorator
 
 
-def scene(title: str, gravitas: str | None = None) -> Callable[[Function], Function]:
+def scene(
+    title: str, gravitas: str | None = None
+) -> Callable[[Callable[P, T]], Callable[P, T]]:
     """Decorator to mark a "scene".
 
     Scenes are smaller groupings of tests which can transcend a suite's
@@ -68,14 +76,16 @@ def scene(title: str, gravitas: str | None = None) -> Callable[[Function], Funct
         The decorated function, which will be narrated when called.
     """
 
-    def decorator(func: Function) -> Function:
+    def decorator(func: Callable[P, T]) -> Callable[P, T]:
         with the_narrator.setting_the_scene(func, title, gravitas) as n_func:
             return n_func
 
     return decorator
 
 
-def beat(line: str, gravitas: str | None = None) -> Callable[[Function], Function]:
+def beat(
+    line: str, gravitas: str | None = None
+) -> Callable[[Callable[P, T]], Callable[P, T]]:
     """Decorator to describe a "beat" (a step in a test).
 
     A beat's line can contain markers for replacement via str.format(), which
@@ -93,9 +103,9 @@ def beat(line: str, gravitas: str | None = None) -> Callable[[Function], Functio
         The decorated function, which will be narrated when called.
     """
 
-    def decorator(func: Function) -> Function:
+    def decorator(func: Callable[P, T]) -> Callable[P, T]:
         @wraps(func)
-        def wrapper(*args: Any, **kwargs: Any) -> Any:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
             action = args[0] if len(args) > 0 else None
             actor = args[1] if len(args) > 1 else ""
             markers = re.findall(r"\{([^\}]+)}", line)

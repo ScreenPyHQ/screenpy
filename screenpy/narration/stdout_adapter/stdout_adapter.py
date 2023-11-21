@@ -6,12 +6,19 @@ import logging
 from contextlib import contextmanager
 from functools import wraps
 from types import MappingProxyType
-from typing import Any, Callable, Generator
+from typing import TYPE_CHECKING, Any, Callable, Generator, TypeVar
 
 from ..gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
 from .configuration import settings
 
 # pylint: disable=unused-argument
+
+if TYPE_CHECKING:
+    from typing_extensions import ParamSpec
+
+    P = ParamSpec("P")
+    T = TypeVar("T")
+    Function = Callable[P, T]
 
 
 class StdOutManager:
@@ -83,7 +90,7 @@ class StdOutAdapter:
         """Wrap the act, to log the stylized title."""
 
         @wraps(func)
-        def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
+        def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> Function:
             """Wrap the func, so we log at the correct time."""
             if gravitas is None:
                 level = self.GRAVITAS[LIGHT]
@@ -100,7 +107,7 @@ class StdOutAdapter:
         """Wrap the scene, to log the stylized title."""
 
         @wraps(func)
-        def func_wrapper(*args: Any, **kwargs: Any) -> Callable:
+        def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> Function:
             """Wrap the func, so we log at the correct time."""
             if gravitas is None:
                 level = self.GRAVITAS[LIGHT]
@@ -136,6 +143,7 @@ class StdOutAdapter:
             )
             self.handled_exception = exc
 
-    def attach(self, filepath: str, **__: Any) -> None:
+    # ANN401 ignored here to allow for new adapters to use any kwargs.
+    def attach(self, filepath: str, **__: Any) -> None:  # noqa: ANN401
         """Log a mention of an attached file."""
         self.manager.log(f"See reference file: {filepath}")

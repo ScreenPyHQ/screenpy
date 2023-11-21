@@ -31,7 +31,8 @@ class AttachTheFile:
         """Direct the Narrator to attach a file."""
         the_narrator.attaches_a_file(self.filepath, **self.attach_kwargs)
 
-    def __init__(self, filepath: str, **kwargs: Any) -> None:
+    # ANN401 ignored here to allow for new adapters to use any kwargs.
+    def __init__(self, filepath: str, **kwargs: Any) -> None:  # noqa: ANN401
         self.filepath = filepath
         self.filename = os.path.basename(filepath)
         self.attach_kwargs = kwargs
