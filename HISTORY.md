@@ -1,6 +1,26 @@
 Release History
 ===============
 
+4.2.2 (2023-11-20)
+------------------
+
+### New Features
+
+- A new `Either` Action! For those times where you might want to do one thing or a different thing depending on the current state of the application. Or any other way to use it you can think of!
+
+### Improvements
+
+- Almost all the improvements this time were clerical: improved the docs setup, added linting to the tests, add `ruff`...q
+- Added some logic to better represent the values from the test in the Narrator's logs (thanks @bandophahita!).
+- Added support for Python 3.12!
+- Fixed several typing issues.
+
+### Bug Fixes
+
+- Fixed an issue where `Silently` wasn't correctly wrapping Describables, so the wrong message was being read by the Narrator (thanks @bandophahita!).
+- Fixed some cases where `beat` *should* be logging `None` but wasn't, and then fixed a bug with that where it was logging `None` too often if `from __future__ import annotations` was at the top of the file (thanks again, @bandophahita!).
+- Fixed an issue where `Eventually` would log multiple of the same exceptions. We actually completely reworked the logic here to make things much easier to read (thanks again again, @bandophahita!).
+
 4.2.1 (2023-06-06)
 ------------------
 

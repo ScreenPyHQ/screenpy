@@ -26,7 +26,7 @@ extend-exclude = '''
 
 [tool.poetry]
 name = "screenpy"
-version = "4.2.1"
+version = "4.2.2"
 description = "Screenplay pattern base for Python automated test suites."
 authors = ["Perry Goy <perry.goy@gmail.com>"]
 maintainers = ["Gabe Langton", "Marcel Wilson"]
