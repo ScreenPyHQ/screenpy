@@ -76,7 +76,7 @@ mypy = {version = "*", optional = true}
 pre-commit = {version = "*", optional = true}
 pytest = {version = "*", optional = true}
 pytest-mock = {version = "*", optional = true}
-ruff = {version = "*", optional = true}
+ruff = {version = ">=0.1.13", optional = true}
 screenpy-adapter_allure = {version = "^4.0.1", optional = true}
 screenpy-appium = {version = "*", optional = true}
 screenpy-playwright = {version = "*", optional = true}
