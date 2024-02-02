@@ -56,18 +56,15 @@ class ContainsTheEntry:
 
     # Keyword argument form
     @overload
-    def __init__(self, **kv_args: V) -> None:
-        ...
+    def __init__(self, **kv_args: V) -> None: ...
 
     # Key to value dict or list of tuples form
     @overload
-    def __init__(self, kv_args: Mapping[K, V] | list[tuple[K, V]]) -> None:
-        ...
+    def __init__(self, kv_args: Mapping[K, V] | list[tuple[K, V]]) -> None: ...
 
     # Alternating key/value form
     @overload
-    def __init__(self, *kv_args: V) -> None:
-        ...
+    def __init__(self, *kv_args: V) -> None: ...
 
     def __init__(self, *kv_args: Any, **kv_kwargs: Any) -> None:
         if len(kv_args) > 1 and len(kv_args) % 2 == 1:

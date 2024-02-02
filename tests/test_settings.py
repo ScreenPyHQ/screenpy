@@ -4,56 +4,42 @@ from unittest import mock
 
 from screenpy import settings as screenpy_settings
 from screenpy.configuration import (
+    PyprojectTomlConfig,
     ScreenPySettings,
-    _parse_pyproject_toml,
-    pyproject_settings,
 )
 from screenpy.narration.stdout_adapter import settings as stdout_adapter_settings
 from screenpy.narration.stdout_adapter.configuration import StdOutAdapterSettings
 
 
-def test__parse_pyproject_toml_file_does_not_exist() -> None:
-    MockedPath = mock.MagicMock(spec=Path)
-    MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
-    MockedPath.is_file.return_value = False
+class TestPyprojectTomlConfig:
+    def test__parse_pyproject_toml_file_does_not_exist(self) -> None:
+        MockedPath = mock.MagicMock(spec=Path)
+        MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
+        MockedPath.is_file.return_value = False
 
-    toml_config = _parse_pyproject_toml("screenpy")
+        pyproject_config = PyprojectTomlConfig(ScreenPySettings)
+        pyproject_config._parse_pyproject_toml()
 
-    assert toml_config == {}
+        assert pyproject_config.toml_config == {}
 
+    def test__parse_pyproject_toml_file_exists(self) -> None:
+        MockedPath = mock.MagicMock(spec=Path)
+        MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
+        MockedPath.is_file.return_value = True
+        test_data = (
+            b"[tool.screenpy]\nTIMEOUT = 500"
+            b"\n\n[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500"
+        )
+        mock_open = mock.mock_open(read_data=test_data)
 
-def test__parse_pyproject_toml_file_exists() -> None:
-    MockedPath = mock.MagicMock(spec=Path)
-    MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
-    MockedPath.is_file.return_value = True
-    test_data = (
-        b"[tool.screenpy]\nTIMEOUT = 500"
-        b"\n\n[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500"
-    )
-    mock_open = mock.mock_open(read_data=test_data)
+        with mock.patch("pathlib.Path.open", mock_open):
+            pyproject_config = PyprojectTomlConfig(ScreenPySettings)
+            pyproject_config._parse_pyproject_toml()
 
-    with mock.patch("pathlib.Path.open", mock_open):
-        toml_config = _parse_pyproject_toml("screenpy")
-
-    assert toml_config == {"TIMEOUT": 500, "stdoutadapter": {"INDENT_SIZE": 500}}
-
-
-def test_pyproject_settings() -> None:
-    test_config = {
-        "TIMEOUT": 500,
-        "SOMETHING_THAT_DOESNT_EXIST": True,
-        "stdoutadapter": {"INDENT_SIZE": 500},
-    }
-    parse_path = "screenpy.configuration._parse_pyproject_toml"
-    mocked_parse = mock.Mock()
-    mocked_parse.return_value = test_config
-    screenpy_settings = ScreenPySettings()
-
-    with mock.patch(parse_path, mocked_parse):
-        settings = pyproject_settings(screenpy_settings)
-
-    mocked_parse.assert_called_once_with(ScreenPySettings._tool_path)
-    assert settings == {"TIMEOUT": 500}
+        assert pyproject_config.toml_config == {
+            "TIMEOUT": 500,
+            "stdoutadapter": {"INDENT_SIZE": 500},
+        }
 
 
 class TestSettings:
