@@ -28,7 +28,7 @@ else:
     import tomli as tomllib
 
 
-# The following pyproject.toml functions were taken and adapted from Black:
+# The logic in PyprojectTomlConfig was taken and adapted from Black:
 # https://github.com/psf/black/blob/main/src/black/files.py
 
 
