@@ -122,6 +122,11 @@ test = [
 [tool.ruff]
 target-version = "py38"  # minimum supported version
 line-length = 88  # same as Black.
+exclude = [
+    "screenpy/__init__.py",
+    "screenpy/__version__.py",
+    "docs",
+]
 
 [tool.ruff.lint]
 select = [
@@ -170,12 +175,6 @@ ignore = [
     "ANN101",  # missing self annotation, we only annotate self when we return it.
     "ANN102",  # missing cls annotation, we only annotate cls when we return it.
 ]
-exclude = [
-    "screenpy/__init__.py",
-    "screenpy/__version__.py",
-    "docs",
-]
-
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = [
