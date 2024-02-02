@@ -61,7 +61,8 @@ classifiers = [
 
 [tool.poetry.dependencies]
 importlib_metadata = {version = "*", python = "3.8.*"}
-pydantic = "^1.10.7"
+pydantic = "*"
+pydantic-settings = "*"
 PyHamcrest = ">=2.0.0"
 python = "^3.8"
 tomli = "^2.0.1"

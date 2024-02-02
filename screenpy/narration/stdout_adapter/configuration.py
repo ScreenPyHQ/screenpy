@@ -1,11 +1,11 @@
 """Define settings for the StdOutAdapter."""
 
-from pydantic import BaseSettings
+from pydantic_settings import SettingsConfigDict
 
 from screenpy.configuration import ScreenPySettings
 
 
-class StdOutAdapterSettings(BaseSettings):
+class StdOutAdapterSettings(ScreenPySettings):
     """Settings for the StdOutAdapter.
 
     To change these settings using environment variables, use the prefix
@@ -14,7 +14,9 @@ class StdOutAdapterSettings(BaseSettings):
         SCREENPY_STDOUTADAPTER_INDENT_CHAR=">"  # sets the indent char to >
     """
 
-    _tool_path = "screenpy.stdoutadapter"
+    model_config = SettingsConfigDict(
+        tool_path="screenpy.stdoutadapter", env_prefix="SCREENPY_STDOUTADAPTER_"
+    )
 
     INDENT_LOGS: bool = True
     """Whether or not to use indentation in logging."""
@@ -24,11 +26,6 @@ class StdOutAdapterSettings(BaseSettings):
 
     INDENT_SIZE: int = 4
     """How many indent_chars to use for each level of indentation."""
-
-    class Config(ScreenPySettings.Config):
-        """Inherit from the base Config but change the env_prefix."""
-
-        env_prefix = "SCREENPY_STDOUTADAPTER_"
 
 
 # initialized instance
