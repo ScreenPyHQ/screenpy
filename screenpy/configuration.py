@@ -50,7 +50,11 @@ class PyprojectTomlConfig(PydanticBaseSettingsSource):
             with pyproject_path.open("rb") as f:
                 pyproject_toml = tomllib.load(f)
             toml_config: dict[str, Any] = pyproject_toml.get("tool", {})
-            tool_steps = self.config["tool_path"].split(".")
+            if hasattr(self.settings_cls, "_tool_path"):
+                tool_path = self.settings_cls._tool_path.get_default()
+            else:
+                tool_path = ""
+            tool_steps = tool_path.split(".")
             for subtool in tool_steps:
                 toml_config = toml_config.get(subtool, {})
 
@@ -82,8 +86,7 @@ class PyprojectTomlConfig(PydanticBaseSettingsSource):
         field_name: str,  # noqa: ARG002
         field: FieldInfo,  # noqa: ARG002
         value: Any,  # noqa: ANN401
-        *,
-        value_is_complex: bool,  # noqa: ARG002
+        value_is_complex: bool,  # noqa: ARG002, FBT001
     ) -> Any:  # noqa: ANN401
         """Return the value as-is, we do not need to prepare it.
 
@@ -117,9 +120,8 @@ class ScreenPySettings(BaseSettings):
         SCREENPY_TIMEOUT=60   # sets the default timeout length to 60 seconds
     """
 
-    model_config = SettingsConfigDict(
-        tool_path="screenpy", env_prefix="SCREENPY_", frozen=False
-    )
+    _tool_path = "screenpy"
+    model_config = SettingsConfigDict(env_prefix="SCREENPY_", frozen=False)
 
     TIMEOUT: float = 20
     """
