@@ -15,7 +15,7 @@ INT. SITEPACKAGES DIRECTORY
 ScreenPy is a composition-based test framework. It is inspired by the
 SerenityBDD library for Java.
 
-:copyright: (c) 2019–2023 by Perry Goy.
+:copyright: (c) 2019–2024 by Perry Goy.
 :license: MIT, see LICENSE for more details.
 """
 
