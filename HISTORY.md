@@ -1,6 +1,15 @@
 Release History
 ===============
 
+4.2.3 (2024-02-02)
+------------------
+
+### Improvements
+
+- Updated all the dependencies to be more up-to-date!
+- Specifically updated Pydantic to use the new Pydantic-Settings module for settings management. Waaay slicker.
+
+
 4.2.2 (2023-11-20)
 ------------------
 
