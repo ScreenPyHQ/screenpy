@@ -178,9 +178,7 @@ class TestContainsTheEntry:
         cte_single = ContainsTheEntry(**test_entry)
         cte_multiple = ContainsTheEntry(**test_entries)
         cte_dict = ContainsTheEntry(test_entries)
-        cte_alternating = ContainsTheEntry(
-            *chain(*zip(test_entries.keys(), test_entries.values()))
-        )
+        cte_alternating = ContainsTheEntry(*chain(*test_entries.items()))
 
         expected_description_single = "A mapping with the entry 'spam'->'eggs'."
         expected_description_multiple = (

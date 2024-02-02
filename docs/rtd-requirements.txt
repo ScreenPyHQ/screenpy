@@ -1,3 +1,4 @@
-screenpy
-importlib_metadata
 autodoc_pydantic
+importlib_metadata
+screenpy
+sphinx_rtd_theme

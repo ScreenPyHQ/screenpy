@@ -230,7 +230,7 @@ class Actor:
         self.cleans_up_independent_tasks()
         self.cleans_up_ordered_tasks()
 
-    def exit(self: SelfActor) -> None:  # noqa: A003
+    def exit(self: SelfActor) -> None:
         """Direct the Actor to forget all their Abilities.
 
         Aliases:

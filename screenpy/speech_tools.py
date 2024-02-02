@@ -52,13 +52,11 @@ def get_additive_description(describable: Describable | T) -> str:
 
 
 @overload
-def represent_prop(item: str) -> str:
-    ...
+def represent_prop(item: str) -> str: ...
 
 
 @overload
-def represent_prop(item: T) -> T:
-    ...
+def represent_prop(item: T) -> T: ...
 
 
 def represent_prop(item: str | T) -> str | T:
