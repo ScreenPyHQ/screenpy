@@ -10,6 +10,8 @@ from __future__ import annotations
 from random import choice
 from typing import TypeVar
 
+from typing_extensions import Self
+
 from .exceptions import UnableToPerform
 from .pacing import aside
 from .protocols import Forgettable, Performable
@@ -36,7 +38,6 @@ ENTRANCE_DIRECTIONS = [
 ]
 
 T_Ability = TypeVar("T_Ability", bound=Forgettable)
-SelfActor = TypeVar("SelfActor", bound="Actor")
 
 
 class Actor:
@@ -55,12 +56,12 @@ class Actor:
     independent_cleanup_tasks: list[Performable]
 
     @classmethod
-    def named(cls: type[SelfActor], name: str) -> SelfActor:
+    def named(cls, name: str) -> Self:
         """Give a name to this Actor."""
         aside(choice(ENTRANCE_DIRECTIONS).format(actor=name))
         return cls(name)
 
-    def who_can(self: SelfActor, *abilities: T_Ability) -> SelfActor:
+    def who_can(self, *abilities: T_Ability) -> Self:
         """Add one or more Abilities to this Actor.
 
         Aliases:
@@ -69,11 +70,11 @@ class Actor:
         self.abilities.extend(abilities)
         return self
 
-    def can(self: SelfActor, *abilities: T_Ability) -> SelfActor:
+    def can(self, *abilities: T_Ability) -> Self:
         """Alias for :meth:`~screenpy.actor.Actor.who_can`."""
         return self.who_can(*abilities)
 
-    def has_ordered_cleanup_tasks(self: SelfActor, *tasks: Performable) -> SelfActor:
+    def has_ordered_cleanup_tasks(self, *tasks: Performable) -> Self:
         """Assign one or more tasks for the Actor to perform when exiting.
 
         The tasks given to this method must be performed successfully in
@@ -86,13 +87,11 @@ class Actor:
         self.ordered_cleanup_tasks.extend(tasks)
         return self
 
-    def with_ordered_cleanup_tasks(self: SelfActor, *tasks: Performable) -> SelfActor:
+    def with_ordered_cleanup_tasks(self, *tasks: Performable) -> Self:
         """Alias for :meth:`~screenpy.actor.Actor.has_ordered_cleanup_tasks`."""
         return self.has_ordered_cleanup_tasks(*tasks)
 
-    def has_independent_cleanup_tasks(
-        self: SelfActor, *tasks: Performable
-    ) -> SelfActor:
+    def has_independent_cleanup_tasks(self, *tasks: Performable) -> Self:
         """Assign one or more tasks for the Actor to perform when exiting.
 
         The tasks included through this method are assumed to be independent;
@@ -105,13 +104,11 @@ class Actor:
         self.independent_cleanup_tasks.extend(tasks)
         return self
 
-    def with_independent_cleanup_tasks(
-        self: SelfActor, *tasks: Performable
-    ) -> SelfActor:
+    def with_independent_cleanup_tasks(self, *tasks: Performable) -> Self:
         """Alias for :meth:`~screenpy.actor.Actor.has_independent_cleanup_tasks`."""
         return self.has_independent_cleanup_tasks(*tasks)
 
-    def uses_ability_to(self: SelfActor, ability: type[T_Ability]) -> T_Ability:
+    def uses_ability_to(self, ability: type[T_Ability]) -> T_Ability:
         """Find the Ability referenced and return it, if the Actor is capable.
 
         Raises:
@@ -127,11 +124,11 @@ class Actor:
         msg = f"{self} does not have the Ability to {ability}"
         raise UnableToPerform(msg)
 
-    def ability_to(self: SelfActor, ability: type[T_Ability]) -> T_Ability:
+    def ability_to(self, ability: type[T_Ability]) -> T_Ability:
         """Alias for :meth:`~screenpy.actor.Actor.uses_ability_to`."""
         return self.uses_ability_to(ability)
 
-    def has_ability_to(self: SelfActor, ability: type[T_Ability]) -> bool:
+    def has_ability_to(self, ability: type[T_Ability]) -> bool:
         """Ask whether the Actor has the Ability to do something."""
         try:
             self.ability_to(ability)
@@ -140,7 +137,7 @@ class Actor:
         else:
             return True
 
-    def attempts_to(self: SelfActor, *actions: Performable) -> None:
+    def attempts_to(self, *actions: Performable) -> None:
         """Perform a list of Actions, one after the other.
 
         Aliases:
@@ -158,51 +155,51 @@ class Actor:
         for action in actions:
             self.perform(action)
 
-    def was_able_to(self: SelfActor, *actions: Performable) -> None:
+    def was_able_to(self, *actions: Performable) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def tries_to(self: SelfActor, *actions: Performable) -> None:
+    def tries_to(self, *actions: Performable) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def tried_to(self: SelfActor, *actions: Performable) -> None:
+    def tried_to(self, *actions: Performable) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def tries(self: SelfActor, *actions: Performable) -> None:
+    def tries(self, *actions: Performable) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def tried(self: SelfActor, *actions: Performable) -> None:
+    def tried(self, *actions: Performable) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def does(self: SelfActor, *actions: Performable) -> None:
+    def does(self, *actions: Performable) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def did(self: SelfActor, *actions: Performable) -> None:
+    def did(self, *actions: Performable) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def will(self: SelfActor, *actions: Performable) -> None:
+    def will(self, *actions: Performable) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def shall(self: SelfActor, *actions: Performable) -> None:
+    def shall(self, *actions: Performable) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def should(self: SelfActor, *actions: Performable) -> None:
+    def should(self, *actions: Performable) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def perform(self: SelfActor, action: Performable) -> None:
+    def perform(self, action: Performable) -> None:
         """Perform an Action."""
         action.perform_as(self)
 
-    def cleans_up_ordered_tasks(self: SelfActor) -> None:
+    def cleans_up_ordered_tasks(self) -> None:
         """Perform ordered clean-up tasks."""
         try:
             for task in self.ordered_cleanup_tasks:
@@ -210,7 +207,7 @@ class Actor:
         finally:
             self.ordered_cleanup_tasks = []
 
-    def cleans_up_independent_tasks(self: SelfActor) -> None:
+    def cleans_up_independent_tasks(self) -> None:
         """Perform independent clean-up tasks."""
         for task in self.independent_cleanup_tasks:
             try:
@@ -225,12 +222,12 @@ class Actor:
 
         self.independent_cleanup_tasks = []
 
-    def cleans_up(self: SelfActor) -> None:
+    def cleans_up(self) -> None:
         """Perform any scheduled clean-up tasks."""
         self.cleans_up_independent_tasks()
         self.cleans_up_ordered_tasks()
 
-    def exit(self: SelfActor) -> None:
+    def exit(self) -> None:
         """Direct the Actor to forget all their Abilities.
 
         Aliases:
@@ -243,15 +240,15 @@ class Actor:
             ability.forget()
         self.abilities = []
 
-    def exit_stage_left(self: SelfActor) -> None:
+    def exit_stage_left(self) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.exit`."""
         return self.exit()
 
-    def exit_stage_right(self: SelfActor) -> None:
+    def exit_stage_right(self) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.exit`."""
         return self.exit()
 
-    def exit_through_vomitorium(self: SelfActor) -> None:
+    def exit_through_vomitorium(self) -> None:
         """Alias for :meth:`~screenpy.actor.Actor.exit`."""
         return self.exit()
 
@@ -259,11 +256,11 @@ class Actor:
         """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
         return self.attempts_to(*actions)
 
-    def __repr__(self: SelfActor) -> str:
+    def __repr__(self) -> str:
         """The name of the Actor represents them."""
         return self.name
 
-    def __init__(self: SelfActor, name: str) -> None:
+    def __init__(self, name: str) -> None:
         self.name = name
         self.abilities = []
         self.ordered_cleanup_tasks = []

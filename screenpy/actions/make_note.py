@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from typing_extensions import Self
+
 from screenpy.director import Director
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import aside, beat
@@ -11,11 +13,10 @@ from screenpy.protocols import Answerable, ErrorKeeper
 from screenpy.speech_tools import represent_prop
 
 if TYPE_CHECKING:
-    from typing import TypeVar, Union
+    from typing import Union
 
     from screenpy.actor import Actor
 
-    SelfMakeNote = TypeVar("SelfMakeNote", bound="MakeNote")
     T_Q = Union[Answerable, object]
 
 
@@ -39,7 +40,7 @@ class MakeNote:
     question: T_Q
 
     @classmethod
-    def of(cls: type[SelfMakeNote], question: T_Q) -> SelfMakeNote:
+    def of(cls, question: T_Q) -> Self:
         """Supply the Question to answer and its arguments.
 
         Aliases:
@@ -48,21 +49,21 @@ class MakeNote:
         return cls(question)
 
     @classmethod
-    def of_the(cls: type[SelfMakeNote], question: T_Q) -> SelfMakeNote:
+    def of_the(cls, question: T_Q) -> Self:
         """Alias for :meth:`~screenpy.actions.MakeNote.of`."""
         return cls.of(question)
 
-    def as_(self: SelfMakeNote, key: str) -> SelfMakeNote:
+    def as_(self, key: str) -> Self:
         """Set the key to use to recall this noted value."""
         self.key = key
         return self
 
-    def describe(self: SelfMakeNote) -> str:
+    def describe(self) -> str:
         """Describe the Action in present tense."""
         return f"Make a note under {represent_prop(self.key)}."
 
     @beat("{} jots something down under {key_to_log}.")
-    def perform_as(self: SelfMakeNote, the_actor: Actor) -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to take a note."""
         if self.key is None:
             msg = "No key was provided to name this note."
@@ -81,7 +82,7 @@ class MakeNote:
         Director().notes(self.key, value)
 
     def __init__(
-        self: SelfMakeNote,
+        self,
         question: T_Q,
         key: str | None = None,
     ) -> None:

@@ -6,15 +6,14 @@ import re
 from time import sleep
 from typing import TYPE_CHECKING
 
+from typing_extensions import Self
+
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 
 if TYPE_CHECKING:
-    from typing import TypeVar
 
     from screenpy.actor import Actor
-
-    SelfPause = TypeVar("SelfPause", bound="Pause")
 
 
 class Pause:
@@ -43,11 +42,11 @@ class Pause:
     reason: str
 
     @classmethod
-    def for_(cls: type[SelfPause], number: float) -> SelfPause:
+    def for_(cls, number: float) -> Self:
         """Specify how many seconds or milliseconds to wait for."""
         return cls(number)
 
-    def seconds_because(self: SelfPause, reason: str) -> SelfPause:
+    def seconds_because(self, reason: str) -> Self:
         """Use seconds and provide a reason for the pause.
 
         Aliases:
@@ -57,23 +56,23 @@ class Pause:
         self.reason = self._massage_reason(reason)
         return self
 
-    def second_because(self: SelfPause, reason: str) -> SelfPause:
+    def second_because(self, reason: str) -> Self:
         """Alias for :meth:`~screenpy.actions.Pause.seconds_because`."""
         return self.seconds_because(reason)
 
-    def milliseconds_because(self: SelfPause, reason: str) -> SelfPause:
+    def milliseconds_because(self, reason: str) -> Self:
         """Use milliseconds and provide a reason for the pause."""
         self.unit = f"millisecond{'s' if self.number != 1 else ''}"
         self.time = self.time / 1000.0
         self.reason = self._massage_reason(reason)
         return self
 
-    def describe(self: SelfPause) -> str:
+    def describe(self) -> str:
         """Describe the Action in present tense."""
         return f"Pause for {self.number} {self.unit} {self.reason}."
 
     @beat("{} pauses for {number} {unit} {reason}.")
-    def perform_as(self: SelfPause, _: Actor) -> None:
+    def perform_as(self, _: Actor) -> None:
         """Direct the Actor to take their union-mandated break."""
         if not self.reason:
             msg = (
@@ -84,14 +83,14 @@ class Pause:
 
         sleep(self.time)
 
-    def _massage_reason(self: SelfPause, reason: str) -> str:
+    def _massage_reason(self, reason: str) -> str:
         """Apply some gentle massaging to the reason string."""
         if not reason.startswith("because"):
             reason = f"because {reason}"
 
         return re.sub(r"\W*$", "", reason)
 
-    def __init__(self: SelfPause, number: float) -> None:
+    def __init__(self, number: float) -> None:
         self.number = number
         self.time = number
         self.unit = f"second{'s' if self.number != 1 else ''}"

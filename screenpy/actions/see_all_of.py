@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Tuple, TypeVar
+from typing import TYPE_CHECKING, Tuple
+
+from typing_extensions import Self
 
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
@@ -14,7 +16,6 @@ if TYPE_CHECKING:
 
     from .see import T_Q, T_R
 
-    SelfSeeAllOf = TypeVar("SelfSeeAllOf", bound="SeeAllOf")
     T_T = Tuple[T_Q, T_R]
 
 
@@ -43,21 +44,21 @@ class SeeAllOf:
     tests: tuple[T_T, ...]
 
     @classmethod
-    def the(cls: type[SelfSeeAllOf], *tests: T_T) -> SelfSeeAllOf:
+    def the(cls, *tests: T_T) -> Self:
         """Supply any number of Question/value + Resolution tuples to test."""
         return cls(*tests)
 
-    def describe(self: SelfSeeAllOf) -> str:
+    def describe(self) -> str:
         """Describe the Action in present tense."""
         return f"See if {self.log_message}."
 
     @beat("{} sees if {log_message}:")
-    def perform_as(self: SelfSeeAllOf, the_actor: Actor) -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to make a series of observations."""
         for question, resolution in self.tests:
             the_actor.should(See.the(question, resolution))
 
-    def __init__(self: SelfSeeAllOf, *tests: T_T) -> None:
+    def __init__(self, *tests: T_T) -> None:
         for tup in tests:
             if isinstance(tup, tuple):
                 if len(tup) != 2:  # noqa: PLR2004
