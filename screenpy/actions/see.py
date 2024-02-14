@@ -7,15 +7,17 @@ from typing import TYPE_CHECKING
 from hamcrest import assert_that
 
 from screenpy.pacing import aside, beat
-from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
+from screenpy.protocols import Answerable, ErrorKeeper
 from screenpy.speech_tools import get_additive_description, represent_prop
 
 if TYPE_CHECKING:
-    from typing import TypeVar, Union
+    from typing import Union
+
+    from typing_extensions import Self
 
     from screenpy.actor import Actor
+    from screenpy.protocols import Resolvable
 
-    SelfSee = TypeVar("SelfSee", bound="See")
     T_Q = Union[Answerable, object]
     T_R = Resolvable
 
@@ -44,16 +46,16 @@ class See:
     resolution_to_log: str
 
     @classmethod
-    def the(cls: type[SelfSee], question: T_Q, resolution: T_R) -> SelfSee:
+    def the(cls, question: T_Q, resolution: T_R) -> Self:
         """Supply the Question (or value) and Resolution to test."""
         return cls(question, resolution)
 
-    def describe(self: SelfSee) -> str:
+    def describe(self) -> str:
         """Describe the Action in present tense."""
         return f"See if {self.question_to_log} is {self.resolution_to_log}."
 
     @beat("{} sees if {question_to_log} is {resolution_to_log}.")
-    def perform_as(self: SelfSee, the_actor: Actor) -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to make an observation."""
         if isinstance(self.question, Answerable):
             value: object = self.question.answered_by(the_actor)
@@ -68,7 +70,7 @@ class See:
 
         assert_that(value, self.resolution.resolve(), reason)
 
-    def __init__(self: SelfSee, question: T_Q, resolution: T_R) -> None:
+    def __init__(self, question: T_Q, resolution: T_R) -> None:
         self.question = question
         self.question_to_log = get_additive_description(question)
         self.resolution = resolution

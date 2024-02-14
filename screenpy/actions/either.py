@@ -12,6 +12,8 @@ from screenpy.pacing import the_narrator
 from screenpy.speech_tools import get_additive_description
 
 if TYPE_CHECKING:
+    from typing_extensions import Self
+
     from screenpy import Actor
     from screenpy.protocols import Performable
 
@@ -62,7 +64,7 @@ class Either:
         the_actor.will(*self.except_performables)
         return
 
-    def or_(self, *except_performables: Performable) -> Either:
+    def or_(self, *except_performables: Performable) -> Self:
         """Provide the alternative routine to perform.
 
         Aliases:
@@ -77,7 +79,7 @@ class Either:
 
     except_ = else_ = otherwise = alternatively = failing_that = or_
 
-    def ignoring(self, *ignored_exceptions: type[BaseException]) -> Either:
+    def ignoring(self, *ignored_exceptions: type[BaseException]) -> Self:
         """Set the expception classes to ignore."""
         self.ignore_exceptions = ignored_exceptions
         return self

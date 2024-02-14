@@ -6,9 +6,10 @@ to be passed between functions
 
 from __future__ import annotations
 
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any
 
-SelfDirector = TypeVar("SelfDirector", bound="Director")
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Director:
@@ -22,7 +23,7 @@ class Director:
 
     _instance = None
 
-    def __new__(cls: type[SelfDirector]) -> SelfDirector:
+    def __new__(cls) -> Self:
         """Ensure there is only one Director."""
         if cls._instance is None:
             cls._instance = super().__new__(cls)
@@ -30,11 +31,11 @@ class Director:
         return cls._instance
 
     # ANN401 ignored here because the Director can note anything!
-    def notes(self: SelfDirector, key: str, value: Any) -> None:  # noqa: ANN401
+    def notes(self, key: str, value: Any) -> None:  # noqa: ANN401
         """Note down a value under the given key."""
         self.notebook[key] = value
 
     # ANN401 ignored here because the Director can note anything!
-    def looks_up(self: SelfDirector, key: str) -> Any:  # noqa: ANN401
+    def looks_up(self, key: str) -> Any:  # noqa: ANN401
         """Look up a noted value by its key."""
         return self.notebook[key]

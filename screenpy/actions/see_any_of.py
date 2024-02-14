@@ -10,13 +10,14 @@ from screenpy.pacing import beat
 from .see import See
 
 if TYPE_CHECKING:
-    from typing import Tuple, TypeVar
+    from typing import Tuple
+
+    from typing_extensions import Self
 
     from screenpy.actor import Actor
 
     from .see import T_Q, T_R
 
-    SelfSeeAnyOf = TypeVar("SelfSeeAnyOf", bound="SeeAnyOf")
     T_T = Tuple[T_Q, T_R]
 
 
@@ -46,16 +47,16 @@ class SeeAnyOf:
     tests: tuple[T_T, ...]
 
     @classmethod
-    def the(cls: type[SelfSeeAnyOf], *tests: T_T) -> SelfSeeAnyOf:
+    def the(cls, *tests: T_T) -> Self:
         """Supply any number of Question/value + Resolution tuples to test."""
         return cls(*tests)
 
-    def describe(self: SelfSeeAnyOf) -> str:
+    def describe(self) -> str:
         """Describe the Action in present tense."""
         return f"See if {self.log_message}."
 
     @beat("{} sees if {log_message}:")
-    def perform_as(self: SelfSeeAnyOf, the_actor: Actor) -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to make a series of observations."""
         if not self.tests:
             # No tests is OK!
@@ -72,7 +73,7 @@ class SeeAnyOf:
             msg = f"{the_actor} did not find any expected answers!"
             raise AssertionError(msg)
 
-    def __init__(self: SelfSeeAnyOf, *tests: T_T) -> None:
+    def __init__(self, *tests: T_T) -> None:
         for tup in tests:
             if isinstance(tup, tuple):
                 if len(tup) != 2:  # noqa: PLR2004

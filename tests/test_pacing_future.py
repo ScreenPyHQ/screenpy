@@ -5,10 +5,12 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-from screenpy import Actor, IsEqualTo, See, beat
+from screenpy import IsEqualTo, See, beat
 
 if TYPE_CHECKING:
     import pytest
+
+    from screenpy import Actor
 
 
 class CornerCase:
