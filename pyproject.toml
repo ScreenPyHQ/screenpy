@@ -1,6 +1,3 @@
-[tool.black]
-target-version = ['py312']
-
 # This pyproject.toml is setup so it can be used with or without poetry and also
 # supports editable installs (PEP 660) without breaking IDE and linter inspection.
 
@@ -10,6 +7,18 @@ target-version = ['py312']
 # PIP:
 #   pip install -e .[dev]
 
+################################################################################
+# the following sections do not contain unique configurations to this package.
+################################################################################
+
+
+[build-system]
+requires = ["poetry-core>=1.2.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+target-version = ['py312']
 extend-exclude = '''
 # A regex preceded with ^/ will apply only to files and directories
 # in the root of the project.
@@ -24,115 +33,20 @@ extend-exclude = '''
 
 '''
 
-[tool.poetry]
-name = "screenpy"
-version = "4.2.3"
-description = "Screenplay pattern base for Python automated test suites."
-authors = ["Perry Goy <perry.goy@gmail.com>"]
-maintainers = ["Gabe Langton", "Marcel Wilson"]
-license = "MIT"
-repository = "https://github.com/ScreenPyHQ/screenpy"
-documentation = "https://screenpy-docs.readthedocs.io"
-readme = "README.md"
-classifiers = [
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Development Status :: 5 - Production/Stable",
-    "Intended Audience :: Developers",
-    "Topic :: Software Development :: Quality Assurance",
-    "Topic :: Software Development :: Testing",
-    "Topic :: Software Development :: Testing :: BDD",
-    "Natural Language :: English",
-    "License :: OSI Approved :: MIT License",
-]
-
-
-# It's possible to add optional dependencies with the poetry CLI tool using:
-#   poetry add --optional some_dev_pkg
-# This will set `optional = true` flag in [tool.poetry.dependencies], as seen below
-# But then you need to remember to manually edit the [tool.poetry.extras] dev section
-# and declare the package. This allows `pip install .[dev]` to work as expected
-# Poetry users will need to use the `--extras dev` option rather than the `--with dev`
-# so we dont have two different sets of package versions to update.
-
-[tool.poetry.dependencies]
-importlib_metadata = {version = "*", python = "3.8.*"}
-pydantic = "*"
-pydantic-settings = "*"
-PyHamcrest = ">=2.0.0"
-python = "^3.8"
-tomli = {version = ">=2.0.1", python = "<3.11"}
-typing_extensions = ">=4.8.0"
-
-# convenience packages for development of screenpy only
-autodoc-pydantic = {version = "*", optional = true}
-black = {version = "*", optional = true}
-coverage = {version = "*", optional = true}
-mypy = {version = "*", optional = true}
-pre-commit = {version = "*", optional = true}
-pytest = {version = "*", optional = true}
-pytest-mock = {version = "*", optional = true}
-ruff = {version = ">=0.1.13", optional = true}
-screenpy-adapter_allure = {version = "^4.0.1", optional = true}
-screenpy-appium = {version = "*", optional = true}
-screenpy-playwright = {version = "*", optional = true}
-screenpy-pyotp = {version = "^4.0.1", optional = true}
-screenpy-requests = {version = "^4.0.1", optional = true}
-screenpy-selenium = {version = "^4.0.3", optional = true}
-sphinx = {version = "*", optional = true}
-tox = {version = "*", optional = true}
-
-
-[tool.poetry.extras]
-allure = ["screenpy-adapter-allure"]
-appium = ["screenpy-appium"]
-playwright = ["screenpy-playwright"]
-pyotp = ["screenpy-pyotp"]
-requests = ["screenpy-requests"]
-selenium = ["screenpy-selenium"]
-dev = [
-    "pre-commit",
-    "pytest-mock",
-    "pytest",
-    "tox",
-]
-dev_all = [
-    "autodoc-pydantic",
-    "black",
-    "coverage",
-    "mypy",
-    "pre-commit",
-    "pytest-mock",
-    "pytest",
-    "ruff",
-    "sphinx",
-    "tox",
-]
-test = [
-    "coverage",
-    "pytest-mock",
-    "pytest",
-]
-
 
 [tool.ruff]
 target-version = "py38"  # minimum supported version
 line-length = 88  # same as Black.
 extend-exclude = [
-    "screenpy/__init__.py",
-    "screenpy/__version__.py",
+    "__init__.py",
+    "__version__.py",
     "docs",
 ]
 
 [tool.ruff.lint]
 select = [
     "A",  # flake8-builtins
-    "ANN",  # flake8-annotations  # coming back to this one later to compare against mypy
+    "ANN",  # flake8-annotations
     "ARG",  # flake8-unused-arguments
     "B",  # flake8-bugbear
     "BLE",  # flake8-blind-except
@@ -178,8 +92,7 @@ ignore = [
 ]
 
 extend-safe-fixes = [
-    "EM101",
-    "EM102",
+    "EM101", "EM102",
     "TCH001", "TCH002", "TCH003", "TCH004",
     "C419",
     "D200", "D205", "D415",
@@ -188,39 +101,129 @@ extend-safe-fixes = [
     "UP006", "UP007",
 ]
 
+[tool.ruff.lint.flake8-pytest-style]
+mark-parentheses = false
+
+[tool.ruff.lint.pycodestyle]
+ignore-overlong-task-comments = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-type-checking]
+strict = true
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+split-on-trailing-comma = false
+
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = [
     "D",  # we don't need public-API-polished docstrings in tests.
     "FBT",  # using a boolean as a test object is useful!
     "PLR",  # likewise using specific numbers and strings in tests.
 ]
+
+
+################################################################################
+# the following sections contain unique configurations to this package.
+################################################################################
+
+
 "tests/test_pacing.py" = [
     "FA100",  # we are purposely testing pacing without future annotations.
 ]
 
 
-[tool.ruff.lint.isort]
-combine-as-imports = true
-split-on-trailing-comma = true
-known-first-party = ["screenpy", "tests"]
+[tool.poetry]
+name = "screenpy"
+version = "4.2.3"
+description = "Screenplay pattern base for Python automated test suites."
+authors = ["Perry Goy <perry.goy@gmail.com>"]
+maintainers = ["Gabe Langton", "Marcel Wilson"]
+license = "MIT"
+repository = "https://github.com/ScreenPyHQ/screenpy"
+documentation = "https://screenpy-docs.readthedocs.io"
+readme = "README.md"
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Testing :: BDD",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+]
 
 
-[tool.ruff.lint.flake8-pytest-style]
-mark-parentheses = false
+# It's possible to add optional dependencies with the poetry CLI tool using:
+#   poetry add --optional some_dev_pkg
+# This will set `optional = true` flag in [tool.poetry.dependencies], as seen below
+# But then you need to remember to manually edit the [tool.poetry.extras] dev section
+# and declare the package. This allows `pip install .[dev]` to work as expected
+# Poetry users will need to use the `--extras dev` option rather than the `--with dev`
+# so we dont have two different sets of package versions to update.
 
 
-[tool.ruff.lint.pycodestyle]
-ignore-overlong-task-comments = true
+[tool.poetry.dependencies]
+python = "^3.8"
+
+importlib_metadata = {version = "*", python = "3.8.*"}
+pydantic = "*"
+pydantic-settings = "*"
+PyHamcrest = ">=2.0.0"
+tomli = {version = ">=2.0.1", python = "<3.11"}
+typing_extensions = ">=4.8.0"
+
+# convenience packages for development
+autodoc-pydantic = {version = "*", optional = true}
+black = {version = "*", optional = true}
+coverage = {version = "*", optional = true}
+mypy = {version = "*", optional = true}
+pre-commit = {version = "*", optional = true}
+pytest = {version = "*", optional = true}
+pytest-mock = {version = "*", optional = true}
+ruff = {version = ">=0.1.13", optional = true}
+screenpy-adapter_allure = {version = "^4.0.1", optional = true}
+screenpy-appium = {version = "*", optional = true}
+screenpy-playwright = {version = "*", optional = true}
+screenpy-pyotp = {version = "^4.0.1", optional = true}
+screenpy-requests = {version = "^4.0.1", optional = true}
+screenpy-selenium = {version = "^4.0.3", optional = true}
+sphinx = {version = "*", optional = true}
+tox = {version = "*", optional = true}
 
 
-[tool.ruff.lint.pydocstyle]
-convention = "google"
+[tool.poetry.extras]
+allure = ["screenpy-adapter-allure"]
+appium = ["screenpy-appium"]
+playwright = ["screenpy-playwright"]
+pyotp = ["screenpy-pyotp"]
+requests = ["screenpy-requests"]
+selenium = ["screenpy-selenium"]
+dev = [
+    "autodoc-pydantic",
+    "black",
+    "coverage",
+    "mypy",
+    "pre-commit",
+    "pytest-mock",
+    "pytest",
+    "ruff",
+    "sphinx",
+    "tox",
+]
+test = [
+    "coverage",
+    "pytest-mock",
+    "pytest",
+]
 
 
-[tool.ruff.lint.flake8-type-checking]
-strict = true
-
-
-[build-system]
-requires = ["poetry-core>=1.2.0"]
-build-backend = "poetry.core.masonry.api"
