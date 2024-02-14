@@ -6,12 +6,12 @@ import re
 from time import sleep
 from typing import TYPE_CHECKING
 
-from typing_extensions import Self
-
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 
 if TYPE_CHECKING:
+
+    from typing_extensions import Self
 
     from screenpy.actor import Actor
 

@@ -4,14 +4,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Tuple
 
-from typing_extensions import Self
-
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 
 from .see import See
 
 if TYPE_CHECKING:
+    from typing_extensions import Self
+
     from screenpy.actor import Actor
 
     from .see import T_Q, T_R

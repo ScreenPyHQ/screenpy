@@ -5,16 +5,18 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from hamcrest import assert_that
-from typing_extensions import Self
 
 from screenpy.pacing import aside, beat
-from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
+from screenpy.protocols import Answerable, ErrorKeeper
 from screenpy.speech_tools import get_additive_description, represent_prop
 
 if TYPE_CHECKING:
     from typing import Union
 
+    from typing_extensions import Self
+
     from screenpy.actor import Actor
+    from screenpy.protocols import Resolvable
 
     T_Q = Union[Answerable, object]
     T_R = Resolvable

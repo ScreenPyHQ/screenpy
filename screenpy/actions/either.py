@@ -7,13 +7,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from typing_extensions import Self
-
 from screenpy.configuration import settings
 from screenpy.pacing import the_narrator
 from screenpy.speech_tools import get_additive_description
 
 if TYPE_CHECKING:
+    from typing_extensions import Self
+
     from screenpy import Actor
     from screenpy.protocols import Performable
 

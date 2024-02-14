@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from typing_extensions import Self
-
 from screenpy.director import Director
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import aside, beat
@@ -14,6 +12,8 @@ from screenpy.speech_tools import represent_prop
 
 if TYPE_CHECKING:
     from typing import Union
+
+    from typing_extensions import Self
 
     from screenpy.actor import Actor
 

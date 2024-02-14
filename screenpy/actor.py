@@ -8,14 +8,17 @@ service of perfoming their roles.
 from __future__ import annotations
 
 from random import choice
-from typing import TypeVar
-
-from typing_extensions import Self
+from typing import TYPE_CHECKING, TypeVar
 
 from .exceptions import UnableToPerform
 from .pacing import aside
-from .protocols import Forgettable, Performable
+from .protocols import Forgettable
 from .speech_tools import get_additive_description
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
+
+    from .protocols import Performable
 
 # pylint: disable=too-many-public-methods
 
