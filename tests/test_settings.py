@@ -3,10 +3,7 @@ from pathlib import Path
 from unittest import mock
 
 from screenpy import settings as screenpy_settings
-from screenpy.configuration import (
-    PyprojectTomlConfig,
-    ScreenPySettings,
-)
+from screenpy.configuration import PyprojectTomlConfig, ScreenPySettings
 from screenpy.narration.stdout_adapter import settings as stdout_adapter_settings
 from screenpy.narration.stdout_adapter.configuration import StdOutAdapterSettings
 
