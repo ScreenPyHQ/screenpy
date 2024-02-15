@@ -13,4 +13,5 @@ def test_metadata() -> None:
 
 def test_copyright_year() -> None:
     current = datetime.now().year
+
     assert f"{current}" in __version__.__copyright__
