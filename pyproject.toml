@@ -9,7 +9,7 @@
 
 # everything in the boilerplate *SHOULD* match between the ScreenPyHQ packages.
 ################################################################################
-# START OF BOILERPLATE ScreenPyHQ CONFIGURATIONS.
+#                START OF BOILERPLATE ScreenPyHQ CONFIGURATIONS                #
 ################################################################################
 
 
@@ -127,7 +127,7 @@ split-on-trailing-comma = false
 
 
 ################################################################################
-# END OF BOILERPLATE ScreenPyHQ CONFIGURATIONS.
+#                 END OF BOILERPLATE ScreenPyHQ CONFIGURATIONS                 #
 ################################################################################
 
 
