@@ -198,6 +198,7 @@ screenpy-pyotp = {version = "^4.0.1", optional = true}
 screenpy-requests = {version = "^4.0.1", optional = true}
 screenpy-selenium = {version = "^4.0.3", optional = true}
 sphinx = {version = "*", optional = true}
+sphinx-rtd-theme = {version = "*", optional = true}
 tox = {version = "*", optional = true}
 
 
@@ -218,6 +219,7 @@ dev = [
     "pytest",
     "ruff",
     "sphinx",
+    "sphinx-rtd-theme",
     "tox",
 ]
 test = [
@@ -225,5 +227,9 @@ test = [
     "pytest-mock",
     "pytest",
 ]
-
+docs = [
+    "autodoc-pydantic",
+    "sphinx",
+    "sphinx-rtd-theme",
+]
 
