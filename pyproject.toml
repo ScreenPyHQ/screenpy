@@ -7,8 +7,9 @@
 # PIP:
 #   pip install -e .[dev]
 
+# everything in the boilerplate *SHOULD* match between the ScreenPyHQ packages.
 ################################################################################
-# the following sections do not contain unique configurations to this package.
+# START OF BOILERPLATE ScreenPyHQ CONFIGURATIONS.
 ################################################################################
 
 
@@ -126,7 +127,7 @@ split-on-trailing-comma = false
 
 
 ################################################################################
-# the following sections contain unique configurations to this package.
+# END OF BOILERPLATE ScreenPyHQ CONFIGURATIONS.
 ################################################################################
 
 
