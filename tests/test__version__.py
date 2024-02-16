@@ -20,7 +20,7 @@ def test_copyright_year() -> None:
 
 def test_copyright_year_in_license() -> None:
     current = datetime.now().year
-    license_path = Path(__file__) / ".." / "LICENSE"
+    license_path = Path(__file__).parent / ".." / "LICENSE"
     with open(license_path) as fp:
         license_text = fp.read()
 
