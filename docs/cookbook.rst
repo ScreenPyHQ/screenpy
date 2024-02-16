@@ -270,7 +270,7 @@ the normal logging will take place::
 
 
 Using Either
-===========
+============
 
 Sometimes you may need to use a try/except control flow in your test, 
 for one reason or another. 
