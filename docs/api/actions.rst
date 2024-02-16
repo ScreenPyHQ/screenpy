@@ -115,7 +115,7 @@ Silently
 
 
 Either
------
+------
 
 **Aliases**: ``Attempt``,
 ``AttemptTo``,

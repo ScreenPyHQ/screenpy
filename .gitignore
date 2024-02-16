@@ -144,3 +144,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# ruff linter
+.ruff_cache/

@@ -2,15 +2,7 @@
 
 from __future__ import annotations
 
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Hashable,
-    Iterable,
-    Mapping,
-    TypeVar,
-    overload,
-)
+from typing import TYPE_CHECKING, Any, Hashable, Iterable, Mapping, TypeVar, overload
 
 from hamcrest import has_entries
 
