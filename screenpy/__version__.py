@@ -7,9 +7,9 @@ r"""
                                                       |___/
 """
 
-import importlib.metadata as importlib_metadata
+import importlib.metadata
 
-metadata = importlib_metadata.metadata("screenpy")
+metadata = importlib.metadata.metadata("screenpy")
 
 __title__ = metadata["Name"]
 __description__ = metadata["Summary"]
