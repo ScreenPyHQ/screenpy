@@ -39,7 +39,6 @@ extend-exclude = '''
 target-version = "py38"  # minimum supported version
 line-length = 88  # same as Black.
 extend-exclude = [
-    "__init__.py",
     "__version__.py",
     "docs",
 ]

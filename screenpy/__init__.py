@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 #                 ____                           ____
 #                / ___|  ___ _ __ ___  ___ _ __ |  _ \ _   _
 #                \___ \ / __| '__/ _ \/ _ \ '_ \| |_) | | | |
@@ -8,19 +6,21 @@
 #                                                      |___/
 
 """
-                                  ScreenPy
+                                  ScreenPy.
+
                                                                       FADE IN:
-INT. SITEPACKAGES DIRECTORY
+
+INT. SITEPACKAGES DIRECTORY.
 
 ScreenPy is a composition-based test framework. It is inspired by the
 SerenityBDD library for Java.
 
-:copyright: (c) 2019–2024 by Perry Goy.
+:copyright: (c) 2019-2024 by Perry Goy.
 :license: MIT, see LICENSE for more details.
 """
 
 from . import actions, narration, resolutions
-from .actions import *  # noqa
+from .actions import *  # noqa: F403
 from .actor import Actor
 from .configuration import settings
 from .directions import noted, noted_under, the_noted
@@ -41,7 +41,7 @@ from .exceptions import (
     UnableToPerform,
 )
 from .given_when_then import and_, given, given_that, then, when
-from .narration import *  # noqa
+from .narration import *  # noqa: F403
 from .pacing import act, aside, beat, scene, the_narrator
 from .protocols import (
     Adapter,
@@ -52,7 +52,7 @@ from .protocols import (
     Performable,
     Resolvable,
 )
-from .resolutions import *  # noqa
+from .resolutions import *  # noqa: F403
 
 # Natural-language-enabling syntactic sugar
 AnActor = Actor
