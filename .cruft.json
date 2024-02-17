@@ -1,0 +1,19 @@
+{
+  "template": "https://github.com/ScreenPyHQ/cookiecutter_screenpy/",
+  "commit": "76810704d72f5bc55abceb1db8353070cd9ea500",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "screenpy",
+      "readable_name": "ScreenPy",
+      "copyright_start": "2019",
+      "is_sub_package": false,
+      "author": "Perry Goy",
+      "author_email": "perry.goy@gmail.com",
+      "license": "MIT",
+      "github_username": "ScreenPyHQ",
+      "_template": "https://github.com/ScreenPyHQ/cookiecutter_screenpy/"
+    }
+  },
+  "directory": null
+}
