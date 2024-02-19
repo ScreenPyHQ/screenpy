@@ -23,7 +23,7 @@ jobs:
           pip install
           poetry
           --user
-      - name: Build ScreenPy
+      - name: "Build ScreenPy"
         run: >-
           python -m
           poetry
