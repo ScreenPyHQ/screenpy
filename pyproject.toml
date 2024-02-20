@@ -39,8 +39,6 @@ extend-exclude = '''
 target-version = "py38"  # minimum supported version
 line-length = 88  # same as Black.
 extend-exclude = [
-    "__init__.py",
-    "__version__.py",
     "docs",
 ]
 
@@ -124,6 +122,7 @@ split-on-trailing-comma = false
     "FBT",  # using a boolean as a test object is useful!
     "PLR",  # likewise using specific numbers and strings in tests.
 ]
+"__version__.py" = ["D"]
 
 
 ################################################################################
