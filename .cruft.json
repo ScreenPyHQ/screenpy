@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/ScreenPyHQ/cookiecutter_screenpy/",
-  "commit": "3a5f6c2c53e6cb0e18a3aee15aa8b3000d651143",
+  "commit": "2b69298215c08160678dd749884c426a55828dce",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -10,7 +10,6 @@
       "is_sub_package": false,
       "author": "Perry Goy",
       "author_email": "perry.goy@gmail.com",
-      "license": "MIT",
       "github_username": "ScreenPyHQ",
       "_template": "https://github.com/ScreenPyHQ/cookiecutter_screenpy/"
     }
