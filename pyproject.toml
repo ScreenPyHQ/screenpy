@@ -98,6 +98,7 @@ extend-safe-fixes = [
     "PT003", "PT006", "PT018",
     "RET504",
     "UP006", "UP007",
+    "W291",
 ]
 
 [tool.ruff.lint.flake8-pytest-style]
