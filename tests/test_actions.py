@@ -384,6 +384,7 @@ class TestMakeNote:
 
         assert mn.question == test_question
         assert mn.key == test_key
+        assert mn.key_to_log == f"'{test_key}'"
 
     def test_answers_question(self, Tester: Actor) -> None:
         mock_question = FakeQuestion()

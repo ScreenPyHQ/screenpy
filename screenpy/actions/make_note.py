@@ -37,6 +37,7 @@ class MakeNote:
     """
 
     key: str | None
+    key_to_log: str | None
     question: T_Q
 
     @classmethod
@@ -56,6 +57,7 @@ class MakeNote:
     def as_(self, key: str) -> Self:
         """Set the key to use to recall this noted value."""
         self.key = key
+        self.key_to_log = represent_prop(key)
         return self
 
     def describe(self) -> str:
