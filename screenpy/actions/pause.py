@@ -50,14 +50,14 @@ class Pause:
         """Use seconds and provide a reason for the pause.
 
         Aliases:
-            * :meth:`~screenpy.actions.Pause.second_because`
+            * :meth:`second_because`
         """
         self.unit = f"second{'s' if self.number != 1 else ''}"
         self.reason = self._massage_reason(reason)
         return self
 
     def second_because(self, reason: str) -> Self:
-        """Alias for :meth:`~screenpy.actions.Pause.seconds_because`."""
+        """Alias for :meth:`seconds_because`."""
         return self.seconds_because(reason)
 
     def milliseconds_because(self, reason: str) -> Self:

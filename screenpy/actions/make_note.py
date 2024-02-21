@@ -45,13 +45,13 @@ class MakeNote:
         """Supply the Question to answer and its arguments.
 
         Aliases:
-            * :meth:`~screenpy.actions.MakeNote.of_the`
+            * :meth:`of_the`
         """
         return cls(question)
 
     @classmethod
     def of_the(cls, question: T_Q) -> Self:
-        """Alias for :meth:`~screenpy.actions.MakeNote.of`."""
+        """Alias for :meth:`of`."""
         return cls.of(question)
 
     def as_(self, key: str) -> Self:

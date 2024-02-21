@@ -68,13 +68,13 @@ class Actor:
         """Add one or more Abilities to this Actor.
 
         Aliases:
-            * :meth:`~screenpy.actor.Actor.can`
+            * :meth:`can`
         """
         self.abilities.extend(abilities)
         return self
 
     def can(self, *abilities: T_Ability) -> Self:
-        """Alias for :meth:`~screenpy.actor.Actor.who_can`."""
+        """Alias for :meth:`who_can`."""
         return self.who_can(*abilities)
 
     def has_ordered_cleanup_tasks(self, *tasks: Performable) -> Self:
@@ -85,13 +85,13 @@ class Actor:
         and will be discarded.
 
         Aliases:
-            * :meth:`~screenpy.actor.Actor.with_ordered_cleanup_tasks`
+            * :meth:`with_ordered_cleanup_tasks`
         """
         self.ordered_cleanup_tasks.extend(tasks)
         return self
 
     def with_ordered_cleanup_tasks(self, *tasks: Performable) -> Self:
-        """Alias for :meth:`~screenpy.actor.Actor.has_ordered_cleanup_tasks`."""
+        """Alias for :meth:`has_ordered_cleanup_tasks`."""
         return self.has_ordered_cleanup_tasks(*tasks)
 
     def has_independent_cleanup_tasks(self, *tasks: Performable) -> Self:
@@ -102,13 +102,13 @@ class Actor:
         previous ones were successful.
 
         Aliases:
-            * :meth:`~screenpy.actor.Actor.with_independent_cleanup_tasks`
+            * :meth:`with_independent_cleanup_tasks`
         """
         self.independent_cleanup_tasks.extend(tasks)
         return self
 
     def with_independent_cleanup_tasks(self, *tasks: Performable) -> Self:
-        """Alias for :meth:`~screenpy.actor.Actor.has_independent_cleanup_tasks`."""
+        """Alias for :meth:`has_independent_cleanup_tasks`."""
         return self.has_independent_cleanup_tasks(*tasks)
 
     def uses_ability_to(self, ability: type[T_Ability]) -> T_Ability:
@@ -118,7 +118,7 @@ class Actor:
             UnableToPerform: the Actor doesn't possess the Ability.
 
         Aliases:
-            * :meth:`~screenpy.actor.Actor.ability_to`
+            * :meth:`ability_to`
         """
         for a in self.abilities:
             if isinstance(a, ability):
@@ -128,7 +128,7 @@ class Actor:
         raise UnableToPerform(msg)
 
     def ability_to(self, ability: type[T_Ability]) -> T_Ability:
-        """Alias for :meth:`~screenpy.actor.Actor.uses_ability_to`."""
+        """Alias for :meth:`uses_ability_to`."""
         return self.uses_ability_to(ability)
 
     def has_ability_to(self, ability: type[T_Ability]) -> bool:
@@ -144,58 +144,58 @@ class Actor:
         """Perform a list of Actions, one after the other.
 
         Aliases:
-            * :meth:`~screenpy.actor.Actor.was_able_to`
-            * :meth:`~screenpy.actor.Actor.should`
-            * :meth:`~screenpy.actor.Actor.shall`
-            * :meth:`~screenpy.actor.Actor.will`
-            * :meth:`~screenpy.actor.Actor.tries_to`
-            * :meth:`~screenpy.actor.Actor.tried_to`
-            * :meth:`~screenpy.actor.Actor.tries`
-            * :meth:`~screenpy.actor.Actor.tried`
-            * :meth:`~screenpy.actor.Actor.does`
-            * :meth:`~screenpy.actor.Actor.did`
+            * :meth:`was_able_to`
+            * :meth:`did`
+            * :meth:`will`
+            * :meth:`tries_to`
+            * :meth:`tried_to`
+            * :meth:`tries`
+            * :meth:`tried`
+            * :meth:`does`
+            * :meth:`should`
+            * :meth:`shall`
         """
         for action in actions:
             self.perform(action)
 
     def was_able_to(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def tries_to(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def tried_to(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def tries(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def tried(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def does(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def did(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def will(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def shall(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def should(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def perform(self, action: Performable) -> None:
@@ -234,9 +234,9 @@ class Actor:
         """Direct the Actor to forget all their Abilities.
 
         Aliases:
-            * :meth:`~screenpy.actor.Actor.exit_stage_left`
-            * :meth:`~screenpy.actor.Actor.exit_stage_right`
-            * :meth:`~screenpy.actor.Actor.exit_through_vomitorium`
+            * :meth:`exit_stage_left`
+            * :meth:`exit_stage_right`
+            * :meth:`exit_through_vomitorium`
         """
         self.cleans_up()
         for ability in self.abilities:
@@ -244,19 +244,19 @@ class Actor:
         self.abilities = []
 
     def exit_stage_left(self) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.exit`."""
+        """Alias for :meth:`exit`."""
         return self.exit()
 
     def exit_stage_right(self) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.exit`."""
+        """Alias for :meth:`exit`."""
         return self.exit()
 
     def exit_through_vomitorium(self) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.exit`."""
+        """Alias for :meth:`exit`."""
         return self.exit()
 
     def __call__(self, *actions: Performable) -> None:
-        """Alias for :meth:`~screenpy.actor.Actor.attempts_to`."""
+        """Alias for :meth:`attempts_to`."""
         return self.attempts_to(*actions)
 
     def __repr__(self) -> str:
