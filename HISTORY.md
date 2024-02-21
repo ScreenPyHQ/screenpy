@@ -1,6 +1,22 @@
 Release History
 ===============
 
+4.2.4 (2024-02-21)
+------------------
+
+### Bug Fixes
+
+- `MakeNote` now correctly logs what key the Actor is jotting something down under.
+
+### Improvements
+
+- We now make use of the `Self` type from `typing_extensions`, to better type-hint subclassed entites in ScreenPy.
+
+### Development Niceties
+
+- Did quite a lot of project standardization (big big thanks @bandophahita!).
+
+
 4.2.3 (2024-02-02)
 ------------------
 
