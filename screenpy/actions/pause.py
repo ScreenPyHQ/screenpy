@@ -50,15 +50,13 @@ class Pause:
         """Use seconds and provide a reason for the pause.
 
         Aliases:
-            * :meth:`second_because`
+            * ``second_because``
         """
         self.unit = f"second{'s' if self.number != 1 else ''}"
         self.reason = self._massage_reason(reason)
         return self
 
-    def second_because(self, reason: str) -> Self:
-        """Alias for :meth:`seconds_because`."""
-        return self.seconds_because(reason)
+    second_because = seconds_because
 
     def milliseconds_because(self, reason: str) -> Self:
         """Use milliseconds and provide a reason for the pause."""

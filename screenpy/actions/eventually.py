@@ -81,41 +81,25 @@ class Eventually:
         """Set for how long the actor should continue trying.
 
         Aliases:
-            * :meth:`trying_for_no_longer_than`
-            * :meth:`trying_for`
-            * :meth:`waiting_for`
+            * ``trying_for_no_longer_than``
+            * ``trying_for``
+            * ``waiting_for``
         """
         return self._TimeframeBuilder(self, amount, "timeout")
 
-    def trying_for_no_longer_than(self, amount: float) -> _TimeframeBuilder:
-        """Alias for :meth:`for_`."""
-        return self.for_(amount)
-
-    def trying_for(self, amount: float) -> _TimeframeBuilder:
-        """Alias for :meth:`for_`."""
-        return self.for_(amount)
-
-    def waiting_for(self, amount: float) -> _TimeframeBuilder:
-        """Alias for :meth:`for_`."""
-        return self.for_(amount)
+    trying_for_no_longer_than = trying_for = waiting_for = for_
 
     def polling(self, amount: float) -> _TimeframeBuilder:
         """Adjust the polling frequency.
 
         Aliases:
-            * :meth:`polling_every`
-            * :meth:`trying_every`
+            * ``polling_every``
+            * ``trying_every``
         """
         self.poll = amount
         return self._TimeframeBuilder(self, amount, "poll")
 
-    def polling_every(self, amount: float) -> _TimeframeBuilder:
-        """Alias for :meth:`polling`."""
-        return self.polling(amount)
-
-    def trying_every(self, amount: float) -> _TimeframeBuilder:
-        """Alias for :meth:`polling`."""
-        return self.polling(amount)
+    polling_every = trying_every = polling
 
     def describe(self) -> str:
         """Describe the Action in present tense."""

@@ -50,11 +50,11 @@ class Either:
         """Provide the alternative routine to perform.
 
         Aliases:
-            * :meth:`except_`
-            * :meth:`else_`
-            * :meth:`otherwise`
-            * :meth:`alternatively`
-            * :meth:`failing_that`
+            * ``except_``
+            * ``else_``
+            * ``otherwise``
+            * ``alternatively``
+            * ``failing_that``
         """
         self.except_performables = except_performables
         return self

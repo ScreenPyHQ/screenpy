@@ -68,14 +68,12 @@ class Actor:
         """Add one or more Abilities to this Actor.
 
         Aliases:
-            * :meth:`can`
+            * ``can``
         """
         self.abilities.extend(abilities)
         return self
 
-    def can(self, *abilities: T_Ability) -> Self:
-        """Alias for :meth:`who_can`."""
-        return self.who_can(*abilities)
+    can = who_can
 
     def has_ordered_cleanup_tasks(self, *tasks: Performable) -> Self:
         """Assign one or more tasks for the Actor to perform when exiting.
@@ -85,14 +83,12 @@ class Actor:
         and will be discarded.
 
         Aliases:
-            * :meth:`with_ordered_cleanup_tasks`
+            * ``with_ordered_cleanup_tasks``
         """
         self.ordered_cleanup_tasks.extend(tasks)
         return self
 
-    def with_ordered_cleanup_tasks(self, *tasks: Performable) -> Self:
-        """Alias for :meth:`has_ordered_cleanup_tasks`."""
-        return self.has_ordered_cleanup_tasks(*tasks)
+    with_ordered_cleanup_tasks = has_ordered_cleanup_tasks
 
     def has_independent_cleanup_tasks(self, *tasks: Performable) -> Self:
         """Assign one or more tasks for the Actor to perform when exiting.
@@ -102,14 +98,12 @@ class Actor:
         previous ones were successful.
 
         Aliases:
-            * :meth:`with_independent_cleanup_tasks`
+            * ``with_independent_cleanup_tasks``
         """
         self.independent_cleanup_tasks.extend(tasks)
         return self
 
-    def with_independent_cleanup_tasks(self, *tasks: Performable) -> Self:
-        """Alias for :meth:`has_independent_cleanup_tasks`."""
-        return self.has_independent_cleanup_tasks(*tasks)
+    with_independent_cleanup_tasks = has_independent_cleanup_tasks
 
     def uses_ability_to(self, ability: type[T_Ability]) -> T_Ability:
         """Find the Ability referenced and return it, if the Actor is capable.
@@ -118,7 +112,7 @@ class Actor:
             UnableToPerform: the Actor doesn't possess the Ability.
 
         Aliases:
-            * :meth:`ability_to`
+            * ``ability_to``
         """
         for a in self.abilities:
             if isinstance(a, ability):
@@ -127,9 +121,7 @@ class Actor:
         msg = f"{self} does not have the Ability to {ability}"
         raise UnableToPerform(msg)
 
-    def ability_to(self, ability: type[T_Ability]) -> T_Ability:
-        """Alias for :meth:`uses_ability_to`."""
-        return self.uses_ability_to(ability)
+    ability_to = uses_ability_to
 
     def has_ability_to(self, ability: type[T_Ability]) -> bool:
         """Ask whether the Actor has the Ability to do something."""
@@ -144,59 +136,23 @@ class Actor:
         """Perform a list of Actions, one after the other.
 
         Aliases:
-            * :meth:`was_able_to`
-            * :meth:`did`
-            * :meth:`will`
-            * :meth:`tries_to`
-            * :meth:`tried_to`
-            * :meth:`tries`
-            * :meth:`tried`
-            * :meth:`does`
-            * :meth:`should`
-            * :meth:`shall`
+            * ``was_able_to``
+            * ``did``
+            * ``will``
+            * ``tries_to``
+            * ``tried_to``
+            * ``tries``
+            * ``tried``
+            * ``does``
+            * ``should``
+            * ``shall``
         """
         for action in actions:
             self.perform(action)
 
-    def was_able_to(self, *actions: Performable) -> None:
-        """Alias for :meth:`attempts_to`."""
-        return self.attempts_to(*actions)
-
-    def tries_to(self, *actions: Performable) -> None:
-        """Alias for :meth:`attempts_to`."""
-        return self.attempts_to(*actions)
-
-    def tried_to(self, *actions: Performable) -> None:
-        """Alias for :meth:`attempts_to`."""
-        return self.attempts_to(*actions)
-
-    def tries(self, *actions: Performable) -> None:
-        """Alias for :meth:`attempts_to`."""
-        return self.attempts_to(*actions)
-
-    def tried(self, *actions: Performable) -> None:
-        """Alias for :meth:`attempts_to`."""
-        return self.attempts_to(*actions)
-
-    def does(self, *actions: Performable) -> None:
-        """Alias for :meth:`attempts_to`."""
-        return self.attempts_to(*actions)
-
-    def did(self, *actions: Performable) -> None:
-        """Alias for :meth:`attempts_to`."""
-        return self.attempts_to(*actions)
-
-    def will(self, *actions: Performable) -> None:
-        """Alias for :meth:`attempts_to`."""
-        return self.attempts_to(*actions)
-
-    def shall(self, *actions: Performable) -> None:
-        """Alias for :meth:`attempts_to`."""
-        return self.attempts_to(*actions)
-
-    def should(self, *actions: Performable) -> None:
-        """Alias for :meth:`attempts_to`."""
-        return self.attempts_to(*actions)
+    was_able_to = did = attempts_to
+    tries_to = tried_to = tries = tried = does = will = attempts_to
+    shall = should = attempts_to
 
     def perform(self, action: Performable) -> None:
         """Perform an Action."""
@@ -231,29 +187,19 @@ class Actor:
         self.cleans_up_ordered_tasks()
 
     def exit(self) -> None:
-        """Direct the Actor to forget all their Abilities.
+        """Direct the Actor to clean up and forget all their Abilities.
 
         Aliases:
-            * :meth:`exit_stage_left`
-            * :meth:`exit_stage_right`
-            * :meth:`exit_through_vomitorium`
+            * ``exit_stage_left``
+            * ``exit_stage_right``
+            * ``exit_through_vomitorium``
         """
         self.cleans_up()
         for ability in self.abilities:
             ability.forget()
         self.abilities = []
 
-    def exit_stage_left(self) -> None:
-        """Alias for :meth:`exit`."""
-        return self.exit()
-
-    def exit_stage_right(self) -> None:
-        """Alias for :meth:`exit`."""
-        return self.exit()
-
-    def exit_through_vomitorium(self) -> None:
-        """Alias for :meth:`exit`."""
-        return self.exit()
+    exit_stage_left = exit_stage_right = exit_through_vomitorium = exit
 
     def __call__(self, *actions: Performable) -> None:
         """Alias for :meth:`attempts_to`."""
