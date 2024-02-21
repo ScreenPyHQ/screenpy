@@ -18,15 +18,19 @@ class HasLength:
         )
     """
 
+    @property
+    def item_plural(self) -> str:
+        """Decide if we need "item" or "items" in the beat message."""
+        return "items" if self.length != 1 else "item"
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"{self.length} item{self.plural} long."
+        return f"{self.length} {self.item_plural} long."
 
-    @beat("... hoping it's a collection with {length} item{plural} in it.")
+    @beat("... hoping it's a collection with {length} {item_plural} in it.")
     def resolve(self) -> Matcher[Sized]:
         """Produce the Matcher to make the assertion."""
         return has_length(self.length)
 
     def __init__(self, length: int) -> None:
         self.length = length
-        self.plural = "s" if self.length != 1 else ""

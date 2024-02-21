@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.pacing import beat
+from screenpy.speech_tools import represent_prop
 
 from .custom_matchers.is_in_bounds import is_in_bounds
 
@@ -34,11 +35,20 @@ class IsInRange:
         the_actor.should(See.the(Number.of(COOKIES), IsInRange("[1, 5)")))
     """
 
+    @property
+    def bounds_to_log(self) -> str | int:
+        """Represent the bounds in a log-friendly way."""
+        bounding_string = self.bounds[0]  # given bounding string
+        if len(self.bounds) == 2:  # noqa: PLR2004
+            # given bounding numbers
+            bounding_string = f"[{self.bounds[0]}, {self.bounds[1]}]"
+        return represent_prop(bounding_string)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"In the range {self.bounding_string}."
+        return f"In the range {self.bounds_to_log}."
 
-    @beat("... hoping it's in the range {bounding_string}.")
+    @beat("... hoping it's in the range {bounds_to_log}.")
     def resolve(self) -> Matcher[float]:
         """Produce the Matcher to make the assertion."""
         return is_in_bounds(*self.bounds)
@@ -47,9 +57,4 @@ class IsInRange:
         if len(bounds) > 2:  # noqa: PLR2004
             msg = f"{self.__class__.__name__} was given too many arguments: {bounds}."
             raise UnableToFormResolution(msg)
-
         self.bounds = bounds
-        self.bounding_string = self.bounds[0]  # given bounding string
-        if len(self.bounds) == 2:  # noqa: PLR2004
-            # given bounding numbers
-            self.bounding_string = f"[{self.bounds[0]}, {self.bounds[1]}]"

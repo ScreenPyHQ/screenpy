@@ -1,10 +1,16 @@
 """Matches a value less than or equal to the given number."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from hamcrest import less_than_or_equal_to
-from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
+
+if TYPE_CHECKING:
+    from hamcrest.core.matcher import Matcher
 
 
 class IsLessThanOrEqualTo:
@@ -17,6 +23,11 @@ class IsLessThanOrEqualTo:
         )
     """
 
+    @property
+    def number_to_log(self) -> str | float:
+        """Represent the number in a log-friendly way."""
+        return represent_prop(self.number)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"Less than or equal to {self.number_to_log}."
@@ -28,4 +39,3 @@ class IsLessThanOrEqualTo:
 
     def __init__(self, number: float) -> None:
         self.number = number
-        self.number_to_log = represent_prop(number)

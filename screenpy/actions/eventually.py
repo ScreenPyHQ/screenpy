@@ -117,6 +117,11 @@ class Eventually:
         """Alias for :meth:`~screenpy.actions.Eventually.polling`."""
         return self.polling(amount)
 
+    @property
+    def performable_to_log(self) -> str:
+        """Get a log-friendly description of the performable."""
+        return get_additive_description(self.performable)
+
     def describe(self) -> str:
         """Describe the Action in present tense."""
         return f"Eventually {self.performable_to_log}."
@@ -159,7 +164,6 @@ class Eventually:
 
     def __init__(self, performable: Performable) -> None:
         self.performable = performable
-        self.performable_to_log = get_additive_description(self.performable)
         self.caught_error = None
         self.unique_errors: list[BaseException] = []
         self.timeout = settings.TIMEOUT

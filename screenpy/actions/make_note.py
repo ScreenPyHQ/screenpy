@@ -37,7 +37,6 @@ class MakeNote:
     """
 
     key: str | None
-    key_to_log: str | None
     question: T_Q
 
     @classmethod
@@ -57,12 +56,16 @@ class MakeNote:
     def as_(self, key: str) -> Self:
         """Set the key to use to recall this noted value."""
         self.key = key
-        self.key_to_log = represent_prop(key)
         return self
+
+    @property
+    def key_to_log(self) -> str | None:
+        """Get a proper representation of the key."""
+        return represent_prop(self.key)
 
     def describe(self) -> str:
         """Describe the Action in present tense."""
-        return f"Make a note under {represent_prop(self.key)}."
+        return f"Make a note under {self.key_to_log}."
 
     @beat("{} jots something down under {key_to_log}.")
     def perform_as(self, the_actor: Actor) -> None:
@@ -90,4 +93,3 @@ class MakeNote:
     ) -> None:
         self.question = question
         self.key = key
-        self.key_to_log = represent_prop(key)

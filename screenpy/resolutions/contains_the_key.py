@@ -1,12 +1,16 @@
 """Matches a dictionary that contains the desired key."""
 
-from typing import Any, Generic, Hashable, Mapping, TypeVar
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, Generic, Hashable, Mapping, TypeVar
 
 from hamcrest import has_key
-from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
+
+if TYPE_CHECKING:
+    from hamcrest.core.matcher import Matcher
 
 K = TypeVar("K", bound=Hashable)
 
@@ -19,6 +23,11 @@ class ContainsTheKey(Generic[K]):
         the_actor.should(See.the(LastResponseBody(), ContainsTheKey("skeleton")))
     """
 
+    @property
+    def key_to_log(self) -> str | K:
+        """Represent the key in a log-friendly way."""
+        return represent_prop(self.key)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"Containing the key {self.key_to_log}."
@@ -30,4 +39,3 @@ class ContainsTheKey(Generic[K]):
 
     def __init__(self, key: K) -> None:
         self.key = key
-        self.key_to_log = represent_prop(key)
