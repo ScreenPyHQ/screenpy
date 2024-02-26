@@ -98,6 +98,7 @@ extend-safe-fixes = [
     "PT003", "PT006", "PT018",
     "RET504",
     "UP006", "UP007",
+    "W291",
 ]
 
 [tool.ruff.lint.flake8-pytest-style]
@@ -162,7 +163,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
 ]
 
-
 # It's possible to add optional dependencies with the poetry CLI tool using:
 #   poetry add --optional some_dev_pkg
 # This will set `optional = true` flag in [tool.poetry.dependencies], as seen below
@@ -170,7 +170,6 @@ classifiers = [
 # and declare the package. This allows `pip install .[dev]` to work as expected
 # Poetry users will need to use the `--extras dev` option rather than the `--with dev`
 # so we dont have two different sets of package versions to update.
-
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -183,40 +182,36 @@ tomli = {version = ">=2.0.1", python = "<3.11"}
 typing_extensions = ">=4.8.0"
 
 # convenience packages for development
-autodoc-pydantic = {version = "*", optional = true}
 black = {version = "*", optional = true}
 coverage = {version = "*", optional = true}
+cruft = {version = "*", optional = true}
 mypy = {version = "*", optional = true}
 pre-commit = {version = "*", optional = true}
 pytest = {version = "*", optional = true}
 pytest-mock = {version = "*", optional = true}
-ruff = {version = ">=0.1.13", optional = true}
+ruff = {version = ">=0.2.0", optional = true}
+sphinx = {version = "*", optional = true}
+sphinx-rtd-theme = {version = "*", optional = true}
+tox = {version = "*", optional = true}
+
+autodoc-pydantic = {version = "*", optional = true}
 screenpy-adapter_allure = {version = "^4.0.1", optional = true}
 screenpy-appium = {version = "*", optional = true}
 screenpy-playwright = {version = "*", optional = true}
 screenpy-pyotp = {version = "^4.0.1", optional = true}
 screenpy-requests = {version = "^4.0.1", optional = true}
 screenpy-selenium = {version = "^4.0.3", optional = true}
-sphinx = {version = "*", optional = true}
-sphinx-rtd-theme = {version = "*", optional = true}
-tox = {version = "*", optional = true}
-
 
 [tool.poetry.extras]
-allure = ["screenpy-adapter-allure"]
-appium = ["screenpy-appium"]
-playwright = ["screenpy-playwright"]
-pyotp = ["screenpy-pyotp"]
-requests = ["screenpy-requests"]
-selenium = ["screenpy-selenium"]
 dev = [
     "autodoc-pydantic",
     "black",
     "coverage",
+    "cruft",
     "mypy",
     "pre-commit",
-    "pytest-mock",
     "pytest",
+    "pytest-mock",
     "ruff",
     "sphinx",
     "sphinx-rtd-theme",
@@ -224,8 +219,8 @@ dev = [
 ]
 test = [
     "coverage",
-    "pytest-mock",
     "pytest",
+    "pytest-mock",
 ]
 docs = [
     "autodoc-pydantic",
@@ -233,3 +228,9 @@ docs = [
     "sphinx-rtd-theme",
 ]
 
+allure = ["screenpy-adapter-allure"]
+appium = ["screenpy-appium"]
+playwright = ["screenpy-playwright"]
+pyotp = ["screenpy-pyotp"]
+requests = ["screenpy-requests"]
+selenium = ["screenpy-selenium"]
