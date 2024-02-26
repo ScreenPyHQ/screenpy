@@ -1,12 +1,16 @@
 """Matches using equality."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
 
 from hamcrest import equal_to
-from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
+
+if TYPE_CHECKING:
+    from hamcrest.core.matcher import Matcher
 
 
 class IsEqualTo:
@@ -19,6 +23,11 @@ class IsEqualTo:
         )
     """
 
+    @property
+    def expected_to_log(self) -> str | object:
+        """Represent the expected object in a log-friendly way."""
+        return represent_prop(self.expected)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"Equal to {self.expected_to_log}."
@@ -30,4 +39,3 @@ class IsEqualTo:
 
     def __init__(self, obj: object) -> None:
         self.expected = obj
-        self.expected_to_log = represent_prop(obj)

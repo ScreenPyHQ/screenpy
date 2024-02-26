@@ -22,6 +22,11 @@ class AttachTheFile:
         )
     """
 
+    @property
+    def filename(self) -> str:
+        """Get the filename from the filepath."""
+        return os.path.basename(self.filepath)
+
     def describe(self) -> str:
         """Describe the Action in present tense."""
         return f"Attach a file named {self.filename}."
@@ -34,5 +39,4 @@ class AttachTheFile:
     # ANN401 ignored here to allow for new adapters to use any kwargs.
     def __init__(self, filepath: str, **kwargs: Any) -> None:  # noqa: ANN401
         self.filepath = filepath
-        self.filename = os.path.basename(filepath)
         self.attach_kwargs = kwargs

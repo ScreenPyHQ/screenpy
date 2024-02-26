@@ -1,5 +1,6 @@
 ScreenPy
 ========
+
 [![Build Status](../../actions/workflows/tests.yml/badge.svg)](../../actions/workflows/tests.yml)
 [![Build Status](../../actions/workflows/lint.yml/badge.svg)](../../actions/workflows/lint.yml)
 
@@ -53,7 +54,7 @@ Installation
 
 
 Documentation
-----------
+-------------
 Please check out the [Read The Docs documentation](https://screenpy-docs.readthedocs.io/en/latest/) for the latest information about this module!
 
 
@@ -63,9 +64,9 @@ You want to contribute? Great! Here are the things you should do before submitti
 
 1. Fork the repo and git clone your fork.
 1. `dev` install the project package:
-   1. `pip install -e .[dev]` 
-   1. Optional (poetry users):
-      1. `poetry install --extras dev`
+    1. `pip install -e .[dev]`
+    1. Optional (poetry users):
+        1. `poetry install --extras dev`
 1. Run `pre-commit install` once.
 1. Run `tox` to perform tests frequently.
 1. Create pull-request from your branch.

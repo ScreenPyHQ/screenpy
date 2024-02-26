@@ -1,12 +1,16 @@
 """Matches a dictionary that contains a specific value."""
 
-from typing import Any, Generic, Mapping, TypeVar
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, Generic, Mapping, TypeVar
 
 from hamcrest import has_value
-from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
+
+if TYPE_CHECKING:
+    from hamcrest.core.matcher import Matcher
 
 V = TypeVar("V")
 
@@ -21,6 +25,11 @@ class ContainsTheValue(Generic[V]):
         )
     """
 
+    @property
+    def value_to_log(self) -> str | V:
+        """Represent the value in a log-friendly way."""
+        return represent_prop(self.value)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"Containing the value {self.value_to_log}."
@@ -32,4 +41,3 @@ class ContainsTheValue(Generic[V]):
 
     def __init__(self, value: V) -> None:
         self.value = value
-        self.value_to_log = represent_prop(value)

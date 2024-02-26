@@ -33,6 +33,11 @@ class Log:
         """Supply the Question to answer."""
         return cls(question)
 
+    @property
+    def question_to_log(self) -> str:
+        """Represent the Question in a log-friendly way."""
+        return get_additive_description(self.question)
+
     @beat("{} examines {question_to_log}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to announce the answer to the Question."""
@@ -44,4 +49,3 @@ class Log:
 
     def __init__(self, question: T_Q) -> None:
         self.question = question
-        self.question_to_log = get_additive_description(self.question)
