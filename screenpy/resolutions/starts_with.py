@@ -17,6 +17,11 @@ class StartsWith:
         )
     """
 
+    @property
+    def prefix_to_log(self) -> str:
+        """Represent the prefix in a log-friendly way."""
+        return represent_prop(self.prefix)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"Starting with {self.prefix_to_log}."
@@ -28,4 +33,3 @@ class StartsWith:
 
     def __init__(self, prefix: str) -> None:
         self.prefix = prefix
-        self.prefix_to_log = represent_prop(prefix)

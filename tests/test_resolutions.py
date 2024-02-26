@@ -484,10 +484,10 @@ class TestIsInRange:
         iir_nums = IsInRange(test_minorant, test_majorant)
         iir_str = IsInRange(test_bounding_string)
 
-        expected_description_nums = f"In the range [{test_minorant}, {test_majorant}]."
-        expected_description_str = f"In the range {test_bounding_string}."
-        assert iir_nums.describe() == expected_description_nums
-        assert iir_str.describe() == expected_description_str
+        expected_for_nums = f"In the range '[{test_minorant}, {test_majorant}]'."
+        expected_for_str = f"In the range '{test_bounding_string}'."
+        assert iir_nums.describe() == expected_for_nums
+        assert iir_str.describe() == expected_for_str
 
 
 class TestIsLessThan:

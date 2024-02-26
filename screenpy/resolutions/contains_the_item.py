@@ -1,12 +1,16 @@
 """Matches a list that contains the desired item."""
 
-from typing import Generic, Sequence, TypeVar
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Generic, Sequence, TypeVar
 
 from hamcrest import has_item
-from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
+
+if TYPE_CHECKING:
+    from hamcrest.core.matcher import Matcher
 
 T = TypeVar("T")
 
@@ -21,6 +25,11 @@ class ContainsTheItem(Generic[T]):
         )
     """
 
+    @property
+    def item_to_log(self) -> str | T:
+        """Represent the item in a log-friendly way."""
+        return represent_prop(self.item)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"A sequence containing {self.item_to_log}."
@@ -32,4 +41,3 @@ class ContainsTheItem(Generic[T]):
 
     def __init__(self, item: T) -> None:
         self.item = item
-        self.item_to_log = represent_prop(item)

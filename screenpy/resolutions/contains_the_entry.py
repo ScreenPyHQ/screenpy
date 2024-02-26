@@ -37,6 +37,18 @@ class ContainsTheEntry:
         the_actor.should(See.the(MathTestAnswers(), ContainsTheEntry("Problem3", 45)))
     """
 
+    @property
+    def entry_plural(self) -> str:
+        """Decide if we need "entry" or "entries" in the beat message."""
+        return "entries" if len(self.entries) != 1 else "entry"
+
+    @property
+    def entries_to_log(self) -> str:
+        """Represent the entries in a log-friendly way."""
+        return ", ".join(
+            f"{represent_prop(k)}->{represent_prop(v)}" for k, v in self.entries.items()
+        )
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"A mapping with the {self.entry_plural} {self.entries_to_log}."
@@ -77,7 +89,3 @@ class ContainsTheEntry:
                     (kv_args[i], kv_args[i + 1]) for i in range(0, len(kv_args), 2)
                 ]
                 self.entries = dict(pairs, **kv_kwargs)
-        self.entry_plural = "entries" if len(self.entries) != 1 else "entry"
-        self.entries_to_log = ", ".join(
-            f"{represent_prop(k)}->{represent_prop(v)}" for k, v in self.entries.items()
-        )

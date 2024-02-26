@@ -17,6 +17,11 @@ class ReadsExactly:
         )
     """
 
+    @property
+    def text_to_log(self) -> str:
+        """Represent the text in a log-friendly way."""
+        return represent_prop(self.text)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"{self.text_to_log}, verbatim."
@@ -28,4 +33,3 @@ class ReadsExactly:
 
     def __init__(self, text: str) -> None:
         self.text = text
-        self.text_to_log = represent_prop(text)

@@ -17,6 +17,11 @@ class EndsWith:
         )
     """
 
+    @property
+    def postfix_to_log(self) -> str:
+        """Represent the postfix in a log-friendly way."""
+        return represent_prop(self.postfix)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"Ending with {self.postfix_to_log}."
@@ -28,4 +33,3 @@ class EndsWith:
 
     def __init__(self, postfix: str) -> None:
         self.postfix = postfix
-        self.postfix_to_log = represent_prop(postfix)

@@ -20,6 +20,11 @@ class IsNot:
         the_actor.should(See.the(Element(WELCOME_BANNER), IsNot(Visible())))
     """
 
+    @property
+    def resolution_to_log(self) -> str:
+        """Represent the Resolution in a log-friendly way."""
+        return get_additive_description(self.resolution)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
         return f"Not {self.resolution_to_log}."
@@ -31,4 +36,3 @@ class IsNot:
 
     def __init__(self, resolution: Resolvable) -> None:
         self.resolution = resolution
-        self.resolution_to_log = get_additive_description(self.resolution)
