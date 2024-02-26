@@ -41,14 +41,22 @@ class See:
     """
 
     question: T_Q
-    question_to_log: str
     resolution: T_R
-    resolution_to_log: str
 
     @classmethod
     def the(cls, question: T_Q, resolution: T_R) -> Self:
         """Supply the Question (or value) and Resolution to test."""
         return cls(question, resolution)
+
+    @property
+    def question_to_log(self) -> str:
+        """Represent the Question in a log-friendly way."""
+        return get_additive_description(self.question)
+
+    @property
+    def resolution_to_log(self) -> str:
+        """Represent the Resolution in a log-friendly way."""
+        return get_additive_description(self.resolution)
 
     def describe(self) -> str:
         """Describe the Action in present tense."""
@@ -72,6 +80,4 @@ class See:
 
     def __init__(self, question: T_Q, resolution: T_R) -> None:
         self.question = question
-        self.question_to_log = get_additive_description(question)
         self.resolution = resolution
-        self.resolution_to_log = get_additive_description(resolution)

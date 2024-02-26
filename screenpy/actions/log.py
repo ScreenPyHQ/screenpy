@@ -35,7 +35,7 @@ class Log:
 
     @property
     def question_to_log(self) -> str:
-        """Get a log-friendly description of the Question."""
+        """Represent the Question in a log-friendly way."""
         return get_additive_description(self.question)
 
     @beat("{} examines {question_to_log}.")

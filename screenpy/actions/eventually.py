@@ -119,7 +119,7 @@ class Eventually:
 
     @property
     def performable_to_log(self) -> str:
-        """Get a log-friendly description of the performable."""
+        """Represent the Performable in a log-friendly way."""
         return get_additive_description(self.performable)
 
     def describe(self) -> str:

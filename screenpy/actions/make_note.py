@@ -60,7 +60,7 @@ class MakeNote:
 
     @property
     def key_to_log(self) -> str | None:
-        """Get a proper representation of the key."""
+        """Represent the key in a log-friendly way."""
         return represent_prop(self.key)
 
     def describe(self) -> str:
