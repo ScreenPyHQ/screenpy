@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+import re
 from itertools import chain
 from unittest import mock
 
@@ -570,12 +572,35 @@ class TestMatches:
         assert m.matches("Spam spam spam spam baked beans and spam")
         assert not m.matches("What do you mean Eugh?!")
 
+    def test_the_test_with_compile(self) -> None:
+        m = Matches(re.compile(r"([Ss]pam ?)+")).resolve()
+
+        assert m.matches("Spam spam spam spam baked beans and spam")
+        assert not m.matches("What do you mean Eugh?!")
+
     def test_description(self) -> None:
         test_match = r"(spam)+"
 
         m = Matches(test_match)
 
-        expected_description = 'Text matching the pattern r"(spam)+".'
+        expected_description = "Text matching the pattern r'(spam)+'."
+        assert m.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        Matches(r"pattern").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's text matching the pattern r'pattern'.",
+            "    => a string matching 'pattern'",
+        ]
+
+    def test_description_with_compile(self) -> None:
+        test_match = re.compile(r"(spam)+")
+
+        m = Matches(test_match)
+
+        expected_description = "Text matching the pattern r'(spam)+'."
         assert m.describe() == expected_description
 
 
