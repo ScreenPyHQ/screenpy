@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from pathlib import Path
 from unittest import mock
@@ -69,7 +71,7 @@ class TestSettings:
     def test_can_be_changed_at_runtime(self) -> None:
         try:
             screenpy_settings.TIMEOUT = 4
-        except TypeError as exc:
+        except TypeError as exc:  # pragma: no cover
             msg = "ScreenPySettings could not be changed at runtime."
             raise AssertionError(msg) from exc
 
@@ -108,7 +110,7 @@ class TestStdOutAdapterSettings:
     def test_can_be_changed_at_runtime(self) -> None:
         try:
             stdout_adapter_settings.INDENT_CHAR = "?"
-        except TypeError as exc:
+        except TypeError as exc:  # pragma: no cover
             msg = "StdOutAdapterSettings could not be changed at runtime."
             raise AssertionError(msg) from exc
 

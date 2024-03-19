@@ -234,3 +234,10 @@ playwright = ["screenpy-playwright"]
 pyotp = ["screenpy-pyotp"]
 requests = ["screenpy-requests"]
 selenium = ["screenpy-selenium"]
+
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "pass",
+]
