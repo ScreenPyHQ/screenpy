@@ -25,7 +25,7 @@ class Matches:
     """
 
     @property
-    def item_to_log(self) -> str:
+    def pattern_to_log(self) -> str:
         """Represent the item in a log-friendly way."""
         if isinstance(self.pattern, Pattern):
             return f"r'{self.pattern.pattern}'"
@@ -33,9 +33,9 @@ class Matches:
 
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"Text matching the pattern {self.item_to_log}."
+        return f"Text matching the pattern {self.pattern_to_log}."
 
-    @beat("... hoping it's text matching the pattern {item_to_log}.")
+    @beat("... hoping it's text matching the pattern {pattern_to_log}.")
     def resolve(self) -> Matcher[str]:
         """Produce the Matcher to make the assertion."""
         return matches_regexp(self.pattern)
