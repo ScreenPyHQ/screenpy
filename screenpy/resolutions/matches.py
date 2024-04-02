@@ -22,6 +22,11 @@ class Matches:
             # matches "/product/1", "/product/22", "/product/942"...
             See.the(Text.of_the(URL), Matches(r"/product/[0-9]{1,3}"))
         )
+
+        # matches "/people/123/edit", "/people/2ec4efef-dec5-9d81bbcc410a/edit"
+        pattern = re.compile(r"/people/.+/edit")
+        the_actor.should(See.the(Text.of_the(URL), Matches(pattern))
+
     """
 
     @property
