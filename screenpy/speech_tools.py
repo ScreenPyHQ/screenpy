@@ -68,4 +68,8 @@ def represent_prop(item: str | T | mock.Mock) -> str | mock.Mock:
     if isinstance(item, str):
         return repr(item)
 
+    description = str(item)
+    if description[:1] == "<" and description[-1:] == ">":
+        return description
+
     return f"<{item}>"
