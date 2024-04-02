@@ -588,11 +588,11 @@ class TestMatches:
 
     def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
         caplog.set_level(logging.INFO)
-        Matches(r"pattern").resolve()
+        Matches(r"\tpattern").resolve()
 
         assert [r.msg for r in caplog.records] == [
-            "... hoping it's text matching the pattern r'pattern'.",
-            "    => a string matching 'pattern'",
+            r"... hoping it's text matching the pattern r'\tpattern'.",
+            r"    => a string matching '\tpattern'",
         ]
 
     def test_description_with_compile(self) -> None:
