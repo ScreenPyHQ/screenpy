@@ -33,6 +33,7 @@ from screenpy import (
     ReadsExactly,
     StartsWith,
 )
+from screenpy.exceptions import UnableToFormResolution
 from screenpy.resolutions.base_resolution import BaseMatcher
 from screenpy.speech_tools import get_additive_description
 
@@ -190,6 +191,19 @@ class TestContainsTheEntry:
         assert cte_multiple.describe() == expected_description_multiple
         assert cte_dict.describe() == expected_description_multiple
         assert cte_alternating.describe() == expected_description_multiple
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsTheEntry({"key2": 12345}).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's a mapping with the entry 'key2'-><12345>",
+            "    => a dictionary containing {'key2': <12345>}",
+        ]
+
+    def test_bad_args(self) -> None:
+        with pytest.raises(UnableToFormResolution):
+            ContainsTheEntry(123, 234, 345)
 
 
 class TestContainsTheItem:
