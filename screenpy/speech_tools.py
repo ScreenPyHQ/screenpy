@@ -69,7 +69,7 @@ def represent_prop(item: str | T | mock.Mock) -> str | mock.Mock:
         return repr(item)
 
     description = str(item)
-    if description[:1] == "<" and description[-1:] == ">":
+    if description.startswith("<") and description.endswith(">"):
         return description
 
     return f"<{item}>"
