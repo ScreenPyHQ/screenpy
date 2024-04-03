@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import re
 from typing import TypeVar, overload
+from unittest import mock
 
 from hamcrest.core.helpers.hasmethod import hasmethod
-from hamcrest.core.helpers.ismock import ismock
 
 from screenpy.protocols import Answerable, Describable, Performable, Resolvable
 
@@ -52,22 +52,24 @@ def get_additive_description(describable: Describable | T) -> str:
 
 
 @overload
-def represent_prop(item: str) -> str: ...
+def represent_prop(item: mock.Mock) -> mock.Mock: ...
 
 
 @overload
-def represent_prop(item: T) -> T: ...
+def represent_prop(item: str | T) -> str: ...
 
 
-def represent_prop(item: str | T) -> str | T:
+def represent_prop(item: str | T | mock.Mock) -> str | mock.Mock:
     """Represent items in a manner suitable for the audience (logging)."""
-    if not ismock(item) and hasmethod(item, "describe_to"):
+    if isinstance(item, mock.Mock):
+        return item
+    if hasmethod(item, "describe_to"):
         return f"{item}"
     if isinstance(item, str):
         return repr(item)
 
     description = str(item)
-    if description[:1] == "<" and description[-1:] == ">":
-        return item
+    if description.startswith("<") and description.endswith(">"):
+        return description
 
     return f"<{item}>"
