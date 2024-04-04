@@ -728,11 +728,13 @@ class TestIsNot:
 
     def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
         caplog.set_level(logging.INFO)
-        IsLessThanOrEqualTo(42).resolve()
+        IsNot(EqualTo(True)).resolve()
 
         assert [r.msg for r in caplog.records] == [
-            "... hoping it's less than or equal to <42>.",
-            "    => a value less than or equal to <42>",
+            "... hoping it's not equal to <True>.",
+            "    ... hoping it's equal to <True>.",
+            "        => <True>",
+            "    => not <True>",
         ]
 
 
