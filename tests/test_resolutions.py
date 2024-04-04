@@ -610,6 +610,36 @@ class TestIsInRange:
         assert iir_nums.describe() == expected_for_nums
         assert iir_str.describe() == expected_for_str
 
+    def test_beat_logging_str_range(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsInRange("[5, 10)").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's in the range '[5, 10)'.",
+            "    => the number is within the range of 5.0 and 10.0",
+        ]
+
+    def test_beat_logging_int_range(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsInRange(5, 10).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's in the range '[5, 10]'.",
+            "    => the number is within the range of 5.0 and 10.0",
+        ]
+
+    def test_bad_params(self) -> None:
+        with pytest.raises(
+            UnableToFormResolution,
+            match=r"IsInRange was given too many arguments: \(1, 2, 3\).",
+        ):
+            IsInRange(1, 2, 3)
+
+        with pytest.raises(
+            ValueError, match="bounding string did not match correct pattern."
+        ):
+            IsInRange(5).resolve()
+
 
 class TestIsLessThan:
     def test_can_be_instantiated(self) -> None:
