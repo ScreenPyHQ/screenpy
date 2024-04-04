@@ -450,13 +450,19 @@ class TestIsCloseTo:
         assert not ict.matches(-5)
 
     def test_description(self) -> None:
-        test_delta = 42
-        test_num = 1337
+        ict = IsCloseTo(1337, delta=42)
 
-        ict = IsCloseTo(test_num, delta=test_delta)
-
-        expected_description = f"At most {test_delta} away from {test_num}."
+        expected_description = "At most <42> away from <1337>."
         assert ict.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsCloseTo(1, delta=3).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's at most <3> away from <1>.",
+            "    => a numeric value within <3> of <1>",
+        ]
 
 
 class TestIsEqualTo:

@@ -4,6 +4,7 @@ from hamcrest import close_to
 from hamcrest.core.matcher import Matcher
 
 from screenpy.pacing import beat
+from screenpy.speech_tools import represent_prop
 
 
 class IsCloseTo:
@@ -16,11 +17,21 @@ class IsCloseTo:
         )
     """
 
+    @property
+    def delta_to_log(self) -> str:
+        """Represent the delta in a log-friendly way."""
+        return represent_prop(self.delta)
+
+    @property
+    def num_to_log(self) -> str:
+        """Represent the num in a log-friendly way."""
+        return represent_prop(self.num)
+
     def describe(self) -> str:
         """Describe the Resolution's expectation."""
-        return f"At most {self.delta} away from {self.num}."
+        return f"At most {self.delta_to_log} away from {self.num_to_log}."
 
-    @beat("... hoping it's at most {delta} away from {num}.")
+    @beat("... hoping it's at most {delta_to_log} away from {num_to_log}.")
     def resolve(self) -> Matcher[float]:
         """Produce the Matcher to make the assertion."""
         return close_to(self.num, self.delta)
