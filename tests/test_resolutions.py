@@ -834,3 +834,12 @@ class TestStartsWith:
 
         expected_description = "Starting with 'It was the best of times,'."
         assert sw.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        StartsWith("To be or not to be").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it starts with 'To be or not to be'.",
+            "    => a string starting with 'To be or not to be'",
+        ]
