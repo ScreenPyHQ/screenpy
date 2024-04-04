@@ -333,6 +333,15 @@ class TestContainsTheValue:
         ctv = ContainsTheValue(arg)
         assert ctv.describe() == expected
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsTheValue("value").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it contains the value 'value'.",
+            "    => a dictionary containing value 'value'",
+        ]
+
 
 class TestEmpty:
     def test_can_be_instantiated(self) -> None:
