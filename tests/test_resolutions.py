@@ -486,6 +486,15 @@ class TestIsEqualTo:
         ie = IsEqualTo(arg)
         assert ie.describe() == expected
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsEqualTo(1).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's equal to <1>.",
+            "    => <1>",
+        ]
+
 
 class TestIsGreaterThan:
     def test_can_be_instantiated(self) -> None:
