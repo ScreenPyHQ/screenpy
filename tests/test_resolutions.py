@@ -550,6 +550,15 @@ class TestIsGreaterThanOrEqualTo:
         expected_description = "Greater than or equal to <1337>."
         assert igtoet.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsGreaterThanOrEqualTo(42).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's greater than or equal to <42>.",
+            "    => a value greater than or equal to <42>",
+        ]
+
 
 class TestIsInRange:
     def test_can_be_instantiated(self) -> None:
