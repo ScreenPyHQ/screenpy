@@ -301,6 +301,15 @@ class TestContainsTheText:
         )
         assert ctt.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsTheText("foo\tbar\nbaz").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it contains 'foo\\tbar\\nbaz'.",
+            "    => a string containing 'foo\\tbar\\nbaz'",
+        ]
+
 
 class TestContainsTheValue:
     def test_can_be_instantiated(self) -> None:
