@@ -140,8 +140,17 @@ class TestContainsItemMatching:
 
         cim = ContainsItemMatching(test_pattern)
 
-        expected_description = 'A sequence with an item matching the pattern r".*".'
+        expected_description = "A sequence with an item matching the pattern r'.*'."
         assert cim.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsItemMatching(r".*").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it contains an item matching the pattern r'.*'.",
+            "    => a sequence containing an element which matches r'.*'",
+        ]
 
 
 class TestContainsTheEntry:
