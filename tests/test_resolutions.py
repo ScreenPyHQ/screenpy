@@ -805,6 +805,15 @@ class TestReadsExactly:
         )
         assert re_.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ReadsExactly("foo").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's 'foo', verbatim.",
+            "    => an object with str 'foo'",
+        ]
+
 
 class TestStartsWith:
     def test_can_be_instantiated(self) -> None:
