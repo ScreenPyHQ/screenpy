@@ -518,6 +518,15 @@ class TestIsGreaterThan:
         expected_description = "Greater than <41>."
         assert igt.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsGreaterThan(42).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's greater than <42>.",
+            "    => a value greater than <42>",
+        ]
+
 
 class TestIsGreaterThanOrEqualTo:
     def test_can_be_instantiated(self) -> None:
