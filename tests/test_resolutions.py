@@ -663,6 +663,15 @@ class TestIsLessThan:
         expected_description = "Less than <43>."
         assert ilt.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsLessThan(42).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's less than <42>.",
+            "    => a value less than <42>",
+        ]
+
 
 class TestIsLessThanOrEqualTo:
     def test_can_be_instantiated(self) -> None:
