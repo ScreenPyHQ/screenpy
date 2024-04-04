@@ -361,6 +361,15 @@ class TestEmpty:
 
         assert e.describe() == "An empty collection."
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsEmpty().resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's an empty collection.",
+            "    => an empty collection",
+        ]
+
 
 class TestEndsWith:
     def test_can_be_instantiated(self) -> None:
