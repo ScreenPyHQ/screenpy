@@ -695,6 +695,15 @@ class TestIsLessThanOrEqualTo:
         expected_description = "Less than or equal to <1337>."
         assert iltoet.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsLessThanOrEqualTo(42).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's less than or equal to <42>.",
+            "    => a value less than or equal to <42>",
+        ]
+
 
 class TestIsNot:
     def test_can_be_instantiated(self) -> None:
