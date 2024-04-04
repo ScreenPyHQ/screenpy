@@ -268,6 +268,15 @@ class TestContainsTheKey:
         expected_description = "Containing the key 'spam'."
         assert ctk.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsTheKey("key").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's a dict containing the key 'key'.",
+            "    => a dictionary containing key 'key'",
+        ]
+
 
 class TestContainsTheText:
     def test_can_be_instantiated(self) -> None:
