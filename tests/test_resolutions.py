@@ -420,10 +420,19 @@ class TestHasLength:
         hl1 = HasLength(1)
         hl5 = HasLength(test_length)
 
-        expected_description1 = "1 item long."
-        expected_description5 = "5 items long."
+        expected_description1 = "<1> item long."
+        expected_description5 = "<5> items long."
         assert hl1.describe() == expected_description1
         assert hl5.describe() == expected_description5
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        HasLength(5).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's a collection with <5> items in it.",
+            "    => an object with length of <5>",
+        ]
 
 
 class TestIsCloseTo:
