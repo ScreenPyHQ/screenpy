@@ -236,6 +236,15 @@ class TestContainsTheItem:
         cti = ContainsTheItem(arg)
         assert cti.describe() == expected
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsTheItem(2).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it contains <2>.",
+            "    => a sequence containing <2>",
+        ]
+
 
 class TestContainsTheKey:
     def test_can_be_instantiated(self) -> None:
