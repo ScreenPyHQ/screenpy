@@ -391,6 +391,15 @@ class TestEndsWith:
         expected_description = "Ending with 'got better.'."
         assert ew.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        EndsWith("of life!").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it ends with 'of life!'.",
+            "    => a string ending with 'of life!'",
+        ]
+
 
 class TestHasLength:
     def test_can_be_instantiated(self) -> None:
