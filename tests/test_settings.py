@@ -42,6 +42,25 @@ class TestPyprojectTomlConfig:
             "stdoutadapter": {"INDENT_SIZE": 500},
         }
 
+    @mock.patch("screenpy.configuration.Path", autospec=True)
+    def test__parse_pyproject_toml_no_tool_path(self, MockedPath: mock.Mock) -> None:
+        MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
+        MockedPath.is_file.return_value = True
+        test_data = (
+            b"[tool.screenpy]\nTIMEOUT = 500"
+            b"\n\n[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500"
+        )
+        mock_open = mock.mock_open(read_data=test_data)
+        MockedPath.open.side_effect = mock_open.side_effect
+        MockedPath.open.return_value = mock_open.return_value
+
+        with mock.patch("screenpy.configuration.hasattr") as mockhasattr:
+            mockhasattr.return_value = False
+            pyproject_config = PyprojectTomlConfig(ScreenPySettings)
+            pyproject_config._parse_pyproject_toml()
+
+        assert pyproject_config.toml_config == {}
+
 
 class TestSettings:
     def test_pyproject_overwrites_initial(self) -> None:

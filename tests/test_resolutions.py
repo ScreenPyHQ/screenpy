@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import re
 from itertools import chain
+from typing import TYPE_CHECKING
 from unittest import mock
 
 import pytest
@@ -36,6 +37,9 @@ from screenpy import (
 from screenpy.exceptions import UnableToFormResolution
 from screenpy.resolutions.base_resolution import BaseMatcher
 from screenpy.speech_tools import get_additive_description
+
+if TYPE_CHECKING:
+    from pytest_mock import MockerFixture
 
 
 class TestBaseResolution:
@@ -121,6 +125,33 @@ class TestBaseResolution:
         repr(resolution)
 
         resolution.get_line.assert_called_once()
+
+    @pytest.mark.filterwarnings("ignore:BaseResolution")
+    def test_describe(self, mocker: MockerFixture) -> None:
+        class MockResolution(BaseResolution):
+            """Must be defined here for new mock matchers."""
+
+            matcher_function = mock.create_autospec(BaseMatcher)
+
+        resolution = MockResolution()
+        mock_get_line = mocker.patch.object(resolution, "get_line")
+        mock_str = mocker.create_autospec(str)
+        mock_get_line.return_value = mock_str
+        resolution.describe()
+
+        mock_get_line.assert_called_once()
+        mock_str.capitalize.assert_called_once()
+
+    @pytest.mark.filterwarnings("ignore:BaseResolution")
+    def test_resolve(self) -> None:
+        class MockResolution(BaseResolution):
+            """Must be defined here for new mock matchers."""
+
+            matcher_function = mock.create_autospec(BaseMatcher)
+
+        resolution = MockResolution()
+        rt = resolution.resolve()
+        assert rt is resolution
 
 
 class TestContainsItemMatching:
