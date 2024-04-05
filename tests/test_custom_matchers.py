@@ -1,9 +1,6 @@
 from __future__ import annotations
 
-# ruff: noqa: F401
-import logging
 import operator
-from unittest import mock
 
 import pytest
 from hamcrest.core.string_description import StringDescription
