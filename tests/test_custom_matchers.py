@@ -130,10 +130,10 @@ class Test_is_in_bounds:
 class TestIsSequenceContainingPattern:
     def test_describe_to(self) -> None:
         desc = StringDescription()
-        isp = IsSequenceContainingPattern(r".*")
+        isp = IsSequenceContainingPattern(r"\t.*")
         isp.describe_to(desc)
 
-        assert desc.out == "a sequence containing an element which matches r'.*'"
+        assert desc.out == "a sequence containing an element which matches r'\\t.*'"
 
     def test_describe_match(self) -> None:
         desc = StringDescription()
@@ -144,10 +144,10 @@ class TestIsSequenceContainingPattern:
 
     def test_describe_mismatch(self) -> None:
         desc = StringDescription()
-        isp = IsSequenceContainingPattern(r".*")
+        isp = IsSequenceContainingPattern(r"\t.*")
         isp.describe_mismatch("asdf", desc)
 
-        assert desc.out == "did not contain an item matching r'.*'"
+        assert desc.out == "did not contain an item matching r'\\t.*'"
 
     def test_describe_mismatch_non_sequence(self) -> None:
         desc = StringDescription()
