@@ -362,9 +362,9 @@ class TestLog:
 
 class TestMakeNote:
     def test_can_be_instantiated(self) -> None:
-        mn1 = MakeNote(None)
-        mn2 = MakeNote.of(None)
-        mn3 = MakeNote.of_the(None).as_("")
+        mn1 = MakeNote(FakeQuestion())
+        mn2 = MakeNote.of(FakeQuestion())
+        mn3 = MakeNote.of_the(FakeQuestion()).as_("")
 
         assert isinstance(mn1, MakeNote)
         assert isinstance(mn2, MakeNote)
@@ -393,7 +393,7 @@ class TestMakeNote:
 
     def test_raises_without_key(self, Tester: Actor) -> None:
         with pytest.raises(UnableToAct):
-            MakeNote.of_the(None).perform_as(Tester)
+            MakeNote.of_the(FakeQuestion()).perform_as(Tester)
 
     def test_adds_note_to_director(self, Tester: Actor) -> None:
         key = "key"

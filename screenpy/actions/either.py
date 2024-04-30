@@ -25,7 +25,7 @@ class Either:
 
     By default, ``Either`` catches AssertionErrors, so you can use
     :class:`~screenpy.actions.See` to decide which path to follow. Use the
-    :meth:`~screenpy.actions.Either.ignoring` method to ignore other exceptions.
+    :meth:`ignoring` method to ignore other exceptions.
 
     Examples::
 
@@ -46,33 +46,15 @@ class Either:
     except_performables: tuple[Performable, ...]
     ignore_exceptions: tuple[type[BaseException], ...]
 
-    def perform_as(self, the_actor: Actor) -> None:
-        """Direct the Actor to perform one of two performances."""
-        # kinking the cable before the attempt
-        # avoids explaning what the actor tries to do.
-        # logs the first attempt only if it succeeds
-        # or if UNABRIDGED_NARRATION is enabled
-        with the_narrator.mic_cable_kinked():
-            try:
-                the_actor.will(*self.try_performables)
-            except self.ignore_exceptions:
-                if not settings.UNABRIDGED_NARRATION:
-                    the_narrator.clear_backup()
-            else:
-                return
-
-        the_actor.will(*self.except_performables)
-        return
-
     def or_(self, *except_performables: Performable) -> Self:
         """Provide the alternative routine to perform.
 
         Aliases:
-            * :meth:`~screenpy.actions.Either.except_`
-            * :meth:`~screenpy.actions.Either.else_`
-            * :meth:`~screenpy.actions.Either.otherwise`
-            * :meth:`~screenpy.actions.Either.alternatively`
-            * :meth:`~screenpy.actions.Either.failing_that`
+            * ``except_``
+            * ``else_``
+            * ``otherwise``
+            * ``alternatively``
+            * ``failing_that``
         """
         self.except_performables = except_performables
         return self
@@ -94,6 +76,24 @@ class Either:
         )
 
         return f"Either {try_summary} or {except_summary}"
+
+    def perform_as(self, the_actor: Actor) -> None:
+        """Direct the Actor to perform one of two performances."""
+        # kinking the cable before the attempt
+        # avoids explaning what the actor tries to do.
+        # logs the first attempt only if it succeeds
+        # or if UNABRIDGED_NARRATION is enabled
+        with the_narrator.mic_cable_kinked():
+            try:
+                the_actor.will(*self.try_performables)
+            except self.ignore_exceptions:
+                if not settings.UNABRIDGED_NARRATION:
+                    the_narrator.clear_backup()
+            else:
+                return
+
+        the_actor.will(*self.except_performables)
+        return
 
     def __init__(self, *first: Performable) -> None:
         self.try_performables: tuple[Performable, ...] = first

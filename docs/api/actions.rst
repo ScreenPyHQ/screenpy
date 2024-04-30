@@ -24,11 +24,30 @@ Debug
 .. autoclass:: Debug
     :members:
 
+Either
+------
+
+**Aliases**: ``Attempt``,
+``AttemptTo``,
+``GoFor``,
+``Try``
+``TryTo``,
+``Attempts``,
+``AttemptsTo``,
+``GoesFor``,
+``Tries``,
+``TriesTo``
+
+.. autoclass:: Either
+    :members:
+    :exclude-members: except_, else_, otherwise, alternatively, failing_that
+
 Eventually
 ----------
 
 .. autoclass:: Eventually
     :members:
+    :exclude-members: trying_for_no_longer_than, trying_for, waiting_for, polling_every, trying_every
 
 Log
 ---
@@ -45,6 +64,7 @@ MakeNote
 
 .. autoclass:: MakeNote
     :members:
+    :exclude-members: of_the
 
 Pause
 -----
@@ -55,6 +75,7 @@ Pause
 
 .. autoclass:: Pause
     :members:
+    :exclude-members: second_because,
 
 See
 ---
@@ -112,21 +133,3 @@ Silently
 **Aliases**: ``Quietly``
 
 .. autofunction:: Silently
-
-
-Either
-------
-
-**Aliases**: ``Attempt``,
-``AttemptTo``,
-``GoFor``,
-``Try``
-``TryTo``,
-``Attempts``,
-``AttemptsTo``,
-``GoesFor``,
-``Tries``,
-``TriesTo``
-
-.. autoclass:: Either
-    :members:
