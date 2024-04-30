@@ -49,7 +49,13 @@ class MakeNote:
         """
         return cls(question)
 
-    of_the = of
+    @classmethod
+    def of_the(cls, question: T_Q) -> Self:
+        """Alias for :meth:`of`.
+
+        Workaround for https://github.com/python/mypy/issues/6700
+        """
+        return cls.of(question)
 
     def as_(self, key: str) -> Self:
         """Set the key to use to recall this noted value."""
