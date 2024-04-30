@@ -1062,6 +1062,7 @@ class TestSilentlyUnabridged:
         # kink, which will then be cleared by the outer Silently.
         assert [r.msg for r in caplog.records] == []
 
+
 class TestStop:
     def test_can_be_instantiated(self) -> None:
         s1 = Stop()
@@ -1085,8 +1086,12 @@ class TestStop:
         s1 = Stop()
         s2 = Stop.until_the(mock_question, mock_resolution)
 
+        expected_description = (
+            "Stop until the number of stars in the sky"
+            " is equal to the stars in your eyes."
+        )
         assert s1.describe() == "Stop until they hear your cue."
-        assert s2.describe() == "Stop until the number of stars in the sky is equal to the stars in your eyes."
+        assert s2.describe() == expected_description
 
     def test_calls_input_with_no_question_and_resolution(self, Tester: Actor) -> None:
         with mock.patch("builtins.input", return_value="") as mocked_input:

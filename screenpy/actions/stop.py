@@ -1,14 +1,12 @@
 """Tell an Actor to Stop!"""
 
+from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
-from typing_extensions import Self
-
-from screenpy.actor import Actor
+from screenpy.configuration import settings
 from screenpy.exceptions import DeliveryError
 from screenpy.pacing import beat
-from screenpy.protocols import Answerable, Resolvable
-from screenpy.configuration import settings
 from screenpy.speech_tools import get_additive_description
 
 from .eventually import Eventually
@@ -16,7 +14,10 @@ from .see import See
 from .silently import Silently
 
 if TYPE_CHECKING:
+    from typing_extensions import Self
+
     from screenpy import Actor
+    from screenpy.protocols import Answerable, Resolvable
 
 
 class Stop:
@@ -48,7 +49,9 @@ class Stop:
         """Specify the condition to wait for."""
         return cls(question, resolution)
 
-    def __init__(self, question: Answerable | None = None, resolution: Resolvable | None = None) -> None:
+    def __init__(
+        self, question: Answerable | None = None, resolution: Resolvable | None = None
+    ) -> None:
         self.question = question
         self.resolution = resolution
 
@@ -71,12 +74,12 @@ class Stop:
         """Represent the Action in a log-friendly way."""
         if self.question is None and self.resolution is None:
             return "they hear your cue"
-        return f"{self.question_to_log} is {self.resolution_to_log}";
+        return f"{self.question_to_log} is {self.resolution_to_log}"
 
     @beat("{} stops until {description_to_log}.")
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to stop until the condition is met."""
-        if self.question is None and self.resolution is None:
+        if self.question is None or self.resolution is None:
             msg = (
                 "\n\nThe Actor stops suddenly, waiting for your cue..."
                 "\n (press enter to continue): "
