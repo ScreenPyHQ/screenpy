@@ -9,7 +9,7 @@ from hamcrest import matches_regexp
 
 from screenpy.pacing import beat
 
-if TYPE_CHECKING:  # pragma: no cover
+if TYPE_CHECKING:
     from hamcrest.core.matcher import Matcher
 
 
