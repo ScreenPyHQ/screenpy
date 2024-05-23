@@ -63,6 +63,7 @@ HasLength
 **Aliases**: ``HaveLength``
 
 .. autoclass:: HasLength
+    :exclude-members: length_to_log, item_plural
 
 IsCloseTo
 ---------
@@ -70,6 +71,7 @@ IsCloseTo
 **Aliases**: ``CloseTo``
 
 .. autoclass:: IsCloseTo
+    :exclude-members: delta_to_log, num_to_log
 
 IsEmpty
 -------
