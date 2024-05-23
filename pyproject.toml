@@ -235,6 +235,12 @@ pyotp = ["screenpy-pyotp"]
 requests = ["screenpy-requests"]
 selenium = ["screenpy-selenium"]
 
+[tool.coverage.run]
+source = ["screenpy"]
+omit = [
+    "/tests/*",
+]
+
 
 [tool.coverage.report]
 exclude_also = [
