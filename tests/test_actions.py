@@ -1114,11 +1114,24 @@ class TestStop:
 
         eventually_path = "screenpy.actions.stop.Eventually"
         with mock.patch(eventually_path) as mocked_eventually:
-            mocked_eventually.side_effect = DeliveryError("")
+            mocked_eventually.side_effect = DeliveryError(exc_msg)
             with pytest.raises(DeliveryError) as actual_exception:
                 Stop.until_the(FakeQuestion(), FakeResolution()).perform_as(Tester)
 
         assert exc_msg not in str(actual_exception)
+
+    def test_narration(self, Tester: Actor, caplog: pytest.LogCaptureFixture) -> None:
+        Question = FakeQuestion()
+        Resolution = FakeResolution()
+
+        with caplog.at_level(logging.INFO):
+            Stop.until_the(Question, Resolution).perform_as(Tester)
+
+        assert len(caplog.records) == 1
+        assert (
+            caplog.records[0].message
+            == "Tester stops until fakeQuestion is fakeResolution."
+        )
 
 
 class TestEither:
