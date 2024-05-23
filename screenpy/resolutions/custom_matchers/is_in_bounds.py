@@ -41,7 +41,7 @@ class IsInBounds(BaseMatcher[float]):
         upper_comparator: InequalityFunc,
         majorant: float,
     ) -> None:
-        if not minorant < majorant:
+        if minorant >= majorant:
             msg = f"minorant ({minorant}) must be less than majorant ({majorant})."
             raise DegenerateIntervalError(msg)
         self.minorant = minorant
