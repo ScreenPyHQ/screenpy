@@ -51,7 +51,7 @@ class CornerCase:
     @beat("Foobar...")
     def does_return_something(self, toggle: bool = False) -> Optional[int]:
         if toggle:
-            return 1  # pragma: no cover
+            return 1
         return None
 
     # purposfully not annotated
@@ -59,7 +59,7 @@ class CornerCase:
     # type: ignore[no-untyped-def]
     def no_annotations_rt_none(self, toggle=False):  # noqa: ANN001, ANN201
         if toggle:
-            return 1  # pragma: no cover
+            return 1
         return None
 
     # purposfully not annotated
@@ -68,7 +68,7 @@ class CornerCase:
     def no_annotations_rt_int(self, toggle=False):  # noqa: ANN001, ANN201
         if toggle:
             return 1
-        return None  # pragma: no cover
+        return None
 
     def describe(self) -> str:
         return "CornerCase"

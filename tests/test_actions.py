@@ -1203,7 +1203,7 @@ class TestEither:
     ) -> None:
         class FakeActionFail(Performable):
             @beat("{} tries to FakeActionFail")
-            def perform_as(self, _: Actor) -> None:  # pragma: no cover
+            def perform_as(self, _: Actor) -> None:
                 msg = "This Fails!"
                 raise AssertionError(msg)
 
