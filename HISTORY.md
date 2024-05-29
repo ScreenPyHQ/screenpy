@@ -1,6 +1,23 @@
 Release History
 ===============
 
+4.2.5 (2024-05-29)
+------------------
+
+### New Features
+
+- Added a new `Stop` Action, which can take a Question and Resolution and will stop the test until that assertion is true (or a timeout is reached). Or just `Stop()` and it will wait until you press enter.
+
+### Bug Fixes
+
+- The typehint for the `Matches` Resolution now includes re.compile objects.
+- `..._to_log` methods are now all property-ized, which fixes a few logging errors.
+
+### Development Niceties
+
+- Pruned the Sphinx directives because they don't need to be as long as i thought they did.
+- Slimmed down the documentation by noting method aliases in the method's docstring and excluding the aliases from the documentation (since thye're copies of the original method).
+
 4.2.4 (2024-02-21)
 ------------------
 
