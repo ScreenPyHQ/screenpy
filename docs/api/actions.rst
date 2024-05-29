@@ -133,3 +133,13 @@ Silently
 **Aliases**: ``Quietly``
 
 .. autofunction:: Silently
+
+
+Stop
+----
+
+**Aliases**: ``Stops``
+
+.. autoclass:: Stop
+    :members:
+    :exclude-members: description_to_log, question_to_log, resolution_to_log

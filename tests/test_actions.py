@@ -26,6 +26,7 @@ from screenpy import (
     SeeAllOf,
     SeeAnyOf,
     Silently,
+    Stop,
     UnableToAct,
     UnableToDirect,
     beat,
@@ -1060,6 +1061,77 @@ class TestSilentlyUnabridged:
         # kinked microphone will flush the logs back up into the previous
         # kink, which will then be cleared by the outer Silently.
         assert [r.msg for r in caplog.records] == []
+
+
+class TestStop:
+    def test_can_be_instantiated(self) -> None:
+        s1 = Stop()
+        s2 = Stop.until_the(FakeQuestion(), FakeResolution())
+
+        assert isinstance(s1, Stop)
+        assert isinstance(s2, Stop)
+
+    def test_implements_protocol(self) -> None:
+        s = Stop()
+
+        assert isinstance(s, Performable)
+        assert isinstance(s, Describable)
+
+    def test_describe(self) -> None:
+        mock_question = FakeQuestion()
+        mock_question.describe.return_value = "The number of stars in the sky"
+        mock_resolution = FakeResolution()
+        mock_resolution.describe.return_value = "equal to the stars in your eyes."
+
+        s1 = Stop()
+        s2 = Stop.until_the(mock_question, mock_resolution)
+
+        expected_description = (
+            "Stop until the number of stars in the sky"
+            " is equal to the stars in your eyes."
+        )
+        assert s1.describe() == "Stop until they hear your cue."
+        assert s2.describe() == expected_description
+
+    def test_calls_input_with_no_question_and_resolution(self, Tester: Actor) -> None:
+        with mock.patch("builtins.input", return_value="") as mocked_input:
+            Stop().perform_as(Tester)
+
+        mocked_input.assert_called_once()
+
+    def test_calls_silently_with_question_and_resolution(self, Tester: Actor) -> None:
+        mock_question = FakeQuestion()
+        mock_resolution = FakeResolution()
+
+        silently_path = "screenpy.actions.stop.Silently"
+        with mock.patch(silently_path) as mocked_silently:
+            Stop.until_the(mock_question, mock_resolution).perform_as(Tester)
+
+        mocked_silently.assert_called_once()
+
+    def test_modifies_deliveryerror(self, Tester: Actor) -> None:
+        exc_msg = "Toooniiiiight, a-ding ding ding..."
+
+        eventually_path = "screenpy.actions.stop.Eventually"
+        with mock.patch(eventually_path) as mocked_eventually:
+            mocked_eventually.side_effect = DeliveryError(exc_msg)
+            with pytest.raises(DeliveryError) as actual_exception:
+                Stop.until_the(FakeQuestion(), FakeResolution()).perform_as(Tester)
+
+        assert exc_msg not in str(actual_exception)
+
+    def test_narration(self, Tester: Actor, caplog: pytest.LogCaptureFixture) -> None:
+        Question = FakeQuestion()
+        Resolution = FakeResolution()
+
+        with caplog.at_level(logging.INFO):
+            Stop.until_the(Question, Resolution).perform_as(Tester)
+
+        assert len(caplog.records) == 1
+        assert (
+            caplog.records[0].message
+            == "Tester stops until fakeQuestion is fakeResolution."
+        )
 
 
 class TestEither:
