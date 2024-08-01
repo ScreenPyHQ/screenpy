@@ -142,7 +142,7 @@ class ScreenPySettings(BaseSettings):
     """
 
     @classmethod
-    def settings_customise_sources(  # noqa: PLR0913
+    def settings_customise_sources(  # noqa: PLR0913, RUF100
         cls,
         settings_cls: type[BaseSettings],
         init_settings: PydanticBaseSettingsSource,
