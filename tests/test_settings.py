@@ -3,6 +3,8 @@ from __future__ import annotations
 import os
 from unittest import mock
 
+from pydantic_settings import BaseSettings
+
 from screenpy import settings as screenpy_settings
 from screenpy.configuration import PyprojectTomlConfig, ScreenPySettings
 from screenpy.narration.stdout_adapter import settings as stdout_adapter_settings
@@ -44,6 +46,9 @@ class TestPyprojectTomlConfig:
 
     @mock.patch("screenpy.configuration.Path", autospec=True)
     def test__parse_pyproject_toml_no_tool_path(self, MockedPath: mock.Mock) -> None:
+        class DummySettings(BaseSettings):
+            """Settings class without a _tool_path set."""
+
         MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
         MockedPath.is_file.return_value = True
         test_data = (
@@ -54,10 +59,8 @@ class TestPyprojectTomlConfig:
         MockedPath.open.side_effect = mock_open.side_effect
         MockedPath.open.return_value = mock_open.return_value
 
-        with mock.patch("screenpy.configuration.hasattr") as mockhasattr:
-            mockhasattr.return_value = False
-            pyproject_config = PyprojectTomlConfig(ScreenPySettings)
-            pyproject_config._parse_pyproject_toml()
+        pyproject_config = PyprojectTomlConfig(DummySettings)
+        pyproject_config._parse_pyproject_toml()
 
         assert pyproject_config.toml_config == {}
 
