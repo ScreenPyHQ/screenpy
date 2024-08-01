@@ -38,6 +38,7 @@ extend-exclude = '''
 [tool.ruff]
 target-version = "py38"  # minimum supported version
 line-length = 88  # same as Black.
+output-format = "concise"
 extend-exclude = [
     "docs",
 ]
