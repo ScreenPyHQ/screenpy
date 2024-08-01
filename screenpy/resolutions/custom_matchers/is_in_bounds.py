@@ -27,8 +27,7 @@ class DegenerateIntervalError(ValueError):
 
 
 class IsInBounds(BaseMatcher[float]):
-    """
-    Matches a number which is in the given range.
+    """Matches a number which is in the given range.
 
     Only supports proper intervals.
     https://en.wikipedia.org/wiki/Interval_%28mathematics%29#Notations_for_intervals
