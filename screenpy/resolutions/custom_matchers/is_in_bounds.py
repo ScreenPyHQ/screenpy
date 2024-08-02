@@ -22,8 +22,16 @@ if TYPE_CHECKING:
     InequalityFunc = Callable[[float, float], bool]
 
 
+class DegenerateIntervalError(ValueError):
+    """ValueError specifically for degenerate intervals."""
+
+
 class IsInBounds(BaseMatcher[float]):
-    """Matches a number which is in the given range."""
+    """Matches a number which is in the given range.
+
+    Only supports proper intervals.
+    https://en.wikipedia.org/wiki/Interval_%28mathematics%29#Notations_for_intervals
+    """
 
     def __init__(
         self,
@@ -32,6 +40,9 @@ class IsInBounds(BaseMatcher[float]):
         upper_comparator: InequalityFunc,
         majorant: float,
     ) -> None:
+        if minorant >= majorant:
+            msg = f"minorant ({minorant}) must be less than majorant ({majorant})."
+            raise DegenerateIntervalError(msg)
         self.minorant = minorant
         self.lower_comparator = lower_comparator
         self.upper_comparator = upper_comparator
@@ -62,16 +73,20 @@ class IsInBounds(BaseMatcher[float]):
         )
 
 
-def is_in_bounds(*bounds: int | (float | str)) -> IsInBounds:
+def is_in_bounds(*bounds: int | float | str) -> IsInBounds:
     """Matches a number that falls within the bounds."""
     lower_comparator = operator.le
     upper_comparator = operator.le
     if len(bounds) == 1:
         bounding_string = str(bounds[0])
-        pattern = (
-            r"^(?P<lower>[\[\(]?)"
-            r"(?P<minorant>\d+).*?(?P<majorant>\d+)"
-            r"(?P<upper>[\]\)]?)$"
+        pattern = re.compile(
+            r"^"  # start of line
+            r"(?P<lower>[\[(]?)"  # [ or (
+            r"(?P<minorant>-?(\d+\.?\d*)|(\.\d+))"  # minorant (int or float)
+            r"[\-, ]+?"  # any number of comma, dash and space
+            r"(?P<majorant>-?(\d+\.?\d*)|(\.\d+))"  # majorant (int or float)
+            r"(?P<upper>[])]?)"  # ) or ]
+            r"$"  # end of line
         )
         matched = re.match(pattern, bounding_string)
         if matched is None:

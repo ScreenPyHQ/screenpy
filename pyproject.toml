@@ -38,6 +38,7 @@ extend-exclude = '''
 [tool.ruff]
 target-version = "py38"  # minimum supported version
 line-length = 88  # same as Black.
+output-format = "concise"
 extend-exclude = [
     "docs",
 ]
@@ -234,3 +235,16 @@ playwright = ["screenpy-playwright"]
 pyotp = ["screenpy-pyotp"]
 requests = ["screenpy-requests"]
 selenium = ["screenpy-selenium"]
+
+[tool.coverage.run]
+source = ["screenpy"]
+omit = [
+    "/tests/*",
+]
+
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "pass",
+]

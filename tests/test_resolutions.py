@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import re
 from itertools import chain
+from typing import TYPE_CHECKING
 from unittest import mock
 
 import pytest
@@ -33,8 +34,12 @@ from screenpy import (
     ReadsExactly,
     StartsWith,
 )
+from screenpy.exceptions import UnableToFormResolution
 from screenpy.resolutions.base_resolution import BaseMatcher
 from screenpy.speech_tools import get_additive_description
+
+if TYPE_CHECKING:
+    from pytest_mock import MockerFixture
 
 
 class TestBaseResolution:
@@ -121,6 +126,33 @@ class TestBaseResolution:
 
         resolution.get_line.assert_called_once()
 
+    @pytest.mark.filterwarnings("ignore:BaseResolution")
+    def test_describe(self, mocker: MockerFixture) -> None:
+        class MockResolution(BaseResolution):
+            """Must be defined here for new mock matchers."""
+
+            matcher_function = mock.create_autospec(BaseMatcher)
+
+        resolution = MockResolution()
+        mock_get_line = mocker.patch.object(resolution, "get_line")
+        mock_str = mocker.create_autospec(str)
+        mock_get_line.return_value = mock_str
+        resolution.describe()
+
+        mock_get_line.assert_called_once()
+        mock_str.capitalize.assert_called_once()
+
+    @pytest.mark.filterwarnings("ignore:BaseResolution")
+    def test_resolve(self) -> None:
+        class MockResolution(BaseResolution):
+            """Must be defined here for new mock matchers."""
+
+            matcher_function = mock.create_autospec(BaseMatcher)
+
+        resolution = MockResolution()
+        rt = resolution.resolve()
+        assert rt is resolution
+
 
 class TestContainsItemMatching:
     def test_can_be_instantiated(self) -> None:
@@ -139,8 +171,17 @@ class TestContainsItemMatching:
 
         cim = ContainsItemMatching(test_pattern)
 
-        expected_description = 'A sequence with an item matching the pattern r".*".'
+        expected_description = "A sequence with an item matching the pattern r'.*'."
         assert cim.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsItemMatching(r".*").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it contains an item matching the pattern r'.*'.",
+            "    => a sequence containing an element which matches r'.*'",
+        ]
 
 
 class TestContainsTheEntry:
@@ -191,6 +232,19 @@ class TestContainsTheEntry:
         assert cte_dict.describe() == expected_description_multiple
         assert cte_alternating.describe() == expected_description_multiple
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsTheEntry({"key2": 12345}).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's a mapping with the entry 'key2'-><12345>",
+            "    => a dictionary containing {'key2': <12345>}",
+        ]
+
+    def test_bad_args(self) -> None:
+        with pytest.raises(UnableToFormResolution):
+            ContainsTheEntry(123, 234, 345)
+
 
 class TestContainsTheItem:
     def test_can_be_instantiated(self) -> None:
@@ -212,6 +266,15 @@ class TestContainsTheItem:
     def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
         cti = ContainsTheItem(arg)
         assert cti.describe() == expected
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsTheItem(2).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it contains <2>.",
+            "    => a sequence containing <2>",
+        ]
 
 
 class TestContainsTheKey:
@@ -235,6 +298,15 @@ class TestContainsTheKey:
 
         expected_description = "Containing the key 'spam'."
         assert ctk.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsTheKey("key").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's a dict containing the key 'key'.",
+            "    => a dictionary containing key 'key'",
+        ]
 
 
 class TestContainsTheText:
@@ -260,6 +332,15 @@ class TestContainsTheText:
         )
         assert ctt.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsTheText("foo\tbar\nbaz").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it contains 'foo\\tbar\\nbaz'.",
+            "    => a string containing 'foo\\tbar\\nbaz'",
+        ]
+
 
 class TestContainsTheValue:
     def test_can_be_instantiated(self) -> None:
@@ -283,6 +364,15 @@ class TestContainsTheValue:
         ctv = ContainsTheValue(arg)
         assert ctv.describe() == expected
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ContainsTheValue("value").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it contains the value 'value'.",
+            "    => a dictionary containing value 'value'",
+        ]
+
 
 class TestEmpty:
     def test_can_be_instantiated(self) -> None:
@@ -301,6 +391,15 @@ class TestEmpty:
         e = IsEmpty()
 
         assert e.describe() == "An empty collection."
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsEmpty().resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's an empty collection.",
+            "    => an empty collection",
+        ]
 
 
 class TestEndsWith:
@@ -323,6 +422,15 @@ class TestEndsWith:
         expected_description = "Ending with 'got better.'."
         assert ew.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        EndsWith("of life!").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it ends with 'of life!'.",
+            "    => a string ending with 'of life!'",
+        ]
+
 
 class TestHasLength:
     def test_can_be_instantiated(self) -> None:
@@ -343,10 +451,19 @@ class TestHasLength:
         hl1 = HasLength(1)
         hl5 = HasLength(test_length)
 
-        expected_description1 = "1 item long."
-        expected_description5 = "5 items long."
+        expected_description1 = "<1> item long."
+        expected_description5 = "<5> items long."
         assert hl1.describe() == expected_description1
         assert hl5.describe() == expected_description5
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        HasLength(5).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's a collection with <5> items in it.",
+            "    => an object with length of <5>",
+        ]
 
 
 class TestIsCloseTo:
@@ -364,13 +481,19 @@ class TestIsCloseTo:
         assert not ict.matches(-5)
 
     def test_description(self) -> None:
-        test_delta = 42
-        test_num = 1337
+        ict = IsCloseTo(1337, delta=42)
 
-        ict = IsCloseTo(test_num, delta=test_delta)
-
-        expected_description = f"At most {test_delta} away from {test_num}."
+        expected_description = "At most <42> away from <1337>."
         assert ict.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsCloseTo(1, delta=3).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's at most <3> away from <1>.",
+            "    => a numeric value within <3> of <1>",
+        ]
 
 
 class TestIsEqualTo:
@@ -393,6 +516,15 @@ class TestIsEqualTo:
     def test_description_uses_represent_prop(self, arg: object, expected: str) -> None:
         ie = IsEqualTo(arg)
         assert ie.describe() == expected
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsEqualTo(1).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's equal to <1>.",
+            "    => <1>",
+        ]
 
 
 class TestIsGreaterThan:
@@ -417,6 +549,15 @@ class TestIsGreaterThan:
         expected_description = "Greater than <41>."
         assert igt.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsGreaterThan(42).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's greater than <42>.",
+            "    => a value greater than <42>",
+        ]
+
 
 class TestIsGreaterThanOrEqualTo:
     def test_can_be_instantiated(self) -> None:
@@ -439,6 +580,15 @@ class TestIsGreaterThanOrEqualTo:
 
         expected_description = "Greater than or equal to <1337>."
         assert igtoet.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsGreaterThanOrEqualTo(42).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's greater than or equal to <42>.",
+            "    => a value greater than or equal to <42>",
+        ]
 
 
 class TestIsInRange:
@@ -491,6 +641,36 @@ class TestIsInRange:
         assert iir_nums.describe() == expected_for_nums
         assert iir_str.describe() == expected_for_str
 
+    def test_beat_logging_str_range(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsInRange("[5, 10)").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's in the range '[5, 10)'.",
+            "    => the number is within the range of 5.0 and 10.0",
+        ]
+
+    def test_beat_logging_int_range(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsInRange(5, 10).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's in the range '[5, 10]'.",
+            "    => the number is within the range of 5.0 and 10.0",
+        ]
+
+    def test_bad_params(self) -> None:
+        with pytest.raises(
+            UnableToFormResolution,
+            match=r"IsInRange was given too many arguments: \(1, 2, 3\).",
+        ):
+            IsInRange(1, 2, 3)
+
+        with pytest.raises(
+            ValueError, match="bounding string did not match correct pattern."
+        ):
+            IsInRange(5).resolve()
+
 
 class TestIsLessThan:
     def test_can_be_instantiated(self) -> None:
@@ -513,6 +693,15 @@ class TestIsLessThan:
 
         expected_description = "Less than <43>."
         assert ilt.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsLessThan(42).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's less than <42>.",
+            "    => a value less than <42>",
+        ]
 
 
 class TestIsLessThanOrEqualTo:
@@ -537,6 +726,15 @@ class TestIsLessThanOrEqualTo:
         expected_description = "Less than or equal to <1337>."
         assert iltoet.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsLessThanOrEqualTo(42).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's less than or equal to <42>.",
+            "    => a value less than or equal to <42>",
+        ]
+
 
 class TestIsNot:
     def test_can_be_instantiated(self) -> None:
@@ -558,6 +756,17 @@ class TestIsNot:
 
         expected_description = f"Not {get_additive_description(test_resolution)}."
         assert in_.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        IsNot(EqualTo(True)).resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's not equal to <True>.",
+            "    ... hoping it's equal to <True>.",
+            "        => <True>",
+            "    => not <True>",
+        ]
 
 
 class TestMatches:
@@ -627,6 +836,15 @@ class TestReadsExactly:
         )
         assert re_.describe() == expected_description
 
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        ReadsExactly("foo").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it's 'foo', verbatim.",
+            "    => an object with str 'foo'",
+        ]
+
 
 class TestStartsWith:
     def test_can_be_instantiated(self) -> None:
@@ -647,3 +865,12 @@ class TestStartsWith:
 
         expected_description = "Starting with 'It was the best of times,'."
         assert sw.describe() == expected_description
+
+    def test_beat_logging(self, caplog: pytest.LogCaptureFixture) -> None:
+        caplog.set_level(logging.INFO)
+        StartsWith("To be or not to be").resolve()
+
+        assert [r.msg for r in caplog.records] == [
+            "... hoping it starts with 'To be or not to be'.",
+            "    => a string starting with 'To be or not to be'",
+        ]

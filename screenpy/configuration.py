@@ -17,14 +17,14 @@ if TYPE_CHECKING:
 
     from pydantic.fields import FieldInfo
 
-if sys.version_info >= (3, 11):
+if sys.version_info >= (3, 11):  # pragma: no cover
     try:
         import tomllib
     except ImportError:
         if not TYPE_CHECKING:
             # Help users on older alphas
             import tomli as tomllib
-else:
+else:  # pragma: no cover
     import tomli as tomllib
 
 
@@ -142,7 +142,7 @@ class ScreenPySettings(BaseSettings):
     """
 
     @classmethod
-    def settings_customise_sources(  # noqa: PLR0913
+    def settings_customise_sources(  # noqa: PLR0913, RUF100
         cls,
         settings_cls: type[BaseSettings],
         init_settings: PydanticBaseSettingsSource,

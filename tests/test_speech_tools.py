@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from unittest import mock
 
 import pytest
+from hamcrest import equal_to, instance_of
 
 from screenpy.speech_tools import get_additive_description, represent_prop
 
@@ -61,6 +63,11 @@ class TestGetAdditiveDescription:
         assert description == "something indescribable"
 
 
+class FancyObj:
+    def __str__(self) -> str:
+        return "<FancyObj>"
+
+
 class TestRepresentProp:
     def test_str(self) -> None:
         val = "hello\nworld!"
@@ -71,3 +78,23 @@ class TestRepresentProp:
         val = 1234
 
         assert represent_prop(val) == "<1234>"
+
+    def test_mock(self) -> None:
+        val = mock.Mock()
+
+        assert represent_prop(val) is val
+
+    def test_gtlt_object(self) -> None:
+        val = FancyObj()
+
+        assert represent_prop(val) == "<FancyObj>"
+
+    def test_hamcrest_equal_to(self) -> None:
+        val = equal_to(1)
+
+        assert represent_prop(val) == "<1>"
+
+    def test_hamcrest_instance_of(self) -> None:
+        val = instance_of(int)
+
+        assert represent_prop(val) == "an instance of int"
