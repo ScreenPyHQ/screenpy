@@ -9,9 +9,9 @@ __all__ = [
     "EXTREME",
     "HEAVY",
     "LIGHT",
+    "NORMAL",
     "LoggingAdapter",
     "Narrator",
-    "NORMAL",
     "StdOutAdapter",
     "StdOutManager",
 ]

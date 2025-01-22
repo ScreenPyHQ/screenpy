@@ -121,6 +121,7 @@ split-on-trailing-comma = false
     "D",  # we don't need public-API-polished docstrings in tests.
     "FBT",  # using a boolean as a test object is useful!
     "PLR",  # likewise using specific numbers and strings in tests.
+    "A",    # import __doc__ is shadowing python builtin
 ]
 "__version__.py" = ["D"]
 
