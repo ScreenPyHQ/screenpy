@@ -15,7 +15,7 @@ INT. SITEPACKAGES DIRECTORY.
 ScreenPy is a composition-based test framework. It is inspired by the
 SerenityBDD library for Java.
 
-:copyright: (c) 2019-2024 by Perry Goy.
+:copyright: (c) 2019-2025 by Perry Goy.
 :license: MIT, see LICENSE for more details.
 """
 
@@ -60,41 +60,41 @@ AnActor = Actor
 
 __all__ = [
     "AbilityError",
-    "act",
     "ActionError",
     "Actor",
     "Adapter",
     "AnActor",
-    "and_",
     "Answerable",
-    "aside",
-    "beat",
     "DeliveryError",
     "Describable",
     "Director",
     "ErrorKeeper",
     "Forgettable",
-    "given",
-    "given_that",
     "NotAnswerable",
-    "noted",
-    "noted_under",
     "NotPerformable",
     "NotResolvable",
     "Performable",
     "QuestionError",
     "Resolvable",
-    "scene",
     "ScreenPyError",
-    "settings",
-    "the_narrator",
-    "the_noted",
-    "then",
     "UnableToAct",
     "UnableToAnswer",
     "UnableToDirect",
     "UnableToNarrate",
     "UnableToPerform",
+    "act",
+    "and_",
+    "aside",
+    "beat",
+    "given",
+    "given_that",
+    "noted",
+    "noted_under",
+    "scene",
+    "settings",
+    "the_narrator",
+    "the_noted",
+    "then",
     "when",
 ]
 __all__ += actions.__all__ + resolutions.__all__ + narration.__all__

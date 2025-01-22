@@ -7,7 +7,7 @@ LoggingAdapter = StdOutAdapter
 
 __all__ = [
     "LoggingAdapter",
-    "settings",
     "StdOutAdapter",
     "StdOutManager",
+    "settings",
 ]
