@@ -87,8 +87,6 @@ ignore = [
     "D107",  # missing __init__ docstring, we do that in the class docstring.
     "D203",  # one blank line before class docstring, no thanks!
     "D212",  # multi line summary first line, we want a one line summary.
-    "ANN101",  # missing self annotation, we only annotate self when we return it.
-    "ANN102",  # missing cls annotation, we only annotate cls when we return it.
 ]
 
 extend-safe-fixes = [

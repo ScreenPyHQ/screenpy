@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/ScreenPyHQ/cookiecutter_screenpy/",
-  "commit": "4ad86820b5729801d7c765e04cfda2e953671164",
+  "commit": "0b13be19c9680a328c76323c4d799de8c25be1ff",
   "checkout": null,
   "context": {
     "cookiecutter": {

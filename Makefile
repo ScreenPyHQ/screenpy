@@ -41,3 +41,8 @@ requirements:
 	poetry export --without-hashes --extras dev -f requirements.txt > requirements.txt
 
 .PHONY: requirements
+
+cruft-update:
+	cruft update --allow-untracked-files
+
+.PHONY: cruft-update
