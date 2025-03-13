@@ -34,9 +34,9 @@ from screenpy import (
     settings,
     the_narrator,
 )
-from screenpy.actions.silently import is_silent
 from screenpy.configuration import ScreenPySettings
 from screenpy.protocols import Silenced
+from screenpy.speech_tools import is_silent
 
 from .unittest_protocols import ErrorQuestion
 from .useful_mocks import (
