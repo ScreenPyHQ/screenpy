@@ -39,6 +39,9 @@ def get_additive_description(describable: Describable | T) -> str:
     Returns:
         str: the string to place within another string.
     """
+    if is_silent(describable):
+        return ""
+
     if isinstance(describable, Describable):
         description = describable.describe()
         if description:
@@ -81,7 +84,7 @@ def represent_prop(item: str | T | mock.Mock) -> str | mock.Mock:
     return f"<{item}>"
 
 
-def is_silent(duck: Performable | Resolvable | Answerable) -> bool:
+def is_silent(duck: Performable | Resolvable | Answerable | T) -> bool:
     """Check if a duck has been silenced."""
     if isinstance(duck, Silenceable):
         return duck._silenced

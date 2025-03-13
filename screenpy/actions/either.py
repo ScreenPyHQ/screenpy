@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 
 from screenpy.configuration import settings
 from screenpy.pacing import the_narrator
-from screenpy.speech_tools import get_additive_description, is_silent
+from screenpy.speech_tools import get_additive_description
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -69,14 +69,15 @@ class Either:
     def describe(self) -> str:
         """Describe the Action in present tense."""
         try_summary = ", ".join(
-            get_additive_description(action)
+            val
             for action in self.try_performables
-            if not is_silent(action)
+            if (val := get_additive_description(action))
         )
+
         except_summary = ", ".join(
-            get_additive_description(action)
+            val
             for action in self.except_performables
-            if not is_silent(action)
+            if (val := get_additive_description(action))
         )
 
         return f"Either {try_summary} or {except_summary}"
