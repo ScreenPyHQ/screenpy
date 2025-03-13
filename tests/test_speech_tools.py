@@ -6,6 +6,8 @@ from unittest import mock
 import pytest
 from hamcrest import equal_to, instance_of
 
+from screenpy import Silently
+from screenpy.configuration import ScreenPySettings
 from screenpy.speech_tools import get_additive_description, represent_prop
 
 if TYPE_CHECKING:
@@ -39,6 +41,8 @@ class Indescribable:
 
 
 class TestGetAdditiveDescription:
+    settings_path = "screenpy.actions.silently.settings"
+
     @pytest.mark.parametrize(
         "describable", [ThisIsADescribable(), ThisIsADescribableWithADescribe()]
     )
@@ -61,6 +65,20 @@ class TestGetAdditiveDescription:
         description = get_additive_description(Indescribable())
 
         assert description == "something indescribable"
+
+    def test_silent(self) -> None:
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=False)
+        with mock.patch(self.settings_path, mock_settings):
+            val = get_additive_description(Silently(ThisIsADescribable()))
+
+        assert val == ""
+
+    def test_not_silent(self) -> None:
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
+        with mock.patch(self.settings_path, mock_settings):
+            val = get_additive_description(Silently(ThisIsADescribable()))
+
+        assert val == "this is a describable"
 
 
 class FancyObj:
