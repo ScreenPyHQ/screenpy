@@ -182,7 +182,7 @@ tomli = {version = ">=2.0.1", python = "<3.11"}
 typing_extensions = ">=4.8.0"
 
 # convenience packages for development
-black = {version = "*", optional = true}
+black = {version = "24.8", optional = true}
 coverage = {version = "*", optional = true}
 cruft = {version = "*", optional = true}
 mypy = {version = "*", optional = true}
