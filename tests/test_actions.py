@@ -35,7 +35,7 @@ from screenpy import (
     the_narrator,
 )
 from screenpy.configuration import ScreenPySettings
-from screenpy.protocols import Silenced
+from screenpy.protocols import Silenceable
 from screenpy.speech_tools import is_silent
 
 from .unittest_protocols import ErrorQuestion
@@ -863,13 +863,13 @@ class TestSilently:
         assert isinstance(q1, Describable)
         assert isinstance(q2, Describable)
         assert isinstance(q3, Describable)
-        assert isinstance(q1, Silenced)
-        assert isinstance(q2, Silenced)
-        assert isinstance(q3, Silenced)
+        assert isinstance(q1, Silenceable)
+        assert isinstance(q2, Silenceable)
+        assert isinstance(q3, Silenceable)
 
-        assert not isinstance(FakeQuestion(), Silenced)
-        assert not isinstance(FakeAction(), Silenced)
-        assert not isinstance(FakeResolution(), Silenced)
+        assert not isinstance(FakeQuestion(), Silenceable)
+        assert not isinstance(FakeAction(), Silenceable)
+        assert not isinstance(FakeResolution(), Silenceable)
 
     def test_passthru_attribute(self) -> None:
         a = FakeAction()

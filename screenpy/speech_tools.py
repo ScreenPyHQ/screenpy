@@ -13,7 +13,7 @@ from screenpy.protocols import (
     Describable,
     Performable,
     Resolvable,
-    Silenced,
+    Silenceable,
 )
 
 T = TypeVar("T")
@@ -83,6 +83,6 @@ def represent_prop(item: str | T | mock.Mock) -> str | mock.Mock:
 
 def is_silent(duck: Performable | Resolvable | Answerable) -> bool:
     """Check if a duck has been silenced."""
-    if isinstance(duck, Silenced):
+    if isinstance(duck, Silenceable):
         return duck._silenced
     return False
