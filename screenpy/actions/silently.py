@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 from screenpy.configuration import settings
 from screenpy.pacing import the_narrator
-from screenpy.protocols import Answerable, Performable, Resolvable
+from screenpy.protocols import Answerable, Performable, Resolvable, Silenced
 
 if TYPE_CHECKING:
     from typing import Any, TypeVar
@@ -49,6 +49,7 @@ def Silently(duck: T) -> T:
         )
     """
     if settings.UNABRIDGED_NARRATION:
+        duck._silenced = False  # type: ignore[attr-defined]
         return duck
 
     # mypy really doesn't like monkeypatching
@@ -66,6 +67,7 @@ def Silently(duck: T) -> T:
                 return
 
         duck.perform_as = MethodType(perform_as, duck)  # type: ignore[method-assign]
+        duck._silenced = True  # type: ignore[attr-defined]
 
     if isinstance(duck, Answerable):
         original_answered_by = duck.answered_by
@@ -80,6 +82,7 @@ def Silently(duck: T) -> T:
                 return thing
 
         duck.answered_by = MethodType(answered_by, duck)  # type: ignore[method-assign]
+        duck._silenced = True  # type: ignore[attr-defined]
 
     if isinstance(duck, Resolvable):
         original_resolve = duck.resolve
@@ -93,5 +96,12 @@ def Silently(duck: T) -> T:
                 return res
 
         duck.resolve = MethodType(resolve, duck)  # type: ignore[method-assign]
-
+        duck._silenced = True  # type: ignore[attr-defined]
     return duck
+
+
+def is_silent(duck: Performable | Resolvable | Answerable) -> bool:
+    """Check if a duck has been silenced."""
+    if isinstance(duck, Silenced):
+        return duck._silenced
+    return False
