@@ -8,7 +8,13 @@ from unittest import mock
 
 from hamcrest.core.helpers.hasmethod import hasmethod
 
-from screenpy.protocols import Answerable, Describable, Performable, Resolvable
+from screenpy.protocols import (
+    Answerable,
+    Describable,
+    Performable,
+    Resolvable,
+    Silenced,
+)
 
 T = TypeVar("T")
 
@@ -73,3 +79,10 @@ def represent_prop(item: str | T | mock.Mock) -> str | mock.Mock:
         return description
 
     return f"<{item}>"
+
+
+def is_silent(duck: Performable | Resolvable | Answerable) -> bool:
+    """Check if a duck has been silenced."""
+    if isinstance(duck, Silenced):
+        return duck._silenced
+    return False

@@ -7,10 +7,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from screenpy.actions.silently import is_silent
 from screenpy.configuration import settings
 from screenpy.pacing import the_narrator
-from screenpy.speech_tools import get_additive_description
+from screenpy.speech_tools import get_additive_description, is_silent
 
 if TYPE_CHECKING:
     from typing_extensions import Self
