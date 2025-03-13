@@ -34,7 +34,9 @@ from screenpy import (
     settings,
     the_narrator,
 )
+from screenpy.actions.silently import is_silent
 from screenpy.configuration import ScreenPySettings
+from screenpy.protocols import Silenced
 
 from .unittest_protocols import ErrorQuestion
 from .useful_mocks import (
@@ -861,6 +863,13 @@ class TestSilently:
         assert isinstance(q1, Describable)
         assert isinstance(q2, Describable)
         assert isinstance(q3, Describable)
+        assert isinstance(q1, Silenced)
+        assert isinstance(q2, Silenced)
+        assert isinstance(q3, Silenced)
+
+        assert not isinstance(FakeQuestion(), Silenced)
+        assert not isinstance(FakeAction(), Silenced)
+        assert not isinstance(FakeResolution(), Silenced)
 
     def test_passthru_attribute(self) -> None:
         a = FakeAction()
@@ -929,6 +938,34 @@ class Action2(Performable):
 
 class TestSilentlyUnabridged:
     settings_path = "screenpy.actions.silently.settings"
+
+    def test_sets_silenced_attribute_false(self) -> None:
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
+        with mock.patch(self.settings_path, mock_settings):
+            q1 = Silently(FakeQuestion())
+            q2 = Silently(FakeAction())
+            q3 = Silently(FakeResolution())
+
+        assert q1._silenced is False
+        assert q2._silenced is False
+        assert q3._silenced is False
+        assert is_silent(q1) is False
+        assert is_silent(q2) is False
+        assert is_silent(q3) is False
+
+    def test_sets_silenced_attribute_true(self) -> None:
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=False)
+        with mock.patch(self.settings_path, mock_settings):
+            q1 = Silently(FakeQuestion())
+            q2 = Silently(FakeAction())
+            q3 = Silently(FakeResolution())
+
+        assert q1._silenced is True
+        assert q2._silenced is True
+        assert q3._silenced is True
+        assert is_silent(q1) is True
+        assert is_silent(q2) is True
+        assert is_silent(q3) is True
 
     def test_kinking(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
