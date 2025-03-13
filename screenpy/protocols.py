@@ -139,7 +139,7 @@ class Adapter(Protocol):
 
 
 @runtime_checkable
-class Silenced(Protocol):
-    """Classes that Been wrapped in Silence."""
+class Silenceable(Protocol):
+    """Classes wrapped in Silently are Silenceable."""
 
     _silenced: bool
