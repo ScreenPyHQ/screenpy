@@ -1227,6 +1227,22 @@ class TestEither:
 
         assert t.describe() == "Either doThing or performFoo"
 
+    def test_multi_action_describe_with_multiple_silently(self) -> None:
+        mock_action1 = FakeAction()
+        mock_action1.describe.return_value = "DoThing!"
+        mock_action2 = FakeAction()
+        mock_action2.describe.return_value = "DoStuff!"
+        mock_action3 = FakeAction()
+        mock_action3.describe.return_value = "PerformFoo."
+        mock_action4 = FakeAction()
+        mock_action4.describe.return_value = "PerformBar."
+
+        t = Either(Silently(mock_action1), Silently(mock_action2)).or_(
+            Silently(mock_action3), Silently(mock_action4)
+        )
+
+        assert t.describe() == "Either  or "
+
     def test_first_action_passes(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
