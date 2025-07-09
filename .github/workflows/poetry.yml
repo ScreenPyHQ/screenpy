@@ -32,8 +32,5 @@ jobs:
         with:
           poetry-version: ${{ matrix.poetry-version }}
 
-      - name: Check toml structure
-        run: poetry check
-
-      - name: Check lock file
-        run: poetry lock --check
+      - name: Check lock file is consistent with pyproject
+        run: poetry check --lock
