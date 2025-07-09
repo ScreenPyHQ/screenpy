@@ -1187,53 +1187,88 @@ class TestEither:
         mock_action2.describe.return_value = "produce stuff!"
 
         t = Either(mock_action1).or_(mock_action2)
-        assert t.describe() == "Either do thing or produce stuff"
+        assert t.describe() == "Either (do thing or produce stuff)"
 
     def test_multi_action_describe(self) -> None:
-        mock_action1 = FakeAction()
-        mock_action1.describe.return_value = "DoThing!"
-        mock_action2 = FakeAction()
-        mock_action2.describe.return_value = "DoStuff!"
-        mock_action3 = FakeAction()
-        mock_action3.describe.return_value = "PerformFoo."
-        mock_action4 = FakeAction()
-        mock_action4.describe.return_value = "PerformBar."
+        act1 = FakeAction()
+        act1.describe.return_value = "DoAct1!"
+        act2 = FakeAction()
+        act2.describe.return_value = "DoAct2!"
+        act3 = FakeAction()
+        act3.describe.return_value = "DoAct3."
+        act4 = FakeAction()
+        act4.describe.return_value = "DoAct4?"
 
-        t = Either(mock_action1, mock_action2).or_(mock_action3, mock_action4)
+        t1 = Either(act1, act2).or_(act3, act4)
+        t2 = Either(act1).or_(act3, act4)
+        t3 = Either(act1, act2).or_(act3)
 
-        assert t.describe() == "Either doThing, doStuff or performFoo, performBar"
+        assert t1.describe() == "Either (doAct1, doAct2 or doAct3, doAct4)"
+        assert t2.describe() == "Either (doAct1 or doAct3, doAct4)"
+        assert t3.describe() == "Either (doAct1, doAct2 or doAct3)"
+
+    def test_multi_action_describe_embedded(self) -> None:
+        act1 = FakeAction()
+        act1.describe.return_value = "DoAct1!"
+        act2 = FakeAction()
+        act2.describe.return_value = "DoAct2!"
+        act3 = FakeAction()
+        act3.describe.return_value = "DoAct3."
+        act4 = FakeAction()
+        act4.describe.return_value = "DoAct4?"
+        act5 = FakeAction()
+        act5.describe.return_value = "DoAct5!"
+        act6 = FakeAction()
+        act6.describe.return_value = "DoAct6!"
+        act7 = FakeAction()
+        act7.describe.return_value = "DoAct7."
+        act8 = FakeAction()
+        act8.describe.return_value = "DoAct8."
+
+        t1 = Either(act1, Either(act2, act3).or_(act4, act5), act6).or_(act7)
+        exp1 = "Either (doAct1, either (doAct2, doAct3 or doAct4, doAct5), doAct6 or doAct7)"
+
+        t2 = Either(act1, Either(act2).or_(act3)).or_(act4)
+        exp2 = "Either (doAct1, either (doAct2 or doAct3) or doAct4)"
+
+        t3 = Either(Either(act1).or_(act2)).or_(act3)
+        exp3 = "Either (either (doAct1 or doAct2) or doAct3)"
+
+        assert t1.describe() == exp1
+        assert t2.describe() == exp2
+        assert t3.describe() == exp3
 
     def test_multi_action_describe_with_silently(self) -> None:
-        mock_action1 = FakeAction()
-        mock_action1.describe.return_value = "DoThing!"
-        mock_action2 = FakeAction()
-        mock_action2.describe.return_value = "DoStuff!"
-        mock_action3 = FakeAction()
-        mock_action3.describe.return_value = "PerformFoo."
-        mock_action4 = FakeAction()
-        mock_action4.describe.return_value = "PerformBar."
+        act1 = FakeAction()
+        act1.describe.return_value = "DoThing!"
+        act2 = FakeAction()
+        act2.describe.return_value = "DoStuff!"
+        act3 = FakeAction()
+        act3.describe.return_value = "PerformFoo."
+        act4 = FakeAction()
+        act4.describe.return_value = "PerformBar."
 
-        t = Either(mock_action1, Silently(mock_action2)).or_(
-            mock_action3, Silently(mock_action4)
-        )
+        t = Either(act1, Silently(act2)).or_(act3, Silently(act4))
 
-        assert t.describe() == "Either doThing or performFoo"
+        assert t.describe() == "Either (doThing or performFoo)"
 
     def test_multi_action_describe_with_multiple_silently(self) -> None:
-        mock_action1 = FakeAction()
-        mock_action1.describe.return_value = "DoThing!"
-        mock_action2 = FakeAction()
-        mock_action2.describe.return_value = "DoStuff!"
-        mock_action3 = FakeAction()
-        mock_action3.describe.return_value = "PerformFoo."
-        mock_action4 = FakeAction()
-        mock_action4.describe.return_value = "PerformBar."
+        """
+        This might look awkward as a test but it's acurate.
+        It it up to the user to not be awkward
+        """
+        act1 = FakeAction()
+        act1.describe.return_value = "DoThing!"
+        act2 = FakeAction()
+        act2.describe.return_value = "DoStuff!"
+        act3 = FakeAction()
+        act3.describe.return_value = "PerformFoo."
+        act4 = FakeAction()
+        act4.describe.return_value = "PerformBar."
 
-        t = Either(Silently(mock_action1), Silently(mock_action2)).or_(
-            Silently(mock_action3), Silently(mock_action4)
-        )
+        t = Either(Silently(act1), Silently(act2)).or_(Silently(act3), Silently(act4))
 
-        assert t.describe() == "Either  or "
+        assert t.describe() == "Either ( or )"
 
     def test_first_action_passes(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
