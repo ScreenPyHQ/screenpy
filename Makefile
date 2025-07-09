@@ -28,19 +28,17 @@ ruff-fix:
 mypy:
 	mypy .
 
-lint:
-	black-check ruff-check
+.PHONY: black-check black-fix ruff-check ruff-fix mypy
 
-lint-fix:
-	black-fix ruff-fix
+lint: black-check ruff-check
 
-.PHONY: black-check black-fix ruff-check ruff-fix mypy lint lint-fix
+lint-fix: black-fix ruff-fix
 
 pre-check-in: black-check ruff-check mypy
 
 pre-check-in-fix: black-fix ruff-fix mypy
 
-.PHONY: pre-check-in pre-check-in-fix
+.PHONY: pre-check-in pre-check-in-fix lint lint-fix
 
 # requires poetry-plugin-export
 requirements:
