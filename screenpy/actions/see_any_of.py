@@ -10,7 +10,6 @@ from screenpy.pacing import beat
 from .see import See
 
 if TYPE_CHECKING:
-    from typing import Tuple
 
     from typing_extensions import Self
 
@@ -18,7 +17,7 @@ if TYPE_CHECKING:
 
     from .see import T_Q, T_R
 
-    T_T = Tuple[T_Q, T_R]
+    T_T = tuple[T_Q, T_R]
 
 
 class SeeAnyOf:

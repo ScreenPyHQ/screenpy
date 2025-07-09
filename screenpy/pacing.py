@@ -36,7 +36,8 @@ def function_should_log_none(func: Callable[P, T]) -> bool:
 
 
 def act(
-    title: str, gravitas: str | None = None
+    title: str,
+    gravitas: str | None = None,
 ) -> Callable[[Callable[P, T]], Callable[P, T]]:
     """Decorator to mark an "act".
 
@@ -60,7 +61,8 @@ def act(
 
 
 def scene(
-    title: str, gravitas: str | None = None
+    title: str,
+    gravitas: str | None = None,
 ) -> Callable[[Callable[P, T]], Callable[P, T]]:
     """Decorator to mark a "scene".
 
@@ -84,7 +86,8 @@ def scene(
 
 
 def beat(
-    line: str, gravitas: str | None = None
+    line: str,
+    gravitas: str | None = None,
 ) -> Callable[[Callable[P, T]], Callable[P, T]]:
     """Decorator to describe a "beat" (a step in a test).
 

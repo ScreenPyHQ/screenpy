@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Generic, Sequence, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 from hamcrest import has_item
 
@@ -10,6 +10,8 @@ from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from hamcrest.core.matcher import Matcher
 
 T = TypeVar("T")

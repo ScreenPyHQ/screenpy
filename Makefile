@@ -28,7 +28,11 @@ ruff-fix:
 mypy:
 	mypy .
 
-.PHONY: black-check black-fix ruff-check ruff-fix mypy
+lint: black-check ruff-check
+
+lint-fix: black-fix ruff-fix
+
+.PHONY: black-check black-fix ruff-check ruff-fix mypy lint lint-fix
 
 pre-check-in: black-check ruff-check mypy
 

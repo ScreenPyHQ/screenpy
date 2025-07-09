@@ -52,7 +52,10 @@ class Eventually:
         """Build a timeframe, combining numbers and units."""
 
         def __init__(
-            self, eventually: Eventually, amount: float, attribute: str
+            self,
+            eventually: Eventually,
+            amount: float,
+            attribute: str,
         ) -> None:
             self.eventually = eventually
             self.amount = amount

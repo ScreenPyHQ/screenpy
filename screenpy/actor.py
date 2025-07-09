@@ -61,7 +61,7 @@ class Actor:
     @classmethod
     def named(cls, name: str) -> Self:
         """Give a name to this Actor."""
-        aside(choice(ENTRANCE_DIRECTIONS).format(actor=name))
+        aside(choice(ENTRANCE_DIRECTIONS).format(actor=name))  # noqa: S311
         return cls(name)
 
     def who_can(self, *abilities: T_Ability) -> Self:
@@ -171,7 +171,7 @@ class Actor:
         for task in self.independent_cleanup_tasks:
             try:
                 self.perform(task)
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:  # noqa: BLE001 PERF203
                 action = get_additive_description(task)
                 msg = (
                     f"{self} encountered an error while attempting to {action}:"

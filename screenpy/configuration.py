@@ -50,8 +50,10 @@ class PyprojectTomlConfig(PydanticBaseSettingsSource):
             with pyproject_path.open("rb") as f:
                 pyproject_toml = tomllib.load(f)
             toml_config: dict[str, Any] = pyproject_toml.get("tool", {})
+            # we ignore SLF001 because Pydantic needs us to prefix this attribute with
+            # an underscore so it understands it's not an expected field.
             if hasattr(self.settings_cls, "_tool_path"):
-                tool_path = self.settings_cls._tool_path.get_default()
+                tool_path = self.settings_cls._tool_path.get_default()  # noqa: SLF001
             else:
                 tool_path = ""
             tool_steps = tool_path.split(".")
@@ -100,10 +102,14 @@ class PyprojectTomlConfig(PydanticBaseSettingsSource):
 
         for field_name, field in self.settings_cls.model_fields.items():
             field_value, field_key, value_is_complex = self.get_field_value(
-                field, field_name
+                field,
+                field_name,
             )
             field_value = self.prepare_field_value(
-                field_name, field, field_value, value_is_complex=value_is_complex
+                field_name,
+                field,
+                field_value,
+                value_is_complex=value_is_complex,
             )
             if field_value is not None:
                 toml_config[field_key] = field_value

@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List, Tuple, Union
+from typing import Callable, Union
 from unittest import mock
 
 import pytest
@@ -11,9 +11,9 @@ def _() -> None:
     """Dummy function for simple chaining tests."""
 
 
-T_KW = Dict[str, Union[Callable, str]]
-T_Flat = List[Tuple[str, T_KW, int]]
-T_Chain = List[Tuple[str, T_KW, List]]
+T_KW = dict[str, Union[Callable, str]]
+T_Flat = list[tuple[str, T_KW, int]]
+T_Chain = list[tuple[str, T_KW, list]]
 
 KW: T_KW = {"func": _, "line": ""}
 KW_G: T_KW = {**KW, "gravitas": NORMAL}

@@ -158,7 +158,10 @@ class TestStdOutAdapter:
         ],
     )
     def test_gravitas(
-        self, gravity: str, level: int, caplog: pytest.LogCaptureFixture
+        self,
+        gravity: str,
+        level: int,
+        caplog: pytest.LogCaptureFixture,
     ) -> None:
         adapter = StdOutAdapter()
         line = "testing!"

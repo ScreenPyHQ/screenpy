@@ -18,23 +18,16 @@ from screenpy.exceptions import UnableToNarrate
 # directly instead of iterating over the generators.
 
 if TYPE_CHECKING:
-    from typing import (
-        Any,
-        Callable,
-        ContextManager,
-        Dict,
-        Generator,
-        List,
-        Tuple,
-        Union,
-    )
+    from collections.abc import Generator
+    from contextlib import AbstractContextManager
+    from typing import Any, Callable, Union
 
     from screenpy.protocols import Adapter
 
     Kwargs = Union[Callable, str]
-    BackedUpNarration = Tuple[str, Dict[str, Kwargs], int]
-    ChainedNarrations = List[Tuple[str, Dict[str, Kwargs], List]]
-    Entangled = Tuple[Callable, List[Generator]]
+    BackedUpNarration = tuple[str, dict[str, Kwargs], int]
+    ChainedNarrations = list[tuple[str, dict[str, Kwargs], list]]
+    Entangled = tuple[Callable, list[Generator]]
 
 
 def _chainify(narrations: list[BackedUpNarration]) -> ChainedNarrations:
@@ -198,7 +191,7 @@ class Narrator:
                 # close the closures
                 next(exit_, None)
 
-    def narrate(self, channel: str, **kwargs: Kwargs | None) -> ContextManager:
+    def narrate(self, channel: str, **kwargs: Kwargs | None) -> AbstractContextManager:
         """Speak the message into the microphone plugged in to all the adapters."""
         channel_kws = {key: value for key, value in kwargs.items() if value is not None}
         if not callable(channel_kws["func"]):
@@ -209,7 +202,7 @@ class Narrator:
             enclosed_func = self._dummy_entangle(channel_kws["func"])
             channel_kws["func"] = lambda: "overflow"
             self.backed_up_narrations[-1].append(
-                (channel, channel_kws, self.exit_level)
+                (channel, channel_kws, self.exit_level),
             )
         else:
             enclosed_func = self._entangle_func(channel, None, **channel_kws)
@@ -217,32 +210,43 @@ class Narrator:
         return enclosed_func
 
     def announcing_the_act(
-        self, func: Callable, line: str, gravitas: str | None = None
-    ) -> ContextManager:
+        self,
+        func: Callable,
+        line: str,
+        gravitas: str | None = None,
+    ) -> AbstractContextManager:
         """Narrate the title of the act."""
         if not self.on_air:
             return self._dummy_entangle(func)
         return self.narrate("act", func=func, line=line, gravitas=gravitas)
 
     def setting_the_scene(
-        self, func: Callable, line: str, gravitas: str | None = None
-    ) -> ContextManager:
+        self,
+        func: Callable,
+        line: str,
+        gravitas: str | None = None,
+    ) -> AbstractContextManager:
         """Narrate the title of the scene."""
         if not self.on_air:
             return self._dummy_entangle(func)
         return self.narrate("scene", func=func, line=line, gravitas=gravitas)
 
     def stating_a_beat(
-        self, func: Callable, line: str, gravitas: str | None = None
-    ) -> ContextManager:
+        self,
+        func: Callable,
+        line: str,
+        gravitas: str | None = None,
+    ) -> AbstractContextManager:
         """Narrate an emotional beat."""
         if not self.on_air:
             return self._dummy_entangle(func)
         return self.narrate("beat", func=func, line=line, gravitas=gravitas)
 
     def whispering_an_aside(
-        self, line: str, gravitas: str | None = None
-    ) -> ContextManager:
+        self,
+        line: str,
+        gravitas: str | None = None,
+    ) -> AbstractContextManager:
         """Narrate a conspiratorial aside (as a stage-whisper)."""
         if not self.on_air:
             return self._dummy_entangle(lambda: "<static>")

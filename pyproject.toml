@@ -36,7 +36,7 @@ extend-exclude = '''
 
 
 [tool.ruff]
-target-version = "py38"  # minimum supported version
+target-version = "py39"  # minimum supported version
 line-length = 88  # same as Black.
 output-format = "concise"
 extend-exclude = [
@@ -45,48 +45,14 @@ extend-exclude = [
 
 [tool.ruff.lint]
 select = [
-    "A",  # flake8-builtins
-    "ANN",  # flake8-annotations
-    "ARG",  # flake8-unused-arguments
-    "B",  # flake8-bugbear
-    "BLE",  # flake8-blind-except
-    "C4",  # flake8-comprehensions
-    "D",  # pydocstyle
-    "E",  # pycodestyle error
-    "EM",  # flake8-errmsg
-    "ERA",  # eradicate
-    "F",  # Pyflakes
-    "FA",  # flake8-future-annotations
-    "FBT",  # flake8-boolean-trap
-    "FIX",  # flake8-fixme
-    "FLY",  # flynt
-    "I",  # isort
-    "ICN",  # flake8-import-conventions
-    "ISC",  # flake8-implicit-str-concat
-    "PGH",  # pygrep-hooks
-    "PIE",  # flake8-pie
-    "PL",  # pylint
-    "PT",  # flake8-pytest-style
-    "Q",  # flake8-quotes
-    "RET",  # flake8-return
-    "RSE",  # flake8-raise
-    "RUF",  # ruff specific
-    "SIM",  # flake8-simplify
-    "T10",  # flake8-debugger
-    "T20",  # flake8-print
-    "TCH",  # flake8-type-checking
-    "TRY",  # tryceratops
-    "UP",  # python upgrade
-    "W",  # pycodestyle warning
-    "YTT",  # flake8-2020
-
-    # we would like these someday, but not yet
-    # "FURB",  # refurb
+    "ALL",  # let's get all the new hotness and ignore as we need!
 ]
 ignore = [
-    "D107",  # missing __init__ docstring, we do that in the class docstring.
-    "D203",  # one blank line before class docstring, no thanks!
-    "D212",  # multi line summary first line, we want a one line summary.
+    "D107",    # missing __init__ docstring, we do that in the class docstring.
+    "D203",    # one blank line before class docstring, no thanks!
+    "D212",    # multi line summary first line, we want a one line summary.
+    "E501",    # black handles our line limits.
+    "N818",    # we like our conventions with readable error classes.
 ]
 
 extend-safe-fixes = [
@@ -118,12 +84,20 @@ split-on-trailing-comma = false
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = [
-    "D",  # we don't need public-API-polished docstrings in tests.
-    "FBT",  # using a boolean as a test object is useful!
-    "PLR",  # likewise using specific numbers and strings in tests.
-    "A",    # import __doc__ is shadowing python builtin
+   "A",       # import __doc__ is shadowing python builtin
+   "D",       # we don't need public-API-polished docstrings in tests.
+   "FBT",     # using a boolean as a test object is useful!
+   "N802",    # we are intentional about our capitalization!
+   "N803",    # we like our standards for variable names in tests.
+   "N806",    # we are intentional about our capitalization!
+   "PLR",     # using specific numbers and strings in tests is useful!
+   "PYI034",  # our Fake-ables need to be... weird.
+   "S101",    # we want to assert in tests!
+   "SLF001",  # we need to access private methods in tests.
 ]
-"__version__.py" = ["D"]
+"__version__.py" = [
+    "D",  # we don't need public-API-polished docstrings in version.
+]
 
 
 ################################################################################
@@ -149,11 +123,11 @@ readme = "README.md"
 classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Quality Assurance",
@@ -172,9 +146,9 @@ classifiers = [
 # so we dont have two different sets of package versions to update.
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 
-importlib_metadata = {version = "*", python = "3.8.*"}
+importlib_metadata = {version = "*", python = "3.9.*"}
 pydantic = "*"
 pydantic-settings = "*"
 PyHamcrest = ">=2.0.0"

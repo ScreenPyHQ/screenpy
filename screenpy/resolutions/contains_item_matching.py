@@ -1,6 +1,6 @@
 """Matches a sequence which contains an item matching a given regex pattern."""
 
-from typing import Sequence
+from collections.abc import Sequence
 
 from hamcrest.core.matcher import Matcher
 

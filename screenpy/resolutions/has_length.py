@@ -1,6 +1,6 @@
 """Matches the length of a collection."""
 
-from typing import Sized
+from collections.abc import Sized
 
 from hamcrest import has_length
 from hamcrest.core.matcher import Matcher

@@ -1,6 +1,6 @@
 """Matches an empty collection."""
 
-from typing import Sized
+from collections.abc import Sized
 
 from hamcrest import empty
 from hamcrest.core.matcher import Matcher
