@@ -19,7 +19,7 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.black]
-target-version = ['py312']
+target-version = ['py313']
 extend-exclude = '''
 # A regex preceded with ^/ will apply only to files and directories
 # in the root of the project.
@@ -48,20 +48,22 @@ select = [
     "ALL",  # let's get all the new hotness and ignore as we need!
 ]
 ignore = [
+    "COM812",  # we prefer black's logic for trailing commas
     "D107",    # missing __init__ docstring, we do that in the class docstring.
     "D203",    # one blank line before class docstring, no thanks!
     "D212",    # multi line summary first line, we want a one line summary.
     "E501",    # black handles our line limits.
     "N818",    # we like our conventions with readable error classes.
+    "S608",    # we will not have SQL injection concerns. :P
 ]
 
 extend-safe-fixes = [
-    "EM101", "EM102",
-    "TCH001", "TCH002", "TCH003", "TCH004",
     "C419",
     "D200", "D205", "D415",
+    "EM101", "EM102",
     "PT003", "PT006", "PT018",
     "RET504",
+    "TCH001", "TCH002", "TCH003", "TCH004",
     "UP006", "UP007",
     "W291",
 ]
