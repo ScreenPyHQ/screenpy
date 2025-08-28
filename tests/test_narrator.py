@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Callable, Union
 from unittest import mock
 
@@ -277,10 +278,21 @@ class TestNarrator:
             assert narrate.call_args_list[0][0][0] == channel
             assert list(narrate.call_args_list[0][1].keys()) == expected_kwargs
 
-    def test_attach(self) -> None:
+    def test_attach_strfilepath(self) -> None:
         test_adapters = [get_mock_adapter() for _ in range(3)]
         narrator = Narrator(adapters=test_adapters)  # type: ignore[arg-type]  # good ol' mocks
         test_path = "lskywalker/documents/father.png"
+        test_kwargs = {"no": "that's not true!", "that": "is impossible!"}
+
+        narrator.attaches_a_file(test_path, **test_kwargs)
+
+        for mocked_adapter in test_adapters:
+            mocked_adapter.attach.assert_called_once_with(test_path, **test_kwargs)
+
+    def test_attach_pathfilepath(self) -> None:
+        test_adapters = [get_mock_adapter() for _ in range(3)]
+        narrator = Narrator(adapters=test_adapters)  # type: ignore[arg-type]  # good ol' mocks
+        test_path = Path("/lskywalker/documents/father.png")
         test_kwargs = {"no": "that's not true!", "that": "is impossible!"}
 
         narrator.attaches_a_file(test_path, **test_kwargs)
