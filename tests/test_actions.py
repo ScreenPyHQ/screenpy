@@ -952,6 +952,9 @@ class TestSilentlyUnabridged:
         assert is_silent(q1) is False
         assert is_silent(q2) is False
         assert is_silent(q3) is False
+        assert isinstance(q1, Silenceable)
+        assert isinstance(q2, Silenceable)
+        assert isinstance(q3, Silenceable)
 
     def test_sets_silenced_attribute_true(self) -> None:
         mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=False)
@@ -966,6 +969,9 @@ class TestSilentlyUnabridged:
         assert is_silent(q1) is True
         assert is_silent(q2) is True
         assert is_silent(q3) is True
+        assert isinstance(q1, Silenceable)
+        assert isinstance(q2, Silenceable)
+        assert isinstance(q3, Silenceable)
 
     def test_kinking(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
