@@ -136,10 +136,3 @@ class Adapter(Protocol):
 
         Pass keyword arguments for specific adapters' needs.
         """
-
-
-@runtime_checkable
-class Silenceable(Protocol):
-    """Classes wrapped in Silently are Silenceable."""
-
-    _silenced: bool

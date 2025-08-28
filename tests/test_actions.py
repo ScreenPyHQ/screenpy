@@ -35,7 +35,6 @@ from screenpy import (
     the_narrator,
 )
 from screenpy.configuration import ScreenPySettings
-from screenpy.protocols import Silenceable
 from screenpy.speech_tools import is_silent
 
 from .unittest_protocols import ErrorQuestion
@@ -863,13 +862,6 @@ class TestSilently:
         assert isinstance(q1, Describable)
         assert isinstance(q2, Describable)
         assert isinstance(q3, Describable)
-        assert isinstance(q1, Silenceable)
-        assert isinstance(q2, Silenceable)
-        assert isinstance(q3, Silenceable)
-
-        assert not isinstance(FakeQuestion(), Silenceable)
-        assert not isinstance(FakeAction(), Silenceable)
-        assert not isinstance(FakeResolution(), Silenceable)
 
     def test_passthru_attribute(self) -> None:
         a = FakeAction()
@@ -946,15 +938,12 @@ class TestSilentlyUnabridged:
             q2 = Silently(FakeAction())
             q3 = Silently(FakeResolution())
 
-        assert q1._silenced is False
-        assert q2._silenced is False
-        assert q3._silenced is False
+        assert not hasattr(q1, "_silenced")
+        assert not hasattr(q2, "_silenced")
+        assert not hasattr(q3, "_silenced")
         assert is_silent(q1) is False
         assert is_silent(q2) is False
         assert is_silent(q3) is False
-        assert isinstance(q1, Silenceable)
-        assert isinstance(q2, Silenceable)
-        assert isinstance(q3, Silenceable)
 
     def test_sets_silenced_attribute_true(self) -> None:
         mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=False)
@@ -969,9 +958,6 @@ class TestSilentlyUnabridged:
         assert is_silent(q1) is True
         assert is_silent(q2) is True
         assert is_silent(q3) is True
-        assert isinstance(q1, Silenceable)
-        assert isinstance(q2, Silenceable)
-        assert isinstance(q3, Silenceable)
 
     def test_kinking(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
