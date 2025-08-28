@@ -100,7 +100,7 @@ def test_clears_cleanup_tasks() -> None:
     actor1 = Actor.named("Tester").with_ordered_cleanup_tasks(mocked_task)
     actor1.has_independent_cleanup_tasks(mocked_task)
     actor2 = Actor.named("Tester").with_ordered_cleanup_tasks(
-        mocked_task_with_exception,
+        mocked_task_with_exception
     )
     actor2.has_independent_cleanup_tasks(mocked_task_with_exception)
 
@@ -120,8 +120,7 @@ def test_ordered_cleanup_stops_at_first_exception() -> None:
     test_msg = "Gooood-a niiight, a-ding ding ding ding..."
     mocked_task_with_exception.perform_as.side_effect = ValueError(test_msg)
     actor1 = Actor.named("Tester").with_ordered_cleanup_tasks(
-        mocked_task_with_exception,
-        mocked_task,
+        mocked_task_with_exception, mocked_task
     )
 
     with pytest.raises(ValueError, match=test_msg):
@@ -134,11 +133,10 @@ def test_independent_cleanup_continues_through_exceptions() -> None:
     mocked_task = FakeAction()
     mocked_task_with_exception = FakeAction()
     mocked_task_with_exception.perform_as.side_effect = ValueError(
-        "Sir Robin ran away.",
+        "Sir Robin ran away."
     )
     actor1 = Actor.named("Tester").with_independent_cleanup_tasks(
-        mocked_task_with_exception,
-        mocked_task,
+        mocked_task_with_exception, mocked_task
     )
 
     actor1.cleans_up()

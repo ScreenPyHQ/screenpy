@@ -115,10 +115,7 @@ class Adapter(Protocol):
         """Handle narrating an Act, which designates a group of tests."""
 
     def scene(
-        self,
-        func: Callable,
-        line: str,
-        gravitas: str | None = None,
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Handle narrating a Scene, which designates a subgroup of tests."""
 
@@ -126,10 +123,7 @@ class Adapter(Protocol):
         """Handle narrating a Beat, which is a step in a test."""
 
     def aside(
-        self,
-        func: Callable,
-        line: str,
-        gravitas: str | None = None,
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Handle narrating an Aside, which can happen any time."""
 
