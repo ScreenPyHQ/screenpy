@@ -20,6 +20,7 @@ from screenpy.exceptions import UnableToNarrate
 if TYPE_CHECKING:
     from collections.abc import Generator
     from contextlib import AbstractContextManager
+    from pathlib import Path
     from typing import Any, Callable, Union
 
     from screenpy.protocols import Adapter
@@ -257,8 +258,10 @@ class Narrator:
         for adapter in self.adapters:
             adapter.error(exc)
 
-    # ANN401 ignored here to allow for new adapters to use any kwargs.
-    def attaches_a_file(self, filepath: str, **kwargs: Any) -> None:  # noqa: ANN401
+    # ANN401 ignored here to allow for adapters to use needed kwargs.
+    def attaches_a_file(
+        self, filepath: Path | str, **kwargs: Any  # noqa: ANN401
+    ) -> None:
         """Attach a file for the various adapters."""
         for adapter in self.adapters:
             adapter.attach(filepath, **kwargs)

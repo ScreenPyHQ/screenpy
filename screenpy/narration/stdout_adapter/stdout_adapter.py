@@ -16,6 +16,7 @@ from .configuration import settings
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+    from pathlib import Path
 
     from typing_extensions import ParamSpec
 
@@ -153,6 +154,6 @@ class StdOutAdapter:
             self.handled_exception = exc
 
     # ANN401 ignored here to allow for new adapters to use any kwargs.
-    def attach(self, filepath: str, **__: Any) -> None:  # noqa: ANN401
+    def attach(self, filepath: Path | str, **__: Any) -> None:  # noqa: ANN401
         """Log a mention of an attached file."""
         self.manager.log(f"See reference file: {filepath}")

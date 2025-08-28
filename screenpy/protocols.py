@@ -15,6 +15,7 @@ from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+    from pathlib import Path
     from typing import Any, Callable
 
     from hamcrest.core.base_matcher import Matcher
@@ -136,7 +137,7 @@ class Adapter(Protocol):
         """React to an exception being thrown, probably during a beat."""
 
     # ANN401 ignored here to allow for new adapters to use any kwargs.
-    def attach(self, filepath: str, **kwargs: Any) -> None:  # noqa: ANN401
+    def attach(self, filepath: Path | str, **kwargs: Any) -> None:  # noqa: ANN401
         """Handle attaching a file.
 
         Pass keyword arguments for specific adapters' needs.
