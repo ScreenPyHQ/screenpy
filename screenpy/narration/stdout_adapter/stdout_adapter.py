@@ -6,19 +6,22 @@ import logging
 from contextlib import contextmanager
 from functools import wraps
 from types import MappingProxyType
-from typing import TYPE_CHECKING, Any, Callable, Generator, TypeVar
+from typing import TYPE_CHECKING, Any, Callable, TypeVar
 
-from ..gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
+from screenpy.narration.gravitas import AIRY, EXTREME, HEAVY, LIGHT, NORMAL
+
 from .configuration import settings
 
 # pylint: disable=unused-argument
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+    from pathlib import Path
+
     from typing_extensions import ParamSpec
 
     P = ParamSpec("P")
     T = TypeVar("T")
-    Function = Callable[P, T]
 
 
 class StdOutManager:
@@ -47,7 +50,8 @@ class StdOutManager:
         """Log a line!"""
         whitespace = settings.INDENT_SIZE * settings.INDENT_CHAR
         indent = len(self.depth) * whitespace if settings.INDENT_LOGS else ""
-        self.logger.log(level, f"{indent}{line}")
+        msg = f"{indent}{line}"
+        self.logger.log(level, msg)
 
     @contextmanager
     def log_context(self, line: str, level: int = logging.INFO) -> Generator:
@@ -77,7 +81,7 @@ class StdOutAdapter:
             NORMAL: logging.WARNING,
             HEAVY: logging.CRITICAL,
             EXTREME: logging.ERROR,
-        }
+        },
     )
 
     def __init__(self, stdout_manager: StdOutManager | None = None) -> None:
@@ -90,7 +94,7 @@ class StdOutAdapter:
         """Wrap the act, to log the stylized title."""
 
         @wraps(func)
-        def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> Function:
+        def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> Callable[P, T]:
             """Wrap the func, so we log at the correct time."""
             if gravitas is None:
                 level = self.GRAVITAS[LIGHT]
@@ -102,12 +106,15 @@ class StdOutAdapter:
         yield func_wrapper
 
     def scene(
-        self, func: Callable, line: str, gravitas: str | None = None
+        self,
+        func: Callable,
+        line: str,
+        gravitas: str | None = None,
     ) -> Generator:
         """Wrap the scene, to log the stylized title."""
 
         @wraps(func)
-        def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> Function:
+        def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> Callable[P, T]:
             """Wrap the func, so we log at the correct time."""
             if gravitas is None:
                 level = self.GRAVITAS[LIGHT]
@@ -126,7 +133,10 @@ class StdOutAdapter:
             yield func
 
     def aside(
-        self, func: Callable, line: str, gravitas: str | None = None
+        self,
+        func: Callable,
+        line: str,
+        gravitas: str | None = None,
     ) -> Generator:
         """Encapsulate the aside within the manager's log context."""
         if not gravitas:
@@ -144,6 +154,6 @@ class StdOutAdapter:
             self.handled_exception = exc
 
     # ANN401 ignored here to allow for new adapters to use any kwargs.
-    def attach(self, filepath: str, **__: Any) -> None:  # noqa: ANN401
+    def attach(self, filepath: Path | str, **__: Any) -> None:  # noqa: ANN401
         """Log a mention of an attached file."""
         self.manager.log(f"See reference file: {filepath}")

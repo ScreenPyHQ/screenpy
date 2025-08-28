@@ -1,7 +1,7 @@
 """Matcher to use a regular expression pattern to match an item in a sequence."""
 
 import re
-from typing import Sequence
+from collections.abc import Sequence
 
 from hamcrest.core.base_matcher import BaseMatcher
 from hamcrest.core.description import Description
@@ -26,7 +26,7 @@ class IsSequenceContainingPattern(BaseMatcher[Sequence[str]]):
     def describe_to(self, description: Description) -> None:
         """Describe the passing case."""
         description.append_text(
-            f"a sequence containing an element which matches r'{self.pattern}'"
+            f"a sequence containing an element which matches r'{self.pattern}'",
         )
 
     def describe_match(self, _: Sequence[str], match_description: Description) -> None:
@@ -34,14 +34,16 @@ class IsSequenceContainingPattern(BaseMatcher[Sequence[str]]):
         match_description.append_text(f"it contains an item matching r'{self.pattern}'")
 
     def describe_mismatch(
-        self, item: Sequence[str], mismatch_description: Description
+        self,
+        item: Sequence[str],
+        mismatch_description: Description,
     ) -> None:
         """Describe the failing case."""
         if item is None or not hasattr(item, "__iter__"):
             mismatch_description.append_text("was not a sequence")
             return
         mismatch_description.append_text(
-            f"did not contain an item matching r'{self.pattern}'"
+            f"did not contain an item matching r'{self.pattern}'",
         )
 
 

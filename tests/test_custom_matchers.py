@@ -16,7 +16,7 @@ from screenpy.resolutions.custom_matchers.sequence_containing_pattern import (
 )
 
 
-class TestIsInBounds:
+class TestIsInBoundsMatcher:
     def test_describe_to(self) -> None:
         desc = StringDescription()
         iib = IsInBounds(1, operator.le, operator.le, 2)
@@ -47,7 +47,7 @@ class TestIsInBounds:
         assert iib._matches(5) is False
 
 
-class Test_is_in_bounds:
+class TestIsInBoundsFunction:
     @staticmethod
     def matches(i1: IsInBounds, i2: IsInBounds) -> None:
         """check if the two IsInBounds matchers are identical"""
@@ -98,22 +98,26 @@ class Test_is_in_bounds:
 
     def test_bad_params(self) -> None:
         with pytest.raises(
-            ValueError, match="bounding string did not match correct pattern."
+            ValueError,
+            match="bounding string did not match correct pattern.",
         ):
             is_in_bounds("(1.1.1.1, 4.0]")
 
         with pytest.raises(
-            ValueError, match="bounding string did not match correct pattern."
+            ValueError,
+            match="bounding string did not match correct pattern.",
         ):
             is_in_bounds("(1.1, 4.4.4.4]")
 
         with pytest.raises(
-            ValueError, match="bounding string did not match correct pattern"
+            ValueError,
+            match="bounding string did not match correct pattern",
         ):
             is_in_bounds("(ab.cd, 1]")
 
         with pytest.raises(
-            TypeError, match="is_in_bounds takes either a range string or two numbers."
+            TypeError,
+            match="is_in_bounds takes either a range string or two numbers.",
         ):
             is_in_bounds(1, 2, 3)
 
@@ -124,7 +128,7 @@ class Test_is_in_bounds:
             is_in_bounds("[1--4]")
 
 
-class TestIsSequenceContainingPattern:
+class TestIsSequenceContainingPatternMatcher:
     def test_describe_to(self) -> None:
         desc = StringDescription()
         isp = IsSequenceContainingPattern(r"\t.*")
@@ -162,7 +166,7 @@ class TestIsSequenceContainingPattern:
         assert isp._matches(None) is False  # type: ignore[arg-type]
 
 
-class Test_has_item_matching:
+class TestHasItemMatchingFunction:
     def test_returns_instance(self) -> None:
         him = has_item_matching(r".*")
         assert isinstance(him, IsSequenceContainingPattern)

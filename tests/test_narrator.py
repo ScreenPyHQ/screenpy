@@ -1,4 +1,5 @@
-from typing import Callable, Dict, List, Tuple, Union
+from pathlib import Path
+from typing import Callable, Union
 from unittest import mock
 
 import pytest
@@ -11,9 +12,9 @@ def _() -> None:
     """Dummy function for simple chaining tests."""
 
 
-T_KW = Dict[str, Union[Callable, str]]
-T_Flat = List[Tuple[str, T_KW, int]]
-T_Chain = List[Tuple[str, T_KW, List]]
+T_KW = dict[str, Union[Callable, str]]
+T_Flat = list[tuple[str, T_KW, int]]
+T_Chain = list[tuple[str, T_KW, list]]
 
 KW: T_KW = {"func": _, "line": ""}
 KW_G: T_KW = {**KW, "gravitas": NORMAL}
@@ -277,10 +278,21 @@ class TestNarrator:
             assert narrate.call_args_list[0][0][0] == channel
             assert list(narrate.call_args_list[0][1].keys()) == expected_kwargs
 
-    def test_attach(self) -> None:
+    def test_attach_strfilepath(self) -> None:
         test_adapters = [get_mock_adapter() for _ in range(3)]
         narrator = Narrator(adapters=test_adapters)  # type: ignore[arg-type]  # good ol' mocks
         test_path = "lskywalker/documents/father.png"
+        test_kwargs = {"no": "that's not true!", "that": "is impossible!"}
+
+        narrator.attaches_a_file(test_path, **test_kwargs)
+
+        for mocked_adapter in test_adapters:
+            mocked_adapter.attach.assert_called_once_with(test_path, **test_kwargs)
+
+    def test_attach_pathfilepath(self) -> None:
+        test_adapters = [get_mock_adapter() for _ in range(3)]
+        narrator = Narrator(adapters=test_adapters)  # type: ignore[arg-type]  # good ol' mocks
+        test_path = Path("/lskywalker/documents/father.png")
         test_kwargs = {"no": "that's not true!", "that": "is impossible!"}
 
         narrator.attaches_a_file(test_path, **test_kwargs)

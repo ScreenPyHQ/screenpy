@@ -8,6 +8,10 @@ import pytest
 
 from screenpy import Actor, IsEqualTo, See, act, aside, beat, scene
 
+# We have some functions that are purposely not annotated for the purposes of
+# the tests. Let us be, MyPy!
+# mypy: disable-error-code="no-untyped-def"
+
 
 def prop() -> None:
     """The candlestick in the hall!"""
@@ -56,7 +60,6 @@ class CornerCase:
 
     # purposfully not annotated
     @beat("Baz?")
-    # type: ignore[no-untyped-def]
     def no_annotations_rt_none(self, toggle=False):  # noqa: ANN001, ANN201
         if toggle:
             return 1
@@ -64,7 +67,6 @@ class CornerCase:
 
     # purposfully not annotated
     @beat("Bazinga!!")
-    # type: ignore[no-untyped-def]
     def no_annotations_rt_int(self, toggle=False):  # noqa: ANN001, ANN201
         if toggle:
             return 1
@@ -112,7 +114,9 @@ class TestBeat:
         assert completed_line == f"The {test_weapon} in the {test_room}!"
 
     def test_beat_logging_none(
-        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+        self,
+        Tester: Actor,
+        caplog: pytest.LogCaptureFixture,
     ) -> None:
         caplog.set_level(logging.INFO)
         See(NonesyQuestion(), IsEqualTo(None)).perform_as(Tester)
@@ -126,7 +130,9 @@ class TestBeat:
         ]
 
     def test_beat_logging_none_corner(
-        self, Tester: Actor, caplog: pytest.LogCaptureFixture
+        self,
+        Tester: Actor,
+        caplog: pytest.LogCaptureFixture,
     ) -> None:
         caplog.set_level(logging.INFO)
         See(CornerCase(), IsEqualTo(None)).perform_as(Tester)

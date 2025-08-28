@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Hashable, Iterable, Mapping, TypeVar, overload
+from typing import TYPE_CHECKING, Any, TypeVar, overload
 
 from hamcrest import has_entries
 
@@ -11,6 +11,8 @@ from screenpy.pacing import beat
 from screenpy.speech_tools import represent_prop
 
 if TYPE_CHECKING:
+    from collections.abc import Hashable, Iterable, Mapping
+
     from hamcrest.core.matcher import Matcher
 
     K = TypeVar("K", bound=Hashable)

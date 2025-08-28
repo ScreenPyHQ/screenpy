@@ -14,7 +14,8 @@ from screenpy.narration.stdout_adapter.configuration import StdOutAdapterSetting
 class TestPyprojectTomlConfig:
     @mock.patch("screenpy.configuration.Path", autospec=True)
     def test__parse_pyproject_toml_file_does_not_exist(
-        self, MockedPath: mock.Mock
+        self,
+        MockedPath: mock.Mock,
     ) -> None:
         MockedPath.cwd.return_value.__truediv__.return_value = MockedPath
         MockedPath.is_file.return_value = False
@@ -103,7 +104,7 @@ class TestSettings:
 class TestStdOutAdapterSettings:
     def test_pyproject_overwrites_initial(self) -> None:
         mock_open = mock.mock_open(
-            read_data=b"[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500"
+            read_data=b"[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500",
         )
 
         with mock.patch("pathlib.Path.open", mock_open):
@@ -113,7 +114,7 @@ class TestStdOutAdapterSettings:
 
     def test_env_overwrites_pyproject(self) -> None:
         mock_open = mock.mock_open(
-            read_data=b"[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500"
+            read_data=b"[tool.screenpy.stdoutadapter]\nINDENT_SIZE = 500",
         )
         mock_env = {"SCREENPY_STDOUTADAPTER_INDENT_SIZE": "1337"}
 

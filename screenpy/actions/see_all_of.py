@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING
 
 from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
     from .see import T_Q, T_R
 
-    T_T = Tuple[T_Q, T_R]
+    T_T = tuple[T_Q, T_R]
 
 
 class SeeAllOf:

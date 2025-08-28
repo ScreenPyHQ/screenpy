@@ -24,7 +24,7 @@ from typing import Any, Callable, TypeVar
 from hamcrest.core.base_matcher import BaseMatcher, Matcher
 from hamcrest.core.description import Description
 
-from ..pacing import beat
+from screenpy.pacing import beat
 
 T = TypeVar("T")
 

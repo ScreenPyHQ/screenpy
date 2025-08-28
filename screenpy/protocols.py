@@ -14,7 +14,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 if TYPE_CHECKING:
-    from typing import Any, Callable, Generator
+    from collections.abc import Generator
+    from pathlib import Path
+    from typing import Any, Callable
 
     from hamcrest.core.base_matcher import Matcher
 
@@ -113,7 +115,10 @@ class Adapter(Protocol):
         """Handle narrating an Act, which designates a group of tests."""
 
     def scene(
-        self, func: Callable, line: str, gravitas: str | None = None
+        self,
+        func: Callable,
+        line: str,
+        gravitas: str | None = None,
     ) -> Generator:
         """Handle narrating a Scene, which designates a subgroup of tests."""
 
@@ -121,7 +126,10 @@ class Adapter(Protocol):
         """Handle narrating a Beat, which is a step in a test."""
 
     def aside(
-        self, func: Callable, line: str, gravitas: str | None = None
+        self,
+        func: Callable,
+        line: str,
+        gravitas: str | None = None,
     ) -> Generator:
         """Handle narrating an Aside, which can happen any time."""
 
@@ -129,7 +137,7 @@ class Adapter(Protocol):
         """React to an exception being thrown, probably during a beat."""
 
     # ANN401 ignored here to allow for new adapters to use any kwargs.
-    def attach(self, filepath: str, **kwargs: Any) -> None:  # noqa: ANN401
+    def attach(self, filepath: Path | str, **kwargs: Any) -> None:  # noqa: ANN401
         """Handle attaching a file.
 
         Pass keyword arguments for specific adapters' needs.

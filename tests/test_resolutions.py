@@ -64,7 +64,10 @@ class TestBaseResolution:
         ],
     )
     def test_matcher_instantiation(
-        self, args: list, kwargs: dict, expected: object
+        self,
+        args: list,
+        kwargs: dict,
+        expected: object,
     ) -> None:
         """matcher function is properly called."""
 
@@ -210,7 +213,7 @@ class TestContainsTheEntry:
         assert not cte_single_matcher.matches({"play": "Hamlet"})
         assert cte_multiple_matcher.matches({"key1": "value1", "key2": "value2"})
         assert cte_multiple_matcher.matches(
-            {"key1": "value1", "key2": "value2", "play": "Hamlet"}
+            {"key1": "value1", "key2": "value2", "play": "Hamlet"},
         )
         assert not cte_multiple_matcher.matches({"key1": "value1"})
 
@@ -667,7 +670,8 @@ class TestIsInRange:
             IsInRange(1, 2, 3)
 
         with pytest.raises(
-            ValueError, match="bounding string did not match correct pattern."
+            ValueError,
+            match="bounding string did not match correct pattern.",
         ):
             IsInRange(5).resolve()
 
