@@ -57,9 +57,7 @@ class CornerCase:
 
 class TestBeat:
     def test_beat_logging_none_corner(
-        self,
-        Tester: Actor,
-        caplog: pytest.LogCaptureFixture,
+        self, Tester: Actor, caplog: pytest.LogCaptureFixture
     ) -> None:
         caplog.set_level(logging.INFO)
         See(CornerCase(), IsEqualTo(None)).perform_as(Tester)

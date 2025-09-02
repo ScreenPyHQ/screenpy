@@ -56,20 +56,20 @@ class IsInBounds(BaseMatcher[float]):
     def describe_to(self, description: Description) -> None:
         """Describe the passing case."""
         description.append_text(
-            f"the number is within the range of {self.minorant} and {self.majorant}",
+            f"the number is within the range of {self.minorant} and {self.majorant}"
         )
 
     def describe_match(self, item: float, match_description: Description) -> None:
         """Describe the match."""
         match_description.append_text(
-            f"{item} was within the range of {self.minorant} and {self.majorant}",
+            f"{item} was within the range of {self.minorant} and {self.majorant}"
         )
 
     def describe_mismatch(self, item: float, mismatch_description: Description) -> None:
         """Describe the failing case."""
         mismatch_description.append_text(
             f"{item} does not fall within the range of"
-            f" {self.minorant} and {self.majorant}",
+            f" {self.minorant} and {self.majorant}"
         )
 
 
@@ -86,7 +86,7 @@ def is_in_bounds(*bounds: float | str) -> IsInBounds:
             r"[\-, ]+?"  # any number of comma, dash and space
             r"(?P<majorant>-?(\d+\.?\d*)|(\.\d+))"  # majorant (int or float)
             r"(?P<upper>[])]?)"  # ) or ]
-            r"$",  # end of line
+            r"$"  # end of line
         )
         matched = re.match(pattern, bounding_string)
         if matched is None:

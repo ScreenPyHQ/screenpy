@@ -203,7 +203,7 @@ class Narrator:
             enclosed_func = self._dummy_entangle(channel_kws["func"])
             channel_kws["func"] = lambda: "overflow"
             self.backed_up_narrations[-1].append(
-                (channel, channel_kws, self.exit_level),
+                (channel, channel_kws, self.exit_level)
             )
         else:
             enclosed_func = self._entangle_func(channel, None, **channel_kws)
@@ -211,10 +211,7 @@ class Narrator:
         return enclosed_func
 
     def announcing_the_act(
-        self,
-        func: Callable,
-        line: str,
-        gravitas: str | None = None,
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> AbstractContextManager:
         """Narrate the title of the act."""
         if not self.on_air:
@@ -222,10 +219,7 @@ class Narrator:
         return self.narrate("act", func=func, line=line, gravitas=gravitas)
 
     def setting_the_scene(
-        self,
-        func: Callable,
-        line: str,
-        gravitas: str | None = None,
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> AbstractContextManager:
         """Narrate the title of the scene."""
         if not self.on_air:
@@ -233,10 +227,7 @@ class Narrator:
         return self.narrate("scene", func=func, line=line, gravitas=gravitas)
 
     def stating_a_beat(
-        self,
-        func: Callable,
-        line: str,
-        gravitas: str | None = None,
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> AbstractContextManager:
         """Narrate an emotional beat."""
         if not self.on_air:
@@ -244,9 +235,7 @@ class Narrator:
         return self.narrate("beat", func=func, line=line, gravitas=gravitas)
 
     def whispering_an_aside(
-        self,
-        line: str,
-        gravitas: str | None = None,
+        self, line: str, gravitas: str | None = None
     ) -> AbstractContextManager:
         """Narrate a conspiratorial aside (as a stage-whisper)."""
         if not self.on_air:

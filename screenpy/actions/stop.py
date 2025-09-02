@@ -50,9 +50,7 @@ class Stop:
         return cls(question, resolution)
 
     def __init__(
-        self,
-        question: Answerable | None = None,
-        resolution: Resolvable | None = None,
+        self, question: Answerable | None = None, resolution: Resolvable | None = None
     ) -> None:
         self.question = question
         self.resolution = resolution
@@ -91,7 +89,7 @@ class Stop:
 
         try:
             the_actor.attempts_to(
-                Silently(Eventually(See.the(self.question, self.resolution))),
+                Silently(Eventually(See.the(self.question, self.resolution)))
             )
         except DeliveryError as caught_exception:
             msg = (

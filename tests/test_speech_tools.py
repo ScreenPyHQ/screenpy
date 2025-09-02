@@ -40,8 +40,7 @@ class Indescribable:
 
 class TestGetAdditiveDescription:
     @pytest.mark.parametrize(
-        "describable",
-        [ThisIsADescribable(), ThisIsADescribableWithADescribe()],
+        "describable", [ThisIsADescribable(), ThisIsADescribableWithADescribe()]
     )
     def test_get_description(self, describable: Describable) -> None:
         description = get_additive_description(describable)

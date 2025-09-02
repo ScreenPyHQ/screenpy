@@ -81,7 +81,7 @@ class StdOutAdapter:
             NORMAL: logging.WARNING,
             HEAVY: logging.CRITICAL,
             EXTREME: logging.ERROR,
-        },
+        }
     )
 
     def __init__(self, stdout_manager: StdOutManager | None = None) -> None:
@@ -106,10 +106,7 @@ class StdOutAdapter:
         yield func_wrapper
 
     def scene(
-        self,
-        func: Callable,
-        line: str,
-        gravitas: str | None = None,
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Wrap the scene, to log the stylized title."""
 
@@ -133,10 +130,7 @@ class StdOutAdapter:
             yield func
 
     def aside(
-        self,
-        func: Callable,
-        line: str,
-        gravitas: str | None = None,
+        self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Encapsulate the aside within the manager's log context."""
         if not gravitas:
