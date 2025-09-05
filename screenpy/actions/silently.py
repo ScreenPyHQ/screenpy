@@ -40,8 +40,8 @@ def _silence_performable(performing_duck: Performable) -> None:
                 the_narrator.clear_backup()
             return
 
-    # type: ignore[method-assign]
     performing_duck.perform_as = MethodType(perform_as, performing_duck)
+    performing_duck._silenced = True  # type: ignore[attr-defined] # noqa: SLF001
 
 
 def _silence_answerable(answering_duck: Answerable) -> None:
@@ -61,8 +61,8 @@ def _silence_answerable(answering_duck: Answerable) -> None:
                 the_narrator.clear_backup()
             return thing
 
-    # type: ignore[method-assign]
     answering_duck.answered_by = MethodType(answered_by, answering_duck)
+    answering_duck._silenced = True  # type: ignore[attr-defined] # noqa: SLF001
 
 
 def _silence_resolvable(resolving_duck: Resolvable) -> None:
@@ -81,8 +81,8 @@ def _silence_resolvable(resolving_duck: Resolvable) -> None:
                 the_narrator.clear_backup()
             return res
 
-    # type: ignore[method-assign]
     resolving_duck.resolve = MethodType(resolve, resolving_duck)
+    resolving_duck._silenced = True  # type: ignore[attr-defined] # noqa: SLF001
 
 
 def Silently(duck: T) -> T:  # noqa: N802  # we want Silently to look like an Action.

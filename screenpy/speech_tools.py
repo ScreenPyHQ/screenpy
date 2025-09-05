@@ -73,3 +73,8 @@ def represent_prop(item: str | T | mock.Mock) -> str | mock.Mock:
         return description
 
     return f"<{item}>"
+
+
+def is_silent(duck: Performable | Resolvable | Answerable) -> bool:
+    """Check if a duck has been silenced."""
+    return getattr(duck, "_silenced", False)

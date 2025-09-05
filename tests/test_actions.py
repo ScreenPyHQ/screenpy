@@ -35,6 +35,7 @@ from screenpy import (
     the_narrator,
 )
 from screenpy.configuration import ScreenPySettings
+from screenpy.speech_tools import is_silent
 
 from .unittest_protocols import ErrorQuestion
 from .useful_mocks import (
@@ -930,6 +931,34 @@ class Action2(Performable):
 class TestSilentlyUnabridged:
     settings_path = "screenpy.actions.silently.settings"
 
+    def test_sets_silenced_attribute_false(self) -> None:
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=True)
+        with mock.patch(self.settings_path, mock_settings):
+            q1 = Silently(FakeQuestion())
+            q2 = Silently(FakeAction())
+            q3 = Silently(FakeResolution())
+
+        assert not hasattr(q1, "_silenced")
+        assert not hasattr(q2, "_silenced")
+        assert not hasattr(q3, "_silenced")
+        assert is_silent(q1) is False
+        assert is_silent(q2) is False
+        assert is_silent(q3) is False
+
+    def test_sets_silenced_attribute_true(self) -> None:
+        mock_settings = ScreenPySettings(UNABRIDGED_NARRATION=False)
+        with mock.patch(self.settings_path, mock_settings):
+            q1 = Silently(FakeQuestion())
+            q2 = Silently(FakeAction())
+            q3 = Silently(FakeResolution())
+
+        assert q1._silenced is True
+        assert q2._silenced is True
+        assert q3._silenced is True
+        assert is_silent(q1) is True
+        assert is_silent(q2) is True
+        assert is_silent(q3) is True
+
     def test_kinking(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
         mock_flush = mocker.spy(the_narrator, "flush_backup")
@@ -1171,7 +1200,40 @@ class TestEither:
         mock_action4.describe.return_value = "PerformBar."
 
         t = Either(mock_action1, mock_action2).or_(mock_action3, mock_action4)
+
         assert t.describe() == "Either doThing, doStuff or performFoo, performBar"
+
+    def test_multi_action_describe_with_silently(self) -> None:
+        mock_action1 = FakeAction()
+        mock_action1.describe.return_value = "DoThing!"
+        mock_action2 = FakeAction()
+        mock_action2.describe.return_value = "DoStuff!"
+        mock_action3 = FakeAction()
+        mock_action3.describe.return_value = "PerformFoo."
+        mock_action4 = FakeAction()
+        mock_action4.describe.return_value = "PerformBar."
+
+        t = Either(mock_action1, Silently(mock_action2)).or_(
+            mock_action3, Silently(mock_action4)
+        )
+
+        assert t.describe() == "Either doThing or performFoo"
+
+    def test_multi_action_describe_with_multiple_silently(self) -> None:
+        mock_action1 = FakeAction()
+        mock_action1.describe.return_value = "DoThing!"
+        mock_action2 = FakeAction()
+        mock_action2.describe.return_value = "DoStuff!"
+        mock_action3 = FakeAction()
+        mock_action3.describe.return_value = "PerformFoo."
+        mock_action4 = FakeAction()
+        mock_action4.describe.return_value = "PerformBar."
+
+        t = Either(Silently(mock_action1), Silently(mock_action2)).or_(
+            Silently(mock_action3), Silently(mock_action4)
+        )
+
+        assert t.describe() == "Either  or "
 
     def test_first_action_passes(self, Tester: Actor, mocker: MockerFixture) -> None:
         mock_clear = mocker.spy(the_narrator, "clear_backup")
