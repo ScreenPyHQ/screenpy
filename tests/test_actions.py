@@ -1180,13 +1180,13 @@ class TestEither:
         assert isinstance(t, Describable)
 
     def test_describe(self) -> None:
-        mock_action1 = FakeAction()
-        mock_action1.describe.return_value = "Do thing!"
+        act1 = FakeAction()
+        act1.describe.return_value = "Do thing!"
 
-        mock_action2 = FakeAction()
-        mock_action2.describe.return_value = "produce stuff!"
+        act2 = FakeAction()
+        act2.describe.return_value = "produce stuff!"
 
-        t = Either(mock_action1).or_(mock_action2)
+        t = Either(act1).or_(act2)
         assert t.describe() == "Either (do thing or produce stuff)"
 
     def test_multi_action_describe(self) -> None:
