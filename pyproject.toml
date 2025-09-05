@@ -161,7 +161,7 @@ typing_extensions = ">=4.8.0"
 black = {version = "24.8", optional = true}
 coverage = {version = "*", optional = true}
 cruft = {version = "*", optional = true}
-mypy = {version = "1.14.1", optional = true}
+mypy = {version = "*", optional = true}
 pre-commit = {version = "*", optional = true}
 pytest = {version = "*", optional = true}
 pytest-mock = {version = "*", optional = true}
