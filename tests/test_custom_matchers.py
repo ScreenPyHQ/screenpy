@@ -98,22 +98,22 @@ class TestIsInBoundsFunction:
 
     def test_bad_params(self) -> None:
         with pytest.raises(
-            ValueError, match="bounding string did not match correct pattern."
+            ValueError, match=r"bounding string did not match correct pattern."
         ):
             is_in_bounds("(1.1.1.1, 4.0]")
 
         with pytest.raises(
-            ValueError, match="bounding string did not match correct pattern."
+            ValueError, match=r"bounding string did not match correct pattern."
         ):
             is_in_bounds("(1.1, 4.4.4.4]")
 
         with pytest.raises(
-            ValueError, match="bounding string did not match correct pattern"
+            ValueError, match=r"bounding string did not match correct pattern"
         ):
             is_in_bounds("(ab.cd, 1]")
 
         with pytest.raises(
-            TypeError, match="is_in_bounds takes either a range string or two numbers."
+            TypeError, match=r"is_in_bounds takes either a range string or two numbers."
         ):
             is_in_bounds(1, 2, 3)
 
