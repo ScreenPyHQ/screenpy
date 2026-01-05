@@ -667,7 +667,7 @@ class TestIsInRange:
             IsInRange(1, 2, 3)
 
         with pytest.raises(
-            ValueError, match="bounding string did not match correct pattern."
+            ValueError, match=r"bounding string did not match correct pattern."
         ):
             IsInRange(5).resolve()
 
