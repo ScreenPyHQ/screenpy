@@ -114,7 +114,7 @@ split-on-trailing-comma = false
 
 [tool.poetry]
 name = "screenpy"
-version = "4.2.5"
+version = "5.0.0"
 description = "Screenplay pattern base for Python automated test suites."
 authors = ["Perry Goy <perry.goy@gmail.com>"]
 maintainers = ["Gabe Langton", "Marcel Wilson"]

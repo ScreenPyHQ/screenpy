@@ -1,6 +1,19 @@
 Release History
 ===============
 
+5.0.0 (2026-01-05)
+------------------
+
+### Breaking Changes
+
+- Support for Python 3.8 has been dropped!
+
+### New Features
+
+- Support for Python 3.13 has been added!
+- Added `is_silent` to find out if an -able has been silenced.
+
+
 4.2.5 (2024-05-29)
 ------------------
 
