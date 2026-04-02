@@ -22,7 +22,7 @@ by separating with commas:
 Selenium
 ++++++++
 
-`ScreenpPy Selenium <https://screenpy-selenium-docs.readthedocs.io/en/latest/>`__
+`ScreenPy Selenium <https://screenpy-selenium-docs.readthedocs.io/en/latest/>`__
 adds the Ability to ``BrowseTheWeb``
 using `Selenium <https://www.selenium.dev/>`__.
 It provides Actors

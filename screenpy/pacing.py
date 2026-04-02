@@ -11,8 +11,8 @@ import re
 from functools import wraps
 from typing import TYPE_CHECKING, Callable, TypeVar
 
-from screenpy.narration import Narrator, StdOutAdapter
-from screenpy.speech_tools import represent_prop
+from .narration import Narrator, StdOutAdapter
+from .speech_tools import represent_prop
 
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec

@@ -81,7 +81,7 @@ Here's how those might be assembled::
     from .matchers.has_saturation_greater_than import is_palpable
 
 
-    class IsPalpable(BaseResolution):
+    class IsPalpable:
         """Match a tension level that is very, very high!!!
 
         Examples::

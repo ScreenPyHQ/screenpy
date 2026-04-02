@@ -62,7 +62,7 @@ class Either:
     except_ = else_ = otherwise = alternatively = failing_that = or_
 
     def ignoring(self, *ignored_exceptions: type[BaseException]) -> Self:
-        """Set the expception classes to ignore."""
+        """Set the exception classes to ignore."""
         self.ignore_exceptions = ignored_exceptions
         return self
 

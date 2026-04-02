@@ -61,7 +61,7 @@ class Pause:
     def milliseconds_because(self, reason: str) -> Self:
         """Use milliseconds and provide a reason for the pause."""
         self.unit = f"millisecond{'s' if self.number != 1 else ''}"
-        self.time = self.time / 1000.0
+        self.time = self.number / 1000.0
         self.reason = self._massage_reason(reason)
         return self
 

@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
+import tomllib
 
 from pydantic_settings import (
     BaseSettings,
@@ -16,16 +16,6 @@ if TYPE_CHECKING:
     from typing import Any
 
     from pydantic.fields import FieldInfo
-
-if sys.version_info >= (3, 11):  # pragma: no cover
-    try:
-        import tomllib
-    except ImportError:
-        if not TYPE_CHECKING:
-            # Help users on older alphas
-            import tomli as tomllib
-else:  # pragma: no cover
-    import tomli as tomllib
 
 
 # The logic in PyprojectTomlConfig was taken and adapted from Black:
