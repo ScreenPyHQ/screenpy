@@ -5,7 +5,7 @@ from unittest import mock
 import pytest
 
 from screenpy import NORMAL, Adapter, Narrator, UnableToNarrate
-from screenpy.narration.narrator import _chainify
+from screenpy.narration.narrator import _build_narration_tree
 
 
 def _() -> None:
@@ -24,7 +24,7 @@ def get_mock_adapter() -> mock.Mock:
     return mock.create_autospec(Adapter, instance=True)
 
 
-class TestChainify:
+class TestBuildNarrationTree:
     @pytest.mark.parametrize(
         ("test_narrations", "expected"),
         [
@@ -43,7 +43,7 @@ class TestChainify:
         ],
     )
     def test_flat_narration(self, test_narrations: T_Flat, expected: T_Chain) -> None:
-        actual = _chainify(test_narrations)
+        actual = _build_narration_tree(test_narrations)
 
         assert actual == expected
 
@@ -150,7 +150,7 @@ class TestNarrator:
 
         mock_adapter.act.assert_called_once()
 
-    def test__increase_exit_level(self) -> None:
+    def test_depth_tracking(self) -> None:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
 
@@ -222,19 +222,19 @@ class TestNarrator:
     def test__dummy_entangle(self) -> None:
         narrator = Narrator()
 
-        with narrator._dummy_entangle(lambda: narrator.exit_level) as func:
+        with narrator._dummy_entangle(lambda: narrator.depth) as func:
             assert func() == 2
-        assert narrator.exit_level == 1
+        assert narrator.depth == 1
 
-    def test__entangle_chain(self) -> None:
+    def test__replay_kinked(self) -> None:
         mock_adapter = get_mock_adapter()
         narrator = Narrator(adapters=[mock_adapter])
-        chain: T_Chain = [
+        tree: T_Chain = [
             ("act", KW, [("scene", KW, [("beat", KW, [])])]),
             ("aside", KW, []),
         ]
 
-        narrator._entangle_chain(mock_adapter, chain)
+        narrator._replay_kinked(mock_adapter, tree)
 
         mock_adapter.act.assert_called_once()
         mock_adapter.scene.assert_called_once()
