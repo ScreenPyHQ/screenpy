@@ -29,5 +29,6 @@ and maintain.
    narration
    director
    filehierarchy
+   agent_skills
    deprecations
    context
