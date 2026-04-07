@@ -79,7 +79,7 @@ class Either:
             if not is_silent(action)
         )
 
-        return f"Either {try_summary} or {except_summary}"
+        return f"Either ({try_summary} or {except_summary})"
 
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to perform one of two performances."""
