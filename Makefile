@@ -1,6 +1,6 @@
 # shortcuts to help manage flipping between branches with different dependencies
 sync:
-	poetry install --extras dev --sync
+	poetry sync --extras dev
 
 update_lock_only:
 	poetry update --lock
