@@ -1,3 +1,8 @@
+---
+name: screenpy
+description: Composition-based Screenplay Pattern test framework for Python. Use when writing or editing automated tests in Python following the Screenplay Pattern architecture.
+---
+
 # ScreenPy
 
 Composition-based Screenplay Pattern test framework for Python. Actors are granted Abilities, perform Actions, ask Questions, and verify Resolutions. All via **protocols** (structural subtyping) — no base classes required.
