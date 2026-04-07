@@ -7,7 +7,7 @@ import pytest
 from screenpy import AnActor
 
 
-@pytest.fixture()
+@pytest.fixture
 def Perry() -> Generator:
     """Provide an Actor named Perry for each test."""
     the_actor = AnActor.named("Perry")
