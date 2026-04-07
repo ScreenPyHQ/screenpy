@@ -199,7 +199,7 @@ class Actor:
             ability.forget()
         self.abilities = []
 
-    exit_stage_left = exit_stage_right = exit_through_vomitorium = exit
+    exit_stage_left = exit_stage_right = exit_through_vomitorium = exit  # noqa: A003
 
     def __call__(self, *actions: Performable) -> None:
         """Alias for :meth:`attempts_to`."""
