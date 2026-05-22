@@ -29,16 +29,16 @@ class Either:
 
     Examples::
 
-        the_actor.will(Either(DoAction()).or_(DoDifferentAction())
+        the_actor.attempts_to(Either(DoAction()).or_(DoDifferentAction())
 
-        the_actor.will(
+        the_actor.attempts_to(
             Either(DoAction()).otherwise(DoDifferentAction()).ignoring(
                 AssertionError, NotImplementedError
             )
         )
 
         # using a custom Task which raises AssertionError
-        the_actor.will(
+        the_actor.attempts_to(
             Either(CheckIfOnDomain(URL())).or_(Open.their_browser_on(URL())
         )
     """
@@ -89,15 +89,14 @@ class Either:
         # or if UNABRIDGED_NARRATION is enabled
         with the_narrator.mic_cable_kinked():
             try:
-                the_actor.will(*self.try_performables)
+                the_actor.attempts_to(*self.try_performables)
             except self.ignore_exceptions:
                 if not settings.UNABRIDGED_NARRATION:
                     the_narrator.clear_backup()
             else:
                 return
 
-        the_actor.will(*self.except_performables)
-        return
+        the_actor.attempts_to(*self.except_performables)
 
     def __init__(self, *first: Performable) -> None:
         self.try_performables: tuple[Performable, ...] = first

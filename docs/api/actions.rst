@@ -30,7 +30,7 @@ Either
 **Aliases**: ``Attempt``,
 ``AttemptTo``,
 ``GoFor``,
-``Try``
+``Try``,
 ``TryTo``,
 ``Attempts``,
 ``AttemptsTo``,
