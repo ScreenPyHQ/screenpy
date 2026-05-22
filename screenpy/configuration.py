@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import TYPE_CHECKING
-import tomllib
 
+import tomllib
 from pydantic_settings import (
     BaseSettings,
     PydanticBaseSettingsSource,
