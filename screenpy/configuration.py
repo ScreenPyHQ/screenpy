@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -11,6 +12,11 @@ from pydantic_settings import (
     PydanticBaseSettingsSource,
     SettingsConfigDict,
 )
+
+if sys.version_info >= (3, 11):  # pragma: no cover
+    import tomllib
+else:  # pragma: no cover
+    import tomli as tomllib
 
 if TYPE_CHECKING:
     from typing import Any
