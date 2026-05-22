@@ -219,10 +219,10 @@ class TestNarrator:
             mock_adapter.beat.assert_called_once()
             mock_adapter.act.assert_called_once()
 
-    def test__dummy_entangle(self) -> None:
+    def test__mimic_entangle(self) -> None:
         narrator = Narrator()
 
-        with narrator._dummy_entangle(lambda: narrator.exit_level) as func:
+        with narrator._mimic_entangle(lambda: narrator.exit_level) as func:
             assert func() == 2
         assert narrator.exit_level == 1
 
