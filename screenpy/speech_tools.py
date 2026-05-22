@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import re
-from typing import TypeVar, overload
-from unittest import mock
+from typing import TYPE_CHECKING, overload
 
 from hamcrest.core.helpers.hasmethod import hasmethod
 
 from screenpy.protocols import Answerable, Describable, Performable, Resolvable
 
-T = TypeVar("T")
+if TYPE_CHECKING:
+    from typing import TypeVar
+    from unittest import mock
+
+    T = TypeVar("T")
 
 
 def get_additive_description(describable: Describable | T) -> str:
@@ -61,8 +64,6 @@ def represent_prop(item: str | T) -> str: ...
 
 def represent_prop(item: str | T | mock.Mock) -> str | mock.Mock:
     """Represent items in a manner suitable for the audience (logging)."""
-    if isinstance(item, mock.Mock):
-        return item
     if hasmethod(item, "describe_to"):
         return f"{item}"
     if isinstance(item, str):
