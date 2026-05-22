@@ -31,6 +31,7 @@ def test_screenpy() -> None:
         "AttemptTo",
         "BaseResolution",
         "beat",
+        "CloseTo",
         "Confirm",
         "ConfirmAllOf",
         "ConfirmAnyOf",
@@ -74,6 +75,7 @@ def test_screenpy() -> None:
         "GoFor",
         "GreaterThan",
         "GreaterThanOrEqualTo",
+        "HaveLength",
         "HasLength",
         "HEAVY",
         "InRange",
@@ -231,6 +233,7 @@ def test_actions() -> None:
 def test_resolutions() -> None:
     expected = [
         "BaseResolution",
+        "CloseTo",
         "ContainItemMatching",
         "ContainsItemMatching",
         "ContainsTheEntries",
@@ -256,6 +259,7 @@ def test_resolutions() -> None:
         "GreaterThan",
         "GreaterThanOrEqualTo",
         "HasLength",
+        "HaveLength",
         "InRange",
         "IsCloseTo",
         "IsEmpty",
