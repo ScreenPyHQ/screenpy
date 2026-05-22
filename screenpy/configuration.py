@@ -6,7 +6,6 @@ import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-import tomllib
 from pydantic_settings import (
     BaseSettings,
     PydanticBaseSettingsSource,
