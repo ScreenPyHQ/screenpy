@@ -90,16 +90,19 @@ class StdOutAdapter:
         self.manager = stdout_manager
         self.handled_exception = None
 
+    def _get_level_of_gravitas(self, gravitas: str | None) -> int:
+        """Get the default gravitas level if none is provided."""
+        if gravitas is None:
+            return self.GRAVITAS[LIGHT]
+        return self.GRAVITAS[gravitas]
+
     def act(self, func: Callable, line: str, gravitas: str | None = None) -> Generator:
         """Wrap the act, to log the stylized title."""
 
         @wraps(func)
         def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> Callable[P, T]:
             """Wrap the func, so we log at the correct time."""
-            if gravitas is None:
-                level = self.GRAVITAS[LIGHT]
-            else:
-                level = self.GRAVITAS[gravitas]
+            level = self._get_level_of_gravitas(gravitas)
             self.manager.log(f"ACT {line.upper()}", level)
             return func(*args, **kwargs)
 
@@ -113,10 +116,7 @@ class StdOutAdapter:
         @wraps(func)
         def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> Callable[P, T]:
             """Wrap the func, so we log at the correct time."""
-            if gravitas is None:
-                level = self.GRAVITAS[LIGHT]
-            else:
-                level = self.GRAVITAS[gravitas]
+            level = self._get_level_of_gravitas(gravitas)
             self.manager.log(f"Scene: {line.title()}", level)
             return func(*args, **kwargs)
 
@@ -124,18 +124,16 @@ class StdOutAdapter:
 
     def beat(self, func: Callable, line: str, gravitas: str | None = None) -> Generator:
         """Encapsulate the beat within the manager's log context."""
-        if not gravitas:
-            gravitas = LIGHT
-        with self.manager.log_context(line, self.GRAVITAS[gravitas]):
+        level = self._get_level_of_gravitas(gravitas)
+        with self.manager.log_context(line, level):
             yield func
 
     def aside(
         self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Encapsulate the aside within the manager's log context."""
-        if not gravitas:
-            gravitas = LIGHT
-        with self.manager.log_context(line, self.GRAVITAS[gravitas]):
+        level = self._get_level_of_gravitas(gravitas)
+        with self.manager.log_context(line, level):
             yield func
 
     def error(self, exc: Exception) -> None:
