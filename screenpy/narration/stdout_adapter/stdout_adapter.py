@@ -29,27 +29,22 @@ class StdOutManager:
 
     def __init__(self, logger: logging.Logger | None = None) -> None:
         self.logger = logger or logging.getLogger("screenpy")
-        self.depth: list[str] = []
+        self.depth: int = 0
 
     @contextmanager
     def _indent(self) -> Generator:
-        """Increase the indentation level."""
-        # We want this indentation to last until we explicitly call _outdent.
-        # Keeping something created in this context alive in our depth gauge
-        # will persist the context until we pop it off and discard it later!
-        marker = "depth marker"
-        self.depth.append(marker)
-        yield marker
+        self.depth += 1
+        yield
 
     def _outdent(self) -> None:
         """Decrease the indentation level."""
         if self.depth:
-            self.depth.pop()
+            self.depth -= 1
 
     def log(self, line: str, level: int = logging.INFO) -> None:
         """Log a line!"""
         whitespace = settings.INDENT_SIZE * settings.INDENT_CHAR
-        indent = len(self.depth) * whitespace if settings.INDENT_LOGS else ""
+        indent = self.depth * whitespace if settings.INDENT_LOGS else ""
         msg = f"{indent}{line}"
         self.logger.log(level, msg)
 
