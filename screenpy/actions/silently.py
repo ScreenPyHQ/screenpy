@@ -100,15 +100,15 @@ def Silently(duck: T) -> T:  # noqa: N802  # we want Silently to look like an Ac
 
     Examples::
 
-        the_actor.will(Silently(Click.on(THE_BUTTON)))
+        the_actor.attempts_to(Silently(Click.on(THE_BUTTON)))
 
-        the_actor.shall(
+        the_actor.should(
             See(
                 Silently(Text.of_the(WELCOME_BANNER)), ContainsTheText("Welcome!")
             )
         )
 
-        the_actor.shall(
+        the_actor.should(
             See(
                 Text.of_the(WELCOME_BANNER), Silently(ContainsTheText("Welcome!"))
             )

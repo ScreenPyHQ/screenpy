@@ -4,7 +4,7 @@ Settings
 
 To configure ScreenPy,
 we provide some settings
-through `Pydantic's settings management <https://docs.pydantic.dev/usage/settings/>`__.
+through `Pydantic's settings management <https://pydantic.dev/docs/validation/latest/concepts/pydantic_settings/>`__.
 
 Settings can be configured through these ways:
 

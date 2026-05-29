@@ -35,7 +35,7 @@ with a :ref:`direction <directions>`.
 
     when(Cameron).attempts_to(
         StartRecording(),
-        MakeNote.of_the(Text.of_the(OPENING_LINE))).as_("camera 2 cue"),
+        MakeNote.of_the(Text.of_the(OPENING_LINE)).as_("camera 2 cue"),
         CutToCamera(2).after_line(1),
     )
 
@@ -233,8 +233,8 @@ Would generate this log::
                         ... hoping it's equal to True.
                             => <True>
 
-But what if we didn't need to know 
-all the steps being taken in ``PerformChatty`` 
+But what if we didn't need to know
+all the steps being taken in ``PerformChatty``
 unless they were to fail?
 Wrapping ``PerformA`` in ``Silently``...
 
@@ -249,8 +249,8 @@ Wrapping ``PerformA`` in ``Silently``...
 
     Marcel tries to PerformChatty
 
-Unless of course something bad happens 
-inside of ``PerformA`` in which case 
+Unless of course something bad happens
+inside of ``PerformA`` in which case
 the normal logging will take place::
 
     Marcel tries to PerformChatty
@@ -272,35 +272,35 @@ the normal logging will take place::
 Using Either
 ============
 
-Sometimes you may need to use a try/except control flow in your test, 
-for one reason or another. 
-Luckily, your Actor can perform 
+Sometimes you may need to use a try/except control flow in your test,
+for one reason or another.
+Luckily, your Actor can perform
 this flow with the :class:`~screenpy.actions.Either` Action!
 
 .. code-block:: python
 
-    the_actor.will(Either(DoAction()).or_(DoDifferentAction())
+    the_actor.will(Either(DoAction())).or_(DoDifferentAction())
 
-The Actor will attempt to perform the first action (or set of actions).  
-If successful, the Actor moves on. 
-But if an ``AssertionError`` is raised 
-the Actor will begin performing 
-the second action (or set of actions) 
+The Actor will attempt to perform the first action (or set of actions).
+If successful, the Actor moves on.
+But if an ``AssertionError`` is raised
+the Actor will begin performing
+the second action (or set of actions)
 passed into :meth:`~screenpy.actions.Either.or_`.
-Note the Actor only catches ``AssertionError`` here 
+Note the Actor only catches ``AssertionError`` here
 allowing for other exceptions to still be raised.
 
 Other exceptions can be caught when specified.
 
 .. code-block:: python
-    
+
     the_actor.will(
         Either(DoAction())
         .or_(DoDifferentAction())
         .ignoring(ValueError, AssertionError)
     )
 
-:class:`~screenpy.actions.Either` allows users to pass in multiple actions. 
+:class:`~screenpy.actions.Either` allows users to pass in multiple actions.
 This is similar Actor performing multiple actions in one call.
 
 .. code-block:: python
@@ -323,7 +323,8 @@ This is similar Actor performing multiple actions in one call.
    after it experiences a failure in the first routine; the Actor will proceed directly
    to the second routine. Keep this in mind while defining the two branches of Actions.
 
-To help illustrate this further here is a real-world example 
+To help illustrate this further,
+here is a real-world example
 using `screenpy_selenium <https://screenpy-selenium-docs.readthedocs.io/en/latest/>`__
 
 .. code-block:: python
@@ -340,4 +341,3 @@ using `screenpy_selenium <https://screenpy-selenium-docs.readthedocs.io/en/lates
            Click.on(SIGN_IN_BUTTON)
        )
     )
-

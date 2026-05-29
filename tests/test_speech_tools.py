@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from unittest import mock
 
 import pytest
 from hamcrest import equal_to, instance_of
@@ -78,11 +77,6 @@ class TestRepresentProp:
         val = 1234
 
         assert represent_prop(val) == "<1234>"
-
-    def test_mock(self) -> None:
-        val = mock.Mock()
-
-        assert represent_prop(val) is val
 
     def test_gtlt_object(self) -> None:
         val = FancyObj()

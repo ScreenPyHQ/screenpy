@@ -19,22 +19,22 @@ class TestStdOutManager:
 
     def test__outdent(self) -> None:
         manager = StdOutManager()
-        manager.depth = []
+        manager.depth = 0
 
         manager._outdent()
         manager._outdent()
         manager._outdent()
 
-        assert len(manager.depth) == 0
+        assert manager.depth == 0
 
     def test__indent(self) -> None:
         manager = StdOutManager()
 
         with manager._indent():
-            assert len(manager.depth) == 1
+            assert manager.depth == 1
 
-        # context persists until manager._outdent is called
-        assert len(manager.depth) == 1
+        # depth persists until manager._outdent is called
+        assert manager.depth == 1
 
     def test_step(self, caplog: pytest.LogCaptureFixture) -> None:
         manager = StdOutManager()

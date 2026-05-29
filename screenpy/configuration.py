@@ -12,20 +12,15 @@ from pydantic_settings import (
     SettingsConfigDict,
 )
 
+if sys.version_info >= (3, 11):  # pragma: no cover
+    import tomllib
+else:  # pragma: no cover
+    import tomli as tomllib
+
 if TYPE_CHECKING:
     from typing import Any
 
     from pydantic.fields import FieldInfo
-
-if sys.version_info >= (3, 11):  # pragma: no cover
-    try:
-        import tomllib
-    except ImportError:
-        if not TYPE_CHECKING:
-            # Help users on older alphas
-            import tomli as tomllib
-else:  # pragma: no cover
-    import tomli as tomllib
 
 
 # The logic in PyprojectTomlConfig was taken and adapted from Black:
