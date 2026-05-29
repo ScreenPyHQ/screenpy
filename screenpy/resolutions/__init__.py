@@ -51,6 +51,7 @@ StartWith = StartsWith
 
 __all__ = [
     "BaseResolution",
+    "CloseTo",
     "ContainItemMatching",
     "ContainTheEntries",
     "ContainTheEntry",
@@ -76,6 +77,7 @@ __all__ = [
     "GreaterThan",
     "GreaterThanOrEqualTo",
     "HasLength",
+    "HaveLength",
     "InRange",
     "IsCloseTo",
     "IsEmpty",

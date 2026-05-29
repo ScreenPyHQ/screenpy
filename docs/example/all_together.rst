@@ -71,7 +71,7 @@ produces the expected results::
 
     def test_dramatic_moment(Cameron: AnActor, Polly: AnActor) -> None:
         """We can use the camera to create dramatic tension."""
-        Cameron.has_cleanup_tasks(StopRecording())
+        Cameron.has_ordered_cleanup_tasks(StopRecording())
 
         given(Cameron).was_able_to(
             StartRecording(GOOD_WILL_HUNTING).on(Camera("Will")),
@@ -89,7 +89,7 @@ produces the expected results::
 
     def test_comedic_timing(Cameron: AnActor, Polly: AnActor) -> None:
         """We can use the camera to make funny moments."""
-        Cameron.has_cleanup_tasks(StopRecording())
+        Cameron.has_ordered_cleanup_tasks(StopRecording())
         one = Camera("Shaun")
         two = Camera("Ed")
 

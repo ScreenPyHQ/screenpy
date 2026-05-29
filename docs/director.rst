@@ -42,7 +42,7 @@ You can use it *anywhere*
     then(Perry).should(
         See.the(
             Text.of_the(GENERATED_KEYCODE),
-            DoesNot(ContainTheText(noted_under("keycode")),  # <- with Resolutions!
+            DoesNot(ContainTheText(noted_under("keycode"))),  # <- with Resolutions!
         ),
     )
 

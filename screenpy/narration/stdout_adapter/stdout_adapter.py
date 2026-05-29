@@ -29,27 +29,22 @@ class StdOutManager:
 
     def __init__(self, logger: logging.Logger | None = None) -> None:
         self.logger = logger or logging.getLogger("screenpy")
-        self.depth: list[str] = []
+        self.depth: int = 0
 
     @contextmanager
     def _indent(self) -> Generator:
-        """Increase the indentation level."""
-        # We want this indentation to last until we explicitly call _outdent.
-        # Keeping something created in this context alive in our depth gauge
-        # will persist the context until we pop it off and discard it later!
-        marker = "depth marker"
-        self.depth.append(marker)
-        yield marker
+        self.depth += 1
+        yield
 
     def _outdent(self) -> None:
         """Decrease the indentation level."""
         if self.depth:
-            self.depth.pop()
+            self.depth -= 1
 
     def log(self, line: str, level: int = logging.INFO) -> None:
         """Log a line!"""
         whitespace = settings.INDENT_SIZE * settings.INDENT_CHAR
-        indent = len(self.depth) * whitespace if settings.INDENT_LOGS else ""
+        indent = self.depth * whitespace if settings.INDENT_LOGS else ""
         msg = f"{indent}{line}"
         self.logger.log(level, msg)
 
@@ -90,16 +85,19 @@ class StdOutAdapter:
         self.manager = stdout_manager
         self.handled_exception = None
 
+    def _get_level_of_gravitas(self, gravitas: str | None) -> int:
+        """Get the default gravitas level if none is provided."""
+        if gravitas is None:
+            return self.GRAVITAS[LIGHT]
+        return self.GRAVITAS[gravitas]
+
     def act(self, func: Callable, line: str, gravitas: str | None = None) -> Generator:
         """Wrap the act, to log the stylized title."""
 
         @wraps(func)
         def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> Callable[P, T]:
             """Wrap the func, so we log at the correct time."""
-            if gravitas is None:
-                level = self.GRAVITAS[LIGHT]
-            else:
-                level = self.GRAVITAS[gravitas]
+            level = self._get_level_of_gravitas(gravitas)
             self.manager.log(f"ACT {line.upper()}", level)
             return func(*args, **kwargs)
 
@@ -113,10 +111,7 @@ class StdOutAdapter:
         @wraps(func)
         def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> Callable[P, T]:
             """Wrap the func, so we log at the correct time."""
-            if gravitas is None:
-                level = self.GRAVITAS[LIGHT]
-            else:
-                level = self.GRAVITAS[gravitas]
+            level = self._get_level_of_gravitas(gravitas)
             self.manager.log(f"Scene: {line.title()}", level)
             return func(*args, **kwargs)
 
@@ -124,18 +119,16 @@ class StdOutAdapter:
 
     def beat(self, func: Callable, line: str, gravitas: str | None = None) -> Generator:
         """Encapsulate the beat within the manager's log context."""
-        if not gravitas:
-            gravitas = LIGHT
-        with self.manager.log_context(line, self.GRAVITAS[gravitas]):
+        level = self._get_level_of_gravitas(gravitas)
+        with self.manager.log_context(line, level):
             yield func
 
     def aside(
         self, func: Callable, line: str, gravitas: str | None = None
     ) -> Generator:
         """Encapsulate the aside within the manager's log context."""
-        if not gravitas:
-            gravitas = LIGHT
-        with self.manager.log_context(line, self.GRAVITAS[gravitas]):
+        level = self._get_level_of_gravitas(gravitas)
+        with self.manager.log_context(line, level):
             yield func
 
     def error(self, exc: Exception) -> None:

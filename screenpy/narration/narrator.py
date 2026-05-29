@@ -174,8 +174,8 @@ class Narrator:
         self.clear_backup()
 
     @contextmanager
-    def _dummy_entangle(self, func: Callable) -> Generator:
-        """Yield the function back without any adapter processing.
+    def _mimic_entangle(self, func: Callable) -> Generator:
+        """Give back something that looks like an entangled func.
 
         Used in two situations:
         * Off-air: narration is suppressed, but the caller still expects
@@ -269,12 +269,13 @@ class Narrator:
         otherwise it is sent through the adapters immediately.
         """
         channel_kws = {key: value for key, value in kwargs.items() if value is not None}
-        if not callable(channel_kws["func"]):
+        func = channel_kws.get("func")
+        if not callable(func):
             msg = 'Narration "func" is not callable.'
             raise UnableToNarrate(msg)
 
         if self.cable_kinked:
-            enclosed_func = self._dummy_entangle(channel_kws["func"])
+            enclosed_func = self._mimic_entangle(func)
             channel_kws["func"] = lambda: "overflow"
             self.backed_up_narrations[-1].append((channel, channel_kws, self.depth))
         else:
@@ -287,7 +288,7 @@ class Narrator:
     ) -> AbstractContextManager:
         """Narrate the title of the act."""
         if not self.on_air:
-            return self._dummy_entangle(func)
+            return self._mimic_entangle(func)
         return self.narrate("act", func=func, line=line, gravitas=gravitas)
 
     def setting_the_scene(
@@ -295,7 +296,7 @@ class Narrator:
     ) -> AbstractContextManager:
         """Narrate the title of the scene."""
         if not self.on_air:
-            return self._dummy_entangle(func)
+            return self._mimic_entangle(func)
         return self.narrate("scene", func=func, line=line, gravitas=gravitas)
 
     def stating_a_beat(
@@ -303,7 +304,7 @@ class Narrator:
     ) -> AbstractContextManager:
         """Narrate an emotional beat."""
         if not self.on_air:
-            return self._dummy_entangle(func)
+            return self._mimic_entangle(func)
         return self.narrate("beat", func=func, line=line, gravitas=gravitas)
 
     def whispering_an_aside(
@@ -311,7 +312,7 @@ class Narrator:
     ) -> AbstractContextManager:
         """Narrate a conspiratorial aside (as a stage-whisper)."""
         if not self.on_air:
-            return self._dummy_entangle(lambda: "<static>")
+            return self._mimic_entangle(lambda: "<static>")
         return self.narrate("aside", func=lambda: "ssh", line=line, gravitas=gravitas)
 
     def explains_the_error(self, exc: Exception) -> None:
