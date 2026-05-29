@@ -99,7 +99,7 @@ class Narrator:
             flat list of ``(channel, kwargs, depth)`` tuples recorded while
             the cable was kinked.
         depth: the current nesting depth (1 = top level).  Incremented when
-            entering a ``_dummy_entangle`` context, decremented on exit.
+            entering a ``_mimic_entangle`` context, decremented on exit.
         handled_exception: the last exception passed to ``explains_the_error``.
     """
 
