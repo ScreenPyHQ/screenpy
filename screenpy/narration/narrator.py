@@ -3,6 +3,24 @@
 The Narrator for the screenplay informs the audience what the actors are doing.
 The Narrator's microphone is modular, allowing for any number of adapters to be
 applied. Adapters must follow the Adapter protocol outlined in screenpy.protocols.
+
+Narration flow
+--------------
+When things are normal (cable not kinked, on-air), narrating works like this:
+
+    1. A pacing decorator (e.g. ``@beat``) calls ``narrate(channel, ...)``.
+    2. ``narrate`` calls ``_entangle_func``, which passes the function through
+       each adapter's generator for that channel. Adapters may wrap the
+       function, add logging, change indentation, etc.
+    3. The entangled function is yielded back inside a ``with`` block.
+       The caller runs it, and when the block exits, each adapter's
+       generator is closed (triggering any cleanup).
+
+When the mic cable is *kinked* (``mic_cable_kinked`` context), narrations are
+stored instead of played immediately. They're kept as a flat list of
+``(channel, kwargs, depth)`` tuples, where ``depth`` tracks nesting. When the
+kink is released (or ``flush_backup`` is called), the flat list is rebuilt into
+a tree and replayed through every adapter, preserving the original nesting.
 """
 
 from __future__ import annotations
@@ -13,10 +31,6 @@ from typing import TYPE_CHECKING
 
 from screenpy.exceptions import UnableToNarrate
 
-# pylint: disable=stop-iteration-return
-# The above pylint warning may be a false-positive since Narrator calls `next`
-# directly instead of iterating over the generators.
-
 if TYPE_CHECKING:
     from collections.abc import Generator
     from contextlib import AbstractContextManager
@@ -26,51 +40,74 @@ if TYPE_CHECKING:
     from screenpy.protocols import Adapter
 
     Kwargs = Union[Callable, str]
-    BackedUpNarration = tuple[str, dict[str, Kwargs], int]
-    ChainedNarrations = list[tuple[str, dict[str, Kwargs], list]]
-    Entangled = tuple[Callable, list[Generator]]
+
+    # A single stored narration: (channel_name, channel_kwargs, nesting_depth).
+    KinkedNarration = tuple[str, dict[str, Kwargs], int]
+    # A node in the rebuilt narration tree: (channel_name, kwargs, children).
+    NarrationNode = tuple[str, dict[str, Kwargs], list["NarrationNode"]]
 
 
-def _chainify(narrations: list[BackedUpNarration]) -> ChainedNarrations:
-    """Organize backed-up narrations into an encapsulation chain.
+def _build_narration_tree(narrations: list[KinkedNarration]) -> list[NarrationNode]:
+    """Rebuild a flat list of kinked narrations into a nested tree.
 
-    This helper function takes a flat list of narrations and exit levels and
-    organizes it into an encapsulation structure. For example:
-    [(kwargs1, 1), (kwargs2, 2), (kwargs3, 2), (kwargs4, 3)]
-    =>
-    [(kwargs1, [(kwargs2, []), (kwargs3, [(kwargs4, [])])])]
+    Each narration carries a *depth* value (1-based) that records how deeply
+    nested it was when it was originally stored.  This function uses a stack to
+    reconstruct the parent/child relationships:
 
-    This encapsulation structure can be used by _entangle_chain to correctly
-    entangle the backed-up narrations, so each adapter handles them properly.
+    * ``depth == len(stack)``: sibling of the previous node.
+    * ``depth > len(stack)``: child of the previous node (go deeper).
+    * ``depth < len(stack)``: we've returned to a shallower level (go back).
 
-    This approach was created with help from @Doctor#7942 on Discord. Thanks!
+    For example:
+        Input:  [(a, kw, 1), (b, kw, 2), (c, kw, 2), (d, kw, 3)]
+        Output: [(a, kw, [(b, kw, []), (c, kw, [(d, kw, [])])])]
+
+    Args:
+        narrations: the list of KinkedNarrations to rebuild.
+
+    Returns:
+        list[NarrationNode]: the rebuilt narration tree, ready to be narrated.
     """
-    result: ChainedNarrations = []
-    stack = [result]
-    for channel, channel_kwargs, exit_level in narrations:
-        if exit_level == len(stack):
-            # this function is a sibling of the previous one
-            stack[-1].append((channel, channel_kwargs, []))
-        elif exit_level > len(stack):
-            # surface the latest function's child list and append to that
-            child_list = stack[-1][-1][-1]
-            stack.append(child_list)
-            stack[-1].append((channel, channel_kwargs, []))
-        else:
-            # we've dropped down one or more levels, go back
-            stack = stack[: -(len(stack) - exit_level)]
-            stack[-1].append((channel, channel_kwargs, []))
-    return result
+    root: list[NarrationNode] = []
+    # stack[i] is the children-list at depth i.
+    # stack[0] is always `root`.
+    stack: list[list[NarrationNode]] = [root]
+
+    for channel, kwargs, depth in narrations:
+        # Trim the stack back if we've returned to a shallower level.
+        while len(stack) > depth:
+            stack.pop()
+
+        # Grow the stack if we're entering a deeper level.
+        # The new level's parent is always the most-recently-added node.
+        while len(stack) < depth:
+            stack.append(stack[-1][-1][-1])
+
+        node: NarrationNode = (channel, kwargs, [])
+        stack[-1].append(node)
+
+    return root
 
 
 class Narrator:
-    """The narrator conveys the story to the audience."""
+    """The narrator conveys the story to the audience.
+
+    Attributes:
+        adapters: the list of attached microphone adapters.
+        on_air: ``True`` when narration is active.
+        backed_up_narrations: a list of kink-level buffers; each buffer is a
+            flat list of ``(channel, kwargs, depth)`` tuples recorded while
+            the cable was kinked.
+        depth: the current nesting depth (1 = top level).  Incremented when
+            entering a ``_mimic_entangle`` context, decremented on exit.
+        handled_exception: the last exception passed to ``explains_the_error``.
+    """
 
     def __init__(self, adapters: list[Adapter] | None = None) -> None:
         self.adapters: list[Adapter] = adapters or []
         self.on_air = True
-        self.backed_up_narrations: list[list[BackedUpNarration]] = []
-        self.exit_level = 1
+        self.backed_up_narrations: list[list[KinkedNarration]] = []
+        self.depth = 1
         self.handled_exception = None
 
     def attach_adapter(self, adapter: Adapter) -> None:
@@ -95,9 +132,12 @@ class Narrator:
     def mic_cable_kinked(self) -> Generator:
         """Put a kink in the microphone line, storing narrations.
 
-        Once this context is left, all stored narrations will be flushed. You
-        can call clear_backup to drop all stored narrations, or flush_backup
-        to log them all (and clear them afterward).
+        Narrations that happen inside this context are buffered instead of
+        being sent to the adapters immediately.
+
+        On exit the buffer is flushed (sent through the adapters in order).
+        You can call ``clear_backup`` to drop the buffer, or ``flush_backup``
+        to send it early.
         """
         self.backed_up_narrations.append([])
         try:
@@ -111,53 +151,43 @@ class Narrator:
         if self.cable_kinked:
             self.backed_up_narrations[-1].clear()
 
-    @contextmanager
-    def _increase_exit_level(self) -> Generator:
-        """Increase the exit level for kinked narrations."""
-        self.exit_level += 1
-        try:
-            yield
-        finally:
-            self.exit_level -= 1
-
     def flush_backup(self) -> None:
-        """Let all the backed-up narration flow through the kink."""
+        """Let all the backed-up narration flow through the kink.
+
+        If there are multiple nested kinks, the narrations are pushed up to
+        the parent kink's buffer.  Otherwise they are rebuilt into a tree and
+        replayed through every adapter.
+        """
         if not self.cable_kinked:
             return
 
         kinked_narrations = self.backed_up_narrations[-1]
         if len(self.backed_up_narrations) > 1:
+            # Push narrations up to the parent kink level.
             self.backed_up_narrations[-2].extend(kinked_narrations)
         else:
-            narrations = _chainify(kinked_narrations)
+            #  kink — replay through every adapter.
+            tree = _build_narration_tree(kinked_narrations)
             for adapter in self.adapters:
-                narration_func = self._entangle_chain(adapter, deepcopy(narrations))
-                narration_func()
+                self._replay_kinked(adapter, deepcopy(tree))
+
         self.clear_backup()
 
     @contextmanager
     def _mimic_entangle(self, func: Callable) -> Generator:
         """Give back something that looks like an entangled func.
 
-        If the narrator's mic cable is kinked or they are off-air, we still
-        need to give back a context-managed function. We increase the exit
-        level as well, for a future un-kinking of the mic cable.
+        Used in two situations:
+        * Off-air: narration is suppressed, but the caller still expects
+            a context-managed function.
+        * Cable kinked: the narration has been buffered. The depth is tracked
+            so the tree can be reconstructed later on flush.
         """
-        with self._increase_exit_level():
+        self.depth += 1
+        try:
             yield func
-
-    def _entangle_chain(self, adapter: Adapter, chain: ChainedNarrations) -> Callable:
-        """Mimic narration entanglement from a backed-up narration chain."""
-        roots: list[Callable] = []
-        for channel, channel_kwargs, enclosed in chain:
-            with self._entangle_func(channel, [adapter], **channel_kwargs) as root:
-                if enclosed:
-                    for _, enclosed_kwargs, _ in enclosed:
-                        enclosed_kwargs["func"] = root
-                    self._entangle_chain(adapter, enclosed)
-                roots.append(root)
-
-        return lambda: [root() for root in roots]
+        finally:
+            self.depth -= 1
 
     @contextmanager
     def _entangle_func(
@@ -166,34 +196,78 @@ class Narrator:
         adapters: list[Adapter] | None = None,
         **channel_kwargs: Kwargs,
     ) -> Generator:
-        """Entangle the function in the adapters' contexts, decorations, etc.
+        """Pass the function through each adapter's channel generator.
 
-        Each adapter yields the function back, potentially applying its own
-        context or decorators. We extract the function with that context still
-        intact. We will need to close the context as we leave, so we store
-        each level of entanglement to leave later.
+        Each adapter's channel method (e.g. ``adapter.beat()``) is a generator
+        that:
+        1. Sets up its context (logging, indentation, etc.).
+        2. ``yield``s the (possibly wrapped) function back.
+        3. Tears down its context when the generator is closed.
+
+        This method chains through every adapter, feeding each one's output as
+        the next one's ``func`` argument. The final result is yielded to the
+        caller inside a ``with`` block. When the block exits, every adapter
+        generator is closed in order, triggering cleanup.
         """
         if adapters is None:
             adapters = self.adapters
-        exits = []
+
+        open_contexts = []
         enclosed_func = channel_kwargs["func"]
+
+        # Step into each adapter's context, collecting the wrapped function.
         for adapter in adapters:
             channel_kwargs["func"] = enclosed_func
-            closure = getattr(adapter, channel)(**channel_kwargs)
-            enclosed_func = next(closure)
-            exits.append(closure)
+            context = getattr(adapter, channel)(**channel_kwargs)
+            enclosed_func = next(context)  # enter the adapter's context
+            open_contexts.append(context)
+
         try:
             yield enclosed_func
         except Exception as exc:
             self.explains_the_error(exc)
             raise
         finally:
-            for exit_ in exits:
-                # close the closures
-                next(exit_, None)
+            # Close each adapter's context to trigger teardown.
+            for context in open_contexts:
+                next(context, None)
+
+    def _replay_kinked(self, adapter: Adapter, tree: list[NarrationNode]) -> None:
+        """Replay a tree of kinked narrations through a single adapter.
+
+        Walks the tree depth-first.  For each node the adapter's channel
+        generator is entered (which may log, indent, etc.), then children are
+        replayed *inside* that context so that nesting/indentation is correct.
+
+        After the tree walk, every top-level entangled function is called.
+        This matters for channels like ``act`` and ``scene`` whose adapters
+        defer logging until the wrapped function is actually invoked.
+        """
+        roots: list[Callable] = []
+
+        for channel, kwargs, children in tree:
+            with self._entangle_func(channel, [adapter], **kwargs) as entangled:
+                if children:
+                    # Let children see the parent's entangled function.
+                    for _, child_kwargs, _ in children:
+                        child_kwargs["func"] = entangled
+                    self._replay_kinked(adapter, children)
+                roots.append(entangled)
+
+        # Invoke top-level functions (triggers deferred logging for act/scene).
+        for root in roots:
+            root()
+
+    # ------------------------------------------------------------------
+    # Narration entry points
+    # ------------------------------------------------------------------
 
     def narrate(self, channel: str, **kwargs: Kwargs | None) -> AbstractContextManager:
-        """Speak the message into the microphone plugged in to all the adapters."""
+        """Speak the message into the microphone plugged in to all the adapters.
+
+        If the cable is kinked the narration is buffered for later replay;
+        otherwise it is sent through the adapters immediately.
+        """
         channel_kws = {key: value for key, value in kwargs.items() if value is not None}
         func = channel_kws.get("func")
         if not callable(func):
@@ -203,9 +277,7 @@ class Narrator:
         if self.cable_kinked:
             enclosed_func = self._mimic_entangle(func)
             channel_kws["func"] = lambda: "overflow"
-            self.backed_up_narrations[-1].append(
-                (channel, channel_kws, self.exit_level)
-            )
+            self.backed_up_narrations[-1].append((channel, channel_kws, self.depth))
         else:
             enclosed_func = self._entangle_func(channel, None, **channel_kws)
 
